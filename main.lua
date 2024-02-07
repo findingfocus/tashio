@@ -18,7 +18,10 @@ function love.load()
     love.mouse.setVisible(false)
 
 	pixelFont = love.graphics.newFont('fonts/Pixel.ttf', 16)
+	tinyFont = love.graphics.newFont('fonts/Pixel.ttf', 8)
 	love.graphics.setFont(pixelFont)
+
+    kvothe = love.graphics.newImage('/src/pics/kvotheAtlas.png')
 
 
 	sounds = {
@@ -79,13 +82,13 @@ function love.draw()
 
 	gStateMachine:render()
 
-	--displayFPS()
+	displayFPS()
 
 	push:finish()
 end
 
 function displayFPS()
-	love.graphics.setFont(pixelFont)
-	love.graphics.setColor(0/255, 255/255, 0/255, 255/255)
-	love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 10, 10)
+	love.graphics.setFont(tinyFont)
+	love.graphics.setColor(BLACK)
+	love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 1, VIRTUAL_HEIGHT - 7)
 end

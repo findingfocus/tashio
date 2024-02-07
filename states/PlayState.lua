@@ -18,6 +18,8 @@ function PlayState:render()
     love.graphics.setColor(YELLOW)
     love.graphics.rectangle('fill', 0, VIRTUAL_HEIGHT - 16, VIRTUAL_WIDTH, 16)
     love.graphics.setColor(BLACK)
+
+	love.graphics.setFont(pixelFont)
     love.graphics.printf('KvotheDX', 0, VIRTUAL_HEIGHT - 15, VIRTUAL_WIDTH, 'center')
 end
 
