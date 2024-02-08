@@ -5,10 +5,18 @@ function Player:init()
     self.width = 16
     self.height = 16
     self.atlas = kvothe
-    kvotheQuad = love.graphics.newQuad(0, 0, self.width, self.height, self.atlas:getDimensions())
+    kvotheDown1 = love.graphics.newQuad(0, 0, self.width, self.height, self.atlas:getDimensions())
+    kvotheDown2 = love.graphics.newQuad(0, 0, self.width, self.height, self.atlas:getDimensions())
+    kvotheUp1 = love.graphics.newQuad(16, 0, self.width, self.height, self.atlas:getDimensions())
+    kvotheUp2 = love.graphics.newQuad(16, 0, self.width, self.height, self.atlas:getDimensions())
+    kvotheLeft1 = love.graphics.newQuad(32, 0, self.width, self.height, self.atlas:getDimensions())
+    kvotheLeft2 = love.graphics.newQuad(48, 0, self.width, self.height, self.atlas:getDimensions())
+    kvotheRight1 = love.graphics.newQuad(32, 0, self.width, self.height, self.atlas:getDimensions())
+    kvotheRight2 = love.graphics.newQuad(48, 0, self.width, self.height, self.atlas:getDimensions())
     self.x = 20
     self.y = 20
-    self.dx = 1
+    self.dx = VELOCITY
+    self.dy = VELOCITY
     self.frame = 1
     frameAdvance = 0
     walkingUp = false
@@ -37,34 +45,155 @@ function Player:update(dt)
     end
     --]]
 
+    inputsHeldDown = 0
+
     if love.keyboard.isDown('right') then
-        self.x = math.min(self.x + self.dx, VIRTUAL_WIDTH - self.width)
-        walkingRight = true
-        walkingDown = false
-        walkingLeft = false
-        walkingUp = false
+        inputsHeldDown = inputsHeldDown + 1
     end
     if love.keyboard.isDown('left') then
-        self.x = math.max(self.x - self.dx, 0)
-        walkingLeft = true
-        walkingDown = false
-        walkingRight = false
-        walkingUp = false
-    end
-    if love.keyboard.isDown('down') then
-        self.y = math.min(self.y + self.dx, SCREEN_HEIGHT_LIMIT - self.height)
-        walkingDown = true
-        walkingLeft = false
-        walkingRight = false
-        walkingUp = false
+        inputsHeldDown = inputsHeldDown + 1
     end
     if love.keyboard.isDown('up') then
-        self.y = math.max(self.y - self.dx, 0)
-        walkingLeft = false
-        walkingRight = false
-        walkingDown = false
-        walkingUp = true
+        inputsHeldDown = inputsHeldDown + 1
     end
+    if love.keyboard.isDown('down') then
+        inputsHeldDown = inputsHeldDown + 1
+    end
+
+    if inputsHeldDown == 1 then
+        if love.keyboard.isDown('right') then
+            self.dx = VELOCITY
+            self.x = math.min(self.x + self.dx, VIRTUAL_WIDTH - self.width)
+            walkingRight = true
+            walkingDown = false
+            walkingLeft = false
+            walkingUp = false
+        end
+        if love.keyboard.isDown('left') then
+            self.dx = VELOCITY
+            self.x = math.max(self.x - self.dx, 0)
+            walkingLeft = true
+            walkingDown = false
+            walkingRight = false
+            walkingUp = false
+        end
+        if love.keyboard.isDown('down') then
+            self.dy = VELOCITY
+            self.y = math.min(self.y + self.dy, SCREEN_HEIGHT_LIMIT - self.height)
+            walkingDown = true
+            walkingLeft = false
+            walkingRight = false
+            walkingUp = false
+        end
+        if love.keyboard.isDown('up') then
+            self.dy = VELOCITY
+            self.y = math.max(self.y - self.dy, 0)
+            walkingLeft = false
+            walkingRight = false
+            walkingDown = false
+            walkingUp = true
+        end
+    end
+
+    if love.keyboard.isDown('up') and love.keyboard.isDown('right') then
+        if inputsHeldDown == 2 then
+            walkingDown = false
+            walkingLeft = false
+            walkingRight = false
+            walkingUp = true
+            self.dx = math.sqrt(2) / 2
+            self.dy = math.sqrt(2) / 2
+            self.x = math.min(self.x + self.dx, VIRTUAL_WIDTH - self.width)
+            self.y = math.max(self.y - self.dy, 0)
+            --[[
+            if self.x / 100 , .5 then
+                self.x = math.ceil(self.x)
+            else
+                self.x = math.floor(self.x)
+            end
+            if self.y / 100 > .5 then
+                self.y = math.ceil(self.y)
+            else
+                self.y = math.floor(self.y)
+            end
+            --]]
+            --self.x = math.floor(math.min(self.x + self.dx, VIRTUAL_WIDTH - self.width))
+            --self.y = math.floor(math.max(self.y - self.dy, 0))
+        end
+    end
+    if love.keyboard.isDown('up') and love.keyboard.isDown('left') then
+        if inputsHeldDown == 2 then
+            walkingDown = false
+            walkingLeft = false
+            walkingRight = false
+            walkingUp = true
+            self.dx = math.sqrt(2) / 2
+            self.dy = math.sqrt(2) / 2
+            self.x = math.min(self.x - self.dx, VIRTUAL_WIDTH - self.width)
+            self.y = math.max(self.y - self.dy, 0)
+            --[[
+            if self.x / 100 > .5 then
+                self.x = math.ceil(self.x)
+            else
+                self.x = math.floor(self.x)
+            end
+            if self.y / 100 > .5 then
+                self.y = math.ceil(self.y)
+            else
+                self.y = math.floor(self.y)
+            end
+            --]]
+        end
+    end
+    if love.keyboard.isDown('down') and love.keyboard.isDown('left') then
+        if inputsHeldDown == 2 then
+            walkingDown = true
+            walkingLeft = false
+            walkingRight = false
+            walkingUp = false
+            self.dx = math.sqrt(2) / 2
+            self.dy = math.sqrt(2) / 2
+            self.x = math.min(self.x - self.dx, VIRTUAL_WIDTH - self.width)
+            self.y = math.max(self.y + self.dy, 0)
+            --[[
+            if self.x / 100 > .5 then
+                self.x = math.ceil(self.x)
+            else
+                self.x = math.floor(self.x)
+            end
+            if self.y / 100 > .5 then
+                self.y = math.ceil(self.y)
+            else
+                self.y = math.floor(self.y)
+            end
+            --]]
+        end
+    end
+    if love.keyboard.isDown('down') and love.keyboard.isDown('right') then
+        if inputsHeldDown == 2 then
+            walkingDown = true
+            walkingLeft = false
+            walkingRight = false
+            walkingUp = false
+            self.dx = math.sqrt(2) / 2
+            self.dy = math.sqrt(2) / 2
+            self.x = math.min(self.x + self.dx, VIRTUAL_WIDTH - self.width)
+            self.y = math.max(self.y + self.dy, 0)
+            --[[
+            if self.x / 100 > .5 then
+                self.x = math.ceil(self.x)
+            else
+                self.x = math.floor(self.x)
+            end
+            if self.y / 100 > .5 then
+                self.y = math.ceil(self.y)
+            else
+                self.y = math.floor(self.y)
+            end
+            --]]
+        end
+    end
+
 
     if not love.keyboard.isDown('up') and not love.keyboard.isDown('down') and not love.keyboard.isDown('left') and not love.keyboard.isDown('right') then
         frameAdvance = 0
@@ -124,54 +253,30 @@ function Player:update(dt)
             self.frame = 2
         end
     end
-    --FRAME 1 = DOWN LEFT STEP
-    --FRAME 2 = DOWN RIGHT STEP
-    --FRAME 3 = UP LEFT STEP
-    --FRAME 4 = UP RIGHT STEP
-    --FRAME 5 = LEFT TALL
-    --FRAME 6 = LEFT SMALL
-    --FRAME 7 = RIGHT TALL
-    --FRAME 8 = RIGHT SMALL
-
-    if self.frame == 1 then
-        kvotheQuad:setViewport(0, 0, self.width, self.height)
-    elseif self.frame == 2 then
-        kvotheQuad:setViewport(0, 0, self.width, self.height)
-    elseif self.frame == 3 then
-        kvotheQuad:setViewport(16, 0, self.width, self.height)
-    elseif self.frame == 4 then
-        kvotheQuad:setViewport(16, 0, self.width, self.height)
-    elseif self.frame == 5 then
-        kvotheQuad:setViewport(32, 0, self.width, self.height)
-    elseif self.frame == 6 then
-        kvotheQuad:setViewport(48, 0, self.width, self.height)
-    elseif self.frame == 7 then
-        kvotheQuad:setViewport(32, 0, self.width, self.height)
-    elseif self.frame == 8 then
-        kvotheQuad:setViewport(48, 0, self.width, self.height)
-    end
-
 end
 
 function Player:render()
     love.graphics.setColor(WHITE)
-    if self.frame == 1 then
-        love.graphics.draw(self.atlas, kvotheQuad, self.x, self.y, 0, 1, 1)
-    elseif self.frame == 2 then
-        love.graphics.draw(self.atlas, kvotheQuad, self.x, self.y, 0, -1, 1, self.width)
-    elseif self.frame == 3 then
-        love.graphics.draw(self.atlas, kvotheQuad, self.x, self.y, 0, 1, 1)
-    elseif self.frame == 4 then
-        love.graphics.draw(self.atlas, kvotheQuad, self.x, self.y, 0, -1, 1, self.width)
-    elseif self.frame == 5 then
-        love.graphics.draw(self.atlas, kvotheQuad, self.x, self.y, 0, 1, 1)
-    elseif self.frame == 6 then
-        love.graphics.draw(self.atlas, kvotheQuad, self.x, self.y, 0, 1, 1)
-    elseif self.frame == 7 then
-        love.graphics.draw(self.atlas, kvotheQuad, self.x, self.y, 0, -1, 1, self.width)
-    elseif self.frame == 8 then
-        love.graphics.draw(self.atlas, kvotheQuad, self.x, self.y, 0, -1, 1, self.width)
+    if self.frame == 1 then --DOWN LEFT STEP
+        love.graphics.draw(self.atlas, kvotheDown1, self.x, self.y, 0, 1, 1)
+    elseif self.frame == 2 then --DOWN RIGHT STEP
+        love.graphics.draw(self.atlas, kvotheDown2, self.x, self.y, 0, -1, 1, self.width)
+    elseif self.frame == 3 then --UP LEFT STEP
+        love.graphics.draw(self.atlas, kvotheUp1, self.x, self.y, 0, 1, 1)
+    elseif self.frame == 4 then --UP RIGHT STEP
+        love.graphics.draw(self.atlas, kvotheUp2, self.x, self.y, 0, -1, 1, self.width)
+    elseif self.frame == 5 then --LEFT TALL
+        love.graphics.draw(self.atlas, kvotheLeft1, self.x, self.y, 0, 1, 1)
+    elseif self.frame == 6 then --LEFT SMALL
+        love.graphics.draw(self.atlas, kvotheLeft2, self.x, self.y, 0, 1, 1)
+    elseif self.frame == 7 then --RIGHT TALL
+        love.graphics.draw(self.atlas, kvotheRight1, self.x, self.y, 0, -1, 1, self.width)
+    elseif self.frame == 8 then --RIGHT SMALL
+        love.graphics.draw(self.atlas, kvotheRight2, self.x, self.y, 0, -1, 1, self.width)
 
     end
     love.graphics.print('frame: ' .. tostring(math.floor(self.frame)), 0, 0)
+    love.graphics.print('inputs: ' .. tostring(inputsHeldDown), 5, 15)
+    love.graphics.print('x: ' .. tostring(self.x), 5, 25)
+    love.graphics.print('y: ' .. tostring(self.y), 5, 35)
 end

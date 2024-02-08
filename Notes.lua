@@ -4,11 +4,12 @@ X_Moving Kvothe with input
 X_Clamping movement for Kvothe
 X_Add HUD Stand-in
 X_Add Walking animations
+X_Normalize diagonal walking vector
 
 Todo
+__Round self.x and self.y to prevent jutter walk
 __Prevent walking when multiple inputs held
 __increase borders so that kvothe can walk all the way to each side
-__Normalize diagonal walking vector
 __Draw a whole screen using tile keycodes
 __Translate all images off screen when Kvothe walks offscreen
 
