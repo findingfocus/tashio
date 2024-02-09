@@ -18,7 +18,9 @@ function Player:init()
     self.dx = VELOCITY
     self.dy = VELOCITY
     self.frame = 1
+    testX = 0
     frameAdvance = 0
+    lastInput = 'down'
     walkingUp = false
     walkingRight = false
     walkingDown = false
@@ -34,6 +36,9 @@ function Player:init()
 end
 
 function Player:update(dt)
+    if love.keyboard.wasPressed('right') then
+        testX = testX + 0.5
+    end
     --[[
     frameAdvance = frameAdvance + dt
     if frameAdvance > 0.3 then
@@ -46,6 +51,19 @@ function Player:update(dt)
     --]]
 
     inputsHeldDown = 0
+
+    if love.keyboard.wasPressed('up') then
+        lastInput = 'up'
+    end
+    if love.keyboard.wasPressed('down') then
+        lastInput = 'down'
+    end
+    if love.keyboard.wasPressed('left') then
+        lastInput = 'left'
+    end
+    if love.keyboard.wasPressed('right') then
+        lastInput = 'right'
+    end
 
     if love.keyboard.isDown('right') then
         inputsHeldDown = inputsHeldDown + 1
@@ -97,10 +115,17 @@ function Player:update(dt)
 
     if love.keyboard.isDown('up') and love.keyboard.isDown('right') then
         if inputsHeldDown == 2 then
-            walkingDown = false
-            walkingLeft = false
-            walkingRight = false
-            walkingUp = true
+            if lastInput == 'right' then
+                walkingDown = false
+                walkingLeft = false
+                walkingRight = true
+                walkingUp = false
+            else
+                walkingDown = false
+                walkingLeft = false
+                walkingRight = false
+                walkingUp = true
+            end
             self.dx = math.sqrt(2) / 2
             self.dy = math.sqrt(2) / 2
             self.x = math.min(self.x + self.dx, VIRTUAL_WIDTH - self.width)
@@ -123,13 +148,20 @@ function Player:update(dt)
     end
     if love.keyboard.isDown('up') and love.keyboard.isDown('left') then
         if inputsHeldDown == 2 then
-            walkingDown = false
-            walkingLeft = false
-            walkingRight = false
-            walkingUp = true
-            self.dx = math.sqrt(2) / 2
+            if lastInput == 'left' then
+                walkingDown = false
+                walkingLeft = true
+                walkingRight = false
+                walkingUp = false
+            else
+                walkingDown = false
+                walkingLeft = false
+                walkingRight = false
+                walkingUp = true
+            end
             self.dy = math.sqrt(2) / 2
-            self.x = math.min(self.x - self.dx, VIRTUAL_WIDTH - self.width)
+            self.dx = math.sqrt(2) / 2
+            self.x = math.max(self.x - self.dx, 0)
             self.y = math.max(self.y - self.dy, 0)
             --[[
             if self.x / 100 > .5 then
@@ -147,14 +179,22 @@ function Player:update(dt)
     end
     if love.keyboard.isDown('down') and love.keyboard.isDown('left') then
         if inputsHeldDown == 2 then
-            walkingDown = true
-            walkingLeft = false
-            walkingRight = false
-            walkingUp = false
+            if lastInput == 'left' then
+                walkingDown = false
+                walkingLeft = true
+                walkingRight = false
+                walkingUp = false
+            else
+                walkingDown = true
+                walkingLeft = false
+                walkingRight = false
+                walkingUp = false
+            end
+
             self.dx = math.sqrt(2) / 2
             self.dy = math.sqrt(2) / 2
-            self.x = math.min(self.x - self.dx, VIRTUAL_WIDTH - self.width)
-            self.y = math.max(self.y + self.dy, 0)
+            self.x = math.max(self.x - self.dx, 0)
+            self.y = math.min(self.y + self.dy, SCREEN_HEIGHT_LIMIT - self.height)
             --[[
             if self.x / 100 > .5 then
                 self.x = math.ceil(self.x)
@@ -171,14 +211,21 @@ function Player:update(dt)
     end
     if love.keyboard.isDown('down') and love.keyboard.isDown('right') then
         if inputsHeldDown == 2 then
-            walkingDown = true
-            walkingLeft = false
-            walkingRight = false
-            walkingUp = false
+            if lastInput == 'right' then
+                walkingDown = false
+                walkingLeft = false
+                walkingRight = true
+                walkingUp = false
+            else
+                walkingDown = true
+                walkingLeft = false
+                walkingRight = false
+                walkingUp = false
+            end
             self.dx = math.sqrt(2) / 2
             self.dy = math.sqrt(2) / 2
             self.x = math.min(self.x + self.dx, VIRTUAL_WIDTH - self.width)
-            self.y = math.max(self.y + self.dy, 0)
+            self.y = math.min(self.y + self.dy, SCREEN_HEIGHT_LIMIT - self.height)
             --[[
             if self.x / 100 > .5 then
                 self.x = math.ceil(self.x)
@@ -279,4 +326,11 @@ function Player:render()
     love.graphics.print('inputs: ' .. tostring(inputsHeldDown), 5, 15)
     love.graphics.print('x: ' .. tostring(self.x), 5, 25)
     love.graphics.print('y: ' .. tostring(self.y), 5, 35)
+    love.graphics.print('up: ' .. tostring(walkingUp), 5, 45)
+    love.graphics.print('down: ' .. tostring(walkingDown), 5, 55)
+    love.graphics.print('left: ' .. tostring(walkingLeft), 5, 65)
+    love.graphics.print('right: '  .. tostring(walkingRight), 5, 75)
+    love.graphics.print('lastInput: '  .. tostring(lastInput), 5, 85)
+    love.graphics.setColor(BLACK)
+    --love.graphics.rectangle('fill', testX, 0, 16, 16)
 end
