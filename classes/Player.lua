@@ -35,20 +35,15 @@ function Player:init()
     --FRAME 8 = RIGHT SMALL
 end
 
+function NormalizeVector(character)
+    character.dx = math.floor(math.sqrt(2) / 2 * 10) / 10
+    character.dy = math.floor(math.sqrt(2) / 2 * 10) / 10
+end
+
 function Player:update(dt)
     if love.keyboard.wasPressed('right') then
         testX = testX + 0.5
     end
-    --[[
-    frameAdvance = frameAdvance + dt
-    if frameAdvance > 0.3 then
-        self.frame = self.frame + 1
-        frameAdvance = 0
-        if self.frame == 3 then
-            self.frame = 1
-        end
-    end
-    --]]
 
     inputsHeldDown = 0
 
@@ -113,6 +108,7 @@ function Player:update(dt)
         end
     end
 
+    --MULTIPLE INPUT HANDLING
     if love.keyboard.isDown('up') and love.keyboard.isDown('right') then
         if inputsHeldDown == 2 then
             if lastInput == 'right' then
@@ -126,24 +122,9 @@ function Player:update(dt)
                 walkingRight = false
                 walkingUp = true
             end
-            self.dx = math.sqrt(2) / 2
-            self.dy = math.sqrt(2) / 2
+            NormalizeVector(self)
             self.x = math.min(self.x + self.dx, VIRTUAL_WIDTH - self.width)
             self.y = math.max(self.y - self.dy, 0)
-            --[[
-            if self.x / 100 , .5 then
-                self.x = math.ceil(self.x)
-            else
-                self.x = math.floor(self.x)
-            end
-            if self.y / 100 > .5 then
-                self.y = math.ceil(self.y)
-            else
-                self.y = math.floor(self.y)
-            end
-            --]]
-            --self.x = math.floor(math.min(self.x + self.dx, VIRTUAL_WIDTH - self.width))
-            --self.y = math.floor(math.max(self.y - self.dy, 0))
         end
     end
     if love.keyboard.isDown('up') and love.keyboard.isDown('left') then
@@ -159,22 +140,9 @@ function Player:update(dt)
                 walkingRight = false
                 walkingUp = true
             end
-            self.dy = math.sqrt(2) / 2
-            self.dx = math.sqrt(2) / 2
+            NormalizeVector(self)
             self.x = math.max(self.x - self.dx, 0)
             self.y = math.max(self.y - self.dy, 0)
-            --[[
-            if self.x / 100 > .5 then
-                self.x = math.ceil(self.x)
-            else
-                self.x = math.floor(self.x)
-            end
-            if self.y / 100 > .5 then
-                self.y = math.ceil(self.y)
-            else
-                self.y = math.floor(self.y)
-            end
-            --]]
         end
     end
     if love.keyboard.isDown('down') and love.keyboard.isDown('left') then
@@ -190,23 +158,9 @@ function Player:update(dt)
                 walkingRight = false
                 walkingUp = false
             end
-
-            self.dx = math.sqrt(2) / 2
-            self.dy = math.sqrt(2) / 2
+            NormalizeVector(self)
             self.x = math.max(self.x - self.dx, 0)
             self.y = math.min(self.y + self.dy, SCREEN_HEIGHT_LIMIT - self.height)
-            --[[
-            if self.x / 100 > .5 then
-                self.x = math.ceil(self.x)
-            else
-                self.x = math.floor(self.x)
-            end
-            if self.y / 100 > .5 then
-                self.y = math.ceil(self.y)
-            else
-                self.y = math.floor(self.y)
-            end
-            --]]
         end
     end
     if love.keyboard.isDown('down') and love.keyboard.isDown('right') then
@@ -222,25 +176,16 @@ function Player:update(dt)
                 walkingRight = false
                 walkingUp = false
             end
-            self.dx = math.sqrt(2) / 2
-            self.dy = math.sqrt(2) / 2
+            NormalizeVector(self)
             self.x = math.min(self.x + self.dx, VIRTUAL_WIDTH - self.width)
             self.y = math.min(self.y + self.dy, SCREEN_HEIGHT_LIMIT - self.height)
-            --[[
-            if self.x / 100 > .5 then
-                self.x = math.ceil(self.x)
-            else
-                self.x = math.floor(self.x)
-            end
-            if self.y / 100 > .5 then
-                self.y = math.ceil(self.y)
-            else
-                self.y = math.floor(self.y)
-            end
-            --]]
         end
     end
 
+    if not love.keyboard.isDown('up') and not love.keyboard.isDown('left') and not love.keyboard.isDown('right') and not love.keyboard.isDown('down') then
+       self.x = math.floor(self.x + 0.5)
+       self.y = math.floor(self.y + 0.5)
+    end
 
     if not love.keyboard.isDown('up') and not love.keyboard.isDown('down') and not love.keyboard.isDown('left') and not love.keyboard.isDown('right') then
         frameAdvance = 0
@@ -304,6 +249,7 @@ end
 
 function Player:render()
     love.graphics.setColor(WHITE)
+    love.graphics.setFont(tinyFont)
     if self.frame == 1 then --DOWN LEFT STEP
         love.graphics.draw(self.atlas, kvotheDown1, self.x, self.y, 0, 1, 1)
     elseif self.frame == 2 then --DOWN RIGHT STEP
@@ -331,6 +277,4 @@ function Player:render()
     love.graphics.print('left: ' .. tostring(walkingLeft), 5, 65)
     love.graphics.print('right: '  .. tostring(walkingRight), 5, 75)
     love.graphics.print('lastInput: '  .. tostring(lastInput), 5, 85)
-    love.graphics.setColor(BLACK)
-    --love.graphics.rectangle('fill', testX, 0, 16, 16)
 end

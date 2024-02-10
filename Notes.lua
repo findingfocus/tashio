@@ -14,8 +14,13 @@ __Draw a whole screen using tile keycodes
 __Translate all images off screen when Kvothe walks offscreen
 
 
+
 Next Episode
-__Round self.x and self.y to prevent jutter walk
+?_Round self.x and self.y to prevent jutter walk
+__Check if print function can round decimals -if so, stop truncating x and y positions
+__Make strafe walk more accurate to links awakening? - depends on Kvothes moveset
+__Change velocity to be Link Accurate
+__Increase character walking borders to be Link accurate
 __Add Repeating ground tile
 __Add all colors to color constants palette
 __New Sonic Pi Music
