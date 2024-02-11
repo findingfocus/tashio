@@ -36,8 +36,8 @@ function Player:init()
 end
 
 function NormalizeVector(character)
-    character.dx = math.floor(math.sqrt(2) / 2 * 10) / 10
-    character.dy = math.floor(math.sqrt(2) / 2 * 10) / 10
+    character.dx = math.sqrt(2) / 2
+    character.dy = math.sqrt(2) / 2
 end
 
 function Player:update(dt)
@@ -76,7 +76,7 @@ function Player:update(dt)
     if inputsHeldDown == 1 then
         if love.keyboard.isDown('right') then
             self.dx = VELOCITY
-            self.x = math.min(self.x + self.dx, VIRTUAL_WIDTH - self.width)
+            self.x = math.min(self.x + self.dx, VIRTUAL_WIDTH - OFFSCREEN_BUFFER)
             walkingRight = true
             walkingDown = false
             walkingLeft = false
@@ -84,7 +84,7 @@ function Player:update(dt)
         end
         if love.keyboard.isDown('left') then
             self.dx = VELOCITY
-            self.x = math.max(self.x - self.dx, 0)
+            self.x = math.max(self.x - self.dx, -self.width + OFFSCREEN_BUFFER)
             walkingLeft = true
             walkingDown = false
             walkingRight = false
@@ -92,7 +92,7 @@ function Player:update(dt)
         end
         if love.keyboard.isDown('down') then
             self.dy = VELOCITY
-            self.y = math.min(self.y + self.dy, SCREEN_HEIGHT_LIMIT - self.height)
+            self.y = math.min(self.y + self.dy, SCREEN_HEIGHT_LIMIT - self.height + 1)
             walkingDown = true
             walkingLeft = false
             walkingRight = false
@@ -100,7 +100,7 @@ function Player:update(dt)
         end
         if love.keyboard.isDown('up') then
             self.dy = VELOCITY
-            self.y = math.max(self.y - self.dy, 0)
+            self.y = math.max(self.y - self.dy, -OFFSCREEN_TOP_BUFFER)
             walkingLeft = false
             walkingRight = false
             walkingDown = false
@@ -123,8 +123,8 @@ function Player:update(dt)
                 walkingUp = true
             end
             NormalizeVector(self)
-            self.x = math.min(self.x + self.dx, VIRTUAL_WIDTH - self.width)
-            self.y = math.max(self.y - self.dy, 0)
+            self.x = math.min(self.x + self.dx, VIRTUAL_WIDTH - OFFSCREEN_BUFFER)
+            self.y = math.max(self.y - self.dy, -OFFSCREEN_TOP_BUFFER)
         end
     end
     if love.keyboard.isDown('up') and love.keyboard.isDown('left') then
@@ -141,8 +141,8 @@ function Player:update(dt)
                 walkingUp = true
             end
             NormalizeVector(self)
-            self.x = math.max(self.x - self.dx, 0)
-            self.y = math.max(self.y - self.dy, 0)
+            self.x = math.max(self.x - self.dx, -self.width + OFFSCREEN_BUFFER)
+            self.y = math.max(self.y - self.dy, -OFFSCREEN_TOP_BUFFER)
         end
     end
     if love.keyboard.isDown('down') and love.keyboard.isDown('left') then
@@ -159,7 +159,7 @@ function Player:update(dt)
                 walkingUp = false
             end
             NormalizeVector(self)
-            self.x = math.max(self.x - self.dx, 0)
+            self.x = math.max(self.x - self.dx, -self.width + OFFSCREEN_BUFFER)
             self.y = math.min(self.y + self.dy, SCREEN_HEIGHT_LIMIT - self.height)
         end
     end
@@ -177,8 +177,36 @@ function Player:update(dt)
                 walkingUp = false
             end
             NormalizeVector(self)
-            self.x = math.min(self.x + self.dx, VIRTUAL_WIDTH - self.width)
+            self.x = math.min(self.x + self.dx, VIRTUAL_WIDTH - OFFSCREEN_BUFFER)
             self.y = math.min(self.y + self.dy, SCREEN_HEIGHT_LIMIT - self.height)
+        end
+    end
+
+    if love.keyboard.isDown('left') and love.keyboard.isDown('right')then
+        if lastInput == 'left' then
+            walkingDown = false
+            walkingLeft = true
+            walkingRight = false
+            walkingUp = false
+        elseif lastInput == 'right' then
+            walkingDown = false
+            walkingLeft = false
+            walkingRight = true
+            walkingUp = false
+        end
+    end
+
+    if love.keyboard.isDown('up') and love.keyboard.isDown('down')then
+        if lastInput == 'up' then
+            walkingDown = false
+            walkingLeft = false
+            walkingRight = false
+            walkingUp = true
+        elseif lastInput == 'down' then
+            walkingDown = true
+            walkingLeft = false
+            walkingRight = false
+            walkingUp = false
         end
     end
 
@@ -205,51 +233,62 @@ function Player:update(dt)
     end
 
     if walkingLeft then
-        frameAdvance = frameAdvance + dt
-        if frameAdvance > 0.5 then
-            frameAdvance = 0
-        elseif frameAdvance > 0.25 then
-           self.frame = 5
+        if not love.keyboard.isDown('right') then
+            frameAdvance = frameAdvance + dt
+            if frameAdvance > 0.5 then
+                frameAdvance = 0
+            elseif frameAdvance > 0.25 then
+                self.frame = 5
+            else
+                self.frame = 6
+            end
         else
-            self.frame = 6
+            self.frame =  5
         end
     end
     if walkingRight then
-        frameAdvance = frameAdvance + dt
-        if frameAdvance > 0.5 then
-            frameAdvance = 0
-        elseif frameAdvance > 0.25 then
-           self.frame = 7
+        if not love.keyboard.isDown('left') then
+            frameAdvance = frameAdvance + dt
+            if frameAdvance > 0.5 then
+                frameAdvance = 0
+            elseif frameAdvance > 0.25 then
+                self.frame = 7
+            else
+                self.frame = 8
+            end
         else
-            self.frame = 8
+            self.frame = 7
         end
     end
 
     if walkingUp then
-        frameAdvance = frameAdvance + dt
-        if frameAdvance > 0.5 then
-            frameAdvance = 0
-        elseif frameAdvance > 0.25 then
-           self.frame = 3
-        else
-            self.frame = 4
+        if not love.keyboard.isDown('down') then
+            frameAdvance = frameAdvance + dt
+            if frameAdvance > 0.5 then
+                frameAdvance = 0
+            elseif frameAdvance > 0.25 then
+                self.frame = 3
+            else
+                self.frame = 4
+            end
         end
     end
     if walkingDown then
-        frameAdvance = frameAdvance + dt
-        if frameAdvance > 0.5 then
-            frameAdvance = 0
-        elseif frameAdvance > 0.25 then
-           self.frame = 1
-        else
-            self.frame = 2
+        if not love.keyboard.isDown('up') then
+            frameAdvance = frameAdvance + dt
+            if frameAdvance > 0.5 then
+                frameAdvance = 0
+            elseif frameAdvance > 0.25 then
+                self.frame = 1
+            else
+                self.frame = 2
+            end
         end
     end
 end
 
 function Player:render()
-    love.graphics.setColor(WHITE)
-    love.graphics.setFont(tinyFont)
+    --KVOTHE RENDER
     if self.frame == 1 then --DOWN LEFT STEP
         love.graphics.draw(self.atlas, kvotheDown1, self.x, self.y, 0, 1, 1)
     elseif self.frame == 2 then --DOWN RIGHT STEP
@@ -266,15 +305,5 @@ function Player:render()
         love.graphics.draw(self.atlas, kvotheRight1, self.x, self.y, 0, -1, 1, self.width)
     elseif self.frame == 8 then --RIGHT SMALL
         love.graphics.draw(self.atlas, kvotheRight2, self.x, self.y, 0, -1, 1, self.width)
-
     end
-    love.graphics.print('frame: ' .. tostring(math.floor(self.frame)), 0, 0)
-    love.graphics.print('inputs: ' .. tostring(inputsHeldDown), 5, 15)
-    love.graphics.print('x: ' .. tostring(self.x), 5, 25)
-    love.graphics.print('y: ' .. tostring(self.y), 5, 35)
-    love.graphics.print('up: ' .. tostring(walkingUp), 5, 45)
-    love.graphics.print('down: ' .. tostring(walkingDown), 5, 55)
-    love.graphics.print('left: ' .. tostring(walkingLeft), 5, 65)
-    love.graphics.print('right: '  .. tostring(walkingRight), 5, 75)
-    love.graphics.print('lastInput: '  .. tostring(lastInput), 5, 85)
 end

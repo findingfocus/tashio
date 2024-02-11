@@ -23,6 +23,7 @@ function love.load()
 
     kvothe = love.graphics.newImage('/src/pics/kvotheAtlas.png')
     arrowKeyLogger = love.graphics.newImage('/src/pics/arrowKey.png')
+    dirt = love.graphics.newImage('/src/pics/dirt.png')
 
 	sounds = {
 		['beep'] = love.audio.newSource('music/beep.wav', 'static'),
