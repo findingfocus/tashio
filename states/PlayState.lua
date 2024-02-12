@@ -67,7 +67,7 @@ function PlayState:render()
     love.graphics.setFont(tinyFont)
     for i = 1, 8 do
         for j = 1, 10 do
-            love.graphics.draw(dirt, j * 16 - 16, i * 16 - 16)
+            love.graphics.draw(tallGrass, j * 16 - 16, i * 16 - 16)
         end
     end
     kvothe:render()
