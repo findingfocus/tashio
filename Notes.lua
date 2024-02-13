@@ -8,10 +8,11 @@ X_Normalize diagonal walking vector
 X_Added lastInput animation overwrite
 X_Prevent walking animation  when multiple inputs held
 X_increase borders so that kvothe can walk all the way to each side
-X_Check if print function can round decimals -if so, stop truncating x and y positions
+X_Draw a whole screen using tile keycodes_Check if print function can round decimals -if so, stop truncating x and y positions
 
 Todo
-__Draw a whole screen using tile keycodes
+__Tally up all Links Awakening Overworlds Sheets, figure out Ogdens storyboard script
+__Configure pretty way to declare tile id, hopefully grid fashion
 __Translate all images off screen when Kvothe walks offscreen
 
 

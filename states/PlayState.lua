@@ -9,16 +9,38 @@ function PlayState:init()
     rotate = 0
     local columns = 10
     local rows = 8
+
+    tiles = {}
+
+    tilesheet = love.graphics.newImage('/src/pics/nineCircles.png')
+    quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
+
+    mapWidth = 10
+    mapHeight = 8
+
+    for y = 1, mapHeight do
+        table.insert(tiles, {})
+        for x = 1, mapWidth do
+            table.insert(tiles[y], {
+                id = NINTH
+            })
+        end
+    end
+
+    tiles[1][1].id = SECOND
+    tiles[1][10].id = THIRD
+    tiles[8][1].id = FOURTH
+    tiles[8][10].id = FIFTH
 end
 
 function PlayState:update(dt)
     kvothe:update(dt)
     rotate = rotate + .05
+    love.window.setPosition(400, 90)
 end
 
 function PlayState:render()
 	love.graphics.clear(GRAY)
-
 
     --HUD RENDER
     love.graphics.setColor(YELLOW)
@@ -64,12 +86,22 @@ function PlayState:render()
         end
     end
     --]]
+    --[[
     love.graphics.setFont(tinyFont)
     for i = 1, 8 do
         for j = 1, 10 do
             love.graphics.draw(tallGrass, j * 16 - 16, i * 16 - 16)
         end
     end
+    --]]
+
+    for y = 1, mapHeight do
+        for x = 1, mapWidth do
+            local tile = tiles[y][x]
+            love.graphics.draw(tilesheet, quads[tile.id], (x - 1) * TILE_SIZE, (y - 1) * TILE_SIZE)
+        end
+    end
+
     kvothe:render()
 
     --DEBUG PRINT
