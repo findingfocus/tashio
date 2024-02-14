@@ -10,7 +10,6 @@ function PlayState:init()
     local columns = 10
     local rows = 8
 
-    tiles = {}
 
     tilesheet = love.graphics.newImage('/src/pics/nineCircles.png')
     quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
@@ -18,28 +17,76 @@ function PlayState:init()
     mapWidth = 10
     mapHeight = 8
 
+    --[[
     for y = 1, mapHeight do
         table.insert(tiles, {})
         for x = 1, mapWidth do
             table.insert(tiles[y], {
-                id = NINTH
+                id = FIFTH
             })
         end
     end
+    --]]
 
+    --[[
     tiles[1][1].id = SECOND
     tiles[1][10].id = THIRD
     tiles[8][1].id = FOURTH
     tiles[8][10].id = FIFTH
+    --]]
+    tiles = {}
+    map = {}
+    count = 1
+    currentXGrid = 1
+    currentYGrid = 1
+    cameraX = 0
+    for x = 1, 5 do
+        table.insert(map, {})
+    end
+    map[currentYGrid][currentXGrid] = {}
+
+    map[3][3] = {
+    FIRST, FIRST, FIRST, FIRST, FIRST, FIRST, FIRST, FIRST, FIRST, FIRST,
+    FIRST, SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, EIGHTH, NINTH, NINTH,
+    FIRST, SECOND, THIRD, NINTH, FIFTH, SIXTH, SEVENTH, EIGHTH, NINTH, NINTH,
+    FIRST, SECOND, THIRD, NINTH, FIFTH, SIXTH, SEVENTH, EIGHTH, NINTH, NINTH,
+    FIRST, SECOND, THIRD, NINTH, FIFTH, SIXTH, SEVENTH, EIGHTH, NINTH, NINTH,
+    FIRST, SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, EIGHTH, SIXTH, SIXTH,
+    FIRST, SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, EIGHTH, SIXTH, SIXTH,
+    FIRST, SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, EIGHTH, SIXTH, SIXTH
+    }
+    map[3][4] = {
+        SECOND  , SECOND, SECOND, SECOND, SECOND, SECOND, SECOND, SECOND, SECOND, SECOND,
+        SECOND  , SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, EIGHTH, NINTH, NINTH,
+        SECOND  , SECOND, THIRD, NINTH, FIFTH, SIXTH, SEVENTH, EIGHTH, NINTH, NINTH,
+        SECOND  , SECOND, THIRD, NINTH, FIFTH, SIXTH, SEVENTH, EIGHTH, NINTH, NINTH,
+        SECOND  , SECOND, THIRD, NINTH, FIFTH, SIXTH, SEVENTH, EIGHTH, NINTH, NINTH,
+        SECOND  , SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, EIGHTH, SIXTH, SIXTH,
+        SECOND  , SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, EIGHTH, SIXTH, SIXTH,
+        SECOND  , SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, EIGHTH, SIXTH, SIXTH
+    }
+
+    for y = 1, mapHeight do
+        table.insert(tiles, {})
+        for x = 1, mapWidth do
+            table.insert(tiles[y], {
+                id = map[3][4][count]
+            })
+            count = count + 1
+        end
+    end
+
 end
 
 function PlayState:update(dt)
+    cameraX = cameraX - 1
     kvothe:update(dt)
     rotate = rotate + .05
     love.window.setPosition(400, 90)
 end
 
 function PlayState:render()
+    --love.graphics.translate(-cameraX, 0)
 	love.graphics.clear(GRAY)
 
     --HUD RENDER
@@ -118,6 +165,5 @@ function PlayState:render()
         love.graphics.print('right: '  .. tostring(walkingRight), 5, 75)
         love.graphics.print('lastInput: '  .. tostring(lastInput), 5, 85)
     end
-
 
 end
