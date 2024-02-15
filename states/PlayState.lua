@@ -9,42 +9,14 @@ function PlayState:init()
     rotate = 0
     local columns = 10
     local rows = 8
-
-
-    tilesheet = love.graphics.newImage('/src/pics/nineCircles.png')
-    quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
-
     mapWidth = 10
     mapHeight = 8
-
-    --[[
-    for y = 1, mapHeight do
-        table.insert(tiles, {})
-        for x = 1, mapWidth do
-            table.insert(tiles[y], {
-                id = FIFTH
-            })
-        end
-    end
-    --]]
-
-    --[[
-    tiles[1][1].id = SECOND
-    tiles[1][10].id = THIRD
-    tiles[8][1].id = FOURTH
-    tiles[8][10].id = FIFTH
-    --]]
+    cameraX = 0
     tiles = {}
     map = {}
-    count = 1
-    currentXGrid = 1
-    currentYGrid = 1
-    cameraX = 0
     for x = 1, 5 do
         table.insert(map, {})
     end
-    map[currentYGrid][currentXGrid] = {}
-
     map[3][3] = {
     FIRST, FIRST, FIRST, FIRST, FIRST, FIRST, FIRST, FIRST, FIRST, FIRST,
     FIRST, SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, EIGHTH, NINTH, NINTH,
@@ -55,6 +27,7 @@ function PlayState:init()
     FIRST, SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, EIGHTH, SIXTH, SIXTH,
     FIRST, SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, EIGHTH, SIXTH, SIXTH
     }
+
     map[3][4] = {
         SECOND  , SECOND, SECOND, SECOND, SECOND, SECOND, SECOND, SECOND, SECOND, SECOND,
         SECOND  , SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, EIGHTH, NINTH, NINTH,
@@ -66,27 +39,22 @@ function PlayState:init()
         SECOND  , SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, EIGHTH, SIXTH, SIXTH
     }
 
-    for y = 1, mapHeight do
-        table.insert(tiles, {})
-        for x = 1, mapWidth do
-            table.insert(tiles[y], {
-                id = map[3][4][count]
-            })
-            count = count + 1
-        end
-    end
+
+    currentScene = Scene(kvothe, map[3][3])
+    tilesheet = love.graphics.newImage('/src/pics/nineCircles.png')
+    quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
 
 end
 
 function PlayState:update(dt)
-    cameraX = cameraX - 1
+    cameraX = cameraX + 1
     kvothe:update(dt)
     rotate = rotate + .05
     love.window.setPosition(400, 90)
 end
 
 function PlayState:render()
-    --love.graphics.translate(-cameraX, 0)
+    --love.graphics.translate(cameraX, 0)
 	love.graphics.clear(GRAY)
 
     --HUD RENDER
@@ -125,30 +93,7 @@ function PlayState:render()
         love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 24, SCREEN_HEIGHT_LIMIT - 4, twoSeventyDegress, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --LEFT
     end
 
-    love.graphics.setColor(WHITE)
-    --[[
-    for k, v in pairs(columns) do
-        for k, v in pairs(rows) do
-            love.graphics.draw(dirt, 0, 0)
-        end
-    end
-    --]]
-    --[[
-    love.graphics.setFont(tinyFont)
-    for i = 1, 8 do
-        for j = 1, 10 do
-            love.graphics.draw(tallGrass, j * 16 - 16, i * 16 - 16)
-        end
-    end
-    --]]
-
-    for y = 1, mapHeight do
-        for x = 1, mapWidth do
-            local tile = tiles[y][x]
-            love.graphics.draw(tilesheet, quads[tile.id], (x - 1) * TILE_SIZE, (y - 1) * TILE_SIZE)
-        end
-    end
-
+    currentScene:render()
     kvothe:render()
 
     --DEBUG PRINT
@@ -165,5 +110,4 @@ function PlayState:render()
         love.graphics.print('right: '  .. tostring(walkingRight), 5, 75)
         love.graphics.print('lastInput: '  .. tostring(lastInput), 5, 85)
     end
-
 end

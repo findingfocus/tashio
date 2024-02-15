@@ -285,6 +285,18 @@ function Player:update(dt)
             end
         end
     end
+    if self.x > VIRTUAL_WIDTH - self.width - 3 then
+        Event.dispatch('right-transition')
+    end
+    if self.x < self.width + 3 then
+        Event.dispatch('left-transition')
+    end
+    if self.y < 3 then
+        Event.dispatch('up-transition')
+    end
+    if self.y > SCREEN_HEIGHT_LIMIT - self.height - 3 then
+        Event.dispatch('down-transition')
+    end
 end
 
 function Player:render()
