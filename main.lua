@@ -61,6 +61,7 @@ function love.keyboard.wasPressed(key)
 end
 
 function love.update(dt)
+    Timer.update(dt)
     if love.keyboard.wasPressed('tab') then
         mouseState = not love.mouse.isVisible()
         love.mouse.setVisible(mouseState)
