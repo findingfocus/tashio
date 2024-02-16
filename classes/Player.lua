@@ -301,6 +301,7 @@ end
 
 function Player:render()
     --KVOTHE RENDER
+    love.graphics.setColor(WHITE)
     if self.frame == 1 then --DOWN LEFT STEP
         love.graphics.draw(self.atlas, kvotheDown1, self.x, self.y, 0, 1, 1)
     elseif self.frame == 2 then --DOWN RIGHT STEP
