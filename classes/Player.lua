@@ -25,14 +25,6 @@ function Player:init()
     walkingRight = false
     walkingDown = false
     walkingLeft = false
-    --FRAME 1 = DOWN LEFT STEP
-    --FRAME 2 = DOWN RIGHT STEP
-    --FRAME 3 = UP LEFT STEP
-    --FRAME 4 = UP RIGHT STEP
-    --FRAME 5 = LEFT TALL
-    --FRAME 6 = LEFT SMALL
-    --FRAME 7 = RIGHT TALL
-    --FRAME 8 = RIGHT SMALL
 end
 
 function NormalizeVector(character)
@@ -285,17 +277,31 @@ function Player:update(dt)
             end
         end
     end
-    if self.x > VIRTUAL_WIDTH - self.width - 3 then
-        Event.dispatch('right-transition')
-    end
-    if self.x < self.width + 3 then
-        Event.dispatch('left-transition')
-    end
-    if self.y < 3 then
-        Event.dispatch('up-transition')
-    end
-    if self.y > SCREEN_HEIGHT_LIMIT - self.height - 3 then
-        Event.dispatch('down-transition')
+
+    if not sceneView.shifting then
+        if love.keyboard.isDown('right') then
+            if self.x > VIRTUAL_WIDTH - self.width - EDGE_BUFFER_KVOTHE and self.x + self.width < VIRTUAL_WIDTH then
+                Event.dispatch('right-transition')
+            end
+        end
+
+        if love.keyboard.isDown('left') then
+            if self.x < self.width + EDGE_BUFFER_KVOTHE and self.x + self.width > self.width then
+                Event.dispatch('left-transition')
+            end
+        end
+
+        if love.keyboard.isDown('up') then
+            if self.y < EDGE_BUFFER_KVOTHE and self.y + self.height > self.height then
+                Event.dispatch('up-transition')
+            end
+        end
+
+        if love.keyboard.isDown('down') then
+            if self.y > SCREEN_HEIGHT_LIMIT - self.height - EDGE_BUFFER_KVOTHE and self.y + self.height < SCREEN_HEIGHT_LIMIT then
+                Event.dispatch('down-transition')
+            end
+        end
     end
 end
 

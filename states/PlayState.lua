@@ -19,13 +19,19 @@ end
 function PlayState:update(dt)
     cameraX = cameraX + 1
     sceneView:update(dt)
-    kvothe:update(dt)
+    if not sceneView.shifting then
+        kvothe:update(dt)
+    end
     rotate = rotate + .05
     love.window.setPosition(400, 90)
 end
 
 function PlayState:render()
 	love.graphics.clear(GRAY)
+
+    love.graphics.push()
+    sceneView:render()
+    love.graphics.pop()
 
     --HUD RENDER
     love.graphics.setColor(YELLOW)
@@ -63,7 +69,6 @@ function PlayState:render()
         love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 24, SCREEN_HEIGHT_LIMIT - 4, twoSeventyDegress, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --LEFT
     end
 
-    sceneView:render()
     kvothe:render()
 
     --DEBUG PRINT
@@ -79,7 +84,7 @@ function PlayState:render()
         love.graphics.print('left: ' .. tostring(walkingLeft), 5, 65)
         love.graphics.print('right: '  .. tostring(walkingRight), 5, 75)
         love.graphics.print('lastInput: '  .. tostring(lastInput), 5, 85)
-        love.graphics.print('x: '  .. tostring(kvothe.x), 5, 95)
-        love.graphics.print('y: '  .. tostring(kvothe.y), 5, 105)
+        love.graphics.print('camerax: '  .. tostring(sceneView.cameraX), 5, 95)
+        love.graphics.print('cameray: '  .. tostring(sceneView.cameraY), 5, 105)
     end
 end

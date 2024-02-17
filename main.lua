@@ -22,7 +22,7 @@ function love.load()
 		['beep'] = love.audio.newSource('music/beep.wav', 'static'),
 		['select'] = love.audio.newSource('music/select.wav', 'static')
 	}
---]]
+
 	push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
 		vsync = true,
 		fullscreen = false,
@@ -86,5 +86,4 @@ function displayFPS()
 	love.graphics.setFont(tinyFont)
 	love.graphics.setColor(BLACK)
 	love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 1, VIRTUAL_HEIGHT - 7)
-    --love.graphics.print('map[1][1]: ' ..tostring(map[1][1][80]), 5, 20)
 end
