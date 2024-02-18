@@ -15,12 +15,18 @@ X_Add Repeating ground tile
 X_Configure pretty way to declare tile id, hopefully grid fashion
 X_Translate all images off screen when Kvothe walks offscreen
 X_Make sure Kvothe position is accurate upon shiftingFinish
+X_Prevent event dispatch if scene transitioning
+
+Next Episode
+__Populate ALL Maps in global MAP[][]
+__Should we render player in scene class? Currently in playstate
 
 Todo
+__Add 3 health Heart to HUD
+__Add Inventory to HUD
+__Make full spritesheet
 __How many grids in master map table?
 __How many sprites in master spritesheet?
 __Tally up all Links Awakening Overworlds Sheets, figure out Ogdens storyboard script
-__Cease event dispatch if scene transitioning
 __Make strafe walk more accurate to links awakening? - depends on Kvothes moveset
 __Add all colors to color constants palette
-__Should we render player in scene class? Currently in playstate

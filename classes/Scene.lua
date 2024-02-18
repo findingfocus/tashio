@@ -4,30 +4,42 @@ function Scene:init(player, mapRow, mapColumn)
     self.player = player
     self.mapRow = mapRow
     self.mapColumn = mapColumn
-    self.currentMap = Map(self.mapRow, self.mapColumn)
+    self.currentMap = Map(mapRow, mapColumn)
     self.nextMap = nil
     self.cameraX = 0
     self.cameraY = 0
     self.shifting = false
 
     Event.on('left-transition', function()
-        self:beginShifting(-VIRTUAL_WIDTH, 0)
+        if self.currentMap.column ~= 1 then
+            self.nextMap = Map(self.currentMap.row, self.currentMap.column - 1)
+            self:beginShifting(-VIRTUAL_WIDTH, 0)
+        end
     end)
     Event.on('right-transition', function()
-        self:beginShifting(VIRTUAL_WIDTH, 0)
+        if self.currentMap.column ~= OVERWORLD_MAP_WIDTH then
+            self.nextMap = Map(self.currentMap.row, self.currentMap.column + 1)
+            self:beginShifting(VIRTUAL_WIDTH, 0)
+        end
     end)
     Event.on('up-transition', function()
-        self:beginShifting(0, -VIRTUAL_HEIGHT)
+        if self.currentMap.row ~= 1 then
+            self.nextMap = Map(self.currentMap.row - 1, self.currentMap.column)
+            self:beginShifting(0, -VIRTUAL_HEIGHT)
+        end
     end)
     Event.on('down-transition', function()
-        self:beginShifting(0, VIRTUAL_HEIGHT)
+        if self.currentMap ~= OVERWORLD_MAP_HEIGHT then
+            self.nextMap = Map(self.currentMap.row + 1, self.currentMap.column)
+            self:beginShifting(0, VIRTUAL_HEIGHT)
+        end
     end)
 end
 
 function Scene:beginShifting(shiftX, shiftY)
     self.shifting = true
 
-    self.nextMap = Map(1, 2)               --ASSIGN NEXT MAP
+    --self.nextMap = Map(1, 2)               --ASSIGN NEXT MAP
 
     self.nextMap.adjacentOffsetY = shiftY
     self.nextMap.adjacentOffsetX = shiftX
@@ -66,7 +78,10 @@ function Scene:finishShifting()
     self.shifting = false
     self.cameraX = 0
     self.cameraY = 0
-    self.currentMap = Map(1, 2) --ASSIGN CORRECT MAP
+    self.nextMap.adjacentOffsetX = 0
+    self.nextMap.adjacentOffsetY = 0
+    self.currentMap = self.nextMap
+    --self.currentMap = Map(1, 2) --ASSIGN CORRECT MAP
     self.nextMap = nil
 end
 
