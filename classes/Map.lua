@@ -26,10 +26,18 @@ function Map:update(dt)
 end
 
 function Map:render()
+    --RENDER DEFAULT TILES FIRST
     for y = 1, MAP_HEIGHT do
         for x = 1, MAP_WIDTH do
             local tile = self.tiles[y][x]
-            love.graphics.draw(tilesheet, quads[tile.id], (x - 1) * TILE_SIZE + self.adjacentOffsetX, (y - 1) * TILE_SIZE + self.adjacentOffsetY)
+            love.graphics.draw(textures, quads[tile.id], (x - 1) * TILE_SIZE + self.adjacentOffsetX, (y - 1) * TILE_SIZE + self.adjacentOffsetY)
+        end
+    end
+    --TILE
+    for y = 1, MAP_HEIGHT do
+        for x = 1, MAP_WIDTH do
+            local tile = self.tiles[y][x]
+            love.graphics.draw(textures, quads[tile.id], (x - 1) * TILE_SIZE + self.adjacentOffsetX, (y - 1) * TILE_SIZE + self.adjacentOffsetY)
         end
     end
 end

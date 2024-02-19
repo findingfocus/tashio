@@ -1,7 +1,7 @@
 require 'src/constants'
 MAP = {}
-OVERWORLD_MAP_WIDTH = 5
-OVERWORLD_MAP_HEIGHT = 5
+OVERWORLD_MAP_WIDTH = 10
+OVERWORLD_MAP_HEIGHT = 10
 MAP_WIDTH = 10
 MAP_HEIGHT = 8
 ---[[
@@ -13,6 +13,16 @@ for x = 1, OVERWORLD_MAP_HEIGHT do
     end
 end
 --]]
+
+
+for x = 1, OVERWORLD_MAP_HEIGHT do
+    for y = 1, OVERWORLD_MAP_WIDTH do
+        for z = 1, 80 do
+            MAP[x][y][z] = SAND
+        end
+    end
+end
+
 ---[[
 MAP[1][1] = {
     FIRST, FIRST, FIRST, FIRST, FIRST, FIRST, FIRST, FIRST, FIRST, FIRST,
