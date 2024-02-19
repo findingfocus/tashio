@@ -12,6 +12,7 @@ function PlayState:init()
     cameraX = 0
     sceneView = Scene(kvothe, 1, 1)
     tilesheet = love.graphics.newImage('/src/pics/nineCircles.png')
+    textures = love.graphics.newImage('/src/pics/textures.png')
     quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
 
 end

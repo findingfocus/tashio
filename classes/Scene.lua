@@ -29,7 +29,7 @@ function Scene:init(player, mapRow, mapColumn)
         end
     end)
     Event.on('down-transition', function()
-        if self.currentMap ~= OVERWORLD_MAP_HEIGHT then
+        if self.currentMap.row ~= OVERWORLD_MAP_HEIGHT then
             self.nextMap = Map(self.currentMap.row + 1, self.currentMap.column)
             self:beginShifting(0, VIRTUAL_HEIGHT)
         end

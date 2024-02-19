@@ -16,14 +16,22 @@ X_Configure pretty way to declare tile id, hopefully grid fashion
 X_Translate all images off screen when Kvothe walks offscreen
 X_Make sure Kvothe position is accurate upon shiftingFinish
 X_Prevent event dispatch if scene transitioning
+X_Populate ALL Maps in global MAP[][]
 
 Next Episode
-__Populate ALL Maps in global MAP[][]
+__Spritesheet additions
 __Should we render player in scene class? Currently in playstate
+
+Research
+__Entity tracking for grids outside of our view
 
 Todo
 __Add 3 health Heart to HUD
+__Inventory system
 __Add Inventory to HUD
+__Dynamic Light
+__Time tracking
+__Day of the week tracking
 __Make full spritesheet
 __How many grids in master map table?
 __How many sprites in master spritesheet?
