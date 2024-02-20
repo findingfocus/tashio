@@ -19,7 +19,7 @@ X_Prevent event dispatch if scene transitioning
 X_Populate ALL Maps in global MAP[][]
 
 Next Episode
-__Spritesheet additions
+__Spritesheet additions --BIGGER MASTER SPRITE SHEET, currently 284x284
 __Should we render player in scene class? Currently in playstate
 
 Research
