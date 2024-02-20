@@ -17,6 +17,8 @@ function love.load()
     sand = love.graphics.newImage('/src/pics/sand.png')
     grass = love.graphics.newImage('/src/pics/grass.png')
     tallGrass = love.graphics.newImage('/src/pics/tallGrass.png')
+    testSprites = love.graphics.newImage('/src/pics/testSprites.png')
+    masterSheet = love.graphics.newImage('/src/pics/masterSheet.png')
 
 	sounds = {
 		['beep'] = love.audio.newSource('music/beep.wav', 'static'),
