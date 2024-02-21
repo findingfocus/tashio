@@ -6,8 +6,8 @@ from PIL import ImageFont
 from PIL import ImageDraw
 
 # size of tile sheet on Y and X axis in tiles; replace these with something positive
-TILES_HIGH = 24
-TILES_WIDE = 24
+TILES_HIGH = 32
+TILES_WIDE = 32
 
 TILE_SIZE = 16
 

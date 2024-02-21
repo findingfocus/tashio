@@ -7,6 +7,8 @@ function love.load()
 
     love.mouse.setVisible(false)
 
+    math.randomseed(os.time())
+
 	pixelFont = love.graphics.newFont('fonts/Pixel.ttf', 16)
 	tinyFont = love.graphics.newFont('fonts/Pixel.ttf', 8)
 	love.graphics.setFont(pixelFont)
@@ -18,7 +20,7 @@ function love.load()
     grass = love.graphics.newImage('/src/pics/grass.png')
     tallGrass = love.graphics.newImage('/src/pics/tallGrass.png')
     testSprites = love.graphics.newImage('/src/pics/testSprites.png')
-    masterSheet = love.graphics.newImage('/src/pics/masterSheet.png')
+    tileSheet = love.graphics.newImage('/src/pics/masterSheet.png')
 
 	sounds = {
 		['beep'] = love.audio.newSource('music/beep.wav', 'static'),
