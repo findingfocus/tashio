@@ -17,15 +17,18 @@ X_Translate all images off screen when Kvothe walks offscreen
 X_Make sure Kvothe position is accurate upon shiftingFinish
 X_Prevent event dispatch if scene transitioning
 X_Populate ALL Maps in global MAP[][]
+X_Spritesheet additions --BIGGER MASTER SPRITE SHEET, currently 284x284
 
 Next Episode
-__Spritesheet additions --BIGGER MASTER SPRITE SHEET, currently 284x284
 __Should we render player in scene class? Currently in playstate
 
 Research
 __Entity tracking for grids outside of our view
 
 Todo
+__BIG EPISODE ENTITY SYSTEM IMPLEMENTATION
+__Collision detection for map
+__Add case insensitivity to our chatbot command listens
 __Add 3 health Heart to HUD
 __Inventory system
 __Add Inventory to HUD
