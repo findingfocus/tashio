@@ -38,9 +38,6 @@ end
 
 function Scene:beginShifting(shiftX, shiftY)
     self.shifting = true
-
-    --self.nextMap = Map(1, 2)               --ASSIGN NEXT MAP
-
     self.nextMap.adjacentOffsetY = shiftY
     self.nextMap.adjacentOffsetX = shiftX
 
@@ -81,12 +78,11 @@ function Scene:finishShifting()
     self.nextMap.adjacentOffsetX = 0
     self.nextMap.adjacentOffsetY = 0
     self.currentMap = self.nextMap
-    --self.currentMap = Map(1, 2) --ASSIGN CORRECT MAP
     self.nextMap = nil
 end
 
 function Scene:update(dt)
-
+    self.currentMap:update(dt)
 end
 
 function Scene:render()
