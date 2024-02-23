@@ -26,6 +26,7 @@ Research
 __Entity tracking for grids outside of our view
 
 Todo
+__Rid sand drawable for masterSheet sand
 __BIG EPISODE ENTITY SYSTEM IMPLEMENTATION
 __Collision detection for map
 __Add case insensitivity to our chatbot command listens

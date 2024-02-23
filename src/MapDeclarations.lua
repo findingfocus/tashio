@@ -1,4 +1,6 @@
 require 'src/constants'
+
+
 MAP = {}
 OVERWORLD_MAP_WIDTH = 10
 OVERWORLD_MAP_HEIGHT = 10

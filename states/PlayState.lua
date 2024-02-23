@@ -19,6 +19,7 @@ end
 function PlayState:update(dt)
     cameraX = cameraX + 1
     sceneView:update(dt)
+
     if not sceneView.shifting then
         kvothe:update(dt)
     end
