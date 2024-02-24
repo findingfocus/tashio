@@ -7,7 +7,7 @@ function Map:init(row, column)
     self.adjacentOffsetX = 0
     self.adjacentOffsetY = 0
     self.renderOffsetY = MAP_RENDER_OFFSET_Y
-    -- animationValues[row][column].
+    self.insertAnimations = InsertAnimation(self.row, self.column)
     count = 1
     for y = 1, MAP_HEIGHT do
         table.insert(self.tiles, {})
@@ -18,14 +18,10 @@ function Map:init(row, column)
             count = count + 1
         end
     end
-    self.flowers = AnimSpitter(1012, 1015, 0.75)
 end
 
 function Map:update(dt)
-    self.flowers:update(dt)
-    --if self.adjacentOffsetX ~= 0 or self.adjacentOffsetY ~= 0 then return end
-    self.tiles[2][2].id = self.flowers.frame
-    self.tiles[5][5].id = self.flowers.frame
+    self.insertAnimations:update(dt)
 end
 
 function Map:render()
