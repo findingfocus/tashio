@@ -9,11 +9,11 @@ end
 function InsertAnimation:update(dt)
     self.flowers:update(dt)
     if self.mapRow == 1 and self.mapColumn == 1 then
-        insertAnim(1, 1, self.flowers.frame)
+        insertAnim(2, 3, self.flowers.frame)
         insertAnim(5, 5, self.flowers.frame)
     elseif self.mapRow == 1 and self.mapColumn == 2 then
-        insertAnim(6, 1, self.flowers.frame)
-        insertAnim(2, 4, self.flowers.frame)
+        insertAnim(3, 3, self.flowers.frame)
+        insertAnim(3, 4, self.flowers.frame)
     end
 end
 
