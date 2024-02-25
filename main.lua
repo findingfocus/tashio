@@ -13,7 +13,7 @@ function love.load()
 	tinyFont = love.graphics.newFont('fonts/Pixel.ttf', 8)
 	love.graphics.setFont(pixelFont)
 
-    kvothe = love.graphics.newImage('/src/pics/kvotheAtlas.png')
+    kvotheSpriteSheet = love.graphics.newImage('/src/pics/kvotheAtlas.png')
     arrowKeyLogger = love.graphics.newImage('/src/pics/arrowKey.png')
     dirt = love.graphics.newImage('/src/pics/dirt.png')
     sand = love.graphics.newImage('/src/pics/sand.png')

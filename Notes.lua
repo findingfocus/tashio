@@ -26,6 +26,8 @@ Research
 __Entity tracking for grids outside of our view
 
 Todo
+__add left and right sprite to our player class
+__draw gecko on scene
 __Rid sand drawable for masterSheet sand
 __BIG EPISODE ENTITY SYSTEM IMPLEMENTATION
 __Collision detection for map

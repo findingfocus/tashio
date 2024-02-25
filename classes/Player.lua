@@ -4,7 +4,7 @@ function Player:init()
     --kvothe1 = love.graphics.newImage('/src/pics/kvothe.png')
     self.width = 16
     self.height = 16
-    self.atlas = kvothe
+    self.atlas = kvotheSpriteSheet
     kvotheDown1 = love.graphics.newQuad(0, 0, self.width, self.height, self.atlas:getDimensions())
     kvotheDown2 = love.graphics.newQuad(0, 0, self.width, self.height, self.atlas:getDimensions())
     kvotheUp1 = love.graphics.newQuad(16, 0, self.width, self.height, self.atlas:getDimensions())
