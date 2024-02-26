@@ -11,8 +11,8 @@ function PlayState:init()
     local rows = 8
     cameraX = 0
     sceneView = Scene(kvothe, 1, 1)
-    tilesheet = love.graphics.newImage('/src/pics/masterSheet.png')
-    --textures = love.graphics.newImage('/src/pics/textures.png')
+    tilesheet = love.graphics.newImage('graphics/masterSheet.png')
+    --textures = love.graphics.newImage('graphics/textures.png')
     quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
 end
 

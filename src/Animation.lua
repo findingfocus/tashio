@@ -19,6 +19,9 @@ function Animation:refresh()
 end
 
 function Animation:update(dt)
+    if not self.looping and self.timesPlayed > 0 then
+        return
+    end
 
     if #self.frames > 1 then
         self.timer = self.timer + dt

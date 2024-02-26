@@ -1,6 +1,7 @@
 Player = Class{}
 
 function Player:init()
+    kvotheSpriteSheet = love.graphics.newImage('graphics/kvotheAtlas.png')
     --kvothe1 = love.graphics.newImage('/src/pics/kvothe.png')
     self.width = 16
     self.height = 16
