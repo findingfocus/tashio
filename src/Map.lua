@@ -29,7 +29,7 @@ function Map:render()
     for y = 1, MAP_HEIGHT do
         for x = 1, MAP_WIDTH do
             local tile = self.tiles[y][x]
-            love.graphics.draw(sand, (x - 1) * TILE_SIZE + self.adjacentOffsetX, (y - 1) * TILE_SIZE + self.adjacentOffsetY)
+            love.graphics.draw(tileSheet, quads[SAND], (x - 1) * TILE_SIZE + self.adjacentOffsetX, (y - 1) * TILE_SIZE + self.adjacentOffsetY)
         end
     end
     --TILE

@@ -39,6 +39,6 @@ function Animation:update(dt)
 end
 
 
-function Animation:render()
+function Animation:getCurrentFrame()
     return self.frames[self.currentFrame]
 end

@@ -1,8 +1,19 @@
 PlayState = Class{__includes = BaseState}
 
-
 function PlayState:init()
-    kvothe = Player()
+    self.player = Player {
+        animations = ENTITY_DEFS['player'].animations,
+        walkSpeed = ENTITY_DEFS['player'].walkSpeed,
+        x = 30,
+        y = 30,
+        width = TILE_SIZE,
+        height = TILE_SIZE,
+    }
+    self.player.stateMachine = StateMachine {
+        ['walk'] = function() return PlayerWalkState(self.player, self.room) end,
+        ['idle'] = function() return PlayerIdleState(self.player) end,
+    }
+    self.player:changeState('idle')
     ninetyDegrees = math.rad(90)
     oneEightyDegrees = math.rad(180)
     twoSeventyDegress = math.rad(270)
@@ -10,7 +21,7 @@ function PlayState:init()
     local columns = 10
     local rows = 8
     cameraX = 0
-    sceneView = Scene(kvothe, 1, 1)
+    sceneView = Scene(self.player, 1, 1)
     tilesheet = love.graphics.newImage('graphics/masterSheet.png')
     --textures = love.graphics.newImage('graphics/textures.png')
     quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
@@ -21,7 +32,7 @@ function PlayState:update(dt)
     sceneView:update(dt)
 
     if not sceneView.shifting then
-        kvothe:update(dt)
+        --kvothe:update(dt)
     end
     rotate = rotate + .05
     love.window.setPosition(400, 90)
@@ -70,7 +81,7 @@ function PlayState:render()
         love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 24, SCREEN_HEIGHT_LIMIT - 4 + KEYLOGGER_YOFFSET, twoSeventyDegress, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --LEFT
     end
 
-    kvothe:render()
+    --kvothe:render()
 
     --DEBUG PRINT
     if love.keyboard.isDown('h') then
@@ -81,8 +92,9 @@ function PlayState:render()
         --love.graphics.print('frame: ' .. tostring(math.floor(kvothe.frame)), 0, 0)
         --love.graphics.print('inputs: ' .. tostring(inputsHeldDown), 5, 15)
         love.graphics.print('MAP[' .. tostring(sceneView.currentMap.row) .. '][' .. tostring(sceneView.currentMap.column) .. ']', 5, 15)
-        love.graphics.print('kvothe.x: ' .. string.format("%.1f", kvothe.x), 5, 25)
-        love.graphics.print('kvothe.y: ' .. string.format("%.1f", kvothe.y), 5, 35)
+        love.graphics.print('kvothe.x: ' .. string.format("%.1f", self.player.x), 5, 25)
+        love.graphics.print('kvothe.y: ' .. string.format("%.1f", self.player.y), 5, 35)
+    love.graphics.print('SM: ' .. tostring(self.player.stateMachine), 5, 45)
         --love.graphics.print('up: ' .. tostring(walkingUp), 5, 45)
         --love.graphics.print('down: ' .. tostring(walkingDown), 5, 55)
         --love.graphics.print('left: ' .. tostring(walkingLeft), 5, 65)

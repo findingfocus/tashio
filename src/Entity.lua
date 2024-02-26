@@ -1,26 +1,30 @@
 Entity = Class{}
 
-function Enity:init(def)
+function Entity:init(def)
     self.direction = 'down'
+    self.animations = self:createAnimations(def.animations)
 
-    self.animations = self:createAnimation(def.animation)
+    self.x = def.x
+    self.y = def.y
+    self.width = def.width
+    self.walkSpeed = def.walkSpeed
 
+    self.offsetX = def.offsetX or 0
+    self.offsetY = def.offsetY or 0
 end
 
-
-
 function Entity:createAnimations(animations)
-    local animationReturned = {}
+    local animationsReturned = {}
 
-    for k, animationDef in pairs(animations) do
+    for k, animationsDef in pairs(animations) do
         animationsReturned[k] = Animation {
-            texture = animationDef.texture or 'entities',
-            frames = animationDef.frames,
-            interval = animationDef.interval
+            texture = animationsDef.texture or 'entities',
+            frames = animationsDef.frames,
+            interval = animationsDef.interval
         }
     end
 
-    return animationReturned
+    return animationsReturned
 end
 
 function Entity:collides(target)
@@ -36,11 +40,18 @@ function Entity:changeState(name)
 end
 
 function Entity:changeAnimation(name)
-    self.currentAnimation = self.animation[name]
+    self.currentAnimation = self.animations[name]
 end
 
 function Entity:update(dt)
     self.stateMachine:update(dt)
+    if self.currentAnimation then
+        self.currentAnimation:update(dt)
+    end
+end
+
+function Entity:processAI(params, dt)
+    self.stateMachine:processAI(params, dt)
 end
 
 function Entity:render(adjacentOffsetX, adjacentOffsetY)
