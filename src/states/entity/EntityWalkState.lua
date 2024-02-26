@@ -16,7 +16,13 @@ function EntityWalkState:update(dt)
     self.collided = false
 
     if self.entity.direction == 'down' then
-        self.entity.y = self.entity.y + self.entity.walkSpeed * dt
+        self.entity.y = self.entity.y + self.entity.walkSpeed--ADD WALK SPEED
+    elseif self.entity.direction == 'up' then
+        self.entity.y = self.entity.y - self.entity.walkSpeed--ADD WALK SPEED
+    elseif self.entity.direction == 'left' then
+        self.entity.x = self.entity.x - self.entity.walkSpeed
+    elseif self.entity.direction == 'right' then
+        self.entity.x = self.entity.x + self.entity.walkSpeed
     end
     --ADD COLLISION DETECTION AND RESET POSITIONS
 end
@@ -48,7 +54,7 @@ end
 function EntityWalkState:render()
     local anim = self.entity.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
-        self.entity.x, self.entity.y)
+        math.floor(self.entity.x), math.floor(self.entity.y))
 end
 
 

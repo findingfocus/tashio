@@ -83,6 +83,7 @@ end
 
 function Scene:update(dt)
     self.currentMap:update(dt)
+    self.player:update(dt)
 end
 
 function Scene:render()
@@ -96,4 +97,9 @@ function Scene:render()
     if self.nextMap then
         self.nextMap:render()
     end
+
+    if self.player then
+        self.player:render()
+    end
+
 end
