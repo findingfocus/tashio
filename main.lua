@@ -1,4 +1,4 @@
-require '/dependencies'
+require 'src/dependencies'
 
 function love.load()
 	love.graphics.setDefaultFilter('nearest', 'nearest')
@@ -9,23 +9,8 @@ function love.load()
 
     math.randomseed(os.time())
 
-	pixelFont = love.graphics.newFont('fonts/Pixel.ttf', 16)
-	tinyFont = love.graphics.newFont('fonts/Pixel.ttf', 8)
 	love.graphics.setFont(pixelFont)
 
-    kvotheSpriteSheet = love.graphics.newImage('/src/pics/kvotheAtlas.png')
-    arrowKeyLogger = love.graphics.newImage('/src/pics/arrowKey.png')
-    dirt = love.graphics.newImage('/src/pics/dirt.png')
-    sand = love.graphics.newImage('/src/pics/sand.png')
-    grass = love.graphics.newImage('/src/pics/grass.png')
-    tallGrass = love.graphics.newImage('/src/pics/tallGrass.png')
-    testSprites = love.graphics.newImage('/src/pics/testSprites.png')
-    tileSheet = love.graphics.newImage('/src/pics/masterSheet.png')
-
-	sounds = {
-		['beep'] = love.audio.newSource('music/beep.wav', 'static'),
-		['select'] = love.audio.newSource('music/select.wav', 'static')
-	}
 
 	push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
 		vsync = true,
