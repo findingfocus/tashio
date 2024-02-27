@@ -1,29 +1,42 @@
-PlayerWalkState = Class{__includes = EntityWalkState}
+PlayerWalkState = Class{__includes = BaseState}
 
 function PlayerWalkState:init(player, room)
-    self.entity = player
+    self.player = player
     self.room = room
 end
 
 function PlayerWalkState:update(dt)
     if love.keyboard.isDown('left') then
-        self.entity.direction = 'left'
-        self.entity:changeAnimation('walk-left')
+        self.player.direction = 'left'
     elseif love.keyboard.isDown('right') then
-        self.entity.direction = 'right'
-        self.entity:changeAnimation('walk-right')
+        self.player.direction = 'right'
     elseif love.keyboard.isDown('up') then
-        self.entity.direction = 'up'
-        self.entity:changeAnimation('walk-up')
+        self.player.direction = 'up'
     elseif love.keyboard.isDown('down') then
-        self.entity.direction = 'down'
-        self.entity:changeAnimation('walk-down')
+        self.player.direction = 'down'
     else
-        self.entity:changeState('idle')
+        self.player:changeState('idle')
     end
 
-    EntityWalkState.update(self, dt)
+    --WORK ON THIS NEXT
+    if self.player.direction == 'down' then
+        self.player.y = self.player.y + self.player.walkSpeed--ADD WALK SPEED
+    elseif self.player.direction == 'up' then
+        self.player.y = self.player.y - self.player.walkSpeed--ADD WALK SPEED
+    elseif self.player.direction == 'left' then
+        self.player.x = self.player.x - self.player.walkSpeed
+    elseif self.player.direction == 'right' then
+        self.player.x = self.player.x + self.player.walkSpeed
+    end
+
+    --EntityWalkState.update(self, dt)
 
     --ADD COLLISION DETECTION
     --ADD EVENT DISPATCH FOR SHIFTING SCREENS
+end
+
+function PlayerWalkState:render()
+    local anim = self.player.currentAnimation
+    love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
+        math.floor(self.player.x), math.floor(self.player.y))
 end

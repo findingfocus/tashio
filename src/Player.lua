@@ -2,6 +2,9 @@ Player = Class{__includes = Entity}
 
 function Player:init(def)
     Entity.init(self, def)
+    self.lastInput = nil
+    self.inputsHeld = 0
+    INPUT_LIST = {}
 end
 
 function NormalizeVector(character)
@@ -10,6 +13,71 @@ function NormalizeVector(character)
 end
 
 function Player:update(dt)
+    --POPULATE INPUT LIST
+    if love.keyboard.wasPressed('left') then
+        table.insert(INPUT_LIST, 'walk-left')
+    end
+    if love.keyboard.wasPressed('right') then
+        table.insert(INPUT_LIST, 'walk-right')
+    end
+    if love.keyboard.wasPressed('up') then
+        table.insert(INPUT_LIST, 'walk-up')
+    end
+    if love.keyboard.wasPressed('down') then
+        table.insert(INPUT_LIST, 'walk-down')
+    end
+
+    --REMOVE VALUES FROM INPUT LIST
+    if love.keyboard.wasReleased('left') then
+        local index = 0
+        for k, position in pairs(INPUT_LIST) do
+            if position == 'walk-left' then
+                index = k
+            end
+        end
+        table.remove(INPUT_LIST, index)
+    end
+    if love.keyboard.wasReleased('right') then
+        local index = 0
+        for k, position in pairs(INPUT_LIST) do
+            if position == 'walk-right' then
+                index = k
+            end
+        end
+        table.remove(INPUT_LIST, index)
+    end
+    if love.keyboard.wasReleased('up') then
+        local index = 0
+        for k, position in pairs(INPUT_LIST) do
+            if position == 'walk-up' then
+                index = k
+            end
+        end
+        table.remove(INPUT_LIST, index)
+    end
+    if love.keyboard.wasReleased('down') then
+        local index = 0
+        for k, position in pairs(INPUT_LIST) do
+            if position == 'walk-down' then
+                index = k
+            end
+        end
+        table.remove(INPUT_LIST, index)
+    end
+
+
+    self.lastInput = INPUT_LIST[#INPUT_LIST]
+    if self.lastInput then
+        self:changeAnimation(self.lastInput)
+    end
+
+    --[[
+    --CONFLICTING INPUT HANDLING
+    if love.keyboard.isDown('left') and love.keyboard.isDown('right') then
+
+    end
+    --]]
+
     Entity.update(self, dt)
 end
 

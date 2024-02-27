@@ -27,11 +27,16 @@ function love.load()
 	gStateMachine:change('playState')
 
 	love.keyboard.keysPressed = {}
+    love.keyboard.keysReleased = {}
 
 end
 
 function love.resize(w, h)
 	push:resize(w,h)
+end
+
+function love.keyreleased(key)
+    love.keyboard.keysReleased[key] = true
 end
 
 function love.keypressed(key)
@@ -50,6 +55,14 @@ function love.keyboard.wasPressed(key)
 	end
 end
 
+function love.keyboard.wasReleased(key)
+    if love.keyboard.keysReleased[key] then
+        return true
+    else
+        return false
+    end
+end
+
 function love.update(dt)
     Timer.update(dt)
     if love.keyboard.wasPressed('tab') then
@@ -60,6 +73,7 @@ function love.update(dt)
 	gStateMachine:update(dt)
 
 	love.keyboard.keysPressed = {}
+    love.keyboard.keysReleased = {}
 end
 
 function love.draw()
