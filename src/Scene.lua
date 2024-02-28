@@ -103,9 +103,9 @@ function Scene:render()
     end
 
     love.graphics.print('direction: ' .. tostring(self.player.direction), 5, 5)
-    love.graphics.print('LASRINPUT: ' .. tostring(self.player.lastInput), 5, 15)
+    love.graphics.print('LASTINPUT: ' .. tostring(self.player.lastInput), 5, 15)
     love.graphics.print('inputsHeld: ' .. tostring(self.player.inputsHeld), 5, 25)
     for k, v in pairs(INPUT_LIST) do
-        love.graphics.print('index: ' .. tostring(k) .. '= ' .. tostring(v), 5, 25 + (k * 10))
+        --love.graphics.print('index: ' .. tostring(k) .. '= ' .. tostring(v), 5, 25 + (k * 10))
     end
 end

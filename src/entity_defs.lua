@@ -1,9 +1,11 @@
 ENTITY_DEFS = {
     ['player'] = {
         walkSpeed = PLAYER_WALK_SPEED,
+        height = 16,
+        width = 16,
         animations = {
             ['walk-left'] = {
-                frames = {5, 6},
+                frames = {6, 5},
                 interval = 0.3,
                 texture = 'character-walk',
             },
@@ -33,12 +35,12 @@ ENTITY_DEFS = {
                 texture = 'character-walk',
             },
             ['idle-up'] = {
-                frames = {3},
+                frames = {4},
                 interval = 0.3,
                 texture = 'character-walk',
             },
             ['idle-down'] = {
-                frames = {1},
+                frames = {2},
                 interval = 0.3,
                 texture = 'character-walk',
             }

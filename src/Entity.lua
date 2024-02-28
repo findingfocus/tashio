@@ -6,6 +6,8 @@ function Entity:init(def)
 
     self.x = def.x
     self.y = def.y
+    self.height = def.height
+    self.width = def.width
     self.width = def.width
     self.walkSpeed = def.walkSpeed
 
