@@ -7,11 +7,6 @@ function Player:init(def)
     INPUT_LIST = {}
 end
 
-function NormalizeVector(character)
-    character.dx = math.sqrt(2) / 2
-    character.dy = math.sqrt(2) / 2
-end
-
 function Player:update(dt)
     --POPULATE INPUT LIST
     if love.keyboard.wasPressed('left') then
@@ -35,7 +30,7 @@ function Player:update(dt)
                 index = k
             end
         end
-        table.remove(INPUT_LIST, index)
+            table.remove(INPUT_LIST, index)
     end
     if love.keyboard.wasReleased('right') then
         local index = 0
@@ -44,7 +39,7 @@ function Player:update(dt)
                 index = k
             end
         end
-        table.remove(INPUT_LIST, index)
+            table.remove(INPUT_LIST, index)
     end
     if love.keyboard.wasReleased('up') then
         local index = 0
@@ -53,7 +48,7 @@ function Player:update(dt)
                 index = k
             end
         end
-        table.remove(INPUT_LIST, index)
+            table.remove(INPUT_LIST, index)
     end
     if love.keyboard.wasReleased('down') then
         local index = 0
@@ -62,7 +57,7 @@ function Player:update(dt)
                 index = k
             end
         end
-        table.remove(INPUT_LIST, index)
+            table.remove(INPUT_LIST, index)
     end
 
 
@@ -71,6 +66,31 @@ function Player:update(dt)
         self:changeAnimation(self.lastInput)
     end
 
+    if not sceneView.shifting then
+        if love.keyboard.isDown('right') then
+            if self.x > VIRTUAL_WIDTH - self.width - EDGE_BUFFER_KVOTHE and self.x + self.width < VIRTUAL_WIDTH then
+                Event.dispatch('right-transition')
+            end
+        end
+
+        if love.keyboard.isDown('left') then
+            if self.x < self.width + EDGE_BUFFER_KVOTHE and self.x + self.width > self.width then
+                Event.dispatch('left-transition')
+            end
+        end
+
+        if love.keyboard.isDown('up') then
+            if self.y < EDGE_BUFFER_KVOTHE and self.y + self.height > self.height then
+                Event.dispatch('up-transition')
+            end
+        end
+
+        if love.keyboard.isDown('down') then
+            if self.y > SCREEN_HEIGHT_LIMIT - self.height - EDGE_BUFFER_KVOTHE and self.y + self.height < SCREEN_HEIGHT_LIMIT then
+                Event.dispatch('down-transition')
+            end
+        end
+    end
     --[[
     --CONFLICTING INPUT HANDLING
     if love.keyboard.isDown('left') and love.keyboard.isDown('right') then

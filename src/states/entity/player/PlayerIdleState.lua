@@ -9,5 +9,6 @@ function PlayerIdleState:update(dt)
         love.keyboard.isDown('up') or love.keyboard.isDown('down') then
             self.entity:changeState('walk')
     end
+
     --DONT CHANGE TO WALK IF CONTRIDICTING INPUTS HELD
 end
