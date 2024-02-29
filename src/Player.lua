@@ -68,25 +68,25 @@ function Player:update(dt)
 
     if not sceneView.shifting then
         if love.keyboard.isDown('right') then
-            if self.x > VIRTUAL_WIDTH - self.width - EDGE_BUFFER_KVOTHE and self.x + self.width < VIRTUAL_WIDTH then
+            if self.x + self.width >= VIRTUAL_WIDTH + EDGE_BUFFER_KVOTHE then
                 Event.dispatch('right-transition')
             end
         end
 
         if love.keyboard.isDown('left') then
-            if self.x < self.width + EDGE_BUFFER_KVOTHE and self.x + self.width > self.width then
+            if self.x <= -EDGE_BUFFER_KVOTHE then
                 Event.dispatch('left-transition')
             end
         end
 
         if love.keyboard.isDown('up') then
-            if self.y < EDGE_BUFFER_KVOTHE and self.y + self.height > self.height then
+            if self.y <= -EDGE_BUFFER_KVOTHE then
                 Event.dispatch('up-transition')
             end
         end
 
         if love.keyboard.isDown('down') then
-            if self.y > SCREEN_HEIGHT_LIMIT - self.height - EDGE_BUFFER_KVOTHE and self.y + self.height < SCREEN_HEIGHT_LIMIT then
+            if self.y + self.height >= SCREEN_HEIGHT_LIMIT then
                 Event.dispatch('down-transition')
             end
         end
