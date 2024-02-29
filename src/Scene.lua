@@ -64,7 +64,7 @@ function Scene:beginShifting(shiftX, shiftY)
 
     Timer.tween(0.9, {
         [self] = {cameraX = shiftX, cameraY = shiftY},
-        [self.player] = {x = playerX, y = playerY}
+        [self.player] = {x = math.floor(playerX), y = math.floor(playerY)}
     }):finish(function()
 
         self:finishShifting()
@@ -79,15 +79,33 @@ function Scene:finishShifting()
     self.nextMap.adjacentOffsetY = 0
     self.currentMap = self.nextMap
     self.nextMap = nil
+    INPUT_LIST = {}
+    ---[[
+    if love.keyboard.isDown('left') then
+        table.insert(INPUT_LIST, 'walk-left')
+    end
+    if love.keyboard.isDown('right') then
+        table.insert(INPUT_LIST, 'walk-right')
+    end
+    if love.keyboard.isDown('up') then
+        table.insert(INPUT_LIST, 'walk-up')
+    end
+    if love.keyboard.isDown('down') then
+        table.insert(INPUT_LIST, 'walk-down')
+    end
+    --]]
 end
 
 function Scene:update(dt)
     self.currentMap:update(dt)
-    self.player:update(dt)
+    if not self.shifting then
+        self.player:update(dt)
+    end
 end
 
 function Scene:render()
     love.graphics.setColor(WHITE)
+    love.graphics.push()
     if self.shifting then
         love.graphics.translate(-math.floor(self.cameraX), -math.floor(self.cameraY))
     end
@@ -97,14 +115,17 @@ function Scene:render()
     if self.nextMap then
         self.nextMap:render()
     end
+    love.graphics.pop()
 
     if self.player then
         self.player:render()
     end
 
+    --[[ DIRECTION DEBUGGING
     love.graphics.print('direction: ' .. tostring(self.player.direction), 5, 5)
     love.graphics.print('LASTINPUT: ' .. tostring(self.player.lastInput), 5, 15)
     love.graphics.print('inputsHeld: ' .. tostring(self.player.inputsHeld), 5, 25)
+    --]]
     for k, v in pairs(INPUT_LIST) do
         --love.graphics.print('index: ' .. tostring(k) .. '= ' .. tostring(v), 5, 25 + (k * 10))
     end
