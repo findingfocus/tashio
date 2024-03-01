@@ -10,10 +10,10 @@ function PlayState:init()
         height = TILE_SIZE,
     }
     self.player.stateMachine = StateMachine {
-        ['walk'] = function() return PlayerWalkState(self.player, self.room) end,
-        ['idle'] = function() return PlayerIdleState(self.player) end,
+        ['player-walk'] = function() return PlayerWalkState(self.player, self.scene) end,
+        ['player-idle'] = function() return PlayerIdleState(self.player) end,
     }
-    self.player:changeState('idle')
+    self.player:changeState('player-idle')
     ninetyDegrees = math.rad(90)
     oneEightyDegrees = math.rad(180)
     twoSeventyDegress = math.rad(270)
@@ -84,23 +84,18 @@ function PlayState:render()
     --kvothe:render()
 
     --DEBUG PRINT
-    if love.keyboard.isDown('h') then
+    if love.keyboard.isDown('1') then
         love.graphics.setColor(DEBUG_BG)
         love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
         love.graphics.setColor(WHITE)
         love.graphics.setFont(tinyFont)
-        --love.graphics.print('frame: ' .. tostring(math.floor(kvothe.frame)), 0, 0)
-        --love.graphics.print('inputs: ' .. tostring(inputsHeldDown), 5, 15)
         love.graphics.print('MAP[' .. tostring(sceneView.currentMap.row) .. '][' .. tostring(sceneView.currentMap.column) .. ']', 5, 15)
         love.graphics.print('kvothe.x: ' .. string.format("%.1f", self.player.x), 5, 25)
         love.graphics.print('kvothe.y: ' .. string.format("%.1f", self.player.y), 5, 35)
-    love.graphics.print('SM: ' .. tostring(self.player.stateMachine), 5, 45)
-        --love.graphics.print('up: ' .. tostring(walkingUp), 5, 45)
-        --love.graphics.print('down: ' .. tostring(walkingDown), 5, 55)
-        --love.graphics.print('left: ' .. tostring(walkingLeft), 5, 65)
-        --love.graphics.print('right: '  .. tostring(walkingRight), 5, 75)
-        --love.graphics.print('lastInput: '  .. tostring(lastInput), 5, 85)
-        --love.graphics.print('camerax: '  .. tostring(sceneView.cameraX), 5, 95)
-        --love.graphics.print('cameray: '  .. tostring(sceneView.cameraY), 5, 105)
+        love.graphics.print('direction: ' .. tostring(self.player.direction), 5, 45)
+        love.graphics.print('LASTINPUT: ' .. tostring(self.player.lastInput), 5, 55)
+    end
+    if love.keyboard.isDown('2') then
+        --]]
     end
 end

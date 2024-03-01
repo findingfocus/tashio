@@ -9,6 +9,21 @@ function Scene:init(player, mapRow, mapColumn)
     self.cameraX = 0
     self.cameraY = 0
     self.shifting = false
+    ---[[
+    self.gecko = Entity {
+        animations = ENTITY_DEFS['gecko'].animations,
+        x = 100,
+        y = VIRTUAL_HEIGHT,
+        width = TILE_SIZE,
+        height = TILE_SIZE,
+    }
+    self.gecko.stateMachine = StateMachine {
+        ['entity-walk'] = function() return EntityWalkState(self.gecko, self.scene) end,
+        ['entity-idle'] = function() return EntityIdleState(self.gecko) end,
+    }
+    self.gecko.direction = 'up'
+    self.gecko:changeState('entity-walk')
+    --]]
 
     Event.on('left-transition', function()
         if self.currentMap.column ~= 1 then
@@ -79,19 +94,20 @@ function Scene:finishShifting()
     self.nextMap.adjacentOffsetY = 0
     self.currentMap = self.nextMap
     self.nextMap = nil
+    self.player.direction = INPUT_LIST[#INPUT_LIST]
     INPUT_LIST = {}
     ---[[
     if love.keyboard.isDown('left') then
-        table.insert(INPUT_LIST, 'walk-left')
+        table.insert(INPUT_LIST, 'left')
     end
     if love.keyboard.isDown('right') then
-        table.insert(INPUT_LIST, 'walk-right')
+        table.insert(INPUT_LIST, 'right')
     end
     if love.keyboard.isDown('up') then
-        table.insert(INPUT_LIST, 'walk-up')
+        table.insert(INPUT_LIST, 'up')
     end
     if love.keyboard.isDown('down') then
-        table.insert(INPUT_LIST, 'walk-down')
+        table.insert(INPUT_LIST, 'down')
     end
     --]]
 end
@@ -101,6 +117,7 @@ function Scene:update(dt)
     if not self.shifting then
         self.player:update(dt)
     end
+    self.gecko:update(dt)
 end
 
 function Scene:render()
@@ -121,12 +138,7 @@ function Scene:render()
         self.player:render()
     end
 
-    --[[ DIRECTION DEBUGGING
-    love.graphics.print('direction: ' .. tostring(self.player.direction), 5, 5)
-    love.graphics.print('LASTINPUT: ' .. tostring(self.player.lastInput), 5, 15)
-    love.graphics.print('inputsHeld: ' .. tostring(self.player.inputsHeld), 5, 25)
-    --]]
-    for k, v in pairs(INPUT_LIST) do
-        --love.graphics.print('index: ' .. tostring(k) .. '= ' .. tostring(v), 5, 25 + (k * 10))
+    if self.gecko then
+        self.gecko:render()
     end
 end

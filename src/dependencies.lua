@@ -39,11 +39,13 @@ tileSheet = love.graphics.newImage('graphics/masterSheet.png')
 --]]
 --
 gTextures = {
-    ['character-walk'] = love.graphics.newImage('graphics/kvotheAtlas8.png')
+    ['character-walk'] = love.graphics.newImage('graphics/kvotheAtlas8.png'),
+    ['gecko'] = love.graphics.newImage('graphics/geckoAtlas.png'),
 }
 
 gFrames = {
-    ['character-walk'] = GenerateQuads(gTextures['character-walk'], TILE_SIZE, TILE_SIZE)
+    ['character-walk'] = GenerateQuads(gTextures['character-walk'], TILE_SIZE, TILE_SIZE),
+    ['gecko'] = GenerateQuads(gTextures['gecko'], TILE_SIZE, TILE_SIZE),
 }
 kvotheSpriteSheet = love.graphics.newImage('graphics/kvotheAtlas.png')
 arrowKeyLogger = love.graphics.newImage('graphics/arrowKey.png')
