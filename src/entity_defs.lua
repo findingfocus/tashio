@@ -48,9 +48,16 @@ ENTITY_DEFS = {
     },
     ['gecko'] = {
         animations = {
-            frames = {1, 2, 3},
-            interval = 0.5,
-            --texture = --ADD THIS
+            ['idle-up'] = {
+                frames = {5},
+                interval = 0.5,
+                texture = 'gecko',
+            },
+            ['walk-up'] = {
+                frames = {1, 2, 3, 4, 5},
+                interval = 0.07,
+                texture = 'gecko',
+            },
         }
     }
 }

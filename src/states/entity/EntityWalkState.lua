@@ -2,7 +2,8 @@ EntityWalkState = Class{__includes = BaseState}
 
 function EntityWalkState:init(entity, scene)
     self.entity = entity
-    self.entity:changeAnimation('walk-down')
+    self.entity:changeAnimation('walk-up')
+    self.entity.walkSpeed = 1
 
     self.scene = scene
 
@@ -40,7 +41,7 @@ function EntityWalkState:processAI(params, dt)
         self.movementTimer = 0
 
         if math.random(3) == 1 then
-            self.entity:changeState('idle')
+            self.entity:changeState('entity-idle')
         else
             self.moveDuration = math.random(5)
             self.entity.direction = directions[math.random(#directions)]
