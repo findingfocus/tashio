@@ -18,9 +18,11 @@ function PlayerWalkState:update(dt)
             self.player:changeAnimation('idle-' .. tostring(self.player.direction))
         else
             if #INPUT_LIST == 3 then
-                self.player:changeAnimation('walk-left')
+                self.player.direction = INPUT_LIST[#INPUT_LIST]
+                self.player:changeAnimation('idle-' .. tostring(INPUT_LIST[#INPUT_LIST]))
+                --self.player:changeAnimation('walk-left')
             else
-                self.player.x = math.max(self.player.x - self.player.walkSpeed, -EDGE_BUFFER_KVOTHE)
+                self.player.x = math.max(self.player.x - self.player.walkSpeed, -EDGE_BUFFER_PLAYER)
                 self.player.direction = 'left'
             end
         end
@@ -30,9 +32,11 @@ function PlayerWalkState:update(dt)
             self.player:changeAnimation('idle-' .. tostring(self.player.direction))
         else
             if #INPUT_LIST == 3 then
-                self.player:changeAnimation('walk-right')
+                self.player.direction = INPUT_LIST[#INPUT_LIST]
+                self.player:changeAnimation('idle-' .. tostring(INPUT_LIST[#INPUT_LIST]))
+                --self.player:changeAnimation('walk-right')
             else
-                self.player.x = math.min(self.player.x + self.player.walkSpeed, VIRTUAL_WIDTH -self.player.width + EDGE_BUFFER_KVOTHE)
+                self.player.x = math.min(self.player.x + self.player.walkSpeed, VIRTUAL_WIDTH -self.player.width + EDGE_BUFFER_PLAYER)
                 self.player.direction = 'right'
             end
         end
@@ -42,9 +46,11 @@ function PlayerWalkState:update(dt)
             self.player:changeAnimation('idle-' .. tostring(self.player.direction))
         else
             if #INPUT_LIST == 3 then
-                self.player:changeAnimation('walk-up')
+                self.player.direction = INPUT_LIST[#INPUT_LIST]
+                self.player:changeAnimation('idle-' .. tostring(INPUT_LIST[#INPUT_LIST]))
+                --self.player:changeAnimation('walk-up')
             else
-                self.player.y = math.max(self.player.y - self.player.walkSpeed, -EDGE_BUFFER_KVOTHE)
+                self.player.y = math.max(self.player.y - self.player.walkSpeed, -EDGE_BUFFER_PLAYER)
                 self.player.direction = 'up'
             end
         end
@@ -54,7 +60,8 @@ function PlayerWalkState:update(dt)
             self.player:changeAnimation('idle-' .. tostring(self.player.direction))
         else
             if #INPUT_LIST == 3 then
-                self.player:changeAnimation('walk-down')
+                self.player.direction = INPUT_LIST[#INPUT_LIST]
+                self.player:changeAnimation('idle-' .. tostring(INPUT_LIST[#INPUT_LIST]))
             else
                 self.player.direction = 'down'
                 self.player.y = math.min(self.player.y + self.player.walkSpeed, SCREEN_HEIGHT_LIMIT - self.player.height)
