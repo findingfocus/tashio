@@ -57,22 +57,22 @@ function Scene:beginShifting(shiftX, shiftY)
     self.nextMap.adjacentOffsetX = shiftX
 
     ---[[
-    if shiftX < 0 then --WHERE KVOTHE ENDS UP ON SCREEN
-        playerX = VIRTUAL_WIDTH - self.player.width - EDGE_BUFFER_KVOTHE
+    if shiftX < 0 then --WHERE PLAYER ENDS UP ON SCREEN
+        playerX = VIRTUAL_WIDTH - self.player.width - EDGE_BUFFER_PLAYER
         playerY = self.player.y
         --self.nextMap = MAP[1][2] --CHANGE TO BE ARITHMETIC INSTEAD OF HARD CODED
     elseif shiftX > 0 then
-        playerX = EDGE_BUFFER_KVOTHE
+        playerX = EDGE_BUFFER_PLAYER
         playerY = self.player.y
     elseif shiftY < 0 then -- SHIFT UP
         self.nextMap.adjacentOffsetY = self.nextMap.adjacentOffsetY + 16
         shiftY = shiftY + 16
-        playerY = SCREEN_HEIGHT_LIMIT - self.player.height - EDGE_BUFFER_KVOTHE
+        playerY = SCREEN_HEIGHT_LIMIT - self.player.height - EDGE_BUFFER_PLAYER
         playerX = self.player.x
     elseif shiftY > 0 then -- SHIFT DOWN
         self.nextMap.adjacentOffsetY = self.nextMap.adjacentOffsetY - 16
         shiftY = shiftY- 16
-        playerY = EDGE_BUFFER_KVOTHE
+        playerY = EDGE_BUFFER_PLAYER
         playerX = self.player.x
     end
 

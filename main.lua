@@ -3,7 +3,7 @@ require 'src/dependencies'
 function love.load()
 	love.graphics.setDefaultFilter('nearest', 'nearest')
 
-	love.window.setTitle('Kvothe DX')
+	love.window.setTitle('Tashio TempoX')
 
     love.mouse.setVisible(false)
 
@@ -87,7 +87,7 @@ function love.draw()
 end
 
 function displayFPS()
-	love.graphics.setFont(tinyFont)
+	love.graphics.setFont(pixelFont)
 	love.graphics.setColor(BLACK)
-	love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 1, VIRTUAL_HEIGHT - 7)
+	love.graphics.print(tostring(love.timer.getFPS()), 0, VIRTUAL_HEIGHT - 12)
 end

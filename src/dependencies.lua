@@ -24,22 +24,11 @@ require 'src/InsertAnimation'
 require 'src/util'
 require 'src/entity_defs'
 
-pixelFont = love.graphics.newFont('fonts/Pixel.ttf', 16)
-tinyFont = love.graphics.newFont('fonts/Pixel.ttf', 8)
+pixelFont = love.graphics.newFont('fonts/zeldadxt.ttf', 11)
 
---[[
---kvotheSpriteSheet = love.graphics.newImage('graphics/kvotheAtlas.png')
-arrowKeyLogger = love.graphics.newImage('graphics/arrowKey.png')
-dirt = love.graphics.newImage('graphics/dirt.png')
-sand = love.graphics.newImage('graphics/sand.png')
-grass = love.graphics.newImage('graphics/grass.png')
-tallGrass = love.graphics.newImage('graphics/tallGrass.png')
-testSprites = love.graphics.newImage('graphics/testSprites.png')
-tileSheet = love.graphics.newImage('graphics/masterSheet.png')
---]]
---
+
 gTextures = {
-    ['character-walk'] = love.graphics.newImage('graphics/kvotheAtlas8.png'),
+    ['character-walk'] = love.graphics.newImage('graphics/playerAtlas.png'),
     ['gecko'] = love.graphics.newImage('graphics/geckoAtlas.png'),
 }
 
@@ -47,7 +36,7 @@ gFrames = {
     ['character-walk'] = GenerateQuads(gTextures['character-walk'], TILE_SIZE, TILE_SIZE),
     ['gecko'] = GenerateQuads(gTextures['gecko'], TILE_SIZE, TILE_SIZE),
 }
-kvotheSpriteSheet = love.graphics.newImage('graphics/kvotheAtlas.png')
+playerSpriteSheet = love.graphics.newImage('graphics/playerAtlas.png')
 arrowKeyLogger = love.graphics.newImage('graphics/arrowKey.png')
 --dirt = love.graphics.newImage('graphics/dirt.png')
 --sand = love.graphics.newImage('graphics/sand.png')

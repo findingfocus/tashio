@@ -31,9 +31,6 @@ function PlayState:update(dt)
     cameraX = cameraX + 1
     sceneView:update(dt)
 
-    if not sceneView.shifting then
-        --kvothe:update(dt)
-    end
     rotate = rotate + .05
     love.window.setPosition(400, 90)
 end
@@ -51,7 +48,7 @@ function PlayState:render()
     love.graphics.setColor(BLACK)
 
 	love.graphics.setFont(pixelFont)
-    love.graphics.printf('KvotheDX', 0, VIRTUAL_HEIGHT - 15, VIRTUAL_WIDTH, 'center')
+    love.graphics.printf('TASHIO TEMPO', 0, VIRTUAL_HEIGHT - 15, VIRTUAL_WIDTH, 'center')
     if love.keyboard.isDown('up') then
         love.graphics.setColor(FADED)
         love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 16, SCREEN_HEIGHT_LIMIT - 11 + KEYLOGGER_YOFFSET, 0, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --UP
@@ -81,17 +78,15 @@ function PlayState:render()
         love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 24, SCREEN_HEIGHT_LIMIT - 4 + KEYLOGGER_YOFFSET, twoSeventyDegress, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --LEFT
     end
 
-    --kvothe:render()
-
     --DEBUG PRINT
     if love.keyboard.isDown('1') then
         love.graphics.setColor(DEBUG_BG)
         love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
         love.graphics.setColor(WHITE)
-        love.graphics.setFont(tinyFont)
+        love.graphics.setFont(pixelFont)
         love.graphics.print('MAP[' .. tostring(sceneView.currentMap.row) .. '][' .. tostring(sceneView.currentMap.column) .. ']', 5, 15)
-        love.graphics.print('kvothe.x: ' .. string.format("%.1f", self.player.x), 5, 25)
-        love.graphics.print('kvothe.y: ' .. string.format("%.1f", self.player.y), 5, 35)
+        love.graphics.print('player.x: ' .. string.format("%.1f", self.player.x), 5, 25)
+        love.graphics.print('player.y: ' .. string.format("%.1f", self.player.y), 5, 35)
         love.graphics.print('direction: ' .. tostring(self.player.direction), 5, 45)
         love.graphics.print('LASTINPUT: ' .. tostring(self.player.lastInput), 5, 55)
     end
