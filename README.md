@@ -1,5 +1,5 @@
-# kvotheDX
-A top down game based on The Kingkiller Chronicles inspired by Link's Awakening
+# Tashio Tempo
+A top down game filled with adventure, magic, and music.
 
 ### **Installation Instructions**
 
