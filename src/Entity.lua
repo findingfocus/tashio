@@ -10,6 +10,7 @@ function Entity:init(def)
     self.width = def.width
     self.width = def.width
     self.walkSpeed = def.walkSpeed
+    self.offscreen = false
 
     self.offsetX = def.offsetX or 0
     self.offsetY = def.offsetY or 0

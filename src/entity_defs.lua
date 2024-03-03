@@ -58,6 +58,21 @@ ENTITY_DEFS = {
                 interval = 0.07,
                 texture = 'gecko',
             },
+            ['walk-down'] = {
+                frames = {1, 2, 3, 4, 5},
+                interval = 0.07,
+                texture = 'gecko',
+            },
+            ['walk-left'] = {
+                frames = {1, 2, 3, 4, 5},
+                interval = 0.07,
+                texture = 'gecko',
+            },
+            ['walk-right'] = {
+                frames = {1, 2, 3, 4, 5},
+                interval = 0.07,
+                texture = 'gecko',
+            },
         }
     }
 }
