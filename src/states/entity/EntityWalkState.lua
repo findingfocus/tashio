@@ -2,6 +2,7 @@ EntityWalkState = Class{__includes = BaseState}
 
 function EntityWalkState:init(entity, scene)
     self.entity = entity
+
     self.entity:changeAnimation('walk-up')
     self.entity.walkSpeed = 1
 
@@ -25,7 +26,18 @@ function EntityWalkState:update(dt)
     elseif self.entity.direction == 'right' then
         self.entity.x = self.entity.x + self.entity.walkSpeed
     end
+
+    --TRIGGER OFFSCREEN
+    if self.entity.x + self.entity.width < -TILE_SIZE or self.entity.x > VIRTUAL_WIDTH + TILE_SIZE or self.entity.y + self.entity.height < -TILE_SIZE then
+        --ADD IN BOTTOM RULE AS WELL
+       self.entity.offscreen = true
+    end
+    if self.entity.y > SCREEN_HEIGHT_LIMIT then
+        self.entity.offscreen = true
+    end
+
     --ADD COLLISION DETECTION AND RESET POSITIONS
+
 end
 
 function EntityWalkState:processAI(params, dt)

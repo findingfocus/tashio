@@ -9,14 +9,28 @@ function Scene:init(player, mapRow, mapColumn)
     self.cameraX = 0
     self.cameraY = 0
     self.shifting = false
+    self.entities = {}
     ---[[
-    self.gecko = Entity {
-        animations = ENTITY_DEFS['gecko'].animations,
-        x = 100,
-        y = VIRTUAL_HEIGHT,
-        width = TILE_SIZE,
-        height = TILE_SIZE,
-    }
+    for i = 1, 800 do
+        table.insert(self.entities, Entity {
+            animations = ENTITY_DEFS['gecko'].animations,
+            x = math.random(VIRTUAL_WIDTH),
+            y = math.random(SCREEN_HEIGHT_LIMIT, SCREEN_HEIGHT_LIMIT + 500),
+            width = TILE_SIZE,
+            height = TILE_SIZE,
+        })
+
+        self.entities[i].direction = 'up'
+
+        self.entities[i].stateMachine = StateMachine {
+            ['entity-walk'] = function() return EntityWalkState(self.entities[i], self) end,
+            ['entity-idle'] = function() return EntityIdleState(self.entities[i]) end,
+        }
+
+        self.entities[i]:changeState('entity-walk')
+    end
+
+    --[[
     self.gecko.stateMachine = StateMachine {
         ['entity-walk'] = function() return EntityWalkState(self.gecko, self.scene) end,
         ['entity-idle'] = function() return EntityIdleState(self.gecko) end,
@@ -24,6 +38,7 @@ function Scene:init(player, mapRow, mapColumn)
     self.gecko.direction = 'up'
     self.gecko:changeState('entity-walk')
     --]]
+    --table.insert(self.entities, self.gecko)
 
     Event.on('left-transition', function()
         if self.currentMap.column ~= 1 then
@@ -117,7 +132,20 @@ function Scene:update(dt)
     if not self.shifting then
         self.player:update(dt)
     end
-    self.gecko:update(dt)
+
+    for i = #self.entities, 1, -1 do
+        local entity = self.entities[i]
+        if not self.entities.offscreen then
+            entity:update(dt)
+        end
+    end
+
+    --self.gecko:update(dt)
+    --[[
+    if self.gecko.offscreen == true then
+        table.remove(self.entities, 1)
+    end
+    --]]
 end
 
 function Scene:render()
@@ -138,7 +166,16 @@ function Scene:render()
         self.player:render()
     end
 
+    for k, entity in pairs(self.entities) do
+        if not entity.offscreen then
+            entity:render()
+        end
+    end
+    --[[
     if self.gecko then
         self.gecko:render()
     end
+    --]]
+    --love.graphics.print('gOffScreen: ' .. tostring(self.gecko.offscreen), 5, 50)
+    love.graphics.print('Entity#: ' .. tostring(#self.entities), 5, 60)
 end

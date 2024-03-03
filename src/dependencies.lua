@@ -24,7 +24,7 @@ require 'src/InsertAnimation'
 require 'src/util'
 require 'src/entity_defs'
 
-pixelFont = love.graphics.newFont('fonts/zeldadxt.ttf', 11)
+pixelFont = love.graphics.newFont('fonts/Pixel.ttf', 8)
 
 
 gTextures = {
