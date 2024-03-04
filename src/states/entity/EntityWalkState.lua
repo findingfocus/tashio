@@ -32,9 +32,11 @@ function EntityWalkState:update(dt)
         --ADD IN BOTTOM RULE AS WELL
        self.entity.offscreen = true
     end
+    --[[
     if self.entity.y > SCREEN_HEIGHT_LIMIT then
         self.entity.offscreen = true
     end
+    --]]
 
     --ADD COLLISION DETECTION AND RESET POSITIONS
 

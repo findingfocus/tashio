@@ -11,10 +11,10 @@ function Scene:init(player, mapRow, mapColumn)
     self.shifting = false
     self.entities = {}
     ---[[
-    for i = 1, 800 do
+    for i = 1, 5 do
         table.insert(self.entities, Entity {
             animations = ENTITY_DEFS['gecko'].animations,
-            x = math.random(VIRTUAL_WIDTH),
+            x = math.random(VIRTUAL_WIDTH - 16),
             y = math.random(SCREEN_HEIGHT_LIMIT, SCREEN_HEIGHT_LIMIT + 500),
             width = TILE_SIZE,
             height = TILE_SIZE,
@@ -177,5 +177,6 @@ function Scene:render()
     end
     --]]
     --love.graphics.print('gOffScreen: ' .. tostring(self.gecko.offscreen), 5, 50)
-    love.graphics.print('Entity#: ' .. tostring(#self.entities), 5, 60)
+    love.graphics.setFont(classicFont)
+    --love.graphics.print('Entity#: ' .. tostring(#self.entities), 5, 60)
 end

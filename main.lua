@@ -3,14 +3,13 @@ require 'src/dependencies'
 function love.load()
 	love.graphics.setDefaultFilter('nearest', 'nearest')
 
-	love.window.setTitle('Tashio TempoX')
+	love.window.setTitle('Tashio Tempo')
 
     love.mouse.setVisible(false)
 
     math.randomseed(os.time())
 
 	love.graphics.setFont(pixelFont)
-
 
 	push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
 		vsync = true,
@@ -87,7 +86,7 @@ function love.draw()
 end
 
 function displayFPS()
-	love.graphics.setFont(pixelFont)
+	love.graphics.setFont(classicFont)
 	love.graphics.setColor(BLACK)
 	love.graphics.print(tostring(love.timer.getFPS()), 0, VIRTUAL_HEIGHT - 12)
 end

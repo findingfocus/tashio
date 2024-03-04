@@ -14,6 +14,14 @@ function PlayState:init()
         ['player-idle'] = function() return PlayerIdleState(self.player) end,
     }
     self.player:changeState('player-idle')
+    self.manis = 100
+    self.manisMax = 100
+    self.manisDrain = 0.45
+    self.manisRegen = 1.2
+    self.focusIndicatorX = 0
+    self.focusMax = 1.5
+    self.unFocus = 0
+    self.unFocusGrowing = true
     ninetyDegrees = math.rad(90)
     oneEightyDegrees = math.rad(180)
     twoSeventyDegress = math.rad(270)
@@ -28,6 +36,59 @@ function PlayState:init()
 end
 
 function PlayState:update(dt)
+    --UNFOCUS
+    if (self.unFocus < self.focusMax) and self.unFocusGrowing then
+        self.unFocus = self.unFocus + 0.15
+    end
+
+    if self.unFocus >= self.focusMax then
+        self.unFocus = self.focusMax
+        self.unFocusGrowing = false
+    end
+
+    if (self.unFocus <= self.focusMax) and not self.unFocusGrowing then
+        self.unFocus = self.unFocus - 0.15
+    end
+
+    if self.unFocus <= 0 then
+        self.unFocus = 0
+        self.unFocusGrowing = true
+    end
+    --FOCUS GAIN
+    if love.keyboard.isDown('space') then
+        self.focusIndicatorX = math.max(self.focusIndicatorX - self.manisDrain + self.unFocus, 0)
+        if self.manis == 0 then
+            self.focusIndicatorX = math.max(self.focusIndicatorX - self.manisDrain - self.unFocus, 0)
+        end
+    else
+        self.focusIndicatorX = math.max(self.focusIndicatorX - self.manisDrain - self.unFocus, 0)
+    end
+
+
+
+
+    if love.keyboard.isDown('space') then
+        --MANIS DRAIN
+        self.manis = math.max(self.manis - 0.5, 0)
+
+        if self.manis > 0 then
+            --FOCUS INDICATOR RISING
+            self.focusIndicatorX = math.min(self.focusIndicatorX + self.unFocus, self.manisMax - 2)
+            self.focusIndicatorX = math.min(self.focusIndicatorX + 1.2, self.manisMax - 2)
+        elseif self.manis == 0 then
+            --DRAINING FOCUS WHEN NO MANIS
+            self.focusIndicatorX = math.max(self.focusIndicatorX - self.manisDrain, 0)
+        end
+    elseif self.manis < self.manisMax then --IF SPACE ISNT HELD
+        --MANIS REGEN
+        self.manis = math.min(self.manis + 0.1, self.manisMax)
+        --UNFOCUS DRAIN
+        --self.unFocus = math.max(self.unFocus - 0.15, 0)
+    end
+
+
+
+
     cameraX = cameraX + 1
     sceneView:update(dt)
 
@@ -43,12 +104,37 @@ function PlayState:render()
     love.graphics.pop()
 
     --HUD RENDER
-    love.graphics.setColor(YELLOW)
+    love.graphics.setColor(142/255, 146/255, 171/255, 255/255)
     love.graphics.rectangle('fill', 0, VIRTUAL_HEIGHT - 16, VIRTUAL_WIDTH, 16)
-    love.graphics.setColor(BLACK)
 
-	love.graphics.setFont(pixelFont)
-    love.graphics.printf('TASHIO TEMPO', 0, VIRTUAL_HEIGHT - 15, VIRTUAL_WIDTH, 'center')
+    --MANIS BAR RENDER
+    love.graphics.setColor(255/255, 0/255, 0/255, 255/255)
+    love.graphics.rectangle('fill', 0, SCREEN_HEIGHT_LIMIT, self.manis, 2)
+
+    --CAST BAR RENDER
+    love.graphics.setColor(BLACK)
+    love.graphics.rectangle('fill', 0, SCREEN_HEIGHT_LIMIT + 2, 100, 2)
+
+    --SUCCESSFUL CAST RANGE
+    love.graphics.setColor(GREEN)
+    love.graphics.rectangle('fill', 65, SCREEN_HEIGHT_LIMIT + 2, 20, 2)
+
+    --FOCUS INDICATOR
+    love.graphics.setColor(WHITE)
+    love.graphics.rectangle('fill', self.focusIndicatorX, SCREEN_HEIGHT_LIMIT + 2, 2, 2)
+
+    --DEBUG MANIS SPELLCASTING
+    --[[
+    love.graphics.print('unFocus: ' .. tostring(self.unFocus), 5, SCREEN_HEIGHT_LIMIT - 15)
+    love.graphics.print('unFocusGrowing: ' .. tostring(self.unFocusGrowing), 5, SCREEN_HEIGHT_LIMIT - 25)
+    love.graphics.print('focusIndicatorX: ' .. tostring(self.focusIndicatorX), 5, SCREEN_HEIGHT_LIMIT - 35)
+    --]]
+
+
+
+	love.graphics.setFont(classicFont)
+    love.graphics.setColor(BLACK)
+    love.graphics.printf('Tashio Tempo', 0, VIRTUAL_HEIGHT - 15, VIRTUAL_WIDTH, 'center')
     if love.keyboard.isDown('up') then
         love.graphics.setColor(FADED)
         love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 16, SCREEN_HEIGHT_LIMIT - 11 + KEYLOGGER_YOFFSET, 0, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --UP
