@@ -20,6 +20,9 @@ X_Populate ALL Maps in global MAP[][]
 X_Spritesheet additions --BIGGER MASTER SPRITE SHEET, currently 284x284
 X_Fix the direction of player upon multiple input on scene transition
 __Handle three and four inputs better, maybe change direciton for the fourth input?
+__Add gecko directions
+__Add new bricks
+__Make Purple Fire Sprites
 
 Next Episode
 __Should we render player in scene class? Currently in playstate
