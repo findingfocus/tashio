@@ -19,16 +19,15 @@ X_Prevent event dispatch if scene transitioning
 X_Populate ALL Maps in global MAP[][]
 X_Spritesheet additions --BIGGER MASTER SPRITE SHEET, currently 284x284
 X_Fix the direction of player upon multiple input on scene transition
-__Handle three and four inputs better, maybe change direciton for the fourth input?
-__Add gecko directions
+X_Handle three and four inputs better, maybe change direciton for the fourth input?
+X_Add gecko directions
 __Add new bricks
 __Make Purple Fire Sprites
 
 Next Episode
-__Should we render player in scene class? Currently in playstate
+__Add in MapObject class with collision detection
 
 Research
-__Entity tracking for grids outside of our view
 
 Todo
 __add left and right sprite to our player class

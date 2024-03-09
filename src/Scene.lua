@@ -10,17 +10,19 @@ function Scene:init(player, mapRow, mapColumn)
     self.cameraY = 0
     self.shifting = false
     self.entities = {}
-    ---[[
-    for i = 1, 5 do
+    self.possibleDirections = {'left', 'right', 'up', 'down'}
+
+    for i = 1, 12 do
+        local randomIndex = math.random(4)
         table.insert(self.entities, Entity {
             animations = ENTITY_DEFS['gecko'].animations,
-            x = math.random(VIRTUAL_WIDTH - 16),
-            y = math.random(SCREEN_HEIGHT_LIMIT, SCREEN_HEIGHT_LIMIT + 500),
+            x = math.random(VIRTUAL_WIDTH / 2 - 20, VIRTUAL_WIDTH / 2 + 20),
+            y = math.random(VIRTUAL_HEIGHT / 2 - 20, VIRTUAL_HEIGHT / 2 + 20),
             width = TILE_SIZE,
             height = TILE_SIZE,
         })
 
-        self.entities[i].direction = 'up'
+        self.entities[i].direction = self.possibleDirections[randomIndex]
 
         self.entities[i].stateMachine = StateMachine {
             ['entity-walk'] = function() return EntityWalkState(self.entities[i], self) end,
@@ -29,16 +31,6 @@ function Scene:init(player, mapRow, mapColumn)
 
         self.entities[i]:changeState('entity-walk')
     end
-
-    --[[
-    self.gecko.stateMachine = StateMachine {
-        ['entity-walk'] = function() return EntityWalkState(self.gecko, self.scene) end,
-        ['entity-idle'] = function() return EntityIdleState(self.gecko) end,
-    }
-    self.gecko.direction = 'up'
-    self.gecko:changeState('entity-walk')
-    --]]
-    --table.insert(self.entities, self.gecko)
 
     Event.on('left-transition', function()
         if self.currentMap.column ~= 1 then
@@ -171,11 +163,6 @@ function Scene:render()
             entity:render()
         end
     end
-    --[[
-    if self.gecko then
-        self.gecko:render()
-    end
-    --]]
     --love.graphics.print('gOffScreen: ' .. tostring(self.gecko.offscreen), 5, 50)
     love.graphics.setFont(classicFont)
     --love.graphics.print('Entity#: ' .. tostring(#self.entities), 5, 60)

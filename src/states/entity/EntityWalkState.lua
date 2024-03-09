@@ -2,8 +2,7 @@ EntityWalkState = Class{__includes = BaseState}
 
 function EntityWalkState:init(entity, scene)
     self.entity = entity
-
-    self.entity:changeAnimation('walk-up')
+    self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
     self.entity.walkSpeed = 1
 
     self.scene = scene

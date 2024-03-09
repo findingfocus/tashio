@@ -63,6 +63,3 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
     self.stateMachine:render()
     self.x, self.y = self.x - (adjacentOffsetX or 0), self.y - (adjacentOffsetY or 0)
 end
-
-
-

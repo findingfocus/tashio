@@ -6,15 +6,18 @@ from PIL import ImageFont
 from PIL import ImageDraw
 
 # size of tile sheet on Y and X axis in tiles; replace these with something positive
-TILES_HIGH = 32
-TILES_WIDE = 32
+#TILES_HIGH = 32
+#TILES_WIDE = 32
+TILES_HIGH = 4
+TILES_WIDE = 5
 
 TILE_SIZE = 16
 
 if __name__ == '__main__':
 
     # replace 'tiles.png' with your sprite sheet
-    img = Image.open('masterSheet.png')
+    img = Image.open('geckoAtlas.png')
+    #img = Image.open('masterSheet.png')
     draw = ImageDraw.Draw(img)
 
     # custom small font, good for small tile sets
