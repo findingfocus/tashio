@@ -21,6 +21,7 @@ require 'src/Map'
 require 'src/MapDeclarations'
 require 'src/AnimSpitter'
 require 'src/InsertAnimation'
+require 'src/CollidableMapObjects'
 require 'src/util'
 require 'src/entity_defs'
 
