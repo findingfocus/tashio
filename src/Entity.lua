@@ -31,11 +31,22 @@ function Entity:createAnimations(animations)
 end
 
 function Entity:collides(target)
-    if self.x > target.x + target.width and self.x + self.width < target.x and self.y > target.y + target.width and self.y + self.height < target.y then
-        return false
+    --[[
+    if self.x < target.x + target.width and self.x + self.width > target.x then
+        if self.y < target.y + target.height and self.y + self.height > target.y then
+            return true
+        else
+            return false
+        end
     else
-        return true
+        return false
     end
+    --]]
+    --
+    ---[[
+    return not (self.x + self.width < target.x or self.x > target.x + target.width or
+                self.y + self.height < target.y or self.y > target.y + target.height)
+                --]]
 end
 
 function Entity:changeState(name)

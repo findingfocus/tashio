@@ -21,6 +21,9 @@ X_Spritesheet additions --BIGGER MASTER SPRITE SHEET, currently 284x284
 X_Fix the direction of player upon multiple input on scene transition
 X_Handle three and four inputs better, maybe change direciton for the fourth input?
 X_Add gecko directions
+__Find animation bug for walking through transition
+__shrinkage for our collision detection
+__97 THROUGH 224
 __Add new bricks
 __Make Purple Fire Sprites
 

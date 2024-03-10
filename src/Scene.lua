@@ -11,6 +11,7 @@ function Scene:init(player, mapRow, mapColumn)
     self.shifting = false
     self.entities = {}
     self.possibleDirections = {'left', 'right', 'up', 'down'}
+    self.object = CollidableMapObjects(1, 1)
 
     for i = 1, 12 do
         local randomIndex = math.random(4)
@@ -138,6 +139,7 @@ function Scene:update(dt)
         table.remove(self.entities, 1)
     end
     --]]
+    collide = self.player:collides(self.object)
 end
 
 function Scene:render()
@@ -166,4 +168,24 @@ function Scene:render()
     --love.graphics.print('gOffScreen: ' .. tostring(self.gecko.offscreen), 5, 50)
     love.graphics.setFont(classicFont)
     --love.graphics.print('Entity#: ' .. tostring(#self.entities), 5, 60)
+    love.graphics.print('collidables: ' .. tostring(#self.currentMap.collidableMapObjects), 5, 5)
+    --[[
+    love.graphics.print('collide: ' .. tostring(collide), 5, 15)
+    love.graphics.print(tostring(self.object.y), 5, 25)
+    love.graphics.print(tostring(self.object.x), 5, 35)
+    love.graphics.print(tostring(self.object.width), 5, 45)
+    love.graphics.print(tostring(self.object.height), 5, 55)
+    --]]
+    ---[[
+    for i = 1, #self.currentMap.collidableMapObjects do
+        if self.player:collides(self.currentMap.collidableMapObjects[i]) then
+            love.graphics.setColor(RED)
+            love.graphics.rectangle('fill',
+                self.currentMap.collidableMapObjects[i].x,
+                self.currentMap.collidableMapObjects[i].y,
+                self.currentMap.collidableMapObjects[i].width,
+                self.currentMap.collidableMapObjects[i].height)
+        end
+    end
+    --]]
 end
