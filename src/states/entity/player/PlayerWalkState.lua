@@ -64,7 +64,7 @@ function PlayerWalkState:update(dt)
                 self.player:changeAnimation('idle-' .. tostring(INPUT_LIST[#INPUT_LIST]))
             else
                 self.player.direction = 'down'
-                self.player.y = math.min(self.player.y + self.player.walkSpeed, SCREEN_HEIGHT_LIMIT - self.player.height)
+                self.player.y = math.min(self.player.y + self.player.walkSpeed, SCREEN_HEIGHT_LIMIT + BOTTOM_BUFFER - self.player.height)
             end
         end
     end

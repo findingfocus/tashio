@@ -11,7 +11,6 @@ function Scene:init(player, mapRow, mapColumn)
     self.shifting = false
     self.entities = {}
     self.possibleDirections = {'left', 'right', 'up', 'down'}
-    self.object = CollidableMapObjects(1, 1)
 
     for i = 1, 12 do
         local randomIndex = math.random(4)
@@ -60,27 +59,28 @@ function Scene:init(player, mapRow, mapColumn)
 end
 
 function Scene:beginShifting(shiftX, shiftY)
+    self.currentMap.collidableMapObjects = {}
     self.shifting = true
     self.nextMap.adjacentOffsetY = shiftY
     self.nextMap.adjacentOffsetX = shiftX
 
     ---[[
     if shiftX < 0 then --WHERE PLAYER ENDS UP ON SCREEN
-        playerX = VIRTUAL_WIDTH - self.player.width - EDGE_BUFFER_PLAYER
+        playerX = VIRTUAL_WIDTH - self.player.width
         playerY = self.player.y
         --self.nextMap = MAP[1][2] --CHANGE TO BE ARITHMETIC INSTEAD OF HARD CODED
     elseif shiftX > 0 then
-        playerX = EDGE_BUFFER_PLAYER
+        playerX = 0
         playerY = self.player.y
     elseif shiftY < 0 then -- SHIFT UP
         self.nextMap.adjacentOffsetY = self.nextMap.adjacentOffsetY + 16
         shiftY = shiftY + 16
-        playerY = SCREEN_HEIGHT_LIMIT - self.player.height - EDGE_BUFFER_PLAYER
+        playerY = SCREEN_HEIGHT_LIMIT - self.player.height
         playerX = self.player.x
     elseif shiftY > 0 then -- SHIFT DOWN
         self.nextMap.adjacentOffsetY = self.nextMap.adjacentOffsetY - 16
         shiftY = shiftY- 16
-        playerY = EDGE_BUFFER_PLAYER
+        playerY = 0
         playerX = self.player.x
     end
 
@@ -139,7 +139,6 @@ function Scene:update(dt)
         table.remove(self.entities, 1)
     end
     --]]
-    collide = self.player:collides(self.object)
 end
 
 function Scene:render()
@@ -167,24 +166,40 @@ function Scene:render()
     end
     --love.graphics.print('gOffScreen: ' .. tostring(self.gecko.offscreen), 5, 50)
     love.graphics.setFont(classicFont)
-    --love.graphics.print('Entity#: ' .. tostring(#self.entities), 5, 60)
-    love.graphics.print('collidables: ' .. tostring(#self.currentMap.collidableMapObjects), 5, 5)
-    --[[
-    love.graphics.print('collide: ' .. tostring(collide), 5, 15)
-    love.graphics.print(tostring(self.object.y), 5, 25)
-    love.graphics.print(tostring(self.object.x), 5, 35)
-    love.graphics.print(tostring(self.object.width), 5, 45)
-    love.graphics.print(tostring(self.object.height), 5, 55)
-    --]]
     ---[[
     for i = 1, #self.currentMap.collidableMapObjects do
-        if self.player:collides(self.currentMap.collidableMapObjects[i]) then
+        local object = self.currentMap.collidableMapObjects[i]
+        if self.player:topCollides(self.currentMap.collidableMapObjects[i]) then
+            self.player.y = object.y + object.height
+        end
+        if self.player:bottomCollides(self.currentMap.collidableMapObjects[i]) then
+            self.player.y = object.y - self.player.height
+        end
+        if self.player:rightCollides(self.currentMap.collidableMapObjects[i]) then
+            self.player.x = object.x - self.player.width
+        end
+        if self.player:leftCollides(self.currentMap.collidableMapObjects[i]) then
+            self.player.x = object.x + object.width
+        end
+    end
+    --]]
+    --[[
+    for i = 1, #self.currentMap.collidableMapObjects do
+        if self.player:topCollides(self.currentMap.collidableMapObjects[i]) then
             love.graphics.setColor(RED)
-            love.graphics.rectangle('fill',
-                self.currentMap.collidableMapObjects[i].x,
-                self.currentMap.collidableMapObjects[i].y,
-                self.currentMap.collidableMapObjects[i].width,
-                self.currentMap.collidableMapObjects[i].height)
+            love.graphics.rectangle('fill', self.player.x + 2, self.player.y, TILE_SIZE - 4, 2)
+        end
+        if self.player:bottomCollides(self.currentMap.collidableMapObjects[i]) then
+            love.graphics.setColor(RED)
+            love.graphics.rectangle('fill', self.player.x + 2, self.player.y + self.player.height - COLLISION_BUFFER, TILE_SIZE - 4, 2)
+        end
+        if self.player:leftCollides(self.currentMap.collidableMapObjects[i]) then
+            love.graphics.setColor(RED)
+            love.graphics.rectangle('fill', self.player.x, self.player.y + COLLISION_BUFFER, 2, TILE_SIZE - 4)
+        end
+        if self.player:rightCollides(self.currentMap.collidableMapObjects[i]) then
+            love.graphics.setColor(RED)
+            love.graphics.rectangle('fill', self.player.x + self.player.width - COLLISION_BUFFER, self.player.y + COLLISION_BUFFER, 2, TILE_SIZE - 4)
         end
     end
     --]]

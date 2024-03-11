@@ -93,7 +93,7 @@ function PlayState:update(dt)
     sceneView:update(dt)
 
     rotate = rotate + .05
-    love.window.setPosition(400, 90)
+    love.window.setPosition(390, 80)
 end
 
 function PlayState:render()

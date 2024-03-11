@@ -7,7 +7,7 @@ function Map:init(row, column)
     self.adjacentOffsetX = 0
     self.adjacentOffsetY = 0
     self.renderOffsetY = MAP_RENDER_OFFSET_Y
-    self.insertAnimations = InsertAnimation(self.row, self.column)
+    --self.insertAnimations = InsertAnimation(self.row, self.column)
     count = 1
     for y = 1, MAP_HEIGHT do
         table.insert(self.tiles, {})
@@ -36,7 +36,7 @@ function Map:init(row, column)
 end
 
 function Map:update(dt)
-    self.insertAnimations:update(dt)
+    --self.insertAnimations:update(dt)
 end
 
 function Map:render()

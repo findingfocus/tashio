@@ -85,7 +85,7 @@ function Player:update(dt)
         end
 
         if love.keyboard.isDown('down') then
-            if self.y + self.height >= SCREEN_HEIGHT_LIMIT then
+            if self.y + self.height >= SCREEN_HEIGHT_LIMIT + BOTTOM_BUFFER then
                 Event.dispatch('down-transition')
             end
         end
