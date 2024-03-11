@@ -26,6 +26,7 @@ __shrinkage for our collision detection
 __97 THROUGH 224
 __Add new bricks
 __Make Purple Fire Sprites
+__add perspective based collision detection for map objects
 
 Next Episode
 __Add in MapObject class with collision detection

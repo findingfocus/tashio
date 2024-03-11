@@ -31,22 +31,28 @@ function Entity:createAnimations(animations)
 end
 
 function Entity:collides(target)
-    --[[
-    if self.x < target.x + target.width and self.x + self.width > target.x then
-        if self.y < target.y + target.height and self.y + self.height > target.y then
-            return true
-        else
-            return false
-        end
-    else
-        return false
-    end
-    --]]
-    --
-    ---[[
-    return not (self.x + self.width < target.x or self.x > target.x + target.width or
-                self.y + self.height < target.y or self.y > target.y + target.height)
-                --]]
+    return not (self.x + self.width - COLLISION_BUFFER < target.x or self.x + COLLISION_BUFFER > target.x + target.width or
+                self.y + self.height - COLLISION_BUFFER < target.y or self.y + COLLISION_BUFFER > target.y + target.height)
+end
+
+function Entity:leftCollides(target)
+    return not (self.x > target.x + target.width or self.x + COLLISION_BUFFER < target.x or
+                self.y + COLLISION_BUFFER > target.y + target.height or self.y + self.height - COLLISION_BUFFER < target.y)
+end
+
+function Entity:rightCollides(target)
+    return not (self.x + self.width - COLLISION_BUFFER > target.x + target.width or self.x + self.width < target.x or
+                self.y + COLLISION_BUFFER > target.y + target.height or self.y + self.height - COLLISION_BUFFER < target.y)
+end
+
+function Entity:topCollides(target)
+    return not (self.x + self.width - COLLISION_BUFFER < target.x or self.x + COLLISION_BUFFER > target.x + target.width or
+                self.y + COLLISION_BUFFER < target.y or self.y > target.y + target.height)
+end
+
+function Entity:bottomCollides(target)
+    return not (self.x + self.width - COLLISION_BUFFER < target.x or self.x + COLLISION_BUFFER > target.x + target.width or
+                self.y + self.height < target.y or self.y + self.height - COLLISION_BUFFER > target.y + target.height)
 end
 
 function Entity:changeState(name)
