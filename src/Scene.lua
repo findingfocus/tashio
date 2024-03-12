@@ -133,12 +133,22 @@ function Scene:update(dt)
         end
     end
 
-    --self.gecko:update(dt)
-    --[[
-    if self.gecko.offscreen == true then
-        table.remove(self.entities, 1)
+    for i = 1, #self.currentMap.collidableMapObjects do
+        local object = self.currentMap.collidableMapObjects[i]
+
+        if self.player:leftCollidesMapObject(self.currentMap.collidableMapObjects[i]) then
+            self.player.x = object.x + object.width - 1
+        end
+        if self.player:rightCollidesMapObject(self.currentMap.collidableMapObjects[i]) then
+            self.player.x = object.x - self.player.width + 1
+        end
+        if self.player:topCollidesMapObject(self.currentMap.collidableMapObjects[i]) then
+            self.player.y = object.y + object.height - 6
+        end
+        if self.player:bottomCollidesMapObject(self.currentMap.collidableMapObjects[i]) then
+            self.player.y = object.y - self.player.height
+        end
     end
-    --]]
 end
 
 function Scene:render()
@@ -167,21 +177,6 @@ function Scene:render()
     --love.graphics.print('gOffScreen: ' .. tostring(self.gecko.offscreen), 5, 50)
     love.graphics.setFont(classicFont)
     ---[[
-    for i = 1, #self.currentMap.collidableMapObjects do
-        local object = self.currentMap.collidableMapObjects[i]
-        if self.player:topCollides(self.currentMap.collidableMapObjects[i]) then
-            self.player.y = object.y + object.height
-        end
-        if self.player:bottomCollides(self.currentMap.collidableMapObjects[i]) then
-            self.player.y = object.y - self.player.height
-        end
-        if self.player:rightCollides(self.currentMap.collidableMapObjects[i]) then
-            self.player.x = object.x - self.player.width
-        end
-        if self.player:leftCollides(self.currentMap.collidableMapObjects[i]) then
-            self.player.x = object.x + object.width
-        end
-    end
     --]]
     --[[
     for i = 1, #self.currentMap.collidableMapObjects do

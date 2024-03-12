@@ -35,24 +35,24 @@ function Entity:collides(target)
                 self.y + self.height - COLLISION_BUFFER < target.y or self.y + COLLISION_BUFFER > target.y + target.height)
 end
 
-function Entity:leftCollides(target)
-    return not (self.x > target.x + target.width or self.x + COLLISION_BUFFER < target.x or
-                self.y + COLLISION_BUFFER > target.y + target.height or self.y + self.height - COLLISION_BUFFER < target.y)
+function Entity:leftCollidesMapObject(target)
+    return not (self.x + 1 > target.x + target.width or self.x + 3 < target.x or
+                self.y + 8 > target.y + target.height or self.y + self.height - 2 < target.y)
 end
 
-function Entity:rightCollides(target)
-    return not (self.x + self.width - COLLISION_BUFFER > target.x + target.width or self.x + self.width < target.x or
-                self.y + COLLISION_BUFFER > target.y + target.height or self.y + self.height - COLLISION_BUFFER < target.y)
+function Entity:rightCollidesMapObject(target)
+    return not (self.x + self.width - 3 > target.x + target.width or self.x + self.width - 1 < target.x or
+                self.y + 8 > target.y + target.height or self.y + self.height - 2 < target.y)
 end
 
-function Entity:topCollides(target)
-    return not (self.x + self.width - COLLISION_BUFFER < target.x or self.x + COLLISION_BUFFER > target.x + target.width or
-                self.y + COLLISION_BUFFER < target.y or self.y > target.y + target.height)
+function Entity:topCollidesMapObject(target)
+    return not (self.x + 3 > target.x + target.width or self.x + self.width - 3 < target.x or
+                self.y + 6 > target.y + target.height or self.y + 8 < target.y)
 end
 
-function Entity:bottomCollides(target)
-    return not (self.x + self.width - COLLISION_BUFFER < target.x or self.x + COLLISION_BUFFER > target.x + target.width or
-                self.y + self.height < target.y or self.y + self.height - COLLISION_BUFFER > target.y + target.height)
+function Entity:bottomCollidesMapObject(target)
+    return not (self.x + 3 > target.x + target.width or self.x + self.width - 3 < target.x or
+                self.y + self.height - 2 > target.y + target.height or self.y + self.height < target.y)
 end
 
 function Entity:changeState(name)
