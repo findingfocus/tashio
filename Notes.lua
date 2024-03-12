@@ -21,24 +21,27 @@ X_Spritesheet additions --BIGGER MASTER SPRITE SHEET, currently 284x284
 X_Fix the direction of player upon multiple input on scene transition
 X_Handle three and four inputs better, maybe change direciton for the fourth input?
 X_Add gecko directions
-__Find animation bug for walking through transition
-__shrinkage for our collision detection
+X_shrinkage for our collision detection
 __97 THROUGH 224
 __Add new bricks
 __Make Purple Fire Sprites
 __add perspective based collision detection for map objects
+__stilken idea for walking partially behind sprites
+__Find animation bug for walking through transition
+__Think about refactoring animation spitter
 
 Next Episode
-__Add in MapObject class with collision detection
+X_Add in MapObject class with collision detection
 
 Research
 
 Todo
+__Add pushing sprites, as well as pushing animation state
 __add left and right sprite to our player class
-__draw gecko on scene
+X_draw gecko on scene
 __Rid sand drawable for masterSheet sand
-__BIG EPISODE ENTITY SYSTEM IMPLEMENTATION
-__Collision detection for map
+X_BIG EPISODE ENTITY SYSTEM IMPLEMENTATION
+X_Collision detection for map
 __Add case insensitivity to our chatbot command listens
 __Add 3 health Heart to HUD
 __Inventory system
