@@ -12,6 +12,20 @@ function Scene:init(player, mapRow, mapColumn)
     self.entities = {}
     self.possibleDirections = {'left', 'right', 'up', 'down'}
 
+    --[[
+    for i = 1, 80 do
+        if MAP[self.currentMap.row][self.currentMap.column][i] == FLOWER then
+
+        end
+    end
+
+    for i = 1, MAP_HEIGHT do
+        for j = 1, MAP_WIDTH do
+            MAP[i][j]
+        end
+    end
+    --]]
+
     for i = 1, 12 do
         local randomIndex = math.random(4)
         table.insert(self.entities, Entity {
