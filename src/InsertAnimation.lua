@@ -4,7 +4,7 @@ function InsertAnimation:init(mapRow, mapColumn)
     self.mapRow = mapRow
     self.mapColumn = mapColumn
     self.flowers = AnimSpitter(1012, 1015, 0.75)
-    self.animatables = {}
+    --self.animatables = {}
 
     --[[
     self.func = {}
@@ -20,17 +20,20 @@ function InsertAnimation:init(mapRow, mapColumn)
     table.insert(MAP[1][2].animatables, function() insertAnim(3, 3, self.flowers.frame) end)
     table.insert(MAP[1][2].animatables, function() insertAnim(3, 4, self.flowers.frame) end)
 
+    table.insert(MAP[2][1].animatables, function() insertAnim(2, 2, self.flowers.frame) end)
 
 
+    --[[
     for i = 1, #MAP[self.mapRow][self.mapColumn].animatables do
         table.insert(self.animatables, MAP[self.mapRow][self.mapColumn].animatables[i])
     end
+    --]]
 end
 
 function InsertAnimation:update(dt)
     self.flowers:update(dt)
 
-    for i = 1, #self.animatables do
+    for i = 1, #MAP[self.mapRow][self.mapColumn].animatables do
         MAP[self.mapRow][self.mapColumn].animatables[i]()
     end
     

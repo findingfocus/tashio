@@ -22,8 +22,8 @@ X_Fix the direction of player upon multiple input on scene transition
 X_Handle three and four inputs better, maybe change direciton for the fourth input?
 X_Add gecko directions
 X_shrinkage for our collision detection
-__97 THROUGH 224
-__Add new bricks
+X_97 THROUGH 224
+X_Add new bricks
 __Make Purple Fire Sprites
 __add perspective based collision detection for map objects
 __stilken idea for walking partially behind sprites
@@ -36,10 +36,13 @@ X_Add in MapObject class with collision detection
 Research
 
 Todo
+__Add game objects to pickup
+__New holding item animation state for player
+_Casting spell sprites
 __Add pushing sprites, as well as pushing animation state
 __add left and right sprite to our player class
-X_draw gecko on scene
 __Rid sand drawable for masterSheet sand
+X_draw gecko on scene
 X_BIG EPISODE ENTITY SYSTEM IMPLEMENTATION
 X_Collision detection for map
 __Add case insensitivity to our chatbot command listens
