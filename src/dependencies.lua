@@ -13,6 +13,7 @@ require 'src/states/entity/EntityWalkState'
 require 'src/states/entity/player/PlayerIdleState'
 require 'src/states/entity/player/PlayerWalkState'
 
+require 'src/Animatables'
 require 'src/Entity'
 require 'src/Animation'
 require 'src/Player'

@@ -22,12 +22,10 @@ function love.load()
 		['playState'] = function() return PlayState() end,
 	}
 
-
 	gStateMachine:change('playState')
 
 	love.keyboard.keysPressed = {}
     love.keyboard.keysReleased = {}
-
 end
 
 function love.resize(w, h)
