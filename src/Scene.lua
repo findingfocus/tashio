@@ -11,6 +11,10 @@ function Scene:init(player, mapRow, mapColumn)
     self.shifting = false
     self.entities = {}
     self.possibleDirections = {'left', 'right', 'up', 'down'}
+    time = 0
+    x = 0
+    rotate = 0
+
 
     --[[
     for i = 1, 80 do
@@ -135,6 +139,10 @@ function Scene:finishShifting()
 end
 
 function Scene:update(dt)
+    time = time + dt
+    --rotate = rotate + dt
+    x =  math.cos(time * 5) * 20 + 5
+    y = math.sin(time * 5) * 20 + 5
     self.currentMap:update(dt)
     if not self.shifting then
         self.player:update(dt)
@@ -212,4 +220,9 @@ function Scene:render()
         end
     end
     --]]
+    love.graphics.setColor(WHITE)
+    love.graphics.draw(orb, self.player.x + x, self.player.y + y)
+    love.graphics.print('rotate: ' .. tostring(rotate), 5, 5)
+    love.graphics.print('x: ' .. string.format("%.2f", x), 5, 15)
+    love.graphics.print('y: ' .. string.format("%.2f", y), 5, 25)
 end
