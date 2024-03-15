@@ -29,6 +29,9 @@ __add perspective based collision detection for map objects
 __stilken idea for walking partially behind sprites
 __Find animation bug for walking through transition
 __Think about refactoring animation spitter
+__Stop updating orbs on scene transition
+__HUD overlay
+__What do elements look like
 
 Next Episode
 X_Add in MapObject class with collision detection

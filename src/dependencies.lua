@@ -29,6 +29,8 @@ require 'src/entity_defs'
 pixelFont = love.graphics.newFont('fonts/Pixel.ttf', 8)
 classicFont = love.graphics.newFont('fonts/classic.ttf', 8)
 
+orb = love.graphics.newImage('graphics/orb.png')
+
 gTextures = {
     ['character-walk'] = love.graphics.newImage('graphics/playerAtlas.png'),
     ['gecko'] = love.graphics.newImage('graphics/geckoAtlas.png'),
