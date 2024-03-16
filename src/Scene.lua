@@ -10,12 +10,14 @@ function Scene:init(player, mapRow, mapColumn)
     self.cameraY = 0
     self.shifting = false
     self.entities = {}
+    self.spellcastEntities = {}
     self.possibleDirections = {'left', 'right', 'up', 'down'}
+    local flameCount = 3
     time = 0
+    --[[
     x = 0
     rotate = 0
-
-
+    --]]
     --[[
     for i = 1, 80 do
         if MAP[self.currentMap.row][self.currentMap.column][i] == FLOWER then
@@ -29,6 +31,19 @@ function Scene:init(player, mapRow, mapColumn)
         end
     end
     --]]
+    for i = 1, flameCount do
+        table.insert(self.spellcastEntities, Entity {
+            animations = ENTITY_DEFS['spellcast'].animations,
+            x = 25,
+            y = 25,
+            width = TILE_SIZE,
+            height = TILE_SIZE,
+        })
+        self.spellcastEntities[i].stateMachine = StateMachine {
+            ['flame-idle'] = function() return FlameIdle(self.spellcastEntities[i], self) end,
+        }
+        self.spellcastEntities[i]:changeState('flame-idle')
+    end
 
     for i = 1, 12 do
         local randomIndex = math.random(4)
@@ -139,10 +154,12 @@ function Scene:finishShifting()
 end
 
 function Scene:update(dt)
+    --[[
     time = time + dt
     --rotate = rotate + dt
     x =  math.cos(time * 5) * 20 + 5
     y = math.sin(time * 5) * 20 + 5
+    --]]
     self.currentMap:update(dt)
     if not self.shifting then
         self.player:update(dt)
@@ -153,6 +170,10 @@ function Scene:update(dt)
         if not self.entities.offscreen then
             entity:update(dt)
         end
+    end
+
+    for i = 1, 3 do
+        self.spellcastEntities[i]:update(dt)
     end
 
     for i = 1, #self.currentMap.collidableMapObjects do
@@ -196,6 +217,13 @@ function Scene:render()
             entity:render()
         end
     end
+
+    --self.spellcastEntities[1]:render()
+    for i = 1, flameCount do
+        self.spellcastEntities[i]:render()
+    end
+    --love.graphics.print('x: ' .. string.format("%.2f", self.spellcastEntities[1].x), 5, 15)
+    --love.graphics.print('circleX: ' .. string.format("%.2f", self.spellcastEntities[1].circleX), 5, 25)
     --love.graphics.print('gOffScreen: ' .. tostring(self.gecko.offscreen), 5, 50)
     love.graphics.setFont(classicFont)
     ---[[
@@ -221,8 +249,10 @@ function Scene:render()
     end
     --]]
     love.graphics.setColor(WHITE)
-    love.graphics.draw(orb, self.player.x + x, self.player.y + y)
+    --love.graphics.draw(orb, self.player.x + x, self.player.y + y)
+    --[[
     love.graphics.print('rotate: ' .. tostring(rotate), 5, 5)
     love.graphics.print('x: ' .. string.format("%.2f", x), 5, 15)
     love.graphics.print('y: ' .. string.format("%.2f", y), 5, 25)
+    --]]
 end
