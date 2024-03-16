@@ -10,6 +10,7 @@ require 'src/states/game/TitleScreenState'
 require 'src/states/game/PlayState'
 require 'src/states/entity/EntityIdleState'
 require 'src/states/entity/EntityWalkState'
+require 'src/states/entity/FlameIdle'
 require 'src/states/entity/player/PlayerIdleState'
 require 'src/states/entity/player/PlayerWalkState'
 
@@ -34,11 +35,13 @@ orb = love.graphics.newImage('graphics/orb.png')
 gTextures = {
     ['character-walk'] = love.graphics.newImage('graphics/playerAtlas.png'),
     ['gecko'] = love.graphics.newImage('graphics/geckoAtlas.png'),
+    ['flame'] = love.graphics.newImage('graphics/flameAtlas.png'),
 }
 
 gFrames = {
     ['character-walk'] = GenerateQuads(gTextures['character-walk'], TILE_SIZE, TILE_SIZE),
     ['gecko'] = GenerateQuads(gTextures['gecko'], TILE_SIZE, TILE_SIZE),
+    ['flame'] = GenerateQuads(gTextures['flame'], TILE_SIZE, TILE_SIZE),
 }
 playerSpriteSheet = love.graphics.newImage('graphics/playerAtlas.png')
 arrowKeyLogger = love.graphics.newImage('graphics/arrowKey.png')

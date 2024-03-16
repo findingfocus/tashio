@@ -43,8 +43,17 @@ ENTITY_DEFS = {
                 frames = {2},
                 interval = 0.3,
                 texture = 'character-walk',
-            }
+            },
         }
+    },
+    ['spellcast'] = {
+        animations = {
+            ['flame'] = {
+                frames = {1, 2, 3, 4, 5},
+                interval = 0.1,
+                texture = 'flame',
+            },
+        },
     },
     ['gecko'] = {
         animations = {

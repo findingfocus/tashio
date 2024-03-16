@@ -8,7 +8,6 @@ function Entity:init(def)
     self.y = def.y
     self.height = def.height
     self.width = def.width
-    self.width = def.width
     self.walkSpeed = def.walkSpeed
     self.offscreen = false
 

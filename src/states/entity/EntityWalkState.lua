@@ -42,7 +42,6 @@ function EntityWalkState:update(dt)
 end
 
 function EntityWalkState:processAI(params, dt)
-    local scene = params.room
     local directions = {'left', 'right', 'up', 'down'}
 
     if self.moveDuration == 0 or self.collided then
