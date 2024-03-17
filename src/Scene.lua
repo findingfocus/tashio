@@ -14,23 +14,6 @@ function Scene:init(player, mapRow, mapColumn)
     self.possibleDirections = {'left', 'right', 'up', 'down'}
     local flameCount = 3
     time = 0
-    --[[
-    x = 0
-    rotate = 0
-    --]]
-    --[[
-    for i = 1, 80 do
-        if MAP[self.currentMap.row][self.currentMap.column][i] == FLOWER then
-
-        end
-    end
-
-    for i = 1, MAP_HEIGHT do
-        for j = 1, MAP_WIDTH do
-            MAP[i][j]
-        end
-    end
-    --]]
     for i = 1, flameCount do
         table.insert(self.spellcastEntities, Entity {
             animations = ENTITY_DEFS['spellcast'].animations,
@@ -137,7 +120,6 @@ function Scene:finishShifting()
     self.nextMap = nil
     self.player.direction = INPUT_LIST[#INPUT_LIST]
     INPUT_LIST = {}
-    ---[[
     if love.keyboard.isDown('left') then
         table.insert(INPUT_LIST, 'left')
     end
@@ -150,16 +132,9 @@ function Scene:finishShifting()
     if love.keyboard.isDown('down') then
         table.insert(INPUT_LIST, 'down')
     end
-    --]]
 end
 
 function Scene:update(dt)
-    --[[
-    time = time + dt
-    --rotate = rotate + dt
-    x =  math.cos(time * 5) * 20 + 5
-    y = math.sin(time * 5) * 20 + 5
-    --]]
     self.currentMap:update(dt)
     if not self.shifting then
         self.player:update(dt)
@@ -222,9 +197,6 @@ function Scene:render()
     for i = 1, flameCount do
         self.spellcastEntities[i]:render()
     end
-    --love.graphics.print('x: ' .. string.format("%.2f", self.spellcastEntities[1].x), 5, 15)
-    --love.graphics.print('circleX: ' .. string.format("%.2f", self.spellcastEntities[1].circleX), 5, 25)
-    --love.graphics.print('gOffScreen: ' .. tostring(self.gecko.offscreen), 5, 50)
     love.graphics.setFont(classicFont)
     ---[[
     --]]
@@ -247,12 +219,5 @@ function Scene:render()
             love.graphics.rectangle('fill', self.player.x + self.player.width - COLLISION_BUFFER, self.player.y + COLLISION_BUFFER, 2, TILE_SIZE - 4)
         end
     end
-    --]]
-    love.graphics.setColor(WHITE)
-    --love.graphics.draw(orb, self.player.x + x, self.player.y + y)
-    --[[
-    love.graphics.print('rotate: ' .. tostring(rotate), 5, 5)
-    love.graphics.print('x: ' .. string.format("%.2f", x), 5, 15)
-    love.graphics.print('y: ' .. string.format("%.2f", y), 5, 25)
     --]]
 end
