@@ -18,8 +18,8 @@ function FlameIdle:update(dt)
 
     local step = math.pi * 2 / flameCount
     for i = 0, flameCount - 1 do
-        self.circleX =  math.cos(time * 3 + i * step) * 20
-        self.circleY = math.sin(time * 3 + i * step) * 20
+        self.circleX =  math.cos(time * 2 + i * step) * 20
+        self.circleY = math.sin(time * 2 + i * step) * 20
     end
     self.entity.x = self.scene.player.x + self.circleX
     self.entity.y = self.scene.player.y + self.circleY

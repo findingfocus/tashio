@@ -24,8 +24,9 @@ X_Add gecko directions
 X_shrinkage for our collision detection
 X_97 THROUGH 224
 X_Add new bricks
-__Make Purple Fire Sprites
-__add perspective based collision detection for map objects
+X_Make Purple Fire Sprites
+X_add perspective based collision detection for map objects
+X_Add in MapObject class with collision detection
 __stilken idea for walking partially behind sprites
 __Find animation bug for walking through transition
 __Think about refactoring animation spitter
@@ -34,7 +35,7 @@ __HUD overlay
 __What do elements look like
 
 Next Episode
-X_Add in MapObject class with collision detection
+__Implement spinning fire spell cast for lvl 1 - 5
 
 Research
 
@@ -56,8 +57,5 @@ __Dynamic Light
 __Time tracking
 __Day of the week tracking
 __Make full spritesheet
-__How many grids in master map table?
-__How many sprites in master spritesheet?
-__Tally up all Links Awakening Overworlds Sheets, figure out Ogdens storyboard script
 __Make strafe walk more accurate to links awakening? - depends on players moveset
 __Add all colors to color constants palette

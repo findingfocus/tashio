@@ -23,14 +23,10 @@ function Map:init(row, column)
 
     for i = 1, MAP_HEIGHT do
         for j = 1, MAP_WIDTH do
-            --local tile = self.tiles[i][j]
-            --table.insert(self.collidableMapObjects, CollidableMapObjects(1, 1))
-            ---[[
             local tile = self.tiles[i][j]
             if tile.id >= 97 and tile.id <= 224 then
                 table.insert(self.collidableMapObjects, CollidableMapObjects(i, j))
             end
-            --]]
         end
     end
 end
