@@ -1,5 +1,10 @@
 Scene = Class{}
 
+local TIME = 0
+local SPEED = 3
+local PLAYER_OFFSET = TILE_SIZE / 2
+local AMP = 20
+
 function Scene:init(player, mapRow, mapColumn)
     self.player = player
     self.mapRow = mapRow
@@ -12,8 +17,7 @@ function Scene:init(player, mapRow, mapColumn)
     self.entities = {}
     self.spellcastEntities = {}
     self.possibleDirections = {'left', 'right', 'up', 'down'}
-    local flameCount = 3
-    time = 0
+    flameCount = 5
     for i = 1, flameCount do
         table.insert(self.spellcastEntities, Entity {
             animations = ENTITY_DEFS['spellcast'].animations,
@@ -23,7 +27,7 @@ function Scene:init(player, mapRow, mapColumn)
             height = TILE_SIZE,
         })
         self.spellcastEntities[i].stateMachine = StateMachine {
-            ['flame-idle'] = function() return FlameIdle(self.spellcastEntities[i], self) end,
+            ['flame-idle'] = function() return FlameIdle(self.spellcastEntities[i], self, flameCount) end,
         }
         self.spellcastEntities[i]:changeState('flame-idle')
     end
@@ -135,6 +139,15 @@ function Scene:finishShifting()
 end
 
 function Scene:update(dt)
+    TIME = TIME + dt
+    local count = flameCount
+    local step = math.pi * 2 / count
+    for i = 1, #self.spellcastEntities do
+        self.spellcastEntities[i].x = self.player.x + math.cos(i * step + TIME * SPEED) * AMP
+        self.spellcastEntities[i].y = self.player.y + math.sin(i * step + TIME * SPEED) * AMP
+    end
+
+
     self.currentMap:update(dt)
     if not self.shifting then
         self.player:update(dt)
@@ -147,7 +160,7 @@ function Scene:update(dt)
         end
     end
 
-    for i = 1, 3 do
+    for i = 1, flameCount do
         self.spellcastEntities[i]:update(dt)
     end
 
@@ -193,9 +206,10 @@ function Scene:render()
         end
     end
 
-    --self.spellcastEntities[1]:render()
     for i = 1, flameCount do
-        self.spellcastEntities[i]:render()
+        if successfulCast then
+            self.spellcastEntities[i]:render()
+        end
     end
     love.graphics.setFont(classicFont)
     ---[[

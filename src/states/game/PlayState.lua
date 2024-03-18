@@ -1,4 +1,5 @@
 PlayState = Class{__includes = BaseState}
+successfulCast = false
 
 function PlayState:init()
     self.player = Player {
@@ -83,6 +84,12 @@ function PlayState:update(dt)
             --UNFOCUS DRAIN
             --self.unFocus = math.max(self.unFocus - 0.15, 0)
         end
+    end
+
+    if self.focusIndicatorX > 65 and self.focusIndicatorX < 85 then
+        successfulCast = true
+    else
+        successfulCast = false
     end
 
 
@@ -172,6 +179,7 @@ function PlayState:render()
         love.graphics.print('player.y: ' .. string.format("%.1f", self.player.y), 5, 35)
         love.graphics.print('direction: ' .. tostring(self.player.direction), 5, 45)
         love.graphics.print('LASTINPUT: ' .. tostring(self.player.lastInput), 5, 55)
+        love.graphics.print('Cast: ' .. tostring(successfulCast), 5, 65)
     end
     if love.keyboard.isDown('2') then
         --]]
