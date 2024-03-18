@@ -35,7 +35,7 @@ orb = love.graphics.newImage('graphics/orb.png')
 gTextures = {
     ['character-walk'] = love.graphics.newImage('graphics/playerAtlas.png'),
     ['gecko'] = love.graphics.newImage('graphics/geckoAtlas.png'),
-    ['flame'] = love.graphics.newImage('graphics/flameAtlas.png'),
+    ['flame'] = love.graphics.newImage('graphics/flameAtlas2.png'),
 }
 
 gFrames = {

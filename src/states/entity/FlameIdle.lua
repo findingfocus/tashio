@@ -4,25 +4,16 @@ function FlameIdle:init(entity, scene)
     self.entity = entity
     self.scene = scene
     self.entity:changeAnimation('flame')
-    ---[[
-    local time = 0
-    flameCount = 3
-    --]]
-    self.circleY = 0
-    self.circleX = 0
 end
 
 function FlameIdle:update(dt)
-    ---[[
-    time = time + dt
-
-    local step = math.pi * 2 / flameCount
-    for i = 0, flameCount - 1 do
-        self.circleX =  math.cos(time * 2 + i * step) * 20
-        self.circleY = math.sin(time * 2 + i * step) * 20
+    --[[
+    TIME = TIME + dt
+    local step = math.pi * 2 / self.count
+    for i = 1, #sceneView.spellcastEntities do
+        self.entity.x = self.scene.player.x + math.cos(TIME + i * step * SPEED) * AMP
+        self.entity.y = self.scene.player.y + math.sin(TIME + i * step * SPEED) * AMP
     end
-    self.entity.x = self.scene.player.x + self.circleX
-    self.entity.y = self.scene.player.y + self.circleY
     --]]
 end
 
