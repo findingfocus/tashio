@@ -4,6 +4,10 @@ local TIME = 0
 local SPEED = 3
 local PLAYER_OFFSET = TILE_SIZE / 2
 local AMP = 20
+local SPELLCAST_FADE = 0
+local particle = love.graphics.newImage('graphics/particle.png')
+local psystem = love.graphics.newParticleSystem(particle, 500)
+
 
 function Scene:init(player, mapRow, mapColumn)
     self.player = player
@@ -17,7 +21,7 @@ function Scene:init(player, mapRow, mapColumn)
     self.entities = {}
     self.spellcastEntities = {}
     self.possibleDirections = {'left', 'right', 'up', 'down'}
-    flameCount = 5
+    flameCount = 1
     for i = 1, flameCount do
         table.insert(self.spellcastEntities, Entity {
             animations = ENTITY_DEFS['spellcast'].animations,
@@ -140,11 +144,17 @@ end
 
 function Scene:update(dt)
     TIME = TIME + dt
+
+    if successfulCast then
+        SPELLCAST_FADE = math.min(255, SPELLCAST_FADE + 11)
+    else
+        SPELLCAST_FADE = math.max(0, SPELLCAST_FADE - 11)
+    end
     local count = flameCount
     local step = math.pi * 2 / count
     for i = 1, #self.spellcastEntities do
         self.spellcastEntities[i].x = self.player.x + math.cos(i * step + TIME * SPEED) * AMP
-        self.spellcastEntities[i].y = self.player.y + math.sin(i * step + TIME * SPEED) * AMP
+        self.spellcastEntities[i].y = self.player.y + math.sin(i * step + TIME * SPEED) * AMP - 5
     end
 
 
@@ -180,6 +190,19 @@ function Scene:update(dt)
             self.player.y = object.y - self.player.height
         end
     end
+
+    if SPELLCAST_FADE > 30 then
+        psystem:setParticleLifetime(1, 6)
+        psystem:setEmissionRate(40)
+        psystem:setSizeVariation(1)
+        psystem:setLinearAcceleration(-5, -20, 10, 0)
+        psystem:setColors(0, 1, 1, 200/255, 0, 0, 153/255, 0)
+        psystem:setEmissionArea('normal', 2, 1)
+        psystem:moveTo(self.spellcastEntities[1].x - VIRTUAL_WIDTH / 2 + 8, self.spellcastEntities[1].y - VIRTUAL_HEIGHT / 2 + 13)
+    else
+        psystem:setEmissionRate(0)
+    end
+    psystem:update(dt)
 end
 
 function Scene:render()
@@ -206,10 +229,16 @@ function Scene:render()
         end
     end
 
+    --love.graphics.print('FADE: ' .. tostring(SPELLCAST_FADE), 5, 10)
+    --SET FADE FOR SPELLCAST
+    love.graphics.setColor(255/255, 255/255, 255/255, SPELLCAST_FADE/225)
     for i = 1, flameCount do
+        --[[
         if successfulCast then
             self.spellcastEntities[i]:render()
         end
+        --]]
+        self.spellcastEntities[i]:render()
     end
     love.graphics.setFont(classicFont)
     ---[[
@@ -234,4 +263,7 @@ function Scene:render()
         end
     end
     --]]
+    --love.graphics.setColor(255/255, 255/255, 255/255, SPELLCAST_FADE/225)
+    love.graphics.setColor(WHITE)
+    love.graphics.draw(psystem, VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2)
 end

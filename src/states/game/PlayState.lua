@@ -80,7 +80,7 @@ function PlayState:update(dt)
             end
         elseif self.manis < self.manisMax then --IF SPACE ISNT HELD
             --MANIS REGEN
-            self.manis = math.min(self.manis + 0.1, self.manisMax)
+            self.manis = math.min(self.manis + 0.3, self.manisMax)
             --UNFOCUS DRAIN
             --self.unFocus = math.max(self.unFocus - 0.15, 0)
         end
