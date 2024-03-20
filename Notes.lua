@@ -33,6 +33,7 @@ __Think about refactoring animation spitter
 __Stop updating orbs on scene transition
 __HUD overlay
 __What do elements look like
+__Render Particle systems in the currentMap, not scene
 
 Next Episode
 __Implement spinning fire spell cast for lvl 1 - 5

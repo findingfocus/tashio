@@ -5,9 +5,21 @@ local SPEED = 3
 local PLAYER_OFFSET = TILE_SIZE / 2
 local AMP = 20
 local SPELLCAST_FADE = 0
+local EMISSION_RATE = 40
 local particle = love.graphics.newImage('graphics/particle.png')
-local psystem = love.graphics.newParticleSystem(particle, 500)
+local psystem1 = love.graphics.newParticleSystem(particle, 400)
+local psystem2 = love.graphics.newParticleSystem(particle, 400)
+local psystem3 = love.graphics.newParticleSystem(particle, 400)
+local psystem4 = love.graphics.newParticleSystem(particle, 400)
+local psystem5 = love.graphics.newParticleSystem(particle, 400)
 
+local psystems = {}
+
+table.insert(psystems, psystem1)
+table.insert(psystems, psystem2)
+table.insert(psystems, psystem3)
+table.insert(psystems, psystem4)
+table.insert(psystems, psystem5)
 
 function Scene:init(player, mapRow, mapColumn)
     self.player = player
@@ -21,7 +33,7 @@ function Scene:init(player, mapRow, mapColumn)
     self.entities = {}
     self.spellcastEntities = {}
     self.possibleDirections = {'left', 'right', 'up', 'down'}
-    flameCount = 1
+    flameCount = 4
     for i = 1, flameCount do
         table.insert(self.spellcastEntities, Entity {
             animations = ENTITY_DEFS['spellcast'].animations,
@@ -191,18 +203,20 @@ function Scene:update(dt)
         end
     end
 
-    if SPELLCAST_FADE > 30 then
-        psystem:setParticleLifetime(1, 6)
-        psystem:setEmissionRate(40)
-        psystem:setSizeVariation(1)
-        psystem:setLinearAcceleration(-5, -20, 10, 0)
-        psystem:setColors(0, 1, 1, 200/255, 0, 0, 153/255, 0)
-        psystem:setEmissionArea('normal', 2, 1)
-        psystem:moveTo(self.spellcastEntities[1].x - VIRTUAL_WIDTH / 2 + 8, self.spellcastEntities[1].y - VIRTUAL_HEIGHT / 2 + 13)
-    else
-        psystem:setEmissionRate(0)
+    for i = 1, flameCount do
+        if SPELLCAST_FADE > 30 then
+            psystems[i]:setParticleLifetime(1, 3)
+            psystems[i]:setEmissionRate(EMISSION_RATE / flameCount)
+            psystems[i]:setSizeVariation(1)
+            psystems[i]:setLinearAcceleration(-5, -20, 10, 0)
+            psystems[i]:setColors(0, 1, 1, 200/255, 0, 0, 153/255, 0)
+            psystems[i]:setEmissionArea('normal', 2, 1)
+            psystems[i]:moveTo(self.spellcastEntities[i].x - VIRTUAL_WIDTH / 2 + 4, self.spellcastEntities[i].y - VIRTUAL_HEIGHT / 2 + 13)
+        else
+            psystems[i]:setEmissionRate(0)
+        end
+        psystems[i]:update(dt)
     end
-    psystem:update(dt)
 end
 
 function Scene:render()
@@ -265,5 +279,8 @@ function Scene:render()
     --]]
     --love.graphics.setColor(255/255, 255/255, 255/255, SPELLCAST_FADE/225)
     love.graphics.setColor(WHITE)
-    love.graphics.draw(psystem, VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2)
+    --love.graphics.draw(psystem1, VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2)
+    for i = 1, flameCount do
+        love.graphics.draw(psystems[i], VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2)
+    end
 end
