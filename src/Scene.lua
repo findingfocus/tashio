@@ -4,28 +4,13 @@ local TIME = 0
 local SPEED = 3
 local PLAYER_OFFSET = TILE_SIZE / 2
 local AMP = 20
-local SPELLCAST_FADE = 0
-local EMISSION_RATE = 40
-local particle = love.graphics.newImage('graphics/particle.png')
-local psystem1 = love.graphics.newParticleSystem(particle, 400)
-local psystem2 = love.graphics.newParticleSystem(particle, 400)
-local psystem3 = love.graphics.newParticleSystem(particle, 400)
-local psystem4 = love.graphics.newParticleSystem(particle, 400)
-local psystem5 = love.graphics.newParticleSystem(particle, 400)
-
-local psystems = {}
-
-table.insert(psystems, psystem1)
-table.insert(psystems, psystem2)
-table.insert(psystems, psystem3)
-table.insert(psystems, psystem4)
-table.insert(psystems, psystem5)
 
 function Scene:init(player, mapRow, mapColumn)
+    spellcastEntityCount = 3
     self.player = player
     self.mapRow = mapRow
     self.mapColumn = mapColumn
-    self.currentMap = Map(mapRow, mapColumn)
+    self.currentMap = Map(mapRow, mapColumn, spellcastEntityCount)
     self.nextMap = nil
     self.cameraX = 0
     self.cameraY = 0
@@ -33,8 +18,7 @@ function Scene:init(player, mapRow, mapColumn)
     self.entities = {}
     self.spellcastEntities = {}
     self.possibleDirections = {'left', 'right', 'up', 'down'}
-    flameCount = 4
-    for i = 1, flameCount do
+    for i = 1, spellcastEntityCount do
         table.insert(self.spellcastEntities, Entity {
             animations = ENTITY_DEFS['spellcast'].animations,
             x = 25,
@@ -43,7 +27,7 @@ function Scene:init(player, mapRow, mapColumn)
             height = TILE_SIZE,
         })
         self.spellcastEntities[i].stateMachine = StateMachine {
-            ['flame-idle'] = function() return FlameIdle(self.spellcastEntities[i], self, flameCount) end,
+            ['flame-idle'] = function() return FlameIdle(self.spellcastEntities[i], self, spellcastEntityCount) end,
         }
         self.spellcastEntities[i]:changeState('flame-idle')
     end
@@ -70,25 +54,25 @@ function Scene:init(player, mapRow, mapColumn)
 
     Event.on('left-transition', function()
         if self.currentMap.column ~= 1 then
-            self.nextMap = Map(self.currentMap.row, self.currentMap.column - 1)
+            self.nextMap = Map(self.currentMap.row, self.currentMap.column - 1, spellcastEntityCount)
             self:beginShifting(-VIRTUAL_WIDTH, 0)
         end
     end)
     Event.on('right-transition', function()
         if self.currentMap.column ~= OVERWORLD_MAP_WIDTH then
-            self.nextMap = Map(self.currentMap.row, self.currentMap.column + 1)
+            self.nextMap = Map(self.currentMap.row, self.currentMap.column + 1, spellcastEntityCount)
             self:beginShifting(VIRTUAL_WIDTH, 0)
         end
     end)
     Event.on('up-transition', function()
         if self.currentMap.row ~= 1 then
-            self.nextMap = Map(self.currentMap.row - 1, self.currentMap.column)
+            self.nextMap = Map(self.currentMap.row - 1, self.currentMap.column, spellcastEntityCount)
             self:beginShifting(0, -VIRTUAL_HEIGHT)
         end
     end)
     Event.on('down-transition', function()
         if self.currentMap.row ~= OVERWORLD_MAP_HEIGHT then
-            self.nextMap = Map(self.currentMap.row + 1, self.currentMap.column)
+            self.nextMap = Map(self.currentMap.row + 1, self.currentMap.column, spellcastEntityCount)
             self:beginShifting(0, VIRTUAL_HEIGHT)
         end
     end)
@@ -123,7 +107,8 @@ function Scene:beginShifting(shiftX, shiftY)
 
     Timer.tween(0.9, {
         [self] = {cameraX = shiftX, cameraY = shiftY},
-        [self.player] = {x = math.floor(playerX), y = math.floor(playerY)}
+        [self.player] = {x = math.floor(playerX), y = math.floor(playerY)},
+        [self.spellcastEntities[1]] = {x = math.floor(playerX), y = math.floor(playerY)}
     }):finish(function()
 
         self:finishShifting()
@@ -136,6 +121,9 @@ function Scene:finishShifting()
     self.cameraY = 0
     self.nextMap.adjacentOffsetX = 0
     self.nextMap.adjacentOffsetY = 0
+    for i = 1, spellcastEntityCount do
+        self.currentMap.psystems[i]:release()
+    end
     self.currentMap = self.nextMap
     self.nextMap = nil
     self.player.direction = INPUT_LIST[#INPUT_LIST]
@@ -157,16 +145,13 @@ end
 function Scene:update(dt)
     TIME = TIME + dt
 
-    if successfulCast then
-        SPELLCAST_FADE = math.min(255, SPELLCAST_FADE + 11)
-    else
-        SPELLCAST_FADE = math.max(0, SPELLCAST_FADE - 11)
-    end
-    local count = flameCount
+    local count = spellcastEntityCount
     local step = math.pi * 2 / count
     for i = 1, #self.spellcastEntities do
-        self.spellcastEntities[i].x = self.player.x + math.cos(i * step + TIME * SPEED) * AMP
-        self.spellcastEntities[i].y = self.player.y + math.sin(i * step + TIME * SPEED) * AMP - 5
+        if not self.shifting then
+            self.spellcastEntities[i].x = self.player.x + math.cos(i * step + TIME * SPEED) * AMP
+            self.spellcastEntities[i].y = self.player.y + math.sin(i * step + TIME * SPEED) * AMP - 5
+        end
     end
 
 
@@ -182,7 +167,7 @@ function Scene:update(dt)
         end
     end
 
-    for i = 1, flameCount do
+    for i = 1, spellcastEntityCount do
         self.spellcastEntities[i]:update(dt)
     end
 
@@ -203,20 +188,6 @@ function Scene:update(dt)
         end
     end
 
-    for i = 1, flameCount do
-        if SPELLCAST_FADE > 30 then
-            psystems[i]:setParticleLifetime(1, 3)
-            psystems[i]:setEmissionRate(EMISSION_RATE / flameCount)
-            psystems[i]:setSizeVariation(1)
-            psystems[i]:setLinearAcceleration(-5, -20, 10, 0)
-            psystems[i]:setColors(0, 1, 1, 200/255, 0, 0, 153/255, 0)
-            psystems[i]:setEmissionArea('normal', 2, 1)
-            psystems[i]:moveTo(self.spellcastEntities[i].x - VIRTUAL_WIDTH / 2 + 4, self.spellcastEntities[i].y - VIRTUAL_HEIGHT / 2 + 13)
-        else
-            psystems[i]:setEmissionRate(0)
-        end
-        psystems[i]:update(dt)
-    end
 end
 
 function Scene:render()
@@ -246,7 +217,7 @@ function Scene:render()
     --love.graphics.print('FADE: ' .. tostring(SPELLCAST_FADE), 5, 10)
     --SET FADE FOR SPELLCAST
     love.graphics.setColor(255/255, 255/255, 255/255, SPELLCAST_FADE/225)
-    for i = 1, flameCount do
+    for i = 1, spellcastEntityCount do
         --[[
         if successfulCast then
             self.spellcastEntities[i]:render()
@@ -277,10 +248,4 @@ function Scene:render()
         end
     end
     --]]
-    --love.graphics.setColor(255/255, 255/255, 255/255, SPELLCAST_FADE/225)
-    love.graphics.setColor(WHITE)
-    --love.graphics.draw(psystem1, VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2)
-    for i = 1, flameCount do
-        love.graphics.draw(psystems[i], VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2)
-    end
 end
