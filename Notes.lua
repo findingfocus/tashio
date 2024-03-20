@@ -34,6 +34,8 @@ __Stop updating orbs on scene transition
 __HUD overlay
 __What do elements look like
 __Render Particle systems in the currentMap, not scene
+__Find random particle bug, off way in middle
+__update tween values for all spellcastEntities
 
 Next Episode
 __Implement spinning fire spell cast for lvl 1 - 5
