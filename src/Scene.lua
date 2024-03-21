@@ -4,9 +4,11 @@ local TIME = 0
 local SPEED = 3
 local PLAYER_OFFSET = TILE_SIZE / 2
 local AMP = 20
+local spellcastEntityCount = 1
+local count = spellcastEntityCount
+local step = math.pi * 2 / count
 
 function Scene:init(player, mapRow, mapColumn)
-    spellcastEntityCount = 3
     self.player = player
     self.mapRow = mapRow
     self.mapColumn = mapColumn
@@ -85,11 +87,11 @@ function Scene:beginShifting(shiftX, shiftY)
     self.nextMap.adjacentOffsetX = shiftX
 
     ---[[
-    if shiftX < 0 then --WHERE PLAYER ENDS UP ON SCREEN
+    if shiftX < 0 then --SHIFT LEFT
         playerX = VIRTUAL_WIDTH - self.player.width
         playerY = self.player.y
         --self.nextMap = MAP[1][2] --CHANGE TO BE ARITHMETIC INSTEAD OF HARD CODED
-    elseif shiftX > 0 then
+    elseif shiftX > 0 then --SHIFT RIGHT
         playerX = 0
         playerY = self.player.y
     elseif shiftY < 0 then -- SHIFT UP
@@ -105,14 +107,22 @@ function Scene:beginShifting(shiftX, shiftY)
     end
 
 
+    for k, v in pairs(self.spellcastEntities) do
+        Timer.tween(0.9, {
+            [self.spellcastEntities[k]] = {x = playerX + math.cos(k * step + TIME * SPEED) * AMP, y = playerY + math.sin(k * step + TIME * SPEED) * AMP - 5},
+        }):finish()
+    end
+
     Timer.tween(0.9, {
         [self] = {cameraX = shiftX, cameraY = shiftY},
         [self.player] = {x = math.floor(playerX), y = math.floor(playerY)},
-        [self.spellcastEntities[1]] = {x = math.floor(playerX), y = math.floor(playerY)}
     }):finish(function()
-
         self:finishShifting()
      end)
+--[[
+
+     --]]
+     --[self.spellcastEntities[1]] = {x = playerX + math.cos(1 * step + TIME * SPEED) * AMP, y = playerY + math.sin(1 * step + TIME * SPEED) * AMP - 5},
 end
 
 function Scene:finishShifting()
@@ -143,16 +153,6 @@ function Scene:finishShifting()
 end
 
 function Scene:update(dt)
-    TIME = TIME + dt
-
-    local count = spellcastEntityCount
-    local step = math.pi * 2 / count
-    for i = 1, #self.spellcastEntities do
-        if not self.shifting then
-            self.spellcastEntities[i].x = self.player.x + math.cos(i * step + TIME * SPEED) * AMP
-            self.spellcastEntities[i].y = self.player.y + math.sin(i * step + TIME * SPEED) * AMP - 5
-        end
-    end
 
 
     self.currentMap:update(dt)
@@ -167,8 +167,18 @@ function Scene:update(dt)
         end
     end
 
-    for i = 1, spellcastEntityCount do
-        self.spellcastEntities[i]:update(dt)
+    if not self.shifting then
+        TIME = TIME + dt
+    end
+
+    for i = 1, #self.spellcastEntities do
+        if not self.shifting then
+            ---[[
+            self.spellcastEntities[i].x = self.player.x + math.cos(i * step + TIME * SPEED) * AMP
+            self.spellcastEntities[i].y = self.player.y + math.sin(i * step + TIME * SPEED) * AMP - 5
+            self.spellcastEntities[i]:update(dt)
+            --]]
+        end
     end
 
     for i = 1, #self.currentMap.collidableMapObjects do
@@ -218,11 +228,9 @@ function Scene:render()
     --SET FADE FOR SPELLCAST
     love.graphics.setColor(255/255, 255/255, 255/255, SPELLCAST_FADE/225)
     for i = 1, spellcastEntityCount do
-        --[[
         if successfulCast then
             self.spellcastEntities[i]:render()
         end
-        --]]
         self.spellcastEntities[i]:render()
     end
     love.graphics.setFont(classicFont)
