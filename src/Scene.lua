@@ -4,9 +4,12 @@ local TIME = 0
 local SPEED = 3
 local PLAYER_OFFSET = TILE_SIZE / 2
 local AMP = 20
+local TRANSITION_SPEED = 0.65
 local spellcastEntityCount = 1
 local count = spellcastEntityCount
 local step = math.pi * 2 / count
+local particle = love.graphics.newImage('graphics/particle.png')
+local psystem = love.graphics.newParticleSystem(particle, 400)
 
 function Scene:init(player, mapRow, mapColumn)
     self.player = player
@@ -34,10 +37,27 @@ function Scene:init(player, mapRow, mapColumn)
         self.spellcastEntities[i]:changeState('flame-idle')
     end
 
+    table.insert(self.entities, Entity {
+        animations = ENTITY_DEFS['geckoC'].animations,
+        x = VIRTUAL_WIDTH / 2 - 8,
+        y = VIRTUAL_HEIGHT / 2 - 8,
+        width = TILE_SIZE,
+        height = TILE_SIZE,
+    })
+
+    self.entities[1].direction = 'left'
+
+    self.entities[1].stateMachine = StateMachine {
+        ['entity-walk'] = function() return EntityWalkState(self.entities[1], self) end,
+        ['entity-idle'] = function() return EntityIdleState(self.entities[1]) end,
+    }
+
+    self.entities[1]:changeState('entity-idle')
+    --[[
     for i = 1, 12 do
         local randomIndex = math.random(4)
         table.insert(self.entities, Entity {
-            animations = ENTITY_DEFS['gecko'].animations,
+            animations = ENTITY_DEFS['geckoC'].animations,
             x = math.random(VIRTUAL_WIDTH / 2 - 20, VIRTUAL_WIDTH / 2 + 20),
             y = math.random(VIRTUAL_HEIGHT / 2 - 20, VIRTUAL_HEIGHT / 2 + 20),
             width = TILE_SIZE,
@@ -53,6 +73,7 @@ function Scene:init(player, mapRow, mapColumn)
 
         self.entities[i]:changeState('entity-walk')
     end
+    --]]
 
     Event.on('left-transition', function()
         if self.currentMap.column ~= 1 then
@@ -108,12 +129,12 @@ function Scene:beginShifting(shiftX, shiftY)
 
 
     for k, v in pairs(self.spellcastEntities) do
-        Timer.tween(0.9, {
+        Timer.tween(TRANSITION_SPEED, {
             [self.spellcastEntities[k]] = {x = playerX + math.cos(k * step + TIME * SPEED) * AMP, y = playerY + math.sin(k * step + TIME * SPEED) * AMP - 5},
         }):finish()
     end
 
-    Timer.tween(0.9, {
+    Timer.tween(TRANSITION_SPEED, {
         [self] = {cameraX = shiftX, cameraY = shiftY},
         [self.player] = {x = math.floor(playerX), y = math.floor(playerY)},
     }):finish(function()
@@ -154,6 +175,15 @@ end
 
 function Scene:update(dt)
 
+    psystem:moveTo(self.entities[1].x + 8, self.entities[1].y + 8)
+    psystem:setParticleLifetime(1, 4)
+    psystem:setEmissionArea('borderellipse', 2, 2)
+    psystem:setEmissionRate(40)
+    --psystem:setLinearAcceleration(-2, -2, 2, 2)
+    --psystem:setRadialAcceleration(1)
+    psystem:setTangentialAcceleration(0, 4)
+    psystem:setColors(67/255, 25/255, 36/255, 255/255, 25/255, 0/255, 51/255, 0/255)
+    psystem:update(dt)
 
     self.currentMap:update(dt)
     if not self.shifting then
@@ -218,6 +248,7 @@ function Scene:render()
         self.player:render()
     end
 
+    love.graphics.draw(psystem, 0, 0)
     for k, entity in pairs(self.entities) do
         if not entity.offscreen then
             entity:render()
@@ -233,7 +264,9 @@ function Scene:render()
         end
         self.spellcastEntities[i]:render()
     end
-    love.graphics.setFont(classicFont)
+
+    --love.graphics.setColor(24/255, 24/255, 24/255, 255/255)
+    --love.graphics.rectangle('fill', 0, 0, 16, 16)
     ---[[
     --]]
     --[[

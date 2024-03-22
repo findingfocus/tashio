@@ -35,12 +35,14 @@ orb = love.graphics.newImage('graphics/orb.png')
 gTextures = {
     ['character-walk'] = love.graphics.newImage('graphics/playerAtlas.png'),
     ['gecko'] = love.graphics.newImage('graphics/geckoAtlas.png'),
+    ['geckoC'] = love.graphics.newImage('graphics/geckoCAtlas.png'),
     ['flame'] = love.graphics.newImage('graphics/flameAtlas2.png'),
 }
 
 gFrames = {
     ['character-walk'] = GenerateQuads(gTextures['character-walk'], TILE_SIZE, TILE_SIZE),
     ['gecko'] = GenerateQuads(gTextures['gecko'], TILE_SIZE, TILE_SIZE),
+    ['geckoC'] = GenerateQuads(gTextures['geckoC'], TILE_SIZE, TILE_SIZE),
     ['flame'] = GenerateQuads(gTextures['flame'], TILE_SIZE, TILE_SIZE),
 }
 playerSpriteSheet = love.graphics.newImage('graphics/playerAtlas.png')
