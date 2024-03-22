@@ -30,7 +30,7 @@ function PlayState:init()
     local columns = 10
     local rows = 8
     cameraX = 0
-    sceneView = Scene(self.player, 1, 1)
+    sceneView = Scene(self.player, 1, 2)
     tilesheet = love.graphics.newImage('graphics/masterSheet.png')
     --textures = love.graphics.newImage('graphics/textures.png')
     quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
