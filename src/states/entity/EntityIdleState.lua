@@ -1,7 +1,7 @@
 EntityIdleState = Class{__includes = BaseState}
 
 function EntityIdleState:init(entity)
-    self.direction = 'up'
+    self.direction = 'right'
     self.entity = entity
     self.entity:changeAnimation('idle-' .. self.entity.direction)
     self.waitDuration = 0
@@ -9,6 +9,7 @@ function EntityIdleState:init(entity)
 end
 
 function EntityIdleState:processAI(params, dt)
+    ---[[
     if self.waitDuration == 0 then
         self.waitDuration = math.random(5)
     else
@@ -18,6 +19,7 @@ function EntityIdleState:processAI(params, dt)
             self.entity:changeState('entity-walk')
         end
     end
+    --]]
 end
 
 function EntityIdleState:render()

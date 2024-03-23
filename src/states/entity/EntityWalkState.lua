@@ -4,7 +4,6 @@ function EntityWalkState:init(entity, scene)
     self.entity = entity
     self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
     self.entity.walkSpeed = 1
-
     self.scene = scene
 
     self.moveDuration = 0
@@ -42,12 +41,20 @@ function EntityWalkState:update(dt)
 end
 
 function EntityWalkState:processAI(params, dt)
+    if self.movementTimer == 0 then
+        local directions = {'left', 'right', 'up', 'down'}
+        local randomIndex = math.random(#directions)
+        self.entity.direction = directions[randomIndex]
+        self.entity:changeAnimation('walk-' .. tostring(directions[randomIndex]))
+    end
+        self.movementTimer = self.movementTimer + dt
+    --[[
     local directions = {'left', 'right', 'up', 'down'}
 
     if self.moveDuration == 0 or self.collided then
 
         self.moveDuration = math.random(5)
-        self.entity.direction = directions[math.random(#directions)]
+        --self.entity.direction = directions[math.random(#directions)]
         self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
     elseif self.movementTimer > self.moveDuration then
         self.movementTimer = 0
@@ -62,6 +69,7 @@ function EntityWalkState:processAI(params, dt)
     end
 
     self.movementTimer = self.movementTimer + dt
+    --]]
 end
 
 function EntityWalkState:render()
