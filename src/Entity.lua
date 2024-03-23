@@ -1,7 +1,7 @@
 Entity = Class{}
 
 function Entity:init(def)
-    self.direction = 'down'
+    self.direction = 'up'
     self.animations = self:createAnimations(def.animations)
 
     self.x = def.x

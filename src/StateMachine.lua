@@ -59,3 +59,7 @@ end
 function StateMachine:render()
 	self.current:render()
 end
+
+function StateMachine:processAI(params, dt)
+    self.current:processAI(params, dt)
+end

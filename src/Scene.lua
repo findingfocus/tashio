@@ -45,10 +45,10 @@ function Scene:init(player, mapRow, mapColumn)
         height = TILE_SIZE,
     })
 
-    self.entities[1].direction = 'left'
+    --self.entities[1].direction = 'left'
 
     self.entities[1].stateMachine = StateMachine {
-        ['entity-walk'] = function() return EntityWalkState(self.entities[1], self) end,
+        ['entity-walk'] = function() return EntityWalkState(self.entities[1]) end,
         ['entity-idle'] = function() return EntityIdleState(self.entities[1]) end,
     }
 
@@ -193,6 +193,7 @@ function Scene:update(dt)
     for i = #self.entities, 1, -1 do
         local entity = self.entities[i]
         if not self.entities.offscreen then
+            entity:processAI({scene = self}, dt)
             entity:update(dt)
         end
     end

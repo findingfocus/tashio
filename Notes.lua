@@ -27,18 +27,20 @@ X_Add new bricks
 X_Make Purple Fire Sprites
 X_add perspective based collision detection for map objects
 X_Add in MapObject class with collision detection
+X_Find random particle bug, off way in middle
+X_update tween values for all spellcastEntities
+X_Stop updating orbs on scene transition
+X_Implement spinning fire spell cast for lvl 1 - 5
 __stilken idea for walking partially behind sprites
 __Find animation bug for walking through transition
 __Think about refactoring animation spitter
-__Stop updating orbs on scene transition
 __HUD overlay
 __What do elements look like
 __Render Particle systems in the currentMap, not scene
-__Find random particle bug, off way in middle
-__update tween values for all spellcastEntities
+__Put entity instantions inside of MapDeclations
 
 Next Episode
-__Implement spinning fire spell cast for lvl 1 - 5
+__Update only currentMap entities
 
 Research
 
