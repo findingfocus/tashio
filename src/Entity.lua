@@ -1,7 +1,7 @@
 Entity = Class{}
 
 function Entity:init(def)
-    self.direction = 'up'
+    self.direction = 'down'
     self.animations = self:createAnimations(def.animations)
 
     self.x = def.x
@@ -13,6 +13,7 @@ function Entity:init(def)
 
     self.offsetX = def.offsetX or 0
     self.offsetY = def.offsetY or 0
+    self.type = nil
 end
 
 function Entity:createAnimations(animations)
@@ -69,8 +70,8 @@ function Entity:update(dt)
     end
 end
 
-function Entity:processAI(params, dt)
-    self.stateMachine:processAI(params, dt)
+function Entity:processAI(params, dt, player)
+    self.stateMachine:processAI(params, dt, player)
 end
 
 function Entity:render(adjacentOffsetX, adjacentOffsetY)

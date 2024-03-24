@@ -60,6 +60,6 @@ function StateMachine:render()
 	self.current:render()
 end
 
-function StateMachine:processAI(params, dt)
-    self.current:processAI(params, dt)
+function StateMachine:processAI(params, dt, player)
+    self.current:processAI(params, dt, player)
 end

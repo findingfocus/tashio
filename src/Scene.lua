@@ -45,7 +45,8 @@ function Scene:init(player, mapRow, mapColumn)
         height = TILE_SIZE,
     })
 
-    --self.entities[1].direction = 'left'
+    self.entities[1].direction = 'up'
+    self.entities[1].type = 'gecko'
 
     self.entities[1].stateMachine = StateMachine {
         ['entity-walk'] = function() return EntityWalkState(self.entities[1]) end,
@@ -185,17 +186,17 @@ function Scene:update(dt)
     psystem:setColors(67/255, 25/255, 36/255, 255/255, 25/255, 0/255, 51/255, 0/255)
     psystem:update(dt)
 
-    self.currentMap:update(dt)
-    if not self.shifting then
-        self.player:update(dt)
-    end
-
     for i = #self.entities, 1, -1 do
         local entity = self.entities[i]
         if not self.entities.offscreen then
-            entity:processAI({scene = self}, dt)
+            entity:processAI({scene = self}, dt, self.player)
             entity:update(dt)
         end
+    end
+
+    self.currentMap:update(dt)
+    if not self.shifting then
+        self.player:update(dt)
     end
 
     if not self.shifting then

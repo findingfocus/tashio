@@ -8,7 +8,7 @@ function EntityIdleState:init(entity)
     self.waitTimer = 0
 end
 
-function EntityIdleState:processAI(params, dt)
+function EntityIdleState:processAI(params, dt, player)
     ---[[
     if self.waitDuration == 0 then
         self.waitDuration = math.random(5)
