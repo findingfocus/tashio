@@ -99,5 +99,27 @@ MAP[1][3] = {
 for i = 1, MAP_HEIGHT do
     for j = 1, MAP_WIDTH do
         MAP[i][j].animatables = {}
+        MAP[i][j].entities = {}
     end
+end
+
+local entities = 1
+for i = 1, entities do
+    table.insert(MAP[1][2].entities, Entity {
+        animations = ENTITY_DEFS['geckoC'].animations,
+        x = VIRTUAL_WIDTH / 2 - 8,
+        y = VIRTUAL_HEIGHT / 2 - 8,
+        width = TILE_SIZE,
+        height = TILE_SIZE,
+    })
+
+    MAP[1][2].entities[i].direction = 'up'
+    MAP[1][2].entities[i].type = 'gecko'
+
+    MAP[1][2].entities[i].stateMachine = StateMachine {
+        ['entity-walk'] = function() return EntityWalkState(MAP[1][2].entities[i]) end,
+        ['entity-idle'] = function() return EntityIdleState(MAP[1][2].entities[i]) end,
+    }
+
+    MAP[1][2].entities[i]:changeState('entity-idle')
 end

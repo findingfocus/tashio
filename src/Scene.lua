@@ -8,8 +8,6 @@ local TRANSITION_SPEED = 0.65
 local spellcastEntityCount = 1
 local count = spellcastEntityCount
 local step = math.pi * 2 / count
-local particle = love.graphics.newImage('graphics/particle.png')
-local psystem = love.graphics.newParticleSystem(particle, 400)
 
 function Scene:init(player, mapRow, mapColumn)
     self.player = player
@@ -37,6 +35,7 @@ function Scene:init(player, mapRow, mapColumn)
         self.spellcastEntities[i]:changeState('flame-idle')
     end
 
+    --[[
     table.insert(self.entities, Entity {
         animations = ENTITY_DEFS['geckoC'].animations,
         x = VIRTUAL_WIDTH / 2 - 8,
@@ -54,6 +53,13 @@ function Scene:init(player, mapRow, mapColumn)
     }
 
     self.entities[1]:changeState('entity-idle')
+    --]]
+
+
+
+
+
+
     --[[
     for i = 1, 12 do
         local randomIndex = math.random(4)
@@ -135,6 +141,7 @@ function Scene:beginShifting(shiftX, shiftY)
         }):finish()
     end
 
+
     Timer.tween(TRANSITION_SPEED, {
         [self] = {cameraX = shiftX, cameraY = shiftY},
         [self.player] = {x = math.floor(playerX), y = math.floor(playerY)},
@@ -176,6 +183,7 @@ end
 
 function Scene:update(dt)
 
+    --[[
     psystem:moveTo(self.entities[1].x + 8, self.entities[1].y + 8)
     psystem:setParticleLifetime(1, 4)
     psystem:setEmissionArea('borderellipse', 2, 2)
@@ -185,7 +193,13 @@ function Scene:update(dt)
     psystem:setTangentialAcceleration(0, 4)
     psystem:setColors(67/255, 25/255, 36/255, 255/255, 25/255, 0/255, 51/255, 0/255)
     psystem:update(dt)
+    --]]
 
+
+
+
+
+    --[[
     for i = #self.entities, 1, -1 do
         local entity = self.entities[i]
         if not self.entities.offscreen then
@@ -193,6 +207,7 @@ function Scene:update(dt)
             entity:update(dt)
         end
     end
+    --]]
 
     self.currentMap:update(dt)
     if not self.shifting then
@@ -250,12 +265,14 @@ function Scene:render()
         self.player:render()
     end
 
+    --[[
     love.graphics.draw(psystem, 0, 0)
     for k, entity in pairs(self.entities) do
         if not entity.offscreen then
             entity:render()
         end
     end
+    --]]
 
     --love.graphics.print('FADE: ' .. tostring(SPELLCAST_FADE), 5, 10)
     --SET FADE FOR SPELLCAST

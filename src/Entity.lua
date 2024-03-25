@@ -1,5 +1,7 @@
 Entity = Class{}
 
+particle = love.graphics.newImage('graphics/particle.png')
+
 function Entity:init(def)
     self.direction = 'down'
     self.animations = self:createAnimations(def.animations)
@@ -10,6 +12,7 @@ function Entity:init(def)
     self.width = def.width
     self.walkSpeed = def.walkSpeed
     self.offscreen = false
+    self.psystem = love.graphics.newParticleSystem(particle, 400)
 
     self.offsetX = def.offsetX or 0
     self.offsetY = def.offsetY or 0
@@ -68,6 +71,18 @@ function Entity:update(dt)
     if self.currentAnimation then
         self.currentAnimation:update(dt)
     end
+
+    if self.type == 'gecko' then
+        self.psystem:moveTo(self.x + 8, self.y + 8)
+        self.psystem:setParticleLifetime(1, 4)
+        self.psystem:setEmissionArea('borderellipse', 2, 2)
+        self.psystem:setEmissionRate(40)
+        --self.psystem:setLinearAcceleration(-2, -2, 2, 2)
+        --self.psystem:setRadialAcceleration(1)
+        self.psystem:setTangentialAcceleration(0, 4)
+        self.psystem:setColors(67/255, 25/255, 36/255, 255/255, 25/255, 0/255, 51/255, 0/255)
+        self.psystem:update(dt)
+    end
 end
 
 function Entity:processAI(params, dt, player)
@@ -76,6 +91,7 @@ end
 
 function Entity:render(adjacentOffsetX, adjacentOffsetY)
     --love.graphics.setColor(WHITE)
+    love.graphics.draw(self.psystem, adjacentOffsetX, adjacentOffsetY)
     self.x, self.y = self.x + (adjacentOffsetX or 0), self.y + (adjacentOffsetY or 0)
     self.stateMachine:render()
     self.x, self.y = self.x - (adjacentOffsetX or 0), self.y - (adjacentOffsetY or 0)
