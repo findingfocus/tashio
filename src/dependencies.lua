@@ -16,6 +16,7 @@ require 'src/states/entity/player/PlayerWalkState'
 
 require 'src/Animatables'
 require 'src/Entity'
+require 'src/entity_defs'
 require 'src/Animation'
 require 'src/Player'
 require 'src/Scene'
@@ -25,7 +26,6 @@ require 'src/AnimSpitter'
 require 'src/InsertAnimation'
 require 'src/CollidableMapObjects'
 require 'src/util'
-require 'src/entity_defs'
 
 pixelFont = love.graphics.newFont('fonts/Pixel.ttf', 8)
 classicFont = love.graphics.newFont('fonts/classic.ttf', 8)

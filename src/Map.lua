@@ -5,7 +5,6 @@ local EMISSION_RATE = 80
 
 function Map:init(row, column, spellcastEntities)
     self.psystems = {}
-    local particle = love.graphics.newImage('graphics/particle.png')
     for i = 1, spellcastEntities do
         self.psystems[i] = love.graphics.newParticleSystem(particle, 400)
     end
@@ -17,6 +16,8 @@ function Map:init(row, column, spellcastEntities)
     self.adjacentOffsetY = 0
     self.renderOffsetY = MAP_RENDER_OFFSET_Y
     self.insertAnimations = InsertAnimation(self.row, self.column)
+    self.entityCount = #MAP[row][column].entities
+
     count = 1
     for y = 1, MAP_HEIGHT do
         table.insert(self.tiles, {})
@@ -42,6 +43,18 @@ end
 
 function Map:update(dt)
     self.insertAnimations:update(dt)
+    ---[[
+    if not sceneView.shifting then
+        for i = 1, self.entityCount do
+            local entity = MAP[self.row][self.column].entities[i]
+            if not MAP[self.row][self.column].entities.offscreen then
+                entity:processAI({scene = sceneView}, dt, sceneView.player)
+                entity:update(dt)
+            end
+        end
+    end
+    --]]
+
     if successfulCast then
         SPELLCAST_FADE = math.min(255, SPELLCAST_FADE + 11)
     else
@@ -86,4 +99,14 @@ function Map:render()
     for i = 1, self.spellcastEntityCount do
         love.graphics.draw(self.psystems[i], self.psystems[i].x, self.psystems[i].y)
     end
+
+
+    ---[[
+    for k, entity in pairs(MAP[self.row][self.column].entities) do
+        if not entity.offscreen then
+            entity:render(self.adjacentOffsetX, self.adjacentOffsetY)
+        end
+    end
+    --]]
+
 end

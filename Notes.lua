@@ -40,9 +40,18 @@ __Render Particle systems in the currentMap, not scene
 __Put entity instantions inside of MapDeclations
 
 Next Episode
+__Stenciling for log cabin
+__Collision detection for player v entities
+__Collision detection for entities v MapObjects
+__Add Player health
+__Add knockback upon hit
+__Add flashy pain indicator
+__Collision detection Spellcast v entity
 __Update only currentMap entities
 
 Research
+__How to reset entities to default locations upon a scene change
+__How to render corruption particles over player
 
 Todo
 __Add game objects to pickup
