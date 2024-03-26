@@ -91,6 +91,7 @@ function Scene:init(player, mapRow, mapColumn)
     Event.on('right-transition', function()
         if self.currentMap.column ~= OVERWORLD_MAP_WIDTH then
             self.nextMap = Map(self.currentMap.row, self.currentMap.column + 1, spellcastEntityCount)
+            --resetEntities(self.currentMap.row, self.currentMap.column + 1)
             self:beginShifting(VIRTUAL_WIDTH, 0)
         end
     end)
@@ -163,6 +164,8 @@ function Scene:finishShifting()
     for i = 1, spellcastEntityCount do
         self.currentMap.psystems[i]:release()
     end
+    MAP[1][2].entities[1]:resetOriginalPosition()
+    --MAP[1][2].entities[1].psystem:release()
     self.currentMap = self.nextMap
     self.nextMap = nil
     self.player.direction = INPUT_LIST[#INPUT_LIST]

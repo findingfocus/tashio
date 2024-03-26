@@ -3,7 +3,7 @@ Entity = Class{}
 particle = love.graphics.newImage('graphics/particle.png')
 
 function Entity:init(def)
-    self.direction = 'down'
+    self.direction = def.direction or 'down'
     self.animations = self:createAnimations(def.animations)
 
     self.x = def.x
@@ -16,7 +16,23 @@ function Entity:init(def)
 
     self.offsetX = def.offsetX or 0
     self.offsetY = def.offsetY or 0
-    self.type = nil
+    self.type = def.type or nil
+
+    self.originalAnimations = self:createAnimations(def.animations)
+    self.originalX = def.x
+    self.originalY = def.y
+    self.originalDirection = def.direction
+    self.originalType = def.type
+end
+
+function Entity:resetOriginalPosition()
+    self.animations = self.originalAnimations
+    self.x = self.originalX
+    self.y = self.originalY
+    self.direction = self.originalDirection
+    self.type = self.originalType
+    self.psystem:reset()
+    self:changeState('entity-idle')
 end
 
 function Entity:createAnimations(animations)

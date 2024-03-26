@@ -38,6 +38,9 @@ __HUD overlay
 __What do elements look like
 __Render Particle systems in the currentMap, not scene
 __Put entity instantions inside of MapDeclations
+__Clean up old comments
+__Add searchable comment throughout codebase
+__
 
 Next Episode
 __Stenciling for log cabin
