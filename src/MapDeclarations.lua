@@ -111,10 +111,13 @@ for i = 1, entities do
         y = VIRTUAL_HEIGHT / 2 - 8,
         width = TILE_SIZE,
         height = TILE_SIZE,
+        direction = 'left',
+        type = 'gecko',
     })
 
-    MAP[1][2].entities[i].direction = 'up'
-    MAP[1][2].entities[i].type = 'gecko'
+    --MAP[1][2].entities[i].x = MAP[1][2].entities[i].x * i
+    --MAP[1][2].entities[i].direction = 'up'
+    --MAP[1][2].entities[i].type = 'gecko'
 
     MAP[1][2].entities[i].stateMachine = StateMachine {
         ['entity-walk'] = function() return EntityWalkState(MAP[1][2].entities[i]) end,
