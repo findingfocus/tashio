@@ -35,53 +35,6 @@ function Scene:init(player, mapRow, mapColumn)
         self.spellcastEntities[i]:changeState('flame-idle')
     end
 
-    --[[
-    table.insert(self.entities, Entity {
-        animations = ENTITY_DEFS['geckoC'].animations,
-        x = VIRTUAL_WIDTH / 2 - 8,
-        y = VIRTUAL_HEIGHT / 2 - 8,
-        width = TILE_SIZE,
-        height = TILE_SIZE,
-    })
-
-    self.entities[1].direction = 'up'
-    self.entities[1].type = 'gecko'
-
-    self.entities[1].stateMachine = StateMachine {
-        ['entity-walk'] = function() return EntityWalkState(self.entities[1]) end,
-        ['entity-idle'] = function() return EntityIdleState(self.entities[1]) end,
-    }
-
-    self.entities[1]:changeState('entity-idle')
-    --]]
-
-
-
-
-
-
-    --[[
-    for i = 1, 12 do
-        local randomIndex = math.random(4)
-        table.insert(self.entities, Entity {
-            animations = ENTITY_DEFS['geckoC'].animations,
-            x = math.random(VIRTUAL_WIDTH / 2 - 20, VIRTUAL_WIDTH / 2 + 20),
-            y = math.random(VIRTUAL_HEIGHT / 2 - 20, VIRTUAL_HEIGHT / 2 + 20),
-            width = TILE_SIZE,
-            height = TILE_SIZE,
-        })
-
-        self.entities[i].direction = self.possibleDirections[randomIndex]
-
-        self.entities[i].stateMachine = StateMachine {
-            ['entity-walk'] = function() return EntityWalkState(self.entities[i], self) end,
-            ['entity-idle'] = function() return EntityIdleState(self.entities[i]) end,
-        }
-
-        self.entities[i]:changeState('entity-walk')
-    end
-    --]]
-
     Event.on('left-transition', function()
         if self.currentMap.column ~= 1 then
             self.nextMap = Map(self.currentMap.row, self.currentMap.column - 1, spellcastEntityCount)
@@ -91,7 +44,6 @@ function Scene:init(player, mapRow, mapColumn)
     Event.on('right-transition', function()
         if self.currentMap.column ~= OVERWORLD_MAP_WIDTH then
             self.nextMap = Map(self.currentMap.row, self.currentMap.column + 1, spellcastEntityCount)
-            --resetEntities(self.currentMap.row, self.currentMap.column + 1)
             self:beginShifting(VIRTUAL_WIDTH, 0)
         end
     end)
@@ -115,11 +67,9 @@ function Scene:beginShifting(shiftX, shiftY)
     self.nextMap.adjacentOffsetY = shiftY
     self.nextMap.adjacentOffsetX = shiftX
 
-    ---[[
     if shiftX < 0 then --SHIFT LEFT
         playerX = VIRTUAL_WIDTH - self.player.width
         playerY = self.player.y
-        --self.nextMap = MAP[1][2] --CHANGE TO BE ARITHMETIC INSTEAD OF HARD CODED
     elseif shiftX > 0 then --SHIFT RIGHT
         playerX = 0
         playerY = self.player.y
@@ -135,24 +85,20 @@ function Scene:beginShifting(shiftX, shiftY)
         playerX = self.player.x
     end
 
-
+    --SPELLCAST TWEEN
     for k, v in pairs(self.spellcastEntities) do
         Timer.tween(TRANSITION_SPEED, {
             [self.spellcastEntities[k]] = {x = playerX + math.cos(k * step + TIME * SPEED) * AMP, y = playerY + math.sin(k * step + TIME * SPEED) * AMP - 5},
         }):finish()
     end
 
-
+    --PLAYER AND CAMERA TWEEN
     Timer.tween(TRANSITION_SPEED, {
         [self] = {cameraX = shiftX, cameraY = shiftY},
         [self.player] = {x = math.floor(playerX), y = math.floor(playerY)},
     }):finish(function()
         self:finishShifting()
      end)
---[[
-
-     --]]
-     --[self.spellcastEntities[1]] = {x = playerX + math.cos(1 * step + TIME * SPEED) * AMP, y = playerY + math.sin(1 * step + TIME * SPEED) * AMP - 5},
 end
 
 function Scene:finishShifting()
@@ -164,8 +110,9 @@ function Scene:finishShifting()
     for i = 1, spellcastEntityCount do
         self.currentMap.psystems[i]:release()
     end
-    MAP[1][2].entities[1]:resetOriginalPosition()
-    --MAP[1][2].entities[1].psystem:release()
+    for i = 1, #MAP[self.mapRow][self.mapColumn].entities do
+        MAP[self.mapRow][self.mapColumn].entities[i]:resetOriginalPosition()
+    end
     self.currentMap = self.nextMap
     self.nextMap = nil
     self.player.direction = INPUT_LIST[#INPUT_LIST]
@@ -185,33 +132,6 @@ function Scene:finishShifting()
 end
 
 function Scene:update(dt)
-
-    --[[
-    psystem:moveTo(self.entities[1].x + 8, self.entities[1].y + 8)
-    psystem:setParticleLifetime(1, 4)
-    psystem:setEmissionArea('borderellipse', 2, 2)
-    psystem:setEmissionRate(40)
-    --psystem:setLinearAcceleration(-2, -2, 2, 2)
-    --psystem:setRadialAcceleration(1)
-    psystem:setTangentialAcceleration(0, 4)
-    psystem:setColors(67/255, 25/255, 36/255, 255/255, 25/255, 0/255, 51/255, 0/255)
-    psystem:update(dt)
-    --]]
-
-
-
-
-
-    --[[
-    for i = #self.entities, 1, -1 do
-        local entity = self.entities[i]
-        if not self.entities.offscreen then
-            entity:processAI({scene = self}, dt, self.player)
-            entity:update(dt)
-        end
-    end
-    --]]
-
     self.currentMap:update(dt)
     if not self.shifting then
         self.player:update(dt)
@@ -223,14 +143,13 @@ function Scene:update(dt)
 
     for i = 1, #self.spellcastEntities do
         if not self.shifting then
-            ---[[
             self.spellcastEntities[i].x = self.player.x + math.cos(i * step + TIME * SPEED) * AMP
             self.spellcastEntities[i].y = self.player.y + math.sin(i * step + TIME * SPEED) * AMP - 5
             self.spellcastEntities[i]:update(dt)
-            --]]
         end
     end
 
+    --PLAYER TO MAP OBJECT COLLISION DETECTION
     for i = 1, #self.currentMap.collidableMapObjects do
         local object = self.currentMap.collidableMapObjects[i]
 
@@ -247,7 +166,6 @@ function Scene:update(dt)
             self.player.y = object.y - self.player.height
         end
     end
-
 end
 
 function Scene:render()
@@ -268,16 +186,6 @@ function Scene:render()
         self.player:render()
     end
 
-    --[[
-    love.graphics.draw(psystem, 0, 0)
-    for k, entity in pairs(self.entities) do
-        if not entity.offscreen then
-            entity:render()
-        end
-    end
-    --]]
-
-    --love.graphics.print('FADE: ' .. tostring(SPELLCAST_FADE), 5, 10)
     --SET FADE FOR SPELLCAST
     love.graphics.setColor(255/255, 255/255, 255/255, SPELLCAST_FADE/225)
     for i = 1, spellcastEntityCount do
@@ -286,29 +194,4 @@ function Scene:render()
         end
         self.spellcastEntities[i]:render()
     end
-
-    --love.graphics.setColor(24/255, 24/255, 24/255, 255/255)
-    --love.graphics.rectangle('fill', 0, 0, 16, 16)
-    ---[[
-    --]]
-    --[[
-    for i = 1, #self.currentMap.collidableMapObjects do
-        if self.player:topCollides(self.currentMap.collidableMapObjects[i]) then
-            love.graphics.setColor(RED)
-            love.graphics.rectangle('fill', self.player.x + 2, self.player.y, TILE_SIZE - 4, 2)
-        end
-        if self.player:bottomCollides(self.currentMap.collidableMapObjects[i]) then
-            love.graphics.setColor(RED)
-            love.graphics.rectangle('fill', self.player.x + 2, self.player.y + self.player.height - COLLISION_BUFFER, TILE_SIZE - 4, 2)
-        end
-        if self.player:leftCollides(self.currentMap.collidableMapObjects[i]) then
-            love.graphics.setColor(RED)
-            love.graphics.rectangle('fill', self.player.x, self.player.y + COLLISION_BUFFER, 2, TILE_SIZE - 4)
-        end
-        if self.player:rightCollides(self.currentMap.collidableMapObjects[i]) then
-            love.graphics.setColor(RED)
-            love.graphics.rectangle('fill', self.player.x + self.player.width - COLLISION_BUFFER, self.player.y + COLLISION_BUFFER, 2, TILE_SIZE - 4)
-        end
-    end
-    --]]
 end
