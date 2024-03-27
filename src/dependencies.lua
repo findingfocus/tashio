@@ -14,7 +14,6 @@ require 'src/states/entity/FlameIdle'
 require 'src/states/entity/player/PlayerIdleState'
 require 'src/states/entity/player/PlayerWalkState'
 
-require 'src/Animatables'
 require 'src/Entity'
 require 'src/entity_defs'
 require 'src/Animation'
@@ -30,13 +29,12 @@ require 'src/util'
 pixelFont = love.graphics.newFont('fonts/Pixel.ttf', 8)
 classicFont = love.graphics.newFont('fonts/classic.ttf', 8)
 
-orb = love.graphics.newImage('graphics/orb.png')
-
 gTextures = {
     ['character-walk'] = love.graphics.newImage('graphics/playerAtlas.png'),
     ['gecko'] = love.graphics.newImage('graphics/geckoAtlas.png'),
     ['geckoC'] = love.graphics.newImage('graphics/geckoCAtlas.png'),
     ['flame'] = love.graphics.newImage('graphics/flameAtlas2.png'),
+    ['orb'] = love.graphics.newImage('graphics/orb.png'),
 }
 
 gFrames = {
@@ -47,10 +45,6 @@ gFrames = {
 }
 playerSpriteSheet = love.graphics.newImage('graphics/playerAtlas.png')
 arrowKeyLogger = love.graphics.newImage('graphics/arrowKey.png')
---dirt = love.graphics.newImage('graphics/dirt.png')
---sand = love.graphics.newImage('graphics/sand.png')
---grass = love.graphics.newImage('graphics/grass.png')
---tallGrass = love.graphics.newImage('graphics/tallGrass.png')
 testSprites = love.graphics.newImage('graphics/testSprites.png')
 tileSheet = love.graphics.newImage('graphics/masterSheet.png')
 

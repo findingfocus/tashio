@@ -18,7 +18,7 @@ function Map:init(row, column, spellcastEntities)
     self.insertAnimations = InsertAnimation(self.row, self.column)
     self.entityCount = #MAP[row][column].entities
 
-    count = 1
+    local count = 1
     for y = 1, MAP_HEIGHT do
         table.insert(self.tiles, {})
         for x = 1, MAP_WIDTH do
@@ -29,8 +29,8 @@ function Map:init(row, column, spellcastEntities)
         end
     end
 
+    --COLLIDABLE MAP OBJECTS
     self.collidableMapObjects = {}
-
     for i = 1, MAP_HEIGHT do
         for j = 1, MAP_WIDTH do
             local tile = self.tiles[i][j]
@@ -43,7 +43,8 @@ end
 
 function Map:update(dt)
     self.insertAnimations:update(dt)
-    ---[[
+
+    --ENTITY UPDATES
     if not sceneView.shifting then
         for i = 1, self.entityCount do
             local entity = MAP[self.row][self.column].entities[i]
@@ -53,13 +54,15 @@ function Map:update(dt)
             end
         end
     end
-    --]]
 
+    --SPELLCAST_FADE CLAMPING
     if successfulCast then
         SPELLCAST_FADE = math.min(255, SPELLCAST_FADE + 11)
     else
         SPELLCAST_FADE = math.max(0, SPELLCAST_FADE - 11)
     end
+
+    --SPELLCAST PARTICLE SYSTEMS
     for i = 1, self.spellcastEntityCount do
         if not sceneView.shifting then
             self.psystems[i]:moveTo(sceneView.spellcastEntities[i].x + 4, sceneView.spellcastEntities[i].y + 13)
@@ -85,28 +88,26 @@ function Map:render()
             love.graphics.draw(tileSheet, quads[SAND], (x - 1) * TILE_SIZE + self.adjacentOffsetX, (y - 1) * TILE_SIZE + self.adjacentOffsetY)
         end
     end
-    --TILE
+    --RENDER MAP DECLARATION TILES
     for y = 1, MAP_HEIGHT do
         for x = 1, MAP_WIDTH do
             local tile = self.tiles[y][x]
             love.graphics.draw(tileSheet, quads[tile.id], (x - 1) * TILE_SIZE + self.adjacentOffsetX, (y - 1) * TILE_SIZE + self.adjacentOffsetY)
         end
     end
+
     self.insertAnimations:render()
-    --love.graphics.setColor(255/255, 255/255, 255/255, SPELLCAST_FADE/225)
+
     love.graphics.setColor(WHITE)
-    --love.graphics.draw(psystem1, VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2)
+    --SPELLCAST ENTITY RENDERS
     for i = 1, self.spellcastEntityCount do
         love.graphics.draw(self.psystems[i], self.psystems[i].x, self.psystems[i].y)
     end
 
-
-    ---[[
+    --ENTITY RENDERS
     for k, entity in pairs(MAP[self.row][self.column].entities) do
         if not entity.offscreen then
             entity:render(self.adjacentOffsetX, self.adjacentOffsetY)
         end
     end
-    --]]
-
 end

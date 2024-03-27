@@ -65,6 +65,7 @@ function Player:update(dt)
         self:changeAnimation('walk-' .. self.lastInput)
     end
 
+    --TRANSITION EVENT TRIGGERS
     if not sceneView.shifting then
         if love.keyboard.isDown('right') then
             if self.x + self.width >= VIRTUAL_WIDTH + EDGE_BUFFER_PLAYER then
@@ -90,19 +91,8 @@ function Player:update(dt)
             end
         end
     end
-
     Entity.update(self, dt)
 end
-
---[[
-function Player:collides(target)
-    if self.x > target.x + target.width and self.x + self.width < target.x and self.y > target.y + target.height and self.y + self.height < target.y then
-        return false
-    else
-        return true
-    end
-end
---]]
 
 function Player:render()
     Entity.render(self)

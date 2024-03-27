@@ -5,16 +5,16 @@ OVERWORLD_MAP_WIDTH = 10
 OVERWORLD_MAP_HEIGHT = 10
 MAP_WIDTH = 10
 MAP_HEIGHT = 8
----[[
+
+--DECLARING EMPTY TABLES IN GLOBAL MAP
 for x = 1, OVERWORLD_MAP_HEIGHT do
     table.insert(MAP, {})
     for y = 1, OVERWORLD_MAP_WIDTH do
         table.insert(MAP[x], {})
     end
 end
---]]
 
-
+--DEFAULT MAP TILES TO RANDOM SAND TILES
 for x = 1, OVERWORLD_MAP_HEIGHT do
     for y = 1, OVERWORLD_MAP_WIDTH do
         for z = 1, 80 do
@@ -30,6 +30,7 @@ for x = 1, OVERWORLD_MAP_HEIGHT do
     end
 end
 
+--MAP DECLARATIONS
 MAP[1][1] = {
     TREE_TL, TREE_TR, GRASS_TE, GRASS_TE, GRASS_TE, GRASS_TE, GRASS_TE, CABINROOF_TL, CABINROOF_TC, CABINROOF_TR,
     TREE_BL, TREE_BR   , FLOWER   , GRASS   , GRASS   , GRASS   , GRASS   , CABINROOF_BL   , CABINROOF_BC , CABINROOF_BR,
@@ -103,6 +104,7 @@ for i = 1, MAP_HEIGHT do
     end
 end
 
+--ENTITY DECLARATIONS
 local entities = 1
 for i = 1, entities do
     table.insert(MAP[1][2].entities, Entity {
@@ -114,10 +116,6 @@ for i = 1, entities do
         direction = 'left',
         type = 'gecko',
     })
-
-    --MAP[1][2].entities[i].x = MAP[1][2].entities[i].x * i
-    --MAP[1][2].entities[i].direction = 'up'
-    --MAP[1][2].entities[i].type = 'gecko'
 
     MAP[1][2].entities[i].stateMachine = StateMachine {
         ['entity-walk'] = function() return EntityWalkState(MAP[1][2].entities[i]) end,
