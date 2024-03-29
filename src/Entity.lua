@@ -5,6 +5,9 @@ particle = love.graphics.newImage('graphics/particle.png')
 function Entity:init(def)
     self.x = def.x
     self.y = def.y
+    self.dx = 0
+    self.dy = 0
+    self.hit = false
     self.width = def.width
     self.height = def.height
     self.direction = def.direction or 'down'
@@ -83,6 +86,22 @@ function Entity:changeAnimation(name)
 end
 
 function Entity:update(dt)
+    local decrease = 2.5
+    if self.dx > 0 then
+        self.dx = math.max(0, self.dx - decrease * dt)
+    end
+    if self.dy > 0 then
+        self.dy = math.max(0, self.dy - decrease * dt)
+    end
+    ---[[
+    if self.dx < 0 then
+        self.dx = math.min(0, self.dx + decrease * dt)
+    end
+    if self.dy < 0 then
+        self.dy = math.min(0, self.dy + decrease * dt)
+    end
+        --]]
+
     self.stateMachine:update(dt)
     if self.currentAnimation then
         self.currentAnimation:update(dt)
@@ -98,6 +117,34 @@ function Entity:update(dt)
         self.psystem:setColors(67/255, 25/255, 36/255, 255/255, 25/255, 0/255, 51/255, 0/255)
         self.psystem:update(dt)
     end
+
+    if self.type == 'gecko' and successfulCast then
+        for i = 1, sceneView.spellcastEntityCount do
+            local spellX = sceneView.spellcastEntities[i].x
+            local spellY = sceneView.spellcastEntities[i].y
+            if self:collides(sceneView.spellcastEntities[i]) then
+                if self.x > spellX then
+                    self.dx = 1.3
+                else
+                    self.dx = -1.3
+                end
+                if self.y > spellY then
+                    self.dy = 1.3
+                else
+                    self.dy = -1.3
+                end
+                self.hit = true
+            end
+        end
+    end
+
+    if self.hit then
+        self.x = self.x + self.dx
+        self.y = self.y + self.dy
+        if self.dx == 0 or self.dy == 0 then
+            self.hit = false
+        end
+    end
 end
 
 function Entity:processAI(params, dt, player)
@@ -105,7 +152,9 @@ function Entity:processAI(params, dt, player)
 end
 
 function Entity:render(adjacentOffsetX, adjacentOffsetY)
-    love.graphics.draw(self.psystem, adjacentOffsetX, adjacentOffsetY)
+    if self.type == 'gecko' then --IF TYPE HAS PARTICLE SYSTEM TODO
+        love.graphics.draw(self.psystem, math.floor(adjacentOffsetX), math.floor(adjacentOffsetY))
+    end
     self.x, self.y = self.x + (adjacentOffsetX or 0), self.y + (adjacentOffsetY or 0)
     self.stateMachine:render()
     self.x, self.y = self.x - (adjacentOffsetX or 0), self.y - (adjacentOffsetY or 0)
