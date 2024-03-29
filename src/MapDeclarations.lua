@@ -105,12 +105,16 @@ for i = 1, MAP_HEIGHT do
 end
 
 --ENTITY DECLARATIONS
-local entities = 1
+local entities = 5
 for i = 1, entities do
     table.insert(MAP[1][2].entities, Entity {
         animations = ENTITY_DEFS['geckoC'].animations,
+        x = math.random(VIRTUAL_WIDTH - TILE_SIZE * 2),
+        y = math.random(SCREEN_HEIGHT_LIMIT + 100),
+        --[[
         x = VIRTUAL_WIDTH / 2 - 8,
         y = VIRTUAL_HEIGHT / 2 - 8,
+        --]]
         width = TILE_SIZE,
         height = TILE_SIZE,
         direction = 'left',
@@ -123,4 +127,5 @@ for i = 1, entities do
     }
 
     MAP[1][2].entities[i]:changeState('entity-idle')
+    MAP[1][2].entities[i].hit = false
 end

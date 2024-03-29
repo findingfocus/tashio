@@ -57,6 +57,9 @@ __How to reset entities to default locations upon a scene change
 __How to render corruption particles over player
 
 Todo
+__Shrink spellcast entity hitBox for enemy collisions
+__Randomize entity AI
+__Add framerate independence for player update and spellcast update
 __Add game objects to pickup
 __New holding item animation state for player
 _Casting spell sprites
