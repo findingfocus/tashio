@@ -26,6 +26,8 @@ require 'src/InsertAnimation'
 require 'src/CollidableMapObjects'
 require 'src/util'
 
+love.graphics.setDefaultFilter('nearest', 'nearest')
+
 pixelFont = love.graphics.newFont('fonts/Pixel.ttf', 8)
 classicFont = love.graphics.newFont('fonts/classic.ttf', 8)
 

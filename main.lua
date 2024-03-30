@@ -1,8 +1,6 @@
 require 'src/dependencies'
 
 function love.load()
-	love.graphics.setDefaultFilter('nearest', 'nearest')
-
 	love.window.setTitle('Tashio Tempo')
 
     love.mouse.setVisible(false)
