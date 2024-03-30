@@ -3,7 +3,7 @@ EntityWalkState = Class{__includes = BaseState}
 function EntityWalkState:init(entity, scene)
     self.entity = entity
     self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
-    self.entity.walkSpeed = .5
+    --self.entity.walkSpeed = .5
     self.scene = scene
 
     self.moveDuration = 0
@@ -47,49 +47,30 @@ function EntityWalkState:processAI(params, dt, player)
     local tashio = player
     local velocity = .5
     if self.entity.type == 'gecko' then
-        ---[[
-        if self.entity.x > tashio.x + 2 then
-            self.entity.direction = 'left'
-        elseif self.entity.x + 2 < tashio.x then
-            self.entity.direction = 'right'
-        elseif self.entity.y > tashio.y then
-            self.entity.direction = 'up'
-        elseif self.entity.y < tashio.y then
-            self.entity.direction = 'down'
-        end
-        --]]
-    end
-    --[[
-    if self.movementTimer == 0 then
-        local directions = {'left', 'right', 'up', 'down'}
-        local randomIndex = math.random(#directions)
-        self.entity.direction = directions[randomIndex]
-        self.entity:changeAnimation('walk-' .. tostring(directions[randomIndex]))
-    end
-        self.movementTimer = self.movementTimer + dt
-        --]]
-    --[[
-    local directions = {'left', 'right', 'up', 'down'}
-
-    if self.moveDuration == 0 or self.collided then
-
-        self.moveDuration = math.random(5)
-        --self.entity.direction = directions[math.random(#directions)]
-        self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
-    elseif self.movementTimer > self.moveDuration then
-        self.movementTimer = 0
-
-        if math.random(3) == 1 then
-            self.entity:changeState('entity-idle')
-        else
-            self.moveDuration = math.random(5)
-            self.entity.direction = directions[math.random(#directions)]
-            self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
+            --TRACK PLAYERS Y POSITION
+        if self.entity.aiPath == 1 then
+            if self.entity.x > tashio.x + 2 then
+                self.entity.direction = 'left'
+            elseif self.entity.x + 2 < tashio.x then
+                self.entity.direction = 'right'
+            elseif self.entity.y > tashio.y then
+                self.entity.direction = 'up'
+            elseif self.entity.y < tashio.y then
+                self.entity.direction = 'down'
+            end
+            --TRACK PLAYERS Y POSITION
+        elseif self.entity.aiPath == 2 then
+            if self.entity.y > tashio.y + 2 then
+                self.entity.direction = 'up'
+            elseif self.entity.y + 2 < tashio.y then
+                self.entity.direction = 'down'
+            elseif self.entity.x > tashio.x then
+                self.entity.direction = 'left'
+            elseif self.entity.x < tashio.x then
+                self.entity.direction = 'right'
+            end
         end
     end
-
-    self.movementTimer = self.movementTimer + dt
-    --]]
 end
 
 function EntityWalkState:render()

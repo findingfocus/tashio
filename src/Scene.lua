@@ -5,7 +5,7 @@ local SPEED = 3
 local PLAYER_OFFSET = TILE_SIZE / 2
 local AMP = 20
 local TRANSITION_SPEED = 0.65
-local spellcastEntityCount = 3
+local spellcastEntityCount = 5
 local count = spellcastEntityCount
 local step = math.pi * 2 / count
 

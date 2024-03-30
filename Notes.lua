@@ -30,7 +30,13 @@ X_Add in MapObject class with collision detection
 X_Find random particle bug, off way in middle
 X_update tween values for all spellcastEntities
 X_Stop updating orbs on scene transition
+X_draw gecko on scene
+X_BIG EPISODE ENTITY SYSTEM IMPLEMENTATION
+X_Collision detection for map
 X_Implement spinning fire spell cast for lvl 1 - 5
+X_Shrink spellcast entity hitBox for enemy collisions
+X_Randomize entity AI
+X_Casting spell sprites
 __stilken idea for walking partially behind sprites
 __Find animation bug for walking through transition
 __Think about refactoring animation spitter
@@ -40,7 +46,7 @@ __Render Particle systems in the currentMap, not scene
 __Put entity instantions inside of MapDeclations
 __Clean up old comments
 __Add searchable comment throughout codebase
-__
+__Swap AI path randomly for more interesting behavior
 
 Next Episode
 __Stenciling for log cabin
@@ -51,24 +57,21 @@ __Add knockback upon hit
 __Add flashy pain indicator
 __Collision detection Spellcast v entity
 __Update only currentMap entities
+__Start game with quick session of five sprite spell cast?
 
 Research
 __How to reset entities to default locations upon a scene change
 __How to render corruption particles over player
 
 Todo
-__Shrink spellcast entity hitBox for enemy collisions
-__Randomize entity AI
+__Add health to corrupted Gecko
+__Decrement health upon cast collision
+__Cleanse gecko with running away AI
 __Add framerate independence for player update and spellcast update
 __Add game objects to pickup
 __New holding item animation state for player
-_Casting spell sprites
 __Add pushing sprites, as well as pushing animation state
 __add left and right sprite to our player class
-__Rid sand drawable for masterSheet sand
-X_draw gecko on scene
-X_BIG EPISODE ENTITY SYSTEM IMPLEMENTATION
-X_Collision detection for map
 __Add case insensitivity to our chatbot command listens
 __Add 3 health Heart to HUD
 __Inventory system
