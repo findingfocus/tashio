@@ -13,7 +13,7 @@ function love.load()
 
 	push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
 		vsync = true,
-		fullscreen = true,
+		fullscreen = false,
 		resizable = false
 	})
 

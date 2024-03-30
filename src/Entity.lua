@@ -14,6 +14,8 @@ function Entity:init(def)
     self.animations = self:createAnimations(def.animations)
 
     self.walkSpeed = def.walkSpeed
+    self.aiPath = def.aiPath
+    --self.walkSpeed = math.random
     self.offscreen = false
     self.psystem = love.graphics.newParticleSystem(particle, 400)
 
@@ -55,6 +57,11 @@ end
 function Entity:collides(target)
     return not (self.x + self.width - COLLISION_BUFFER < target.x or self.x + COLLISION_BUFFER > target.x + target.width or
                 self.y + self.height - COLLISION_BUFFER < target.y or self.y + COLLISION_BUFFER > target.y + target.height)
+end
+
+function Entity:fireSpellCollides(target)
+    return not (self.x + self.width - COLLISION_BUFFER < target.x or self.x + COLLISION_BUFFER > target.x + target.width or
+                self.y + self.height - COLLISION_BUFFER < target.y + FLAME_COLLISION_BUFFER or self.y + COLLISION_BUFFER > target.y + target.height)
 end
 
 function Entity:leftCollidesMapObject(target)
@@ -122,7 +129,7 @@ function Entity:update(dt)
         for i = 1, sceneView.spellcastEntityCount do
             local spellX = sceneView.spellcastEntities[i].x
             local spellY = sceneView.spellcastEntities[i].y
-            if self:collides(sceneView.spellcastEntities[i]) then
+            if self:fireSpellCollides(sceneView.spellcastEntities[i]) then
                 if self.x > spellX then
                     self.dx = 1.3
                 else
