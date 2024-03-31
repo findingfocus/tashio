@@ -8,10 +8,13 @@ function Entity:init(def)
     self.dx = 0
     self.dy = 0
     self.hit = false
+    self.flipped = false
     self.width = def.width
     self.height = def.height
     self.direction = def.direction or 'down'
     self.animations = self:createAnimations(def.animations)
+    self.health = def.health
+    self.corrupted = true
 
     self.walkSpeed = def.walkSpeed
     self.aiPath = def.aiPath
@@ -116,13 +119,17 @@ function Entity:update(dt)
 
     --GECKO PARTICLE SYSTEM
     if self.type == 'gecko' then
-        self.psystem:moveTo(self.x + 8, self.y + 8)
-        self.psystem:setParticleLifetime(1, 4)
-        self.psystem:setEmissionArea('borderellipse', 2, 2)
-        self.psystem:setEmissionRate(40)
-        self.psystem:setTangentialAcceleration(0, 4)
-        self.psystem:setColors(67/255, 25/255, 36/255, 255/255, 25/255, 0/255, 51/255, 0/255)
-        self.psystem:update(dt)
+        if self.corrupted then
+            self.psystem:moveTo(self.x + 8, self.y + 8)
+            self.psystem:setParticleLifetime(1, 4)
+            self.psystem:setEmissionArea('borderellipse', 2, 2)
+            self.psystem:setEmissionRate(40)
+            self.psystem:setTangentialAcceleration(0, 4)
+            self.psystem:setColors(67/255, 25/255, 36/255, 255/255, 25/255, 0/255, 51/255, 0/255)
+            self.psystem:update(dt)
+        else
+            self.psystem:reset()
+        end
     end
 
     if self.type == 'gecko' and successfulCast then
@@ -130,6 +137,7 @@ function Entity:update(dt)
             local spellX = sceneView.spellcastEntities[i].x
             local spellY = sceneView.spellcastEntities[i].y
             if self:fireSpellCollides(sceneView.spellcastEntities[i]) then
+                self.health = math.max(0, self.health - 5)
                 if self.x > spellX then
                     self.dx = 1.3
                 else

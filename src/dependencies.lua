@@ -30,6 +30,7 @@ love.graphics.setDefaultFilter('nearest', 'nearest')
 
 pixelFont = love.graphics.newFont('fonts/Pixel.ttf', 8)
 classicFont = love.graphics.newFont('fonts/classic.ttf', 8)
+smallFont = love.graphics.newFont('fonts/classic.ttf', 4)
 
 gTextures = {
     ['character-walk'] = love.graphics.newImage('graphics/playerAtlas.png'),
