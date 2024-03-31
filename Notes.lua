@@ -64,6 +64,7 @@ __How to reset entities to default locations upon a scene change
 __How to render corruption particles over player
 
 Todo
+__Add more elegant flipped in entity
 __Add health to corrupted Gecko
 __Decrement health upon cast collision
 __Cleanse gecko with running away AI
