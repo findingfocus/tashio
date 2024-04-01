@@ -29,6 +29,7 @@ function Scene:init(player, mapRow, mapColumn)
             y = 25,
             width = TILE_SIZE,
             height = TILE_SIZE,
+            type = 'spellcast',
         })
         self.spellcastEntities[i].stateMachine = StateMachine {
             ['flame-idle'] = function() return FlameIdle(self.spellcastEntities[i], self, spellcastEntityCount) end,
@@ -195,4 +196,6 @@ function Scene:render()
         end
         self.spellcastEntities[i]:render()
     end
+    love.graphics.setColor(WHITE)
+    --love.graphics.print('flashing: ' .. tostring(self.player.flashing), 0, 0)
 end

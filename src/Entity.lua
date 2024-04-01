@@ -1,6 +1,10 @@
 Entity = Class{}
 
 particle = love.graphics.newImage('graphics/particle.png')
+local FLASH_FREQUENCY = 0.08
+local FLASH_DURATION = 0.85
+local SPELL_KNOCKBACK = 1.5
+local DAMAGE = 50
 
 function Entity:init(def)
     self.x = def.x
@@ -8,13 +12,15 @@ function Entity:init(def)
     self.dx = 0
     self.dy = 0
     self.hit = false
-    self.flipped = false
     self.width = def.width
     self.height = def.height
     self.direction = def.direction or 'down'
     self.animations = self:createAnimations(def.animations)
     self.health = def.health
     self.corrupted = true
+    self.damageFlash = false
+    self.damageFlashDuration = FLASH_DURATION
+    self.damageFlashTimer = FLASH_FREQUENCY
 
     self.walkSpeed = def.walkSpeed
     self.aiPath = def.aiPath
@@ -96,21 +102,19 @@ function Entity:changeAnimation(name)
 end
 
 function Entity:update(dt)
-    local decrease = 2.5
-    if self.dx > 0 then
-        self.dx = math.max(0, self.dx - decrease * dt)
+    if self.damageFlash then
+        self.damageFlashTimer = self.damageFlashTimer - dt
+        if self.damageFlashTimer <= 0 then
+            self.flashing = not self.flashing
+            self.damageFlashTimer = FLASH_FREQUENCY
+        end
+        self.damageFlashDuration = self.damageFlashDuration - dt
+        if self.damageFlashDuration <= 0 then
+            self.damageFlashDuration = FLASH_DURATION
+            self.damageFlash = false
+            self.flashing = false
+        end
     end
-    if self.dy > 0 then
-        self.dy = math.max(0, self.dy - decrease * dt)
-    end
-    ---[[
-    if self.dx < 0 then
-        self.dx = math.min(0, self.dx + decrease * dt)
-    end
-    if self.dy < 0 then
-        self.dy = math.min(0, self.dy + decrease * dt)
-    end
-        --]]
 
     self.stateMachine:update(dt)
     if self.currentAnimation then
@@ -136,17 +140,19 @@ function Entity:update(dt)
         for i = 1, sceneView.spellcastEntityCount do
             local spellX = sceneView.spellcastEntities[i].x
             local spellY = sceneView.spellcastEntities[i].y
-            if self:fireSpellCollides(sceneView.spellcastEntities[i]) then
-                self.health = math.max(0, self.health - 5)
+            --ENTITY KNOCKBACK FOR SPELL COLLISIONS
+            if self:fireSpellCollides(sceneView.spellcastEntities[i]) and not self.hit and self.corrupted then
+                self.damageFlash = true
+                self.health = math.max(0, self.health - DAMAGE)
                 if self.x > spellX then
-                    self.dx = 1.3
+                    self.dx = SPELL_KNOCKBACK
                 else
-                    self.dx = -1.3
+                    self.dx = -SPELL_KNOCKBACK
                 end
                 if self.y > spellY then
-                    self.dy = 1.3
+                    self.dy = SPELL_KNOCKBACK
                 else
-                    self.dy = -1.3
+                    self.dy = -SPELL_KNOCKBACK
                 end
                 self.hit = true
             end
@@ -154,6 +160,19 @@ function Entity:update(dt)
     end
 
     if self.hit then
+        local decrease = 2.5
+        if self.dx > 0 then
+            self.dx = math.max(0, self.dx - decrease * dt)
+        end
+        if self.dy > 0 then
+            self.dy = math.max(0, self.dy - decrease * dt)
+        end
+        if self.dx < 0 then
+            self.dx = math.min(0, self.dx + decrease * dt)
+        end
+        if self.dy < 0 then
+            self.dy = math.min(0, self.dy + decrease * dt)
+        end
         self.x = self.x + self.dx
         self.y = self.y + self.dy
         if self.dx == 0 or self.dy == 0 then
@@ -167,6 +186,13 @@ function Entity:processAI(params, dt, player)
 end
 
 function Entity:render(adjacentOffsetX, adjacentOffsetY)
+    if self.type ~= 'spellcast' then
+        if self.flashing then
+            love.graphics.setColor(RED)
+        else
+            love.graphics.setColor(WHITE)
+        end
+    end
     if self.type == 'gecko' then --IF TYPE HAS PARTICLE SYSTEM TODO
         love.graphics.draw(self.psystem, math.floor(adjacentOffsetX), math.floor(adjacentOffsetY))
     end
