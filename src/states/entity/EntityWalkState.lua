@@ -13,10 +13,15 @@ function EntityWalkState:init(entity, scene)
 end
 
 function EntityWalkState:update(dt)
+    --CLEANSE
     if self.entity.corrupted then
         --self.entity.health = math.max(self.entity.health - 0.5, 0)
         if self.entity.health <= 0 then
+            self.entity.damageFlash = false
+            self.entity.flashing = false
             self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['gecko'].animations)
+            local random = math.random(4)
+            self.entity.direction = sceneView.possibleDirections[random]
             self.entity.corrupted = false
         end
     end
@@ -56,7 +61,7 @@ function EntityWalkState:processAI(params, dt, player)
     local velocity = .5
     if self.entity.type == 'gecko' then
         if self.entity.corrupted then
-            --TRACK PLAYERS Y POSITION
+            --TRACK PLAYERS X POSITION
             if self.entity.aiPath == 1 then
                 if self.entity.x > tashio.x + 2 then
                     self.entity.direction = 'left'
@@ -79,10 +84,6 @@ function EntityWalkState:processAI(params, dt, player)
                     self.entity.direction = 'right'
                 end
             end
-        elseif not self.entity.corrupted and not self.entity.flipped then
-            local random = math.random(4)
-            self.entity.direction = sceneView.possibleDirections[random]
-            self.entity.flipped = true
         end
     end
 end
@@ -91,9 +92,12 @@ function EntityWalkState:render()
     local anim = self.entity.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
         math.floor(self.entity.x), math.floor(self.entity.y))
+    --HEALTH BARS
+    --[[
     if self.entity.type == 'gecko' then
         love.graphics.setColor(1,0,0,1)
         love.graphics.rectangle('fill', self.entity.x, self.entity.y - 1, self.entity.health / 6.25, 1)
         love.graphics.setColor(WHITE)
     end
+    --]]
 end

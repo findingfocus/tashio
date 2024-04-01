@@ -37,6 +37,14 @@ X_Implement spinning fire spell cast for lvl 1 - 5
 X_Shrink spellcast entity hitBox for enemy collisions
 X_Randomize entity AI
 X_Casting spell sprites
+X_Add Entity health
+X_Add knockback upon spellcast v entity collide
+X_Add flashy pain indicator
+X_Collision detection Spellcast v entity
+X_Add more elegant flipped in entity
+X_Add health to corrupted Gecko
+X_Decrement health upon cast collision
+X_Cleanse gecko with running away AI
 __stilken idea for walking partially behind sprites
 __Find animation bug for walking through transition
 __Think about refactoring animation spitter
@@ -49,25 +57,23 @@ __Add searchable comment throughout codebase
 __Swap AI path randomly for more interesting behavior
 
 Next Episode
-__Stenciling for log cabin
+
+__Have cleansed geckos pick closest edge to walk to
+__Clamp entity knockback to just before they deinstantiate
 __Collision detection for player v entities
+__Player health
+
+__Stenciling for log cabin
 __Collision detection for entities v MapObjects
 __Add Player health
-__Add knockback upon hit
-__Add flashy pain indicator
-__Collision detection Spellcast v entity
 __Update only currentMap entities
-__Start game with quick session of five sprite spell cast?
 
 Research
 __How to reset entities to default locations upon a scene change
 __How to render corruption particles over player
+__Start game with quick session of five sprite spell cast?
 
 Todo
-__Add more elegant flipped in entity
-__Add health to corrupted Gecko
-__Decrement health upon cast collision
-__Cleanse gecko with running away AI
 __Add framerate independence for player update and spellcast update
 __Add game objects to pickup
 __New holding item animation state for player
