@@ -46,6 +46,7 @@ gFrames = {
     ['geckoC'] = GenerateQuads(gTextures['geckoC'], TILE_SIZE, TILE_SIZE),
     ['flame'] = GenerateQuads(gTextures['flame'], TILE_SIZE, TILE_SIZE),
 }
+heart = love.graphics.newImage('graphics/heart.png')
 playerSpriteSheet = love.graphics.newImage('graphics/playerAtlas.png')
 arrowKeyLogger = love.graphics.newImage('graphics/arrowKey.png')
 testSprites = love.graphics.newImage('graphics/testSprites.png')
