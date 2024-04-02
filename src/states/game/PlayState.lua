@@ -111,6 +111,8 @@ function PlayState:render()
     --HUD RENDER
     love.graphics.setColor(142/255, 146/255, 171/255, 255/255)
     love.graphics.rectangle('fill', 0, VIRTUAL_HEIGHT - 16, VIRTUAL_WIDTH, 16)
+    love.graphics.setColor(WHITE)
+    love.graphics.draw(heart, VIRTUAL_WIDTH / 2 + 22, SCREEN_HEIGHT_LIMIT)
 
     --MANIS BAR RENDER
     love.graphics.setColor(255/255, 0/255, 0/255, 255/255)
