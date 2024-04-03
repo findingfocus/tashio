@@ -1,5 +1,8 @@
 PlayState = Class{__includes = BaseState}
 successfulCast = false
+HEART_CROP = 56
+totalHealth = 14
+healthDifference = 0
 
 function PlayState:init()
     self.player = Player {
@@ -10,6 +13,7 @@ function PlayState:init()
         width = TILE_SIZE,
         height = TILE_SIZE,
     }
+    --self.player.damageFlash = true
     self.player.stateMachine = StateMachine {
         ['player-walk'] = function() return PlayerWalkState(self.player, self.scene) end,
         ['player-idle'] = function() return PlayerIdleState(self.player) end,
@@ -112,7 +116,11 @@ function PlayState:render()
     love.graphics.setColor(142/255, 146/255, 171/255, 255/255)
     love.graphics.rectangle('fill', 0, VIRTUAL_HEIGHT - 16, VIRTUAL_WIDTH, 16)
     love.graphics.setColor(WHITE)
-    love.graphics.draw(heart, VIRTUAL_WIDTH / 2 + 22, SCREEN_HEIGHT_LIMIT)
+
+    love.graphics.draw(heartRowEmpty, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)
+    heartRowQuad:setViewport(0, 0, HEART_CROP, 7, heartRow:getDimensions())
+    love.graphics.draw(heartRow, heartRowQuad, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)
+    love.graphics.print('health: ' .. tostring(sceneView.player.health), VIRTUAL_WIDTH - 130, SCREEN_HEIGHT_LIMIT + 4)
 
     --MANIS BAR RENDER
     love.graphics.setColor(255/255, 0/255, 0/255, 255/255)
@@ -141,7 +149,7 @@ function PlayState:render()
 
 	love.graphics.setFont(classicFont)
     love.graphics.setColor(BLACK)
-    love.graphics.printf('Tashio Tempo', 0, VIRTUAL_HEIGHT - 13, VIRTUAL_WIDTH, 'center')
+    --love.graphics.printf('Tashio Tempo', 0, VIRTUAL_HEIGHT - 13, VIRTUAL_WIDTH, 'center')
     if love.keyboard.isDown('up') then
         love.graphics.setColor(FADED)
         love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 16, SCREEN_HEIGHT_LIMIT - 11 + KEYLOGGER_YOFFSET, 0, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --UP
