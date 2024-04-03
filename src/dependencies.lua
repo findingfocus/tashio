@@ -47,6 +47,10 @@ gFrames = {
     ['flame'] = GenerateQuads(gTextures['flame'], TILE_SIZE, TILE_SIZE),
 }
 heart = love.graphics.newImage('graphics/heart.png')
+heartRow = love.graphics.newImage('graphics/heartRow.png')
+heartRowEmpty = love.graphics.newImage('graphics/heartRowEmpty.png')
+heartRowQuad = love.graphics.newQuad(0, 0, 56, 7, heartRow:getDimensions())
+--love.graphics.newQuad(x * tilewidth, y * tileheight, tilewidth, tileheight, atlas:getDimensions())
 playerSpriteSheet = love.graphics.newImage('graphics/playerAtlas.png')
 arrowKeyLogger = love.graphics.newImage('graphics/arrowKey.png')
 testSprites = love.graphics.newImage('graphics/testSprites.png')

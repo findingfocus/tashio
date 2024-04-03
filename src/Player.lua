@@ -1,12 +1,48 @@
 Player = Class{__includes = Entity}
 
+local heartSpeed = 0.5
+
 function Player:init(def)
     Entity.init(self, def)
     self.lastInput = nil
     self.inputsHeld = 0
+    self.health = 14
+    self.heartTimer = heartSpeed
+    self.decrement = true
+end
+
+function updateHearts(player)
+    healthDifference = totalHealth - player.health
+    HEART_CROP = 56 - (4 * healthDifference)
 end
 
 function Player:update(dt)
+    if self.heartTimer > 0 then
+        self.heartTimer = self.heartTimer - dt
+    end
+    if self.heartTimer < 0 and self.decrement then
+        self.heartTimer = heartSpeed
+        if self.health == 1 then
+            self.decrement = false
+            self.health = self.health + 1
+            updateHearts(self)
+        else
+            self.health = self.health - 1
+            updateHearts(self)
+        end
+    end
+
+    if self.heartTimer < 0 and not self.decrement then
+        self.heartTimer = heartSpeed
+        if self.health == 14 then
+            self.decrement = true
+            self.health = self.health - 1
+            updateHearts(self)
+        else
+            self.health = self.health + 1
+            updateHearts(self)
+        end
+    end
     --POPULATE INPUT LIST
     if love.keyboard.wasPressed('left') then
         table.insert(INPUT_LIST, 'left')
