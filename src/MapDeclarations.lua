@@ -107,7 +107,7 @@ end
 --ENTITY DECLARATIONS
 local entities = 5
 for i = 1, entities do
-    local random = math.random(25, 75)
+    local random = math.random(25, 35)
     local randomPath = math.random(1, 2)
     random = random / 100
     table.insert(MAP[1][2].entities, Entity {
@@ -120,7 +120,7 @@ for i = 1, entities do
         --]]
         width = TILE_SIZE,
         height = TILE_SIZE,
-        health = 100,
+        health = 150,
         direction = 'left',
         type = 'gecko',
         walkSpeed = random,

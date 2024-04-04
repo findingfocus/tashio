@@ -17,6 +17,10 @@ function updateHearts(player)
 end
 
 function Player:update(dt)
+    --TODO
+    healthDifference = totalHealth - self.health
+    HEART_CROP = math.max(56 - (4 * healthDifference), 0)
+    --[[
     if self.heartTimer > 0 then
         self.heartTimer = self.heartTimer - dt
     end
@@ -43,6 +47,7 @@ function Player:update(dt)
             updateHearts(self)
         end
     end
+    --]]
     --POPULATE INPUT LIST
     if love.keyboard.wasPressed('left') then
         table.insert(INPUT_LIST, 'left')
