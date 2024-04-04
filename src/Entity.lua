@@ -3,7 +3,6 @@ Entity = Class{}
 particle = love.graphics.newImage('graphics/particle.png')
 local FLASH_FREQUENCY = 0.08
 local FLASH_DURATION = 0.85
-local SPELL_KNOCKBACK = 1.5
 local DAMAGE = 50
 
 function Entity:init(def)
@@ -159,25 +158,23 @@ function Entity:update(dt)
         end
     end
 
-    if self.hit then
-        local decrease = 2.5
-        if self.dx > 0 then
-            self.dx = math.max(0, self.dx - decrease * dt)
-        end
-        if self.dy > 0 then
-            self.dy = math.max(0, self.dy - decrease * dt)
-        end
-        if self.dx < 0 then
-            self.dx = math.min(0, self.dx + decrease * dt)
-        end
-        if self.dy < 0 then
-            self.dy = math.min(0, self.dy + decrease * dt)
-        end
-        self.x = self.x + self.dx
-        self.y = self.y + self.dy
-        if self.dx == 0 or self.dy == 0 then
-            self.hit = false
-        end
+    --SHOULD NEST IN SELF.HIT? WAS CAUSING BUGS
+    if self.dx > 0 then
+        self.dx = math.max(0, self.dx - SLOW_TO_STOP * dt)
+    end
+    if self.dy > 0 then
+        self.dy = math.max(0, self.dy - SLOW_TO_STOP * dt)
+    end
+    if self.dx < 0 then
+        self.dx = math.min(0, self.dx + SLOW_TO_STOP * dt)
+    end
+    if self.dy < 0 then
+        self.dy = math.min(0, self.dy + SLOW_TO_STOP * dt)
+    end
+    self.x = self.x + self.dx
+    self.y = self.y + self.dy
+    if self.dx == 0 or self.dy == 0 then
+        self.hit = false
     end
 end
 

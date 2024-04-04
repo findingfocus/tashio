@@ -13,6 +13,7 @@ function PlayState:init()
         width = TILE_SIZE,
         height = TILE_SIZE,
     }
+
     --self.player.damageFlash = true
     self.player.stateMachine = StateMachine {
         ['player-walk'] = function() return PlayerWalkState(self.player, self.scene) end,

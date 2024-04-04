@@ -45,6 +45,8 @@ X_Add more elegant flipped in entity
 X_Add health to corrupted Gecko
 X_Decrement health upon cast collision
 X_Cleanse gecko with running away AI
+X_Collision detection for player v entities
+X_Player health
 __stilken idea for walking partially behind sprites
 __Find animation bug for walking through transition
 __Think about refactoring animation spitter
@@ -55,13 +57,12 @@ __Put entity instantions inside of MapDeclations
 __Clean up old comments
 __Add searchable comment throughout codebase
 __Swap AI path randomly for more interesting behavior
+__Add bounding box to cleansed geckos to prevent walking over
 
 Next Episode
-
+__FIX entities in SceneView, possibly clearing previous scenes entities, and initing them upon scene transition
 __Have cleansed geckos pick closest edge to walk to
 __Clamp entity knockback to just before they deinstantiate
-__Collision detection for player v entities
-__Player health
 
 __Stenciling for log cabin
 __Collision detection for entities v MapObjects

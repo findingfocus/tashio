@@ -116,7 +116,9 @@ function Scene:finishShifting()
         MAP[self.mapRow][self.mapColumn].entities[i]:resetOriginalPosition()
     end
     self.currentMap = self.nextMap
+
     self.nextMap = nil
+    --sceneView = Scene(self.player, 1, 1)
     self.player.direction = INPUT_LIST[#INPUT_LIST]
     INPUT_LIST = {}
     if love.keyboard.isDown('left') then
@@ -168,6 +170,33 @@ function Scene:update(dt)
             self.player.y = object.y - self.player.height
         end
     end
+
+    --PLAYER TO ENTITY COLLISION
+    for i = 1, #MAP[self.mapRow][self.mapColumn].entities do
+        if MAP[self.mapRow][self.mapColumn].entities[i].corrupted then
+            if self.player:topCollidesMapObject(MAP[self.mapRow][self.mapColumn].entities[i]) and not self.player.damageFlash then
+                self.player.hit = true
+                self.player.dy = SPELL_KNOCKBACK
+                self.player.damageFlash = true
+                self.player.health = self.player.health - 1
+            elseif self.player:rightCollidesMapObject(MAP[self.mapRow][self.mapColumn].entities[i]) and not self.player.damageFlash then
+                self.player.damageFlash = true
+                self.player.health = self.player.health - 1
+                self.player.dx = -SPELL_KNOCKBACK
+                self.player.hit = true
+            elseif self.player:leftCollidesMapObject(MAP[self.mapRow][self.mapColumn].entities[i]) and not self.player.damageFlash then
+                self.player.damageFlash = true
+                self.player.health = self.player.health - 1
+                self.player.dx = SPELL_KNOCKBACK
+                self.player.hit = true
+            elseif self.player:bottomCollidesMapObject(MAP[self.mapRow][self.mapColumn].entities[i]) and not self.player.damageFlash then
+                self.player.damageFlash = true
+                self.player.health = self.player.health - 1
+                self.player.dy = -SPELL_KNOCKBACK
+                self.player.hit = true
+            end
+        end
+    end
 end
 
 function Scene:render()
@@ -197,5 +226,6 @@ function Scene:render()
         self.spellcastEntities[i]:render()
     end
     love.graphics.setColor(WHITE)
-    --love.graphics.print('flashing: ' .. tostring(self.player.flashing), 0, 0)
+    love.graphics.print('hit: ' .. tostring(self.player.hit), 0, 0)
+    love.graphics.print('dy: ' .. tostring(self.player.dy), 0, 10)
 end
