@@ -3,9 +3,14 @@ EntityIdleState = Class{__includes = BaseState}
 function EntityIdleState:init(entity)
     self.direction = 'right'
     self.entity = entity
-    self.entity:changeAnimation('idle-' .. self.entity.direction)
     self.waitDuration = 0
     self.waitTimer = 0
+    if self.entity.corrupted and self.entity.type == 'gecko' then
+        self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['geckoC'].animations)
+    elseif not self.entity.corrupted and self.entity.type == 'gecko' then
+        self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['gecko'].animations)
+    end
+    self.entity:changeAnimation('idle-' .. self.entity.direction)
 end
 
 function EntityIdleState:processAI(params, dt, player)

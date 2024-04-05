@@ -105,10 +105,9 @@ for i = 1, MAP_HEIGHT do
 end
 
 --ENTITY DECLARATIONS
-local entities = 5
+local entities = 4
 for i = 1, entities do
     local random = math.random(25, 35)
-    local randomPath = math.random(1, 2)
     random = random / 100
     table.insert(MAP[1][2].entities, Entity {
         animations = ENTITY_DEFS['geckoC'].animations,
@@ -124,7 +123,8 @@ for i = 1, entities do
         direction = 'left',
         type = 'gecko',
         walkSpeed = random,
-        aiPath = randomPath,
+        aiPath = math.random(1, 2),
+        corrupted = true,
     })
 
     MAP[1][2].entities[i].stateMachine = StateMachine {

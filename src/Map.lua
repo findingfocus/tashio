@@ -48,9 +48,36 @@ function Map:update(dt)
     if not sceneView.shifting then
         for i = 1, self.entityCount do
             local entity = MAP[self.row][self.column].entities[i]
-            if not MAP[self.row][self.column].entities.offscreen then
+            if not MAP[self.row][self.column].entities[i].offscreen then
                 entity:processAI({scene = sceneView}, dt, sceneView.player)
                 entity:update(dt)
+            end
+        end
+
+        --PLAYER TO ENTITY COLLISION
+        for i = 1, #MAP[self.row][self.column].entities do
+            if MAP[self.row][self.column].entities[i].corrupted then
+                if sceneView.player:topCollidesMapObject(MAP[self.row][self.column].entities[i]) and not sceneView.player.damageFlash then
+                    sceneView.player.hit = true
+                    sceneView.player.dy = SPELL_KNOCKBACK
+                    sceneView.player.damageFlash = true
+                    sceneView.player.health = sceneView.player.health - 1
+                elseif sceneView.player:rightCollidesMapObject(MAP[self.row][self.column].entities[i]) and not sceneView.player.damageFlash then
+                    sceneView.player.damageFlash = true
+                    sceneView.player.health = sceneView.player.health - 1
+                    sceneView.player.dx = -SPELL_KNOCKBACK
+                    sceneView.player.hit = true
+                elseif sceneView.player:leftCollidesMapObject(MAP[self.row][self.column].entities[i]) and not sceneView.player.damageFlash then
+                    sceneView.player.damageFlash = true
+                    sceneView.player.health = sceneView.player.health - 1
+                    sceneView.player.dx = SPELL_KNOCKBACK
+                    sceneView.player.hit = true
+                elseif sceneView.player:bottomCollidesMapObject(MAP[self.row][self.column].entities[i]) and not sceneView.player.damageFlash then
+                    sceneView.player.damageFlash = true
+                    sceneView.player.health = sceneView.player.health - 1
+                    sceneView.player.dy = -SPELL_KNOCKBACK
+                    sceneView.player.hit = true
+                end
             end
         end
     end
