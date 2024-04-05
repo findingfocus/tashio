@@ -16,7 +16,8 @@ function Entity:init(def)
     self.direction = def.direction or 'down'
     self.animations = self:createAnimations(def.animations)
     self.health = def.health
-    self.corrupted = true
+    self.corrupted = def.corrupted
+    self.originalCorrupted = def.corrupted
     self.damageFlash = false
     self.damageFlashDuration = FLASH_DURATION
     self.damageFlashTimer = FLASH_FREQUENCY
@@ -43,8 +44,15 @@ function Entity:resetOriginalPosition()
     self.animations = self.originalAnimations
     self.x = self.originalX
     self.y = self.originalY
+    self.health = 150
+    self.damageFlash = false
+    self.flashing = false
+    self.corrupted = true
+    self.dx = 0
+    self.dy = 0
     self.direction = self.originalDirection
     self.type = self.originalType
+    self.offscreen = false
     self.psystem:reset()
     self:changeState('entity-idle')
 end

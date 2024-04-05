@@ -2,6 +2,11 @@ EntityWalkState = Class{__includes = BaseState}
 
 function EntityWalkState:init(entity, scene)
     self.entity = entity
+    if self.entity.corrupted and self.entity.type == 'gecko' then
+        self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['geckoC'].animations)
+    elseif not self.entity.corrupted and self.entity.type == 'gecko' then
+        self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['gecko'].animations)
+    end
     self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
     --self.entity.walkSpeed = .5
     self.scene = scene

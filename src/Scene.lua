@@ -112,8 +112,8 @@ function Scene:finishShifting()
     for i = 1, spellcastEntityCount do
         self.currentMap.psystems[i]:release()
     end
-    for i = 1, #MAP[self.mapRow][self.mapColumn].entities do
-        MAP[self.mapRow][self.mapColumn].entities[i]:resetOriginalPosition()
+    for i = 1, #MAP[self.currentMap.row][self.currentMap.column].entities do
+        MAP[self.currentMap.row][self.currentMap.column].entities[i]:resetOriginalPosition()
     end
     self.currentMap = self.nextMap
 
@@ -171,32 +171,6 @@ function Scene:update(dt)
         end
     end
 
-    --PLAYER TO ENTITY COLLISION
-    for i = 1, #MAP[self.mapRow][self.mapColumn].entities do
-        if MAP[self.mapRow][self.mapColumn].entities[i].corrupted then
-            if self.player:topCollidesMapObject(MAP[self.mapRow][self.mapColumn].entities[i]) and not self.player.damageFlash then
-                self.player.hit = true
-                self.player.dy = SPELL_KNOCKBACK
-                self.player.damageFlash = true
-                self.player.health = self.player.health - 1
-            elseif self.player:rightCollidesMapObject(MAP[self.mapRow][self.mapColumn].entities[i]) and not self.player.damageFlash then
-                self.player.damageFlash = true
-                self.player.health = self.player.health - 1
-                self.player.dx = -SPELL_KNOCKBACK
-                self.player.hit = true
-            elseif self.player:leftCollidesMapObject(MAP[self.mapRow][self.mapColumn].entities[i]) and not self.player.damageFlash then
-                self.player.damageFlash = true
-                self.player.health = self.player.health - 1
-                self.player.dx = SPELL_KNOCKBACK
-                self.player.hit = true
-            elseif self.player:bottomCollidesMapObject(MAP[self.mapRow][self.mapColumn].entities[i]) and not self.player.damageFlash then
-                self.player.damageFlash = true
-                self.player.health = self.player.health - 1
-                self.player.dy = -SPELL_KNOCKBACK
-                self.player.hit = true
-            end
-        end
-    end
 end
 
 function Scene:render()
@@ -225,7 +199,12 @@ function Scene:render()
         end
         self.spellcastEntities[i]:render()
     end
+    ---[[
     love.graphics.setColor(WHITE)
-    love.graphics.print('hit: ' .. tostring(self.player.hit), 0, 0)
-    love.graphics.print('dy: ' .. tostring(self.player.dy), 0, 10)
+    for i = 1, #MAP[1][2].entities do
+        love.graphics.print('entity[' .. tostring(i) .. ']: x:' .. string.format("%.2f", MAP[1][2].entities[i].x) , 0, i * 8)
+        love.graphics.print(tostring(MAP[1][2].entities[i].y), 144, i * 8)
+    end
+    --love.graphics.print('dy: ' .. tostring(self.player.dy), 0, 10)
+    --]]
 end

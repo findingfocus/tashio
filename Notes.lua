@@ -58,6 +58,9 @@ __Clean up old comments
 __Add searchable comment throughout codebase
 __Swap AI path randomly for more interesting behavior
 __Add bounding box to cleansed geckos to prevent walking over
+__Ensure entities table in scene class not in use
+__Rename playercollision function for entity collision
+__Shrink side hitboxes for player to entity collision
 
 Next Episode
 __FIX entities in SceneView, possibly clearing previous scenes entities, and initing them upon scene transition
