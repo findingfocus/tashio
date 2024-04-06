@@ -199,7 +199,7 @@ function Scene:render()
         end
         self.spellcastEntities[i]:render()
     end
-    ---[[
+    --[[
     love.graphics.setColor(WHITE)
     for i = 1, #MAP[1][2].entities do
         love.graphics.print('entity[' .. tostring(i) .. ']: x:' .. string.format("%.2f", MAP[1][2].entities[i].x) , 0, i * 8)
