@@ -109,19 +109,19 @@ function Player:update(dt)
     --TRANSITION EVENT TRIGGERS
     if not sceneView.shifting then
         if love.keyboard.isDown('right') then
-            if self.x + self.width >= VIRTUAL_WIDTH + EDGE_BUFFER_PLAYER then
+            if self.x + self.width >= VIRTUAL_WIDTH + SIDE_EDGE_BUFFER_PLAYER then
                 Event.dispatch('right-transition')
             end
         end
 
         if love.keyboard.isDown('left') then
-            if self.x <= -EDGE_BUFFER_PLAYER then
+            if self.x <= -SIDE_EDGE_BUFFER_PLAYER then
                 Event.dispatch('left-transition')
             end
         end
 
         if love.keyboard.isDown('up') then
-            if self.y <= -EDGE_BUFFER_PLAYER then
+            if self.y <= -SIDE_EDGE_BUFFER_PLAYER then
                 Event.dispatch('up-transition')
             end
         end

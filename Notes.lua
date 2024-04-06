@@ -47,6 +47,10 @@ X_Decrement health upon cast collision
 X_Cleanse gecko with running away AI
 X_Collision detection for player v entities
 X_Player health
+X_Clamp entity knockback to just before they deinstantiate
+X_Limit Geck entities from being knocked out of bounds
+X_Limit Player from being knocked out of bounds
+X_Reset geckos position after collision
 __stilken idea for walking partially behind sprites
 __Find animation bug for walking through transition
 __Think about refactoring animation spitter
@@ -60,12 +64,12 @@ __Swap AI path randomly for more interesting behavior
 __Add bounding box to cleansed geckos to prevent walking over
 __Ensure entities table in scene class not in use
 __Rename playercollision function for entity collision
-__Shrink side hitboxes for player to entity collision
+__Prevent geckos from being cut off rendering
+
 
 Next Episode
-__FIX entities in SceneView, possibly clearing previous scenes entities, and initing them upon scene transition
+__Redesign hitboxes for player to entity collision
 __Have cleansed geckos pick closest edge to walk to
-__Clamp entity knockback to just before they deinstantiate
 
 __Stenciling for log cabin
 __Collision detection for entities v MapObjects

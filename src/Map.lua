@@ -56,27 +56,40 @@ function Map:update(dt)
 
         --PLAYER TO ENTITY COLLISION
         for i = 1, #MAP[self.row][self.column].entities do
+            local entity = MAP[self.row][self.column].entities[i]
             if MAP[self.row][self.column].entities[i].corrupted then
-                if sceneView.player:topCollidesMapObject(MAP[self.row][self.column].entities[i]) and not sceneView.player.damageFlash then
-                    sceneView.player.hit = true
-                    sceneView.player.dy = SPELL_KNOCKBACK
-                    sceneView.player.damageFlash = true
-                    sceneView.player.health = sceneView.player.health - 1
-                elseif sceneView.player:rightCollidesMapObject(MAP[self.row][self.column].entities[i]) and not sceneView.player.damageFlash then
-                    sceneView.player.damageFlash = true
-                    sceneView.player.health = sceneView.player.health - 1
-                    sceneView.player.dx = -SPELL_KNOCKBACK
-                    sceneView.player.hit = true
-                elseif sceneView.player:leftCollidesMapObject(MAP[self.row][self.column].entities[i]) and not sceneView.player.damageFlash then
-                    sceneView.player.damageFlash = true
-                    sceneView.player.health = sceneView.player.health - 1
-                    sceneView.player.dx = SPELL_KNOCKBACK
-                    sceneView.player.hit = true
-                elseif sceneView.player:bottomCollidesMapObject(MAP[self.row][self.column].entities[i]) and not sceneView.player.damageFlash then
-                    sceneView.player.damageFlash = true
-                    sceneView.player.health = sceneView.player.health - 1
-                    sceneView.player.dy = -SPELL_KNOCKBACK
-                    sceneView.player.hit = true
+                if sceneView.player:topCollidesMapObject(entity) then
+                    entity.y = sceneView.player.y - sceneView.player.height + 9
+                    if not sceneView.player.damageFlash then
+                        sceneView.player.hit = true
+                        sceneView.player.dy = SPELL_KNOCKBACK
+                        sceneView.player.damageFlash = true
+                        sceneView.player.health = sceneView.player.health - 1
+                    end
+                elseif sceneView.player:rightCollidesMapObject(entity) then
+                    entity.x = sceneView.player.x - sceneView.player.width
+                    if not sceneView.player.damageFlash then
+                        sceneView.player.damageFlash = true
+                        sceneView.player.health = sceneView.player.health - 1
+                        sceneView.player.dx = -SPELL_KNOCKBACK
+                        sceneView.player.hit = true
+                    end
+                elseif sceneView.player:leftCollidesMapObject(entity) then
+                    entity.x = sceneView.player.x - sceneView.player.width
+                    if not sceneView.player.damageFlash then
+                        sceneView.player.damageFlash = true
+                        sceneView.player.health = sceneView.player.health - 1
+                        sceneView.player.dx = SPELL_KNOCKBACK
+                        sceneView.player.hit = true
+                    end
+                elseif sceneView.player:bottomCollidesMapObject(entity) then
+                    entity.y = sceneView.player.y + sceneView.player.height
+                    if not sceneView.player.damageFlash then
+                        sceneView.player.damageFlash = true
+                        sceneView.player.health = sceneView.player.health - 1
+                        sceneView.player.dy = -SPELL_KNOCKBACK
+                        sceneView.player.hit = true
+                    end
                 end
             end
         end

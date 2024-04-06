@@ -11,6 +11,7 @@ function Entity:init(def)
     self.dx = 0
     self.dy = 0
     self.hit = false
+    self.enemy = def.enemy or false
     self.width = def.width
     self.height = def.height
     self.direction = def.direction or 'down'
@@ -184,6 +185,45 @@ function Entity:update(dt)
     if self.dx == 0 or self.dy == 0 then
         self.hit = false
     end
+
+    ---[[
+
+    if self.enemy and not self.corrupted then
+
+    else
+        --BOUNDARY LIMIT
+        --TOP BOUNDARY
+        if self.y <= -SIDE_EDGE_BUFFER_PLAYER then
+            self.y = -SIDE_EDGE_BUFFER_PLAYER
+        end
+
+        --RIGHT BOUNDARY
+        if self.x + self.width >= VIRTUAL_WIDTH + SIDE_EDGE_BUFFER_PLAYER then
+            self.x = VIRTUAL_WIDTH + SIDE_EDGE_BUFFER_PLAYER - self.width
+        end
+
+        --BOTTOM BOUNDARY
+        if self.y + self.height >= SCREEN_HEIGHT_LIMIT + BOTTOM_BUFFER then
+            self.y = SCREEN_HEIGHT_LIMIT + BOTTOM_BUFFER - self.height
+        end
+
+        --LEFT BOUNDARY
+        if self.x <= -SIDE_EDGE_BUFFER_PLAYER then
+            self.x = -SIDE_EDGE_BUFFER_PLAYER
+        end
+
+    end
+
+
+    --[[
+    -EDGE_BUFFER
+    --LEFT BOUNDARY
+    -EDGE_BUFFER
+    --RIGHT BOUNDARY
+    VIRTUAL_WIDTH + EDGE_BUFFER_PLAYER
+    --BOTTOM BOUNDARY
+    SCREEN_HEIGHT_LIMIT + BOTTOM_BUFFER
+    --]]
 end
 
 function Entity:processAI(params, dt, player)

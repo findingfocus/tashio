@@ -125,6 +125,7 @@ for i = 1, entities do
         walkSpeed = random,
         aiPath = math.random(1, 2),
         corrupted = true,
+        enemy = true,
     })
 
     MAP[1][2].entities[i].stateMachine = StateMachine {
