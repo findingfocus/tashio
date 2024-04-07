@@ -67,7 +67,7 @@ function Map:update(dt)
                         sceneView.player.health = sceneView.player.health - 1
                     end
                 elseif sceneView.player:rightCollidesMapObject(entity) then
-                    entity.x = sceneView.player.x - sceneView.player.width
+                    entity.x = sceneView.player.x + sceneView.player.width
                     if not sceneView.player.damageFlash then
                         sceneView.player.damageFlash = true
                         sceneView.player.health = sceneView.player.health - 1
