@@ -43,6 +43,7 @@ function PlayState:init()
 end
 
 function PlayState:update(dt)
+
     if not sceneView.shifting then
         --UNFOCUS
         if (self.unFocus < self.focusMax) and self.unFocusGrowing then
@@ -94,6 +95,7 @@ function PlayState:update(dt)
 
     if self.focusIndicatorX > 65 and self.focusIndicatorX < 85 then
         successfulCast = true
+        sounds['spellcast']:play()
     else
         successfulCast = false
     end

@@ -119,7 +119,7 @@ for i = 1, entities do
         --]]
         width = TILE_SIZE,
         height = TILE_SIZE,
-        health = 150,
+        health = 3,
         direction = 'left',
         type = 'gecko',
         walkSpeed = random,
