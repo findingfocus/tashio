@@ -9,6 +9,7 @@ function Player:init(def)
     self.health = 14
     self.heartTimer = heartSpeed
     self.decrement = true
+    self.dead = false
 end
 
 function updateHearts(player)
@@ -17,6 +18,11 @@ function updateHearts(player)
 end
 
 function Player:update(dt)
+    --PLAYER DEATH
+    if self.health <= 0 and not self.dead then
+        sounds['death']:play()
+        self.dead = true
+    end
     --TODO
     healthDifference = totalHealth - self.health
     HEART_CROP = math.max(56 - (4 * healthDifference), 0)

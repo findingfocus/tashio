@@ -152,6 +152,7 @@ function Entity:update(dt)
             if self:fireSpellCollides(sceneView.spellcastEntities[i]) and not self.hit and self.corrupted then
                 self.damageFlash = true
                 self.health = math.max(0, self.health - DAMAGE)
+                sounds['hurt']:play()
                 if self.x > spellX then
                     self.dx = SPELL_KNOCKBACK
                 else

@@ -65,6 +65,8 @@ __Add bounding box to cleansed geckos to prevent walking over
 __Ensure entities table in scene class not in use
 __Rename playercollision function for entity collision
 __Prevent geckos from being cut off rendering
+__Add death sprite for player
+__Have geckos return to start positions if player is dead
 
 
 Next Episode

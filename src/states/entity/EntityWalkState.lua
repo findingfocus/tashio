@@ -22,6 +22,7 @@ function EntityWalkState:update(dt)
     if self.entity.corrupted then
         --self.entity.health = math.max(self.entity.health - 0.5, 0)
         if self.entity.health <= 0 then
+            sounds['cleanse']:play()
             self.entity.damageFlash = false
             self.entity.flashing = false
             self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['gecko'].animations)

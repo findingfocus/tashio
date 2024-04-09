@@ -58,5 +58,9 @@ tileSheet = love.graphics.newImage('graphics/masterSheet.png')
 
 sounds = {
     ['beep'] = love.audio.newSource('music/beep.wav', 'static'),
-    ['select'] = love.audio.newSource('music/select.wav', 'static')
+    ['select'] = love.audio.newSource('music/select.wav', 'static'),
+    ['hurt'] = love.audio.newSource('sounds/hurt.wav', 'static'),
+    ['death'] = love.audio.newSource('sounds/death.wav', 'static'),
+    ['spellcast'] = love.audio.newSource('sounds/spellcast.wav', 'static'),
+    ['cleanse'] = love.audio.newSource('sounds/cleanse.wav', 'static'),
 }
