@@ -98,6 +98,14 @@ function EntityWalkState:render()
     local anim = self.entity.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
         math.floor(self.entity.x), math.floor(self.entity.y))
+
+
+        --[[
+    love.graphics.setColor(RED)
+    love.graphics.rectangle('fill', VIRTUAL_WIDTH - 8, 32, 16, 16)
+    love.graphics.setColor(WHITE)
+    --]]
+
     --HEALTH BARS
     --[[
     if self.entity.type == 'gecko' then

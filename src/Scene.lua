@@ -200,6 +200,11 @@ function Scene:render()
         self.spellcastEntities[i]:render()
     end
     --[[
+    love.graphics.setColor(RED)
+    love.graphics.rectangle('fill', VIRTUAL_WIDTH - 8, 32, 16, 16)
+--]]
+
+    --[[
     love.graphics.setColor(WHITE)
     for i = 1, #MAP[1][2].entities do
         love.graphics.print('entity[' .. tostring(i) .. ']: x:' .. string.format("%.2f", MAP[1][2].entities[i].x) , 0, i * 8)

@@ -192,7 +192,7 @@ function Entity:update(dt)
     if self.enemy and not self.corrupted then
 
     else
-        --BOUNDARY LIMIT
+        --BOUNDARY LIMIT ENTITY CLAMPING
         --TOP BOUNDARY
         if self.y <= -SIDE_EDGE_BUFFER_PLAYER then
             self.y = -SIDE_EDGE_BUFFER_PLAYER
