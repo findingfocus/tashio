@@ -196,6 +196,7 @@ function PlayState:render()
         love.graphics.print('Cast: ' .. tostring(successfulCast), 5, 65)
     end
     if love.keyboard.isDown('2') then
+        love.graphics.print('x: ' .. tostring(MAP[1][2].entities[1].x), 0, 0)
         --]]
     end
 end

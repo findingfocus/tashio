@@ -154,4 +154,9 @@ function Map:render()
             entity:render(self.adjacentOffsetX, self.adjacentOffsetY)
         end
     end
+    --[[
+    love.graphics.setColor(RED)
+    love.graphics.rectangle('fill', VIRTUAL_WIDTH - 8, 32, 16, 16)
+    love.graphics.setColor(WHITE)
+    --]]
 end
