@@ -64,3 +64,5 @@ sounds = {
     ['spellcast'] = love.audio.newSource('sounds/spellcast.wav', 'static'),
     ['cleanse'] = love.audio.newSource('sounds/cleanse.wav', 'static'),
 }
+
+sounds['cleanse']:setVolume(.2)

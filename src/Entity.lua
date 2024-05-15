@@ -3,7 +3,7 @@ Entity = Class{}
 particle = love.graphics.newImage('graphics/particle.png')
 local FLASH_FREQUENCY = 0.08
 local FLASH_DURATION = 0.85
-local DAMAGE = 50
+local DAMAGE = 1
 
 function Entity:init(def)
     self.x = def.x
