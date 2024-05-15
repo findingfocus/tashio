@@ -35,8 +35,8 @@ function PlayState:init()
     local columns = 10
     local rows = 8
     cameraX = 0
-    --STARTING SCENE
-    sceneView = Scene(self.player, 1, 2)
+    --STARTING SCENE PLAYER SPAWN
+    sceneView = Scene(self.player, 1, 1)
     tilesheet = love.graphics.newImage('graphics/masterSheet.png')
     --textures = love.graphics.newImage('graphics/textures.png')
     quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
@@ -95,7 +95,7 @@ function PlayState:update(dt)
 
     if self.focusIndicatorX > 65 and self.focusIndicatorX < 85 then
         successfulCast = true
-        sounds['spellcast']:play()
+        --sounds['spellcast']:play()
     else
         successfulCast = false
     end

@@ -105,23 +105,21 @@ for i = 1, MAP_HEIGHT do
 end
 
 --ENTITY DECLARATIONS
-local entities = 1
+local entities = 4
 for i = 1, entities do
     local random = math.random(25, 35)
     random = random / 100
     table.insert(MAP[1][2].entities, Entity {
         animations = ENTITY_DEFS['geckoC'].animations,
-        x = 32,
-        y = SCREEN_HEIGHT_LIMIT - 4,
-        --x = math.random(VIRTUAL_WIDTH - TILE_SIZE * 2),
-        --y = math.random(SCREEN_HEIGHT_LIMIT),
+        x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
+        y = math.random(10, SCREEN_HEIGHT_LIMIT),
         --[[
         x = VIRTUAL_WIDTH / 2 - 8,
         y = VIRTUAL_HEIGHT / 2 - 8,
         --]]
         width = TILE_SIZE,
         height = TILE_SIZE,
-        health = 3,
+        health = 2,
         direction = 'left',
         type = 'gecko',
         walkSpeed = random,
