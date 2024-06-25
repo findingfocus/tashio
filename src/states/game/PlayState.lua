@@ -123,7 +123,9 @@ function PlayState:render()
     love.graphics.draw(heartRowEmpty, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)
     heartRowQuad:setViewport(0, 0, HEART_CROP, 7, heartRow:getDimensions())
     love.graphics.draw(heartRow, heartRowQuad, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)
-    love.graphics.print('health: ' .. tostring(sceneView.player.health), VIRTUAL_WIDTH - 130, SCREEN_HEIGHT_LIMIT + 4)
+    --love.graphics.print('health: ' .. tostring(sceneView.player.health), VIRTUAL_WIDTH - 130, SCREEN_HEIGHT_LIMIT + 4)
+    love.graphics.setColor(0,0,0,255)
+    love.graphics.print('Tashio Tempo', VIRTUAL_WIDTH - 150, SCREEN_HEIGHT_LIMIT + 4)
 
     --MANIS BAR RENDER
     love.graphics.setColor(255/255, 0/255, 0/255, 255/255)
