@@ -51,6 +51,8 @@ X_Clamp entity knockback to just before they deinstantiate
 X_Limit Geck entities from being knocked out of bounds
 X_Limit Player from being knocked out of bounds
 X_Reset geckos position after collision
+X_Redesign hitboxes for player to entity collision
+X_Add 3 health Heart to HUD
 __stilken idea for walking partially behind sprites
 __Find animation bug for walking through transition
 __Think about refactoring animation spitter
@@ -70,9 +72,10 @@ __Have geckos return to start positions if player is dead
 
 
 Next Episode
-__Redesign hitboxes for player to entity collision
-__Have cleansed geckos pick closest edge to walk to
+__Tiled Maps transitions working...
+__Figure out collidable objects with tiled
 
+__Have cleansed geckos pick closest edge to walk to
 __Stenciling for log cabin
 __Collision detection for entities v MapObjects
 __Add Player health
@@ -90,7 +93,6 @@ __New holding item animation state for player
 __Add pushing sprites, as well as pushing animation state
 __add left and right sprite to our player class
 __Add case insensitivity to our chatbot command listens
-__Add 3 health Heart to HUD
 __Inventory system
 __Add Inventory to HUD
 __Dynamic Light

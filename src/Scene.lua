@@ -115,6 +115,8 @@ function Scene:finishShifting()
     for i = 1, #MAP[self.currentMap.row][self.currentMap.column].entities do
         MAP[self.currentMap.row][self.currentMap.column].entities[i]:resetOriginalPosition()
     end
+    --self.currentMap.row = sceneView.currentMap.row
+    --self.currentMap.column = sceneView.currentMap.column
     self.currentMap = self.nextMap
 
     self.nextMap = nil
@@ -180,7 +182,13 @@ function Scene:render()
         love.graphics.translate(-math.floor(self.cameraX), -math.floor(self.cameraY))
     end
 
-    self.currentMap:render()
+    --self.currentMap:render()
+    --gameMap:draw()
+    --TILEDMAP[sceneView.currentMap.row][sceneView.currentMap.column]:draw()
+
+    love.graphics.setColor(WHITE)
+    love.graphics.print('mapRow' .. sceneView.currentMap.row, 0, 0)
+    love.graphics.print('mapColumn' .. sceneView.currentMap.column, 0, 10)
 
     if self.nextMap then
         self.nextMap:render()

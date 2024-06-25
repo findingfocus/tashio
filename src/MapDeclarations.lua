@@ -1,6 +1,7 @@
 require 'src/constants'
 
 MAP = {}
+TILEDMAP = {}
 OVERWORLD_MAP_WIDTH = 10
 OVERWORLD_MAP_HEIGHT = 10
 MAP_WIDTH = 10
@@ -13,6 +14,24 @@ for x = 1, OVERWORLD_MAP_HEIGHT do
         table.insert(MAP[x], {})
     end
 end
+
+for x = 1, OVERWORLD_MAP_HEIGHT do
+    table.insert(TILEDMAP, {})
+    for y = 1, OVERWORLD_MAP_WIDTH do
+        table.insert(TILEDMAP[x], {})
+    end
+end
+
+TILEDMAP[1][1] = gameMap11
+TILEDMAP[1][2] = gameMap12
+TILEDMAP[1][3] = gameMap13
+TILEDMAP[2][1] = gameMap21
+TILEDMAP[2][2] = gameMap22
+TILEDMAP[2][3] = gameMap23
+TILEDMAP[3][1] = gameMap31
+TILEDMAP[3][2] = gameMap32
+TILEDMAP[3][3] = gameMap33
+
 
 --DEFAULT MAP TILES TO RANDOM SAND TILES
 for x = 1, OVERWORLD_MAP_HEIGHT do
@@ -29,6 +48,7 @@ for x = 1, OVERWORLD_MAP_HEIGHT do
         end
     end
 end
+
 
 --MAP DECLARATIONS
 MAP[1][1] = {
