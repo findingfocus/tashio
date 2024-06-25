@@ -8,8 +8,9 @@ function InsertAnimation:init(mapRow, mapColumn)
     table.insert(MAP[1][1].animatables, function() insertAnim(2, 3, self.flowers.frame) end)
     table.insert(MAP[1][1].animatables, function() insertAnim(5, 7, self.flowers.frame) end)
 
-    table.insert(MAP[1][2].animatables, function() insertAnim(3, 3, self.flowers.frame) end)
-    table.insert(MAP[1][2].animatables, function() insertAnim(3, 4, self.flowers.frame) end)
+    table.insert(MAP[1][2].animatables, function() insertAnim(3, 2, self.flowers.frame) end)
+    table.insert(MAP[1][2].animatables, function() insertAnim(6, 5, self.flowers.frame) end)
+    table.insert(MAP[1][2].animatables, function() insertAnim(4, 9, self.flowers.frame) end)
 
     table.insert(MAP[2][1].animatables, function() insertAnim(2, 2, self.flowers.frame) end)
 end
