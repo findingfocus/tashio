@@ -15,24 +15,26 @@ for x = 1, OVERWORLD_MAP_HEIGHT do
     end
 end
 
+--[[
 for x = 1, OVERWORLD_MAP_HEIGHT do
     table.insert(TILEDMAP, {})
     for y = 1, OVERWORLD_MAP_WIDTH do
         table.insert(TILEDMAP[x], {})
     end
 end
+--]]
 
-TILEDMAP[1][1] = gameMap11
-TILEDMAP[1][2] = gameMap12
-TILEDMAP[1][3] = gameMap13
-TILEDMAP[2][1] = gameMap21
-TILEDMAP[2][2] = gameMap22
-TILEDMAP[2][3] = gameMap23
-TILEDMAP[3][1] = gameMap31
-TILEDMAP[3][2] = gameMap32
-TILEDMAP[3][3] = gameMap33
+MAP[1][1] = gameMap11
+MAP[1][2] = gameMap12
+MAP[1][3] = gameMap13
+MAP[2][1] = gameMap21
+MAP[2][2] = gameMap22
+MAP[2][3] = gameMap23
+MAP[3][1] = gameMap31
+MAP[3][2] = gameMap32
+MAP[3][3] = gameMap33
 
-
+--[[
 --DEFAULT MAP TILES TO RANDOM SAND TILES
 for x = 1, OVERWORLD_MAP_HEIGHT do
     for y = 1, OVERWORLD_MAP_WIDTH do
@@ -48,8 +50,10 @@ for x = 1, OVERWORLD_MAP_HEIGHT do
         end
     end
 end
+--]]
 
 
+--[[
 --MAP DECLARATIONS
 MAP[1][1] = {
     TREE_TL, TREE_TR, GRASS_TE, GRASS_TE, GRASS_TE, GRASS_TE, GRASS_TE, CABINROOF_TL, CABINROOF_TC, CABINROOF_TR,
@@ -116,6 +120,7 @@ MAP[1][3] = {
     BRICK_RED, BRICK_RED, BRICK_RED, BRICK_RED, BRICK_RED, BRICK_RED, BRICK_RED, BRICK_RED, BRICK_RED, BRICK_RED,
     BRICK_RED, BRICK_RED, BRICK_RED, BRICK_RED, BRICK_RED, BRICK_RED, BRICK_RED, BRICK_RED, BRICK_RED, BRICK_RED,
 }
+--]]
 
 for i = 1, MAP_HEIGHT do
     for j = 1, MAP_WIDTH do

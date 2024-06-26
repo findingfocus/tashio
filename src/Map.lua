@@ -29,6 +29,7 @@ function Map:init(row, column, spellcastEntities)
         end
     end
 
+    --[[
     --COLLIDABLE MAP OBJECTS
     self.collidableMapObjects = {}
     for i = 1, MAP_HEIGHT do
@@ -39,6 +40,7 @@ function Map:init(row, column, spellcastEntities)
             end
         end
     end
+    --]]
 end
 
 function Map:update(dt)
@@ -125,6 +127,7 @@ function Map:update(dt)
 end
 
 function Map:render()
+    --[[
     --RENDER DEFAULT TILES FIRST
     for y = 1, MAP_HEIGHT do
         for x = 1, MAP_WIDTH do
@@ -139,7 +142,8 @@ function Map:render()
             love.graphics.draw(tileSheet, quads[tile.id], (x - 1) * TILE_SIZE + self.adjacentOffsetX, (y - 1) * TILE_SIZE + self.adjacentOffsetY)
         end
     end
-
+    --]]
+    MAP[self.row][self.column]:draw(self.adjacentOffsetX, self.adjacentOffsetY)
     self.insertAnimations:render()
 
     love.graphics.setColor(WHITE)
