@@ -14,7 +14,7 @@ function Scene:init(player, mapRow, mapColumn)
     self.mapRow = mapRow
     self.mapColumn = mapColumn
     self.currentMap = Map(mapRow, mapColumn, spellcastEntityCount)
-    self.nextMap = nil
+    self.nextMap = Map(mapRow, mapColumn, spellcastEntityCount)
     self.cameraX = 0
     self.cameraY = 0
     self.shifting = false
@@ -70,9 +70,11 @@ function Scene:beginShifting(shiftX, shiftY)
     self.nextMap.adjacentOffsetX = shiftX
 
     if shiftX < 0 then --SHIFT LEFT
+        --self.nextMap.adjacentOffsetX = self.nextMap.adjacentOffsetX + 16
         playerX = VIRTUAL_WIDTH - self.player.width
         playerY = self.player.y
     elseif shiftX > 0 then --SHIFT RIGHT
+        --self.nextMap.adjacentOffsetX = self.nextMap.adjacentOffsetX - 16
         playerX = 0
         playerY = self.player.y
     elseif shiftY < 0 then -- SHIFT UP
@@ -82,7 +84,7 @@ function Scene:beginShifting(shiftX, shiftY)
         playerX = self.player.x
     elseif shiftY > 0 then -- SHIFT DOWN
         self.nextMap.adjacentOffsetY = self.nextMap.adjacentOffsetY - 16
-        shiftY = shiftY- 16
+        shiftY = shiftY - 16
         playerY = 0
         playerX = self.player.x
     end
@@ -120,6 +122,7 @@ function Scene:finishShifting()
     self.currentMap = self.nextMap
 
     self.nextMap = nil
+
     --sceneView = Scene(self.player, 1, 1)
     self.player.direction = INPUT_LIST[#INPUT_LIST]
     INPUT_LIST = {}
@@ -155,6 +158,7 @@ function Scene:update(dt)
         end
     end
 
+    --[[
     --PLAYER TO MAP OBJECT COLLISION DETECTION
     for i = 1, #self.currentMap.collidableMapObjects do
         local object = self.currentMap.collidableMapObjects[i]
@@ -172,6 +176,7 @@ function Scene:update(dt)
             self.player.y = object.y - self.player.height
         end
     end
+    --]]
 
 end
 
@@ -182,13 +187,20 @@ function Scene:render()
         love.graphics.translate(-math.floor(self.cameraX), -math.floor(self.cameraY))
     end
 
-    --self.currentMap:render()
+    self.currentMap:render()
     --gameMap:draw()
-    --TILEDMAP[sceneView.currentMap.row][sceneView.currentMap.column]:draw()
-
+    --MAP[sceneView.currentMap.row][sceneView.currentMap.column]:draw(sceneView.currentMap.adjacentOffsetX, sceneView.currentMap.adjacentOffsetY)
     love.graphics.setColor(WHITE)
-    love.graphics.print('mapRow' .. sceneView.currentMap.row, 0, 0)
-    love.graphics.print('mapColumn' .. sceneView.currentMap.column, 0, 10)
+    --[[
+    love.graphics.print('sceneMapRow' .. sceneView.currentMap.row, 0, 0)
+    love.graphics.print('sceneMapColumn' .. sceneView.currentMap.column, 0, 10)
+    love.graphics.print('mapRow' .. self.currentMap.row, 0, 20)
+    love.graphics.print('mapColumn' .. self.currentMap.column, 0, 30)
+    --]]
+    --[[
+    love.graphics.print('mapRow' .. self.currentMap.row, 0, 20)
+    love.graphics.print('mapColumn' .. self.currentMap.column, 0, 30)
+    --]]
 
     if self.nextMap then
         self.nextMap:render()
@@ -207,6 +219,12 @@ function Scene:render()
         end
         self.spellcastEntities[i]:render()
     end
+
+    love.graphics.setColor(WHITE)
+    --[[
+    love.graphics.print('offsetX: ' .. self.nextMap.adjacentOffsetX, 0, 10)
+    love.graphics.print('offsetY: ' .. self.nextMap.adjacentOffsetY, 0, 20)
+    --]]
     --[[
     love.graphics.setColor(RED)
     love.graphics.rectangle('fill', VIRTUAL_WIDTH - 8, 32, 16, 16)
