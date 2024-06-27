@@ -53,6 +53,7 @@ X_Limit Player from being knocked out of bounds
 X_Reset geckos position after collision
 X_Redesign hitboxes for player to entity collision
 X_Add 3 health Heart to HUD
+X_Add Player health
 __stilken idea for walking partially behind sprites
 __Find animation bug for walking through transition
 __Think about refactoring animation spitter
@@ -72,13 +73,12 @@ __Have geckos return to start positions if player is dead
 
 
 Next Episode
-__Tiled Maps transitions working...
-__Figure out collidable objects with tiled
+__Spellcast entities need to ignore wall collisions
+__Incorporate Hud Items
 
 __Have cleansed geckos pick closest edge to walk to
 __Stenciling for log cabin
 __Collision detection for entities v MapObjects
-__Add Player health
 __Update only currentMap entities
 
 Research

@@ -2,6 +2,7 @@ push = require 'src/push'
 Class = require 'src/class'
 Event = require 'lib/knife.event'
 Timer = require 'lib/knife.timer'
+--[[
 sti = require ('lib/sti')
 gameMap11 = sti('graphics/tiled/1_1.lua')
 gameMap12 = sti('graphics/tiled/1_2.lua')
@@ -12,6 +13,7 @@ gameMap23 = sti('graphics/tiled/2_3.lua')
 gameMap31 = sti('graphics/tiled/3_1.lua')
 gameMap32 = sti('graphics/tiled/3_2.lua')
 gameMap33 = sti('graphics/tiled/3_3.lua')
+--]]
 
 require 'src/constants'
 
