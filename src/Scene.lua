@@ -158,7 +158,7 @@ function Scene:update(dt)
         end
     end
 
-    --[[
+    ---[[
     --PLAYER TO MAP OBJECT COLLISION DETECTION
     for i = 1, #self.currentMap.collidableMapObjects do
         local object = self.currentMap.collidableMapObjects[i]
@@ -188,19 +188,7 @@ function Scene:render()
     end
 
     self.currentMap:render()
-    --gameMap:draw()
-    --MAP[sceneView.currentMap.row][sceneView.currentMap.column]:draw(sceneView.currentMap.adjacentOffsetX, sceneView.currentMap.adjacentOffsetY)
     love.graphics.setColor(WHITE)
-    --[[
-    love.graphics.print('sceneMapRow' .. sceneView.currentMap.row, 0, 0)
-    love.graphics.print('sceneMapColumn' .. sceneView.currentMap.column, 0, 10)
-    love.graphics.print('mapRow' .. self.currentMap.row, 0, 20)
-    love.graphics.print('mapColumn' .. self.currentMap.column, 0, 30)
-    --]]
-    --[[
-    love.graphics.print('mapRow' .. self.currentMap.row, 0, 20)
-    love.graphics.print('mapColumn' .. self.currentMap.column, 0, 30)
-    --]]
 
     if self.nextMap then
         self.nextMap:render()
@@ -222,13 +210,9 @@ function Scene:render()
 
     love.graphics.setColor(WHITE)
     --[[
-    love.graphics.print('offsetX: ' .. self.nextMap.adjacentOffsetX, 0, 10)
-    love.graphics.print('offsetY: ' .. self.nextMap.adjacentOffsetY, 0, 20)
-    --]]
-    --[[
     love.graphics.setColor(RED)
     love.graphics.rectangle('fill', VIRTUAL_WIDTH - 8, 32, 16, 16)
---]]
+    --]]
 
     --[[
     love.graphics.setColor(WHITE)
