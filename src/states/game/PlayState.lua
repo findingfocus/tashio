@@ -3,6 +3,7 @@ successfulCast = false
 HEART_CROP = 56
 totalHealth = 14
 healthDifference = 0
+local inspect = require "lib/inspect"
 
 function PlayState:init()
     self.player = Player {
@@ -201,4 +202,6 @@ function PlayState:render()
         love.graphics.print('x: ' .. tostring(MAP[1][2].entities[1].x), 0, 0)
         --]]
     end
+    love.graphics.setColor(WHITE)
+    love.graphics.print('table is:' .. inspect(MAP[1][1]))
 end

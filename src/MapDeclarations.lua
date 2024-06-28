@@ -15,6 +15,9 @@ for x = 1, OVERWORLD_MAP_HEIGHT do
     end
 end
 
+
+
+
 --[[
 for x = 1, OVERWORLD_MAP_HEIGHT do
     table.insert(TILEDMAP, {})
@@ -37,7 +40,11 @@ MAP[3][3] = gameMap33
 --]]
 
 ---[[
+
+
+
 --DEFAULT MAP TILES TO RANDOM SAND TILES
+---[[
 for x = 1, OVERWORLD_MAP_HEIGHT do
     for y = 1, OVERWORLD_MAP_WIDTH do
         for z = 1, 80 do
@@ -52,6 +59,7 @@ for x = 1, OVERWORLD_MAP_HEIGHT do
         end
     end
 end
+
 --]]
 
 MAP[2][2] = {
@@ -65,6 +73,7 @@ MAP[2][2] = {
         34, 34, 34, 34, 34, 34, 34, 34, 34, 34,
         34, 34, 34, 34, 34, 34, 34, 34, 34, 34
 }
+--[[
 MAP[1][1] = {
         1, 2, 2, 2, 2, 2, 2, 190, 191, 192,
         33, 34, 1012, 34, 34, 34, 34, 222, 223, 224,
@@ -76,6 +85,7 @@ MAP[1][1] = {
         33, 34, 34, 34, 34, 34, 34, 99, 34, 34,
         33, 100, 34, 34, 34, 99, 99, 99, 34, 34
       }
+      --]]
 MAP[1][2] = {
         2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
         34, 34, 34, 34, 34, 34, 34, 34, 34, 34,
@@ -241,4 +251,10 @@ for i = 1, entities do
 
     MAP[1][2].entities[i]:changeState('entity-idle')
     MAP[1][2].entities[i].hit = false
+
+    for k, v in pairs(globalMap.layers[1].data) do
+        if k <= 10 then
+            table.insert(MAP[1][1], v)
+        end
+    end
 end
