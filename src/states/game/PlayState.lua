@@ -203,5 +203,10 @@ function PlayState:render()
         --]]
     end
     love.graphics.setColor(WHITE)
-    love.graphics.print('table is:' .. inspect(MAP[1][1]))
+    --love.graphics.print('table is:' .. inspect(MAP[1][1]))
+    --
+    ---[[
+    love.graphics.setColor(WHITE)
+    love.graphics.print(inspect(result))
+    --]]
 end

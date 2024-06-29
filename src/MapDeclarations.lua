@@ -16,7 +16,45 @@ for x = 1, OVERWORLD_MAP_HEIGHT do
 end
 
 
+result = {}
+tiledMap = {}
+for k, v in pairs(globalMap.layers[1].data) do
+    tiledMap[k] = v
+end
 
+result = {}
+--[[
+for i = 1, 10 do
+    result[i] = tiledMap[i]
+end
+-]]
+
+local tileId = 1
+local mapRow = 1
+local mapColumn = 1
+local sceneColumnCount = 0
+local globalRow = 1
+
+for tileId = 1, 900 do
+    if globalRow > 9 then
+        --mapRow = mapRow + 1
+    end
+    if sceneColumnCount > 9 then
+        if mapColumn == 10 then --IF AT END OF MAP COLUMN
+            mapRow = globalRow
+            mapColumn = 1
+            sceneColumnCount = 1
+            globalRow = globalRow + 1
+        else
+            mapColumn = mapColumn + 1
+            sceneColumnCount = 0
+        end
+    end
+
+    table.insert(MAP[mapRow][mapColumn], 10)
+    tileId = tileId + 1
+    sceneColumnCount = sceneColumnCount + 1
+end
 
 --[[
 for x = 1, OVERWORLD_MAP_HEIGHT do
@@ -44,7 +82,7 @@ MAP[3][3] = gameMap33
 
 
 --DEFAULT MAP TILES TO RANDOM SAND TILES
----[[
+--[[
 for x = 1, OVERWORLD_MAP_HEIGHT do
     for y = 1, OVERWORLD_MAP_WIDTH do
         for z = 1, 80 do
@@ -251,10 +289,4 @@ for i = 1, entities do
 
     MAP[1][2].entities[i]:changeState('entity-idle')
     MAP[1][2].entities[i].hit = false
-
-    for k, v in pairs(globalMap.layers[1].data) do
-        if k <= 10 then
-            table.insert(MAP[1][1], v)
-        end
-    end
 end
