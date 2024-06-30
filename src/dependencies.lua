@@ -16,8 +16,7 @@ gameMap33 = sti('graphics/tiled/3_3.lua')
 --]]
 
 sti = require ('lib/sti')
---globalMap = sti('graphics/MasterTiledTest.lua')
-globalMap = require 'graphics/MasterTiledTest'
+globalMap = require 'graphics/globalMap'
 
 require 'src/constants'
 

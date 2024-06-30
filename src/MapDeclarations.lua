@@ -15,46 +15,49 @@ for x = 1, OVERWORLD_MAP_HEIGHT do
     end
 end
 
-
-result = {}
 tiledMap = {}
 for k, v in pairs(globalMap.layers[1].data) do
     tiledMap[k] = v
 end
 
-result = {}
+tiledMapCount = #tiledMap
+
 --[[
 for i = 1, 10 do
     result[i] = tiledMap[i]
 end
 -]]
 
-local tileId = 1
 local mapRow = 1
-local mapColumn = 1
-local sceneColumnCount = 0
-local globalRow = 1
+local mapCol = 1
+local sceneRow = 1
+local sceneCol = 1
+local sceneRowsInserted = 0
+local globalRowsInserted = 0
 
-for tileId = 1, 900 do
-    if globalRow > 9 then
-        --mapRow = mapRow + 1
+for tileId = 1, 9000 do
+    if sceneCol > 10 then
+      sceneCol = 1
+      mapCol = mapCol + 1
+      sceneRowsInserted = sceneRowsInserted + 1
     end
-    if sceneColumnCount > 9 then
-        if mapColumn == 10 then --IF AT END OF MAP COLUMN
-            mapRow = globalRow
-            mapColumn = 1
-            sceneColumnCount = 1
-            globalRow = globalRow + 1
-        else
-            mapColumn = mapColumn + 1
-            sceneColumnCount = 0
-        end
+    if sceneRowsInserted == 10 then
+        mapCol = 1
+        sceneCol = 1
+        globalRowsInserted = globalRowsInserted + 1
+        sceneRowsInserted = 0
     end
-
-    table.insert(MAP[mapRow][mapColumn], 10)
-    tileId = tileId + 1
-    sceneColumnCount = sceneColumnCount + 1
+    if globalRowsInserted == 9 then
+      mapRow = mapRow + 1
+      globalRowsInserted = 0
+      sceneCol = 1
+    end
+    
+    table.insert(MAP[mapRow][mapCol], tiledMap[tileId])
+    sceneCol = sceneCol + 1
 end
+
+mapCount = #MAP[1][1]
 
 --[[
 for x = 1, OVERWORLD_MAP_HEIGHT do
@@ -100,17 +103,6 @@ end
 
 --]]
 
-MAP[2][2] = {
-        34, 34, 34, 34, 34, 34, 34, 34, 34, 34,
-        34, 34, 34, 34, 34, 34, 34, 34, 34, 34,
-        34, 34, 34, 34, 34, 34, 34, 34, 34, 34,
-        34, 34, 34, 34, 34, 34, 34, 34, 34, 34,
-        34, 34, 34, 34, 97, 98, 34, 34, 34, 34,
-        34, 34, 34, 34, 129, 130, 34, 34, 34, 34,
-        34, 34, 34, 34, 34, 34, 34, 34, 34, 34,
-        34, 34, 34, 34, 34, 34, 34, 34, 34, 34,
-        34, 34, 34, 34, 34, 34, 34, 34, 34, 34
-}
 --[[
 MAP[1][1] = {
         1, 2, 2, 2, 2, 2, 2, 190, 191, 192,
@@ -124,6 +116,7 @@ MAP[1][1] = {
         33, 100, 34, 34, 34, 99, 99, 99, 34, 34
       }
       --]]
+      --[[
 MAP[1][2] = {
         2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
         34, 34, 34, 34, 34, 34, 34, 34, 34, 34,
@@ -158,7 +151,8 @@ MAP[2][1] = {
         33, 34, 34, 34, 34, 34, 34, 34, 34, 34,
         65, 66, 66, 66, 66, 66, 66, 66, 66, 66
       }
-
+--]]
+--[[
 MAP[2][2] = {
         34, 34, 34, 34, 34, 34, 1018, 34, 34, 34,
         34, 34, 34, 34, 34, 34, 1018, 34, 34, 34,
@@ -170,7 +164,8 @@ MAP[2][2] = {
         34, 34, 34, 34, 34, 34, 34, 34, 34, 34,
         66, 66, 66, 66, 66, 66, 66, 66, 66, 66
       }
-
+      --]]
+--[[
 MAP[2][3] = {
         34, 34, 34, 34, 34, 34, 34, 34, 34, 35,
         34, 34, 34, 34, 34, 34, 34, 34, 34, 35,
@@ -182,6 +177,8 @@ MAP[2][3] = {
         34, 34, 34, 34, 34, 34, 34, 34, 34, 35,
         66, 66, 66, 66, 66, 66, 66, 66, 66, 67
       }
+      --]]
+      
 --[[
 --MAP DECLARATIONS
 MAP[1][1] = {

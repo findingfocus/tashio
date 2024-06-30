@@ -9,6 +9,28 @@ function love.load()
 
 	love.graphics.setFont(pixelFont)
 
+    io.stdout:setvbuf ('no')
+    
+    if arg and arg [#arg] == '-debug' then
+        MODDEBUG = require ('lib/mobdebug')
+        MODDEBUG.start()
+        MODDEBUG.off()
+    end
+
+    function debug_on (on)
+        if MODDEBUG then
+            if on then
+                MODDEBUG.on()
+            else
+                MODDEBUG.off()
+            end
+        end
+    end
+
+    function debug(v)
+        debug_on(v ~= false)
+    end
+    
 	push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
 		vsync = true,
 		fullscreen = false,
