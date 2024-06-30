@@ -54,6 +54,7 @@ X_Reset geckos position after collision
 X_Redesign hitboxes for player to entity collision
 X_Add 3 health Heart to HUD
 X_Add Player health
+X_Tiled map data downloader working
 __stilken idea for walking partially behind sprites
 __Find animation bug for walking through transition
 __Think about refactoring animation spitter
@@ -75,6 +76,9 @@ __Have geckos return to start positions if player is dead
 Next Episode
 __Spellcast entities need to ignore wall collisions
 __Incorporate Hud Items
+__Make substantial new sprites for tileMap
+__Draw a cool couple scenes
+__Record channel trailer with demo levels
 
 __Have cleansed geckos pick closest edge to walk to
 __Stenciling for log cabin
