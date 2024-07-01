@@ -37,7 +37,7 @@ function PlayState:init()
     local rows = 8
     cameraX = 0
     --STARTING SCENE PLAYER SPAWN
-    sceneView = Scene(self.player, 2, 2)
+    sceneView = Scene(self.player, 7, 2)
     tilesheet = love.graphics.newImage('graphics/masterSheet.png')
     --textures = love.graphics.newImage('graphics/textures.png')
     quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
@@ -117,9 +117,11 @@ function PlayState:render()
     love.graphics.pop()
 
     --HUD RENDER
+    ---[[
     love.graphics.setColor(142/255, 146/255, 171/255, 255/255)
     love.graphics.rectangle('fill', 0, VIRTUAL_HEIGHT - 16, VIRTUAL_WIDTH, 16)
     love.graphics.setColor(WHITE)
+    --]]
 
     love.graphics.draw(heartRowEmpty, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)
     heartRowQuad:setViewport(0, 0, HEART_CROP, 7, heartRow:getDimensions())

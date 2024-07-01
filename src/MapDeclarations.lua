@@ -28,6 +28,7 @@ for i = 1, 10 do
 end
 -]]
 
+--MAP DOWNLOADER FROM TILED
 local mapRow = 1
 local mapCol = 1
 local sceneRow = 1
@@ -35,19 +36,19 @@ local sceneCol = 1
 local sceneRowsInserted = 0
 local globalRowsInserted = 0
 
-for tileId = 1, 9000 do
-    if sceneCol > 10 then
+for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEIGHT do
+    if sceneCol > MAP_WIDTH then
       sceneCol = 1
       mapCol = mapCol + 1
       sceneRowsInserted = sceneRowsInserted + 1
     end
-    if sceneRowsInserted == 10 then
+    if sceneRowsInserted == MAP_WIDTH then
         mapCol = 1
         sceneCol = 1
         globalRowsInserted = globalRowsInserted + 1
         sceneRowsInserted = 0
     end
-    if globalRowsInserted == 9 then
+    if globalRowsInserted == MAP_HEIGHT then
       mapRow = mapRow + 1
       globalRowsInserted = 0
       sceneCol = 1
@@ -248,8 +249,8 @@ MAP[1][3] = {
 }
 --]]
 
-for i = 1, MAP_HEIGHT do
-    for j = 1, MAP_WIDTH do
+for i = 1, OVERWORLD_MAP_HEIGHT do
+    for j = 1, OVERWORLD_MAP_WIDTH do
         MAP[i][j].animatables = {}
         MAP[i][j].entities = {}
     end
