@@ -134,7 +134,7 @@ function Map:render()
             love.graphics.draw(tileSheet, quads[tile.id], (x - 1) * TILE_SIZE + self.adjacentOffsetX, (y - 1) * TILE_SIZE + self.adjacentOffsetY)
         end
     end
-    self.insertAnimations:render()
+    --self.insertAnimations:render()
 
     love.graphics.setColor(WHITE)
     --SPELLCAST ENTITY RENDERS

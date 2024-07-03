@@ -14,10 +14,12 @@ function InsertAnimation:init(mapRow, mapColumn)
     table.insert(MAP[1][2].animatables, function() insertAnim(4, 9, self.flowers.frame) end)
 
     table.insert(MAP[2][1].animatables, function() insertAnim(2, 2, self.flowers.frame) end)
-    table.insert(MAP[7][2].animatables, function() insertAnim(4, 1, self.water.frame) end)
-    table.insert(MAP[7][2].animatables, function() insertAnim(4, 2, self.water.frame) end)
-    table.insert(MAP[7][2].animatables, function() insertAnim(5, 1, self.water.frame) end)
+    --table.insert(MAP[7][2].animatables, function() insertAnim(4, 1, self.water.frame) end)
+    --table.insert(MAP[7][2].animatables, function() insertAnim(4, 2, self.water.frame) end)
+    --table.insert(MAP[7][2].animatables, function() insertAnim(5, 1, self.water.frame) end)
     table.insert(MAP[7][2].animatables, function() insertAnim(5, 2, self.water.frame) end)
+    table.insert(MAP[7][2].animatables, function() insertAnim(2, 3, self.flowers.frame) end)
+    table.insert(MAP[7][2].animatables, function() insertAnim(5, 7, self.flowers.frame) end)
 end
 
 function InsertAnimation:update(dt)
