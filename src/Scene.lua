@@ -14,7 +14,7 @@ function Scene:init(player, mapRow, mapColumn)
     self.mapRow = mapRow
     self.mapColumn = mapColumn
     self.currentMap = Map(mapRow, mapColumn, spellcastEntityCount)
-    self.nextMap = Map(mapRow, mapColumn, spellcastEntityCount)
+    --self.nextMap = Map(mapRow, mapColumn, spellcastEntityCount)
     self.cameraX = 0
     self.cameraY = 0
     self.shifting = false
