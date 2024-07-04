@@ -7,6 +7,7 @@ OVERWORLD_MAP_HEIGHT = 10
 MAP_WIDTH = 10
 MAP_HEIGHT = 8
 
+
 --DECLARING EMPTY TABLES IN GLOBAL MAP
 for x = 1, OVERWORLD_MAP_HEIGHT do
     table.insert(MAP, {})
@@ -287,4 +288,26 @@ for i = 1, entities do
 
     MAP[1][2].entities[i]:changeState('entity-idle')
     MAP[1][2].entities[i].hit = false
+
+
+    FLOWERS = AnimSpitter(1012, 1015, 0.75)
+    WATER = AnimSpitter(102, 105, .25)
+
+    --ANIMATABLES
+    table.insert(MAP[1][1].animatables, function() insertAnim(2, 3, FLOWERS.frame) end)
+    table.insert(MAP[1][1].animatables, function() insertAnim(5, 7, FLOWERS.frame) end)
+
+    table.insert(MAP[1][2].animatables, function() insertAnim(3, 2, FLOWERS.frame) end)
+    table.insert(MAP[1][2].animatables, function() insertAnim(6, 5, FLOWERS.frame) end)
+    table.insert(MAP[1][2].animatables, function() insertAnim(4, 9, FLOWERS.frame) end)
+
+    table.insert(MAP[2][1].animatables, function() insertAnim(2, 2, FLOWERS.frame) end)
+    --table.insert(MAP[7][2].animatables, function() insertAnim(4, 1, WATER.frame) end)
+    --table.insert(MAP[7][2].animatables, function() insertAnim(4, 2, WATER.frame) end)
+    --table.insert(MAP[7][2].animatables, function() insertAnim(5, 1, WATER.frame) end)
+    table.insert(MAP[7][2].animatables, function() insertAnim(5, 2, WATER.frame) end)
+    table.insert(MAP[7][2].animatables, function() insertAnim(6, 2, WATER.frame) end)
+    table.insert(MAP[7][2].animatables, function() insertAnim(7, 2, WATER.frame) end)
+    table.insert(MAP[7][2].animatables, function() insertAnim(2, 3, FLOWERS.frame) end)
+    table.insert(MAP[7][2].animatables, function() insertAnim(5, 7, FLOWERS.frame) end)
 end
