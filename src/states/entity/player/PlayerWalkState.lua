@@ -3,6 +3,7 @@ PlayerWalkState = Class{__includes = BaseState}
 function PlayerWalkState:init(player, scene)
     self.player = player
     self.scene = scene
+    PLAYER_STATE = 'WALK'
 end
 
 function PlayerWalkState:update(dt)

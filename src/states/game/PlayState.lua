@@ -197,9 +197,13 @@ function PlayState:render()
         love.graphics.print('player.x: ' .. string.format("%.1f", self.player.x), 5, 25)
         love.graphics.print('player.y: ' .. string.format("%.1f", self.player.y), 5, 35)
         love.graphics.print('direction: ' .. tostring(self.player.direction), 5, 45)
-        love.graphics.print('LASTINPUT: ' .. tostring(self.player.lastInput), 5, 55)
+        love.graphics.print('playerLastInput: ' .. tostring(self.player.lastInput), 5, 55)
         love.graphics.print('Cast: ' .. tostring(successfulCast), 5, 65)
         love.graphics.print('animatables: ' .. tostring(sceneView.currentMap.tiles[4][1].id), 5, 75)
+        love.graphics.print('INPUT_LIST: ' .. inspect(INPUT_LIST), 5, 85)
+        love.graphics.print('player_state: ' .. tostring(PLAYER_STATE), 5, 95)
+
+
     end
     if love.keyboard.isDown('2') then
         love.graphics.print('x: ' .. tostring(MAP[1][2].entities[1].x), 0, 0)
