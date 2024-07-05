@@ -108,6 +108,21 @@ function Player:update(dt)
 
 
     self.lastInput = INPUT_LIST[#INPUT_LIST]
+
+    --TODO set lastinput to nil if nothing pressed
+    if not love.keyboard.wasPressed('left')
+        and not love.keyboard.wasPressed('right')
+        and not love.keyboard.wasPressed('up')
+        and not love.keyboard.wasPressed('down')
+        and not love.keyboard.isDown('left')
+        and not love.keyboard.isDown('right')
+        and not love.keyboard.isDown('up')
+        and not love.keyboard.isDown('down') then
+        self:changeState('player-idle')
+        self.lastInput = nil
+    end
+
+
     if self.lastInput then
         self:changeAnimation('walk-' .. self.lastInput)
     end

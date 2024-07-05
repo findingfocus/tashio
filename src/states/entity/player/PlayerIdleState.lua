@@ -6,6 +6,7 @@ function PlayerIdleState:init(entity)
     self.entity:changeAnimation('idle-' .. self.entity.direction)
     self.waitDuration = 0
     self.waitTimer = 0
+    PLAYER_STATE = 'IDLE'
 end
 
 function PlayerIdleState:update(dt)
