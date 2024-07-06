@@ -5,7 +5,7 @@ local SPEED = 3
 local PLAYER_OFFSET = TILE_SIZE / 2
 local AMP = 20
 local TRANSITION_SPEED = 0.65
-local spellcastEntityCount = 5
+local spellcastEntityCount = 3
 local count = spellcastEntityCount
 local step = math.pi * 2 / count
 
@@ -141,6 +141,18 @@ function Scene:finishShifting()
 end
 
 function Scene:update(dt)
+    --TODO set lastinput to nil if nothing pressed
+    if not love.keyboard.wasPressed('left')
+        and not love.keyboard.wasPressed('right')
+        and not love.keyboard.wasPressed('up')
+        and not love.keyboard.wasPressed('down')
+        and not love.keyboard.isDown('left')
+        and not love.keyboard.isDown('right')
+        and not love.keyboard.isDown('up')
+        and not love.keyboard.isDown('down') then
+        self.player:changeState('player-idle')
+        self.player.lastInput = nil
+    end
     self.currentMap:update(dt)
     if not self.shifting then
         self.player:update(dt)

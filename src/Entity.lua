@@ -189,9 +189,9 @@ function Entity:update(dt)
 
     ---[[
 
-    if self.enemy and not self.corrupted then
 
-    else
+    --TODO
+    if self.type == 'gecko' and self.corrupted then
         --BOUNDARY LIMIT ENTITY CLAMPING
         --TOP BOUNDARY
         if self.y <= -SIDE_EDGE_BUFFER_PLAYER then
@@ -212,7 +212,6 @@ function Entity:update(dt)
         if self.x <= -SIDE_EDGE_BUFFER_PLAYER then
             self.x = -SIDE_EDGE_BUFFER_PLAYER
         end
-
     end
 
 
