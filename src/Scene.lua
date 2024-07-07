@@ -152,6 +152,7 @@ function Scene:update(dt)
         and not love.keyboard.isDown('down') then
         self.player:changeState('player-idle')
         self.player.lastInput = nil
+        --INPUT_LIST = {}
     end
     self.currentMap:update(dt)
     if not self.shifting then

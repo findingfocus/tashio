@@ -205,13 +205,4 @@ function PlayState:render()
 
 
     end
-    if love.keyboard.isDown('2') then
-        love.graphics.print('x: ' .. tostring(MAP[1][2].entities[1].x), 0, 0)
-        --]]
-    end
-    love.graphics.setColor(WHITE)
-    --love.graphics.print('table is:' .. inspect(MAP[1][1]))
-    --
-    ---[[
-    --]]
 end
