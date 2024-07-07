@@ -7,6 +7,7 @@ end
 
 function InsertAnimation:update(dt)
     FLOWERS:update(dt)
+    AUTUMN_FLOWERS:update(dt)
     WATER:update(dt)
 
     for i = 1, #MAP[self.mapRow][self.mapColumn].animatables do

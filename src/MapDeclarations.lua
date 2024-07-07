@@ -77,7 +77,7 @@ for i = 1, entities do
         --]]
         width = TILE_SIZE,
         height = TILE_SIZE,
-        health = 1.5,
+        health = 2,
         direction = 'left',
         type = 'gecko',
         walkSpeed = random,
@@ -96,7 +96,8 @@ for i = 1, entities do
 
 
     FLOWERS = AnimSpitter(1012, 1015, 0.75)
-    WATER = AnimSpitter(102, 105, .25)
+    AUTUMN_FLOWERS = AnimSpitter(1008, 1011, 0.75)
+    WATER = AnimSpitter(102, 105, .5)
 
     --ANIMATABLES
     table.insert(MAP[1][1].animatables, function() insertAnim(2, 3, FLOWERS.frame) end)
@@ -132,4 +133,12 @@ for i = 1, entities do
     table.insert(MAP[8][2].animatables, function() insertAnim(7, 2, WATER.frame) end)
     table.insert(MAP[8][2].animatables, function() insertAnim(8, 1, WATER.frame) end)
     table.insert(MAP[8][2].animatables, function() insertAnim(8, 2, WATER.frame) end)
+
+    table.insert(MAP[8][3].animatables, function() insertAnim(3, 4, AUTUMN_FLOWERS.frame) end)
+    table.insert(MAP[8][3].animatables, function() insertAnim(3, 5, AUTUMN_FLOWERS.frame) end)
+    table.insert(MAP[8][3].animatables, function() insertAnim(3, 8, AUTUMN_FLOWERS.frame) end)
+    table.insert(MAP[8][3].animatables, function() insertAnim(4, 9, AUTUMN_FLOWERS.frame) end)
+    table.insert(MAP[8][3].animatables, function() insertAnim(7, 8, AUTUMN_FLOWERS.frame) end)
+
+
 end
