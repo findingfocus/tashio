@@ -17,6 +17,7 @@ function Entity:init(def)
     self.direction = def.direction or 'down'
     self.animations = self:createAnimations(def.animations)
     self.health = def.health
+    self.originalHealth = def.health
     self.corrupted = def.corrupted
     self.originalCorrupted = def.corrupted
     self.damageFlash = false
@@ -45,7 +46,7 @@ function Entity:resetOriginalPosition()
     self.animations = self.originalAnimations
     self.x = self.originalX
     self.y = self.originalY
-    self.health = 150
+    self.health = self.originalHealth
     self.damageFlash = false
     self.flashing = false
     self.corrupted = true
