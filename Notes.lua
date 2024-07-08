@@ -76,6 +76,7 @@ __Add death sprite for player
 __Have geckos return to start positions if player is dead
 __Factor gecko logic into gecko class, which aspects of entity class do enemies inherit
 __WALKING BUG WHEN IDLE
+__ ADD ANIMATBLES FUNCTIONS INTO MAP[][] AS TILE ID RECOGNIZED
 
 
 Next Episode
