@@ -77,13 +77,15 @@ __Have geckos return to start positions if player is dead
 __Factor gecko logic into gecko class, which aspects of entity class do enemies inherit
 __WALKING BUG WHEN IDLE
 __ ADD ANIMATBLES FUNCTIONS INTO MAP[][] AS TILE ID RECOGNIZED
-
+__REHAUL DOWNLOADER TO ALSO KEEP TRACK OF LOCAL ROW AND COLUMN, INSERT INSERTANIM() BASED ON TILEID AND LOCAL ROW AND COLUMN
 
 Next Episode
-__Channel trailer edit!
+__New sprites!
 
-
+__REHAUL DATA DOWNLOADER FOR LAYERS, INSERT COLLIDABLE MAP OBJECT, INSERT INSERTANIM()
 __Stenciling for log cabin
+
+__Channel trailer edit!
 __Make substantial new sprites for tileMap
 __Give enemy entities collidable map object logic
 __Incorporate Hud Items
