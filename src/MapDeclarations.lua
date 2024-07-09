@@ -21,7 +21,15 @@ for k, v in pairs(globalMap.layers[1].data) do
     tiledMap[k] = v
 end
 
+
+
 tiledMapCount = #tiledMap
+for i = 1, OVERWORLD_MAP_HEIGHT do
+    for j = 1, OVERWORLD_MAP_WIDTH do
+        MAP[i][j].animatables = {}
+        MAP[i][j].entities = {}
+    end
+end
 
 --MAP DOWNLOADER FROM TILED DATA DOWNLOADER
 local mapRow = 1
@@ -49,18 +57,19 @@ for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEI
       sceneCol = 1
     end
     
+    --tileId = 1
     table.insert(MAP[mapRow][mapCol], tiledMap[tileId])
+
+    --[[
+    if tileId == WATER_ANIM_STARTER then
+        table.insert(MAP[mapRow][mapCol].animatables, function() insertAnim(5, 2, WATER.frame) end)
+    end
+    --]]
     sceneCol = sceneCol + 1
 end
 
 mapCount = #MAP[1][1]
 
-for i = 1, OVERWORLD_MAP_HEIGHT do
-    for j = 1, OVERWORLD_MAP_WIDTH do
-        MAP[i][j].animatables = {}
-        MAP[i][j].entities = {}
-    end
-end
 
 --ENTITY DECLARATIONS
 local entities = 4
@@ -108,6 +117,7 @@ for i = 1, entities do
     table.insert(MAP[1][2].animatables, function() insertAnim(4, 9, FLOWERS.frame) end)
 
     table.insert(MAP[2][1].animatables, function() insertAnim(2, 2, FLOWERS.frame) end)
+    ---[[
     --table.insert(MAP[7][2].animatables, function() insertAnim(4, 1, WATER.frame) end)
     --table.insert(MAP[7][2].animatables, function() insertAnim(4, 2, WATER.frame) end)
     --table.insert(MAP[7][2].animatables, function() insertAnim(5, 1, WATER.frame) end)
@@ -115,6 +125,7 @@ for i = 1, entities do
     table.insert(MAP[7][2].animatables, function() insertAnim(6, 2, WATER.frame) end)
     table.insert(MAP[7][2].animatables, function() insertAnim(2, 3, FLOWERS.frame) end)
     table.insert(MAP[7][2].animatables, function() insertAnim(5, 7, FLOWERS.frame) end)
+    --]]
 
 
     table.insert(MAP[8][2].animatables, function() insertAnim(1, 1, WATER.frame) end)
