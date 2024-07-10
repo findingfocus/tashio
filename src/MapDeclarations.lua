@@ -23,7 +23,7 @@ end
 
 
 
-tiledMapCount = #tiledMap
+--tiledMapCount = #tiledMap
 for i = 1, OVERWORLD_MAP_HEIGHT do
     for j = 1, OVERWORLD_MAP_WIDTH do
         MAP[i][j].animatables = {}
@@ -45,28 +45,56 @@ for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEI
       mapCol = mapCol + 1
       sceneRowsInserted = sceneRowsInserted + 1
     end
-    if sceneRowsInserted == MAP_WIDTH then
+    if sceneRowsInserted == OVERWORLD_MAP_WIDTH then
         mapCol = 1
-        sceneCol = 1
         globalRowsInserted = globalRowsInserted + 1
+        sceneRow = sceneRow + 1
         sceneRowsInserted = 0
     end
-    if globalRowsInserted == MAP_HEIGHT then
-      mapRow = mapRow + 1
-      globalRowsInserted = 0
-      sceneCol = 1
+    if globalRowsInserted == MAP_HEIGHT then --CYCLE TO NEXT MAP ROW
+        sceneRow = 1
+        mapRow = mapRow + 1
+        globalRowsInserted = 0
     end
-    
+
     --tileId = 1
     table.insert(MAP[mapRow][mapCol], tiledMap[tileId])
 
-    --[[
-    if tileId == WATER_ANIM_STARTER then
-        table.insert(MAP[mapRow][mapCol].animatables, function() insertAnim(5, 2, WATER.frame) end)
-    end
+    ---[[
+    --if tileId == WATER_ANIM_STARTER then
+    --test1 = 2
+    --table.insert(MAP[mapRow][mapCol].animatables, function() insertAnim(FIRST, sceneCol, WATER.frame) end)
+    --end
     --]]
     sceneCol = sceneCol + 1
 end
+
+for i = 1, OVERWORLD_MAP_HEIGHT do
+    for j = 1, OVERWORLD_MAP_WIDTH do
+        for k = 1, MAP_HEIGHT * MAP_WIDTH do
+            local animRow = math.floor((k - 1) / 10) + 1
+            local animCol = k % 10
+            if MAP[i][j][k] == WATER_ANIM_STARTER then
+                table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, WATER.frame) end)
+            elseif MAP[i][j][k] == FLOWER_ANIM_STARTER then
+                table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, FLOWERS.frame) end)
+            elseif MAP[i][j][k] == AUTUMN_FLOWER_ANIM_STARTER then
+                table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, AUTUMN_FLOWERS.frame) end)
+            end
+        end
+    end
+end
+
+--[[
+for i = 1, 5 do
+    table.insert(MAP[7][2].animatables, function() insertAnim(i, sceneCol, WATER.frame) end)
+end
+for i = 1, 8 do
+    table.insert(MAP[7][2].animatables, function() insertAnim(i, 5, WATER.frame) end)
+end
+--]]
+
+
 
 mapCount = #MAP[1][1]
 
@@ -104,52 +132,7 @@ for i = 1, entities do
     MAP[7][3].entities[i].hit = false
 
 
-    FLOWERS = AnimSpitter(1012, 1015, 0.75)
-    AUTUMN_FLOWERS = AnimSpitter(1008, 1011, 0.75)
-    WATER = AnimSpitter(102, 105, .5)
-
-    --ANIMATABLES
-    table.insert(MAP[1][1].animatables, function() insertAnim(2, 3, FLOWERS.frame) end)
-    table.insert(MAP[1][1].animatables, function() insertAnim(5, 7, FLOWERS.frame) end)
-
-    table.insert(MAP[1][2].animatables, function() insertAnim(3, 2, FLOWERS.frame) end)
-    table.insert(MAP[1][2].animatables, function() insertAnim(6, 5, FLOWERS.frame) end)
-    table.insert(MAP[1][2].animatables, function() insertAnim(4, 9, FLOWERS.frame) end)
-
-    table.insert(MAP[2][1].animatables, function() insertAnim(2, 2, FLOWERS.frame) end)
-    ---[[
-    --table.insert(MAP[7][2].animatables, function() insertAnim(4, 1, WATER.frame) end)
-    --table.insert(MAP[7][2].animatables, function() insertAnim(4, 2, WATER.frame) end)
-    --table.insert(MAP[7][2].animatables, function() insertAnim(5, 1, WATER.frame) end)
-    table.insert(MAP[7][2].animatables, function() insertAnim(5, 2, WATER.frame) end)
-    table.insert(MAP[7][2].animatables, function() insertAnim(6, 2, WATER.frame) end)
-    table.insert(MAP[7][2].animatables, function() insertAnim(2, 3, FLOWERS.frame) end)
-    table.insert(MAP[7][2].animatables, function() insertAnim(5, 7, FLOWERS.frame) end)
-    --]]
-
-
-    table.insert(MAP[8][2].animatables, function() insertAnim(1, 1, WATER.frame) end)
-    table.insert(MAP[8][2].animatables, function() insertAnim(1, 2, WATER.frame) end)
-    table.insert(MAP[8][2].animatables, function() insertAnim(2, 1, WATER.frame) end)
-    table.insert(MAP[8][2].animatables, function() insertAnim(2, 2, WATER.frame) end)
-    table.insert(MAP[8][2].animatables, function() insertAnim(3, 1, WATER.frame) end)
-    table.insert(MAP[8][2].animatables, function() insertAnim(3, 2, WATER.frame) end)
-    table.insert(MAP[8][2].animatables, function() insertAnim(4, 1, WATER.frame) end)
-    table.insert(MAP[8][2].animatables, function() insertAnim(4, 2, WATER.frame) end)
-    table.insert(MAP[8][2].animatables, function() insertAnim(5, 1, WATER.frame) end)
-    table.insert(MAP[8][2].animatables, function() insertAnim(5, 2, WATER.frame) end)
-    table.insert(MAP[8][2].animatables, function() insertAnim(6, 1, WATER.frame) end)
-    table.insert(MAP[8][2].animatables, function() insertAnim(6, 2, WATER.frame) end)
-    table.insert(MAP[8][2].animatables, function() insertAnim(7, 1, WATER.frame) end)
-    table.insert(MAP[8][2].animatables, function() insertAnim(7, 2, WATER.frame) end)
-    table.insert(MAP[8][2].animatables, function() insertAnim(8, 1, WATER.frame) end)
-    table.insert(MAP[8][2].animatables, function() insertAnim(8, 2, WATER.frame) end)
-
-    table.insert(MAP[8][3].animatables, function() insertAnim(3, 4, AUTUMN_FLOWERS.frame) end)
-    table.insert(MAP[8][3].animatables, function() insertAnim(3, 5, AUTUMN_FLOWERS.frame) end)
-    table.insert(MAP[8][3].animatables, function() insertAnim(3, 8, AUTUMN_FLOWERS.frame) end)
-    table.insert(MAP[8][3].animatables, function() insertAnim(4, 9, AUTUMN_FLOWERS.frame) end)
-    table.insert(MAP[8][3].animatables, function() insertAnim(7, 8, AUTUMN_FLOWERS.frame) end)
-
-
+    FLOWERS = AnimSpitter(FLOWER_ANIM_STARTER, 1015, 0.75)
+    AUTUMN_FLOWERS = AnimSpitter(AUTUMN_FLOWER_ANIM_STARTER, 1011, 0.75)
+    WATER = AnimSpitter(WATER_ANIM_STARTER, 105, .5)
 end
