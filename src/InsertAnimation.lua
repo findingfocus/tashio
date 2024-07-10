@@ -11,6 +11,9 @@ function InsertAnimation:update(dt)
     WATER:update(dt)
 
     for i = 1, #MAP[self.mapRow][self.mapColumn].animatables do
+        if self.mapRow == 8 then
+            --self.mapRow = 7
+        end
         MAP[self.mapRow][self.mapColumn].animatables[i]()
     end
 end
