@@ -212,6 +212,10 @@ function Scene:render()
         self.player:render()
     end
 
+    --TOP LEVEL TILE RENDERS
+      --self.currentMap.topLevelTiles:render()
+    --
+
     --SET FADE FOR SPELLCAST
     love.graphics.setColor(255/255, 255/255, 255/255, SPELLCAST_FADE/225)
     for i = 1, spellcastEntityCount do

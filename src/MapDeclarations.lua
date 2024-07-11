@@ -21,6 +21,11 @@ for k, v in pairs(globalMap.layers[1].data) do
     tiledMap[k] = v
 end
 
+topLevelTileMap = {}
+for k, v in pairs(globalMap.layers[2].data) do
+    topLevelTileMap[k] = v
+end
+
 
 
 --tiledMapCount = #tiledMap
@@ -59,11 +64,10 @@ for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEI
 
     --tileId = 1
     table.insert(MAP[mapRow][mapCol], tiledMap[tileId])
-
     ---[[
     --if tileId == WATER_ANIM_STARTER then
     --test1 = 2
-    --table.insert(MAP[mapRow][mapCol].animatables, function() insertAnim(FIRST, sceneCol, WATER.frame) end)
+    --table.insert(MAP[mapRow][mapCol].animatables, function() insertAnim(sceneRow, sceneCol, WATER.frame) end)
     --end
     --]]
     sceneCol = sceneCol + 1
@@ -73,7 +77,10 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
     for j = 1, OVERWORLD_MAP_WIDTH do
         for k = 1, MAP_HEIGHT * MAP_WIDTH do
             local animRow = math.floor((k - 1) / 10) + 1
-            local animCol = k % 10
+            local animCol = (k % 10)
+            if animCol == 0 then
+                animCol = 10
+            end
             if MAP[i][j][k] == WATER_ANIM_STARTER then
                 table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, WATER.frame) end)
             elseif MAP[i][j][k] == FLOWER_ANIM_STARTER then
