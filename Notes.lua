@@ -58,6 +58,7 @@ X_Tiled map data downloader working
 X_Spellcast entities need to ignore wall collisions
 X_Work on 4th panel for channel trailer
 X_Corrupted gecko health decrement bug
+X_INSERTANIM()
 __stilken idea for walking partially behind sprites
 __Find animation bug for walking through transition
 __Think about refactoring animation spitter
@@ -81,14 +82,14 @@ __REHAUL DOWNLOADER TO ALSO KEEP TRACK OF LOCAL ROW AND COLUMN, INSERT INSERTANI
 
 Next Episode
 __New sprites!
+__Incorporate Hud Items
 
-__REHAUL DATA DOWNLOADER FOR LAYERS, INSERT COLLIDABLE MAP OBJECT, INSERT INSERTANIM()
+__REHAUL DATA DOWNLOADER FOR LAYERS,
 __Stenciling for log cabin
 
 __Channel trailer edit!
 __Make substantial new sprites for tileMap
 __Give enemy entities collidable map object logic
-__Incorporate Hud Items
 __Record channel trailer with demo levels
 __Have cleansed geckos pick closest edge to walk to
 __Collision detection for entities v MapObjects
