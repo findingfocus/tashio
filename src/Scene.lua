@@ -207,14 +207,24 @@ function Scene:render()
         self.nextMap:render()
     end
     love.graphics.pop()
-
     if self.player then
         self.player:render()
     end
 
-    --TOP LEVEL TILE RENDERS
-      --self.currentMap.topLevelTiles:render()
-    --
+
+    love.graphics.push()
+    if self.shifting then
+        love.graphics.translate(-math.floor(self.cameraX), -math.floor(self.cameraY))
+    end
+    for y = 1, MAP_HEIGHT do
+        for x = 1, MAP_WIDTH do
+            local tile = self.currentMap.topLevelTiles[y][x]
+            if quads[tile.id] ~= 75 then
+                love.graphics.draw(tileSheet, quads[tile.id], (x - 1) * TILE_SIZE + self.currentMap.adjacentOffsetX, (y - 1) * TILE_SIZE + self.currentMap.adjacentOffsetY)
+            end
+        end
+    end
+    love.graphics.pop()
 
     --SET FADE FOR SPELLCAST
     love.graphics.setColor(255/255, 255/255, 255/255, SPELLCAST_FADE/225)

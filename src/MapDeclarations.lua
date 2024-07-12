@@ -21,9 +21,9 @@ for k, v in pairs(globalMap.layers[1].data) do
     tiledMap[k] = v
 end
 
-topLevelTileMap = {}
+topLevelTiledMap = {}
 for k, v in pairs(globalMap.layers[2].data) do
-    topLevelTileMap[k] = v
+    topLevelTiledMap[k] = v
 end
 
 
@@ -33,6 +33,7 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
     for j = 1, OVERWORLD_MAP_WIDTH do
         MAP[i][j].animatables = {}
         MAP[i][j].entities = {}
+        MAP[i][j].topLevelTileIds = {}
     end
 end
 
@@ -72,6 +73,50 @@ for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEI
     --]]
     sceneCol = sceneCol + 1
 end
+
+
+
+--TOP LEVEL TILE DOWNLOADER
+local mapRow = 1
+local mapCol = 1
+local sceneRow = 1
+local sceneCol = 1
+local sceneRowsInserted = 0
+local globalRowsInserted = 0
+
+for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEIGHT do
+    if sceneCol > MAP_WIDTH then
+      sceneCol = 1
+      mapCol = mapCol + 1
+      sceneRowsInserted = sceneRowsInserted + 1
+    end
+    if sceneRowsInserted == OVERWORLD_MAP_WIDTH then
+        mapCol = 1
+        globalRowsInserted = globalRowsInserted + 1
+        sceneRow = sceneRow + 1
+        sceneRowsInserted = 0
+    end
+    if globalRowsInserted == MAP_HEIGHT then --CYCLE TO NEXT MAP ROW
+        sceneRow = 1
+        mapRow = mapRow + 1
+        globalRowsInserted = 0
+    end
+
+    --tileId = 1
+    table.insert(MAP[mapRow][mapCol].topLevelTileIds, topLevelTiledMap[tileId])
+    ---[[
+    --if tileId == WATER_ANIM_STARTER then
+    --test1 = 2
+    --table.insert(MAP[mapRow][mapCol].animatables, function() insertAnim(sceneRow, sceneCol, WATER.frame) end)
+    --end
+    --]]
+    sceneCol = sceneCol + 1
+end
+
+
+
+
+
 
 for i = 1, OVERWORLD_MAP_HEIGHT do
     for j = 1, OVERWORLD_MAP_WIDTH do
