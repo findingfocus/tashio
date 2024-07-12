@@ -9,6 +9,7 @@ function Map:init(row, column, spellcastEntities)
         self.psystems[i] = love.graphics.newParticleSystem(particle, 400)
     end
     self.tiles = {}
+    self.topLevelTiles = {}
     self.row = row
     self.column = column
     self.spellcastEntityCount = spellcastEntities
@@ -24,6 +25,20 @@ function Map:init(row, column, spellcastEntities)
         for x = 1, MAP_WIDTH do
             table.insert(self.tiles[y], {
                 id = MAP[row][column][count]
+            })
+            count = count + 1
+        end
+    end
+
+    count = 1
+    for y = 1, MAP_HEIGHT do
+        table.insert(self.topLevelTiles, {})
+        for x = 1, MAP_WIDTH do
+            if MAP[row][column].topLevelTileIds[count] == 0 then
+                MAP[row][column].topLevelTileIds[count] = 75
+            end
+            table.insert(self.topLevelTiles[y], {
+                id = MAP[row][column].topLevelTileIds[count]
             })
             count = count + 1
         end

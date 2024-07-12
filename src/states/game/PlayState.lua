@@ -110,7 +110,7 @@ function PlayState:update(dt)
 end
 
 function PlayState:render()
-	love.graphics.clear(GRAY)
+	love.graphics.clear(BLACK)
 
     love.graphics.push()
     sceneView:render()
