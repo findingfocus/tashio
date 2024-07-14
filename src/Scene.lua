@@ -216,11 +216,18 @@ function Scene:render()
     if self.shifting then
         love.graphics.translate(-math.floor(self.cameraX), -math.floor(self.cameraY))
     end
+    --RENDER TOP LEVEL TILES
     for y = 1, MAP_HEIGHT do
         for x = 1, MAP_WIDTH do
             local tile = self.currentMap.topLevelTiles[y][x]
             if quads[tile.id] ~= 75 then
+                love.graphics.setColor(255,255,255,255)
                 love.graphics.draw(tileSheet, quads[tile.id], (x - 1) * TILE_SIZE + self.currentMap.adjacentOffsetX, (y - 1) * TILE_SIZE + self.currentMap.adjacentOffsetY)
+            end
+            if self.nextMap then
+                love.graphics.setColor(255,255,255,255)
+                local tile = self.nextMap.topLevelTiles[y][x]
+                love.graphics.draw(tileSheet, quads[tile.id], (x - 1) * TILE_SIZE + self.nextMap.adjacentOffsetX, (y - 1) * TILE_SIZE + self.nextMap.adjacentOffsetY)
             end
         end
     end

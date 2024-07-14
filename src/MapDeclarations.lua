@@ -20,9 +20,13 @@ tiledMap = {}
 for k, v in pairs(globalMap.layers[1].data) do
     tiledMap[k] = v
 end
+aboveGroundTiledMap = {}
+for k, v in pairs(globalMap.layers[2].data) do
+    aboveGroundTiledMap[k] = v
+end
 
 topLevelTiledMap = {}
-for k, v in pairs(globalMap.layers[2].data) do
+for k, v in pairs(globalMap.layers[3].data) do
     topLevelTiledMap[k] = v
 end
 
@@ -34,6 +38,7 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
         MAP[i][j].animatables = {}
         MAP[i][j].entities = {}
         MAP[i][j].topLevelTileIds = {}
+        MAP[i][j].aboveGroundTileIds = {}
     end
 end
 
@@ -113,6 +118,35 @@ for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEI
     sceneCol = sceneCol + 1
 end
 
+--MAP DOWNLOADER FROM TILED DATA DOWNLOADER
+local mapRow = 1
+local mapCol = 1
+local sceneRow = 1
+local sceneCol = 1
+local sceneRowsInserted = 0
+local globalRowsInserted = 0
+
+for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEIGHT do
+    if sceneCol > MAP_WIDTH then
+      sceneCol = 1
+      mapCol = mapCol + 1
+      sceneRowsInserted = sceneRowsInserted + 1
+    end
+    if sceneRowsInserted == OVERWORLD_MAP_WIDTH then
+        mapCol = 1
+        globalRowsInserted = globalRowsInserted + 1
+        sceneRow = sceneRow + 1
+        sceneRowsInserted = 0
+    end
+    if globalRowsInserted == MAP_HEIGHT then --CYCLE TO NEXT MAP ROW
+        sceneRow = 1
+        mapRow = mapRow + 1
+        globalRowsInserted = 0
+    end
+
+    table.insert(MAP[mapRow][mapCol].aboveGroundTileIds, aboveGroundTiledMap[tileId])
+    sceneCol = sceneCol + 1
+end
 
 
 
