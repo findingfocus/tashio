@@ -10,6 +10,7 @@ function Map:init(row, column, spellcastEntities)
     end
     self.tiles = {}
     self.topLevelTiles = {}
+    self.aboveGroundTiles = {}
     self.row = row
     self.column = column
     self.spellcastEntityCount = spellcastEntities
@@ -30,7 +31,7 @@ function Map:init(row, column, spellcastEntities)
         end
     end
 
-    count = 1
+    local count = 1
     for y = 1, MAP_HEIGHT do
         table.insert(self.topLevelTiles, {})
         for x = 1, MAP_WIDTH do
@@ -43,13 +44,30 @@ function Map:init(row, column, spellcastEntities)
             count = count + 1
         end
     end
-
+    --TODO
+    local count = 1
+    for y = 1, MAP_HEIGHT do
+        table.insert(self.aboveGroundTiles, {})
+        for x = 1, MAP_WIDTH do
+            if MAP[row][column].aboveGroundTileIds[count] == 0 then
+                MAP[row][column].aboveGroundTileIds[count] = 75
+            end
+            table.insert(self.aboveGroundTiles[y], {
+                id = MAP[row][column].aboveGroundTileIds[count]
+            })
+            count = count + 1
+        end
+    end
     ---[[
     --COLLIDABLE MAP OBJECTS
     self.collidableMapObjects = {}
     for i = 1, MAP_HEIGHT do
         for j = 1, MAP_WIDTH do
             local tile = self.tiles[i][j]
+            if tile.id >= 97 and tile.id <= 256 then
+                table.insert(self.collidableMapObjects, CollidableMapObjects(i, j))
+            end
+            local tile = self.aboveGroundTiles[i][j]
             if tile.id >= 97 and tile.id <= 256 then
                 table.insert(self.collidableMapObjects, CollidableMapObjects(i, j))
             end
@@ -146,6 +164,13 @@ function Map:render()
     for y = 1, MAP_HEIGHT do
         for x = 1, MAP_WIDTH do
             local tile = self.tiles[y][x]
+            love.graphics.draw(tileSheet, quads[tile.id], (x - 1) * TILE_SIZE + self.adjacentOffsetX, (y - 1) * TILE_SIZE + self.adjacentOffsetY)
+        end
+    end
+    --RENDER ABOVE GROUND TILES
+    for y = 1, MAP_HEIGHT do
+        for x = 1, MAP_WIDTH do
+            local tile = self.aboveGroundTiles[y][x]
             love.graphics.draw(tileSheet, quads[tile.id], (x - 1) * TILE_SIZE + self.adjacentOffsetX, (y - 1) * TILE_SIZE + self.adjacentOffsetY)
         end
     end
