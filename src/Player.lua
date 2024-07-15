@@ -75,8 +75,8 @@ function Player:update(dt)
             if position == 'left' then
                 index = k
             end
-        end
             table.remove(INPUT_LIST, index)
+        end
     end
     if love.keyboard.wasReleased('right') then
         local index = 0
@@ -84,8 +84,8 @@ function Player:update(dt)
             if position == 'right' then
                 index = k
             end
-        end
             table.remove(INPUT_LIST, index)
+        end
     end
     if love.keyboard.wasReleased('up') then
         local index = 0
@@ -93,8 +93,8 @@ function Player:update(dt)
             if position == 'up' then
                 index = k
             end
-        end
             table.remove(INPUT_LIST, index)
+        end
     end
     if love.keyboard.wasReleased('down') then
         local index = 0
@@ -102,8 +102,8 @@ function Player:update(dt)
             if position == 'down' then
                 index = k
             end
-        end
             table.remove(INPUT_LIST, index)
+        end
     end
 
 

@@ -203,7 +203,8 @@ function PlayState:render()
         love.graphics.print('INPUT_LIST: ' .. inspect(INPUT_LIST), 5, 85)
         love.graphics.print('player_state: ' .. tostring(PLAYER_STATE), 5, 95)
         love.graphics.print('ANIMATABLES: ' .. tostring(MAP[7][2].animatables[1]), 5, 105)
-
+    elseif love.keyboard.isDown('2') then
+        print('animations: ' .. inspect(self.player.currentAnimation), 5, 15)
 
     end
 end

@@ -37,15 +37,21 @@ function EntityWalkState:update(dt)
     if self.entity.direction == 'down' then
         self.entity.y = self.entity.y + self.entity.walkSpeed--ADD WALK SPEED
         self.entity:changeAnimation('walk-down')
+        --self.entity.currentAnimation.timer = 0
     elseif self.entity.direction == 'up' then
         self.entity.y = self.entity.y - self.entity.walkSpeed--ADD WALK SPEED
         self.entity:changeAnimation('walk-up')
+        --self.entity.currentAnimation.timer = 0
     elseif self.entity.direction == 'left' then
         self.entity.x = self.entity.x - self.entity.walkSpeed
         self.entity:changeAnimation('walk-left')
+        --self.entity.currentAnimation.timer = 0
+        --self.entity.currentAnimation.currentFrame = 1
     elseif self.entity.direction == 'right' then
         self.entity.x = self.entity.x + self.entity.walkSpeed
         self.entity:changeAnimation('walk-right')
+        --self.entity.currentAnimation.timer = 0
+        --self.entity.currentAnimation.currentFrame = 1
     end
 
     --TRIGGER OFFSCREEN
@@ -97,7 +103,7 @@ end
 function EntityWalkState:render()
     local anim = self.entity.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
-        math.floor(self.entity.x), math.floor(self.entity.y))
+        self.entity.x, self.entity.y)
 
 
         --[[
