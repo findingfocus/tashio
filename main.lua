@@ -80,17 +80,25 @@ function love.keyboard.wasReleased(key)
     end
 end
 
+local tickPeriod = 1/60
+accumulator = 0.0
+
 function love.update(dt)
-    Timer.update(dt)
-    if love.keyboard.wasPressed('tab') then
-        mouseState = not love.mouse.isVisible()
-        love.mouse.setVisible(mouseState)
-    end
+  accumulator = love.timer.getTime() * dt
+  if accumulator >= tickPeriod then
+    accumulator = accumulator - tickPeriod
+  end
 
-	gStateMachine:update(dt)
+  Timer.update(dt)
+  if love.keyboard.wasPressed('tab') then
+    mouseState = not love.mouse.isVisible()
+    love.mouse.setVisible(mouseState)
+  end
 
-	love.keyboard.keysPressed = {}
-    love.keyboard.keysReleased = {}
+  gStateMachine:update(dt)
+
+  love.keyboard.keysPressed = {}
+  love.keyboard.keysReleased = {}
 end
 
 function love.draw()
@@ -98,7 +106,7 @@ function love.draw()
 
 	gStateMachine:render()
 
-	--displayFPS()
+	displayFPS()
 
 	push:finish()
 end
@@ -106,5 +114,6 @@ end
 function displayFPS()
 	love.graphics.setFont(classicFont)
 	love.graphics.setColor(BLACK)
-	love.graphics.print(tostring(love.timer.getFPS()), 0, VIRTUAL_HEIGHT - 12)
+	--print(tostring(accumulator), 0, VIRTUAL_HEIGHT - 62)
+	love.graphics.print(tostring(love.timer.getFPS()), 0, VIRTUAL_HEIGHT - 42)
 end
