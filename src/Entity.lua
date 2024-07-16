@@ -110,14 +110,14 @@ function Entity:changeAnimation(name)
     self.currentAnimation = self.animations[name]
 end
 
-function Entity:update(dt)
+function Entity:update(accumulator)
     if self.damageFlash then
-        self.damageFlashTimer = self.damageFlashTimer - dt
+        self.damageFlashTimer = self.damageFlashTimer - accumulator
         if self.damageFlashTimer <= 0 then
             self.flashing = not self.flashing
             self.damageFlashTimer = FLASH_FREQUENCY
         end
-        self.damageFlashDuration = self.damageFlashDuration - dt
+        self.damageFlashDuration = self.damageFlashDuration - accumulator
         if self.damageFlashDuration <= 0 then
             self.damageFlashDuration = FLASH_DURATION
             self.damageFlash = false
@@ -125,9 +125,9 @@ function Entity:update(dt)
         end
     end
 
-    self.stateMachine:update(dt)
+    self.stateMachine:update(accumulator)
     if self.currentAnimation then
-        self.currentAnimation:update(dt)
+        self.currentAnimation:update(accumulator)
     end
 
     --GECKO PARTICLE SYSTEM
@@ -139,7 +139,7 @@ function Entity:update(dt)
             self.psystem:setEmissionRate(40)
             self.psystem:setTangentialAcceleration(0, 4)
             self.psystem:setColors(67/255, 25/255, 36/255, 255/255, 25/255, 0/255, 51/255, 0/255)
-            self.psystem:update(dt)
+            self.psystem:update(accumulator)
         else
             self.psystem:reset()
         end
@@ -171,16 +171,16 @@ function Entity:update(dt)
 
     --SHOULD NEST IN SELF.HIT? WAS CAUSING BUGS
     if self.dx > 0 then
-        self.dx = math.max(0, self.dx - SLOW_TO_STOP * dt)
+        self.dx = math.max(0, self.dx - SLOW_TO_STOP * accumulator)
     end
     if self.dy > 0 then
-        self.dy = math.max(0, self.dy - SLOW_TO_STOP * dt)
+        self.dy = math.max(0, self.dy - SLOW_TO_STOP * accumulator)
     end
     if self.dx < 0 then
-        self.dx = math.min(0, self.dx + SLOW_TO_STOP * dt)
+        self.dx = math.min(0, self.dx + SLOW_TO_STOP * accumulator)
     end
     if self.dy < 0 then
-        self.dy = math.min(0, self.dy + SLOW_TO_STOP * dt)
+        self.dy = math.min(0, self.dy + SLOW_TO_STOP * accumulator)
     end
     self.x = self.x + self.dx
     self.y = self.y + self.dy
@@ -227,8 +227,8 @@ function Entity:update(dt)
     --]]
 end
 
-function Entity:processAI(params, dt, player)
-    self.stateMachine:processAI(params, dt, player)
+function Entity:processAI(params, accumulator, player)
+    self.stateMachine:processAI(params, accumulator, player)
 end
 
 function Entity:render(adjacentOffsetX, adjacentOffsetY)

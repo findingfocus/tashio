@@ -17,7 +17,7 @@ function updateHearts(player)
     HEART_CROP = 56 - (4 * healthDifference)
 end
 
-function Player:update(dt)
+function Player:update(accumulator)
     --PLAYER DEATH
     if self.health <= 0 and not self.dead then
         sounds['death']:play()
@@ -28,7 +28,7 @@ function Player:update(dt)
     HEART_CROP = math.max(56 - (4 * healthDifference), 0)
     --[[
     if self.heartTimer > 0 then
-        self.heartTimer = self.heartTimer - dt
+        self.heartTimer = self.heartTimer - accumulator
     end
     if self.heartTimer < 0 and self.decrement then
         self.heartTimer = heartSpeed
@@ -141,7 +141,7 @@ function Player:update(dt)
             end
         end
     end
-    Entity.update(self, dt)
+    Entity.update(self, accumulator)
 end
 
 function Player:render()

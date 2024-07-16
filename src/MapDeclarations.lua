@@ -189,7 +189,7 @@ mapCount = #MAP[1][1]
 local entities = 4
 for i = 1, entities do
     local random = math.random(25, 35)
-    random = random / 100
+    random = (random / 100) * 60
     table.insert(MAP[7][3].entities, Entity {
         animations = ENTITY_DEFS['geckoC'].animations,
         x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),

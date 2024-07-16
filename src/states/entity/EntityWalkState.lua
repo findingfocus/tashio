@@ -17,7 +17,7 @@ function EntityWalkState:init(entity, scene)
     self.collided = false
 end
 
-function EntityWalkState:update(dt)
+function EntityWalkState:update(accumulator)
     --CLEANSE
     if self.entity.corrupted then
         --self.entity.health = math.max(self.entity.health - 0.5, 0)
@@ -35,20 +35,20 @@ function EntityWalkState:update(dt)
     self.collided = false
 
     if self.entity.direction == 'down' then
-        self.entity.y = self.entity.y + self.entity.walkSpeed--ADD WALK SPEED
+        self.entity.y = self.entity.y + self.entity.walkSpeed * accumulator--ADD WALK SPEED
         self.entity:changeAnimation('walk-down')
         --self.entity.currentAnimation.timer = 0
     elseif self.entity.direction == 'up' then
-        self.entity.y = self.entity.y - self.entity.walkSpeed--ADD WALK SPEED
+        self.entity.y = self.entity.y - self.entity.walkSpeed * accumulator--ADD WALK SPEED
         self.entity:changeAnimation('walk-up')
         --self.entity.currentAnimation.timer = 0
     elseif self.entity.direction == 'left' then
-        self.entity.x = self.entity.x - self.entity.walkSpeed
+        self.entity.x = self.entity.x - self.entity.walkSpeed * accumulator
         self.entity:changeAnimation('walk-left')
         --self.entity.currentAnimation.timer = 0
         --self.entity.currentAnimation.currentFrame = 1
     elseif self.entity.direction == 'right' then
-        self.entity.x = self.entity.x + self.entity.walkSpeed
+        self.entity.x = self.entity.x + self.entity.walkSpeed * accumulator
         self.entity:changeAnimation('walk-right')
         --self.entity.currentAnimation.timer = 0
         --self.entity.currentAnimation.currentFrame = 1
@@ -68,7 +68,7 @@ function EntityWalkState:update(dt)
     --ADD COLLISION DETECTION AND RESET POSITIONS
 end
 
-function EntityWalkState:processAI(params, dt, player)
+function EntityWalkState:processAI(params, accumulator, player)
     local tashio = player
     local velocity = .5
     if self.entity.type == 'gecko' then
