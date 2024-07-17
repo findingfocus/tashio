@@ -10,6 +10,9 @@ function PlayerIdleState:init(entity)
 end
 
 function PlayerIdleState:update(dt)
+    if #INPUT_LIST > 0 then
+        self.entity.currentAnimation:refresh()
+    end
     if love.keyboard.isDown('left') or love.keyboard.isDown('right') or
         love.keyboard.isDown('up') or love.keyboard.isDown('down') then
             self.entity:changeState('player-walk')
