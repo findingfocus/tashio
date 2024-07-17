@@ -17,7 +17,7 @@ function updateHearts(player)
     HEART_CROP = 56 - (4 * healthDifference)
 end
 
-function Player:update(accumulator)
+function Player:update(dt)
     --PLAYER DEATH
     if self.health <= 0 and not self.dead then
         sounds['death']:play()
@@ -28,7 +28,7 @@ function Player:update(accumulator)
     HEART_CROP = math.max(56 - (4 * healthDifference), 0)
     --[[
     if self.heartTimer > 0 then
-        self.heartTimer = self.heartTimer - accumulator
+        self.heartTimer = self.heartTimer - dt
     end
     if self.heartTimer < 0 and self.decrement then
         self.heartTimer = heartSpeed
@@ -55,17 +55,50 @@ function Player:update(accumulator)
     end
     --]]
     --POPULATE INPUT LIST
-    if love.keyboard.wasPressed('left') then
-        table.insert(INPUT_LIST, 'left')
+    if love.keyboard.isDown('left') then
+        local inputCount = 0 
+        for k, v in pairs(INPUT_LIST) do
+            if v == 'left' then
+               inputCount = inputCount + 1
+            end
+        end
+        if inputCount == 0 then
+          table.insert(INPUT_LIST, 'left')
+        end
     end
-    if love.keyboard.wasPressed('right') then
-        table.insert(INPUT_LIST, 'right')
+    if love.keyboard.isDown('right') then
+        local inputCount = 0 
+        for k, v in pairs(INPUT_LIST) do
+            if v == 'right' then
+               inputCount = inputCount + 1
+            end
+        end
+        if inputCount == 0 then
+          table.insert(INPUT_LIST, 'right')
+        end
+
     end
-    if love.keyboard.wasPressed('up') then
-        table.insert(INPUT_LIST, 'up')
+    if love.keyboard.isDown('up') then
+        local inputCount = 0 
+        for k, v in pairs(INPUT_LIST) do
+            if v == 'up' then
+               inputCount = inputCount + 1
+            end
+        end
+        if inputCount == 0 then
+          table.insert(INPUT_LIST, 'up')
+        end
     end
-    if love.keyboard.wasPressed('down') then
-        table.insert(INPUT_LIST, 'down')
+    if love.keyboard.isDown('down') then
+        local inputCount = 0 
+        for k, v in pairs(INPUT_LIST) do
+            if v == 'down' then
+               inputCount = inputCount + 1
+            end
+        end
+        if inputCount == 0 then
+          table.insert(INPUT_LIST, 'down')
+        end
     end
 
     --REMOVE VALUES FROM INPUT LIST
@@ -106,9 +139,7 @@ function Player:update(accumulator)
         end
     end
 
-
     self.lastInput = INPUT_LIST[#INPUT_LIST]
-
 
 
     if self.lastInput then
@@ -141,7 +172,7 @@ function Player:update(accumulator)
             end
         end
     end
-    Entity.update(self, accumulator)
+    Entity.update(self, dt)
 end
 
 function Player:render()

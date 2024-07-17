@@ -80,15 +80,7 @@ function love.keyboard.wasReleased(key)
     end
 end
 
-local tickPeriod = 1/60
-accumulator = 0.0
-
 function love.update(dt)
-  accumulator = love.timer.getTime() * dt
-  if accumulator >= tickPeriod then
-    accumulator = accumulator - tickPeriod
-  end
-
   Timer.update(dt)
   if love.keyboard.wasPressed('tab') then
     mouseState = not love.mouse.isVisible()
