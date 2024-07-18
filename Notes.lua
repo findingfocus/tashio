@@ -76,11 +76,13 @@ __Prevent geckos from being cut off rendering
 __Add death sprite for player
 __Have geckos return to start positions if player is dead
 __Factor gecko logic into gecko class, which aspects of entity class do enemies inherit
-__WALKING BUG WHEN IDLE
-__ ADD ANIMATBLES FUNCTIONS INTO MAP[][] AS TILE ID RECOGNIZED
+X_WALKING BUG WHEN IDLE
+X_ ADD ANIMATBLES FUNCTIONS INTO MAP[][] AS TILE ID RECOGNIZED
 __REHAUL DOWNLOADER TO ALSO KEEP TRACK OF LOCAL ROW AND COLUMN, INSERT INSERTANIM() BASED ON TILEID AND LOCAL ROW AND COLUMN
+__Incorporate Prosto closure fix for local variables
 
 Next Episode
+__Falling Animation
 __New sprites!
 __Incorporate Hud Items
 
@@ -99,6 +101,7 @@ Research
 __How to reset entities to default locations upon a scene change
 __How to render corruption particles over player
 __Start game with quick session of five sprite spell cast?
+__Manis framerate independent????
 
 Todo
 __Add framerate independence for player update and spellcast update

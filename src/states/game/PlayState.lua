@@ -25,7 +25,7 @@ function PlayState:init()
     self.player:changeState('player-idle')
     self.manis = 100
     self.manisMax = 100
-    self.manisDrain = 0.45
+    self.manisDrain = .45
     self.manisRegen = 1.2
     self.focusIndicatorX = 0
     self.focusMax = 1.5
@@ -69,12 +69,12 @@ function PlayState:update(dt)
         end
         --FOCUS GAIN
         if love.keyboard.isDown('space') then
-            self.focusIndicatorX = math.max(self.focusIndicatorX - self.manisDrain + self.unFocus, 0)
+            self.focusIndicatorX = math.max(self.focusIndicatorX - self.manisDrain + self.unFocus * dt, 0)
             if self.manis == 0 then
-                self.focusIndicatorX = math.max(self.focusIndicatorX - self.manisDrain - self.unFocus, 0)
+                self.focusIndicatorX = math.max(self.focusIndicatorX - self.manisDrain - self.unFocus * dt, 0)
             end
         else
-            self.focusIndicatorX = math.max(self.focusIndicatorX - self.manisDrain - self.unFocus, 0)
+            self.focusIndicatorX = math.max(self.focusIndicatorX - self.manisDrain - self.unFocus * dt, 0)
         end
 
         if love.keyboard.isDown('space') then
@@ -91,7 +91,7 @@ function PlayState:update(dt)
             end
         elseif self.manis < self.manisMax then --IF SPACE ISNT HELD
             --MANIS REGEN
-            self.manis = math.min(self.manis + 0.3, self.manisMax)
+            self.manis = math.min(self.manis + 0.3, self.manisMax) 
             --UNFOCUS DRAIN
             --self.unFocus = math.max(self.unFocus - 0.15, 0)
         end
