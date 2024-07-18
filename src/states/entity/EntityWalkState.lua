@@ -35,23 +35,17 @@ function EntityWalkState:update(dt)
     self.collided = false
 
     if self.entity.direction == 'down' then
-        self.entity.y = self.entity.y + self.entity.walkSpeed * dt--ADD WALK SPEED
+        self.entity.y = self.entity.y + self.entity.walkSpeed * dt
         self.entity:changeAnimation('walk-down')
-        --self.entity.currentAnimation.timer = 0
     elseif self.entity.direction == 'up' then
-        self.entity.y = self.entity.y - self.entity.walkSpeed * dt--ADD WALK SPEED
+        self.entity.y = self.entity.y - self.entity.walkSpeed * dt
         self.entity:changeAnimation('walk-up')
-        --self.entity.currentAnimation.timer = 0
     elseif self.entity.direction == 'left' then
         self.entity.x = self.entity.x - self.entity.walkSpeed * dt
         self.entity:changeAnimation('walk-left')
-        --self.entity.currentAnimation.timer = 0
-        --self.entity.currentAnimation.currentFrame = 1
     elseif self.entity.direction == 'right' then
         self.entity.x = self.entity.x + self.entity.walkSpeed * dt
         self.entity:changeAnimation('walk-right')
-        --self.entity.currentAnimation.timer = 0
-        --self.entity.currentAnimation.currentFrame = 1
     end
 
     --TRIGGER OFFSCREEN
