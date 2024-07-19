@@ -37,6 +37,7 @@ smallFont = love.graphics.newFont('fonts/classic.ttf', 4)
 
 gTextures = {
     ['character-walk'] = love.graphics.newImage('graphics/playerAtlas.png'),
+    ['character-fall'] = love.graphics.newImage('graphics/falling-sheet.png'),
     ['gecko'] = love.graphics.newImage('graphics/geckoAtlas.png'),
     ['geckoC'] = love.graphics.newImage('graphics/geckoCAtlas.png'),
     ['flame'] = love.graphics.newImage('graphics/flameAtlas2.png'),
@@ -45,6 +46,7 @@ gTextures = {
 
 gFrames = {
     ['character-walk'] = GenerateQuads(gTextures['character-walk'], TILE_SIZE, TILE_SIZE),
+    ['character-fall'] = GenerateQuads(gTextures['character-fall'], TILE_SIZE, TILE_SIZE),
     ['gecko'] = GenerateQuads(gTextures['gecko'], TILE_SIZE, TILE_SIZE),
     ['geckoC'] = GenerateQuads(gTextures['geckoC'], TILE_SIZE, TILE_SIZE),
     ['flame'] = GenerateQuads(gTextures['flame'], TILE_SIZE, TILE_SIZE),

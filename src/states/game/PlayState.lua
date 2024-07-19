@@ -109,7 +109,9 @@ function PlayState:update(dt)
     sceneView:update(dt)
 
     rotate = rotate + .05
-    love.window.setPosition(390, 80)
+
+    --LOCK SCREEN POSITION
+    love.window.setPosition(590, 80)
 end
 
 function PlayState:render()
@@ -208,8 +210,8 @@ function PlayState:render()
         love.graphics.print('ANIMATABLES: ' .. tostring(MAP[7][2].animatables[1]), 5, 105)
         love.graphics.print('dt: ' .. tostring(deltaTime), 5, 115)
     elseif love.keyboard.isDown('2') then
-        --print('animations: ' .. inspect(self.player.currentAnimation), 5, 15)
-        print('leftCount: ' .. inspect(leftCount), 5, 15)
+        print('animations: ' .. inspect(self.player.currentAnimation), 5, 15)
+        --print('leftCount: ' .. inspect(leftCount), 5, 15)
 
     end
 end

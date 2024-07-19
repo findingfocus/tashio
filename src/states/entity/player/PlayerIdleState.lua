@@ -9,7 +9,21 @@ function PlayerIdleState:init(entity)
     PLAYER_STATE = 'IDLE'
 end
 
+local fallTimer = 0
+
 function PlayerIdleState:update(dt)
+  fallTimer = fallTimer + dt 
+  if fallTimer > 3 then
+    self.entity:changeAnimation('falling')
+
+    if self.entity.animations['falling'].timesPlayed >= 1 then
+      self.entity:changeState('player-idle')
+      self.entity.animations['falling'].timesPlayed = 0
+      fallTimer = 0
+    end
+  end
+  print('fallTimer: ' .. fallTimer)
+
     if #INPUT_LIST > 0 then
         self.entity.currentAnimation:refresh()
     end
@@ -18,6 +32,7 @@ function PlayerIdleState:update(dt)
             self.entity:changeState('player-walk')
     end
 
+    --self.entity.animations['falling'].looping = false 
     --DONT CHANGE TO WALK IF CONTRIDICTING INPUTS HELD
 end
 
