@@ -14,6 +14,7 @@ function Map:init(row, column, spellcastEntities)
     self.row = row
     self.column = column
     self.spellcastEntityCount = spellcastEntities
+    self.pits = MAP[row][column].pits
     self.adjacentOffsetX = 0
     self.adjacentOffsetY = 0
     self.renderOffsetY = MAP_RENDER_OFFSET_Y
