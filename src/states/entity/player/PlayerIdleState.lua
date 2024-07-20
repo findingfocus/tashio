@@ -22,7 +22,7 @@ function PlayerIdleState:update(dt)
       fallTimer = 0
     end
   end
-  print('fallTimer: ' .. fallTimer)
+  --print('fallTimer: ' .. fallTimer)
 
     if #INPUT_LIST > 0 then
         self.entity.currentAnimation:refresh()

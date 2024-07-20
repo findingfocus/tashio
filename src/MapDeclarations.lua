@@ -6,6 +6,7 @@ OVERWORLD_MAP_WIDTH = 10
 OVERWORLD_MAP_HEIGHT = 10
 MAP_WIDTH = 10
 MAP_HEIGHT = 8
+PITS = 0
 
 
 --DECLARING EMPTY TABLES IN GLOBAL MAP
@@ -37,6 +38,7 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
     for j = 1, OVERWORLD_MAP_WIDTH do
         MAP[i][j].animatables = {}
         MAP[i][j].entities = {}
+        MAP[i][j].pits = {}
         MAP[i][j].topLevelTileIds = {}
         MAP[i][j].aboveGroundTileIds = {}
     end
@@ -70,6 +72,7 @@ for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEI
 
     --tileId = 1
     table.insert(MAP[mapRow][mapCol], tiledMap[tileId])
+
     ---[[
     --if tileId == WATER_ANIM_STARTER then
     --test1 = 2
@@ -144,10 +147,17 @@ for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEI
         globalRowsInserted = 0
     end
 
+    if aboveGroundTiledMap[tileId] == 14 then
+      PITS = PITS + 1
+      table.insert(MAP[mapRow][mapCol].pits, {row = sceneRow, col = sceneCol})
+    end
+
     table.insert(MAP[mapRow][mapCol].aboveGroundTileIds, aboveGroundTiledMap[tileId])
+
     sceneCol = sceneCol + 1
 end
 
+--table.insert(MAP[7][2].pits, {row = 1, col = 2})
 
 
 
