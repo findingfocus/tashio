@@ -81,15 +81,6 @@ function Map:init(row, column, spellcastEntities)
 end
 
 function Map:update(dt)
-    pitX = pits[1].col * 16 - 16
-    pitY = pits[1].row * 16 - 16
-
-    if sceneView.player.x < pitX + TILE_SIZE and sceneView.player.x + sceneView.player.width > pitX and sceneView.player.y < pitY + TILE_SIZE and sceneView.player.y + sceneView.player.height > pitY then
-        isPitCollide = true
-    else
-        isPitCollide = false
-    end
-
     self.insertAnimations:update(dt)
 
     --ENTITY UPDATES
@@ -170,6 +161,10 @@ function Map:update(dt)
             self.psystems[i]:update(dt)
         end
     end
+
+    for k, v in pairs(self.pits) do
+        v:update(dt)
+    end
 end
 
 function Map:render()
@@ -201,17 +196,14 @@ function Map:render()
             entity:render(self.adjacentOffsetX, self.adjacentOffsetY)
         end
     end
-    love.graphics.setColor(255/255, 255/255, 255/255, 255/255)
-    --love.graphics.print('pit: ' .. inspect(pits[2]), 10, 10)
-    --[[
-    love.graphics.print('pitX: ' .. tostring(pitX), 10, 10)
-    love.graphics.print('pitY: ' .. tostring(pitY), 10, 20)
-    love.graphics.print('playerX: ' .. tostring(sceneView.player.x), 10, 30)
-    love.graphics.print('playerY: ' .. tostring(sceneView.player.y), 10, 40)
-    love.graphics.print('pitCollide' .. tostring(isPitCollide), 10, 50)
-    --]]
     love.graphics.setColor(255, 0, 0, 255)
-    if isPitCollide then
-        love.graphics.rectangle('fill', pitX, pitY, TILE_SIZE, TILE_SIZE)
+    for k, v in pairs(self.pits) do
+        if isPitCollide then
+            love.graphics.rectangle('fill', 0, 0, TILE_SIZE, TILE_SIZE)
+        end
+    end
+
+    for k, v in pairs(self.pits) do
+        v:render()
     end
 end
