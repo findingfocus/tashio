@@ -20,10 +20,11 @@ function Animation:refresh()
 end
 
 function Animation:update(dt)
+    --[[ PROBABLY DELETE
     if not self.looping and self.timesPlayed > 0 then
-        return
+        --return
     end
-
+    --]]
 
     if #self.frames > 1 then
         self.timer = self.timer + dt
