@@ -1,4 +1,5 @@
 require 'src/constants'
+require 'src/Pit'
 
 MAP = {}
 TILEDMAP = {}
@@ -149,7 +150,7 @@ for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEI
 
     if aboveGroundTiledMap[tileId] == 14 then
       PITS = PITS + 1
-      table.insert(MAP[mapRow][mapCol].pits, {row = sceneRow, col = sceneCol})
+      table.insert(MAP[mapRow][mapCol].pits, Pit(sceneRow, sceneCol))
     end
 
     table.insert(MAP[mapRow][mapCol].aboveGroundTileIds, aboveGroundTiledMap[tileId])

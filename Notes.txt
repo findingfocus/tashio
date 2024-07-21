@@ -82,6 +82,10 @@ __REHAUL DOWNLOADER TO ALSO KEEP TRACK OF LOCAL ROW AND COLUMN, INSERT INSERTANI
 __Incorporate Prosto closure fix for local variables
 
 __Find where we reset Tashio's animation up falling frames playing out
+__Add gravity suck upon pitCollide
+__Trigger falling animation
+__Add damage, and set Flashing for player
+__Respawn player in safe spot... algo for legal respawn
 
 Next Episode
 __Falling Animation
