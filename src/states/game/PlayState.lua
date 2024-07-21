@@ -39,7 +39,7 @@ function PlayState:init()
     local rows = 8
     cameraX = 0
     --STARTING SCENE PLAYER SPAWN
-    sceneView = Scene(self.player, 7, 2)
+    sceneView = Scene(self.player, 8, 2)
     tilesheet = love.graphics.newImage('graphics/masterSheet.png')
     --textures = love.graphics.newImage('graphics/textures.png')
     quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
@@ -111,7 +111,7 @@ function PlayState:update(dt)
     rotate = rotate + .05
 
     --LOCK SCREEN POSITION
-    love.window.setPosition(590, 80)
+    love.window.setPosition(400, 85)
 end
 
 function PlayState:render()

@@ -81,6 +81,8 @@ X_ ADD ANIMATBLES FUNCTIONS INTO MAP[][] AS TILE ID RECOGNIZED
 __REHAUL DOWNLOADER TO ALSO KEEP TRACK OF LOCAL ROW AND COLUMN, INSERT INSERTANIM() BASED ON TILEID AND LOCAL ROW AND COLUMN
 __Incorporate Prosto closure fix for local variables
 
+__Find where we reset Tashio's animation up falling frames playing out
+
 Next Episode
 __Falling Animation
 __New sprites!
