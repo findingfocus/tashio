@@ -39,7 +39,7 @@ function PlayState:init()
     local rows = 8
     cameraX = 0
     --STARTING SCENE PLAYER SPAWN
-    sceneView = Scene(self.player, 8, 2)
+    sceneView = Scene(self.player, 7, 2)
     tilesheet = love.graphics.newImage('graphics/masterSheet.png')
     --textures = love.graphics.newImage('graphics/textures.png')
     quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
@@ -214,6 +214,7 @@ function PlayState:render()
         love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
         love.graphics.setColor(WHITE)
         love.graphics.print('pits: ' .. inspect(sceneView.currentMap.pits), 5, 15)
+        love.graphics.print('checkpoint: ' .. inspect(self.player.checkPointPositions), 5, 25)
         --love.graphics.print('pits: ' .. tostring(PITS), 5, 25)
         --print('leftCount: ' .. inspect(leftCount), 5, 15)
 

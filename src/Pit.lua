@@ -14,11 +14,17 @@ function Pit:update(dt)
         else
             self.collide = false
         end
+
+        --[[
+        if self.collide then
+            sceneView.player.x = sceneView.player.x + 10
+        end
+        --]]
 end
 
 function Pit:render()
     if self.collide then
         love.graphics.setColor(255, 0, 0, 255)
-        love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
+        --love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
     end
 end

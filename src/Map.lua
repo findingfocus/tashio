@@ -76,8 +76,6 @@ function Map:init(row, column, spellcastEntities)
         end
     end
     --]]
-    pits = self.pits
-    isPitCollide = false
 end
 
 function Map:update(dt)
@@ -164,6 +162,33 @@ function Map:update(dt)
 
     for k, v in pairs(self.pits) do
         v:update(dt)
+    end
+
+    for k, v in pairs(self.pits) do
+        if v.collide then
+            if #INPUT_LIST == 0 then
+                if not sceneView.player.safeFromFall then
+                    Timer.tween(1, {
+                        [sceneView.player] = {x = v.x, y = v.y},
+                    })
+                end
+            end
+            if math.abs(v.x - sceneView.player.x) < PIT_PROXIMITY_FALL then
+                if math.abs(v.y - sceneView.player.y) < PIT_PROXIMITY_FALL then
+                  sceneView.player:changeAnimation('falling')
+                end
+            end
+        end
+    end
+
+    if sceneView.player.animations['falling'].timesPlayed == 1 then
+        sceneView.player.x = sceneView.player.checkPointPositions.x
+        sceneView.player.y = sceneView.player.checkPointPositions.y
+        --sceneView.player.x = 0
+        --sceneView.player.y = 0
+        sceneView.player:changeAnimation('idle-' .. tostring(sceneView.player.direction))
+        sceneView.player.animations['falling'].timesPlayed = 0
+        sceneView.player.safeFromFall = true
     end
 end
 
