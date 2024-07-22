@@ -12,6 +12,7 @@ end
 local fallTimer = 0
 
 function PlayerIdleState:update(dt)
+    --[[
   fallTimer = fallTimer + dt 
   if fallTimer > 3 then
     self.entity:changeAnimation('falling')
@@ -22,6 +23,7 @@ function PlayerIdleState:update(dt)
       fallTimer = 0
     end
   end
+  --]]
   --print('fallTimer: ' .. fallTimer)
 
     if #INPUT_LIST > 0 then

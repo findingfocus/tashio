@@ -1,6 +1,8 @@
 Player = Class{__includes = Entity}
 
 local heartSpeed = 0.5
+local counter = 0
+local safeCounter = 0
 
 function Player:init(def)
     Entity.init(self, def)
@@ -10,6 +12,8 @@ function Player:init(def)
     self.heartTimer = heartSpeed
     self.decrement = true
     self.dead = false
+    self.checkPointPositions = {x = 0, y = 0}
+    self.safeFromFall = false
 end
 
 function updateHearts(player)
@@ -18,6 +22,20 @@ function updateHearts(player)
 end
 
 function Player:update(dt)
+    counter = counter + dt
+    if counter > 3 then
+        self.checkPointPositions.x = self.x
+        self.checkPointPositions.y = self.y
+        counter = 0
+    end
+    if self.safeFromFall then
+        safeCounter = safeCounter + dt
+        if safeCounter > 3 then
+            self.safeFromFall = false
+            safeCounter = 0
+        end
+    end
+
     --PLAYER DEATH
     if self.health <= 0 and not self.dead then
         sounds['death']:play()
