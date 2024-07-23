@@ -26,13 +26,21 @@ function PlayerIdleState:update(dt)
   --]]
   --print('fallTimer: ' .. fallTimer)
 
-    if #INPUT_LIST > 0 then
-        self.entity.currentAnimation:refresh()
-    end
-    if love.keyboard.isDown('left') or love.keyboard.isDown('right') or
-        love.keyboard.isDown('up') or love.keyboard.isDown('down') then
-            self.entity:changeState('player-walk')
-    end
+  if not sceneView.player.falling then
+      if #INPUT_LIST > 0 then
+          self.entity.currentAnimation:refresh()
+      end
+      if love.keyboard.isDown('left') or love.keyboard.isDown('right') or
+          love.keyboard.isDown('up') or love.keyboard.isDown('down') then
+          self.entity:changeState('player-walk')
+      end
+  end
+
+  if sceneView.player.falling then
+    sceneView.player.dx = 0
+    sceneView.player.dy = 0
+    sceneView.player:changeAnimation('falling')
+  end
 
     --self.entity.animations['falling'].looping = false 
     --DONT CHANGE TO WALK IF CONTRIDICTING INPUTS HELD

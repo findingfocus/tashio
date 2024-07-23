@@ -14,6 +14,8 @@ function Player:init(def)
     self.dead = false
     self.checkPointPositions = {x = 0, y = 0}
     self.safeFromFall = false
+    self.falling = false
+    self.graveyard = false
 end
 
 function updateHearts(player)
@@ -165,7 +167,7 @@ function Player:update(dt)
     end
 
     --TRANSITION EVENT TRIGGERS
-    if not sceneView.shifting then
+    if not sceneView.shifting and not sceneView.player.falling then
         if love.keyboard.isDown('right') then
             if self.x + self.width >= VIRTUAL_WIDTH + SIDE_EDGE_BUFFER_PLAYER then
                 Event.dispatch('right-transition')

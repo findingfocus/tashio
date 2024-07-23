@@ -86,6 +86,8 @@ __Add gravity suck upon pitCollide
 __Trigger falling animation
 __Add damage, and set Flashing for player
 __Respawn player in safe spot... algo for legal respawn
+__Change fall damage away from safeFromFall
+__Refactor safeFromFall name?
 
 Next Episode
 __Falling Animation
