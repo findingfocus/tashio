@@ -106,6 +106,7 @@ function PlayState:update(dt)
 
 
     cameraX = cameraX + 1
+
     sceneView:update(dt)
 
     rotate = rotate + .05
@@ -208,7 +209,7 @@ function PlayState:render()
         love.graphics.print('INPUT_LIST: ' .. inspect(INPUT_LIST), 5, 85)
         love.graphics.print('player_state: ' .. tostring(PLAYER_STATE), 5, 95)
         love.graphics.print('ANIMATABLES: ' .. tostring(MAP[7][2].animatables[1]), 5, 105)
-        love.graphics.print('dt: ' .. tostring(deltaTime), 5, 115)
+        love.graphics.print('falling: ' .. tostring(sceneView.player.falling), 5, 115)
     elseif love.keyboard.isDown('2') then
         love.graphics.setColor(DEBUG_BG)
         love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
@@ -217,6 +218,7 @@ function PlayState:render()
         love.graphics.print('checkpoint: ' .. inspect(self.player.checkPointPositions), 5, 25)
         --love.graphics.print('pits: ' .. tostring(PITS), 5, 25)
         --print('leftCount: ' .. inspect(leftCount), 5, 15)
+        --print(inspect(sceneView.player.animations['falling']))
 
     end
 end

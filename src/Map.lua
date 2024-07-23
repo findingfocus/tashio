@@ -176,20 +176,30 @@ function Map:update(dt)
             if math.abs(v.x - sceneView.player.x) < PIT_PROXIMITY_FALL then
                 if math.abs(v.y - sceneView.player.y) < PIT_PROXIMITY_FALL then
                   sceneView.player:changeAnimation('falling')
+                  sceneView.player.falling = true
+                  sceneView.player.graveyard = true
                 end
             end
         end
     end
 
-    if sceneView.player.animations['falling'].timesPlayed == 1 then
-        sceneView.player.x = sceneView.player.checkPointPositions.x
-        sceneView.player.y = sceneView.player.checkPointPositions.y
+    if sceneView.player.animations['falling'].timesPlayed >= 1 then
+        --sceneView.player.animations['falling'].currentFrame = 11
+        --sceneView.player.x = sceneView.player.checkPointPositions.x
+        --sceneView.player.y = sceneView.player.checkPointPositions.y
         --sceneView.player.x = 0
         --sceneView.player.y = 0
-        sceneView.player:changeAnimation('idle-' .. tostring(sceneView.player.direction))
-        sceneView.player.animations['falling'].timesPlayed = 0
+        sceneView.player.x = SCREEN_WIDTH_LIMIT
+        sceneView.player.y = 0
+        if not sceneView.player.safeFromFall then
+            sounds['hurt']:play()
+            sceneView.player.health = sceneView.player.health - 1
+        end
+        --sceneView.player:changeAnimation('idle-' .. tostring(sceneView.player.direction))
+        --sceneView.player.animations['falling'].timesPlayed = 0
         sceneView.player.safeFromFall = true
     end
+
 end
 
 function Map:render()

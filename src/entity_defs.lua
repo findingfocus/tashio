@@ -53,7 +53,7 @@ ENTITY_DEFS = {
                 looping = true
             },
             ['falling'] = {
-                frames = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+                frames = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11},
                 interval = 0.1,
                 texture = 'character-fall',
                 looping = false
