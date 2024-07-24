@@ -13,9 +13,10 @@ function Player:init(def)
     self.decrement = true
     self.dead = false
     self.checkPointPositions = {x = 0, y = 0}
-    self.safeFromFall = false
     self.falling = false
+    self.fallTimer = 0
     self.graveyard = false
+    self.tweenAllowed = true
 end
 
 function updateHearts(player)
@@ -24,18 +25,23 @@ function updateHearts(player)
 end
 
 function Player:update(dt)
-    counter = counter + dt
-    if counter > 3 then
+    local pitCount = 0
+    if not self.graveyard then
+        for k, v in pairs(sceneView.currentMap.pits) do
+            if v:collide(self) then
+                pitCount = pitCount + 1
+            end
+        end
+    end
+
+    if pitCount == 0 then
+        counter = counter + dt
+    end
+
+    if counter > 1 then
         self.checkPointPositions.x = self.x
         self.checkPointPositions.y = self.y
         counter = 0
-    end
-    if self.safeFromFall then
-        safeCounter = safeCounter + dt
-        if safeCounter > 3 then
-            self.safeFromFall = false
-            safeCounter = 0
-        end
     end
 
     --PLAYER DEATH
@@ -167,7 +173,7 @@ function Player:update(dt)
     end
 
     --TRANSITION EVENT TRIGGERS
-    if not sceneView.shifting and not sceneView.player.falling then
+    if not sceneView.shifting and not sceneView.player.falling and not sceneView.player.graveyard then
         if love.keyboard.isDown('right') then
             if self.x + self.width >= VIRTUAL_WIDTH + SIDE_EDGE_BUFFER_PLAYER then
                 Event.dispatch('right-transition')

@@ -12,7 +12,8 @@ function PlayState:init()
         animations = ENTITY_DEFS['player'].animations,
         walkSpeed = ENTITY_DEFS['player'].walkSpeed,
         x = 30,
-        y = 30,
+        y = 0,
+        --y = 30,
         width = TILE_SIZE,
         height = TILE_SIZE,
     }
@@ -39,7 +40,7 @@ function PlayState:init()
     local rows = 8
     cameraX = 0
     --STARTING SCENE PLAYER SPAWN
-    sceneView = Scene(self.player, 7, 2)
+    sceneView = Scene(self.player, 8, 2)
     tilesheet = love.graphics.newImage('graphics/masterSheet.png')
     --textures = love.graphics.newImage('graphics/textures.png')
     quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
@@ -208,14 +209,17 @@ function PlayState:render()
         love.graphics.print('animatables: ' .. tostring(sceneView.currentMap.tiles[4][1].id), 5, 75)
         love.graphics.print('INPUT_LIST: ' .. inspect(INPUT_LIST), 5, 85)
         love.graphics.print('player_state: ' .. tostring(PLAYER_STATE), 5, 95)
-        love.graphics.print('ANIMATABLES: ' .. tostring(MAP[7][2].animatables[1]), 5, 105)
+        love.graphics.print('fallTimer: ' .. tostring(sceneView.player.fallTimer), 5, 105)
         love.graphics.print('falling: ' .. tostring(sceneView.player.falling), 5, 115)
+        love.graphics.print('safeFFall: ' .. tostring(sceneView.player.safeFromFall), 85, 115)
     elseif love.keyboard.isDown('2') then
         love.graphics.setColor(DEBUG_BG)
         love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
         love.graphics.setColor(WHITE)
-        love.graphics.print('pits: ' .. inspect(sceneView.currentMap.pits), 5, 15)
-        love.graphics.print('checkpoint: ' .. inspect(self.player.checkPointPositions), 5, 25)
+        --love.graphics.print('pits: ' .. inspect(sceneView.currentMap.pits), 5, 15)
+        --love.graphics.print('graveyard: ' .. inspect(sceneView.player.graveyard), 5, 25)
+        love.graphics.print('checkpoint: ' .. inspect(self.player.checkPointPositions), 5, 35)
+        --love.graphics.print('testNumber' .. inspect(testNumber), 5, 35)
         --love.graphics.print('pits: ' .. tostring(PITS), 5, 25)
         --print('leftCount: ' .. inspect(leftCount), 5, 15)
         --print(inspect(sceneView.player.animations['falling']))

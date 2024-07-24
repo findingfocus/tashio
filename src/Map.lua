@@ -3,8 +3,10 @@ Map = Class{}
 SPELLCAST_FADE = 0
 local EMISSION_RATE = 80
 local inspect = require "lib/inspect"
+local graveyardTimer = 0
 
 function Map:init(row, column, spellcastEntities)
+    testNumber = 0
     self.psystems = {}
     for i = 1, spellcastEntities do
         self.psystems[i] = love.graphics.newParticleSystem(particle, 400)
@@ -160,14 +162,13 @@ function Map:update(dt)
         end
     end
 
+    local pitCount = 0
     for k, v in pairs(self.pits) do
-        v:update(dt)
-    end
-
-    for k, v in pairs(self.pits) do
-        if v.collide then
+        if v:collide(sceneView.player) then
+            testNumber = testNumber + 1
+            pitCount = pitCount + 1
             if #INPUT_LIST == 0 then
-                if not sceneView.player.safeFromFall then
+                if sceneView.player.tweenAllowed then
                     Timer.tween(1, {
                         [sceneView.player] = {x = v.x, y = v.y},
                     })
@@ -175,29 +176,50 @@ function Map:update(dt)
             end
             if math.abs(v.x - sceneView.player.x) < PIT_PROXIMITY_FALL then
                 if math.abs(v.y - sceneView.player.y) < PIT_PROXIMITY_FALL then
-                  sceneView.player:changeAnimation('falling')
-                  sceneView.player.falling = true
-                  sceneView.player.graveyard = true
+                  sceneView.player.fallTimer = sceneView.player.fallTimer + dt
                 end
+            else
+                sceneView.player.fallTimer = 0
             end
         end
     end
 
+    --FALLING TRIGGER
+    if sceneView.player.fallTimer > FALL_TIMER_THRESHOLD then
+        sceneView.player.fallTimer = 0
+        sceneView.player:changeAnimation('falling')
+        sceneView.player.falling = true
+    end
+
+    --GRAVEYARD TRIGGER
     if sceneView.player.animations['falling'].timesPlayed >= 1 then
-        --sceneView.player.animations['falling'].currentFrame = 11
-        --sceneView.player.x = sceneView.player.checkPointPositions.x
-        --sceneView.player.y = sceneView.player.checkPointPositions.y
-        --sceneView.player.x = 0
-        --sceneView.player.y = 0
+        sceneView.player.tweenAllowed = false
+        sceneView.player.animations['falling'].currentFrame = 1
+        sounds['hurt']:play()
+        sceneView.player.health = sceneView.player.health - 1
+        sceneView.player.animations['falling'].timesPlayed = 0
+        sceneView.player.fallTimer = -2
+        sceneView.player.falling = false
+        sceneView.player.graveyard = true
+        --sceneView.player.animations['falling'].currentFrame = 1
+        sceneView.player:changeAnimation('walk-down')
         sceneView.player.x = SCREEN_WIDTH_LIMIT
         sceneView.player.y = 0
-        if not sceneView.player.safeFromFall then
-            sounds['hurt']:play()
-            sceneView.player.health = sceneView.player.health - 1
+    end
+
+    if sceneView.player.graveyard then
+        sceneView.player.x = SCREEN_WIDTH_LIMIT
+        sceneView.player.y = 0
+        graveyardTimer = graveyardTimer + dt
+        if graveyardTimer > 2 then
+            sceneView.player.graveyard = false
+            sceneView.player.x = 0
+            sceneView.player.y = 0
+            sceneView.player.tweenAllowed = true
+            --sceneView.player.x = sceneView.player.checkPointPositions.x
+            --sceneView.player.y = sceneView.player.checkPointPositions.y
+            graveyardTimer = 0
         end
-        --sceneView.player:changeAnimation('idle-' .. tostring(sceneView.player.direction))
-        --sceneView.player.animations['falling'].timesPlayed = 0
-        sceneView.player.safeFromFall = true
     end
 
 end
@@ -232,13 +254,11 @@ function Map:render()
         end
     end
     love.graphics.setColor(255, 0, 0, 255)
-    for k, v in pairs(self.pits) do
-        if isPitCollide then
-            love.graphics.rectangle('fill', 0, 0, TILE_SIZE, TILE_SIZE)
-        end
-    end
 
     for k, v in pairs(self.pits) do
-        v:render()
+        if v:collide(sceneView.player) then
+            --v:render()
+        end
     end
+    print(inspect(sceneView.player.animations['falling']))
 end
