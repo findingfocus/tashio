@@ -26,7 +26,7 @@ function PlayerIdleState:update(dt)
   --]]
   --print('fallTimer: ' .. fallTimer)
 
-  if not sceneView.player.falling then
+  if not sceneView.player.falling and not sceneView.player.graveyard then
       if #INPUT_LIST > 0 then
           self.entity.currentAnimation:refresh()
       end
