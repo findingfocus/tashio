@@ -4,6 +4,7 @@ SPELLCAST_FADE = 0
 local EMISSION_RATE = 80
 local inspect = require "lib/inspect"
 local graveyardTimer = 0
+local pitCount = 0
 
 function Map:init(row, column, spellcastEntities)
     testNumber = 0
@@ -162,27 +163,6 @@ function Map:update(dt)
         end
     end
 
-    local pitCount = 0
-    for k, v in pairs(self.pits) do
-        if v:collide(sceneView.player) then
-            testNumber = testNumber + 1
-            pitCount = pitCount + 1
-            if #INPUT_LIST == 0 then
-                if sceneView.player.tweenAllowed then
-                    Timer.tween(1, {
-                        [sceneView.player] = {x = v.x, y = v.y},
-                    })
-                end
-            end
-            if math.abs(v.x - sceneView.player.x) < PIT_PROXIMITY_FALL then
-                if math.abs(v.y - sceneView.player.y) < PIT_PROXIMITY_FALL then
-                  sceneView.player.fallTimer = sceneView.player.fallTimer + dt
-                end
-            else
-                sceneView.player.fallTimer = 0
-            end
-        end
-    end
 
     --FALLING TRIGGER
     if sceneView.player.fallTimer > FALL_TIMER_THRESHOLD then
@@ -211,14 +191,41 @@ function Map:update(dt)
         sceneView.player.x = SCREEN_WIDTH_LIMIT
         sceneView.player.y = 0
         graveyardTimer = graveyardTimer + dt
-        if graveyardTimer > 2 then
+        if graveyardTimer > .3 then
             sceneView.player.graveyard = false
-            sceneView.player.x = 0
-            sceneView.player.y = 0
+            sceneView.player.x = sceneView.player.checkPointPositions.x
+            sceneView.player.y = sceneView.player.checkPointPositions.y
+            sceneView.player.damageFlash = true
             sceneView.player.tweenAllowed = true
-            --sceneView.player.x = sceneView.player.checkPointPositions.x
-            --sceneView.player.y = sceneView.player.checkPointPositions.y
             graveyardTimer = 0
+            Timer.clear()
+        end
+    end
+
+    pitCount = 0
+    for k, v in pairs(self.pits) do
+        if v:collide(sceneView.player) then
+            testNumber = testNumber + 1
+            pitCount = pitCount + 1
+            if #INPUT_LIST == 0 then
+                if sceneView.player.tweenAllowed then
+                    Timer.tween(.9, {
+                        [sceneView.player] = {x = v.x, y = v.y},
+                    })
+                    --[[
+                    if love.keyboard.wasPressed('up') then
+                        Timer.clear()
+                    end
+                    --]]
+                end
+            end
+            if math.abs(v.x - sceneView.player.x) < PIT_PROXIMITY_FALL then
+                if math.abs(v.y - sceneView.player.y) < PIT_PROXIMITY_FALL then
+                  sceneView.player.fallTimer = sceneView.player.fallTimer + dt
+                end
+            else
+                sceneView.player.fallTimer = 0
+            end
         end
     end
 
@@ -260,5 +267,5 @@ function Map:render()
             --v:render()
         end
     end
-    print(inspect(sceneView.player.animations['falling']))
+    love.graphics.print("pitCountMap: " .. pitCount, 0, 0)
 end

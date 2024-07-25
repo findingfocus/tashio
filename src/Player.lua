@@ -3,6 +3,7 @@ Player = Class{__includes = Entity}
 local heartSpeed = 0.5
 local counter = 0
 local safeCounter = 0
+local pitCount = 0
 
 function Player:init(def)
     Entity.init(self, def)
@@ -25,7 +26,7 @@ function updateHearts(player)
 end
 
 function Player:update(dt)
-    local pitCount = 0
+    pitCount = 0
     if not self.graveyard then
         for k, v in pairs(sceneView.currentMap.pits) do
             if v:collide(self) then
@@ -34,7 +35,7 @@ function Player:update(dt)
         end
     end
 
-    if pitCount == 0 then
+    if not self.graveyard and pitCount == 0 then
         counter = counter + dt
     end
 
@@ -202,5 +203,7 @@ function Player:update(dt)
 end
 
 function Player:render()
-    Entity.render(self)
+    if not self.graveyard then
+        Entity.render(self)
+    end
 end
