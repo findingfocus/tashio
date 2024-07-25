@@ -88,6 +88,8 @@ __Add damage, and set Flashing for player
 __Respawn player in safe spot... algo for legal respawn
 __Change fall damage away from safeFromFall
 __Refactor safeFromFall name?
+__Add flower anim to be transparent
+__Fix lone pixel in flower animation
 
 Next Episode
 __Falling Animation

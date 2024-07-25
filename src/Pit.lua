@@ -8,7 +8,7 @@ function Pit:init(sceneRow, sceneCol)
 end
 
 function Pit:collide(player)
-    if player.x < self.x + self.width and player.x + player.width > self.x and player.y < self.y + self.height and player.y + player.height > self.y then
+    if player.x + SIDE_EDGE_BUFFER_PLAYER < self.x + self.width and player.x + player.width - SIDE_EDGE_BUFFER_PLAYER > self.x and player.y + SIDE_EDGE_BUFFER_PLAYER < self.y + self.height and player.y + player.height - SIDE_EDGE_BUFFER_PLAYER > self.y then
         return true
     else
         return false
