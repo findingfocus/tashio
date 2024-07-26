@@ -9,6 +9,7 @@ local pitCount = 0
 function Map:init(row, column, spellcastEntities)
     testNumber = 0
     self.psystems = {}
+    self.weather = Weather()
     for i = 1, spellcastEntities do
         self.psystems[i] = love.graphics.newParticleSystem(particle, 400)
     end
@@ -82,6 +83,7 @@ function Map:init(row, column, spellcastEntities)
 end
 
 function Map:update(dt)
+    self.weather:update(dt)
     self.insertAnimations:update(dt)
 
     --ENTITY UPDATES
@@ -267,5 +269,6 @@ function Map:render()
             --v:render()
         end
     end
-    love.graphics.print("pitCountMap: " .. pitCount, 0, 0)
+    --love.graphics.print("pitCountMap: " .. pitCount, 0, 0)
+    self.weather:render()
 end
