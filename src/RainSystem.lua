@@ -1,27 +1,29 @@
-Weather = Class{}
+RainSystem = Class{}
 local EMISSION_RATE = 600
 local WIND_ANGLE = -55
+local MIN_ANGLE = -400
+local MAX_ANGLE = 400
+local MIN_Y = 190
+local MAX_Y = 250
 local increase = false
 
-particle2 = love.graphics.newImage('graphics/particle.png')
-
-function Weather:init()
-    self.psystems = love.graphics.newParticleSystem(particle2, 600)
+function RainSystem:init()
+    self.psystems = love.graphics.newParticleSystem(particle, 600)
 end
 
-function Weather:update(dt)
+function RainSystem:update(dt)
     if not increase then
         WIND_ANGLE = WIND_ANGLE + 1
     else
         WIND_ANGLE = WIND_ANGLE - 1
     end
-    if WIND_ANGLE > 400 then
+    if WIND_ANGLE > MAX_ANGLE then
         increase = true
-        WIND_ANGLE = 400
+        WIND_ANGLE = MAX_ANGLE
     end
-    if WIND_ANGLE < -400 then
+    if WIND_ANGLE < MIN_ANGLE then
         increase = false
-        WIND_ANGLE = -400
+        WIND_ANGLE = MIN_ANGLE
     end
 
     self.psystems:moveTo(0, -50)
@@ -29,12 +31,12 @@ function Weather:update(dt)
     self.psystems:setEmissionArea('normal', SCREEN_WIDTH_LIMIT, 0)
     self.psystems:setParticleLifetime(1, 5)
     self.psystems:setEmissionRate(EMISSION_RATE)
-    self.psystems:setLinearAcceleration(WIND_ANGLE, 190, WIND_ANGLE, 250)
+    self.psystems:setLinearAcceleration(WIND_ANGLE, MIN_Y, WIND_ANGLE, MAX_Y)
     self.psystems:setColors(0, 8/255, 60/255, 255/255, 0, 130, 229, 255/255)
     self.psystems:update(dt)
 end
 
-function Weather:render()
+function RainSystem:render()
     if love.keyboard.isDown('3') then
         love.graphics.clear(0,0,0,255)
         love.graphics.print('WIND: ' .. WIND_ANGLE, 0, 0)

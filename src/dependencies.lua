@@ -23,7 +23,10 @@ require 'src/Animation'
 require 'src/Player'
 require 'src/Scene'
 require 'src/Map'
-require 'src/Weather'
+require 'src/RainSystem'
+require 'src/SnowSystem'
+require 'src/LavaSystem'
+require 'src/SandSystem'
 require 'src/AnimSpitter'
 require 'src/MapDeclarations'
 require 'src/InsertAnimation'
@@ -35,6 +38,7 @@ love.graphics.setDefaultFilter('nearest', 'nearest')
 pixelFont = love.graphics.newFont('fonts/Pixel.ttf', 8)
 classicFont = love.graphics.newFont('fonts/classic.ttf', 8)
 smallFont = love.graphics.newFont('fonts/classic.ttf', 4)
+particle = love.graphics.newImage('graphics/particle.png')
 
 gTextures = {
     ['character-walk'] = love.graphics.newImage('graphics/playerAtlas.png'),
