@@ -182,19 +182,7 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
     end
 end
 
---[[
-for i = 1, 5 do
-    table.insert(MAP[7][2].animatables, function() insertAnim(i, sceneCol, WATER.frame) end)
-end
-for i = 1, 8 do
-    table.insert(MAP[7][2].animatables, function() insertAnim(i, 5, WATER.frame) end)
-end
---]]
-
-
-
 mapCount = #MAP[1][1]
-
 
 --ENTITY DECLARATIONS
 local entities = 4
