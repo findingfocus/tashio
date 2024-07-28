@@ -145,9 +145,9 @@ function Scene:finishShifting()
 end
 
 function Scene:update(dt)
-    --self.snowSystem:update(dt)
+    self.snowSystem:update(dt)
     --self.rainSystem:update(dt)
-    self.sandSystem:update(dt)
+    --self.sandSystem:update(dt)
     --self.lavaSystem:update(dt)
     --TODO set lastinput to nil if nothing pressed
     if not love.keyboard.wasPressed('left')
@@ -245,7 +245,7 @@ function Scene:render()
     --self.snowSystem:render()
     --self.rainSystem:render()
     --self.lavaSystem:render()
-    self.sandSystem:render()
+    --self.sandSystem:render()
 
     --SET FADE FOR SPELLCAST
     love.graphics.setColor(255/255, 255/255, 255/255, SPELLCAST_FADE/225)
