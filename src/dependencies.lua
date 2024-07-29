@@ -2,6 +2,7 @@ push = require 'src/push'
 Class = require 'src/class'
 Event = require 'lib/knife.event'
 Timer = require 'lib/knife.timer'
+require 'lib/slam'
 
 globalMap = require 'graphics/globalMap'
 
@@ -73,6 +74,10 @@ sounds = {
     ['death'] = love.audio.newSource('sounds/death.wav', 'static'),
     ['spellcast'] = love.audio.newSource('sounds/spellcast.wav', 'static'),
     ['cleanse'] = love.audio.newSource('sounds/cleanse.wav', 'static'),
+    ['F2'] = love.audio.newSource('sounds/lute/F2.mp3', 'static'),
+    ['D1'] = love.audio.newSource('sounds/lute/D1.mp3', 'static'),
+    ['A1'] = love.audio.newSource('sounds/lute/A1.mp3', 'static'),
+    ['F1'] = love.audio.newSource('sounds/lute/F1.mp3', 'static'),
 }
 
 sounds['cleanse']:setVolume(.2)
