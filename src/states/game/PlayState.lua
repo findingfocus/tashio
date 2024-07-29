@@ -1,11 +1,17 @@
 PlayState = Class{__includes = BaseState}
 successfulCast = false
 HEART_CROP = 56
+local STRING_WIDTH = 2
 totalHealth = 14
 healthDifference = 0
 local deltaTime = 0
 local inspect = require "lib/inspect"
 leftCount = 0
+local luteState = false
+local F1Pressed = false
+local D1Pressed = false
+local A1Pressed = false
+local F2Pressed = false
 
 function PlayState:init()
     self.player = Player {
@@ -48,6 +54,49 @@ end
 
 function PlayState:update(dt)
     deltaTime = dt 
+
+    if love.keyboard.wasPressed('u') then
+        sounds['F1']:play()
+    end
+    if love.keyboard.wasPressed('i') then
+        sounds['A1']:play()
+    end
+    if love.keyboard.wasPressed('o') then
+        sounds['D1']:play()
+    end
+    if love.keyboard.wasPressed('p') then
+        sounds['F2']:play()
+    end
+
+    if love.keyboard.isDown('u') then
+        F1Pressed = true
+    else
+        F1Pressed = false
+    end
+    if love.keyboard.isDown('i') then
+        A1Pressed = true
+    else
+        A1Pressed = false
+    end
+    if love.keyboard.isDown('o') then
+        D1Pressed = true
+    else
+        D1Pressed = false
+    end
+    if love.keyboard.isDown('p') then
+        F2Pressed = true
+    else
+        F2Pressed = false
+    end
+
+    if love.keyboard.wasPressed('l') then
+        if luteState then
+            luteState = false
+        else
+            luteState = true
+        end
+    end
+
 
     if not sceneView.shifting then
         --UNFOCUS
@@ -224,5 +273,44 @@ function PlayState:render()
         --print('leftCount: ' .. inspect(leftCount), 5, 15)
         --print(inspect(sceneView.player.animations['falling']))
 
+    end
+
+    love.graphics.print('luteState' .. tostring(luteState), 0, VIRTUAL_HEIGHT - 50)
+    if luteState then
+        love.graphics.setColor(DEBUG_BG2)
+        love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
+
+
+        if F2Pressed then
+            love.graphics.setColor(BLUE)
+        else
+            love.graphics.setColor(WHITE)
+        end
+        love.graphics.rectangle('fill', 0, 10, VIRTUAL_WIDTH, STRING_WIDTH)
+
+
+        if D1Pressed then
+            love.graphics.setColor(BLUE)
+        else
+            love.graphics.setColor(WHITE)
+        end
+        love.graphics.rectangle('fill', 0, 10 + LUTE_STRING_SPACING, VIRTUAL_WIDTH, STRING_WIDTH)
+
+
+        if A1Pressed then
+            love.graphics.setColor(BLUE)
+        else
+            love.graphics.setColor(WHITE)
+        end
+        love.graphics.rectangle('fill', 0, 10 + LUTE_STRING_SPACING * 2, VIRTUAL_WIDTH, STRING_WIDTH)
+
+
+
+        if F1Pressed then
+            love.graphics.setColor(BLUE)
+        else
+            love.graphics.setColor(WHITE)
+        end
+       love.graphics.rectangle('fill', 0, 10 + LUTE_STRING_SPACING * 3, VIRTUAL_WIDTH, STRING_WIDTH)
     end
 end
