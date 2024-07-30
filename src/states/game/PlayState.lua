@@ -12,6 +12,10 @@ local F1Pressed = false
 local D1Pressed = false
 local A1Pressed = false
 local F2Pressed = false
+local luteStringF2 = LuteString(1)
+local luteStringD1 = LuteString(2)
+local luteStringA1 = LuteString(3)
+local luteStringF1 = LuteString(4)
 
 function PlayState:init()
     self.player = Player {
@@ -53,41 +57,7 @@ function PlayState:init()
 end
 
 function PlayState:update(dt)
-    deltaTime = dt 
-
-    if love.keyboard.wasPressed('u') then
-        sounds['F1']:play()
-    end
-    if love.keyboard.wasPressed('i') then
-        sounds['A1']:play()
-    end
-    if love.keyboard.wasPressed('o') then
-        sounds['D1']:play()
-    end
-    if love.keyboard.wasPressed('p') then
-        sounds['F2']:play()
-    end
-
-    if love.keyboard.isDown('u') then
-        F1Pressed = true
-    else
-        F1Pressed = false
-    end
-    if love.keyboard.isDown('i') then
-        A1Pressed = true
-    else
-        A1Pressed = false
-    end
-    if love.keyboard.isDown('o') then
-        D1Pressed = true
-    else
-        D1Pressed = false
-    end
-    if love.keyboard.isDown('p') then
-        F2Pressed = true
-    else
-        F2Pressed = false
-    end
+    deltaTime = dt
 
     if love.keyboard.wasPressed('l') then
         if luteState then
@@ -97,6 +67,49 @@ function PlayState:update(dt)
         end
     end
 
+    if luteState then
+        if love.keyboard.wasPressed('u') then
+            luteStringF1.animation:refresh()
+            sounds['F1']:play()
+        end
+        if love.keyboard.wasPressed('i') then
+            luteStringA1.animation:refresh()
+            sounds['A1']:play()
+        end
+        if love.keyboard.wasPressed('o') then
+            luteStringD1.animation:refresh()
+            sounds['D1']:play()
+        end
+        if love.keyboard.wasPressed('p') then
+            luteStringF2.animation:refresh()
+            sounds['F2']:play()
+        end
+
+        if love.keyboard.isDown('u') then
+            F1Pressed = true
+        else
+            F1Pressed = false
+        end
+        if love.keyboard.isDown('i') then
+            A1Pressed = true
+        else
+            A1Pressed = false
+        end
+        if love.keyboard.isDown('o') then
+            D1Pressed = true
+        else
+            D1Pressed = false
+        end
+        if love.keyboard.isDown('p') then
+            F2Pressed = true
+        else
+            F2Pressed = false
+        end
+    end
+    luteStringF1:update(dt)
+    luteStringD1:update(dt)
+    luteStringA1:update(dt)
+    luteStringF2:update(dt)
 
     if not sceneView.shifting then
         --UNFOCUS
@@ -275,7 +288,7 @@ function PlayState:render()
 
     end
 
-    love.graphics.print('luteState' .. tostring(luteState), 0, VIRTUAL_HEIGHT - 50)
+    --love.graphics.print('luteState' .. tostring(luteState), 0, VIRTUAL_HEIGHT - 50)
     if luteState then
         love.graphics.setColor(DEBUG_BG2)
         love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
@@ -286,7 +299,8 @@ function PlayState:render()
         else
             love.graphics.setColor(WHITE)
         end
-        love.graphics.rectangle('fill', 0, 10, VIRTUAL_WIDTH, STRING_WIDTH)
+        luteStringF2:render()
+        --love.graphics.rectangle('fill', 0, 10, VIRTUAL_WIDTH, STRING_WIDTH)
 
 
         if D1Pressed then
@@ -294,7 +308,8 @@ function PlayState:render()
         else
             love.graphics.setColor(WHITE)
         end
-        love.graphics.rectangle('fill', 0, 10 + LUTE_STRING_SPACING, VIRTUAL_WIDTH, STRING_WIDTH)
+        luteStringD1:render()
+        --love.graphics.rectangle('fill', 0, 10 + LUTE_STRING_SPACING, VIRTUAL_WIDTH, STRING_WIDTH)
 
 
         if A1Pressed then
@@ -302,7 +317,8 @@ function PlayState:render()
         else
             love.graphics.setColor(WHITE)
         end
-        love.graphics.rectangle('fill', 0, 10 + LUTE_STRING_SPACING * 2, VIRTUAL_WIDTH, STRING_WIDTH)
+        luteStringA1:render()
+        --love.graphics.rectangle('fill', 0, 10 + LUTE_STRING_SPACING * 2, VIRTUAL_WIDTH, STRING_WIDTH)
 
 
 
@@ -311,6 +327,8 @@ function PlayState:render()
         else
             love.graphics.setColor(WHITE)
         end
-       love.graphics.rectangle('fill', 0, 10 + LUTE_STRING_SPACING * 3, VIRTUAL_WIDTH, STRING_WIDTH)
+        luteStringF1:render()
+        --love.graphics.rectangle('fill', 0, 10 + LUTE_STRING_SPACING * 3, VIRTUAL_WIDTH, STRING_WIDTH)
+
     end
 end
