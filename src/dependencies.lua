@@ -8,6 +8,8 @@ globalMap = require 'graphics/globalMap'
 
 require 'src/constants'
 
+require 'src/Animation'
+require 'src/LuteString'
 require 'src/StateMachine'
 require 'src/states/BaseState'
 require 'src/states/game/TitleScreenState'
@@ -20,7 +22,6 @@ require 'src/states/entity/player/PlayerWalkState'
 
 require 'src/Entity'
 require 'src/entity_defs'
-require 'src/Animation'
 require 'src/Player'
 require 'src/Scene'
 require 'src/Map'
@@ -48,6 +49,7 @@ gTextures = {
     ['geckoC'] = love.graphics.newImage('graphics/geckoCAtlas.png'),
     ['flame'] = love.graphics.newImage('graphics/flameAtlas2.png'),
     ['orb'] = love.graphics.newImage('graphics/orb.png'),
+    ['luteString'] = love.graphics.newImage('graphics/string-sheet.png')
 }
 
 gFrames = {
@@ -56,6 +58,7 @@ gFrames = {
     ['gecko'] = GenerateQuads(gTextures['gecko'], TILE_SIZE, TILE_SIZE),
     ['geckoC'] = GenerateQuads(gTextures['geckoC'], TILE_SIZE, TILE_SIZE),
     ['flame'] = GenerateQuads(gTextures['flame'], TILE_SIZE, TILE_SIZE),
+    ['luteString'] = GenerateQuads(gTextures['luteString'], TILE_SIZE * 10, 13)
 }
 heart = love.graphics.newImage('graphics/heart.png')
 heartRow = love.graphics.newImage('graphics/heartRow.png')

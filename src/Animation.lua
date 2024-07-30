@@ -20,9 +20,9 @@ function Animation:refresh()
 end
 
 function Animation:update(dt)
-    --[[ PROBABLY DELETE
-    if not self.looping and self.timesPlayed > 0 then
-        --return
+    ---[[
+    if not self.looping and self.timesPlayed > 0 and self.texture == 'luteString' then
+        return
     end
     --]]
 
