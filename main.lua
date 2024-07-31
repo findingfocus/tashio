@@ -105,7 +105,7 @@ end
 
 function displayFPS()
 	love.graphics.setFont(classicFont)
-	love.graphics.setColor(BLACK)
+	love.graphics.setColor(WHITE)
 	--print(tostring(accumulator), 0, VIRTUAL_HEIGHT - 62)
-	love.graphics.print(tostring(love.timer.getFPS()), 0, VIRTUAL_HEIGHT - 42)
+	love.graphics.print(tostring(love.timer.getFPS()), SCREEN_WIDTH_LIMIT - 17, VIRTUAL_HEIGHT - 12)
 end

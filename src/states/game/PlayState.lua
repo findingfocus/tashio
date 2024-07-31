@@ -16,6 +16,7 @@ local luteStringF2 = LuteString(1)
 local luteStringD1 = LuteString(2)
 local luteStringA1 = LuteString(3)
 local luteStringF1 = LuteString(4)
+local fretsHeld = {}
 
 function PlayState:init()
     self.player = Player {
@@ -68,6 +69,20 @@ function PlayState:update(dt)
     end
 
     if luteState then
+        if love.keyboard.wasPressed('1') or love.keyboard.isDown('1') then
+            table.insert(fretsHeld, 1)
+        end
+        if love.keyboard.wasPressed('2') or love.keyboard.isDown('2') then
+            table.insert(fretsHeld, 2)
+        end
+        if love.keyboard.wasPressed('3') or love.keyboard.isDown('3') then
+            table.insert(fretsHeld, 3)
+        end
+        if love.keyboard.wasPressed('4') or love.keyboard.isDown('4') then
+            table.insert(fretsHeld, 4)
+        end
+
+
         if love.keyboard.wasPressed('u') then
             luteStringF1.animation:refresh()
             sounds['F1']:play()
@@ -106,6 +121,49 @@ function PlayState:update(dt)
             F2Pressed = false
         end
     end
+
+    if love.keyboard.wasReleased('1') then
+        for k, v in pairs(fretsHeld) do
+            if v == 1 then
+                table.remove(fretsHeld, k)
+            end
+        end
+    end
+    if love.keyboard.wasReleased('2') then
+        for k, v in pairs(fretsHeld) do
+            if v == 2 then
+                table.remove(fretsHeld, k)
+            end
+        end
+    end
+    if love.keyboard.wasReleased('3') then
+        for k, v in pairs(fretsHeld) do
+            if v == 3 then
+                table.remove(fretsHeld, k)
+            end
+        end
+    end
+    if love.keyboard.wasReleased('4') then
+        for k, v in pairs(fretsHeld) do
+            if v == 4 then
+                table.remove(fretsHeld, k)
+            end
+        end
+    end
+
+
+
+    if #fretsHeld > 0 then
+        local highest = 0
+        for k, v in pairs(fretsHeld) do
+            if v > highest then
+                highest = v
+            end
+        end
+        fretsHeld = {}
+        table.insert(fretsHeld, highest)
+    end
+
     luteStringF1:update(dt)
     luteStringD1:update(dt)
     luteStringA1:update(dt)
@@ -257,7 +315,7 @@ function PlayState:render()
     end
 
     --DEBUG PRINT
-    if love.keyboard.isDown('1') then
+    if love.keyboard.isDown('5') then
         love.graphics.setColor(DEBUG_BG)
         love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
         love.graphics.setColor(WHITE)
@@ -274,7 +332,7 @@ function PlayState:render()
         love.graphics.print('fallTimer: ' .. tostring(sceneView.player.fallTimer), 5, 105)
         love.graphics.print('falling: ' .. tostring(sceneView.player.falling), 5, 115)
         love.graphics.print('safeFFall: ' .. tostring(sceneView.player.safeFromFall), 85, 115)
-    elseif love.keyboard.isDown('2') then
+    elseif love.keyboard.isDown('6') then
         love.graphics.setColor(DEBUG_BG)
         love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
         love.graphics.setColor(WHITE)
@@ -289,10 +347,13 @@ function PlayState:render()
     end
 
     --love.graphics.print('luteState' .. tostring(luteState), 0, VIRTUAL_HEIGHT - 50)
+    love.graphics.setFont(pixelFont)
     if luteState then
+        love.graphics.setColor(55/255, 0/255, 255/255, 255/255)
+        love.graphics.setLineWidth(1)
+        love.graphics.rectangle('line', 1, LUTE_STRING_YOFFSET, 11, 47)
         love.graphics.setColor(DEBUG_BG2)
         love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
-
 
         if F2Pressed then
             love.graphics.setColor(BLUE)
@@ -331,4 +392,47 @@ function PlayState:render()
         --love.graphics.rectangle('fill', 0, 10 + LUTE_STRING_SPACING * 3, VIRTUAL_WIDTH, STRING_WIDTH)
 
     end
+    --[[
+    love.graphics.draw(fretOpen,0,0)
+    love.graphics.draw(fret1,0,10)
+    love.graphics.draw(fret2,0,20)
+    love.graphics.draw(fret3,0,30)
+    love.graphics.draw(fret4,0,40)
+    --]]
+
+
+
+    --BEAT BOX RENDER
+    love.graphics.setLineStyle("rough")
+    if #fretsHeld > 0 then
+        love.graphics.setColor(55/255, 0/255, 255/255, 255/255)
+        love.graphics.setLineWidth(1)
+        love.graphics.rectangle('line', 1, LUTE_STRING_YOFFSET, 11, 47)
+    end
+
+    --FRET GUIDES
+    love.graphics.setColor(WHITE)
+    if #fretsHeld > 0 then
+        if fretsHeld[1] == 1 then
+            for i = 0, 3 do
+                love.graphics.draw(fret1,1,LUTE_STRING_YOFFSET + (12 * i))
+            end
+        end
+        if fretsHeld[1] == 2 then
+            for i = 0, 3 do
+                love.graphics.draw(fret2,1,LUTE_STRING_YOFFSET + (12 * i))
+            end
+        end
+        if fretsHeld[1] == 3 then
+            for i = 0, 3 do
+                love.graphics.draw(fret3,1,LUTE_STRING_YOFFSET + (12 * i))
+            end
+        end
+        if fretsHeld[1] == 4 then
+            for i = 0, 3 do
+                love.graphics.draw(fret4,1,LUTE_STRING_YOFFSET + (12 * i))
+            end
+        end
+    end
+    --love.graphics.print('fretsHeld: ' .. inspect(fretsHeld), 0, 100)
 end
