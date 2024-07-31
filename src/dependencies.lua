@@ -42,6 +42,12 @@ classicFont = love.graphics.newFont('fonts/classic.ttf', 8)
 smallFont = love.graphics.newFont('fonts/classic.ttf', 4)
 particle = love.graphics.newImage('graphics/particle.png')
 
+fretOpen = love.graphics.newImage('graphics/fretOpen.png')
+fret1 = love.graphics.newImage('graphics/fret1.png')
+fret2 = love.graphics.newImage('graphics/fret2.png')
+fret3 = love.graphics.newImage('graphics/fret3.png')
+fret4 = love.graphics.newImage('graphics/fret4.png')
+
 gTextures = {
     ['character-walk'] = love.graphics.newImage('graphics/playerAtlas.png'),
     ['character-fall'] = love.graphics.newImage('graphics/falling-sheet.png'),
