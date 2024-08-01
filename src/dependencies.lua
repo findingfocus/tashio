@@ -83,10 +83,18 @@ sounds = {
     ['death'] = love.audio.newSource('sounds/death.wav', 'static'),
     ['spellcast'] = love.audio.newSource('sounds/spellcast.wav', 'static'),
     ['cleanse'] = love.audio.newSource('sounds/cleanse.wav', 'static'),
-    ['F2'] = love.audio.newSource('sounds/lute/F2.mp3', 'static'),
-    ['D1'] = love.audio.newSource('sounds/lute/D1.mp3', 'static'),
     ['A1'] = love.audio.newSource('sounds/lute/A1.mp3', 'static'),
+    ['A2'] = love.audio.newSource('sounds/lute/A2.mp3', 'static'),
+    ['Bb1'] = love.audio.newSource('sounds/lute/Bb1.mp3', 'static'),
+    ['Bb2'] = love.audio.newSource('sounds/lute/Bb2.mp3', 'static'),
+    ['C1'] = love.audio.newSource('sounds/lute/C1.mp3', 'static'),
+    ['C2'] = love.audio.newSource('sounds/lute/C2.mp3', 'static'),
+    ['D1'] = love.audio.newSource('sounds/lute/D1.mp3', 'static'),
+    ['E1'] = love.audio.newSource('sounds/lute/E1.mp3', 'static'),
     ['F1'] = love.audio.newSource('sounds/lute/F1.mp3', 'static'),
+    ['F2'] = love.audio.newSource('sounds/lute/F2.mp3', 'static'),
+    ['G1'] = love.audio.newSource('sounds/lute/G1.mp3', 'static'),
+    ['G2'] = love.audio.newSource('sounds/lute/G2.mp3', 'static'),
 }
 
 sounds['cleanse']:setVolume(.2)
