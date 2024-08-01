@@ -83,22 +83,6 @@ function PlayState:update(dt)
         end
 
 
-        if love.keyboard.wasPressed('u') then
-            luteStringF1.animation:refresh()
-            sounds['F1']:play()
-        end
-        if love.keyboard.wasPressed('i') then
-            luteStringA1.animation:refresh()
-            sounds['A1']:play()
-        end
-        if love.keyboard.wasPressed('o') then
-            luteStringD1.animation:refresh()
-            sounds['D1']:play()
-        end
-        if love.keyboard.wasPressed('p') then
-            luteStringF2.animation:refresh()
-            sounds['F2']:play()
-        end
 
         if love.keyboard.isDown('u') then
             F1Pressed = true
@@ -151,8 +135,6 @@ function PlayState:update(dt)
         end
     end
 
-
-
     if #fretsHeld > 0 then
         local highest = 0
         for k, v in pairs(fretsHeld) do
@@ -164,6 +146,87 @@ function PlayState:update(dt)
         table.insert(fretsHeld, highest)
     end
 
+    if luteState then
+        --STRING 1
+        if love.keyboard.wasPressed('u') then
+            if #fretsHeld == 0 then
+                sounds['F1']:play()
+                luteStringF1.animation:refresh()
+            elseif fretsHeld[1] == 1 then
+                sounds['G1']:play()
+                luteStringF1.animation:refresh()
+            elseif fretsHeld[1] == 2 then
+                sounds['A1']:play()
+                luteStringF1.animation:refresh()
+            elseif fretsHeld[1] == 3 then
+                sounds['Bb1']:play()
+                luteStringF1.animation:refresh()
+            elseif fretsHeld[1] == 4 then
+                sounds['C1']:play()
+                luteStringF1.animation:refresh()
+            end
+        end
+
+        --STRING 2
+        if love.keyboard.wasPressed('i') then
+            if #fretsHeld == 0 then
+                sounds['A1']:play()
+                luteStringA1.animation:refresh()
+            elseif fretsHeld[1] == 1 then
+                sounds['Bb1']:play()
+                luteStringA1.animation:refresh()
+            elseif fretsHeld[1] == 2 then
+                sounds['C1']:play()
+                luteStringA1.animation:refresh()
+            elseif fretsHeld[1] == 3 then
+                sounds['D1']:play()
+                luteStringA1.animation:refresh()
+            elseif fretsHeld[1] == 4 then
+                sounds['E1']:play()
+                luteStringA1.animation:refresh()
+            end
+        end
+
+        --STRING 3
+        if love.keyboard.wasPressed('o') then
+            if #fretsHeld == 0 then
+                sounds['D1']:play()
+                luteStringD1.animation:refresh()
+            elseif fretsHeld[1] == 1 then
+                sounds['E1']:play()
+                luteStringD1.animation:refresh()
+            elseif fretsHeld[1] == 2 then
+                sounds['F2']:play()
+                luteStringD1.animation:refresh()
+            elseif fretsHeld[1] == 3 then
+                sounds['G2']:play()
+                luteStringD1.animation:refresh()
+            elseif fretsHeld[1] == 4 then
+                sounds['A2']:play()
+                luteStringD1.animation:refresh()
+            end
+        end
+
+        --STRING 4
+        if love.keyboard.wasPressed('p') then
+            if #fretsHeld == 0 then
+                sounds['F2']:play()
+                luteStringF2.animation:refresh()
+            elseif fretsHeld[1] == 1 then
+                sounds['G2']:play()
+                luteStringF2.animation:refresh()
+            elseif fretsHeld[1] == 2 then
+                sounds['A2']:play()
+                luteStringF2.animation:refresh()
+            elseif fretsHeld[1] == 3 then
+                sounds['Bb2']:play()
+                luteStringF2.animation:refresh()
+            elseif fretsHeld[1] == 4 then
+                sounds['C2']:play()
+                luteStringF2.animation:refresh()
+            end
+        end
+    end
     luteStringF1:update(dt)
     luteStringD1:update(dt)
     luteStringA1:update(dt)
@@ -434,5 +497,5 @@ function PlayState:render()
             end
         end
     end
-    --love.graphics.print('fretsHeld: ' .. inspect(fretsHeld), 0, 100)
+    love.graphics.print('fretsHeld: ' .. inspect(fretsHeld), 0, 100)
 end
