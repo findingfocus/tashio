@@ -4,7 +4,6 @@ HEART_CROP = 56
 local STRING_WIDTH = 2
 totalHealth = 14
 healthDifference = 0
-local deltaTime = 0
 local inspect = require "lib/inspect"
 leftCount = 0
 local luteState = false
@@ -17,6 +16,10 @@ local luteStringD1 = LuteString(2)
 local luteStringA1 = LuteString(3)
 local luteStringF1 = LuteString(4)
 local fretsHeld = {}
+
+local song1 = {Note(3, 3), Note(4, 4), Note(3, 1), Note(2, 2)}
+local activeNotes = {}
+local songTimer = 0
 
 function PlayState:init()
     self.player = Player {
@@ -58,7 +61,23 @@ function PlayState:init()
 end
 
 function PlayState:update(dt)
-    deltaTime = dt
+    songTimer = songTimer + dt
+
+    if songTimer > 1 then
+        if #song1 > 0 then
+            table.insert(activeNotes, song1[1])
+            table.remove(song1, 1)
+            songTimer = 0
+        end
+    end
+
+    --DEINSTANTIATE NOTES WHEN OFFSCREEN
+    for k, v in pairs(activeNotes) do
+        v:update(dt)
+        if v.x < - 12 then
+            table.remove(activeNotes, k)
+        end
+    end
 
     if love.keyboard.wasPressed('l') then
         if luteState then
@@ -498,4 +517,8 @@ function PlayState:render()
         end
     end
     love.graphics.print('fretsHeld: ' .. inspect(fretsHeld), 0, 100)
+    for k, v in pairs(activeNotes) do
+        v:render()
+    end
+    love.graphics.print("activeNotes: " .. tostring(#activeNotes), 3, 0)
 end

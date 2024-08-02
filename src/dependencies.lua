@@ -10,6 +10,7 @@ require 'src/constants'
 
 require 'src/Animation'
 require 'src/LuteString'
+require 'src/Note'
 require 'src/StateMachine'
 require 'src/states/BaseState'
 require 'src/states/game/TitleScreenState'
