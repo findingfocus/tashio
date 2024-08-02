@@ -106,6 +106,7 @@ __Record channel trailer with demo levels
 __Have cleansed geckos pick closest edge to walk to
 __Collision detection for entities v MapObjects
 __Update only currentMap entities
+__Consider added time until next note into Note class
 
 Research
 __How to reset entities to default locations upon a scene change
