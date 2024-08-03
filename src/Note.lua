@@ -1,12 +1,13 @@
 Note = Class{}
 
 
-function Note:init(string, fret)
+function Note:init(string, fret, timer)
     self.x = SCREEN_WIDTH_LIMIT
     self.string = string
     self.fret = fret
     self.speed = 35
-    self.fret = fret
+    self.timer = timer
+    self.validTiming = false
 end
 
 function Note:update(dt)
@@ -14,6 +15,11 @@ function Note:update(dt)
 end
 
 function Note:render()
+    if self.validTiming then
+        love.graphics.setColor(0,1,0,1)
+    else
+        love.graphics.setColor(WHITE)
+    end
     if self.fret == 1 then
         love.graphics.draw(fret1, self.x, LUTE_STRING_YOFFSET)
     elseif self.fret == 2 then
@@ -25,4 +31,11 @@ function Note:render()
     elseif self.fret == 5 then
         love.graphics.draw(fretOpen, self.x, LUTE_STRING_YOFFSET + self.string * 12 - 12)
     end
+
+    --[[
+    if self.validTiming then
+        love.graphics.setColor(0,1,0,1)
+        love.graphics.rectangle('fill', self.x, 0, 12, 12)
+    end
+    --]]
 end
