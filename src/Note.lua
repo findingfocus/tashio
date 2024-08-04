@@ -1,6 +1,5 @@
 Note = Class{}
 
-
 function Note:init(string, fret, timer)
     self.x = SCREEN_WIDTH_LIMIT
     self.string = string
@@ -8,6 +7,7 @@ function Note:init(string, fret, timer)
     self.speed = 35
     self.timer = timer
     self.validTiming = false
+    self.invalidTiming = false
 end
 
 function Note:update(dt)
@@ -17,6 +17,8 @@ end
 function Note:render()
     if self.validTiming then
         love.graphics.setColor(0,1,0,1)
+    elseif self.invalidTiming then
+        love.graphics.setColor(1,0,0,1)
     else
         love.graphics.setColor(WHITE)
     end
