@@ -17,9 +17,8 @@ local luteStringD1 = LuteString(2)
 local luteStringA1 = LuteString(3)
 local luteStringF1 = LuteString(4)
 local fretsHeld = {}
-
---local song1 = { Note(1, 1), {Note(3, 3), Note(2,3)}, Note(4, 4)}
-local song1 = {{Note(1, 1, 1), Note(2, 2, 1), Note(3, 2, 1)}, {Note(4, 4, 1)}}
+local song1 = {}
+song1 = {{Note(4,3,1), Note(2,3,1), Note(3,3,1)}, {Note(3,4,1)}, {Note(2,2,2)}, {Note(3,4,1), Note(4,4,2)}, {Note(2,2,1)}}
 local activeNotes = {}
 local songTimer = 1
 
@@ -62,13 +61,17 @@ function PlayState:init()
     quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
 end
 
-function validNoteChecker()
-    if #activeNotes[1] then
-        for k, v in pairs(activeNotes) do
-            --v.validTiming = true
+function validNoteChecker(string)
+    if #activeNotes > 0 then
+        for k, v in ipairs(activeNotes[1]) do
+            if activeNotes[1][k].x < 12 and activeNotes[1][k].string == string and activeNotes[1][k].fret == fretsHeld[1] then
+                if not activeNotes[1][k].invalidTiming then
+                    activeNotes[1][k].validTiming = true
+                end
+            elseif activeNotes[1][k].string == string then
+                activeNotes[1][k].invalidTiming = true
+            end
         end
-    else
-        activeNotes[1].validTiming = true
     end
 end
 
@@ -93,8 +96,6 @@ function PlayState:update(dt)
                 table.remove(activeNotes, 1)
             end
         end
-        activeNotes[1][1].validTiming = true
-        activeNotes[1][2].invalidTiming = true
     end
 
     if love.keyboard.wasPressed('l') then
@@ -186,7 +187,7 @@ function PlayState:update(dt)
     if luteState then
         --STRING 1
         if love.keyboard.wasPressed('u') then
-            validNoteChecker()
+            validNoteChecker(4)
             if #fretsHeld == 0 then
                 sounds['F1']:play()
                 luteStringF1.animation:refresh()
@@ -207,6 +208,7 @@ function PlayState:update(dt)
 
         --STRING 2
         if love.keyboard.wasPressed('i') then
+            validNoteChecker(3)
             if #fretsHeld == 0 then
                 sounds['A1']:play()
                 luteStringA1.animation:refresh()
@@ -227,7 +229,7 @@ function PlayState:update(dt)
 
         --STRING 3
         if love.keyboard.wasPressed('o') then
-            --validNoteChecker(2)
+            validNoteChecker(2)
             if #fretsHeld == 0 then
                 sounds['D1']:play()
                 luteStringD1.animation:refresh()
@@ -248,7 +250,7 @@ function PlayState:update(dt)
 
         --STRING 4
         if love.keyboard.wasPressed('p') then
-            --validNoteChecker(4)
+            validNoteChecker(1)
             if #fretsHeld == 0 then
                 sounds['F2']:play()
                 luteStringF2.animation:refresh()
