@@ -18,7 +18,8 @@ local luteStringA1 = LuteString(3)
 local luteStringF1 = LuteString(4)
 local fretsHeld = {}
 local song1 = {}
-song1 = {{Note(4,3,1), Note(2,3,1), Note(3,3,1)}, {Note(3,4,1)}, {Note(2,2,2)}, {Note(3,4,1), Note(4,4,2)}, {Note(2,2,1)}}
+song1 = {{Note(4,3,2), Note(2,3,1), Note(3,3,1)}, {Note(3,4,1)}, {Note(2,2,1)}, {Note(3,4,1), Note(4,4,1)}, {Note(2,2,1)}}
+bassNotes1 = BassNotes({'Bb1', 'A1', 'G1', 'F1'})
 local activeNotes = {}
 local songTimer = 1
 
@@ -76,6 +77,7 @@ function validNoteChecker(string)
 end
 
 function PlayState:update(dt)
+    bassNotes1:update(dt)
     songTimer = songTimer - dt
 
     if songTimer < 0 then
