@@ -37,7 +37,7 @@ function SandSystem:update(dt)
 end
 
 function SandSystem:render()
-    if love.keyboard.isDown('3') then
+    if love.keyboard.isDown('5') then
         love.graphics.clear(0,0,0,255)
         love.graphics.print('SAND: ' .. WIND_ANGLE, 0, 0)
     end

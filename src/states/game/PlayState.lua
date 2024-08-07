@@ -77,25 +77,27 @@ function validNoteChecker(string)
 end
 
 function PlayState:update(dt)
-    bassNotes1:update(dt)
-    songTimer = songTimer - dt
+    if luteState then
+        bassNotes1:update(dt)
+        songTimer = songTimer - dt
 
-    if songTimer < 0 then
-        if #song1 > 0 then
-            table.insert(activeNotes, song1[1])
-            songTimer = song1[1][1].timer
-        end
-        table.remove(song1, 1)
-    end
-
-    --DEINSTANTIATE NOTES WHEN OFFSCREEN
-    if #activeNotes > 0 then
-        for key, value in ipairs(activeNotes) do --EVERY CHORD IN THE SONG
-            for index, note in ipairs(value) do --EVERY NOTE IN THE CHORD
-                note:update(dt)
+        if songTimer < 0 then
+            if #song1 > 0 then
+                table.insert(activeNotes, song1[1])
+                songTimer = song1[1][1].timer
             end
-            if activeNotes[1][1].x < - 12 then
-                table.remove(activeNotes, 1)
+            table.remove(song1, 1)
+        end
+
+        --DEINSTANTIATE NOTES WHEN OFFSCREEN
+        if #activeNotes > 0 then
+            for key, value in ipairs(activeNotes) do --EVERY CHORD IN THE SONG
+                for index, note in ipairs(value) do --EVERY NOTE IN THE CHORD
+                    note:update(dt)
+                end
+                if activeNotes[1][1].x < - 12 then
+                    table.remove(activeNotes, 1)
+                end
             end
         end
     end
@@ -525,35 +527,37 @@ function PlayState:render()
         love.graphics.rectangle('line', 1, LUTE_STRING_YOFFSET, 11, 47)
     end
 
-    --FRET GUIDES
-    love.graphics.setColor(WHITE)
-    if #fretsHeld > 0 then
-        if fretsHeld[1] == 1 then
-            for i = 0, 3 do
-                love.graphics.draw(fret1,1,LUTE_STRING_YOFFSET + (12 * i))
+    if luteState then
+        --FRET GUIDES
+        love.graphics.setColor(WHITE)
+        if #fretsHeld > 0 then
+            if fretsHeld[1] == 1 then
+                for i = 0, 3 do
+                    love.graphics.draw(fret1,1,LUTE_STRING_YOFFSET + (12 * i))
+                end
+            end
+            if fretsHeld[1] == 2 then
+                for i = 0, 3 do
+                    love.graphics.draw(fret2,1,LUTE_STRING_YOFFSET + (12 * i))
+                end
+            end
+            if fretsHeld[1] == 3 then
+                for i = 0, 3 do
+                    love.graphics.draw(fret3,1,LUTE_STRING_YOFFSET + (12 * i))
+                end
+            end
+            if fretsHeld[1] == 4 then
+                for i = 0, 3 do
+                    love.graphics.draw(fret4,1,LUTE_STRING_YOFFSET + (12 * i))
+                end
             end
         end
-        if fretsHeld[1] == 2 then
-            for i = 0, 3 do
-                love.graphics.draw(fret2,1,LUTE_STRING_YOFFSET + (12 * i))
+        love.graphics.print('fretsHeld: ' .. inspect(fretsHeld), 0, 100)
+        for k, v in ipairs(activeNotes) do
+            for index, note in ipairs(v) do
+                note:render()
             end
         end
-        if fretsHeld[1] == 3 then
-            for i = 0, 3 do
-                love.graphics.draw(fret3,1,LUTE_STRING_YOFFSET + (12 * i))
-            end
-        end
-        if fretsHeld[1] == 4 then
-            for i = 0, 3 do
-                love.graphics.draw(fret4,1,LUTE_STRING_YOFFSET + (12 * i))
-            end
-        end
+        print("#activeNotes: " .. tostring(activeNotes))
     end
-    love.graphics.print('fretsHeld: ' .. inspect(fretsHeld), 0, 100)
-    for k, v in ipairs(activeNotes) do
-        for index, note in ipairs(v) do
-            note:render()
-        end
-    end
-    print("#activeNotes: " .. tostring(activeNotes))
 end

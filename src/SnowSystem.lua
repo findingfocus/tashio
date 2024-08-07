@@ -38,7 +38,7 @@ function SnowSystem:update(dt)
 end
 
 function SnowSystem:render()
-    if love.keyboard.isDown('3') then
+    if love.keyboard.isDown('5') then
         love.graphics.clear(0,0,0,255)
         love.graphics.print('SNOW: ' .. WIND_ANGLE, 0, 0)
     end
