@@ -242,7 +242,7 @@ function Scene:render()
     love.graphics.pop()
 
     --WEATHER PARTICLE SYSTEM
-    --self.snowSystem:render()
+    self.snowSystem:render()
     --self.rainSystem:render()
     --self.lavaSystem:render()
     --self.sandSystem:render()

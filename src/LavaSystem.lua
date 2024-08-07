@@ -52,7 +52,7 @@ function LavaSystem:update(dt)
 end
 
 function LavaSystem:render()
-    if love.keyboard.isDown('3') then
+    if love.keyboard.isDown('5') then
         --love.graphics.clear(0,0,0,255)
         love.graphics.clear(1,1,1,255)
         love.graphics.print('LAVA: ' .. WIND_ANGLE, 0, 0)

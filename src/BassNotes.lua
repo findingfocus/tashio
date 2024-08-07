@@ -13,7 +13,7 @@ function BassNotes:update(dt)
     if self.timingOffset > 4.5 then
         self.timer = self.timer + dt
     end
-    if self.timer > 1 then
+    if self.timer > 1.5 then
         if self.currentNote == 4 then
             self.currentNote = 1
         else
