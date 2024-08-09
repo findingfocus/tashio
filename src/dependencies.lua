@@ -52,6 +52,8 @@ fret4 = love.graphics.newImage('graphics/fret4.png')
 
 gTextures = {
     ['character-walk'] = love.graphics.newImage('graphics/playerAtlas.png'),
+    ['villager1-walk'] = love.graphics.newImage('graphics/villager1Atlas.png'),
+    --['character-walk'] = love.graphics.newImage('graphics/villager1Atlas.png'),
     ['character-fall'] = love.graphics.newImage('graphics/falling-sheet.png'),
     ['gecko'] = love.graphics.newImage('graphics/geckoAtlas.png'),
     ['geckoC'] = love.graphics.newImage('graphics/geckoCAtlas.png'),
@@ -62,6 +64,7 @@ gTextures = {
 
 gFrames = {
     ['character-walk'] = GenerateQuads(gTextures['character-walk'], TILE_SIZE, TILE_SIZE),
+    ['villager1-walk'] = GenerateQuads(gTextures['villager1-walk'], TILE_SIZE, TILE_SIZE),
     ['character-fall'] = GenerateQuads(gTextures['character-fall'], TILE_SIZE, TILE_SIZE),
     ['gecko'] = GenerateQuads(gTextures['gecko'], TILE_SIZE, TILE_SIZE),
     ['geckoC'] = GenerateQuads(gTextures['geckoC'], TILE_SIZE, TILE_SIZE),
@@ -73,7 +76,8 @@ heartRow = love.graphics.newImage('graphics/heartRow.png')
 heartRowEmpty = love.graphics.newImage('graphics/heartRowEmpty.png')
 heartRowQuad = love.graphics.newQuad(0, 0, 56, 7, heartRow:getDimensions())
 --love.graphics.newQuad(x * tilewidth, y * tileheight, tilewidth, tileheight, atlas:getDimensions())
-playerSpriteSheet = love.graphics.newImage('graphics/playerAtlas.png')
+--playerSpriteSheet = love.graphics.newImage('graphics/playerAtlas.png')
+playerSpriteSheet = love.graphics.newImage('graphics/villager1Atlas.png')
 arrowKeyLogger = love.graphics.newImage('graphics/arrowKey.png')
 testSprites = love.graphics.newImage('graphics/testSprites.png')
 tileSheet = love.graphics.newImage('graphics/masterSheet.png')

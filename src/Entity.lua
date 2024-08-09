@@ -30,6 +30,7 @@ function Entity:init(def)
     self.offscreen = false
     self.psystem = love.graphics.newParticleSystem(particle, 400)
 
+
     self.offsetX = def.offsetX or 0
     self.offsetY = def.offsetY or 0
     self.type = def.type or nil
@@ -216,6 +217,7 @@ function Entity:update(dt)
     end
 
 
+
     --[[
     -EDGE_BUFFER
     --LEFT BOUNDARY
@@ -239,6 +241,7 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
             love.graphics.setColor(WHITE)
         end
     end
+
     if self.type == 'gecko' then --IF TYPE HAS PARTICLE SYSTEM TODO
         love.graphics.draw(self.psystem, math.floor(adjacentOffsetX), math.floor(adjacentOffsetY))
     end

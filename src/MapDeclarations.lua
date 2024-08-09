@@ -113,7 +113,7 @@ for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEI
 
     --tileId = 1
     table.insert(MAP[mapRow][mapCol].topLevelTileIds, topLevelTiledMap[tileId])
-    ---[[
+    --[[
     --if tileId == WATER_ANIM_STARTER then
     --test1 = 2
     --table.insert(MAP[mapRow][mapCol].animatables, function() insertAnim(sceneRow, sceneCol, WATER.frame) end)
@@ -207,6 +207,17 @@ for i = 1, entities do
         corrupted = true,
         enemy = true,
     })
+    --[[
+    table.insert(MAP[7][3].entities, Entity {
+        animations = ENTITY_DEFS['villager1'].animations,
+        walkSpeed = ENTITY_DEFS['villager1'].walkSpeed,
+        height = ENTITY_DEFS['villager1'].height,
+        width = ENTITY_DEFS['villager1'].width,
+        x = ENTITY_DEFS['villager1'].x,
+        y = ENTITY_DEFS['villager1'].y,
+        direction = 'left',
+    })
+    --]]
 
     MAP[7][3].entities[i].stateMachine = StateMachine {
         ['entity-walk'] = function() return EntityWalkState(MAP[7][3].entities[i]) end,
@@ -215,9 +226,29 @@ for i = 1, entities do
 
     MAP[7][3].entities[i]:changeState('entity-idle')
     MAP[7][3].entities[i].hit = false
-
-
-    FLOWERS = AnimSpitter(FLOWER_ANIM_STARTER, 1015, 0.75)
-    AUTUMN_FLOWERS = AnimSpitter(AUTUMN_FLOWER_ANIM_STARTER, 1011, 0.75)
-    WATER = AnimSpitter(WATER_ANIM_STARTER, 105, .5)
 end
+
+FLOWERS = AnimSpitter(FLOWER_ANIM_STARTER, 1015, 0.75)
+AUTUMN_FLOWERS = AnimSpitter(AUTUMN_FLOWER_ANIM_STARTER, 1011, 0.75)
+WATER = AnimSpitter(WATER_ANIM_STARTER, 105, .5)
+---[[
+table.insert(MAP[7][3].entities, Entity {
+    animations = ENTITY_DEFS['villager1'].animations,
+    walkSpeed = ENTITY_DEFS['villager1'].walkSpeed,
+    height = ENTITY_DEFS['villager1'].height,
+    width = ENTITY_DEFS['villager1'].width,
+    x = ENTITY_DEFS['villager1'].x,
+    y = ENTITY_DEFS['villager1'].y,
+    --direction = 'right',
+})
+---[[
+
+local villagerIndex = #MAP[7][3].entities
+MAP[7][3].entities[villagerIndex].stateMachine = StateMachine {
+    ['entity-walk'] = function() return EntityWalkState(MAP[7][3].entities[villagerIndex]) end,
+    ['entity-idle'] = function() return EntityIdleState(MAP[7][3].entities[villagerIndex]) end,
+}
+MAP[7][3].entities[villagerIndex]:changeState('entity-idle')
+--]]
+--]]
+
