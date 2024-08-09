@@ -39,6 +39,7 @@ function PlayState:init()
         ['player-walk'] = function() return PlayerWalkState(self.player, self.scene) end,
         ['player-idle'] = function() return PlayerIdleState(self.player) end,
     }
+
     self.player:changeState('player-idle')
     self.manis = 100
     self.manisMax = 100
@@ -56,7 +57,7 @@ function PlayState:init()
     local rows = 8
     cameraX = 0
     --STARTING SCENE PLAYER SPAWN
-    sceneView = Scene(self.player, 7, 4)
+    sceneView = Scene(self.player, 7, 3)
     tilesheet = love.graphics.newImage('graphics/masterSheet.png')
     --textures = love.graphics.newImage('graphics/textures.png')
     quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
@@ -78,7 +79,7 @@ end
 
 function PlayState:update(dt)
     if luteState then
-        bassNotes1:update(dt)
+        --bassNotes1:update(dt)
         songTimer = songTimer - dt
 
         if songTimer < 0 then
