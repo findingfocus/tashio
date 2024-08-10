@@ -26,6 +26,7 @@ function Map:init(row, column, spellcastEntities)
     self.renderOffsetY = MAP_RENDER_OFFSET_Y
     self.insertAnimations = InsertAnimation(self.row, self.column)
     self.entityCount = #MAP[row][column].entities
+    self.npcCount = #MAP[row][column].npc
 
     local count = 1
     for y = 1, MAP_HEIGHT do
@@ -95,6 +96,13 @@ function Map:update(dt)
             if not MAP[self.row][self.column].entities[i].offscreen then
                 entity:processAI({scene = sceneView}, dt, sceneView.player)
                 entity:update(dt)
+            end
+        end
+
+        for i = 1, self.npcCount do
+            local npc = MAP[self.row][self.column].npc[i]
+            if not MAP[self.row][self.column].npc[i].offscreen then
+                npc:update(dt)
             end
         end
 
@@ -262,6 +270,13 @@ function Map:render()
     for k, entity in pairs(MAP[self.row][self.column].entities) do
         if not entity.offscreen then
             entity:render(self.adjacentOffsetX, self.adjacentOffsetY)
+        end
+    end
+
+    --NPC RENDERS
+    for k, npc in pairs(MAP[self.row][self.column].npc) do
+        if not npc.offscreen then
+            npc:render(self.adjacentOffsetX, self.adjacentOffsetY)
         end
     end
     love.graphics.setColor(255, 0, 0, 255)

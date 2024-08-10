@@ -39,6 +39,7 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
     for j = 1, OVERWORLD_MAP_WIDTH do
         MAP[i][j].animatables = {}
         MAP[i][j].entities = {}
+        MAP[i][j].npc = {}
         MAP[i][j].pits = {}
         MAP[i][j].topLevelTileIds = {}
         MAP[i][j].aboveGroundTileIds = {}
@@ -231,24 +232,23 @@ end
 FLOWERS = AnimSpitter(FLOWER_ANIM_STARTER, 1015, 0.75)
 AUTUMN_FLOWERS = AnimSpitter(AUTUMN_FLOWER_ANIM_STARTER, 1011, 0.75)
 WATER = AnimSpitter(WATER_ANIM_STARTER, 105, .5)
----[[
-table.insert(MAP[7][3].entities, Entity {
+
+--VILLAGER 1
+table.insert(MAP[6][2].npc, Entity {
     animations = ENTITY_DEFS['villager1'].animations,
     walkSpeed = ENTITY_DEFS['villager1'].walkSpeed,
     height = ENTITY_DEFS['villager1'].height,
     width = ENTITY_DEFS['villager1'].width,
-    x = ENTITY_DEFS['villager1'].x,
-    y = ENTITY_DEFS['villager1'].y,
-    --direction = 'right',
+    x = 80,
+    y = 20,
+    direction = 'down',
+    corrupted = false,
+    type = 'villager1',
 })
----[[
 
-local villagerIndex = #MAP[7][3].entities
-MAP[7][3].entities[villagerIndex].stateMachine = StateMachine {
-    ['entity-walk'] = function() return EntityWalkState(MAP[7][3].entities[villagerIndex]) end,
-    ['entity-idle'] = function() return EntityIdleState(MAP[7][3].entities[villagerIndex]) end,
+local villagerIndex = #MAP[6][2].npc
+MAP[6][2].npc[villagerIndex].stateMachine = StateMachine {
+    ['npc-idle'] = function() return NPCIdleState(MAP[6][2].npc[villagerIndex]) end,
+    ['npc-walk'] = function() return NPCWalkState(MAP[6][2].npc[villagerIndex]) end,
 }
-MAP[7][3].entities[villagerIndex]:changeState('entity-idle')
---]]
---]]
-
+MAP[6][2].npc[villagerIndex]:changeState('npc-idle')

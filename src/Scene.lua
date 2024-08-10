@@ -44,24 +44,28 @@ function Scene:init(player, mapRow, mapColumn)
     Event.on('left-transition', function()
         if self.currentMap.column ~= 1 then
             self.nextMap = Map(self.currentMap.row, self.currentMap.column - 1, spellcastEntityCount)
+            self.mapColumn = self.mapColumn - 1
             self:beginShifting(-VIRTUAL_WIDTH, 0)
         end
     end)
     Event.on('right-transition', function()
         if self.currentMap.column ~= OVERWORLD_MAP_WIDTH then
             self.nextMap = Map(self.currentMap.row, self.currentMap.column + 1, spellcastEntityCount)
+            self.mapColumn = self.mapColumn + 1
             self:beginShifting(VIRTUAL_WIDTH, 0)
         end
     end)
     Event.on('up-transition', function()
         if self.currentMap.row ~= 1 then
             self.nextMap = Map(self.currentMap.row - 1, self.currentMap.column, spellcastEntityCount)
+            self.mapRow = self.mapRow - 1
             self:beginShifting(0, -VIRTUAL_HEIGHT)
         end
     end)
     Event.on('down-transition', function()
         if self.currentMap.row ~= OVERWORLD_MAP_HEIGHT then
             self.nextMap = Map(self.currentMap.row + 1, self.currentMap.column, spellcastEntityCount)
+            self.mapRow = self.mapRow + 1
             self:beginShifting(0, VIRTUAL_HEIGHT)
         end
     end)
@@ -197,8 +201,24 @@ function Scene:update(dt)
             self.player.y = object.y - self.player.height
         end
     end
-    --]]
 
+    --NPC COLLISION
+    for i = 1, #MAP[self.mapRow][self.mapColumn].npc do
+        local npc = MAP[self.mapRow][self.mapColumn].npc[i]
+
+        if self.player:leftCollidesMapObject(MAP[self.mapRow][self.mapColumn].npc[i]) then
+            self.player.x = npc.x + npc.width - 1
+        end
+        if self.player:rightCollidesMapObject(MAP[self.mapRow][self.mapColumn].npc[i]) then
+            self.player.x = npc.x - self.player.width + 1
+        end
+        if self.player:topCollidesMapObject(MAP[self.mapRow][self.mapColumn].npc[i]) then
+            self.player.y = npc.y + npc.height - 6
+        end
+        if self.player:bottomCollidesMapObject(MAP[self.mapRow][self.mapColumn].npc[i]) then
+            self.player.y = npc.y - self.player.height
+        end
+    end
 end
 
 function Scene:render()
