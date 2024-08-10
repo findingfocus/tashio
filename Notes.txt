@@ -68,6 +68,8 @@ X_Change fall damage away from safeFromFall
 X_Refactor safeFromFall name?
 X_WALKING BUG WHEN IDLE
 X_ ADD ANIMATBLES FUNCTIONS INTO MAP[][] AS TILE ID RECOGNIZED
+X_Falling Animation
+X_New sprites!
 __stilken idea for walking partially behind sprites
 __Find animation bug for walking through transition
 __Think about refactoring animation spitter
@@ -92,8 +94,8 @@ __Add flower anim to be transparent
 __Fix lone pixel in flower animation
 
 Next Episode
-__Falling Animation
-__New sprites!
+__Deinstantiate NPC when offscreen
+__NPC walking in circle state
 __Incorporate Hud Items
 
 __REHAUL DATA DOWNLOADER FOR LAYERS,
