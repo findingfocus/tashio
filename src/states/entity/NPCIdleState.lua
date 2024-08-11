@@ -12,6 +12,7 @@ local timer = 0
 local walkTimer = 0
 
 function NPCIdleState:update(dt)
+    self.entity:changeState('npc-walk')
     timer = timer + dt
     walkTimer = walkTimer + dt
     if timer > 1 then
