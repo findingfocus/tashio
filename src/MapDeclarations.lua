@@ -246,7 +246,7 @@ table.insert(MAP[6][2].npc, Entity {
     type = 'villager1',
 })
 
-local villagerIndex = #MAP[6][2].npc
+local villagerIndex = 1
 MAP[6][2].npc[villagerIndex].stateMachine = StateMachine {
     ['npc-idle'] = function() return NPCIdleState(MAP[6][2].npc[villagerIndex]) end,
     ['npc-walk'] = function() return NPCWalkState(MAP[6][2].npc[villagerIndex]) end,
