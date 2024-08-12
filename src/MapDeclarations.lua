@@ -252,3 +252,23 @@ MAP[6][2].npc[villagerIndex].stateMachine = StateMachine {
     ['npc-walk'] = function() return NPCWalkState(MAP[6][2].npc[villagerIndex]) end,
 }
 MAP[6][2].npc[villagerIndex]:changeState('npc-idle')
+
+--MAGE NPC
+table.insert(MAP[6][2].npc, Entity {
+    animations = ENTITY_DEFS['mage'].animations,
+    walkSpeed = ENTITY_DEFS['mage'].walkSpeed,
+    height = ENTITY_DEFS['mage'].height,
+    width = ENTITY_DEFS['mage'].width,
+    x = 40,
+    y = 60,
+    direction = 'down',
+    corrupted = false,
+    type = 'mage',
+})
+
+local mageIndex = 2
+MAP[6][2].npc[mageIndex].stateMachine = StateMachine {
+    ['npc-idle'] = function() return NPCIdleState(MAP[6][2].npc[mageIndex]) end,
+    ['npc-walk'] = function() return NPCWalkState(MAP[6][2].npc[mageIndex]) end,
+}
+MAP[6][2].npc[mageIndex]:changeState('npc-idle')
