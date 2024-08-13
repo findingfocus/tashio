@@ -27,8 +27,8 @@ function PlayState:init()
     self.player = Player {
         animations = ENTITY_DEFS['player'].animations,
         walkSpeed = ENTITY_DEFS['player'].walkSpeed,
-        x = 30,
-        y = 0,
+        x = TILE_SIZE * 3,
+        y = TILE_SIZE * 3,
         --y = 30,
         width = TILE_SIZE,
         height = TILE_SIZE,
