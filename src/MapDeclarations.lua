@@ -234,41 +234,43 @@ AUTUMN_FLOWERS = AnimSpitter(AUTUMN_FLOWER_ANIM_STARTER, 1011, 0.75)
 WATER = AnimSpitter(WATER_ANIM_STARTER, 105, .5)
 
 --VILLAGER 1
-table.insert(MAP[6][2].npc, Entity {
+table.insert(MAP[7][2].npc, Entity {
     animations = ENTITY_DEFS['villager1'].animations,
     walkSpeed = ENTITY_DEFS['villager1'].walkSpeed,
     height = ENTITY_DEFS['villager1'].height,
     width = ENTITY_DEFS['villager1'].width,
-    x = 80,
-    y = 20,
+    x = TILE_SIZE * 2,
+    y = TILE_SIZE,
     direction = 'down',
     corrupted = false,
     type = 'villager1',
 })
 
 local villagerIndex = 1
-MAP[6][2].npc[villagerIndex].stateMachine = StateMachine {
-    ['npc-idle'] = function() return NPCIdleState(MAP[6][2].npc[villagerIndex]) end,
-    ['npc-walk'] = function() return NPCWalkState(MAP[6][2].npc[villagerIndex]) end,
+MAP[7][2].npc[villagerIndex].stateMachine = StateMachine {
+    ['npc-idle'] = function() return NPCIdleState(MAP[7][2].npc[villagerIndex]) end,
+    ['npc-walk'] = function() return NPCWalkState(MAP[7][2].npc[villagerIndex]) end,
 }
-MAP[6][2].npc[villagerIndex]:changeState('npc-idle')
+MAP[7][2].npc[villagerIndex]:changeState('npc-walk')
+MAP[7][2].npc[villagerIndex].stateMachine.current.option = 'square'
 
 --MAGE NPC
-table.insert(MAP[6][2].npc, Entity {
+table.insert(MAP[7][2].npc, Entity {
     animations = ENTITY_DEFS['mage'].animations,
     walkSpeed = ENTITY_DEFS['mage'].walkSpeed,
     height = ENTITY_DEFS['mage'].height,
     width = ENTITY_DEFS['mage'].width,
-    x = 40,
-    y = 60,
+    x = TILE_SIZE * 7,
+    y = TILE_SIZE * 6,
     direction = 'down',
     corrupted = false,
     type = 'mage',
 })
 
 local mageIndex = 2
-MAP[6][2].npc[mageIndex].stateMachine = StateMachine {
-    ['npc-idle'] = function() return NPCIdleState(MAP[6][2].npc[mageIndex]) end,
-    ['npc-walk'] = function() return NPCWalkState(MAP[6][2].npc[mageIndex]) end,
+MAP[7][2].npc[mageIndex].stateMachine = StateMachine {
+    ['npc-idle'] = function() return NPCIdleState(MAP[7][2].npc[mageIndex]) end,
+    ['npc-walk'] = function() return NPCWalkState(MAP[7][2].npc[mageIndex]) end,
 }
-MAP[6][2].npc[mageIndex]:changeState('npc-idle')
+MAP[7][2].npc[mageIndex]:changeState('npc-walk')
+MAP[7][2].npc[mageIndex].stateMachine.current.option = 'square'

@@ -16,6 +16,7 @@ function Entity:init(def)
     self.height = def.height
     self.direction = def.direction or 'down'
     self.animations = self:createAnimations(def.animations)
+    --self:changeAnimation('idle-down')
     self.health = def.health
     self.originalHealth = def.health
     self.corrupted = def.corrupted
