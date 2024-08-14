@@ -290,4 +290,10 @@ function Scene:render()
     end
     --love.graphics.print('dy: ' .. tostring(self.player.dy), 0, 10)
     --]]
+
+
+    --ONLY RENDER COLLIDED SIGNPOST
+    for k, v in pairs(MAP[self.mapRow][self.mapColumn].signpostCollided) do
+        MAP[self.mapRow][self.mapColumn].signpostCollided[k]:render()
+    end
 end
