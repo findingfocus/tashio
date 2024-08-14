@@ -18,6 +18,10 @@ function Player:init(def)
     self.fallTimer = 0
     self.graveyard = false
     self.tweenAllowed = true
+    self.dialogueBoxX = self.x
+    self.dialogueBoxY = self.y - TILE_SIZE
+    self.dialogueBoxWidth = TILE_SIZE
+    self.dialogueBoxHeight = TILE_SIZE
 end
 
 function updateHearts(player)
@@ -200,10 +204,36 @@ function Player:update(dt)
         end
     end
     Entity.update(self, dt)
+
+    if self.direction == 'up' then
+        self.dialogueBoxX = self.x + DIALOGUE_TRIGGER_SHRINK / 2
+        self.dialogueBoxY = self.y - TILE_SIZE / 2
+        self.dialogueBoxWidth = TILE_SIZE - DIALOGUE_TRIGGER_SHRINK
+        self.dialogueBoxHeight = TILE_SIZE / 2
+    elseif self.direction == 'down' then
+        self.dialogueBoxX = self.x + DIALOGUE_TRIGGER_SHRINK / 2
+        self.dialogueBoxY = self.y + TILE_SIZE
+        self.dialogueBoxWidth = TILE_SIZE - DIALOGUE_TRIGGER_SHRINK
+        self.dialogueBoxHeight = TILE_SIZE / 2
+    elseif self.direction == 'left' then
+        self.dialogueBoxX = self.x - TILE_SIZE / 2 + 1
+        self.dialogueBoxY = self.y + DIALOGUE_TRIGGER_SHRINK / 2
+        self.dialogueBoxWidth = TILE_SIZE / 2
+        self.dialogueBoxHeight = TILE_SIZE - DIALOGUE_TRIGGER_SHRINK
+    elseif self.direction == 'right' then
+        self.dialogueBoxX = self.x + TILE_SIZE - 1
+        self.dialogueBoxY = self.y + DIALOGUE_TRIGGER_SHRINK / 2
+        self.dialogueBoxWidth = TILE_SIZE / 2
+        self.dialogueBoxHeight = TILE_SIZE - DIALOGUE_TRIGGER_SHRINK
+    end
 end
 
 function Player:render()
     if not self.graveyard then
+        --[[
+        love.graphics.setColor(1,0,0,1)
+        love.graphics.rectangle('fill', self.dialogueBoxX, self.dialogueBoxY, self.dialogueBoxWidth, self.dialogueBoxHeight)
+        --]]
         Entity.render(self)
     end
 end

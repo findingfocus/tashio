@@ -94,6 +94,8 @@ __Add flower anim to be transparent
 __Fix lone pixel in flower animation
 
 Next Episode
+__Ensure signposts are inserted into currentMap.signposts
+__Multiple page posts for signs
 __Deinstantiate NPC when offscreen
 __NPC walking in circle state
 __Incorporate Hud Items

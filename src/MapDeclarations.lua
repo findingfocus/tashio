@@ -43,6 +43,8 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
         MAP[i][j].pits = {}
         MAP[i][j].topLevelTileIds = {}
         MAP[i][j].aboveGroundTileIds = {}
+        MAP[i][j].signposts = {}
+        MAP[i][j].signpostCollided = {}
     end
 end
 
@@ -274,3 +276,6 @@ MAP[7][2].npc[mageIndex].stateMachine = StateMachine {
 }
 MAP[7][2].npc[mageIndex]:changeState('npc-walk')
 MAP[7][2].npc[mageIndex].stateMachine.current.option = 'square'
+
+table.insert(MAP[7][2].signposts, SignPost(2 * TILE_SIZE, 5 * TILE_SIZE, 'HELLO!!'))
+table.insert(MAP[7][2].signposts, SignPost(8 * TILE_SIZE, 4 * TILE_SIZE, 'POST 2!'))

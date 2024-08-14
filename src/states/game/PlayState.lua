@@ -346,7 +346,24 @@ function PlayState:update(dt)
 
     cameraX = cameraX + 1
 
-    sceneView:update(dt)
+    if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('enter') then
+        for k, v in pairs(MAP[7][2].signposts) do
+            if self.player:dialogueCollides(MAP[7][2].signposts[k]) then
+                --IF COLLIDES WITH SIGNPOST
+                if self.player.direction ~= 'down' then
+                    table.insert(MAP[7][2].signpostCollided, MAP[7][2].signposts[k])
+                    PAUSED = PAUSED == false and true or false
+                    if not PAUSED then
+                        MAP[7][2].signpostCollided = {}
+                    end
+                end
+            end
+        end
+    end
+
+    if not PAUSED then
+        sceneView:update(dt)
+    end
 
     rotate = rotate + .05
 
@@ -561,4 +578,8 @@ function PlayState:render()
         end
         print("#activeNotes: " .. tostring(activeNotes))
     end
+    --[[
+    love.graphics.setColor(WHITE)
+    love.graphics.print('PAUSED: ' .. tostring(PAUSED), 0, 0)
+    --]]
 end

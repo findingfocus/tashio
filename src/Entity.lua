@@ -79,6 +79,11 @@ function Entity:collides(target)
                 self.y + self.height - COLLISION_BUFFER < target.y or self.y + COLLISION_BUFFER > target.y + target.height)
 end
 
+function Entity:dialogueCollides(target)
+    return not (self.dialogueBoxX + self.dialogueBoxWidth - COLLISION_BUFFER < target.x or self.dialogueBoxX + COLLISION_BUFFER > target.x + target.width or
+                self.dialogueBoxY + self.dialogueBoxHeight - COLLISION_BUFFER < target.y or self.dialogueBoxY + COLLISION_BUFFER > target.y + target.height)
+end
+
 function Entity:fireSpellCollides(target)
     return not (self.x + self.width - COLLISION_BUFFER < target.x or self.x + COLLISION_BUFFER > target.x + target.width or
                 self.y + self.height - COLLISION_BUFFER < target.y + FLAME_COLLISION_BUFFER or self.y + COLLISION_BUFFER > target.y + target.height)
