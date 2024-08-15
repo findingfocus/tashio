@@ -119,6 +119,8 @@ function Scene:finishShifting()
     self.cameraY = 0
     self.nextMap.adjacentOffsetX = 0
     self.nextMap.adjacentOffsetY = 0
+    sceneView.player.checkPointPositions.x = sceneView.player.x
+    sceneView.player.checkPointPositions.y = sceneView.player.y
     for i = 1, spellcastEntityCount do
         self.currentMap.psystems[i]:release()
     end
@@ -296,4 +298,5 @@ function Scene:render()
     for k, v in pairs(MAP[self.mapRow][self.mapColumn].signpostCollided) do
         MAP[self.mapRow][self.mapColumn].signpostCollided[k]:render()
     end
+
 end

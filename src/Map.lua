@@ -106,6 +106,7 @@ function Map:update(dt)
             end
         end
 
+
         --PLAYER TO ENTITY COLLISION
         for i = 1, #MAP[self.row][self.column].entities do
             local entity = MAP[self.row][self.column].entities[i]

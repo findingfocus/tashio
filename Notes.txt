@@ -92,6 +92,7 @@ __Incorporate Prosto closure fix for local variables
 
 __Add flower anim to be transparent
 __Fix lone pixel in flower animation
+__Tweak falling trigger upon pit collision
 
 Next Episode
 __Ensure signposts are inserted into currentMap.signposts

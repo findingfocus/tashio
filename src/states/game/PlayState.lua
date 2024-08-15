@@ -347,14 +347,16 @@ function PlayState:update(dt)
     cameraX = cameraX + 1
 
     if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('enter') then
-        for k, v in pairs(MAP[7][2].signposts) do
-            if self.player:dialogueCollides(MAP[7][2].signposts[k]) then
+        for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts) do
+            if self.player:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k]) then
+                MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k].result = ''
+                MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k].textIndex = 1
                 --IF COLLIDES WITH SIGNPOST
                 if self.player.direction ~= 'down' then
-                    table.insert(MAP[7][2].signpostCollided, MAP[7][2].signposts[k])
+                    table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].signpostCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k])
                     PAUSED = PAUSED == false and true or false
                     if not PAUSED then
-                        MAP[7][2].signpostCollided = {}
+                        MAP[sceneView.currentMap.row][sceneView.currentMap.column].signpostCollided = {}
                     end
                 end
             end
@@ -363,6 +365,10 @@ function PlayState:update(dt)
 
     if not PAUSED then
         sceneView:update(dt)
+    end
+
+    for i = 1, 2 do
+        MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[i]:update(dt)
     end
 
     rotate = rotate + .05
@@ -420,6 +426,7 @@ function PlayState:render()
 	love.graphics.setFont(classicFont)
     love.graphics.setColor(BLACK)
     --love.graphics.printf('Tashio Tempo', 0, VIRTUAL_HEIGHT - 13, VIRTUAL_WIDTH, 'center')
+    --[[KEYLOGGER
     if love.keyboard.isDown('up') then
         love.graphics.setColor(FADED)
         love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 16, SCREEN_HEIGHT_LIMIT - 11 + KEYLOGGER_YOFFSET, 0, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --UP
@@ -448,6 +455,7 @@ function PlayState:render()
         love.graphics.setColor(WHITE)
         love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 24, SCREEN_HEIGHT_LIMIT - 4 + KEYLOGGER_YOFFSET, twoSeventyDegress, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --LEFT
     end
+    --]]
 
     --DEBUG PRINT
     if love.keyboard.isDown('5') then
