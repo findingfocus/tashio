@@ -277,5 +277,5 @@ MAP[7][2].npc[mageIndex].stateMachine = StateMachine {
 MAP[7][2].npc[mageIndex]:changeState('npc-walk')
 MAP[7][2].npc[mageIndex].stateMachine.current.option = 'square'
 
-table.insert(MAP[7][2].signposts, SignPost(2 * TILE_SIZE, 5 * TILE_SIZE, 'Does the text wrap here if we pass a long string into printf?'))
+table.insert(MAP[7][2].signposts, SignPost(2 * TILE_SIZE, 5 * TILE_SIZE, 'Does the text wrap here or not?'))
 table.insert(MAP[7][2].signposts, SignPost(8 * TILE_SIZE, 4 * TILE_SIZE, 'THIS IS A SUPER LONG TEXT'))
