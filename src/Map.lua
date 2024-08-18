@@ -86,7 +86,7 @@ end
 
 function Map:update(dt)
     --self.rainSystem:update(dt)
-    self.snowSystem:update(dt)
+    --self.snowSystem:update(dt)
     self.insertAnimations:update(dt)
 
     --ENTITY UPDATES
@@ -289,7 +289,7 @@ function Map:render()
     end
     --love.graphics.print("pitCountMap: " .. pitCount, 0, 0)
     --self.rainSystem:render()
-    self.snowSystem:render()
+    --self.snowSystem:render()
     --love.graphics.print('.option: ' .. tostring(inspect(MAP[7][2].npc[1].stateMachine.current.option)), 0, 0)
     --print(inspect(MAP[7][2].npc[1].stateMachine))
 end

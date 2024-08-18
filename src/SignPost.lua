@@ -26,14 +26,15 @@ function SignPost:update(dt)
     ---[[
     self.textTimer = self.textTimer + dt
     if self.textTimer > self.nextTextTrigger and self.textIndex <= self.textLength then
+        self.result = self.result .. self.text:sub(self.textIndex, self.textIndex)
         self.lines[self.lineIndex] = self.lines[self.lineIndex] .. self.text:sub(self.textIndex, self.textIndex)
         self.textIndex = self.textIndex + 1
-        self.textTimer = 0
+        --self.textTimer = 0
     end
     ---[[
     if self.textIndex == self.textLength and self.lineIndex < 3 then
-        self.lineIndex = self.lineIndex + 1
-        self.textIndex = 1
+        --self.lineIndex = self.lineIndex + 1
+        --self.textIndex = 1
         --self.result = ''
     end
     --]]
@@ -60,8 +61,11 @@ function SignPost:render()
         love.graphics.rectangle('fill', 1, SCREEN_HEIGHT_LIMIT - 40 + 1, VIRTUAL_WIDTH, 40)
         love.graphics.setColor(BLACK)
 
+        love.graphics.printf(tostring(self.result), 5, SCREEN_HEIGHT_LIMIT - 40, VIRTUAL_WIDTH - 5, 'left')
+        --[[
         if self.lineIndex == 1 then
             love.graphics.print(tostring(self.lines[self.lineIndex]), 5, SCREEN_HEIGHT_LIMIT - 51 + 1 * TEXT_LINE_YOFFSET)
+          end
         elseif self.lineIndex == 2 then
             love.graphics.print(tostring(self.lines[1]), 5, SCREEN_HEIGHT_LIMIT - 51 + 1 * TEXT_LINE_YOFFSET)
             love.graphics.print(tostring(self.lines[self.lineIndex]), 5, SCREEN_HEIGHT_LIMIT - 51 + 2 * TEXT_LINE_YOFFSET)
@@ -70,5 +74,6 @@ function SignPost:render()
             love.graphics.print(tostring(self.lines[2]), 5, SCREEN_HEIGHT_LIMIT - 51 + 2 * TEXT_LINE_YOFFSET)
             love.graphics.print(tostring(self.lines[self.lineIndex]), 5, SCREEN_HEIGHT_LIMIT - 51 + 3 * TEXT_LINE_YOFFSET)
         end
+        --]]
     end
 end

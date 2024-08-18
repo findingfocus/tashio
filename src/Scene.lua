@@ -205,21 +205,23 @@ function Scene:update(dt)
     end
 
     --NPC COLLISION
-    for i = 1, #MAP[self.mapRow][self.mapColumn].npc do
+    if not self.shifting then
+      for i = 1, #MAP[self.mapRow][self.mapColumn].npc do
         local npc = MAP[self.mapRow][self.mapColumn].npc[i]
 
         if self.player:leftCollidesMapObject(MAP[self.mapRow][self.mapColumn].npc[i]) then
-            self.player.x = npc.x + npc.width - 1
+          self.player.x = npc.x + npc.width - 1
         end
         if self.player:rightCollidesMapObject(MAP[self.mapRow][self.mapColumn].npc[i]) then
-            self.player.x = npc.x - self.player.width + 1
+          self.player.x = npc.x - self.player.width + 1
         end
         if self.player:topCollidesMapObject(MAP[self.mapRow][self.mapColumn].npc[i]) then
-            self.player.y = npc.y + npc.height - 6
+          self.player.y = npc.y + npc.height - 6
         end
         if self.player:bottomCollidesMapObject(MAP[self.mapRow][self.mapColumn].npc[i]) then
-            self.player.y = npc.y - self.player.height
+          self.player.y = npc.y - self.player.height
         end
+      end
     end
 end
 

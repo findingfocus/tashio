@@ -1,15 +1,15 @@
 require 'src/dependencies'
 
 function love.load()
-	love.window.setTitle('Tashio Tempo')
+  love.window.setTitle('Tashio Tempo')
 
-    love.mouse.setVisible(false)
+  love.mouse.setVisible(false)
 
-    math.randomseed(os.time())
+  math.randomseed(os.time())
 
 	love.graphics.setFont(pixelFont)
 
-    io.stdout:setvbuf ('no')
+  io.stdout:setvbuf ('no')
     
     if arg and arg [#arg] == '-debug' then
         MODDEBUG = require ('lib/mobdebug')
@@ -33,7 +33,7 @@ function love.load()
     
 	push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
 		vsync = true,
-		fullscreen = false,
+		fullscreen = true,
 		resizable = false
 	})
 
