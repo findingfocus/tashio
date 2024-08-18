@@ -588,7 +588,6 @@ function PlayState:render()
                 note:render()
             end
         end
-        print("#activeNotes: " .. tostring(activeNotes))
     end
     --[[
     love.graphics.setColor(WHITE)

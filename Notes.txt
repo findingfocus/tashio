@@ -90,6 +90,9 @@ __Factor gecko logic into gecko class, which aspects of entity class do enemies 
 __REHAUL DOWNLOADER TO ALSO KEEP TRACK OF LOCAL ROW AND COLUMN, INSERT INSERTANIM() BASED ON TILEID AND LOCAL ROW AND COLUMN
 __Incorporate Prosto closure fix for local variables
 
+CREDITED SUPPORTERS
+__K_Tronix at 7:23PM 8/17/2024 
+
 __Add flower anim to be transparent
 __Fix lone pixel in flower animation
 __Tweak falling trigger upon pit collision

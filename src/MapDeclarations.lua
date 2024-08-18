@@ -242,7 +242,7 @@ table.insert(MAP[7][2].npc, Entity {
     height = ENTITY_DEFS['villager1'].height,
     width = ENTITY_DEFS['villager1'].width,
     x = TILE_SIZE * 2,
-    y = TILE_SIZE,
+    y = TILE_SIZE * 2,
     direction = 'down',
     corrupted = false,
     type = 'villager1',
@@ -277,5 +277,5 @@ MAP[7][2].npc[mageIndex].stateMachine = StateMachine {
 MAP[7][2].npc[mageIndex]:changeState('npc-walk')
 MAP[7][2].npc[mageIndex].stateMachine.current.option = 'square'
 
-table.insert(MAP[7][2].signposts, SignPost(2 * TILE_SIZE, 5 * TILE_SIZE, 'Does the text wrap here or not?'))
-table.insert(MAP[7][2].signposts, SignPost(8 * TILE_SIZE, 4 * TILE_SIZE, 'THIS IS A SUPER LONG TEXT'))
+table.insert(MAP[7][2].signposts, SignPost(2 * TILE_SIZE, 5 * TILE_SIZE, '<-- Flower Garden'))
+table.insert(MAP[7][2].signposts, SignPost(9 * TILE_SIZE, 4 * TILE_SIZE, '^^ Tavern'))
