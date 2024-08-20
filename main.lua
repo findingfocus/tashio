@@ -1,5 +1,7 @@
 require 'src/dependencies'
 
+local buttonTest = false
+local buttonTimer = 1
 function love.load()
   love.window.setTitle('Tashio Tempo')
 
@@ -31,7 +33,7 @@ function love.load()
         debug_on(v ~= false)
     end
     
-	push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
+	push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT * 2, WINDOW_WIDTH, WINDOW_HEIGHT, {
 		vsync = true,
 		fullscreen = true,
 		resizable = false
@@ -81,6 +83,12 @@ function love.keyboard.wasReleased(key)
 end
 
 function love.update(dt)
+  buttonTimer = buttonTimer - dt
+  if buttonTimer <= 0 then
+      buttonTest = buttonTest == false and true or false
+      buttonTimer = 1
+
+  end
   Timer.update(dt)
   if love.keyboard.wasPressed('tab') then
     mouseState = not love.mouse.isVisible()
@@ -100,6 +108,39 @@ function love.draw()
 
 	displayFPS()
 
+    love.graphics.setColor(0,0,0,1)
+    love.graphics.rectangle('fill', 0, VIRTUAL_HEIGHT, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
+    love.graphics.setColor(1,1,1,1)
+    love.graphics.draw(gameboyOverlay, 0, VIRTUAL_HEIGHT)
+    if love.keyboard.wasPressed('return') or love.keyboard.isDown('return') then
+        love.graphics.draw(aPress, 0, VIRTUAL_HEIGHT)
+    end
+    if love.keyboard.wasPressed('space') or love.keyboard.isDown('space') then
+        love.graphics.draw(bPress, 0, VIRTUAL_HEIGHT)
+    end
+    if love.keyboard.wasPressed('up') or love.keyboard.isDown('up') then
+        love.graphics.draw(upPress, 0, VIRTUAL_HEIGHT)
+    end
+    if love.keyboard.wasPressed('left') or love.keyboard.isDown('left') then
+        love.graphics.draw(leftPress, 0, VIRTUAL_HEIGHT)
+    end
+    if love.keyboard.wasPressed('down') or love.keyboard.isDown('down') then
+        love.graphics.draw(downPress, 0, VIRTUAL_HEIGHT)
+    end
+    if love.keyboard.wasPressed('right') or love.keyboard.isDown('right') then
+        love.graphics.draw(rightPress, 0, VIRTUAL_HEIGHT)
+    end
+
+    ---[[
+    if buttonTest then
+        love.graphics.draw(aPress, 0, VIRTUAL_HEIGHT)
+        love.graphics.draw(bPress, 0, VIRTUAL_HEIGHT)
+        love.graphics.draw(upPress, 0, VIRTUAL_HEIGHT)
+        love.graphics.draw(leftPress, 0, VIRTUAL_HEIGHT)
+        love.graphics.draw(downPress, 0, VIRTUAL_HEIGHT)
+        love.graphics.draw(rightPress, 0, VIRTUAL_HEIGHT)
+    end
+    --]]
 	push:finish()
 end
 
