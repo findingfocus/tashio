@@ -52,6 +52,13 @@ fret1 = love.graphics.newImage('graphics/fret1.png')
 fret2 = love.graphics.newImage('graphics/fret2.png')
 fret3 = love.graphics.newImage('graphics/fret3.png')
 fret4 = love.graphics.newImage('graphics/fret4.png')
+gameboyOverlay = love.graphics.newImage('graphics/gameboyOverlay.png')
+aPress = love.graphics.newImage('graphics/aPress.png')
+bPress = love.graphics.newImage('graphics/bPress.png')
+upPress = love.graphics.newImage('graphics/upPress.png')
+downPress = love.graphics.newImage('graphics/downPress.png')
+leftPress = love.graphics.newImage('graphics/leftPress.png')
+rightPress = love.graphics.newImage('graphics/rightPress.png')
 
 gTextures = {
     ['character-walk'] = love.graphics.newImage('graphics/playerAtlas.png'),

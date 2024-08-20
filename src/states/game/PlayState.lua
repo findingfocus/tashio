@@ -378,7 +378,7 @@ function PlayState:update(dt)
     rotate = rotate + .05
 
     --LOCK SCREEN POSITION
-    love.window.setPosition(400, 85)
+    love.window.setPosition(400, 0)
 end
 
 function PlayState:render()
@@ -400,7 +400,7 @@ function PlayState:render()
     love.graphics.draw(heartRow, heartRowQuad, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)
     --love.graphics.print('health: ' .. tostring(sceneView.player.health), VIRTUAL_WIDTH - 130, SCREEN_HEIGHT_LIMIT + 4)
     love.graphics.setColor(0,0,0,255)
-    love.graphics.print('Tashio Tempo', VIRTUAL_WIDTH - 150, SCREEN_HEIGHT_LIMIT + 4)
+    --love.graphics.print('Tashio Tempo', VIRTUAL_WIDTH - 150, SCREEN_HEIGHT_LIMIT + 4)
 
     --MANIS BAR RENDER
     love.graphics.setColor(255/255, 0/255, 0/255, 255/255)
