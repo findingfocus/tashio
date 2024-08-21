@@ -83,6 +83,30 @@ function love.keyboard.wasReleased(key)
 end
 
 function love.update(dt)
+  mouseX, mouseY = love.mouse.getPosition()
+  touches = love.touch.getTouches()
+
+  for i, id in ipairs(touches) do
+    mouseX, mouseY = love.touch.getPosition(id)
+  end
+
+  if love.mouse.isDown(1) then
+      mouseDown = true
+  else
+      mouseDown = false
+  end
+
+  if mouseDown then
+    if mouseX < WINDOW_WIDTH / 2 then
+        leftSideTouched = true
+    else
+        rightSideTouched = true
+    end
+  else
+      leftSideTouched = false
+      rightSideTouched = false
+  end
+
   buttonTimer = buttonTimer - dt
   if buttonTimer <= 0 then
       buttonTest = buttonTest == false and true or false
@@ -131,7 +155,13 @@ function love.draw()
         love.graphics.draw(rightPress, 0, VIRTUAL_HEIGHT)
     end
 
-    ---[[
+    if leftSideTouched then
+        love.graphics.draw(leftPress, 0, VIRTUAL_HEIGHT)
+    end
+    if rightSideTouched then
+        love.graphics.draw(rightPress, 0, VIRTUAL_HEIGHT)
+    end
+    --[[
     if buttonTest then
         love.graphics.draw(aPress, 0, VIRTUAL_HEIGHT)
         love.graphics.draw(bPress, 0, VIRTUAL_HEIGHT)
@@ -141,6 +171,20 @@ function love.draw()
         love.graphics.draw(rightPress, 0, VIRTUAL_HEIGHT)
     end
     --]]
+    --
+    ---[[
+    love.graphics.print('leftSideTouched: ' .. tostring(leftSideTouched), 0, 0)
+    love.graphics.print('rightSideTouched: ' .. tostring(rightSideTouched), 0, 10)
+    if leftSideTouched then
+        love.graphics.setColor(0,1,0,1)
+        love.graphics.rectangle('fill', DPAD_LEFT_LEFTEDGE,DPAD_LEFT_TOPEDGE, DPAD_BUTTON_WIDTH, DPAD_BUTTON_WIDTH * 2)
+    end
+    if rightSideTouched then
+        love.graphics.setColor(0,1,0,1)
+        love.graphics.rectangle('fill', DPAD_LEFT_LEFTEDGE + 40,DPAD_LEFT_TOPEDGE, DPAD_BUTTON_WIDTH, DPAD_BUTTON_WIDTH * 2)
+    end
+    --]]
+
 	push:finish()
 end
 
