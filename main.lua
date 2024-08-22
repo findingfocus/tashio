@@ -35,7 +35,7 @@ function love.load()
     
 	push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT * 2, WINDOW_WIDTH, WINDOW_HEIGHT, {
 		vsync = true,
-		fullscreen = true,
+		fullscreen = false,
 		resizable = false
 	})
 
@@ -136,6 +136,52 @@ function love.draw()
     love.graphics.rectangle('fill', 0, VIRTUAL_HEIGHT, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
     love.graphics.setColor(1,1,1,1)
     love.graphics.draw(gameboyOverlay, 0, VIRTUAL_HEIGHT)
+
+    --ENTIRE DPAD
+    love.graphics.setColor(1,0,0,150/255)
+    love.graphics.rectangle('fill', DPAD_X, DPAD_Y, DPAD_WIDTH, DPAD_WIDTH)
+
+    --LEFT DPAD
+    love.graphics.setColor(GREEN)
+    love.graphics.rectangle('fill', DPAD_X, DPAD_Y + DPAD_SIDE_OFFSET, DPAD_DIAGONAL_WIDTH, DPAD_WIDTH - DPAD_SIDE_OFFSET * 2)
+    --RIGHT DPAD
+    love.graphics.setColor(PURPLE)
+    love.graphics.rectangle('fill', DPAD_X + DPAD_WIDTH - DPAD_DIAGONAL_WIDTH, DPAD_Y + DPAD_DIAGONAL_WIDTH, DPAD_DIAGONAL_WIDTH, DPAD_WIDTH - DPAD_SIDE_OFFSET * 2)
+    --
+    --UP DPAD
+    love.graphics.setColor(CYAN)
+    love.graphics.rectangle('fill', DPAD_X + DPAD_DIAGONAL_WIDTH, DPAD_Y, DPAD_WIDTH - DPAD_DIAGONAL_WIDTH * 2, DPAD_DIAGONAL_WIDTH)
+    --DOWN DPAD
+    love.graphics.setColor(BLACK)
+    love.graphics.rectangle('fill', DPAD_X + DPAD_DIAGONAL_WIDTH, DPAD_Y + DPAD_WIDTH - DPAD_DIAGONAL_WIDTH, DPAD_WIDTH - DPAD_DIAGONAL_WIDTH * 2, DPAD_DIAGONAL_WIDTH)
+
+    ---[[
+    --TOP LEFT DIAGONAL
+    love.graphics.setColor(1, 1, 0, 1)
+    love.graphics.rectangle('fill', DPAD_X, DPAD_Y, DPAD_DIAGONAL_WIDTH, DPAD_DIAGONAL_WIDTH)
+
+    --TOP RIGHT DIAGONAL
+    love.graphics.setColor(1, 1, 0, 1)
+    love.graphics.rectangle('fill', DPAD_X + DPAD_WIDTH - DPAD_DIAGONAL_WIDTH, DPAD_Y, DPAD_DIAGONAL_WIDTH, DPAD_DIAGONAL_WIDTH)
+
+
+    --BOTTOM LEFT DIAGONAL
+    love.graphics.setColor(1, 1, 0, 1)
+    love.graphics.rectangle('fill', DPAD_X, DPAD_Y + DPAD_WIDTH - DPAD_DIAGONAL_WIDTH, DPAD_DIAGONAL_WIDTH, DPAD_DIAGONAL_WIDTH)
+
+    --BOTTOM RIGHT DIAGONAL
+    love.graphics.setColor(1, 1, 0, 1)
+    love.graphics.rectangle('fill', DPAD_X + DPAD_WIDTH - DPAD_DIAGONAL_WIDTH, DPAD_Y + DPAD_WIDTH - DPAD_DIAGONAL_WIDTH, DPAD_DIAGONAL_WIDTH, DPAD_DIAGONAL_WIDTH)
+    --]]
+    --
+    --
+    --
+    --[[
+    love.graphics.setColor(WHITE)
+    love.graphics.print('mouseX: ' .. tostring(mouseX), 0, 30)
+    love.graphics.print('mouseY: ' .. tostring(mouseY), 0, 40)
+    --]]
+    --[[
     if love.keyboard.wasPressed('return') or love.keyboard.isDown('return') then
         love.graphics.draw(aPress, 0, VIRTUAL_HEIGHT)
     end
@@ -161,6 +207,7 @@ function love.draw()
     if rightSideTouched then
         love.graphics.draw(rightPress, 0, VIRTUAL_HEIGHT)
     end
+    --]]
     --[[
     if buttonTest then
         love.graphics.draw(aPress, 0, VIRTUAL_HEIGHT)
