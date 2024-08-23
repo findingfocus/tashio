@@ -10,6 +10,7 @@ require 'src/constants'
 
 require 'src/Animation'
 require 'src/LuteString'
+require 'src/TouchDetection'
 require 'src/Note'
 require 'src/BassNotes'
 require 'src/SignPost'

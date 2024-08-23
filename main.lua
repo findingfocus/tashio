@@ -2,6 +2,23 @@ require 'src/dependencies'
 
 local buttonTest = false
 local buttonTimer = 1
+local dpad = {}
+local dpadTopLeft = TouchDetection(DPAD_X,DPAD_Y, DPAD_COLOR_TL)
+local dpadTopCenter = TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH, DPAD_Y, DPAD_COLOR_TC)
+local dpadTopRight = TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y, DPAD_COLOR_TR)
+local dpadLeft = TouchDetection(DPAD_X, DPAD_Y + DPAD_DIAGONAL_WIDTH, DPAD_COLOR_LEFT)
+local dpadRight = TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y + DPAD_DIAGONAL_WIDTH, DPAD_COLOR_RIGHT)
+local dpadBottomLeft = TouchDetection(DPAD_X, DPAD_Y + DPAD_DIAGONAL_WIDTH * 2, DPAD_COLOR_BL)
+local dpadBottomCenter = TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH, DPAD_Y + DPAD_DIAGONAL_WIDTH * 2, DPAD_COLOR_BC)
+local dpadBottomRight = TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y + DPAD_DIAGONAL_WIDTH * 2, DPAD_COLOR_BR)
+table.insert(dpad, dpadTopLeft)
+table.insert(dpad, dpadTopCenter)
+table.insert(dpad, dpadTopRight)
+table.insert(dpad, dpadLeft)
+table.insert(dpad, dpadRight)
+table.insert(dpad, dpadBottomLeft)
+table.insert(dpad, dpadBottomCenter)
+table.insert(dpad, dpadBottomRight)
 function love.load()
   love.window.setTitle('Tashio Tempo')
 
@@ -96,15 +113,17 @@ function love.update(dt)
       mouseDown = false
   end
 
-  if mouseDown then
-    if mouseX < WINDOW_WIDTH / 2 then
-        leftSideTouched = true
-    else
-        rightSideTouched = true
-    end
-  else
-      leftSideTouched = false
-      rightSideTouched = false
+  for k, v in pairs(dpad) do
+      if mouseDown then
+          v:update(dt)
+          if v:collides() then
+              v.pressed = true
+          else
+              v.pressed = false
+          end
+      else
+          v.pressed = false
+      end
   end
 
   buttonTimer = buttonTimer - dt
@@ -137,6 +156,7 @@ function love.draw()
     love.graphics.setColor(1,1,1,1)
     love.graphics.draw(gameboyOverlay, 0, VIRTUAL_HEIGHT)
 
+    --[[
     --ENTIRE DPAD
     love.graphics.setColor(1,0,0,150/255)
     love.graphics.rectangle('fill', DPAD_X, DPAD_Y, DPAD_WIDTH, DPAD_WIDTH)
@@ -172,6 +192,7 @@ function love.draw()
     --BOTTOM RIGHT DIAGONAL
     love.graphics.setColor(1, 1, 0, 1)
     love.graphics.rectangle('fill', DPAD_X + DPAD_WIDTH - DPAD_DIAGONAL_WIDTH, DPAD_Y + DPAD_WIDTH - DPAD_DIAGONAL_WIDTH, DPAD_DIAGONAL_WIDTH, DPAD_DIAGONAL_WIDTH)
+    --]]
     --]]
     --
     --
@@ -219,7 +240,7 @@ function love.draw()
     end
     --]]
     --
-    ---[[
+    --[[
     love.graphics.print('leftSideTouched: ' .. tostring(leftSideTouched), 0, 0)
     love.graphics.print('rightSideTouched: ' .. tostring(rightSideTouched), 0, 10)
     if leftSideTouched then
@@ -231,6 +252,10 @@ function love.draw()
         love.graphics.rectangle('fill', DPAD_LEFT_LEFTEDGE + 40,DPAD_LEFT_TOPEDGE, DPAD_BUTTON_WIDTH, DPAD_BUTTON_WIDTH * 2)
     end
     --]]
+
+    for k, v in pairs(dpad) do
+        v:render()
+    end
 
 	push:finish()
 end
