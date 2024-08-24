@@ -378,7 +378,7 @@ function PlayState:update(dt)
     rotate = rotate + .05
 
     --LOCK SCREEN POSITION
-    love.window.setPosition(400, 0)
+    love.window.setPosition(400, 40)
 end
 
 function PlayState:render()
