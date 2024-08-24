@@ -50,9 +50,9 @@ function love.load()
         debug_on(v ~= false)
     end
     
-	push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT * 2, WINDOW_WIDTH, WINDOW_HEIGHT, {
+	push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT_GB, WINDOW_WIDTH, WINDOW_HEIGHT, {
 		vsync = true,
-		fullscreen = false,
+		fullscreen = true,
 		resizable = false
 	})
 
@@ -106,6 +106,16 @@ function love.update(dt)
   for i, id in ipairs(touches) do
     mouseX, mouseY = love.touch.getPosition(id)
   end
+
+  mouseX, mouseY = push:toGame(mouseX, mouseY)
+  if mouseX == nil then
+      mouseX = 0
+  end
+  if mouseY == nil then
+      mouseY = 0
+  end
+  mouseX = mouseX * SCALE_FACTOR
+  mouseY = mouseY * SCALE_FACTOR
 
   if love.mouse.isDown(1) then
       mouseDown = true
@@ -197,10 +207,10 @@ function love.draw()
     --
     --
     --
-    --[[
+    ---[[
     love.graphics.setColor(WHITE)
-    love.graphics.print('mouseX: ' .. tostring(mouseX), 0, 30)
-    love.graphics.print('mouseY: ' .. tostring(mouseY), 0, 40)
+    love.graphics.print('mouseX: ' .. tostring(mouseX), 0, 0)
+    love.graphics.print('mouseY: ' .. tostring(mouseY), 0, 10)
     --]]
     --[[
     if love.keyboard.wasPressed('return') or love.keyboard.isDown('return') then
