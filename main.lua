@@ -52,7 +52,7 @@ function love.load()
     
 	push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT_GB, WINDOW_WIDTH, WINDOW_HEIGHT, {
 		vsync = true,
-		fullscreen = true,
+		fullscreen = false,
 		resizable = false
 	})
 
@@ -103,10 +103,21 @@ function love.update(dt)
   mouseX, mouseY = love.mouse.getPosition()
   touches = love.touch.getTouches()
 
+  --FOR TOUCHES
   for i, id in ipairs(touches) do
     mouseX, mouseY = love.touch.getPosition(id)
+    id.mouseX = mouseX
+    id.mouseY = mouseY
+    id.mouseX, id.mouseY = push:toGame(mouseX, mouseY)
+    if id.mouseX == nil then
+        id.mouseX = 0
+    end
+    if id.mouseY == nil then
+        id.mouseY = 0
+    end
+    id.mouseX = id.mouseX * SCALE_FACTOR
+    id.mouseY = id.mouseY * SCALE_FACTOR
   end
-
   mouseX, mouseY = push:toGame(mouseX, mouseY)
   if mouseX == nil then
       mouseX = 0
