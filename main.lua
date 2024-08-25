@@ -1,5 +1,5 @@
 require 'src/dependencies'
-
+local inspect = require 'lib/inspect'
 local buttonTest = false
 local buttonTimer = 1
 local dpad = {}
@@ -106,18 +106,19 @@ function love.update(dt)
   --FOR TOUCHES
   for i, id in ipairs(touches) do
     mouseX, mouseY = love.touch.getPosition(id)
-    id.mouseX = mouseX
-    id.mouseY = mouseY
-    id.mouseX, id.mouseY = push:toGame(mouseX, mouseY)
-    if id.mouseX == nil then
-        id.mouseX = 0
+    dpad[i].mouseX = mouseX
+    dpad[i].mouseY = mouseY
+    dpad[i].mouseX, dpad[i].mouseY = push:toGame(mouseX, mouseY)
+    if dpad[i].mouseX == nil then
+        dpad[i].mouseX = 0
     end
-    if id.mouseY == nil then
-        id.mouseY = 0
+    if dpad[i].mouseY == nil then
+        dpad[i].mouseY = 0
     end
-    id.mouseX = id.mouseX * SCALE_FACTOR
-    id.mouseY = id.mouseY * SCALE_FACTOR
+    dpad[i].mouseX = dpad[i].mouseX * SCALE_FACTOR
+    dpad[i].mouseY = dpad[i].mouseY * SCALE_FACTOR
   end
+  --FOR MOUSE
   mouseX, mouseY = push:toGame(mouseX, mouseY)
   if mouseX == nil then
       mouseX = 0
@@ -277,6 +278,8 @@ function love.draw()
     for k, v in pairs(dpad) do
         v:render()
     end
+
+    love.graphics.print('touches: ' .. inspect(touches), 0, 20)
 
 	push:finish()
 end
