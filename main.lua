@@ -77,6 +77,10 @@ function love.load()
           touches[id].y = y
           touches[id].dx = dx
           touches[id].dy = dy
+
+          --dpad[i].mouseX, dpad[i].mouseY = push:toGame(mouseX, mouseY)
+          --dpad[i].mouseX = dpad[i].mouseX * SCALE_FACTOR
+          --dpad[i].mouseY = dpad[i].mouseY * SCALE_FACTOR
       end
   end
 
@@ -214,6 +218,8 @@ function love.draw()
     --love.graphics.circle('fill', 25, 25, 10)
     for id, touch in pairs(touches) do
         love.graphics.setColor(RED)
+        love.graphics.print('x: ' .. tostring(touch.x), 10, 40)
+        love.graphics.print('y: ' .. tostring(touch.y), 10, 50)
         love.graphics.circle('fill', touch.x, touch.y, 10)
     end
 	push:finish()
