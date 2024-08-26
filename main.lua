@@ -73,8 +73,7 @@ function love.load()
 
   function love.touchmoved(id, x, y, dx, dy)
       if touches[id] then
-          touches[id].x = x
-          touches[id].y = y
+          touches[id].x, touches[id].y = push:toGame(x, y)
           touches[id].dx = dx
           touches[id].dy = dy
 
