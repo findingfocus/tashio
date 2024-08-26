@@ -160,9 +160,9 @@ function love.update(dt)
       mouseDown = false
   end
 
+  --[[
   for k, v in pairs(dpad) do
       if mouseDown then
-          --v:update(dt)
           for index, touch in pairs(touches) do
               if v:collides(touch) then
                   v.pressed = true
@@ -174,6 +174,16 @@ function love.update(dt)
       else
           v.pressed = false
       end
+  end
+  --]]
+  if mouseDown then
+    for k, touch in pairs(touches) do
+        for index, button in pairs(dpad) do
+            if button:collides(touch) then
+                button.pressed = true
+            end
+        end
+    end
   end
 
   buttonTimer = buttonTimer - dt
