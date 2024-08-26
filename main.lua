@@ -69,6 +69,9 @@ function love.load()
 
   function love.touchpressed(id, x, y, dx, dy)
       touches[id] = {x = x, y = y, dx = dx, dy = dy}
+      touches[id].x, touches[id].y = push:toGame(x, y)
+      touches[id].x = touches[id].x * SCALE_FACTOR
+      touches[id].y = touches[id].y * SCALE_FACTOR
   end
 
   function love.touchmoved(id, x, y, dx, dy)
@@ -77,8 +80,8 @@ function love.load()
           touches[id].dx = dx
           touches[id].dy = dy
 
-          touches[id].x = touches[id].x / SCALE_FACTOR
-          touches[id].y = touches[id].y / SCALE_FACTOR
+          touches[id].x = touches[id].x * SCALE_FACTOR
+          touches[id].y = touches[id].y * SCALE_FACTOR
 
           --dpad[i].mouseX, dpad[i].mouseY = push:toGame(mouseX, mouseY)
           --dpad[i].mouseX = dpad[i].mouseX * SCALE_FACTOR
