@@ -21,11 +21,6 @@ function TouchDetection:collides(touch)
     end
 end
 
-function TouchDetection:update(dt)
-    self.mouseX = mouseX
-    self.mouseY = mouseY
-end
-
 function TouchDetection:render()
     if self.pressed then
         love.graphics.setColor(self.color)
