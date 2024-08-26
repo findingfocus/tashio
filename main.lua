@@ -68,13 +68,13 @@ function love.load()
   touches = {}
 
   function love.touchpressed(id, x, y, dx, dy)
-      touches[id] = {x = x, y = y, dx = dx, dy = dy}
+      touches[id] = {x = x * SCALE_FACTOR, y = y * SCALE_FACTOR, dx = dx, dy = dy}
   end
 
   function love.touchmoved(id, x, y, dx, dy)
       if touches[id] then
-          touches[id].x = x
-          touches[id].y = y
+          touches[id].x = x * SCALE_FACTOR
+          touches[id].y = y * SCALE_FACTOR
           touches[id].dx = dx
           touches[id].dy = dy
 
