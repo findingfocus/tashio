@@ -166,6 +166,7 @@ function love.update(dt)
           for index, touch in pairs(touches) do
               if v:collides(touch) then
                   v.pressed = true
+                  break
               else
                   v.pressed = false
               end
