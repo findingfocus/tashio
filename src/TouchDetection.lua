@@ -12,9 +12,9 @@ function TouchDetection:init(placementX, placementY, colorOption)
 
 end
 
-function TouchDetection:collides()
-    if self.x * SCALE_FACTOR < self.mouseX and (self.x + self.width) * SCALE_FACTOR > self.mouseX and
-        self.y * SCALE_FACTOR < self.mouseY and (self.y + self.height) * SCALE_FACTOR > self.mouseY then
+function TouchDetection:collides(touch)
+    if self.x * SCALE_FACTOR < touch.x and (self.x + self.width) * SCALE_FACTOR > touch.x and
+        self.y * SCALE_FACTOR < touch.y and (self.y + self.height) * SCALE_FACTOR > touch.y then
             return true
     else
         return false

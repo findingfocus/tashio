@@ -162,11 +162,13 @@ function love.update(dt)
 
   for k, v in pairs(dpad) do
       if mouseDown then
-          v:update(dt)
-          if v:collides() then
-              v.pressed = true
-          else
-              v.pressed = false
+          --v:update(dt)
+          for index, touch in pairs(touches) do
+              if v:collides(touch) then
+                  v.pressed = true
+              else
+                  v.pressed = false
+              end
           end
       else
           v.pressed = false
