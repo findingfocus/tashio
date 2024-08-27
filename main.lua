@@ -52,7 +52,7 @@ function love.load()
 
   push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT_GB, WINDOW_WIDTH, WINDOW_HEIGHT, {
       vsync = true,
-      fullscreen = true,
+      fullscreen = false,
       resizable = false
   })
 
@@ -177,13 +177,29 @@ function love.update(dt)
       end
   end
   --]]
+
+
+  --BUTTON TOUCH COUNT
   for k, touch in pairs(touches) do
       for index, button in pairs(dpad) do
           if button:collides(touch) then
-              button.pressed = true
+              button.touchCount = button.touchCount + 1
           end
       end
   end
+
+  --BUTTON PRESS TOGGLE
+  for index, button in pairs(dpad) do
+      if button.touchCount > 0 then
+          button.pressed = true
+      else
+          button.pressed = false
+      end
+  end
+
+
+
+
 
   buttonTimer = buttonTimer - dt
   if buttonTimer <= 0 then
