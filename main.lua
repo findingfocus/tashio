@@ -21,7 +21,9 @@ table.insert(dpad, dpadBottomLeft)
 table.insert(dpad, dpadBottom)
 table.insert(dpad, dpadBottomRight)
 --]]
-dpad = { TouchDetection(DPAD_X,DPAD_Y, DPAD_COLOR_TL)}
+dpad = {TouchDetection(DPAD_X,DPAD_Y, DPAD_COLOR_TL),
+        TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH, DPAD_Y, DPAD_COLOR_TC),
+}
 
 function love.load()
   love.window.setTitle('Tashio Tempo')
@@ -239,12 +241,12 @@ function love.draw()
     love.graphics.print('mouseX: ' .. tostring(mouseX), 0, 0)
     love.graphics.print('mouseY: ' .. tostring(mouseY), 0, 10)
     --]]
-    --[[
-    for k, v in pairs(dpad) do
+    ---[[
+    for k, v in ipairs(dpad) do
         v:render()
     end
     --]]
-    dpad[1]:render()
+    --dpad[1]:render()
 
     --love.graphics.print('touches: ' .. inspect(touches), 0, 20)
 
