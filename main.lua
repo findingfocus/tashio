@@ -52,7 +52,7 @@ function love.load()
 
   push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT_GB, WINDOW_WIDTH, WINDOW_HEIGHT, {
       vsync = true,
-      fullscreen = false,
+      fullscreen = true,
       resizable = false
   })
 
@@ -87,6 +87,7 @@ function love.load()
 
   function love.touchreleased(id, x, y, dx, dy)
       touches[id] = nil
+      touches[id].touchCount = touches[id].touchCount - 1
   end
 end
 
@@ -185,6 +186,7 @@ function love.update(dt)
           if button:collides(touch) then
               button.touchCount = button.touchCount + 1
           end
+
       end
   end
 
@@ -194,6 +196,7 @@ function love.update(dt)
           button.pressed = true
       else
           button.pressed = false
+
       end
   end
 
