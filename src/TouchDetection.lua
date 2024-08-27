@@ -9,7 +9,7 @@ function TouchDetection:init(placementX, placementY, colorOption)
     self.pressed = false
     self.x = placementX
     self.y = placementY
-    self.touchCount = 0
+    self.touched = false
 end
 
 function TouchDetection:collides(touch)

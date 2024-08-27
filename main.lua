@@ -2,6 +2,7 @@ require 'src/dependencies'
 local inspect = require 'lib/inspect'
 local buttonTest = false
 local buttonTimer = 1
+--[[
 local dpad = {}
 local dpadTopLeft = TouchDetection(DPAD_X,DPAD_Y, DPAD_COLOR_TL)
 local dpadTop = TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH, DPAD_Y, DPAD_COLOR_TC)
@@ -19,6 +20,9 @@ table.insert(dpad, dpadRight)
 table.insert(dpad, dpadBottomLeft)
 table.insert(dpad, dpadBottom)
 table.insert(dpad, dpadBottomRight)
+--]]
+dpad = { {TouchDetection(DPAD_X,DPAD_Y, DPAD_COLOR_TL)} }
+
 function love.load()
   love.window.setTitle('Tashio Tempo')
 
@@ -87,7 +91,6 @@ function love.load()
 
   function love.touchreleased(id, x, y, dx, dy)
       touches[id] = nil
-      touches[id].touchCount = touches[id].touchCount - 1
   end
 end
 
@@ -180,25 +183,22 @@ function love.update(dt)
   --]]
 
 
-  --BUTTON TOUCH COUNT
   for k, touch in pairs(touches) do
-      for index, button in pairs(dpad) do
+      for index, button in ipairs(dpad) do
           if button:collides(touch) then
+              button.pressed = true
               button.touchCount = button.touchCount + 1
           end
-
       end
   end
 
-  --BUTTON PRESS TOGGLE
-  for index, button in pairs(dpad) do
-      if button.touchCount > 0 then
-          button.pressed = true
-      else
+  for index, button in ipairs(dpad) do
+      if button.touchCount == 0 then
           button.pressed = false
-
       end
+      button.touchCount = 0
   end
+
 
 
 
