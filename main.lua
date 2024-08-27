@@ -239,9 +239,12 @@ function love.draw()
     love.graphics.print('mouseX: ' .. tostring(mouseX), 0, 0)
     love.graphics.print('mouseY: ' .. tostring(mouseY), 0, 10)
     --]]
+    --[[
     for k, v in pairs(dpad) do
         v:render()
     end
+    --]]
+    dpad[1]:render()
 
     --love.graphics.print('touches: ' .. inspect(touches), 0, 20)
 
