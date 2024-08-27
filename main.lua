@@ -3,15 +3,10 @@ local inspect = require 'lib/inspect'
 local buttonTest = false
 local buttonTimer = 1
 --[[
-local dpad = {}
-local dpadTopLeft = TouchDetection(DPAD_X,DPAD_Y, DPAD_COLOR_TL)
-local dpadTop = TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH, DPAD_Y, DPAD_COLOR_TC)
-local dpadTopRight = TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y, DPAD_COLOR_TR)
-local dpadLeft = TouchDetection(DPAD_X, DPAD_Y + DPAD_DIAGONAL_WIDTH, DPAD_COLOR_LEFT)
-local dpadRight = TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y + DPAD_DIAGONAL_WIDTH, DPAD_COLOR_RIGHT)
-local dpadBottomLeft = TouchDetection(DPAD_X, DPAD_Y + DPAD_DIAGONAL_WIDTH * 2, DPAD_COLOR_BL)
-local dpadBottom = TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH, DPAD_Y + DPAD_DIAGONAL_WIDTH * 2, DPAD_COLOR_BC)
-local dpadBottomRight = TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y + DPAD_DIAGONAL_WIDTH * 2, DPAD_COLOR_BR)
+local dpadRight =
+local dpadBottomLeft =
+local dpadBottom =
+local dpadBottomRight =
 table.insert(dpad, dpadTopLeft)
 table.insert(dpad, dpadTop)
 table.insert(dpad, dpadTopRight)
@@ -21,8 +16,14 @@ table.insert(dpad, dpadBottomLeft)
 table.insert(dpad, dpadBottom)
 table.insert(dpad, dpadBottomRight)
 --]]
-dpad = {TouchDetection(DPAD_X,DPAD_Y, DPAD_COLOR_TL),
-        TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH, DPAD_Y, DPAD_COLOR_TC),
+dpad = {TouchDetection(DPAD_X,DPAD_Y, DPAD_COLOR_TL), --UPLEFT
+        TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH, DPAD_Y, DPAD_COLOR_TC), --UP
+        TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y, DPAD_COLOR_TR), --UPRIGHT
+        TouchDetection(DPAD_X, DPAD_Y + DPAD_DIAGONAL_WIDTH, DPAD_COLOR_LEFT), --LEFT
+        TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y + DPAD_DIAGONAL_WIDTH, DPAD_COLOR_RIGHT), --RIGHT
+        TouchDetection(DPAD_X, DPAD_Y + DPAD_DIAGONAL_WIDTH * 2, DPAD_COLOR_BL), --DOWNLEFT
+        TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH, DPAD_Y + DPAD_DIAGONAL_WIDTH * 2, DPAD_COLOR_BC), --DOWN
+        TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y + DPAD_DIAGONAL_WIDTH * 2, DPAD_COLOR_BR), --DOWNRIGHT
 }
 
 function love.load()
