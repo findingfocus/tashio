@@ -21,7 +21,7 @@ table.insert(dpad, dpadBottomLeft)
 table.insert(dpad, dpadBottom)
 table.insert(dpad, dpadBottomRight)
 --]]
-dpad = { {TouchDetection(DPAD_X,DPAD_Y, DPAD_COLOR_TL)} }
+dpad = { TouchDetection(DPAD_X,DPAD_Y, DPAD_COLOR_TL)}
 
 function love.load()
   love.window.setTitle('Tashio Tempo')
@@ -165,24 +165,23 @@ function love.update(dt)
       mouseDown = false
   end
 
-  --[[
-  for k, v in pairs(dpad) do
-      if mouseDown then
-          for index, touch in pairs(touches) do
-              if v:collides(touch) then
-                  v.pressed = true
-                  break
-              else
-                  v.pressed = false
-              end
+
+
+
+  for k, button in pairs(dpad) do
+      button.pressed = false
+  end
+
+  for k, button in pairs(dpad) do
+      for index, touch in pairs(touches) do
+          if button:collides(touch) then
+              button.pressed = true
           end
-      else
-          v.pressed = false
       end
   end
-  --]]
 
 
+  --[[
   for k, touch in pairs(touches) do
       for index, button in ipairs(dpad) do
           if button:collides(touch) then
@@ -198,6 +197,7 @@ function love.update(dt)
       end
       button.touchCount = 0
   end
+  --]]
 
 
 
