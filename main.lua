@@ -135,8 +135,8 @@ end
 
 function love.update(dt)
   mouseX, mouseY = love.mouse.getPosition()
-  --touches = love.touch.getTouches()
 
+  --touches = love.touch.getTouches()
 
   --FOR TOUCHES
   --[[
@@ -188,6 +188,9 @@ function love.update(dt)
       end
   end
 
+  if dpad[9].pressed then
+    sounds['spellcast']:play()
+  end
 
   --[[
   for k, touch in pairs(touches) do
