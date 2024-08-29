@@ -2,20 +2,6 @@ require 'src/dependencies'
 local inspect = require 'lib/inspect'
 local buttonTest = false
 local buttonTimer = 1
---[[
-local dpadRight =
-local dpadBottomLeft =
-local dpadBottom =
-local dpadBottomRight =
-table.insert(dpad, dpadTopLeft)
-table.insert(dpad, dpadTop)
-table.insert(dpad, dpadTopRight)
-table.insert(dpad, dpadLeft)
-table.insert(dpad, dpadRight)
-table.insert(dpad, dpadBottomLeft)
-table.insert(dpad, dpadBottom)
-table.insert(dpad, dpadBottomRight)
---]]
 dpad = {TouchDetection(DPAD_X,DPAD_Y, DPAD_COLOR_TL), --UPLEFT
         TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH, DPAD_Y, DPAD_COLOR_TC), --UP
         TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y, DPAD_COLOR_TR), --UPRIGHT
@@ -88,11 +74,6 @@ function love.load()
           touches[id].x, touches[id].y = push:toGame(x, y)
           touches[id].dx = dx
           touches[id].dy = dy
-
-
-          --dpad[i].mouseX, dpad[i].mouseY = push:toGame(mouseX, mouseY)
-          --dpad[i].mouseX = dpad[i].mouseX * SCALE_FACTOR
-          --dpad[i].mouseY = dpad[i].mouseY * SCALE_FACTOR
       end
   end
 
@@ -136,44 +117,11 @@ end
 function love.update(dt)
   mouseX, mouseY = love.mouse.getPosition()
 
-  --touches = love.touch.getTouches()
-
-  --FOR TOUCHES
-  --[[
-  for i, id in pairs(touches) do
-    mouseX, mouseY = love.touch.getPosition(id)
-    dpad[i].mouseX = mouseX
-    dpad[i].mouseY = mouseY
-    dpad[i].mouseX, dpad[i].mouseY = push:toGame(mouseX, mouseY)
-    if dpad[i].mouseX == nil then
-        dpad[i].mouseX = 0
-    end
-    if dpad[i].mouseY == nil then
-        dpad[i].mouseY = 0
-    end
-    dpad[i].mouseX = dpad[i].mouseX * SCALE_FACTOR
-    dpad[i].mouseY = dpad[i].mouseY * SCALE_FACTOR
-  end
-  --FOR MOUSE
-  mouseX, mouseY = push:toGame(mouseX, mouseY)
-  if mouseX == nil then
-      mouseX = 0
-  end
-  if mouseY == nil then
-      mouseY = 0
-  end
-  mouseX = mouseX * SCALE_FACTOR
-  mouseY = mouseY * SCALE_FACTOR
-  --]]
-
   if love.mouse.isDown(1) then
       mouseDown = true
   else
       mouseDown = false
   end
-
-
-
 
   for k, button in pairs(dpad) do
       button.pressed = false
@@ -191,29 +139,6 @@ function love.update(dt)
   if dpad[9].pressed then
     sounds['spellcast']:play()
   end
-
-  --[[
-  for k, touch in pairs(touches) do
-      for index, button in ipairs(dpad) do
-          if button:collides(touch) then
-              button.pressed = true
-              button.touchCount = button.touchCount + 1
-          end
-      end
-  end
-
-  for index, button in ipairs(dpad) do
-      if button.touchCount == 0 then
-          button.pressed = false
-      end
-      button.touchCount = 0
-  end
-  --]]
-
-
-
-
-
 
   buttonTimer = buttonTimer - dt
   if buttonTimer <= 0 then
@@ -245,26 +170,15 @@ function love.draw()
     love.graphics.setColor(1,1,1,1)
     love.graphics.draw(gameboyOverlay, 0, VIRTUAL_HEIGHT)
 
-    ---[[
-    love.graphics.setColor(WHITE)
-    love.graphics.print('mouseX: ' .. tostring(mouseX), 0, 0)
-    love.graphics.print('mouseY: ' .. tostring(mouseY), 0, 10)
-    --]]
-    ---[[
     for k, v in ipairs(dpad) do
         v:render()
     end
-    --]]
-    --dpad[1]:render()
-
-    --love.graphics.print('touches: ' .. inspect(touches), 0, 20)
 
     love.graphics.setColor(RED)
-    --love.graphics.circle('fill', 25, 25, 10)
     for id, touch in pairs(touches) do
         love.graphics.setColor(RED)
-        love.graphics.print('x: ' .. tostring(touch.x), 10, 40)
-        love.graphics.print('y: ' .. tostring(touch.y), 10, 50)
+        --love.graphics.print('x: ' .. tostring(touch.x), 10, 40)
+        --love.graphics.print('y: ' .. tostring(touch.y), 10, 50)
         love.graphics.circle('fill', touch.x, touch.y, 10)
     end
 	push:finish()
