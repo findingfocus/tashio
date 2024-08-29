@@ -22,6 +22,7 @@ song1 = {{Note(4,3,2), Note(2,3,1), Note(3,3,1)}, {Note(3,4,1)}, {Note(2,2,1)}, 
 bassNotes1 = BassNotes({'Bb1', 'A1', 'G1', 'F1'})
 local activeNotes = {}
 local songTimer = 1
+local toggleHelp = false
 
 function PlayState:init()
     self.player = Player {
@@ -78,6 +79,9 @@ function validNoteChecker(string)
 end
 
 function PlayState:update(dt)
+    if love.keyboard.wasPressed('h') then
+        toggleHelp = toggleHelp == false and true or false
+    end
     if luteState then
         --bassNotes1:update(dt)
         songTimer = songTimer - dt
@@ -589,8 +593,22 @@ function PlayState:render()
             end
         end
     end
-    --[[
-    love.graphics.setColor(WHITE)
-    love.graphics.print('PAUSED: ' .. tostring(PAUSED), 0, 0)
-    --]]
+
+    if toggleHelp then
+        love.graphics.setColor(180/255, 20/255, 30/255, 190/255)
+        love.graphics.rectangle('fill', 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT)
+
+        love.graphics.setFont(classicFont)
+
+        love.graphics.setColor(0/255, 0/255, 100/255, 255/255)
+        love.graphics.printf('CONTROLS:', 10, 20, 150, 'left')
+        love.graphics.printf('ARROW KEYS = MOVE', 10, 40, 150, 'left')
+        love.graphics.printf('SPACE BAR = SPELLS', 10, 60, 150, 'left')
+        love.graphics.printf('ENTER = INTERACT', 10, 80, 150, 'left')
+        love.graphics.setColor(WHITE)
+        love.graphics.printf('CONTROLS:', 9, 19, 150, 'left')
+        love.graphics.printf('ARROW KEYS = MOVE', 9, 39, 150, 'left')
+        love.graphics.printf('SPACE BAR = SPELLS', 9, 59, 150, 'left')
+        love.graphics.printf('ENTER = INTERACT', 9, 79, 150, 'left')
+    end
 end
