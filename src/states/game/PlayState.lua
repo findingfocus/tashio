@@ -79,14 +79,6 @@ function validNoteChecker(string)
 end
 
 function PlayState:update(dt)
-    if love.keyboard.wasPressed('h') then
-        toggleHelp = toggleHelp == false and true or false
-    end
-
-    if dpad[11].pressed then
-        toggleHelp = toggleHelp == false and true or false
-    end
-
     if luteState then
         --bassNotes1:update(dt)
         songTimer = songTimer - dt

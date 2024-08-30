@@ -67,6 +67,10 @@ function love.load()
   function love.touchpressed(id, x, y, dx, dy)
       touches[id] = {x = x, y = y, dx = dx, dy = dy}
       touches[id].x, touches[id].y = push:toGame(x, y)
+      if touches[id]:collides(dpad[11]) then
+        toggleHelp = toggleHelp == false and true or false
+      end
+
   end
 
   function love.touchmoved(id, x, y, dx, dy)
