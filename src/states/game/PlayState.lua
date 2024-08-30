@@ -22,7 +22,7 @@ song1 = {{Note(4,3,2), Note(2,3,1), Note(3,3,1)}, {Note(3,4,1)}, {Note(2,2,1)}, 
 bassNotes1 = BassNotes({'Bb1', 'A1', 'G1', 'F1'})
 local activeNotes = {}
 local songTimer = 1
-local toggleHelp = false
+toggleHelp = false
 
 function PlayState:init()
     self.player = Player {
@@ -82,6 +82,11 @@ function PlayState:update(dt)
     if love.keyboard.wasPressed('h') then
         toggleHelp = toggleHelp == false and true or false
     end
+
+    if dpad[11].pressed then
+        toggleHelp = toggleHelp == false and true or false
+    end
+
     if luteState then
         --bassNotes1:update(dt)
         songTimer = songTimer - dt

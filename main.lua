@@ -12,7 +12,7 @@ dpad = {TouchDetection(DPAD_X,DPAD_Y, DPAD_COLOR_TL), --UPLEFT
         TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y + DPAD_DIAGONAL_WIDTH * 2, DPAD_COLOR_BR), --DOWNRIGHT
         TouchDetection(VIRTUAL_WIDTH - 33, VIRTUAL_HEIGHT_GB / 2 + DPAD_DIAGONAL_WIDTH + 2, DPAD_COLOR_TL), --A
         TouchDetection(VIRTUAL_WIDTH - 64, VIRTUAL_HEIGHT_GB / 2 + DPAD_DIAGONAL_WIDTH * 2 + 3, DPAD_COLOR_TL), --B
-        TouchDetection(VIRTUAL_WIDTH / 2 - 56, VIRTUAL_HEIGHT_GB - 30, DPAD_COLOR_TL), --START
+        TouchDetection(VIRTUAL_WIDTH / 2 - 56, VIRTUAL_HEIGHT_GB - 30, DPAD_COLOR_TL), --SELECT
         TouchDetection(VIRTUAL_WIDTH / 2 - 14, VIRTUAL_HEIGHT_GB - 30, DPAD_COLOR_TL), --START
 }
 
@@ -49,7 +49,7 @@ function love.load()
 
   push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT_GB, WINDOW_WIDTH, WINDOW_HEIGHT, {
       vsync = true,
-      fullscreen = true,
+      fullscreen = false,
       resizable = false
   })
 
