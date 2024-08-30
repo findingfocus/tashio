@@ -85,18 +85,18 @@ function PlayState:update(dt)
 
     if love.keyboard.wasPressed('g') then
         if WINDOW_HEIGHT == 144 * SCALE_FACTOR * 2 then
+            SCALE_FACTOR = 4
             WINDOW_HEIGHT = 144 * SCALE_FACTOR
+            WINDOW_WIDTH = 160 * SCALE_FACTOR
             VIRTUAL_HEIGHT_GB = 144
         else
+            SCALE_FACTOR = 2
             WINDOW_HEIGHT = 144 * SCALE_FACTOR * 2
+            WINDOW_WIDTH = 160 * SCALE_FACTOR
             VIRTUAL_HEIGHT_GB = 144 * 2
         end
 
-        push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT_GB, WINDOW_WIDTH, WINDOW_HEIGHT, {
-            vsync = true,
-            fullscreen = false,
-            resizable = true
-        })
+        push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT_GB, WINDOW_WIDTH, WINDOW_HEIGHT)
     end
 
     if luteState then
