@@ -90,7 +90,7 @@ function PlayState:update(dt)
             WINDOW_WIDTH = 160 * SCALE_FACTOR
             VIRTUAL_HEIGHT_GB = 144
         else
-            SCALE_FACTOR = 2
+            SCALE_FACTOR = SCALE_FACTOR_RESET
             WINDOW_HEIGHT = 144 * SCALE_FACTOR * 2
             WINDOW_WIDTH = 160 * SCALE_FACTOR
             VIRTUAL_HEIGHT_GB = 144 * 2
@@ -399,7 +399,10 @@ function PlayState:update(dt)
     rotate = rotate + .05
 
     --LOCK SCREEN POSITION
-    love.window.setPosition(400, 40)
+    --GAMEBOY TOGGLE
+    --love.window.setPosition(400, 40)
+    --DEV POSITION
+    love.window.setPosition(400, 100)
 end
 
 function PlayState:render()
@@ -451,29 +454,29 @@ function PlayState:render()
 	love.graphics.setFont(classicFont)
     love.graphics.setColor(BLACK)
     --love.graphics.printf('Tashio Tempo', 0, VIRTUAL_HEIGHT - 13, VIRTUAL_WIDTH, 'center')
-    --[[KEYLOGGER
-    if love.keyboard.isDown('up') then
+    ---[[KEYLOGGER
+    if love.keyboard.isDown('w') then
         love.graphics.setColor(FADED)
         love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 16, SCREEN_HEIGHT_LIMIT - 11 + KEYLOGGER_YOFFSET, 0, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --UP
     else
         love.graphics.setColor(WHITE)
         love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 16, SCREEN_HEIGHT_LIMIT - 11 + KEYLOGGER_YOFFSET, 0, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --UP
     end
-    if love.keyboard.isDown('right') then
+    if love.keyboard.isDown('d') then
         love.graphics.setColor(FADED)
         love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 8, SCREEN_HEIGHT_LIMIT - 4 + KEYLOGGER_YOFFSET, ninetyDegrees, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --RIGHT
     else
         love.graphics.setColor(WHITE)
         love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 8, SCREEN_HEIGHT_LIMIT - 4 + KEYLOGGER_YOFFSET, ninetyDegrees, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --RIGHT
     end
-    if love.keyboard.isDown('down') then
+    if love.keyboard.isDown('s') then
         love.graphics.setColor(FADED)
         love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 16, SCREEN_HEIGHT_LIMIT - 4 + KEYLOGGER_YOFFSET, oneEightyDegrees, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --DOWN
     else
         love.graphics.setColor(WHITE)
         love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 16, SCREEN_HEIGHT_LIMIT - 4 + KEYLOGGER_YOFFSET, oneEightyDegrees, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --DOWN
     end
-    if love.keyboard.isDown('left') then
+    if love.keyboard.isDown('a') then
         love.graphics.setColor(FADED)
         love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 24, SCREEN_HEIGHT_LIMIT - 4 + KEYLOGGER_YOFFSET, twoSeventyDegress, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --LEFT
     else
