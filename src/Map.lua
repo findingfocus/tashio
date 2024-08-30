@@ -220,6 +220,7 @@ function Map:update(dt)
         if v:collide(sceneView.player) then
             testNumber = testNumber + 1
             pitCount = pitCount + 1
+            --TODO ESCAPE PIT
             if #INPUT_LIST == 0 then
                 if sceneView.player.tweenAllowed then
                     Timer.tween(.9, {

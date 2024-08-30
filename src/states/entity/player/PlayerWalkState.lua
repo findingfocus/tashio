@@ -7,6 +7,11 @@ function PlayerWalkState:init(player, scene)
 end
 
 function PlayerWalkState:update(dt)
+    --
+    --
+    --
+    --
+    --[[INPUT REHAUL
     if not sceneView.player.falling then
         if #INPUT_LIST == 4 then
             self.player.direction = INPUT_LIST[#INPUT_LIST]
@@ -85,6 +90,8 @@ function PlayerWalkState:update(dt)
             self.player.y = math.floor(self.player.y)
         end
     end
+
+    --]]
 
   if sceneView.player.falling then
     sceneView.player:changeAnimation('falling')

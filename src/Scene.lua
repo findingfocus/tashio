@@ -134,8 +134,11 @@ function Scene:finishShifting()
     self.nextMap = nil
 
     --sceneView = Scene(self.player, 1, 1)
-    self.player.direction = INPUT_LIST[#INPUT_LIST]
-    INPUT_LIST = {}
+    --
+    --
+    --[[INPUT REHAUL
+    --self.player.direction = INPUT_LIST[#INPUT_LIST]
+    --INPUT_LIST = {}
     if love.keyboard.isDown('left') then
         table.insert(INPUT_LIST, 'left')
     end
@@ -148,6 +151,7 @@ function Scene:finishShifting()
     if love.keyboard.isDown('down') then
         table.insert(INPUT_LIST, 'down')
     end
+    --]]
 end
 
 function Scene:update(dt)
@@ -156,6 +160,10 @@ function Scene:update(dt)
     --self.sandSystem:update(dt)
     --self.lavaSystem:update(dt)
     --TODO set lastinput to nil if nothing pressed
+    --
+    --
+    --
+    --[[INPUT REHAUL
     if not love.keyboard.wasPressed('left')
         and not love.keyboard.wasPressed('right')
         and not love.keyboard.wasPressed('up')
@@ -168,6 +176,7 @@ function Scene:update(dt)
         self.player.lastInput = nil
         --INPUT_LIST = {}
     end
+    --]]
     self.currentMap:update(dt)
     if not self.shifting then
         self.player:update(dt)

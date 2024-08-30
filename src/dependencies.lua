@@ -8,6 +8,8 @@ globalMap = require 'graphics/globalMap'
 
 require 'src/constants'
 
+require 'src/InputHandling'
+require 'src/TouchHandling'
 require 'src/Animation'
 require 'src/LuteString'
 require 'src/TouchDetection'

@@ -85,6 +85,11 @@ function Player:update(dt)
         end
     end
     --]]
+    --
+    --
+    --
+    --
+    --[[INPUT REHAUL
     --POPULATE INPUT LIST
     if love.keyboard.isDown('left') then
         local inputCount = 0 
@@ -203,6 +208,7 @@ function Player:update(dt)
             end
         end
     end
+    --]]
     Entity.update(self, dt)
 
     if self.direction == 'up' then
