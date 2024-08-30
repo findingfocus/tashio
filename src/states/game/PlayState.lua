@@ -79,6 +79,26 @@ function validNoteChecker(string)
 end
 
 function PlayState:update(dt)
+    if love.keyboard.wasPressed('h') then
+        toggleHelp = toggleHelp == false and true or false
+    end
+
+    if love.keyboard.wasPressed('g') then
+        if WINDOW_HEIGHT == 144 * SCALE_FACTOR * 2 then
+            WINDOW_HEIGHT = 144 * SCALE_FACTOR
+            VIRTUAL_HEIGHT_GB = 144
+        else
+            WINDOW_HEIGHT = 144 * SCALE_FACTOR * 2
+            VIRTUAL_HEIGHT_GB = 144 * 2
+        end
+
+        push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT_GB, WINDOW_WIDTH, WINDOW_HEIGHT, {
+            vsync = true,
+            fullscreen = false,
+            resizable = true
+        })
+    end
+
     if luteState then
         --bassNotes1:update(dt)
         songTimer = songTimer - dt
