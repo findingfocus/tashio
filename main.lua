@@ -50,7 +50,7 @@ function love.load()
   push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT_GB, WINDOW_WIDTH, WINDOW_HEIGHT, {
       vsync = true,
       fullscreen = false,
-      resizable = true
+      resizable = false
   })
 
   gStateMachine = StateMachine {
