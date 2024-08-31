@@ -23,12 +23,12 @@ end
 
 function TouchHandling:init()
     dpad = {
-        TouchDetection(DPAD_X,DPAD_Y, DPAD_COLOR_TL, {'up', 'left'}), --UPLEFT
+        TouchDetection(DPAD_X,DPAD_Y, DPAD_COLOR_TL, 'up', 'left'), --UPLEFT
         TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH, DPAD_Y, DPAD_COLOR_TC, 'up'), --UP
-        TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y, DPAD_COLOR_TR, {'up', 'right'}), --UPRIGHT
+        TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y, DPAD_COLOR_TR, 'up', 'right'), --UPRIGHT
         TouchDetection(DPAD_X, DPAD_Y + DPAD_DIAGONAL_WIDTH, DPAD_COLOR_LEFT, 'left'), --LEFT
         TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y + DPAD_DIAGONAL_WIDTH, DPAD_COLOR_RIGHT, 'right'), --RIGHT
-        TouchDetection(DPAD_X, DPAD_Y + DPAD_DIAGONAL_WIDTH * 2, DPAD_COLOR_BL, {'down', 'left'}), --DOWNLEFT
+        TouchDetection(DPAD_X, DPAD_Y + DPAD_DIAGONAL_WIDTH * 2, DPAD_COLOR_BL, 'down', 'left'), --DOWNLEFT
         TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH, DPAD_Y + DPAD_DIAGONAL_WIDTH * 2, DPAD_COLOR_BC, 'down'), --DOWN
         TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y + DPAD_DIAGONAL_WIDTH * 2, DPAD_COLOR_BR, {'down', 'right'}), --DOWNRIGHT
     }
@@ -52,7 +52,7 @@ function TouchHandling:init()
   function love.touchpressed(id, x, y, dx, dy)
       touches[id] = {x = x, y = y, dx = dx, dy = dy}
       touches[id].x, touches[id].y = push:toGame(x, y)
-      if dpad[11]:collides(touches[id]) then
+      if buttons[3]:collides(touches[id]) then
         toggleHelp = toggleHelp == false and true or false
       end
 
@@ -92,7 +92,12 @@ function TouchHandling:update(dt)
   TOUCH_LIST = {}
   for index, button in ipairs(dpad) do
     if button.pressed then
-        insertTouchDirection(button.direction)
+        if button.secondDirection then
+            insertTouchDirection(button.direction)
+            insertTouchDirection(button.secondDirection)
+        else
+            insertTouchDirection(button.direction)
+        end
     end
   end
 end
