@@ -1,6 +1,6 @@
 TouchDetection = Class{}
 
-function TouchDetection:init(placementX, placementY, colorOption)
+function TouchDetection:init(placementX, placementY, colorOption, direction)
     self.mouseX = 0
     self.mouseY = 0
     self.width = DPAD_DIAGONAL_WIDTH
@@ -10,6 +10,7 @@ function TouchDetection:init(placementX, placementY, colorOption)
     self.x = placementX
     self.y = placementY
     self.touched = false
+    self.direction = direction or ''
 end
 
 function TouchDetection:collides(touch)
