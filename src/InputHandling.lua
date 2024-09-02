@@ -86,5 +86,5 @@ function InputHandling:render()
     love.graphics.print("TOUCH: " .. inspect(TOUCH_LIST), 0, 20)
     love.graphics.print("TOUCH#: " .. tostring(#TOUCH_LIST), 0, 30)
     love.graphics.print("OUTPUT: " .. inspect(OUTPUT_LIST), 0, 40)
-    love.graphics.print("TOUCH: " .. inspect(TOUCH_LIST), 0, 50)
+    love.graphics.print("TOUCH: " .. inspect(TOUCH_OUTPUT_LIST), 0, 50)
 end
