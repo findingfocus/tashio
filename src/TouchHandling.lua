@@ -111,7 +111,6 @@ function TouchHandling:update(dt)
     end
   end
 
-
   TOUCH_OUTPUT_LIST = {}
   for key, value in ipairs(TOUCH_LIST) do
       table.insert(TOUCH_OUTPUT_LIST, value)
