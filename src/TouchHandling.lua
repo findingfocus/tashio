@@ -55,7 +55,6 @@ function TouchHandling:init()
       if buttons[3]:collides(touches[id]) then
         toggleHelp = toggleHelp == false and true or false
       end
-
   end
 
   function love.touchmoved(id, x, y, dx, dy)
@@ -75,8 +74,19 @@ function TouchHandling:update(dt)
   for k, button in pairs(dpad) do
       button.pressed = false
   end
+  for k, button in ipairs(buttons) do
+      button.pressed = false
+  end
 
   for k, button in pairs(dpad) do
+      for index, touch in pairs(touches) do
+          if button:collides(touch) then
+              button.pressed = true
+              break
+          end
+      end
+  end
+  for k, button in pairs(buttons) do
       for index, touch in pairs(touches) do
           if button:collides(touch) then
               button.pressed = true
@@ -125,6 +135,9 @@ end
 
 function TouchHandling:render()
     for k, v in ipairs(dpad) do
+        v:render()
+    end
+    for k, v in ipairs(buttons) do
         v:render()
     end
 
