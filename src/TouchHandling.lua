@@ -100,6 +100,27 @@ function TouchHandling:update(dt)
         end
     end
   end
+
+
+  TOUCH_OUTPUT_LIST = {}
+  for key, value in ipairs(TOUCH_LIST) do
+      table.insert(TOUCH_OUTPUT_LIST, value)
+  end
+  if #TOUCH_LIST > 2 then
+      TOUCH_OUTPUT_LIST = {}
+  end
+  local horizontalInput = 0
+  local verticalInput = 0
+  for key, value in ipairs(TOUCH_OUTPUT_LIST) do
+      if value == 'left' or value == 'right' then
+          horizontalInput = horizontalInput + 1
+      elseif value == 'up' or value == 'down' then
+          verticalInput = verticalInput + 1
+      end
+      if horizontalInput == 2 or verticalInput == 2 then
+          TOUCH_OUTPUT_LIST = {}
+      end
+  end
 end
 
 function TouchHandling:render()
