@@ -11,6 +11,14 @@ function PlayerWalkState:update(dt)
     --
     --
     --
+    if #OUTPUT_LIST > 0 then
+        self.player.direction = OUTPUT_LIST[#OUTPUT_LIST]
+        self.player:changeAnimation('idle-' .. tostring(OUTPUT_LIST[#OUTPUT_LIST]))
+    end
+    if #TOUCH_OUTPUT_LIST > 0 then
+        self.player.direction = TOUCH_OUTPUT_LIST[#TOUCH_OUTPUT_LIST]
+        self.player:changeAnimation('idle-' .. tostring(TOUCH_OUTPUT_LIST[#TOUCH_OUTPUT_LIST]))
+    end
     --[[INPUT REHAUL
     if not sceneView.player.falling then
         if #INPUT_LIST == 4 then
