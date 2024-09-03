@@ -309,5 +309,4 @@ function Scene:render()
     for k, v in pairs(MAP[self.mapRow][self.mapColumn].signpostCollided) do
         MAP[self.mapRow][self.mapColumn].signpostCollided[k]:render()
     end
-
 end

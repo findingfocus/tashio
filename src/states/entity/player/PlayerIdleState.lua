@@ -37,9 +37,8 @@ function PlayerIdleState:update(dt)
           self.entity:changeState('player-walk')
       end
       --]]
-      if love.keyboard.isDown('w') or love.keyboard.isDown('a') or
-          love.keyboard.isDown('s') or love.keyboard.isDown('d') then
-          self.entity:changeState('player-walk')
+      if #OUTPUT_LIST > 0 then
+        self.entity:changeState('player-walk')
       end
       if #TOUCH_OUTPUT_LIST > 0 then
           self.entity:changeState('player-walk')
