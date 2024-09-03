@@ -77,8 +77,9 @@ function InputHandling:update(dt)
 end
 
 function InputHandling:render()
+    --[[
     love.graphics.setColor(DEBUG_BG2)
-    love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, 60)
+    love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, 70)
     love.graphics.setFont(pixelFont)
     love.graphics.setColor(WHITE)
     love.graphics.print("INPUT: " .. inspect(INPUT_LIST), 0, 0)
@@ -87,4 +88,6 @@ function InputHandling:render()
     love.graphics.print("TOUCH#: " .. tostring(#TOUCH_LIST), 0, 30)
     love.graphics.print("OUTPUT: " .. inspect(OUTPUT_LIST), 0, 40)
     love.graphics.print("TOUCH: " .. inspect(TOUCH_OUTPUT_LIST), 0, 50)
+    love.graphics.print("WALK: " .. tostring(sceneView.player.walkSpeed), 0, 60)
+    --]]
 end

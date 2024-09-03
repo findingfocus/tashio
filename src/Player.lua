@@ -182,33 +182,54 @@ function Player:update(dt)
         self:changeAnimation('walk-' .. self.lastInput)
     end
 
+    --]]
+
     --TRANSITION EVENT TRIGGERS
     if not sceneView.shifting and not sceneView.player.falling and not sceneView.player.graveyard then
-        if love.keyboard.isDown('right') then
-            if self.x + self.width >= VIRTUAL_WIDTH + SIDE_EDGE_BUFFER_PLAYER then
-                Event.dispatch('right-transition')
+        if #OUTPUT_LIST > 0 then
+            for k, v in ipairs(OUTPUT_LIST) do
+                if v == 'right' then
+                    if self.x + self.width >= VIRTUAL_WIDTH + SIDE_EDGE_BUFFER_PLAYER then
+                        Event.dispatch('right-transition')
+                    end
+                elseif v == 'left' then
+                    if self.x <= -SIDE_EDGE_BUFFER_PLAYER then
+                        Event.dispatch('left-transition')
+                    end
+                elseif v == 'up' then
+                    if self.y <= -SIDE_EDGE_BUFFER_PLAYER then
+                        Event.dispatch('up-transition')
+                    end
+                elseif v == 'down' then
+                    if self.y + self.height >= SCREEN_HEIGHT_LIMIT + BOTTOM_BUFFER then
+                        Event.dispatch('down-transition')
+                    end
+                end
             end
         end
-
-        if love.keyboard.isDown('left') then
-            if self.x <= -SIDE_EDGE_BUFFER_PLAYER then
-                Event.dispatch('left-transition')
-            end
-        end
-
-        if love.keyboard.isDown('up') then
-            if self.y <= -SIDE_EDGE_BUFFER_PLAYER then
-                Event.dispatch('up-transition')
-            end
-        end
-
-        if love.keyboard.isDown('down') then
-            if self.y + self.height >= SCREEN_HEIGHT_LIMIT + BOTTOM_BUFFER then
-                Event.dispatch('down-transition')
+        if #TOUCH_OUTPUT_LIST > 0 then
+            for k, v in ipairs(TOUCH_OUTPUT_LIST) do
+                if v == 'right' then
+                    if self.x + self.width >= VIRTUAL_WIDTH + SIDE_EDGE_BUFFER_PLAYER then
+                        Event.dispatch('right-transition')
+                    end
+                elseif v == 'left' then
+                    if self.x <= -SIDE_EDGE_BUFFER_PLAYER then
+                        Event.dispatch('left-transition')
+                    end
+                elseif v == 'up' then
+                    if self.y <= -SIDE_EDGE_BUFFER_PLAYER then
+                        Event.dispatch('up-transition')
+                    end
+                elseif v == 'down' then
+                    if self.y + self.height >= SCREEN_HEIGHT_LIMIT + BOTTOM_BUFFER then
+                        Event.dispatch('down-transition')
+                    end
+                end
             end
         end
     end
-    --]]
+
     Entity.update(self, dt)
 
     if self.direction == 'up' then

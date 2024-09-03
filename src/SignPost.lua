@@ -51,6 +51,7 @@ function SignPost:render()
     love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
     --]]
     --
+    love.graphics.setFont(classicFont)
     local test = 'HELLO TEST'
     --love.graphics.print(self.lines[3], 0, 0)
 
