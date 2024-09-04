@@ -47,7 +47,7 @@ function PlayState:init()
     self.manisDrain = .45
     self.manisRegen = 1.2
     self.focusIndicatorX = 0
-    self.focusMax = 1.5
+    self.focusMax = 2.5
     self.unFocus = 0
     self.unFocusGrowing = true
     ninetyDegrees = math.rad(90)
@@ -311,7 +311,7 @@ function PlayState:update(dt)
     if not sceneView.shifting then
         --UNFOCUS
         if (self.unFocus < self.focusMax) and self.unFocusGrowing then
-            self.unFocus = self.unFocus + 0.15
+            self.unFocus = self.unFocus + 2 * dt
         end
 
         if self.unFocus >= self.focusMax then
@@ -320,38 +320,46 @@ function PlayState:update(dt)
         end
 
         if (self.unFocus <= self.focusMax) and not self.unFocusGrowing then
-            self.unFocus = self.unFocus - 0.15
+            self.unFocus = self.unFocus - 2 * dt
         end
 
         if self.unFocus <= 0 then
             self.unFocus = 0
             self.unFocusGrowing = true
         end
+
         --FOCUS GAIN
         if love.keyboard.isDown('space') then
             self.focusIndicatorX = math.max(self.focusIndicatorX - self.manisDrain + self.unFocus * dt, 0)
             if self.manis == 0 then
                 self.focusIndicatorX = math.max(self.focusIndicatorX - self.manisDrain - self.unFocus * dt, 0)
             end
-        else
+        elseif #buttons ~= 0 then
             self.focusIndicatorX = math.max(self.focusIndicatorX - self.manisDrain - self.unFocus * dt, 0)
+        end
+
+        --TODO
+        for k, v in ipairs(buttons) do
+            if v.direction == 'B' then
+
+            end
         end
 
         if love.keyboard.isDown('space') then
             --MANIS DRAIN
-            self.manis = math.max(self.manis - 0.5, 0)
+            self.manis = math.max(self.manis - 30 * dt, 0)
 
             if self.manis > 0 then
                 --FOCUS INDICATOR RISING
-                self.focusIndicatorX = math.min(self.focusIndicatorX + self.unFocus, self.manisMax - 2)
-                self.focusIndicatorX = math.min(self.focusIndicatorX + 1.2, self.manisMax - 2)
+                self.focusIndicatorX = math.min(self.focusIndicatorX + self.unFocus + 30 * dt, self.manisMax - 2 * dt)
+                --self.focusIndicatorX = math.min(self.focusIndicatorX + 30.2 * dt, self.manisMax - 2 * dt)
             elseif self.manis == 0 then
                 --DRAINING FOCUS WHEN NO MANIS
-                self.focusIndicatorX = math.max(self.focusIndicatorX - self.manisDrain, 0)
+                self.focusIndicatorX = math.max(self.focusIndicatorX - self.manisDrain * dt, 0)
             end
         elseif self.manis < self.manisMax then --IF SPACE ISNT HELD
             --MANIS REGEN
-            self.manis = math.min(self.manis + 0.3, self.manisMax) 
+            self.manis = math.min(self.manis + 30 * dt, self.manisMax)
             --UNFOCUS DRAIN
             --self.unFocus = math.max(self.unFocus - 0.15, 0)
         end
@@ -631,4 +639,5 @@ function PlayState:render()
         love.graphics.printf('SPACE BAR = SPELLS', 9, 59, 150, 'left')
         love.graphics.printf('ENTER = INTERACT', 9, 79, 150, 'left')
     end
+    love.graphics.print('UNFOCUS: ' .. tostring(self.unFocus), 5, 5)
 end
