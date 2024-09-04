@@ -189,8 +189,8 @@ function Entity:update(dt)
     if self.dy < 0 then
         self.dy = math.min(0, self.dy + SLOW_TO_STOP * dt)
     end
-    self.x = self.x + self.dx
-    self.y = self.y + self.dy
+    self.x = self.x + self.dx * dt
+    self.y = self.y + self.dy * dt
     if self.dx == 0 or self.dy == 0 then
         self.hit = false
     end
@@ -254,4 +254,5 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
     self.x, self.y = self.x + (adjacentOffsetX or 0), self.y + (adjacentOffsetY or 0)
     self.stateMachine:render()
     self.x, self.y = self.x - (adjacentOffsetX or 0), self.y - (adjacentOffsetY or 0)
+    love.graphics.print("dx: " .. tostring(self.dx), 5, 15)
 end
