@@ -5,6 +5,7 @@ local STRING_WIDTH = 2
 totalHealth = 14
 healthDifference = 0
 local inspect = require "lib/inspect"
+local manisTimer = 0
 leftCount = 0
 local validTiming = false
 local luteState = false
@@ -47,7 +48,7 @@ function PlayState:init()
     self.manisDrain = .45
     self.manisRegen = 1.2
     self.focusIndicatorX = 0
-    self.focusMax = 2.5
+    self.focusMax = 4
     self.unFocus = 0
     self.unFocusGrowing = true
     ninetyDegrees = math.rad(90)
@@ -309,33 +310,45 @@ function PlayState:update(dt)
     luteStringF2:update(dt)
 
     if not sceneView.shifting then
-        --UNFOCUS
-        if (self.unFocus < self.focusMax) and self.unFocusGrowing then
-            self.unFocus = self.unFocus + 2 * dt
-        end
-
-        if self.unFocus >= self.focusMax then
-            self.unFocus = self.focusMax
-            self.unFocusGrowing = false
-        end
-
-        if (self.unFocus <= self.focusMax) and not self.unFocusGrowing then
-            self.unFocus = self.unFocus - 2 * dt
-        end
-
-        if self.unFocus <= 0 then
-            self.unFocus = 0
-            self.unFocusGrowing = true
-        end
 
         --FOCUS GAIN
         if love.keyboard.isDown('space') then
-            self.focusIndicatorX = math.max(self.focusIndicatorX - self.manisDrain + self.unFocus * dt, 0)
-            if self.manis == 0 then
-                self.focusIndicatorX = math.max(self.focusIndicatorX - self.manisDrain - self.unFocus * dt, 0)
+            --UNFOCUS
+            if (self.unFocus < self.focusMax) and self.unFocusGrowing then
+                if self.manis > 0 then
+                    self.unFocus = self.unFocus + FOCUS_GROW * dt
+                else
+                    self.unFocus = 0
+                end
             end
-        elseif #buttons ~= 0 then
-            self.focusIndicatorX = math.max(self.focusIndicatorX - self.manisDrain - self.unFocus * dt, 0)
+
+            --UNFOCUS SHRINK
+            if self.unFocus >= self.focusMax then
+                self.unFocus = self.focusMax
+                self.unFocusGrowing = false
+            end
+
+            --UNFOCUS DECREMENT
+            if (self.unFocus <= self.focusMax) and not self.unFocusGrowing then
+                self.unFocus = self.unFocus - FOCUS_GROW * dt
+            end
+
+            --UNFOCUS GROW
+            if self.unFocus <= 0 then
+                self.unFocus = 0
+                self.unFocusGrowing = true
+            end
+
+
+            --APPLY UNFOCUS TO FOCUS INDICATOR
+            self.focusIndicatorX = math.max(self.focusIndicatorX - (self.manisDrain + self.unFocus) * dt, 0)
+
+            --CLAMP FOCUS INDICATOR TO 0 IF NO MANIS
+            if self.manis == 0 then
+                self.focusIndicatorX = math.max(self.focusIndicatorX - (self.manisDrain - self.unFocus) * dt, 0)
+            end
+        else
+            self.focusIndicatorX = math.max(self.focusIndicatorX - FOCUS_DRAIN * dt, 0)
         end
 
         --TODO
@@ -347,21 +360,20 @@ function PlayState:update(dt)
 
         if love.keyboard.isDown('space') then
             --MANIS DRAIN
-            self.manis = math.max(self.manis - 30 * dt, 0)
+            self.manis = math.max(self.manis - MANIS_DRAIN * dt, 0)
+            if self.manis > 0 then
+                manisTimer = manisTimer + dt
+            end
 
             if self.manis > 0 then
                 --FOCUS INDICATOR RISING
-                self.focusIndicatorX = math.min(self.focusIndicatorX + self.unFocus + 30 * dt, self.manisMax - 2 * dt)
-                --self.focusIndicatorX = math.min(self.focusIndicatorX + 30.2 * dt, self.manisMax - 2 * dt)
-            elseif self.manis == 0 then
-                --DRAINING FOCUS WHEN NO MANIS
-                self.focusIndicatorX = math.max(self.focusIndicatorX - self.manisDrain * dt, 0)
+                self.focusIndicatorX = math.min(self.focusIndicatorX + (self.unFocus * UNFOCUS_SCALER) * dt, self.manisMax - 2)
             end
         elseif self.manis < self.manisMax then --IF SPACE ISNT HELD
             --MANIS REGEN
-            self.manis = math.min(self.manis + 30 * dt, self.manisMax)
+            self.manis = math.min(self.manis + MANIS_REGEN * dt, self.manisMax)
             --UNFOCUS DRAIN
-            --self.unFocus = math.max(self.unFocus - 0.15, 0)
+            self.unFocus = 0
         end
     end
 
