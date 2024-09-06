@@ -649,6 +649,5 @@ function PlayState:render()
         love.graphics.printf('SPACE BAR = SPELLS', 9, 59, 150, 'left')
         love.graphics.printf('ENTER = INTERACT', 9, 79, 150, 'left')
     end
-    love.graphics.print('UNFOCUS: ' .. tostring(self.unFocus), 5, 5)
-    love.graphics.print('FIRE: ' .. tostring(buttons[1].fireSpellPressed), 5, 10)
+    --love.graphics.print('FIRE: ' .. tostring(buttons[1].fireSpellPressed), 5, 10)
 end
