@@ -312,7 +312,7 @@ function PlayState:update(dt)
     if not sceneView.shifting then
 
         --FOCUS GAIN
-        if love.keyboard.isDown('space') then
+            if love.keyboard.isDown('space') or buttons[1].fireSpellPressed then
             --UNFOCUS
             if (self.unFocus < self.focusMax) and self.unFocusGrowing then
                 if self.manis > 0 then
@@ -347,18 +347,8 @@ function PlayState:update(dt)
             if self.manis == 0 then
                 self.focusIndicatorX = math.max(self.focusIndicatorX - (self.manisDrain - self.unFocus) * dt, 0)
             end
-        else
-            self.focusIndicatorX = math.max(self.focusIndicatorX - FOCUS_DRAIN * dt, 0)
-        end
 
-        --TODO
-        for k, v in ipairs(buttons) do
-            if v.direction == 'B' then
 
-            end
-        end
-
-        if love.keyboard.isDown('space') then
             --MANIS DRAIN
             self.manis = math.max(self.manis - MANIS_DRAIN * dt, 0)
             if self.manis > 0 then
@@ -369,11 +359,19 @@ function PlayState:update(dt)
                 --FOCUS INDICATOR RISING
                 self.focusIndicatorX = math.min(self.focusIndicatorX + (self.unFocus * UNFOCUS_SCALER) * dt, self.manisMax - 2)
             end
-        elseif self.manis < self.manisMax then --IF SPACE ISNT HELD
+        else
             --MANIS REGEN
             self.manis = math.min(self.manis + MANIS_REGEN * dt, self.manisMax)
             --UNFOCUS DRAIN
             self.unFocus = 0
+            self.focusIndicatorX = math.max(self.focusIndicatorX - FOCUS_DRAIN * dt, 0)
+        end
+
+        --TODO
+        for k, v in ipairs(buttons) do
+            if v.direction == 'B' then
+
+            end
         end
     end
 

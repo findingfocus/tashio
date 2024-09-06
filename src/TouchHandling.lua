@@ -86,9 +86,14 @@ function TouchHandling:update(dt)
           end
       end
   end
-  for k, button in pairs(buttons) do
-      for index, touch in pairs(touches) do
+
+  buttons[1].fireSpellPressed = false
+  for k, button in ipairs(buttons) do
+      for index, touch in ipairs(touches) do
           if button:collides(touch) then
+              if k == 1 then
+                 buttons[1].fireSpellPressed = true
+              end
               button.pressed = true
               break
           end
