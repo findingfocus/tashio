@@ -254,5 +254,4 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
     self.x, self.y = self.x + (adjacentOffsetX or 0), self.y + (adjacentOffsetY or 0)
     self.stateMachine:render()
     self.x, self.y = self.x - (adjacentOffsetX or 0), self.y - (adjacentOffsetY or 0)
-    love.graphics.print("dx: " .. tostring(self.dx), 5, 15)
 end
