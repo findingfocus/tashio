@@ -25,24 +25,37 @@ local activeNotes = {}
 local songTimer = 1
 toggleHelp = false
 
+gPlayer = Player {
+    animations = ENTITY_DEFS['player'].animations,
+    walkSpeed = ENTITY_DEFS['player'].walkSpeed,
+    x = TILE_SIZE * 3,
+    y = TILE_SIZE * 4,
+    --y = 30,
+    width = TILE_SIZE,
+    height = TILE_SIZE,
+}
+ninetyDegrees = math.rad(90)
+oneEightyDegrees = math.rad(180)
+twoSeventyDegress = math.rad(270)
+rotate = 0
+local columns = 10
+local rows = 8
+cameraX = 0
+--STARTING SCENE gPlayer SPAWN
+sceneView = Scene(gPlayer, 7, 2)
+tilesheet = love.graphics.newImage('graphics/masterSheet.png')
+--textures = love.graphics.newImage('graphics/textures.png')
+quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
+
 function PlayState:init()
-    self.player = Player {
-        animations = ENTITY_DEFS['player'].animations,
-        walkSpeed = ENTITY_DEFS['player'].walkSpeed,
-        x = TILE_SIZE * 3,
-        y = TILE_SIZE * 4,
-        --y = 30,
-        width = TILE_SIZE,
-        height = TILE_SIZE,
+
+    --gPlayer.damageFlash = true
+    gPlayer.stateMachine = StateMachine {
+        ['player-walk'] = function() return PlayerWalkState(gPlayer, self.scene) end,
+        ['player-idle'] = function() return PlayerIdleState(gPlayer) end,
     }
 
-    --self.player.damageFlash = true
-    self.player.stateMachine = StateMachine {
-        ['player-walk'] = function() return PlayerWalkState(self.player, self.scene) end,
-        ['player-idle'] = function() return PlayerIdleState(self.player) end,
-    }
-
-    self.player:changeState('player-idle')
+    gPlayer:changeState('player-idle')
     self.manis = 100
     self.manisMax = 100
     self.manisDrain = .45
@@ -51,18 +64,6 @@ function PlayState:init()
     self.focusMax = 4
     self.unFocus = 0
     self.unFocusGrowing = true
-    ninetyDegrees = math.rad(90)
-    oneEightyDegrees = math.rad(180)
-    twoSeventyDegress = math.rad(270)
-    rotate = 0
-    local columns = 10
-    local rows = 8
-    cameraX = 0
-    --STARTING SCENE PLAYER SPAWN
-    sceneView = Scene(self.player, 7, 2)
-    tilesheet = love.graphics.newImage('graphics/masterSheet.png')
-    --textures = love.graphics.newImage('graphics/textures.png')
-    quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
 end
 
 function validNoteChecker(string)
@@ -80,6 +81,9 @@ function validNoteChecker(string)
 end
 
 function PlayState:update(dt)
+    if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('enter') then
+        gStateMachine:change('pauseState')
+    end
     if love.keyboard.wasPressed('h') then
         toggleHelp = toggleHelp == false and true or false
     end
@@ -387,11 +391,11 @@ function PlayState:update(dt)
 
     if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('enter') then
         for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts) do
-            if self.player:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k]) then
+            if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k]) then
                 MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k].result = ''
                 MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k].textIndex = 1
                 --IF COLLIDES WITH SIGNPOST
-                if self.player.direction ~= 'down' then
+                if gPlayer.direction ~= 'down' then
                     table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].signpostCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k])
                     PAUSED = PAUSED == false and true or false
 
@@ -510,14 +514,14 @@ function PlayState:render()
         love.graphics.setColor(WHITE)
         love.graphics.setFont(pixelFont)
         love.graphics.print('MAP[' .. tostring(sceneView.currentMap.row) .. '][' .. tostring(sceneView.currentMap.column) .. ']', 5, 15)
-        love.graphics.print('player.x: ' .. string.format("%.1f", self.player.x), 5, 25)
-        love.graphics.print('player.y: ' .. string.format("%.1f", self.player.y), 5, 35)
-        love.graphics.print('direction: ' .. tostring(self.player.direction), 5, 45)
-        love.graphics.print('playerLastInput: ' .. tostring(self.player.lastInput), 5, 55)
+        love.graphics.print('player.x: ' .. string.format("%.1f", gPlayer.x), 5, 25)
+        love.graphics.print('player.y: ' .. string.format("%.1f", gPlayer.y), 5, 35)
+        love.graphics.print('direction: ' .. tostring(gPlayer.direction), 5, 45)
+        love.graphics.print('playerLastInput: ' .. tostring(gPlayer.lastInput), 5, 55)
         love.graphics.print('Cast: ' .. tostring(successfulCast), 5, 65)
         love.graphics.print('animatables: ' .. tostring(sceneView.currentMap.tiles[4][1].id), 5, 75)
         love.graphics.print('INPUT_LIST: ' .. inspect(INPUT_LIST), 5, 85)
-        love.graphics.print('player_state: ' .. tostring(PLAYER_STATE), 5, 95)
+        love.graphics.print('player_state: ' .. tostring(gPlayer_STATE), 5, 95)
         love.graphics.print('fallTimer: ' .. tostring(sceneView.player.fallTimer), 5, 105)
         love.graphics.print('falling: ' .. tostring(sceneView.player.falling), 5, 115)
         love.graphics.print('safeFFall: ' .. tostring(sceneView.player.safeFromFall), 85, 115)
@@ -527,7 +531,7 @@ function PlayState:render()
         love.graphics.setColor(WHITE)
         --love.graphics.print('pits: ' .. inspect(sceneView.currentMap.pits), 5, 15)
         --love.graphics.print('graveyard: ' .. inspect(sceneView.player.graveyard), 5, 25)
-        love.graphics.print('checkpoint: ' .. inspect(self.player.checkPointPositions), 5, 35)
+        love.graphics.print('checkpoint: ' .. inspect(gPlayer.checkPointPositions), 5, 35)
         --love.graphics.print('testNumber' .. inspect(testNumber), 5, 35)
         --love.graphics.print('pits: ' .. tostring(PITS), 5, 25)
         --print('leftCount: ' .. inspect(leftCount), 5, 15)

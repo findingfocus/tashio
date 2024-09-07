@@ -100,10 +100,6 @@ function TouchHandling:update(dt)
       end
   end
 
-  if buttons[1].pressed then
-    sounds['spellcast']:play()
-  end
-
   TOUCH_LIST = {}
   for index, button in ipairs(dpad) do
     if button.pressed then
