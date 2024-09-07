@@ -16,10 +16,9 @@ require 'src/TouchDetection'
 require 'src/Note'
 require 'src/BassNotes'
 require 'src/SignPost'
-require 'src/StateMachine'
+
 require 'src/states/BaseState'
-require 'src/states/game/TitleScreenState'
-require 'src/states/game/PlayState'
+require 'src/StateMachine'
 require 'src/states/entity/EntityIdleState'
 require 'src/states/entity/EntityWalkState'
 require 'src/states/entity/NPCIdleState'
@@ -43,6 +42,10 @@ require 'src/InsertAnimation'
 require 'src/CollidableMapObjects'
 require 'src/util'
 
+require 'src/states/game/TitleScreenState'
+require 'src/states/game/PlayState'
+require 'src/states/game/PauseState'
+
 love.graphics.setDefaultFilter('nearest', 'nearest')
 
 pixelFont = love.graphics.newFont('fonts/Pixel.ttf', 8)
@@ -62,6 +65,7 @@ upPress = love.graphics.newImage('graphics/upPress.png')
 downPress = love.graphics.newImage('graphics/downPress.png')
 leftPress = love.graphics.newImage('graphics/leftPress.png')
 rightPress = love.graphics.newImage('graphics/rightPress.png')
+pauseMockup = love.graphics.newImage('graphics/pauseMockup.png')
 
 gTextures = {
     ['character-walk'] = love.graphics.newImage('graphics/playerAtlas.png'),
@@ -72,7 +76,7 @@ gTextures = {
     ['geckoC'] = love.graphics.newImage('graphics/geckoCAtlas.png'),
     ['flame'] = love.graphics.newImage('graphics/flameAtlas2.png'),
     ['orb'] = love.graphics.newImage('graphics/orb.png'),
-    ['luteString'] = love.graphics.newImage('graphics/string-sheet.png')
+    ['luteString'] = love.graphics.newImage('graphics/string-sheet.png'),
 }
 
 gFrames = {
