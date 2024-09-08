@@ -24,6 +24,7 @@ bassNotes1 = BassNotes({'Bb1', 'A1', 'G1', 'F1'})
 local activeNotes = {}
 local songTimer = 1
 toggleHelp = false
+gInventory = Inventory()
 
 gPlayer = Player {
     animations = ENTITY_DEFS['player'].animations,

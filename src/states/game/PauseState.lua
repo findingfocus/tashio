@@ -12,4 +12,5 @@ end
 
 function PauseState:render()
     love.graphics.draw(pauseMockup, 0, 0)
+    gInventory:render()
 end
