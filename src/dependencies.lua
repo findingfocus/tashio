@@ -16,6 +16,7 @@ require 'src/TouchDetection'
 require 'src/Note'
 require 'src/BassNotes'
 require 'src/SignPost'
+require 'src/Inventory'
 
 require 'src/states/BaseState'
 require 'src/StateMachine'
