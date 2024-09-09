@@ -25,6 +25,7 @@ local activeNotes = {}
 local songTimer = 1
 toggleHelp = false
 gInventory = Inventory()
+gItems = {}
 
 gPlayer = Player {
     animations = ENTITY_DEFS['player'].animations,

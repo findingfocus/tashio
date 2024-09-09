@@ -10,11 +10,16 @@ function Inventory:init()
     self.width = self.columns * self.itemWidth
     self.height = self.rows * self.itemHeight
     for i = 1, self.rows do
+        INVENTORY_GRID[i] = {}
         for k = 1, self.columns do
             INVENTORY_GRID[i][k] = {}
         end
     end
+    table.insert(INVENTORY_GRID[1][1], Item(1, 1))
+    table.insert(INVENTORY_GRID[1][2], Item(1, 2))
+    table.insert(INVENTORY_GRID[1][3], Item(1, 3))
 end
+
 
 function Inventory:update(dt)
     --UPDATE CURSOR
@@ -34,6 +39,11 @@ function Inventory:render()
     --RENDER CURSOR
     love.graphics.setColor(1,0,0,120/255)
     love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
-    love.graphics.setColor(WHITE)
-    love.graphics.print('Hello K_Tronix!', 0, 0)
+    for i = 1, self.rows do
+        for k = 1, self.columns do
+            if INVENTORY_GRID[i][k][1] ~= nil then
+                INVENTORY_GRID[i][k][1]:render()
+            end
+        end
+    end
 end
