@@ -83,6 +83,7 @@ function validNoteChecker(string)
 end
 
 function PlayState:update(dt)
+    gInventory:update(dt)
     if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('enter') then
         gStateMachine:change('pauseState')
     end
