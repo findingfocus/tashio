@@ -17,6 +17,7 @@ require 'src/Note'
 require 'src/BassNotes'
 require 'src/SignPost'
 require 'src/Item'
+require 'src/Cursor'
 require 'src/Inventory'
 
 require 'src/states/BaseState'

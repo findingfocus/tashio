@@ -21,31 +21,25 @@ function Item:init()
     --]]
 end
 
-local xOffset = 10
-local yOffset = 6
-local itemWidth = 27
-local itemHeight = 30
 function Item:update(row, col)
     if row == 1 then
-        self.y = yOffset
+        self.y = GRID_YOFFSET
     else
-        self.y = row * itemHeight + yOffset - itemHeight
+        self.y = row * GRID_ITEM_HEIGHT + GRID_YOFFSET - GRID_ITEM_HEIGHT
     end
-    --1 = 10
-    --2 = 20 - 10 - 10 = 0
-    --3 = 30 - 10 - 10 = 10
-    --4 = 40 - 10 - 10 = 20
-
     if col == 1 then
-        self.x = xOffset
+        self.x = GRID_XOFFSET
     else
-        self.x = col * itemWidth + xOffset - itemWidth
+        self.x = col * GRID_ITEM_WIDTH + GRID_XOFFSET - GRID_ITEM_WIDTH
     end
 end
 
 function Item:render()
     love.graphics.setColor(WHITE)
-    love.graphics.draw(self.image, self.x, self.y)
+    love.graphics.draw(self.image, self.x + 5, self.y + 5)
+
     love.graphics.setColor(BLACK)
-    love.graphics.print(tostring(self.quantity), self.x + 5, self.y + 5)
+    love.graphics.print(tostring(self.quantity), self.x + 9, self.y + 9)
+    love.graphics.setColor(WHITE)
+    love.graphics.print(tostring(self.quantity), self.x + 8, self.y + 8)
 end
