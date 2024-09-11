@@ -12,6 +12,10 @@ function Inventory:init()
     self.row = {}
     self.column = {}
     self.grid = {}
+    self.selectedRow = 1
+    self.selectedCol = 1
+    self.itemCursor = Cursor(self.selectedRow, self.selectedCol)
+
 
     for i = 1, self.rowAmount do
         self.grid[i] =  {}
@@ -40,7 +44,33 @@ end
 
 function Inventory:update(dt)
 
+    if love.keyboard.wasPressed('w') then
+        if self.selectedRow ~= 1 then
+            self.selectedRow = self.selectedRow - 1
+            self.itemCursor:blinkReset()
+        end
+    end
+    if love.keyboard.wasPressed('a') then
+        if self.selectedCol ~= 1 then
+            self.selectedCol = self.selectedCol -1
+            self.itemCursor:blinkReset()
+        end
+    end
+    if love.keyboard.wasPressed('s') then
+        if self.selectedRow ~= self.rowAmount then
+            self.selectedRow = self.selectedRow + 1
+            self.itemCursor:blinkReset()
+        end
+    end
+    if love.keyboard.wasPressed('d') then
+        if self.selectedCol ~= self.columnAmount then
+            self.selectedCol = self.selectedCol + 1
+            self.itemCursor:blinkReset()
+        end
+    end
+
     --UPDATE CURSOR
+    self.itemCursor:update(dt, self.selectedRow, self.selectedCol)
 
     --IF A PRESSED
         --IF ITEM IN CURSOR INVENTORY GRID?
@@ -62,8 +92,11 @@ end
 
 function Inventory:render()
     --RENDER CURSOR
-    love.graphics.setColor(1,1,200/255,255/255)
-    love.graphics.rectangle('fill', self.x, self.y, self.width, self.height + 10)
+
+
+
+    --love.graphics.setColor(1,1,200/255,255/255)
+    --love.graphics.rectangle('fill', self.x, self.y, self.width, self.height + 10)
 
     for i = 1, self.rowAmount do
         for k = 1, self.columnAmount do
@@ -81,4 +114,5 @@ function Inventory:render()
         end
     end
     --]]
+    self.itemCursor:render()
 end
