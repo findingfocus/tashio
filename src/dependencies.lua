@@ -5,6 +5,8 @@ Timer = require 'lib/knife.timer'
 require 'lib/slam'
 
 globalMap = require 'graphics/globalMap'
+bag = love.graphics.newImage('graphics/bag.png')
+berry = love.graphics.newImage('graphics/berry.png')
 
 require 'src/constants'
 
@@ -90,7 +92,7 @@ gFrames = {
     ['gecko'] = GenerateQuads(gTextures['gecko'], TILE_SIZE, TILE_SIZE),
     ['geckoC'] = GenerateQuads(gTextures['geckoC'], TILE_SIZE, TILE_SIZE),
     ['flame'] = GenerateQuads(gTextures['flame'], TILE_SIZE, TILE_SIZE),
-    ['luteString'] = GenerateQuads(gTextures['luteString'], TILE_SIZE * 10, 13)
+    ['luteString'] = GenerateQuads(gTextures['luteString'], TILE_SIZE * 10, 13),
 }
 heart = love.graphics.newImage('graphics/heart.png')
 heartRow = love.graphics.newImage('graphics/heartRow.png')
