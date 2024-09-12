@@ -1,12 +1,17 @@
 Item = Class{}
 
-function Item:init()
+function Item:init(option, quantity)
     --self.gridRow = row
     --self.gridCol = col
-    self.image = love.graphics.newImage('graphics/bag.png')
-    self.quantity = 20
+    if option == 'bag' then
+        self.image = bag
+    else
+        self.image = berry
+    end
+    self.quantity = quantity or 20
     self.x = 0
     self.y = 0
+    self.equipped = false
     --[[
     if self.gridRow == 1 then
         self.y = INVENTORY_XOFFSET
@@ -19,6 +24,11 @@ function Item:init()
         self.x = self.gridCol * 25
     end
     --]]
+end
+
+function Item:equip()
+    self.x = 16
+    self.y = VIRTUAL_HEIGHT - 22
 end
 
 function Item:update(row, col)

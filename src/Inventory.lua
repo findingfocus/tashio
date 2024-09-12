@@ -12,6 +12,7 @@ function Inventory:init()
     self.row = {}
     self.column = {}
     self.grid = {}
+    self.itemSlot = {}
     self.selectedRow = 1
     self.selectedCol = 1
     self.itemCursor = Cursor(self.selectedRow, self.selectedCol)
@@ -21,10 +22,19 @@ function Inventory:init()
         self.grid[i] =  {}
         for k = 1, self.columnAmount do
             self.grid[i][k] = {}
-            table.insert(self.grid[i][k], Item())
+            table.insert(self.grid[i][k], Item('bag', 9))
         end
     end
-    --table.remove(self.grid[1][2], 1)
+    --table.insert(self.itemSlot, Item('bag', 14))
+    table.remove(self.grid[1][2], 1)
+    table.remove(self.grid[1][3], 1)
+    table.remove(self.grid[2][2], 1)
+    table.remove(self.grid[4][3], 1)
+    table.remove(self.grid[4][2], 1)
+    self.grid[1][1][1].image = berry
+    self.grid[1][1][1].quantity = 20
+    self.grid[3][2][1].image = berry
+    self.grid[3][2][1].quantity = 18
 
     --[[
     for i = 1, self.rows do
@@ -69,8 +79,25 @@ function Inventory:update(dt)
         end
     end
 
+    if love.keyboard.wasPressed('p') then
+        if self.grid[self.selectedRow][self.selectedCol][1] ~= nil then
+            self.grid[self.selectedRow][self.selectedCol][1]:equip() --MOVES SELECTED ITEM TO PROPER LOCATION
+            local itemCopy = nil   --COPY ITEM THAT IS EQUIPPED
+            if self.itemSlot[1] ~= nil then
+                itemCopy = self.itemSlot[1]
+            end
+            self.itemSlot = {}
+            table.insert(self.itemSlot, self.grid[self.selectedRow][self.selectedCol][1])
+            table.remove(self.grid[self.selectedRow][self.selectedCol], 1)
+            if itemCopy ~= nil then
+                table.insert(self.grid[self.selectedRow][self.selectedCol], itemCopy)
+            end
+        end
+    end
+
     --UPDATE CURSOR
     self.itemCursor:update(dt, self.selectedRow, self.selectedCol)
+    --self.itemSlot[1]:equip()
 
     --IF A PRESSED
         --IF ITEM IN CURSOR INVENTORY GRID?
@@ -104,6 +131,9 @@ function Inventory:render()
                 self.grid[i][k][1]:render()
             end
         end
+    end
+    if self.itemSlot[1] ~= nil then
+        self.itemSlot[1]:render()
     end
     --[[
     for i = 1, self.rows do
