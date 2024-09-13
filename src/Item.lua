@@ -27,8 +27,8 @@ function Item:init(option, quantity)
 end
 
 function Item:equip()
-    self.x = 16
-    self.y = VIRTUAL_HEIGHT - 22
+    self.x = 13
+    self.y = VIRTUAL_HEIGHT - 20
 end
 
 function Item:update(row, col)
@@ -45,11 +45,12 @@ function Item:update(row, col)
 end
 
 function Item:render()
+    love.graphics.setFont(pixelFont)
     love.graphics.setColor(WHITE)
     love.graphics.draw(self.image, self.x + 5, self.y + 5)
 
     love.graphics.setColor(BLACK)
-    love.graphics.print(tostring(self.quantity), self.x + 9, self.y + 9)
+    love.graphics.print(tostring(self.quantity), self.x + 14, self.y + 13)
     love.graphics.setColor(WHITE)
-    love.graphics.print(tostring(self.quantity), self.x + 8, self.y + 8)
+    love.graphics.print(tostring(self.quantity), self.x + 13, self.y + 13)
 end
