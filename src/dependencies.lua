@@ -97,6 +97,7 @@ gFrames = {
 heart = love.graphics.newImage('graphics/heart.png')
 heartRow = love.graphics.newImage('graphics/heartRow.png')
 heartRowEmpty = love.graphics.newImage('graphics/heartRowEmpty.png')
+hudOverlay = love.graphics.newImage('graphics/hudOverlay.png')
 heartRowQuad = love.graphics.newQuad(0, 0, 56, 7, heartRow:getDimensions())
 --love.graphics.newQuad(x * tilewidth, y * tileheight, tilewidth, tileheight, atlas:getDimensions())
 --playerSpriteSheet = love.graphics.newImage('graphics/playerAtlas.png')

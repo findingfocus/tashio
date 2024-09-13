@@ -437,35 +437,25 @@ function PlayState:render()
     sceneView:render()
     love.graphics.pop()
 
-    --HUD RENDER
-    ---[[
-    love.graphics.setColor(142/255, 146/255, 171/255, 255/255)
-    love.graphics.rectangle('fill', 0, VIRTUAL_HEIGHT - 16, VIRTUAL_WIDTH, 16)
-    love.graphics.setColor(WHITE)
-    --]]
 
-    love.graphics.draw(heartRowEmpty, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)
-    heartRowQuad:setViewport(0, 0, HEART_CROP, 7, heartRow:getDimensions())
-    love.graphics.draw(heartRow, heartRowQuad, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)
-    --love.graphics.print('health: ' .. tostring(sceneView.player.health), VIRTUAL_WIDTH - 130, SCREEN_HEIGHT_LIMIT + 4)
     love.graphics.setColor(0,0,0,255)
     --love.graphics.print('Tashio Tempo', VIRTUAL_WIDTH - 150, SCREEN_HEIGHT_LIMIT + 4)
 
     --MANIS BAR RENDER
     love.graphics.setColor(255/255, 0/255, 0/255, 255/255)
-    love.graphics.rectangle('fill', 0, SCREEN_HEIGHT_LIMIT, self.manis, 2)
+    love.graphics.rectangle('fill', 0, SCREEN_HEIGHT_LIMIT - 4, self.manis, 2)
 
     --CAST BAR RENDER
     love.graphics.setColor(BLACK)
-    love.graphics.rectangle('fill', 0, SCREEN_HEIGHT_LIMIT + 2, 100, 2)
+    love.graphics.rectangle('fill', 0, SCREEN_HEIGHT_LIMIT + 2 - 4, 100, 2)
 
     --SUCCESSFUL CAST RANGE
     love.graphics.setColor(GREEN)
-    love.graphics.rectangle('fill', 65, SCREEN_HEIGHT_LIMIT + 2, 20, 2)
+    love.graphics.rectangle('fill', 65, SCREEN_HEIGHT_LIMIT + 2 - 4, 20, 2)
 
     --FOCUS INDICATOR
     love.graphics.setColor(WHITE)
-    love.graphics.rectangle('fill', self.focusIndicatorX, SCREEN_HEIGHT_LIMIT + 2, 2, 2)
+    love.graphics.rectangle('fill', self.focusIndicatorX, SCREEN_HEIGHT_LIMIT + 2 - 4, 2, 2)
 
     --DEBUG MANIS SPELLCASTING
     --[[
@@ -656,5 +646,19 @@ function PlayState:render()
         love.graphics.printf('SPACE BAR = SPELLS', 9, 59, 150, 'left')
         love.graphics.printf('ENTER = INTERACT', 9, 79, 150, 'left')
     end
-    --love.graphics.print('FIRE: ' .. tostring(buttons[1].fireSpellPressed), 5, 10)
+
+    --HUD RENDER
+    ---[[
+    love.graphics.setColor(WHITE)
+    love.graphics.draw(hudOverlay, 0, VIRTUAL_HEIGHT - 16)
+    --]]
+    if gInventory.itemSlot[1] ~= nil then
+        love.graphics.setFont(pixelFont)
+        gInventory.itemSlot[1]:render()
+    end
+    love.graphics.draw(heartRowEmpty, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)
+    heartRowQuad:setViewport(0, 0, HEART_CROP, 7, heartRow:getDimensions())
+    love.graphics.draw(heartRow, heartRowQuad, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)
+    --love.graphics.print('health: ' .. tostring(sceneView.player.health), VIRTUAL_WIDTH - 130, SCREEN_HEIGHT_LIMIT + 4)
+
 end
