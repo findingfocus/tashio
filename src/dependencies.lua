@@ -4,6 +4,7 @@ Event = require 'lib/knife.event'
 Timer = require 'lib/knife.timer'
 require 'lib/slam'
 
+love.graphics.setDefaultFilter('nearest', 'nearest')
 globalMap = require 'graphics/globalMap'
 bag = love.graphics.newImage('graphics/bag.png')
 berry = love.graphics.newImage('graphics/berry.png')
@@ -51,7 +52,6 @@ require 'src/states/game/TitleScreenState'
 require 'src/states/game/PlayState'
 require 'src/states/game/PauseState'
 
-love.graphics.setDefaultFilter('nearest', 'nearest')
 
 pixelFont = love.graphics.newFont('fonts/Pixel.ttf', 8)
 classicFont = love.graphics.newFont('fonts/classic.ttf', 8)
