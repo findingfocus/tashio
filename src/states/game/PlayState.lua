@@ -24,7 +24,8 @@ bassNotes1 = BassNotes({'Bb1', 'A1', 'G1', 'F1'})
 local activeNotes = {}
 local songTimer = 1
 toggleHelp = false
-gInventory = Inventory()
+gItemInventory = Inventory('item')
+gKeyItemInventory = Inventory('keyItem')
 gItems = {}
 
 gPlayer = Player {
@@ -83,7 +84,7 @@ function validNoteChecker(string)
 end
 
 function PlayState:update(dt)
-    gInventory:update(dt)
+    --gItemInventory:update(dt)
     if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('enter') then
         gStateMachine:change('pauseState')
     end
@@ -254,7 +255,6 @@ function PlayState:update(dt)
                 luteStringA1.animation:refresh()
             elseif fretsHeld[1] == 3 then
                 sounds['D1']:play()
-                luteStringA1.animation:refresh()
             elseif fretsHeld[1] == 4 then
                 sounds['E1']:play()
                 luteStringA1.animation:refresh()
@@ -652,9 +652,13 @@ function PlayState:render()
     love.graphics.setColor(WHITE)
     love.graphics.draw(hudOverlay, 0, VIRTUAL_HEIGHT - 16)
     --]]
-    if gInventory.itemSlot[1] ~= nil then
+    if gItemInventory.itemSlot[1] ~= nil then
         love.graphics.setFont(pixelFont)
-        gInventory.itemSlot[1]:render()
+        gItemInventory.itemSlot[1]:render()
+    end
+    if gKeyItemInventory.itemSlot[1] ~= nil then
+        love.graphics.setFont(pixelFont)
+        gKeyItemInventory.itemSlot[1]:render()
     end
     love.graphics.draw(heartRowEmpty, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)
     heartRowQuad:setViewport(0, 0, HEART_CROP, 7, heartRow:getDimensions())

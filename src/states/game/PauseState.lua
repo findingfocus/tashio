@@ -1,19 +1,32 @@
 PauseState = Class{__includes = BaseState}
 
 function PauseState:init()
-
+    self.inventoryType = 'item'
 end
 
 function PauseState:update(dt)
     if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('enter') then
         gStateMachine:change('playState')
     end
-    gInventory:update(dt)
+    if love.keyboard.wasPressed('o') then
+        if self.inventoryType == 'keyItem' then
+            self.inventoryType = 'item'
+        else
+            self.inventoryType = 'keyItem'
+        end
+    end
+    if self.inventoryType == 'item' then
+        gItemInventory:update(dt)
+    end
+    if self.inventoryType == 'keyItem' then
+        gKeyItemInventory:update(dt)
+    end
 end
 
 function PauseState:render()
     love.graphics.draw(pauseMockup, 0, 0)
-    gInventory:render()
+    gItemInventory:render(self.inventoryType)
+    gKeyItemInventory:render(self.inventoryType)
     love.graphics.setColor(WHITE)
     --]]
 
