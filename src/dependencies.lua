@@ -74,6 +74,7 @@ pauseMockup = love.graphics.newImage('graphics/pauseMockup.png')
 
 gTextures = {
     ['character-walk'] = love.graphics.newImage('graphics/playerAtlas.png'),
+    ['character-fireElement'] = love.graphics.newImage('graphics/fireElementAtlas.png'),
     ['villager1-walk'] = love.graphics.newImage('graphics/villager1Atlas.png'),
     ['mage-walk'] = love.graphics.newImage('graphics/mageAtlas.png'),
     ['character-fall'] = love.graphics.newImage('graphics/falling-sheet.png'),
@@ -86,6 +87,8 @@ gTextures = {
 
 gFrames = {
     ['character-walk'] = GenerateQuads(gTextures['character-walk'], TILE_SIZE, TILE_SIZE),
+    ['character-fireElement'] = GenerateQuads(gTextures['character-fireElement'], TILE_SIZE, TILE_SIZE),
+    ['villager1-walk'] = love.graphics.newImage('graphics/villager1Atlas.png'),
     ['villager1-walk'] = GenerateQuads(gTextures['villager1-walk'], TILE_SIZE, TILE_SIZE),
     ['mage-walk'] = GenerateQuads(gTextures['mage-walk'], TILE_SIZE, TILE_SIZE),
     ['character-fall'] = GenerateQuads(gTextures['character-fall'], TILE_SIZE, TILE_SIZE),

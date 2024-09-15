@@ -60,4 +60,7 @@ function PlayerIdleState:render()
 
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
         self.entity.x, self.entity.y)
+    if self.entity.fireSpellEquipped then
+        love.graphics.draw(gTextures['character-fireElement'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.entity.x), math.floor(self.entity.y))
+    end
 end
