@@ -60,6 +60,58 @@ ENTITY_DEFS = {
             },
         }
     },
+    ['fire-element'] = {
+        animations = {
+            ['walk-left'] = {
+                frames = {6, 5},
+                interval = 0.3,
+                texture = 'character-fireElement',
+                looping = true
+            },
+            ['walk-right'] = {
+                frames = {7, 8}, --ADD THESE DIRECTION SPRITES TO THE ATLAS
+                interval = 0.3,
+                texture = 'character-fireElement',
+                looping = true
+            },
+            ['walk-up'] = {
+                frames = {3, 4},
+                interval = 0.3,
+                texture = 'character-fireElement',
+                looping = true
+            },
+            ['walk-down'] = {
+                frames = {1, 2},
+                interval = 0.3,
+                texture = 'character-fireElement',
+                looping = true
+            },
+            ['idle-left'] = {
+                frames = {5},
+                interval = 0.3,
+                texture = 'character-fireElement',
+                looping = true
+            },
+            ['idle-right'] = {
+                frames = {8},
+                interval = 0.3,
+                texture = 'character-fireElement',
+                looping = true
+            },
+            ['idle-up'] = {
+                frames = {4},
+                interval = 0.3,
+                texture = 'character-fireElement',
+                looping = true
+            },
+            ['idle-down'] = {
+                frames = {2},
+                interval = 0.3,
+                texture = 'character-fireElement',
+                looping = true
+            },
+        }
+    },
     ['villager1'] = {
         walkSpeed = PLAYER_WALK_SPEED / 2,
         height = 16,
