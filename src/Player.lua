@@ -23,6 +23,7 @@ function Player:init(def)
     self.dialogueBoxWidth = TILE_SIZE
     self.dialogueBoxHeight = TILE_SIZE
     self.fireSpellEquipped = true
+    self.yellowTunicEquipped = true
 end
 
 function updateHearts(player)
