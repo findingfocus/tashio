@@ -97,6 +97,7 @@ __REHAUL DOWNLOADER TO ALSO KEEP TRACK OF LOCAL ROW AND COLUMN, INSERT INSERTANI
 __Incorporate Prosto closure fix for local variables
 
 Todo
+__Add player fallState to help with falling animations
 __Add falling Tunic overlays
 __Add game objects to pickup
 __New holding item animation state for player
