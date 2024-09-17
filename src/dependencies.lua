@@ -8,6 +8,7 @@ love.graphics.setDefaultFilter('nearest', 'nearest')
 globalMap = require 'graphics/globalMap'
 bag = love.graphics.newImage('graphics/bag.png')
 berry = love.graphics.newImage('graphics/berry.png')
+lute = love.graphics.newImage('graphics/lute.png')
 
 require 'src/constants'
 
@@ -79,9 +80,14 @@ gTextures = {
     ['character-redTunic'] = love.graphics.newImage('graphics/redTunicAtlas.png'),
     ['character-greenTunic'] = love.graphics.newImage('graphics/greenTunicAtlas.png'),
     ['character-yellowTunic'] = love.graphics.newImage('graphics/yellowTunicAtlas.png'),
+    ['lute-equip'] = love.graphics.newImage('graphics/luteEquip.png'),
     ['villager1-walk'] = love.graphics.newImage('graphics/villager1Atlas.png'),
     ['mage-walk'] = love.graphics.newImage('graphics/mageAtlas.png'),
     ['character-fall'] = love.graphics.newImage('graphics/falling-sheet.png'),
+    ['character-fall-yellowTunic'] = love.graphics.newImage('graphics/falling-sheet-yellowTunic.png'),
+    ['character-fall-redTunic'] = love.graphics.newImage('graphics/falling-sheet-redTunic.png'),
+    ['character-fall-greenTunic'] = love.graphics.newImage('graphics/falling-sheet-greenTunic.png'),
+    ['character-fall-blueTunic'] = love.graphics.newImage('graphics/falling-sheet-blueTunic.png'),
     ['gecko'] = love.graphics.newImage('graphics/geckoAtlas.png'),
     ['geckoC'] = love.graphics.newImage('graphics/geckoCAtlas.png'),
     ['flame'] = love.graphics.newImage('graphics/flameAtlas2.png'),
@@ -96,10 +102,15 @@ gFrames = {
     ['character-redTunic'] = GenerateQuads(gTextures['character-redTunic'], TILE_SIZE, TILE_SIZE),
     ['character-greenTunic'] = GenerateQuads(gTextures['character-greenTunic'], TILE_SIZE, TILE_SIZE),
     ['character-yellowTunic'] = GenerateQuads(gTextures['character-yellowTunic'], TILE_SIZE, TILE_SIZE),
+    ['lute-equip'] = GenerateQuads(gTextures['lute-equip'], TILE_SIZE, TILE_SIZE),
     ['villager1-walk'] = love.graphics.newImage('graphics/villager1Atlas.png'),
     ['villager1-walk'] = GenerateQuads(gTextures['villager1-walk'], TILE_SIZE, TILE_SIZE),
     ['mage-walk'] = GenerateQuads(gTextures['mage-walk'], TILE_SIZE, TILE_SIZE),
     ['character-fall'] = GenerateQuads(gTextures['character-fall'], TILE_SIZE, TILE_SIZE),
+    ['character-fall-yellowTunic'] = GenerateQuads(gTextures['character-fall-yellowTunic'], TILE_SIZE, TILE_SIZE),
+    ['character-fall-redTunic'] = GenerateQuads(gTextures['character-fall-redTunic'], TILE_SIZE, TILE_SIZE),
+    ['character-fall-greenTunic'] = GenerateQuads(gTextures['character-fall-greenTunic'], TILE_SIZE, TILE_SIZE),
+    ['character-fall-blueTunic'] = GenerateQuads(gTextures['character-fall-blueTunic'], TILE_SIZE, TILE_SIZE),
     ['gecko'] = GenerateQuads(gTextures['gecko'], TILE_SIZE, TILE_SIZE),
     ['geckoC'] = GenerateQuads(gTextures['geckoC'], TILE_SIZE, TILE_SIZE),
     ['flame'] = GenerateQuads(gTextures['flame'], TILE_SIZE, TILE_SIZE),

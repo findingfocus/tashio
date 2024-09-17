@@ -33,7 +33,7 @@ function Inventory:init(option)
         table.remove(self.grid[4][2], 1)
         self.grid[1][1][1].image = berry
         self.grid[1][1][1].quantity = 20
-        self.grid[3][2][1].image = berry
+        self.grid[3][2][1].image = lute
         self.grid[3][2][1].quantity = 18
     end
     if self.option == 'keyItem' then
