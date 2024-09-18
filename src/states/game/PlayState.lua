@@ -58,7 +58,7 @@ function PlayState:init()
         ['player-idle'] = function() return PlayerIdleState(gPlayer) end,
     }
 
-    gPlayer:changeState('player-idle')
+    gPlayer:changeState('player-walk')
     self.manis = 100
     self.manisMax = 100
     self.manisDrain = .45

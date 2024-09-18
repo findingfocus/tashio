@@ -1,8 +1,9 @@
 Item = Class{}
 
-function Item:init(option, quantity)
+function Item:init(option, quantity, type)
     --self.gridRow = row
     --self.gridCol = col
+    self.type = type
     if option == 'bag' then
         self.image = bag
     else
@@ -49,8 +50,10 @@ function Item:render()
     love.graphics.setColor(WHITE)
     love.graphics.draw(self.image, self.x + 5, self.y + 5)
 
-    love.graphics.setColor(BLACK)
-    love.graphics.print(tostring(self.quantity), self.x + 14, self.y + 13)
-    love.graphics.setColor(WHITE)
-    love.graphics.print(tostring(self.quantity), self.x + 13, self.y + 13)
+    if self.quantity ~= nil then
+        love.graphics.setColor(BLACK)
+        love.graphics.print(tostring(self.quantity), self.x + 14, self.y + 13)
+        love.graphics.setColor(WHITE)
+        love.graphics.print(tostring(self.quantity), self.x + 13, self.y + 13)
+    end
 end
