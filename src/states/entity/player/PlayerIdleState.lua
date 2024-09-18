@@ -69,11 +69,12 @@ function PlayerIdleState:render()
     elseif self.entity.yellowTunicEquipped then
         love.graphics.draw(gTextures['character-yellowTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.entity.x), math.floor(self.entity.y))
     end
-
     if self.entity.fireSpellEquipped then
         love.graphics.draw(gTextures['character-fireElement'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.entity.x), math.floor(self.entity.y))
     end
-    if not self.entity.falling then
-        love.graphics.draw(gTextures['lute-equip'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.entity.x), math.floor(self.entity.y))
+    if gItemInventory.itemSlot[1] ~= nil then
+        if gItemInventory.itemSlot[1].type == 'lute' and not self.entity.falling then
+            love.graphics.draw(gTextures['lute-equip'], gFrames['lute-equip'][anim:getCurrentFrame()], math.floor(self.entity.x), math.floor(self.entity.y))
+        end
     end
 end

@@ -177,7 +177,10 @@ function PlayerWalkState:render()
     if self.player.fireSpellEquipped then
         love.graphics.draw(gTextures['character-fireElement'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
     end
-    if not self.player.falling then
-        love.graphics.draw(gTextures['lute-equip'], gFrames['lute-equip'][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+
+    if gItemInventory.itemSlot[1] ~= nil then
+        if gItemInventory.itemSlot[1].type == 'lute' and not self.player.falling then
+            love.graphics.draw(gTextures['lute-equip'], gFrames['lute-equip'][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+        end
     end
 end

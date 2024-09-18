@@ -1,4 +1,5 @@
 Inventory = Class{}
+renderCircle = false
 
 function Inventory:init(option)
     self.option = option
@@ -15,6 +16,7 @@ function Inventory:init(option)
         self.column = {}
         self.grid = {}
         self.itemSlot = {}
+        self.elementSlot = {}
         self.selectedRow = 1
         self.selectedCol = 1
         self.itemCursor = Cursor(self.selectedRow, self.selectedCol, 'item')
@@ -33,8 +35,9 @@ function Inventory:init(option)
         table.remove(self.grid[4][2], 1)
         self.grid[1][1][1].image = berry
         self.grid[1][1][1].quantity = 20
+        self.grid[3][2][1].type = 'lute'
         self.grid[3][2][1].image = lute
-        self.grid[3][2][1].quantity = 18
+        self.grid[3][2][1].quantity = nil
     end
     if self.option == 'keyItem' then
         self.x = VIRTUAL_WIDTH - 40
@@ -140,6 +143,11 @@ function Inventory:update(dt)
                 self.keyItemCursor:blinkReset()
             end
         end
+
+        if love.keyboard.wasPressed('p') then
+            renderCircle = renderCircle == false and true or false
+        end
+
         self.keyItemCursor:update(dt, self.selectedRow, self.selectedCol)
     end
 end
@@ -164,5 +172,10 @@ function Inventory:render(cursorRender)
         if self.option == 'item' then
             self.itemCursor:render()
         end
+    end
+
+    if renderCircle then
+        love.graphics.setColor(RED)
+        love.graphics.circle('fill', VIRTUAL_WIDTH - 86, VIRTUAL_HEIGHT - 8, 6)
     end
 end
