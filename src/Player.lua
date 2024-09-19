@@ -23,7 +23,6 @@ function Player:init(def)
     self.dialogueBoxWidth = TILE_SIZE
     self.dialogueBoxHeight = TILE_SIZE
     self.fireSpellEquipped = true
-    self.yellowTunicEquipped = true
     self.luteEquipped = false
 end
 

@@ -3,6 +3,9 @@ renderCircle = false
 
 function Inventory:init(option)
     self.option = option
+    self.elementSlot = {}
+    self.elementColor = TRANSPARENT
+
     if self.option == 'item' then
         self.x = 5
         self.y = 5
@@ -16,7 +19,6 @@ function Inventory:init(option)
         self.column = {}
         self.grid = {}
         self.itemSlot = {}
-        self.elementSlot = {}
         self.selectedRow = 1
         self.selectedCol = 1
         self.itemCursor = Cursor(self.selectedRow, self.selectedCol, 'item')
@@ -145,7 +147,47 @@ function Inventory:update(dt)
         end
 
         if love.keyboard.wasPressed('p') then
-            renderCircle = renderCircle == false and true or false
+            if self.selectedRow == 1 then
+                if self.selectedCol == 1 then
+                    self.elementSlot = 'fireSpell'
+                    self.elementColor = CYAN
+                elseif self.selectedCol == 2 then
+                    self.elementSlot = 'sandSpell'
+                    self.elementColor = YELLOW
+                elseif self.selectedCol == 3 then
+                    self.elementSlot = 'iceSpell'
+                    self.elementColor = WHITE
+                elseif self.selectedCol == 4 then
+                    self.elementSlot = 'waterSpell'
+                    self.elementColor = BLUE
+                end
+            end
+            if self.selectedRow == 2 then
+                if self.selectedCol == 1 then
+                    gPlayer.greenTunicEquipped = true
+                    gPlayer.redTunicEquipped = false
+                    gPlayer.yellowTunicEquipped = false
+                    gPlayer.blueTunicEquipped = false
+                end
+                if self.selectedCol == 2 then
+                    gPlayer.blueTunicEquipped = true
+                    gPlayer.greenTunicEquipped = false
+                    gPlayer.redTunicEquipped = false
+                    gPlayer.yellowTunicEquipped = false
+                end
+                if self.selectedCol == 3 then
+                    gPlayer.redTunicEquipped = true
+                    gPlayer.greenTunicEquipped = false
+                    gPlayer.yellowTunicEquipped = false
+                    gPlayer.blueTunicEquipped = false
+                end
+                if self.selectedCol == 4 then
+                    gPlayer.yellowTunicEquipped = true
+                    gPlayer.greenTunicEquipped = false
+                    gPlayer.redTunicEquipped = false
+                    gPlayer.blueTunicEquipped = false
+                end
+            end
         end
 
         self.keyItemCursor:update(dt, self.selectedRow, self.selectedCol)
@@ -153,6 +195,7 @@ function Inventory:update(dt)
 end
 
 function Inventory:render(cursorRender)
+    love.graphics.setColor(WHITE)
     for i = 1, self.rowAmount do
         for k = 1, self.columnAmount do
             if self.grid[i][k][1] ~= nil then
@@ -174,8 +217,6 @@ function Inventory:render(cursorRender)
         end
     end
 
-    if renderCircle then
-        love.graphics.setColor(RED)
-        love.graphics.circle('fill', VIRTUAL_WIDTH - 86, VIRTUAL_HEIGHT - 8, 6)
-    end
+    love.graphics.setColor(self.elementColor)
+    love.graphics.circle('fill', VIRTUAL_WIDTH - 86, VIRTUAL_HEIGHT - 8, 6)
 end
