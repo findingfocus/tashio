@@ -656,10 +656,11 @@ function PlayState:render()
         love.graphics.setFont(pixelFont)
         gItemInventory.itemSlot[1]:render()
     end
-    if gKeyItemInventory.itemSlot[1] ~= nil then
-        love.graphics.setFont(pixelFont)
-        gKeyItemInventory.itemSlot[1]:render()
-    end
+
+    love.graphics.setColor(gKeyItemInventory.elementColor)
+    love.graphics.circle('fill', VIRTUAL_WIDTH - 86, VIRTUAL_HEIGHT - 8, 6)
+
+    love.graphics.setColor(WHITE)
     love.graphics.draw(heartRowEmpty, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)
     heartRowQuad:setViewport(0, 0, HEART_CROP, 7, heartRow:getDimensions())
     love.graphics.draw(heartRow, heartRowQuad, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)
