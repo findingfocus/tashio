@@ -242,12 +242,6 @@ function PlayState:update(dt)
             elseif fretsHeld[1] == 2 then
                 sounds['A1']:play()
                 luteStringF1.animation:refresh()
-            elseif fretsHeld[1] == 3 then
-                sounds['Bb1']:play()
-                luteStringF1.animation:refresh()
-            elseif fretsHeld[1] == 4 then
-                sounds['C1']:play()
-                luteStringF1.animation:refresh()
             end
         end
 
@@ -262,11 +256,6 @@ function PlayState:update(dt)
                 luteStringA1.animation:refresh()
             elseif fretsHeld[1] == 2 then
                 sounds['C1']:play()
-                luteStringA1.animation:refresh()
-            elseif fretsHeld[1] == 3 then
-                sounds['D1']:play()
-            elseif fretsHeld[1] == 4 then
-                sounds['E1']:play()
                 luteStringA1.animation:refresh()
             end
         end
@@ -283,12 +272,6 @@ function PlayState:update(dt)
             elseif fretsHeld[1] == 2 then
                 sounds['F2']:play()
                 luteStringD1.animation:refresh()
-            elseif fretsHeld[1] == 3 then
-                sounds['G2']:play()
-                luteStringD1.animation:refresh()
-            elseif fretsHeld[1] == 4 then
-                sounds['A2']:play()
-                luteStringD1.animation:refresh()
             end
         end
 
@@ -303,12 +286,6 @@ function PlayState:update(dt)
                 luteStringF2.animation:refresh()
             elseif fretsHeld[1] == 2 then
                 sounds['A2']:play()
-                luteStringF2.animation:refresh()
-            elseif fretsHeld[1] == 3 then
-                sounds['Bb2']:play()
-                luteStringF2.animation:refresh()
-            elseif fretsHeld[1] == 4 then
-                sounds['C2']:play()
                 luteStringF2.animation:refresh()
             end
         end
