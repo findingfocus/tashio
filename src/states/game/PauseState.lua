@@ -6,6 +6,7 @@ end
 
 function PauseState:update(dt)
     if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('enter') then
+        luteState = false
         gStateMachine:change('playState')
     end
     if love.keyboard.wasPressed('o') then

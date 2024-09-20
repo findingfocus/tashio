@@ -8,7 +8,7 @@ local inspect = require "lib/inspect"
 local manisTimer = 0
 leftCount = 0
 local validTiming = false
-local luteState = false
+luteState = false
 local F1Pressed = false
 local D1Pressed = false
 local A1Pressed = false
@@ -133,66 +133,75 @@ function PlayState:update(dt)
         end
     end
 
-    if love.keyboard.wasPressed('l') then
-        if luteState then
-            luteState = false
-        else
-            luteState = true
+    if love.keyboard.wasPressed('o') and gItemInventory.itemSlot[1] ~= nil then
+        if gItemInventory.itemSlot[1].type == 'lute' then
+            if luteState then
+
+                --gPlayer.animations['walk-' .. gPlayer.direction]:refresh()
+                --luteState = false
+            else
+                gPlayer.direction = 'down'
+                gPlayer:changeAnimation('idle-down')
+                luteState = true
+            end
         end
     end
 
     if luteState then
-        if love.keyboard.wasPressed('1') or love.keyboard.isDown('1') then
+        if love.keyboard.wasPressed('o') or love.keyboard.isDown('o') then
             table.insert(fretsHeld, 1)
         end
-        if love.keyboard.wasPressed('2') or love.keyboard.isDown('2') then
+        if love.keyboard.wasPressed('p') or love.keyboard.isDown('p') then
             table.insert(fretsHeld, 2)
         end
+        --[[
         if love.keyboard.wasPressed('3') or love.keyboard.isDown('3') then
             table.insert(fretsHeld, 3)
         end
         if love.keyboard.wasPressed('4') or love.keyboard.isDown('4') then
             table.insert(fretsHeld, 4)
         end
+        --]]
 
 
 
-        if love.keyboard.isDown('u') then
+        if love.keyboard.isDown('d') then
             F1Pressed = true
         else
             F1Pressed = false
         end
-        if love.keyboard.isDown('i') then
+        if love.keyboard.isDown('s') then
             A1Pressed = true
         else
             A1Pressed = false
         end
-        if love.keyboard.isDown('o') then
+        if love.keyboard.isDown('a') then
             D1Pressed = true
         else
             D1Pressed = false
         end
-        if love.keyboard.isDown('p') then
+        if love.keyboard.isDown('w') then
             F2Pressed = true
         else
             F2Pressed = false
         end
     end
 
-    if love.keyboard.wasReleased('1') then
+    if love.keyboard.wasReleased('o') then
         for k, v in pairs(fretsHeld) do
             if v == 1 then
                 table.remove(fretsHeld, k)
             end
         end
     end
-    if love.keyboard.wasReleased('2') then
+    if love.keyboard.wasReleased('p') then
         for k, v in pairs(fretsHeld) do
             if v == 2 then
                 table.remove(fretsHeld, k)
             end
         end
     end
+    --[[
     if love.keyboard.wasReleased('3') then
         for k, v in pairs(fretsHeld) do
             if v == 3 then
@@ -207,6 +216,7 @@ function PlayState:update(dt)
             end
         end
     end
+    --]]
 
     if #fretsHeld > 0 then
         local highest = 0
@@ -221,7 +231,7 @@ function PlayState:update(dt)
 
     if luteState then
         --STRING 1
-        if love.keyboard.wasPressed('u') then
+        if love.keyboard.wasPressed('d') then
             validNoteChecker(4)
             if #fretsHeld == 0 then
                 sounds['F1']:play()
@@ -242,7 +252,7 @@ function PlayState:update(dt)
         end
 
         --STRING 2
-        if love.keyboard.wasPressed('i') then
+        if love.keyboard.wasPressed('s') then
             validNoteChecker(3)
             if #fretsHeld == 0 then
                 sounds['A1']:play()
@@ -262,7 +272,7 @@ function PlayState:update(dt)
         end
 
         --STRING 3
-        if love.keyboard.wasPressed('o') then
+        if love.keyboard.wasPressed('a') then
             validNoteChecker(2)
             if #fretsHeld == 0 then
                 sounds['D1']:play()
@@ -283,7 +293,7 @@ function PlayState:update(dt)
         end
 
         --STRING 4
-        if love.keyboard.wasPressed('p') then
+        if love.keyboard.wasPressed('w') then
             validNoteChecker(1)
             if #fretsHeld == 0 then
                 sounds['F2']:play()
