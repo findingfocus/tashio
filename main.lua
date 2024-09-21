@@ -99,6 +99,9 @@ function love.update(dt)
 
   love.keyboard.keysPressed = {}
   love.keyboard.keysReleased = {}
+  for k, v in pairs(touches) do
+      touches[k].wasTouched = false
+  end
 end
 
 function love.draw()
