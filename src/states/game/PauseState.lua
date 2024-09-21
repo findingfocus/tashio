@@ -2,6 +2,7 @@ PauseState = Class{__includes = BaseState}
 
 function PauseState:init()
     self.inventoryType = 'item'
+    self.stateName = 'PauseState'
 end
 
 function PauseState:update(dt)

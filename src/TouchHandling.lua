@@ -55,6 +55,16 @@ function TouchHandling:init()
       if buttons[3]:collides(touches[id]) then
         toggleHelp = toggleHelp == false and true or false
       end
+
+      --TODO
+      if buttons[4]:collides(touches[id]) then
+          if gStateMachine.current.stateName == 'PlayState' then
+              luteState = false
+              gStateMachine:change('pauseState')
+          elseif gStateMachine.current.stateName == 'PauseState' then
+              gStateMachine:change('playState')
+          end
+      end
   end
 
   function love.touchmoved(id, x, y, dx, dy)
