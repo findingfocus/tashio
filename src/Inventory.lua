@@ -67,41 +67,70 @@ function Inventory:init(option)
     end
 end
 
+function handleDownInput(self)
+    if self.selectedRow ~= self.rowAmount then
+        self.selectedRow = self.selectedRow + 1
+        if self.option == 'item' then
+            self.itemCursor:blinkReset()
+        elseif self.option == 'keyItem' then
+            self.keyItemCursor:blinkReset()
+        end
+    end
+end
+
+function handleUpInput(self)
+    if self.selectedRow ~= 1 then
+        self.selectedRow = self.selectedRow - 1
+        if self.option == 'item' then
+            self.itemCursor:blinkReset()
+        elseif self.option == 'keyItem' then
+            self.keyItemCursor:blinkReset()
+        end
+    end
+end
+
+function handleLeftInput(self)
+    if self.selectedCol ~= 1 then
+        self.selectedCol = self.selectedCol -1
+        if self.option == 'item' then
+            self.itemCursor:blinkReset()
+        elseif self.option == 'keyItem' then
+            self.keyItemCursor:blinkReset()
+        end
+    end
+end
+
+function handleRightInput(self)
+    if self.selectedCol ~= self.columnAmount then
+        self.selectedCol = self.selectedCol + 1
+        if self.option == 'item' then
+            self.itemCursor:blinkReset()
+        elseif self.option == 'keyItem' then
+            self.keyItemCursor:blinkReset()
+        end
+    end
+end
+
 function Inventory:update(dt)
     if self.option == 'item' then
         for k, v in pairs(touches) do
             if dpad[7]:collides(touches[k]) and touches[k].wasTouched then
-                if self.selectedRow ~= self.rowAmount then
-                    self.selectedRow = self.selectedRow + 1
-                    self.itemCursor:blinkReset()
-                end
+                handleDownInput(self)
             end
         end
 
         if love.keyboard.wasPressed('w') then
-            if self.selectedRow ~= 1 then
-                self.selectedRow = self.selectedRow - 1
-                self.itemCursor:blinkReset()
-            end
+            handleUpInput(self)
         end
 
         if love.keyboard.wasPressed('a') then
-            if self.selectedCol ~= 1 then
-                self.selectedCol = self.selectedCol -1
-                self.itemCursor:blinkReset()
-            end
+            handleLeftInput(self)
         end
         if love.keyboard.wasPressed('s') then
-            if self.selectedRow ~= self.rowAmount then
-                self.selectedRow = self.selectedRow + 1
-                self.itemCursor:blinkReset()
-            end
+            handleDownInput(self)
         end
         if love.keyboard.wasPressed('d') then
-            if self.selectedCol ~= self.columnAmount then
-                self.selectedCol = self.selectedCol + 1
-                self.itemCursor:blinkReset()
-            end
+            handleRightInput(self)
         end
 
         if love.keyboard.wasPressed('p') then
@@ -132,28 +161,16 @@ function Inventory:update(dt)
         end
     elseif self.option == 'keyItem' then
         if love.keyboard.wasPressed('w') then
-            if self.selectedRow ~= 1 then
-                self.selectedRow = self.selectedRow - 1
-                self.keyItemCursor:blinkReset()
-            end
+            handleUpInput(self)
         end
         if love.keyboard.wasPressed('a') then
-            if self.selectedCol ~= 1 then
-                self.selectedCol = self.selectedCol -1
-                self.keyItemCursor:blinkReset()
-            end
+            handleLeftInput(self)
         end
         if love.keyboard.wasPressed('s') then
-            if self.selectedRow ~= self.rowAmount then
-                self.selectedRow = self.selectedRow + 1
-                self.keyItemCursor:blinkReset()
-            end
+            handleDownInput(self)
         end
         if love.keyboard.wasPressed('d') then
-            if self.selectedCol ~= self.columnAmount then
-                self.selectedCol = self.selectedCol + 1
-                self.keyItemCursor:blinkReset()
-            end
+            handleRightInput(self)
         end
 
         if love.keyboard.wasPressed('p') then
