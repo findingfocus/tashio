@@ -51,6 +51,7 @@ tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
 
 function PlayState:init()
+    self.stateName = 'PlayState'
 
     --gPlayer.damageFlash = true
     gPlayer.stateMachine = StateMachine {
@@ -653,4 +654,5 @@ function PlayState:render()
     love.graphics.draw(heartRow, heartRowQuad, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)
     --love.graphics.print('health: ' .. tostring(sceneView.player.health), VIRTUAL_WIDTH - 130, SCREEN_HEIGHT_LIMIT + 4)
 
+    --love.graphics.print(inspect(gStateMachine.current.stateName), 0, 0)
 end
