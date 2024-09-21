@@ -69,12 +69,22 @@ end
 
 function Inventory:update(dt)
     if self.option == 'item' then
+        for k, v in pairs(touches) do
+            if dpad[7]:collides(touches[k]) then
+                if self.selectedRow ~= self.rowAmount then
+                    self.selectedRow = self.selectedRow + 1
+                    self.itemCursor:blinkReset()
+                end
+            end
+        end
+
         if love.keyboard.wasPressed('w') then
             if self.selectedRow ~= 1 then
                 self.selectedRow = self.selectedRow - 1
                 self.itemCursor:blinkReset()
             end
         end
+
         if love.keyboard.wasPressed('a') then
             if self.selectedCol ~= 1 then
                 self.selectedCol = self.selectedCol -1
