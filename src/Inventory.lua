@@ -117,6 +117,15 @@ function Inventory:update(dt)
             if dpad[7]:collides(touches[k]) and touches[k].wasTouched then
                 handleDownInput(self)
             end
+            if dpad[2]:collides(touches[k]) and touches[k].wasTouched then
+                handleUpInput(self)
+            end
+            if dpad[4]:collides(touches[k]) and touches[k].wasTouched then
+                handleLeftInput(self)
+            end
+            if dpad[5]:collides(touches[k]) and touches[k].wasTouched then
+                handleRightInput(self)
+            end
         end
 
         if love.keyboard.wasPressed('w') then
