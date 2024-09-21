@@ -70,7 +70,7 @@ end
 function Inventory:update(dt)
     if self.option == 'item' then
         for k, v in pairs(touches) do
-            if dpad[7]:collides(touches[k]) then
+            if dpad[7]:collides(touches[k]) and touches[k].wasTouched then
                 if self.selectedRow ~= self.rowAmount then
                     self.selectedRow = self.selectedRow + 1
                     self.itemCursor:blinkReset()
