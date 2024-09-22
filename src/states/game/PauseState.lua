@@ -17,6 +17,18 @@ function PauseState:update(dt)
             self.inventoryType = 'keyItem'
         end
     end
+
+    for k, v in pairs(touches) do
+        --INVENTORY SWAP
+        if buttons[2]:collides(touches[k]) and touches[k].wasTouched then
+            if self.inventoryType == 'keyItem' then
+                self.inventoryType = 'item'
+            else
+                self.inventoryType = 'keyItem'
+            end
+        end
+    end
+
     if self.inventoryType == 'item' then
         gItemInventory:update(dt)
     end

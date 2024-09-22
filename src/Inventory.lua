@@ -130,9 +130,6 @@ end
 function Inventory:update(dt)
     if self.option == 'item' then
         for k, v in pairs(touches) do
-            if buttons[2]:collides(touches[k]) and touches[k].wasTouched then
-                gStateMachine.current.inventoryType = 'keyItem'
-            end
             if buttons[1]:collides(touches[k]) and touches[k].wasTouched then
                 handleAInput(self)
             end
@@ -180,10 +177,6 @@ function Inventory:update(dt)
         end
     elseif self.option == 'keyItem' then
         for k, v in pairs(touches) do
-            --INVENTORY SWAP
-            if buttons[2]:collides(touches[k]) and touches[k].wasTouched then
-                gStateMachine.current.inventoryType = 'item'
-            end
 
             --DPAD TOUCH DETECTION
             if dpad[7]:collides(touches[k]) and touches[k].wasTouched then
