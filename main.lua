@@ -116,6 +116,11 @@ function love.draw()
     love.graphics.setColor(1,1,1,1)
     love.graphics.draw(gameboyOverlay, 0, VIRTUAL_HEIGHT)
 
+    if gStateMachine.current.inventoryType ~= nil then
+        love.graphics.setColor(BLACK)
+        love.graphics.print('inventory: ' .. gStateMachine.current.inventoryType, 0, 0)
+    end
+    love.graphics.setColor(WHITE)
     keyboardInput:render()
     touchInput:render()
 	push:finish()

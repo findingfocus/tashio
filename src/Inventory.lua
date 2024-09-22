@@ -111,11 +111,30 @@ function handleRightInput(self)
     end
 end
 
+function handleAInput(self)
+    if self.grid[self.selectedRow][self.selectedCol][1] ~= nil then
+        self.grid[self.selectedRow][self.selectedCol][1]:equip() --MOVES SELECTED ITEM TO PROPER LOCATION
+        local itemCopy = nil   --COPY ITEM THAT IS EQUIPPED
+        if self.itemSlot[1] ~= nil then
+            itemCopy = self.itemSlot[1]
+        end
+        self.itemSlot = {}
+        table.insert(self.itemSlot, self.grid[self.selectedRow][self.selectedCol][1])
+        table.remove(self.grid[self.selectedRow][self.selectedCol], 1)
+        if itemCopy ~= nil then
+            table.insert(self.grid[self.selectedRow][self.selectedCol], itemCopy)
+        end
+    end
+end
+
 function Inventory:update(dt)
     if self.option == 'item' then
         for k, v in pairs(touches) do
             if buttons[2]:collides(touches[k]) and touches[k].wasTouched then
                 gStateMachine.current.inventoryType = 'keyItem'
+            end
+            if buttons[1]:collides(touches[k]) and touches[k].wasTouched then
+                handleAInput(self)
             end
             if dpad[7]:collides(touches[k]) and touches[k].wasTouched then
                 handleDownInput(self)
@@ -146,19 +165,7 @@ function Inventory:update(dt)
         end
 
         if love.keyboard.wasPressed('p') then
-            if self.grid[self.selectedRow][self.selectedCol][1] ~= nil then
-                self.grid[self.selectedRow][self.selectedCol][1]:equip() --MOVES SELECTED ITEM TO PROPER LOCATION
-                local itemCopy = nil   --COPY ITEM THAT IS EQUIPPED
-                if self.itemSlot[1] ~= nil then
-                    itemCopy = self.itemSlot[1]
-                end
-                self.itemSlot = {}
-                table.insert(self.itemSlot, self.grid[self.selectedRow][self.selectedCol][1])
-                table.remove(self.grid[self.selectedRow][self.selectedCol], 1)
-                if itemCopy ~= nil then
-                    table.insert(self.grid[self.selectedRow][self.selectedCol], itemCopy)
-                end
-            end
+            handleAInput(self)
         end
 
         --UPDATE CURSOR
