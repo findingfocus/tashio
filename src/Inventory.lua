@@ -129,7 +129,6 @@ end
 
 function Inventory:update(dt)
     if self.option == 'item' then
-        gStateMachine.current.inventoryType = 'keyItem'
         for k, v in pairs(touches) do
             if buttons[2]:collides(touches[k]) and touches[k].wasTouched then
                 gStateMachine.current.inventoryType = 'keyItem'
