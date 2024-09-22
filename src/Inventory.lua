@@ -114,6 +114,9 @@ end
 function Inventory:update(dt)
     if self.option == 'item' then
         for k, v in pairs(touches) do
+            if buttons[2]:collides(touches[k]) and touches[k].wasTouched then
+                gStateMachine.current.inventoryType = 'keyItem'
+            end
             if dpad[7]:collides(touches[k]) and touches[k].wasTouched then
                 handleDownInput(self)
             end
@@ -169,6 +172,72 @@ function Inventory:update(dt)
             end
         end
     elseif self.option == 'keyItem' then
+        for k, v in pairs(touches) do
+            --INVENTORY SWAP
+            if buttons[2]:collides(touches[k]) and touches[k].wasTouched then
+                gStateMachine.current.inventoryType = 'item'
+            end
+
+            --DPAD TOUCH DETECTION
+            if dpad[7]:collides(touches[k]) and touches[k].wasTouched then
+                handleDownInput(self)
+            end
+            if dpad[2]:collides(touches[k]) and touches[k].wasTouched then
+                handleUpInput(self)
+            end
+            if dpad[4]:collides(touches[k]) and touches[k].wasTouched then
+                handleLeftInput(self)
+            end
+            if dpad[5]:collides(touches[k]) and touches[k].wasTouched then
+                handleRightInput(self)
+            end
+
+            --A BUTTON
+            if buttons[1]:collides(touches[k]) and touches[k].wasTouched then
+                if self.selectedRow == 1 then
+                    if self.selectedCol == 1 then
+                        self.elementSlot = 'fireSpell'
+                        self.elementColor = CYAN
+                    elseif self.selectedCol == 2 then
+                        self.elementSlot = 'sandSpell'
+                        self.elementColor = YELLOW
+                    elseif self.selectedCol == 3 then
+                        self.elementSlot = 'iceSpell'
+                        self.elementColor = WHITE
+                    elseif self.selectedCol == 4 then
+                        self.elementSlot = 'waterSpell'
+                        self.elementColor = BLUE
+                    end
+                end
+                if self.selectedRow == 2 then
+                    if self.selectedCol == 1 then
+                        gPlayer.greenTunicEquipped = true
+                        gPlayer.redTunicEquipped = false
+                        gPlayer.yellowTunicEquipped = false
+                        gPlayer.blueTunicEquipped = false
+                    end
+                    if self.selectedCol == 2 then
+                        gPlayer.blueTunicEquipped = true
+                        gPlayer.greenTunicEquipped = false
+                        gPlayer.redTunicEquipped = false
+                        gPlayer.yellowTunicEquipped = false
+                    end
+                    if self.selectedCol == 3 then
+                        gPlayer.redTunicEquipped = true
+                        gPlayer.greenTunicEquipped = false
+                        gPlayer.yellowTunicEquipped = false
+                        gPlayer.blueTunicEquipped = false
+                    end
+                    if self.selectedCol == 4 then
+                        gPlayer.yellowTunicEquipped = true
+                        gPlayer.greenTunicEquipped = false
+                        gPlayer.redTunicEquipped = false
+                        gPlayer.blueTunicEquipped = false
+                    end
+                end
+            end
+        end
+
         if love.keyboard.wasPressed('w') then
             handleUpInput(self)
         end
