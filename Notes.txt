@@ -118,6 +118,8 @@ __Fix lone pixel in flower animation
 __Tweak falling trigger upon pit collision
 
 Next Episode
+__Fix fretsheld for touch
+__Render string colors based on string animations
 __Ensure signposts are inserted into currentMap.signposts
 __Multiple page posts for signs
 __Deinstantiate NPC when offscreen
