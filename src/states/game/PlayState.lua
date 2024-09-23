@@ -134,12 +134,21 @@ function PlayState:update(dt)
                 end
             end
         end
-        if buttons[3]:collides(touches[k]) then
+        if buttons[3]:collides(touches[k]) and touches[k].wasTouched then
             if luteState then
                 luteState = false
             else
                 toggleHelp = toggleHelp == false and true or false
             end
+        end
+
+        if buttons[2]:collides(touches[k]) then
+            table.insert(fretsHeld, 1)
+            touches[k].fretHeld = 'b'
+        end
+        if buttons[1]:collides(touches[k]) then
+            table.insert(fretsHeld, 2)
+            touches[k].fretHeld = 'a'
         end
     end
 
