@@ -52,10 +52,6 @@ function TouchHandling:init()
   function love.touchpressed(id, x, y, dx, dy)
       touches[id] = {x = x, y = y, dx = dx, dy = dy, wasTouched = true}
       touches[id].x, touches[id].y = push:toGame(x, y)
-      if buttons[3]:collides(touches[id]) then
-        toggleHelp = toggleHelp == false and true or false
-      end
-
       --TODO
       if buttons[4]:collides(touches[id]) then
           if gStateMachine.current.stateName == 'PlayState' then
@@ -64,10 +60,6 @@ function TouchHandling:init()
           elseif gStateMachine.current.stateName == 'PauseState' then
               gStateMachine:change('playState')
           end
-      end
-
-      if buttons[3]:collides(touches[id]) then
-
       end
   end
 
