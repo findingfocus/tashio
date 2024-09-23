@@ -18,11 +18,6 @@ function TitleScreenState:update(dt)
 		sounds['beep']:play()
 	end
 
-	if love.keyboard.wasPressed('h') then
-		--sounds['titleMusic']:stop()
-		gStateMachine:change('helpState')
-	end
-
 	if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
 		if highlighted == 1 then
 			--sounds['titleMusic']:stop()
