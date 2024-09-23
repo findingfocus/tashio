@@ -80,6 +80,19 @@ function TouchHandling:init()
   end
 
   function love.touchreleased(id, x, y, dx, dy)
+      if touches[id].fretsHeld ~= nil then
+          for k, v in pairs(fretsHeld) do
+              if touches[id].fretsHeld == 'b' then
+                  if v == 1 then
+                      table.remove(fretsHeld, k)
+                  end
+              elseif touches[id].fretsHeld == 'a' then
+                  if v == 2 then
+                      table.remove(fretsHeld, k)
+                  end
+              end
+          end
+      end
       touches[id] = nil
   end
 end
