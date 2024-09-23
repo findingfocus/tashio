@@ -572,57 +572,57 @@ function PlayState:render()
 
 
 
-    --BEAT BOX RENDER
-    love.graphics.setLineStyle("rough")
-    if #fretsHeld > 0 then
+
+    if luteState then
+      --BEAT BOX RENDER
+      love.graphics.setLineStyle("rough")
+      if #fretsHeld > 0 then
         love.graphics.setColor(55/255, 0/255, 255/255, 255/255)
         love.graphics.setLineWidth(1)
         love.graphics.rectangle('line', 1, LUTE_STRING_YOFFSET, 11, 47)
-    end
-
-    if luteState then
-        --FRET GUIDES
-        love.graphics.setColor(WHITE)
-        if #fretsHeld > 0 then
-            if fretsHeld[1] == 1 then
-                for i = 0, 3 do
-                    love.graphics.draw(fret1,1,LUTE_STRING_YOFFSET + (12 * i))
-                end
-            end
-            if fretsHeld[1] == 2 then
-                for i = 0, 3 do
-                    love.graphics.draw(fret2,1,LUTE_STRING_YOFFSET + (12 * i))
-                end
-            end
-            if fretsHeld[1] == 3 then
-                for i = 0, 3 do
-                    love.graphics.draw(fret3,1,LUTE_STRING_YOFFSET + (12 * i))
-                end
-            end
-            if fretsHeld[1] == 4 then
-                for i = 0, 3 do
-                    love.graphics.draw(fret4,1,LUTE_STRING_YOFFSET + (12 * i))
-                end
-            end
+      end
+      --FRET GUIDES
+      love.graphics.setColor(WHITE)
+      if #fretsHeld > 0 then
+        if fretsHeld[1] == 1 then
+          for i = 0, 3 do
+            love.graphics.draw(fret1,1,LUTE_STRING_YOFFSET + (12 * i))
+          end
         end
-        love.graphics.print('fretsHeld: ' .. inspect(fretsHeld), 0, 100)
-        for k, v in ipairs(activeNotes) do
-            for index, note in ipairs(v) do
-                note:render()
-            end
+        if fretsHeld[1] == 2 then
+          for i = 0, 3 do
+            love.graphics.draw(fret2,1,LUTE_STRING_YOFFSET + (12 * i))
+          end
         end
+        if fretsHeld[1] == 3 then
+          for i = 0, 3 do
+            love.graphics.draw(fret3,1,LUTE_STRING_YOFFSET + (12 * i))
+          end
+        end
+        if fretsHeld[1] == 4 then
+          for i = 0, 3 do
+            love.graphics.draw(fret4,1,LUTE_STRING_YOFFSET + (12 * i))
+          end
+        end
+      end
+      love.graphics.print('fretsHeld: ' .. inspect(fretsHeld), 0, 100)
+      for k, v in ipairs(activeNotes) do
+        for index, note in ipairs(v) do
+          note:render()
+        end
+      end
     end
 
     if toggleHelp then
-        love.graphics.setColor(180/255, 20/255, 30/255, 190/255)
-        love.graphics.rectangle('fill', 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT)
+      love.graphics.setColor(180/255, 20/255, 30/255, 190/255)
+      love.graphics.rectangle('fill', 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT)
 
-        love.graphics.setFont(classicFont)
+      love.graphics.setFont(classicFont)
 
-        love.graphics.setColor(0/255, 0/255, 100/255, 255/255)
-        love.graphics.printf('CONTROLS:', 10, 20, 150, 'left')
-        love.graphics.printf('ARROW KEYS = MOVE', 10, 40, 150, 'left')
-        love.graphics.printf('SPACE BAR = SPELLS', 10, 60, 150, 'left')
+      love.graphics.setColor(0/255, 0/255, 100/255, 255/255)
+      love.graphics.printf('CONTROLS:', 10, 20, 150, 'left')
+      love.graphics.printf('ARROW KEYS = MOVE', 10, 40, 150, 'left')
+      love.graphics.printf('SPACE BAR = SPELLS', 10, 60, 150, 'left')
         love.graphics.printf('ENTER = INTERACT', 10, 80, 150, 'left')
         love.graphics.setColor(WHITE)
         love.graphics.printf('CONTROLS:', 9, 19, 150, 'left')
