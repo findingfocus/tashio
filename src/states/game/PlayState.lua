@@ -150,6 +150,29 @@ function PlayState:update(dt)
             table.insert(fretsHeld, 2)
             touches[k].fretHeld = 'a'
         end
+
+        if dpad[5]:collides(touches[id]) and touched[id].wasTouched then
+            F1Pressed = true
+        else
+            F1Pressed = false
+        end
+        if dpad[7]:collides(touches[id]) and touches[id].wasTouched then
+            A1Pressed = true
+        else
+            A1Pressed = false
+        end
+        if dpad[4]:collides(touches[id]) and touches[id].wasTouched then
+            D1Pressed = true
+        else
+            D1Pressed = false
+        end
+        if dpad[2]:collides(touches[id]) and touches[id].wasTouched then
+            F2Pressed = true
+        else
+            F2Pressed = false
+        end
+    end
+
     end
 
 
@@ -303,7 +326,7 @@ function PlayState:update(dt)
     if not sceneView.shifting then
 
         --FOCUS GAIN
-            if love.keyboard.isDown('space') or buttons[1].fireSpellPressed then
+            if (love.keyboard.isDown('p') and not luteState) or (buttons[1].fireSpellPressed and not luteState) then
             --UNFOCUS
             if (self.unFocus < self.focusMax) and self.unFocusGrowing then
                 if self.manis > 0 then
