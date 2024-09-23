@@ -86,13 +86,6 @@ end
 
 function PlayState:update(dt)
     --gItemInventory:update(dt)
-    if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('enter') then
-        gStateMachine:change('pauseState')
-    end
-    if love.keyboard.wasPressed('h') then
-        toggleHelp = toggleHelp == false and true or false
-    end
-
     if love.keyboard.wasPressed('g') then
         if WINDOW_HEIGHT == 144 * SCALE_FACTOR * 2 then
             SCALE_FACTOR = 4
@@ -109,8 +102,49 @@ function PlayState:update(dt)
         push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT_GB, WINDOW_WIDTH, WINDOW_HEIGHT)
     end
 
+    if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('enter') then
+        gStateMachine:change('pauseState')
+    end
+
+    if love.keyboard.wasPressed('o') and gItemInventory.itemSlot[1] ~= nil then
+        if gItemInventory.itemSlot[1].type == 'lute' then
+            if not luteState then
+                gPlayer.direction = 'down'
+                gPlayer:changeAnimation('idle-down')
+                luteState = true
+            end
+        end
+    end
+
+    if love.keyboard.wasPressed('h') then
+        if luteState then
+            luteState = false
+        else
+            toggleHelp = toggleHelp == false and true or false
+        end
+    end
+
+    for k, v in pairs(touches) do
+        if buttons[2]:collides(touches[k]) and gItemInventory.itemSlot[1] ~= nil then
+            if gItemInventory.itemSlot[1].type == 'lute' then
+                if not luteState then
+                    gPlayer.direction = 'down'
+                    gPlayer:changeAnimation('idle-down')
+                    luteState = true
+                end
+            end
+        end
+        if buttons[3]:collides(touches[k]) then
+            if luteState then
+                luteState = false
+            else
+                toggleHelp = toggleHelp == false and true or false
+            end
+        end
+    end
+
+
     if luteState then
-        --bassNotes1:update(dt)
         songTimer = songTimer - dt
 
         if songTimer < 0 then
@@ -132,39 +166,14 @@ function PlayState:update(dt)
                 end
             end
         end
-    end
 
-    if love.keyboard.wasPressed('o') and gItemInventory.itemSlot[1] ~= nil then
-        if gItemInventory.itemSlot[1].type == 'lute' then
-            if luteState then
 
-                --gPlayer.animations['walk-' .. gPlayer.direction]:refresh()
-                --luteState = false
-            else
-                gPlayer.direction = 'down'
-                gPlayer:changeAnimation('idle-down')
-                luteState = true
-            end
-        end
-    end
-
-    if luteState then
         if love.keyboard.wasPressed('o') or love.keyboard.isDown('o') then
             table.insert(fretsHeld, 1)
         end
         if love.keyboard.wasPressed('p') or love.keyboard.isDown('p') then
             table.insert(fretsHeld, 2)
         end
-        --[[
-        if love.keyboard.wasPressed('3') or love.keyboard.isDown('3') then
-            table.insert(fretsHeld, 3)
-        end
-        if love.keyboard.wasPressed('4') or love.keyboard.isDown('4') then
-            table.insert(fretsHeld, 4)
-        end
-        --]]
-
-
 
         if love.keyboard.isDown('d') then
             F1Pressed = true
@@ -195,6 +204,7 @@ function PlayState:update(dt)
             end
         end
     end
+
     if love.keyboard.wasReleased('p') then
         for k, v in pairs(fretsHeld) do
             if v == 2 then
@@ -202,22 +212,6 @@ function PlayState:update(dt)
             end
         end
     end
-    --[[
-    if love.keyboard.wasReleased('3') then
-        for k, v in pairs(fretsHeld) do
-            if v == 3 then
-                table.remove(fretsHeld, k)
-            end
-        end
-    end
-    if love.keyboard.wasReleased('4') then
-        for k, v in pairs(fretsHeld) do
-            if v == 4 then
-                table.remove(fretsHeld, k)
-            end
-        end
-    end
-    --]]
 
     if #fretsHeld > 0 then
         local highest = 0
@@ -291,13 +285,6 @@ function PlayState:update(dt)
             end
         end
     end
---[[
-    for k, v in pairs(activeNotes) do
-        if v.x < - 12 then
-            v.validTiming = false
-        end
-    end
-    --]]
 
     luteStringF1:update(dt)
     luteStringD1:update(dt)

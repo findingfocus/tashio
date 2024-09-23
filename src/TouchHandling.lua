@@ -65,6 +65,10 @@ function TouchHandling:init()
               gStateMachine:change('playState')
           end
       end
+
+      if buttons[3]:collides(touches[id]) then
+
+      end
   end
 
   function love.touchmoved(id, x, y, dx, dy)
