@@ -568,7 +568,8 @@ function PlayState:update(dt)
 
     cameraX = cameraX + 1
 
-    if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('enter') then
+    --TODO MOVE FROM PLAYSTATE
+    if love.keyboard.wasPressed('p') then
         for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts) do
             if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k]) then
                 MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k].result = ''
