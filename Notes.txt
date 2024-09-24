@@ -97,6 +97,7 @@ __REHAUL DOWNLOADER TO ALSO KEEP TRACK OF LOCAL ROW AND COLUMN, INSERT INSERTANI
 __Incorporate Prosto closure fix for local variables
 
 Todo
+__Rehaul touch input into global buttonOutput table
 __Hold off on rendering fret presses until luteState has been active a while
 __Function to change tunic equip?
 __Init Idle State without player render bug, and properly switch to idle if no inputs
