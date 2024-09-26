@@ -269,25 +269,41 @@ function Inventory:update(dt)
             end
             if self.selectedRow == 2 then
                 if self.selectedCol == 1 then
-                    gPlayer.greenTunicEquipped = true
+                    if gPlayer.greenTunicEquipped then
+                        gPlayer.greenTunicEquipped = false
+                    else
+                        gPlayer.greenTunicEquipped = true
+                    end
                     gPlayer.redTunicEquipped = false
                     gPlayer.yellowTunicEquipped = false
                     gPlayer.blueTunicEquipped = false
                 end
                 if self.selectedCol == 2 then
-                    gPlayer.blueTunicEquipped = true
+                        if gPlayer.blueTunicEquipped then
+                            gPlayer.blueTunicEquipped = false
+                        else
+                            gPlayer.blueTunicEquipped = true
+                        end
                     gPlayer.greenTunicEquipped = false
                     gPlayer.redTunicEquipped = false
                     gPlayer.yellowTunicEquipped = false
                 end
                 if self.selectedCol == 3 then
-                    gPlayer.redTunicEquipped = true
+                    if gPlayer.redTunicEquipped then
+                        gPlayer.redTunicEquipped = false
+                    else
+                        gPlayer.redTunicEquipped = true
+                    end
                     gPlayer.greenTunicEquipped = false
                     gPlayer.yellowTunicEquipped = false
                     gPlayer.blueTunicEquipped = false
                 end
                 if self.selectedCol == 4 then
-                    gPlayer.yellowTunicEquipped = true
+                    if gPlayer.yellowTunicEquipped then
+                        gPlayer.yellowTunicEquipped = false
+                    else
+                        gPlayer.yellowTunicEquipped = true
+                    end
                     gPlayer.greenTunicEquipped = false
                     gPlayer.redTunicEquipped = false
                     gPlayer.blueTunicEquipped = false

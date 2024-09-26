@@ -68,6 +68,7 @@ end
 
 function PlayerWalkState:render()
     local anim = self.player.currentAnimation
+
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
     --love.graphics.print('timer: ' .. tostring(self.player.animations['walk-down'].timer), 5, 55)
     if not self.player.falling then
