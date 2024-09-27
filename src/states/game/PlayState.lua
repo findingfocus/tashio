@@ -374,29 +374,6 @@ function PlayState:update(dt)
         if love.keyboard.wasPressed('p') or love.keyboard.isDown('p') then
             table.insert(fretsHeld, 2)
         end
-
-        --[[
-        if love.keyboard.isDown('d') then
-            F1Pressed = true
-        else
-            F1Pressed = false
-        end
-        if love.keyboard.isDown('s') then
-            A1Pressed = true
-        else
-            A1Pressed = false
-        end
-        if love.keyboard.isDown('a') then
-            D1Pressed = true
-        else
-            D1Pressed = false
-        end
-        if love.keyboard.isDown('w') then
-            F2Pressed = true
-        else
-            F2Pressed = false
-        end
-        --]]
     end
 
     if love.keyboard.wasReleased('o') then

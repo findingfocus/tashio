@@ -18,6 +18,10 @@ end
 
 function LuteString:render()
     local anim = self.animation
-    --love.graphics.setColor(WHITE)
+    if anim:getCurrentFrame() == 7 then
+        love.graphics.setColor(WHITE)
+    else
+        love.graphics.setColor(CYAN)
+    end
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()], 0, self.stringNumber * LUTE_STRING_SPACING - LUTE_STRING_SPACING + LUTE_STRING_YOFFSET)
 end
