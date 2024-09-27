@@ -120,6 +120,7 @@ __Tweak falling trigger upon pit collision
 
 Next Episode
 __Fix fretsheld for touch
+__Hold off fret render on luteState swap
 __Render string colors based on string animations
 __Ensure signposts are inserted into currentMap.signposts
 __Multiple page posts for signs
