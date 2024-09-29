@@ -63,7 +63,6 @@ function Lute:update(dt)
         end
 
         --STRING 2 DOWNRIGHT
-        --TODO IS THIS MULTISTRING PLAY NESTED APPROPRIATELY?
         if dpad[8]:collides(touches[k]) and touches[k].wasTouched then
             validNoteChecker(3)
             if #fretsHeld == 0 then
@@ -87,117 +86,119 @@ function Lute:update(dt)
                 sounds['A1']:play()
                 luteStringF1.animation:refresh()
             end
+        end
 
-            --STRING 3 LEFT
-            if dpad[4]:collides(touches[k]) and touches[k].wasTouched then
-                validNoteChecker(2)
-                if #fretsHeld == 0 then
-                    sounds['D1']:play()
-                    luteStringD1.animation:refresh()
-                elseif fretsHeld[1] == 1 then
-                    sounds['E1']:play()
-                    luteStringD1.animation:refresh()
-                elseif fretsHeld[1] == 2 then
-                    sounds['F2']:play()
-                    luteStringD1.animation:refresh()
-                end
+
+        --STRING 3 LEFT
+        if dpad[4]:collides(touches[k]) and touches[k].wasTouched then
+            validNoteChecker(2)
+            if #fretsHeld == 0 then
+                sounds['D1']:play()
+                luteStringD1.animation:refresh()
+            elseif fretsHeld[1] == 1 then
+                sounds['E1']:play()
+                luteStringD1.animation:refresh()
+            elseif fretsHeld[1] == 2 then
+                sounds['F2']:play()
+                luteStringD1.animation:refresh()
+            end
+        end
+
+        --STRING DOWNLEFT
+        if dpad[6]:collides(touches[k]) and touches[k].wasTouched then
+            validNoteChecker(3)
+            if #fretsHeld == 0 then
+                sounds['A1']:play()
+                luteStringA1.animation:refresh()
+            elseif fretsHeld[1] == 1 then
+                sounds['Bb1']:play()
+                luteStringA1.animation:refresh()
+            elseif fretsHeld[1] == 2 then
+                sounds['C1']:play()
+                luteStringA1.animation:refresh()
+            end
+            validNoteChecker(2)
+            if #fretsHeld == 0 then
+                sounds['D1']:play()
+                luteStringD1.animation:refresh()
+            elseif fretsHeld[1] == 1 then
+                sounds['E1']:play()
+                luteStringD1.animation:refresh()
+            elseif fretsHeld[1] == 2 then
+                sounds['F2']:play()
+                luteStringD1.animation:refresh()
+            end
+        end
+
+        --STRING 4 UP
+        if dpad[2]:collides(touches[k]) and touches[k].wasTouched then
+            validNoteChecker(1)
+            if #fretsHeld == 0 then
+                sounds['F2']:play()
+                luteStringF2.animation:refresh()
+            elseif fretsHeld[1] == 1 then
+                sounds['G2']:play()
+                luteStringF2.animation:refresh()
+            elseif fretsHeld[1] == 2 then
+                sounds['A2']:play()
+                luteStringF2.animation:refresh()
+            end
+        end
+
+        --STRING UPLEFT
+        if dpad[1]:collides(touches[k]) and touches[k].wasTouched then
+            validNoteChecker(1)
+            if #fretsHeld == 0 then
+                sounds['F2']:play()
+                luteStringF2.animation:refresh()
+            elseif fretsHeld[1] == 1 then
+                sounds['G2']:play()
+                luteStringF2.animation:refresh()
+            elseif fretsHeld[1] == 2 then
+                sounds['A2']:play()
+                luteStringF2.animation:refresh()
+            end
+            validNoteChecker(2)
+            if #fretsHeld == 0 then
+                sounds['D1']:play()
+                luteStringD1.animation:refresh()
+            elseif fretsHeld[1] == 1 then
+                sounds['E1']:play()
+                luteStringD1.animation:refresh()
+            elseif fretsHeld[1] == 2 then
+                sounds['F2']:play()
+                luteStringD1.animation:refresh()
+            end
+        end
+
+        --STRING UPRIGHT
+        if dpad[3]:collides(touches[k]) and touches[k].wasTouched then
+            validNoteChecker(1)
+            if #fretsHeld == 0 then
+                sounds['F2']:play()
+                luteStringF2.animation:refresh()
+            elseif fretsHeld[1] == 1 then
+                sounds['G2']:play()
+                luteStringF2.animation:refresh()
+            elseif fretsHeld[1] == 2 then
+                sounds['A2']:play()
+                luteStringF2.animation:refresh()
             end
 
-            --STRING DOWNLEFT
-            if dpad[6]:collides(touches[k]) and touches[k].wasTouched then
-                validNoteChecker(3)
-                if #fretsHeld == 0 then
-                    sounds['A1']:play()
-                    luteStringA1.animation:refresh()
-                elseif fretsHeld[1] == 1 then
-                    sounds['Bb1']:play()
-                    luteStringA1.animation:refresh()
-                elseif fretsHeld[1] == 2 then
-                    sounds['C1']:play()
-                    luteStringA1.animation:refresh()
-                end
-                validNoteChecker(2)
-                if #fretsHeld == 0 then
-                    sounds['D1']:play()
-                    luteStringD1.animation:refresh()
-                elseif fretsHeld[1] == 1 then
-                    sounds['E1']:play()
-                    luteStringD1.animation:refresh()
-                elseif fretsHeld[1] == 2 then
-                    sounds['F2']:play()
-                    luteStringD1.animation:refresh()
-                end
-            end
-
-            --STRING 4 UP
-            if dpad[2]:collides(touches[k]) and touches[k].wasTouched then
-                validNoteChecker(1)
-                if #fretsHeld == 0 then
-                    sounds['F2']:play()
-                    luteStringF2.animation:refresh()
-                elseif fretsHeld[1] == 1 then
-                    sounds['G2']:play()
-                    luteStringF2.animation:refresh()
-                elseif fretsHeld[1] == 2 then
-                    sounds['A2']:play()
-                    luteStringF2.animation:refresh()
-                end
-            end
-
-            --STRING UPLEFT
-            if dpad[1]:collides(touches[k]) and touches[k].wasTouched then
-                validNoteChecker(1)
-                if #fretsHeld == 0 then
-                    sounds['F2']:play()
-                    luteStringF2.animation:refresh()
-                elseif fretsHeld[1] == 1 then
-                    sounds['G2']:play()
-                    luteStringF2.animation:refresh()
-                elseif fretsHeld[1] == 2 then
-                    sounds['A2']:play()
-                    luteStringF2.animation:refresh()
-                end
-                validNoteChecker(2)
-                if #fretsHeld == 0 then
-                    sounds['D1']:play()
-                    luteStringD1.animation:refresh()
-                elseif fretsHeld[1] == 1 then
-                    sounds['E1']:play()
-                    luteStringD1.animation:refresh()
-                elseif fretsHeld[1] == 2 then
-                    sounds['F2']:play()
-                    luteStringD1.animation:refresh()
-                end
-            end
-
-            --STRING UPRIGHT
-            if dpad[3]:collides(touches[k]) and touches[k].wasTouched then
-                validNoteChecker(1)
-                if #fretsHeld == 0 then
-                    sounds['F2']:play()
-                    luteStringF2.animation:refresh()
-                elseif fretsHeld[1] == 1 then
-                    sounds['G2']:play()
-                    luteStringF2.animation:refresh()
-                elseif fretsHeld[1] == 2 then
-                    sounds['A2']:play()
-                    luteStringF2.animation:refresh()
-                end
-
-                validNoteChecker(4)
-                if #fretsHeld == 0 then
-                    sounds['F1']:play()
-                    luteStringF1.animation:refresh()
-                elseif fretsHeld[1] == 1 then
-                    sounds['G1']:play()
-                    luteStringF1.animation:refresh()
-                elseif fretsHeld[1] == 2 then
-                    sounds['A1']:play()
-                    luteStringF1.animation:refresh()
-                end
+            validNoteChecker(4)
+            if #fretsHeld == 0 then
+                sounds['F1']:play()
+                luteStringF1.animation:refresh()
+            elseif fretsHeld[1] == 1 then
+                sounds['G1']:play()
+                luteStringF1.animation:refresh()
+            elseif fretsHeld[1] == 2 then
+                sounds['A1']:play()
+                luteStringF1.animation:refresh()
             end
         end
     end
+end
 
     songTimer = songTimer - dt
 
