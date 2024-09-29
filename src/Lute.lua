@@ -63,6 +63,7 @@ function Lute:update(dt)
         end
 
         --STRING 2 DOWNRIGHT
+        --TODO IS THIS MULTISTRING PLAY NESTED APPROPRIATELY?
         if dpad[8]:collides(touches[k]) and touches[k].wasTouched then
             validNoteChecker(3)
             if #fretsHeld == 0 then
@@ -248,11 +249,13 @@ function Lute:update(dt)
 
     --TODO TOUCHES FRETS HELD
     --
-    if buttons[2]:collides(touches[k]) then
-        table.insert(fretsHeld, 1)
-    end
-    if buttons[1]:collides(touches[k]) then
-        table.insert(fretsHeld, 2)
+    for k, v in pairs(touches) do
+        if buttons[2]:collides(touches[k]) then
+            table.insert(fretsHeld, 1)
+        end
+        if buttons[1]:collides(touches[k]) then
+            table.insert(fretsHeld, 2)
+        end
     end
 
     if #fretsHeld > 0 then
