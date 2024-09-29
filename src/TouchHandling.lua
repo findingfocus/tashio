@@ -72,6 +72,7 @@ function TouchHandling:init()
   end
 
   function love.touchreleased(id, x, y, dx, dy)
+      --[[
       if touches[id].fretsHeld ~= nil then
           for k, v in pairs(fretsHeld) do
               if touches[id].fretHeld == 'b' then
@@ -85,6 +86,7 @@ function TouchHandling:init()
               end
           end
       end
+      --]]
       touches[id] = nil
   end
 end
