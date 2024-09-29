@@ -221,7 +221,6 @@ function Lute:update(dt)
         end
     end
 
-
     --KEYBOARD FRETS HELD
     if love.keyboard.wasPressed('o') or love.keyboard.isDown('o') then
         table.insert(fretsHeld, 1)
@@ -250,10 +249,10 @@ function Lute:update(dt)
     --TODO TOUCHES FRETS HELD
     --
     for k, v in pairs(touches) do
-        if buttons[2]:collides(touches[k]) then
+        if buttons[2]:collides(touches[k]) and touches[k].wasTouched then
             table.insert(fretsHeld, 1)
         end
-        if buttons[1]:collides(touches[k]) then
+        if buttons[1]:collides(touches[k]) and touches[k].wasTouched then
             table.insert(fretsHeld, 2)
         end
     end
