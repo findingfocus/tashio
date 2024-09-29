@@ -221,6 +221,8 @@ function Lute:update(dt)
         end
     end
 
+    --FLUSH FRETS HELD
+    fretsHeld = {}
     --KEYBOARD FRETS HELD
     if love.keyboard.wasPressed('o') or love.keyboard.isDown('o') then
         table.insert(fretsHeld, 1)
@@ -247,7 +249,6 @@ function Lute:update(dt)
     end
 
     --TODO TOUCHES FRETS HELD
-    --
     for k, v in pairs(touches) do
         if buttons[2]:collides(touches[k]) and touches[k].wasTouched then
             table.insert(fretsHeld, 1)
@@ -257,16 +258,13 @@ function Lute:update(dt)
         end
     end
 
-    if #fretsHeld > 0 then
-        local highest = 0
-        for k, v in pairs(fretsHeld) do
-            if v > highest then
-                highest = v
-            end
+    local highest = 0
+    for k, v in ipairs(fretsHeld) do
+        if v > highest then
+            highest = v
         end
-        fretsHeld = {}
-        table.insert(fretsHeld, highest)
     end
+    table.insert(fretsHeld, highest)
 
     --STRING 1
     if love.keyboard.wasPressed('d') then
