@@ -97,6 +97,25 @@ function PlayState:update(dt)
         end
     end
 
+    for k, v in pairs(touches) do
+        if buttons[2]:collides(touches[k]) and gItemInventory.itemSlot[1] ~= nil then
+            if gItemInventory.itemSlot[1].type == 'lute' then
+                if not luteState then
+                    gPlayer.direction = 'down'
+                    gPlayer:changeAnimation('idle-down')
+                    luteState = true
+                end
+            end
+        end
+
+        if buttons[3]:collides(touches[k]) and touches[k].wasTouched then
+            if luteState then
+                luteState = false
+            else
+                toggleHelp = toggleHelp == false and true or false
+            end
+        end
+    end
 
     if luteState then
         Lute:update(dt)
