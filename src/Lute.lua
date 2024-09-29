@@ -198,7 +198,6 @@ function Lute:update(dt)
             end
         end
     end
-end
 
     songTimer = songTimer - dt
 
