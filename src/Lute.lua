@@ -32,33 +32,6 @@ end
 
 function Lute:update(dt)
     for k, v in pairs(touches) do
-        --[[
-        --RIGHT
-        if dpad[5]:collides(touches[k]) then
-            F1Pressed = true
-        else
-            F1Pressed = false
-        end
-        --DOWN
-        if dpad[7]:collides(touches[k]) then
-            A1Pressed = true
-        else
-            A1Pressed = false
-        end
-        --LEFT
-        if dpad[4]:collides(touches[k]) then
-            D1Pressed = true
-        else
-            D1Pressed = false
-        end
-        --UP
-        if dpad[2]:collides(touches[k]) then
-            F2Pressed = true
-        else
-            F2Pressed = false
-        end
-        --]]
-
         --STRING 1 RIGHT
         if dpad[5]:collides(touches[k]) and touches[k].wasTouched then
             validNoteChecker(4)
@@ -248,6 +221,7 @@ function Lute:update(dt)
     end
 
 
+    --KEYBOARD FRETS HELD
     if love.keyboard.wasPressed('o') or love.keyboard.isDown('o') then
         table.insert(fretsHeld, 1)
     end
@@ -255,6 +229,7 @@ function Lute:update(dt)
         table.insert(fretsHeld, 2)
     end
 
+    --KEYBOARD FRETS REMOVED
     if love.keyboard.wasReleased('o') then
         for k, v in pairs(fretsHeld) do
             if v == 1 then
@@ -269,6 +244,15 @@ function Lute:update(dt)
                 table.remove(fretsHeld, k)
             end
         end
+    end
+
+    --TODO TOUCHES FRETS HELD
+    --
+    if buttons[2]:collides(touches[k]) then
+        table.insert(fretsHeld, 1)
+    end
+    if buttons[1]:collides(touches[k]) then
+        table.insert(fretsHeld, 2)
     end
 
     if #fretsHeld > 0 then
@@ -352,6 +336,7 @@ function Lute:update(dt)
                 end
             end
         end
+
         if buttons[3]:collides(touches[k]) and touches[k].wasTouched then
             if luteState then
                 luteState = false
@@ -360,14 +345,6 @@ function Lute:update(dt)
             end
         end
 
-        if buttons[2]:collides(touches[k]) then
-            table.insert(fretsHeld, 1)
-            touches[k].fretHeld = 'b'
-        end
-        if buttons[1]:collides(touches[k]) then
-            table.insert(fretsHeld, 2)
-            touches[k].fretHeld = 'a'
-        end
 
     end
     luteStringF1:update(dt)
