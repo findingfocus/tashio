@@ -281,7 +281,9 @@ function Lute:update(dt)
         end
     end
     fretsHeld = {}
-    table.insert(fretsHeld, highest)
+    if highest ~= 0 then
+        table.insert(fretsHeld, highest)
+    end
 
     --STRING 1
     if love.keyboard.wasPressed('d') then
