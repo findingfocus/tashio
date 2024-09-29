@@ -250,11 +250,27 @@ function Lute:update(dt)
 
     --TODO TOUCHES FRETS HELD
     for k, v in pairs(touches) do
-        if buttons[2]:collides(touches[k]) and touches[k].wasTouched then
-            table.insert(fretsHeld, 1)
+        if buttons[2]:collides(touches[k]) then
+            local fret1Count = 0
+            for k, v in ipairs(fretsHeld) do
+                if v == 1 then
+                    fret1Count = fret1Count + 1
+                end
+            end
+            if fret1Count == 0 then
+                table.insert(fretsHeld, 1)
+            end
         end
-        if buttons[1]:collides(touches[k]) and touches[k].wasTouched then
-            table.insert(fretsHeld, 2)
+        if buttons[1]:collides(touches[k]) then
+            local fret2Count = 0
+            for k, v in ipairs(fretsHeld) do
+                if v == 2 then
+                    fret2Count = fret2Count + 1
+                end
+            end
+            if fret2Count == 0 then
+                table.insert(fretsHeld, 2)
+            end
         end
     end
 
@@ -264,6 +280,7 @@ function Lute:update(dt)
             highest = v
         end
     end
+    fretsHeld = {}
     table.insert(fretsHeld, highest)
 
     --STRING 1
