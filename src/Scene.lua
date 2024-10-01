@@ -132,26 +132,6 @@ function Scene:finishShifting()
     self.currentMap = self.nextMap
 
     self.nextMap = nil
-
-    --sceneView = Scene(self.player, 1, 1)
-    --
-    --
-    --[[INPUT REHAUL
-    --self.player.direction = INPUT_LIST[#INPUT_LIST]
-    --INPUT_LIST = {}
-    if love.keyboard.isDown('left') then
-        table.insert(INPUT_LIST, 'left')
-    end
-    if love.keyboard.isDown('right') then
-        table.insert(INPUT_LIST, 'right')
-    end
-    if love.keyboard.isDown('up') then
-        table.insert(INPUT_LIST, 'up')
-    end
-    if love.keyboard.isDown('down') then
-        table.insert(INPUT_LIST, 'down')
-    end
-    --]]
 end
 
 function Scene:update(dt)
@@ -159,24 +139,6 @@ function Scene:update(dt)
     --self.rainSystem:update(dt)
     --self.sandSystem:update(dt)
     --self.lavaSystem:update(dt)
-    --TODO set lastinput to nil if nothing pressed
-    --
-    --
-    --
-    --[[INPUT REHAUL
-    if not love.keyboard.wasPressed('left')
-        and not love.keyboard.wasPressed('right')
-        and not love.keyboard.wasPressed('up')
-        and not love.keyboard.wasPressed('down')
-        and not love.keyboard.isDown('left')
-        and not love.keyboard.isDown('right')
-        and not love.keyboard.isDown('up')
-        and not love.keyboard.isDown('down') then
-        self.player:changeState('player-idle')
-        self.player.lastInput = nil
-        --INPUT_LIST = {}
-    end
-    --]]
     self.currentMap:update(dt)
     if not self.shifting then
         self.player:update(dt)
@@ -193,7 +155,6 @@ function Scene:update(dt)
             self.spellcastEntities[i]:update(dt)
         end
     end
-
     ---[[
     --PLAYER TO MAP OBJECT COLLISION DETECTION
     for i = 1, #self.currentMap.collidableMapObjects do
@@ -217,7 +178,6 @@ function Scene:update(dt)
     if not self.shifting then
       for i = 1, #MAP[self.mapRow][self.mapColumn].npc do
         local npc = MAP[self.mapRow][self.mapColumn].npc[i]
-
         if self.player:leftCollidesMapObject(MAP[self.mapRow][self.mapColumn].npc[i]) then
           self.player.x = npc.x + npc.width - 1
         end
@@ -290,20 +250,6 @@ function Scene:render()
     end
 
     love.graphics.setColor(WHITE)
-    --[[
-    love.graphics.setColor(RED)
-    love.graphics.rectangle('fill', VIRTUAL_WIDTH - 8, 32, 16, 16)
-    --]]
-
-    --[[
-    love.graphics.setColor(WHITE)
-    for i = 1, #MAP[1][2].entities do
-        love.graphics.print('entity[' .. tostring(i) .. ']: x:' .. string.format("%.2f", MAP[1][2].entities[i].x) , 0, i * 8)
-        love.graphics.print(tostring(MAP[1][2].entities[i].y), 144, i * 8)
-    end
-    --love.graphics.print('dy: ' .. tostring(self.player.dy), 0, 10)
-    --]]
-
 
     --ONLY RENDER COLLIDED SIGNPOST
     for k, v in pairs(MAP[self.mapRow][self.mapColumn].signpostCollided) do
