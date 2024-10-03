@@ -42,14 +42,14 @@ function Scene:init(player, mapRow, mapColumn)
     end
 
     Event.on('left-transition', function()
-        if self.currentMap.column ~= 1 then
+        if self.currentMap.column ~= 1 and self.currentMap.column ~= 11 then
             self.nextMap = Map(self.currentMap.row, self.currentMap.column - 1, spellcastEntityCount)
             self.mapColumn = self.mapColumn - 1
             self:beginShifting(-VIRTUAL_WIDTH, 0)
         end
     end)
     Event.on('right-transition', function()
-        if self.currentMap.column ~= OVERWORLD_MAP_WIDTH then
+        if self.currentMap.column ~= OVERWORLD_MAP_WIDTH / 2 and self.currentMap.column ~= OVERWORLD_MAP_WIDTH then
             self.nextMap = Map(self.currentMap.row, self.currentMap.column + 1, spellcastEntityCount)
             self.mapColumn = self.mapColumn + 1
             self:beginShifting(VIRTUAL_WIDTH, 0)
