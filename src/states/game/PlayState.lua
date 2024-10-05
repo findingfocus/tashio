@@ -14,6 +14,11 @@ gItemInventory = Inventory('item')
 gKeyItemInventory = Inventory('keyItem')
 gItems = {}
 
+local triggerSceneTransition = false
+local leftFadeTransitionX = -VIRTUAL_WIDTH / 2
+local rightFadeTransitionX = VIRTUAL_WIDTH
+local startingSceneTransitionFinished = false
+
 gPlayer = Player {
     animations = ENTITY_DEFS['player'].animations,
     walkSpeed = ENTITY_DEFS['player'].walkSpeed,
@@ -233,6 +238,43 @@ function PlayState:update(dt)
     --love.window.setPosition(400, 40)
     --DEV POSITION
     love.window.setPosition(400, 100)
+
+    if love.keyboard.wasPressed('z') and not startingSceneTransitionFinished then
+        triggerStartingSceneTransition = true
+    elseif love.keyboard.wasPressed('z') and startingSceneTransitionFinished then
+        triggerFinishingSceneTransition = true
+    end
+
+    if triggerStartingSceneTransition then
+        --fadeTransitionX = math.max(fadeTransitionX + FADE_TRANSITION_SPEED * dt, 0)
+        leftFadeTransitionX = leftFadeTransitionX + FADE_TRANSITION_SPEED * dt
+        rightFadeTransitionX = rightFadeTransitionX - FADE_TRANSITION_SPEED * dt
+        if leftFadeTransitionX > 0 then
+            leftFadeTransitionX = 0
+            triggerStartingSceneTransition = false
+            startingSceneTransitionFinished = true
+        end
+        if rightFadeTransitionX < VIRTUAL_WIDTH / 2 then
+            rightFadeTransitionX = VIRTUAL_WIDTH / 2
+            triggerStartingSceneTransition = false
+            startingSceneTransitionFinished = true
+        end
+    end
+    if triggerFinishingSceneTransition then
+        --fadeTransitieTransitionX + FADE_TRANSITION_SPEED * dt, 0)
+        leftFadeTransitionX = leftFadeTransitionX - FADE_TRANSITION_SPEED * dt
+        rightFadeTransitionX = rightFadeTransitionX + FADE_TRANSITION_SPEED * dt
+        if leftFadeTransitionX < -VIRTUAL_WIDTH / 2 then
+            leftFadeTransitionX = -VIRTUAL_WIDTH / 2
+            triggerFinishingSceneTransition = false
+            startingSceneTransitionFinished = false
+        end
+        if rightFadeTransitionX > VIRTUAL_WIDTH then
+            rightFadeTransitionX = VIRTUAL_WIDTH
+            triggerFinishingSceneTransition = false
+            startingSceneTransition = false
+        end
+    end
 end
 
 function PlayState:render()
@@ -380,4 +422,13 @@ function PlayState:render()
     love.graphics.draw(heartRowEmpty, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)
     heartRowQuad:setViewport(0, 0, HEART_CROP, 7, heartRow:getDimensions())
     love.graphics.draw(heartRow, heartRowQuad, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)
+
+    --TRANSITION START
+    love.graphics.setColor(BLACK)
+    love.graphics.rectangle('fill', leftFadeTransitionX, 0, VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT)
+    love.graphics.rectangle('fill', rightFadeTransitionX, 0, VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT)
+
+    --TRANSITION FINISH
+    --love.graphics.rectangle('fill', fadeTransitionX, 0, VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT)
+
 end
