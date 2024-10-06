@@ -18,6 +18,7 @@ local triggerSceneTransition = false
 local leftFadeTransitionX = -VIRTUAL_WIDTH / 2
 local rightFadeTransitionX = VIRTUAL_WIDTH
 local startingSceneTransitionFinished = false
+local transitionFadeAlpha = 0
 
 gPlayer = Player {
     animations = ENTITY_DEFS['player'].animations,
@@ -259,6 +260,7 @@ function PlayState:update(dt)
             triggerStartingSceneTransition = false
             startingSceneTransitionFinished = true
         end
+        transitionFadeAlpha = math.min(transitionFadeAlpha + FADE_TO_BLACK_SPEED * dt, 255)
     end
     if triggerFinishingSceneTransition then
         --fadeTransitieTransitionX + FADE_TRANSITION_SPEED * dt, 0)
@@ -274,6 +276,7 @@ function PlayState:update(dt)
             triggerFinishingSceneTransition = false
             startingSceneTransition = false
         end
+        transitionFadeAlpha = math.max(transitionFadeAlpha - FADE_TO_BLACK_SPEED * dt, 0)
     end
 end
 
@@ -428,7 +431,8 @@ function PlayState:render()
     love.graphics.rectangle('fill', leftFadeTransitionX, 0, VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT)
     love.graphics.rectangle('fill', rightFadeTransitionX, 0, VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT)
 
-    --TRANSITION FINISH
-    --love.graphics.rectangle('fill', fadeTransitionX, 0, VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT)
+    --TRANSITION BLACK FADE
+    love.graphics.setColor(0/255, 0/255, 0/255, transitionFadeAlpha/255)
+    love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
 
 end
