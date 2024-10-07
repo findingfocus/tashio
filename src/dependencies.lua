@@ -13,6 +13,7 @@ lute = love.graphics.newImage('graphics/lute.png')
 
 require 'src/constants'
 
+require 'src/WarpZone'
 require 'src/InputHandling'
 require 'src/TouchHandling'
 require 'src/Animation'
