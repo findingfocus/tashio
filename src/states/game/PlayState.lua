@@ -41,6 +41,7 @@ sceneView = Scene(gPlayer, 7, 2)
 tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 --textures = love.graphics.newImage('graphics/textures.png')
 quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
+local transitionTimer = 3
 
 function PlayState:init()
     self.stateName = 'PlayState'
@@ -64,6 +65,13 @@ end
 
 
 function PlayState:update(dt)
+    --transitionTimer = transitionTimer - dt
+    ---[[
+    if transitionTimer < 0 then
+        sceneView = Scene(gPlayer, 7, 3)
+        transitionTimer = 100
+    end
+    --]]
     --gItemInventory:update(dt)
     if love.keyboard.wasPressed('g') then
         if WINDOW_HEIGHT == 144 * SCALE_FACTOR * 2 then
@@ -240,20 +248,34 @@ function PlayState:update(dt)
     --DEV POSITION
     love.window.setPosition(400, 100)
 
-    if love.keyboard.wasPressed('z') and not startingSceneTransitionFinished then
-        triggerStartingSceneTransition = true
-    elseif love.keyboard.wasPressed('z') and startingSceneTransitionFinished then
-        triggerFinishingSceneTransition = true
+
+    --WARP ZONES
+    if #MAP[sceneView.currentMap.row][sceneView.currentMap.column].warpZones > 0 then
+        for k, v in pairs(sceneView.currentMap.warpZones) do
+            if v:collides() and not v.warping then
+                triggerStartingSceneTransition = true
+                v.warping = true
+                --sceneView = Scene(gPlayer, v.warpRow, v.warpCol)
+            end
+        end
     end
 
     if triggerStartingSceneTransition then
-        --fadeTransitionX = math.max(fadeTransitionX + FADE_TRANSITION_SPEED * dt, 0)
         leftFadeTransitionX = leftFadeTransitionX + FADE_TRANSITION_SPEED * dt
         rightFadeTransitionX = rightFadeTransitionX - FADE_TRANSITION_SPEED * dt
         if leftFadeTransitionX > 0 then
             leftFadeTransitionX = 0
             triggerStartingSceneTransition = false
             startingSceneTransitionFinished = true
+            for k, v in pairs(sceneView.currentMap.warpZones) do
+                if v.warping then
+                    sceneView = Scene(gPlayer, sceneView.currentMap.warpZones[k].warpRow, sceneView.currentMap.warpZones[k].warpCol)
+                    gPlayer.x = v.playerX
+                    gPlayer.y = v.playerY
+                    v.warping = false
+                end
+            end
+            triggerFinishingSceneTransition = true
         end
         if rightFadeTransitionX < VIRTUAL_WIDTH / 2 then
             rightFadeTransitionX = VIRTUAL_WIDTH / 2
@@ -263,7 +285,6 @@ function PlayState:update(dt)
         transitionFadeAlpha = math.min(transitionFadeAlpha + FADE_TO_BLACK_SPEED * dt, 255)
     end
     if triggerFinishingSceneTransition then
-        --fadeTransitieTransitionX + FADE_TRANSITION_SPEED * dt, 0)
         leftFadeTransitionX = leftFadeTransitionX - FADE_TRANSITION_SPEED * dt
         rightFadeTransitionX = rightFadeTransitionX + FADE_TRANSITION_SPEED * dt
         if leftFadeTransitionX < -VIRTUAL_WIDTH / 2 then
@@ -434,5 +455,4 @@ function PlayState:render()
     --TRANSITION BLACK FADE
     love.graphics.setColor(0/255, 0/255, 0/255, transitionFadeAlpha/255)
     love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
-
 end

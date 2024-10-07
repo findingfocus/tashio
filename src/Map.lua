@@ -27,6 +27,7 @@ function Map:init(row, column, spellcastEntities)
     self.insertAnimations = InsertAnimation(self.row, self.column)
     self.entityCount = #MAP[row][column].entities
     self.npcCount = #MAP[row][column].npc
+    self.warpZones = MAP[row][column].warpZones
 
     local count = 1
     for y = 1, MAP_HEIGHT do
@@ -293,4 +294,11 @@ function Map:render()
     --self.snowSystem:render()
     --love.graphics.print('.option: ' .. tostring(inspect(MAP[7][2].npc[1].stateMachine.current.option)), 0, 0)
     --print(inspect(MAP[7][2].npc[1].stateMachine))
+
+    --RENDER WARPZONES
+    if MAP[self.row][self.column].warpZones[1] ~= nil then
+        for k, v in pairs(MAP[self.row][self.column].warpZones) do
+            v:render(self.adjacentOffsetX, self.adjacentOffsetY)
+        end
+    end
 end

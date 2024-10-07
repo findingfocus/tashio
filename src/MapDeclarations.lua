@@ -46,6 +46,7 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
         MAP[i][j].aboveGroundTileIds = {}
         MAP[i][j].signposts = {}
         MAP[i][j].signpostCollided = {}
+        MAP[i][j].warpZones = {}
     end
 end
 
@@ -231,6 +232,10 @@ for i = 1, entities do
     MAP[7][3].entities[i]:changeState('entity-idle')
     MAP[7][3].entities[i].hit = false
 end
+
+table.insert(MAP[7][2].warpZones, WarpZone(130,20,0,0,7,4))
+table.insert(MAP[7][4].warpZones, WarpZone(50,35,0,0,7,3))
+table.insert(MAP[8][3].warpZones, WarpZone(35,80,20,100,7,5))
 
 FLOWERS = AnimSpitter(FLOWER_ANIM_STARTER, 1015, 0.75)
 AUTUMN_FLOWERS = AnimSpitter(AUTUMN_FLOWER_ANIM_STARTER, 1011, 0.75)
