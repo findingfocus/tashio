@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="200" height="80" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="1">
  <editorsettings>
-  <export target="globalMapWithOtherWorld.lua" format="lua"/>
+  <export target="globalMap.lua" format="lua"/>
  </editorsettings>
  <tileset firstgid="1" name="masterSheet" tilewidth="16" tileheight="16" tilecount="1024" columns="32">
   <image source="masterSheet.png" width="512" height="512"/>

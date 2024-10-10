@@ -252,9 +252,9 @@ function PlayState:update(dt)
     --WARP ZONES
     if #MAP[sceneView.currentMap.row][sceneView.currentMap.column].warpZones > 0 then
         for k, v in pairs(sceneView.currentMap.warpZones) do
-            if v:collides() and not v.warping then
+            if v:collides() and not gPlayer.warping then
                 triggerStartingSceneTransition = true
-                v.warping = true
+                gPlayer.warping = true
                 --sceneView = Scene(gPlayer, v.warpRow, v.warpCol)
             end
         end
@@ -268,11 +268,10 @@ function PlayState:update(dt)
             triggerStartingSceneTransition = false
             startingSceneTransitionFinished = true
             for k, v in pairs(sceneView.currentMap.warpZones) do
-                if v.warping then
+                if gPlayer.warping then
                     sceneView = Scene(gPlayer, sceneView.currentMap.warpZones[k].warpRow, sceneView.currentMap.warpZones[k].warpCol)
                     gPlayer.x = v.playerX
                     gPlayer.y = v.playerY
-                    v.warping = false
                 end
             end
             triggerFinishingSceneTransition = true
@@ -296,6 +295,7 @@ function PlayState:update(dt)
             rightFadeTransitionX = VIRTUAL_WIDTH
             triggerFinishingSceneTransition = false
             startingSceneTransition = false
+            gPlayer.warping = false
         end
         transitionFadeAlpha = math.max(transitionFadeAlpha - FADE_TO_BLACK_SPEED * dt, 0)
     end
@@ -455,4 +455,9 @@ function PlayState:render()
     --TRANSITION BLACK FADE
     love.graphics.setColor(0/255, 0/255, 0/255, transitionFadeAlpha/255)
     love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
+
+    --[[
+    love.graphics.setColor(WHITE)
+    love.graphics.print('warping: ' .. tostring(gPlayer.warping), 0, 4)
+    --]]
 end

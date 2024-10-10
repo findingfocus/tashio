@@ -9,7 +9,7 @@ function WarpZone:init(x, y, playerX, playerY, warpRow, warpCol)
     self.height = 10
     self.warpRow = warpRow
     self.warpCol = warpCol
-    self.warping = false
+    --self.warping = false
 end
 
 function WarpZone:collides()
