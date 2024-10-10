@@ -24,6 +24,7 @@ function Player:init(def)
     self.dialogueBoxHeight = TILE_SIZE
     self.fireSpellEquipped = true
     self.luteEquipped = false
+    self.warping = false
 end
 
 function updateHearts(player)
@@ -106,7 +107,9 @@ function Player:update(dt)
         end
     end
 
-    Entity.update(self, dt)
+    if not self.warping then
+        Entity.update(self, dt)
+    end
 
     if self.direction == 'up' then
         self.dialogueBoxX = self.x + DIALOGUE_TRIGGER_SHRINK / 2

@@ -233,7 +233,11 @@ for i = 1, entities do
     MAP[7][3].entities[i].hit = false
 end
 
-table.insert(MAP[7][2].warpZones, WarpZone(130,20,32,80,1,11))
+--TAVERN
+--TODO IMAGINE WAY TO SWAP PLAYER FRAME TO DEFAULT FRAME UPON TRANSITION
+table.insert(MAP[7][2].warpZones, WarpZone(130,20,32,100,1,11))
+table.insert(MAP[1][11].warpZones, WarpZone(35,125,130,30,7,2))
+
 table.insert(MAP[7][4].warpZones, WarpZone(50,35,0,0,7,3))
 table.insert(MAP[8][3].warpZones, WarpZone(35,80,20,100,7,5))
 
