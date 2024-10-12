@@ -17,6 +17,7 @@ function NPCWalkState:init(entity)
     self.walkTimer = walkTimer
     self.initialTimer = 0
     self.initializedWalking = false
+    self.horizontalTimer = 0
 end
 
 function NPCWalkState:update(dt)
@@ -78,6 +79,32 @@ function NPCWalkState:update(dt)
     elseif self.option == 'walkDown' then
         self.entity:changeAnimation('walk-' .. tostring(self.direction))
         self.entity.y = self.entity.y + self.entity.walkSpeed * dt
+    elseif self.option == 'horizontal' then
+        if not self.initializedWalking then
+            self.initialTimer = self.initialTimer + dt
+            if self.initialTimer > 1 then
+                self.initializedWalking = true
+                self.step1 = true
+            end
+        end
+        self.horizontalTimer = self.horizontalTimer + dt
+        if self.step1 then
+            self.entity.x = self.entity.x + self.entity.walkSpeed * dt
+            self.entity:changeAnimation('walk-' .. tostring('right'))
+            if self.horizontalTimer > 2 then
+                self.horizontalTimer = 0
+                self.step1 = false
+                self.step2 = true
+            end
+        elseif self.step2 then
+            self.entity.x = self.entity.x - self.entity.walkSpeed * dt
+            self.entity:changeAnimation('walk-' .. tostring('left'))
+            if self.horizontalTimer > 2 then
+                self.horizontalTimer = 0
+                self.step1 = true
+                self.step2 = false
+            end
+        end
     end
 end
 

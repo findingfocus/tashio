@@ -246,25 +246,26 @@ AUTUMN_FLOWERS = AnimSpitter(AUTUMN_FLOWER_ANIM_STARTER, 1011, 0.75)
 WATER = AnimSpitter(WATER_ANIM_STARTER, 105, .5)
 
 --VILLAGER 1
-table.insert(MAP[7][2].npc, Entity {
+table.insert(MAP[1][11].npc, Entity {
     animations = ENTITY_DEFS['villager1'].animations,
     walkSpeed = ENTITY_DEFS['villager1'].walkSpeed,
     height = ENTITY_DEFS['villager1'].height,
     width = ENTITY_DEFS['villager1'].width,
-    x = TILE_SIZE * 2,
-    y = TILE_SIZE * 2,
+    x = TILE_SIZE * 3,
+    y = TILE_SIZE,
     direction = 'down',
     corrupted = false,
     type = 'villager1',
 })
 
 local villagerIndex = 1
-MAP[7][2].npc[villagerIndex].stateMachine = StateMachine {
-    ['npc-idle'] = function() return NPCIdleState(MAP[7][2].npc[villagerIndex]) end,
-    ['npc-walk'] = function() return NPCWalkState(MAP[7][2].npc[villagerIndex]) end,
+MAP[1][11].npc[villagerIndex].stateMachine = StateMachine {
+    ['npc-idle'] = function() return NPCIdleState(MAP[1][11].npc[villagerIndex]) end,
+    ['npc-walk'] = function() return NPCWalkState(MAP[1][11].npc[villagerIndex]) end,
 }
-MAP[7][2].npc[villagerIndex]:changeState('npc-walk')
-MAP[7][2].npc[villagerIndex].stateMachine.current.option = 'square'
+MAP[1][11].npc[villagerIndex]:changeState('npc-walk')
+MAP[1][11].npc[villagerIndex].stateMachine.current.option = 'horizontal'
+--]]
 
 --MAGE NPC
 table.insert(MAP[7][2].npc, Entity {
@@ -279,7 +280,7 @@ table.insert(MAP[7][2].npc, Entity {
     type = 'mage',
 })
 
-local mageIndex = 2
+local mageIndex = 1
 MAP[7][2].npc[mageIndex].stateMachine = StateMachine {
     ['npc-idle'] = function() return NPCIdleState(MAP[7][2].npc[mageIndex]) end,
     ['npc-walk'] = function() return NPCWalkState(MAP[7][2].npc[mageIndex]) end,
