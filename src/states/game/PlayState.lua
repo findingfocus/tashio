@@ -52,7 +52,7 @@ function PlayState:init()
         ['player-idle'] = function() return PlayerIdleState(gPlayer) end,
     }
 
-    gPlayer:changeState('player-walk')
+    gPlayer:changeState('player-idle')
     self.manis = 100
     self.manisMax = 100
     self.manisDrain = .45
@@ -253,6 +253,9 @@ function PlayState:update(dt)
     if #MAP[sceneView.currentMap.row][sceneView.currentMap.column].warpZones > 0 then
         for k, v in pairs(sceneView.currentMap.warpZones) do
             if v:collides() and not gPlayer.warping then
+                gPlayer:changeState('player-idle')
+                --gPlayer:changeState('player-walk')
+                gPlayer.currentAnimation:refresh()
                 triggerStartingSceneTransition = true
                 gPlayer.warping = true
                 --sceneView = Scene(gPlayer, v.warpRow, v.warpCol)
@@ -385,7 +388,7 @@ function PlayState:render()
         love.graphics.print('Cast: ' .. tostring(successfulCast), 5, 65)
         love.graphics.print('animatables: ' .. tostring(sceneView.currentMap.tiles[4][1].id), 5, 75)
         love.graphics.print('INPUT_LIST: ' .. inspect(INPUT_LIST), 5, 85)
-        love.graphics.print('player_state: ' .. tostring(gPlayer_STATE), 5, 95)
+        love.graphics.print('player_state: ' .. tostring(PLAYER_STATE), 5, 95)
         love.graphics.print('fallTimer: ' .. tostring(sceneView.player.fallTimer), 5, 105)
         love.graphics.print('falling: ' .. tostring(sceneView.player.falling), 5, 115)
         love.graphics.print('safeFFall: ' .. tostring(sceneView.player.safeFromFall), 85, 115)
@@ -458,6 +461,7 @@ function PlayState:render()
 
     --[[
     love.graphics.setColor(WHITE)
-    love.graphics.print('warping: ' .. tostring(gPlayer.warping), 0, 4)
+        love.graphics.print('player_state: ' .. tostring(PLAYER_STATE), 5, 10)
+        love.graphics.print('frame: ' .. tostring(gPlayer.currentAnimation:getCurrentFrame()), 5, 20)
     --]]
 end

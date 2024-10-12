@@ -1,9 +1,9 @@
 PlayerIdleState = Class{__includes = BaseState}
 
-function PlayerIdleState:init(entity)
+function PlayerIdleState:init(player)
     self.direction = 'down'
-    self.entity = entity
-    self.entity:changeAnimation('idle-' .. self.entity.direction)
+    self.player = player
+    self.player:changeAnimation('idle-' .. self.player.direction)
     self.waitDuration = 0
     self.waitTimer = 0
     PLAYER_STATE = 'IDLE'
@@ -12,36 +12,22 @@ end
 local fallTimer = 0
 
 function PlayerIdleState:update(dt)
-    --[[
-  fallTimer = fallTimer + dt 
-  if fallTimer > 3 then
-    self.entity:changeAnimation('falling')
-
-    if self.entity.animations['falling'].timesPlayed >= 1 then
-      self.entity:changeState('player-idle')
-      self.entity.animations['falling'].timesPlayed = 0
-      fallTimer = 0
-    end
-  end
-  --]]
-  --print('fallTimer: ' .. fallTimer)
-
   if not sceneView.player.falling and not sceneView.player.graveyard then
       if #INPUT_LIST > 0 then
-          self.entity.currentAnimation:refresh()
+          self.player.currentAnimation:refresh()
       end
       --REHAUL INPUT
       --[[
       if love.keyboard.isDown('left') or love.keyboard.isDown('right') or
           love.keyboard.isDown('up') or love.keyboard.isDown('down') then
-          self.entity:changeState('player-walk')
+          self.player:changeState('player-walk')
       end
       --]]
       if #OUTPUT_LIST > 0 then
-        self.entity:changeState('player-walk')
+        self.player:changeState('player-walk')
       end
       if #TOUCH_OUTPUT_LIST > 0 then
-          self.entity:changeState('player-walk')
+          self.player:changeState('player-walk')
       end
   end
 
@@ -51,30 +37,31 @@ function PlayerIdleState:update(dt)
     sceneView.player:changeAnimation('falling')
   end
 
-    --self.entity.animations['falling'].looping = false 
+    --self.player.animations['falling'].looping = false
     --DONT CHANGE TO WALK IF CONTRIDICTING INPUTS HELD
 end
 
 function PlayerIdleState:render()
-    local anim = self.entity.currentAnimation
+    local anim = self.player.currentAnimation
 
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
-        self.entity.x, self.entity.y)
-    if self.entity.blueTunicEquipped then
-        love.graphics.draw(gTextures['character-blueTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.entity.x), math.floor(self.entity.y))
-    elseif self.entity.redTunicEquipped then
-        love.graphics.draw(gTextures['character-redTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.entity.x), math.floor(self.entity.y))
-    elseif self.entity.greenTunicEquipped then
-        love.graphics.draw(gTextures['character-greenTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.entity.x), math.floor(self.entity.y))
-    elseif self.entity.yellowTunicEquipped then
-        love.graphics.draw(gTextures['character-yellowTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.entity.x), math.floor(self.entity.y))
+        self.player.x, self.player.y)
+    if self.player.blueTunicEquipped then
+        love.graphics.draw(gTextures['character-blueTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+    elseif self.player.redTunicEquipped then
+        love.graphics.draw(gTextures['character-redTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+    elseif self.player.greenTunicEquipped then
+        love.graphics.draw(gTextures['character-greenTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+    elseif self.player.yellowTunicEquipped then
+        love.graphics.draw(gTextures['character-yellowTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
     end
-    if self.entity.fireSpellEquipped then
-        love.graphics.draw(gTextures['character-fireElement'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.entity.x), math.floor(self.entity.y))
+    if self.player.fireSpellEquipped then
+        love.graphics.setColor(gKeyItemInventory.elementColor)
+        love.graphics.draw(gTextures['character-element'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
     end
     if gItemInventory.itemSlot[1] ~= nil then
-        if gItemInventory.itemSlot[1].type == 'lute' and not self.entity.falling then
-            love.graphics.draw(gTextures['lute-equip'], gFrames['lute-equip'][anim:getCurrentFrame()], math.floor(self.entity.x), math.floor(self.entity.y))
+        if gItemInventory.itemSlot[1].type == 'lute' and not self.player.falling then
+            love.graphics.draw(gTextures['lute-equip'], gFrames['lute-equip'][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
         end
     end
 end
