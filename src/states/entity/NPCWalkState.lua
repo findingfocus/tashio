@@ -79,6 +79,7 @@ function NPCWalkState:update(dt)
     elseif self.option == 'walkDown' then
         self.entity:changeAnimation('walk-' .. tostring(self.direction))
         self.entity.y = self.entity.y + self.entity.walkSpeed * dt
+
     elseif self.option == 'horizontal' then
         if not self.initializedWalking then
             self.initialTimer = self.initialTimer + dt
@@ -87,22 +88,39 @@ function NPCWalkState:update(dt)
                 self.step1 = true
             end
         end
-        self.horizontalTimer = self.horizontalTimer + dt
         if self.step1 then
+            self.walkTimer = self.walkTimer - dt
             self.entity.x = self.entity.x + self.entity.walkSpeed * dt
             self.entity:changeAnimation('walk-' .. tostring('right'))
-            if self.horizontalTimer > 2 then
-                self.horizontalTimer = 0
+            if self.walkTimer <= 0 then
+                self.entity:changeAnimation('idle-down')
+                self.walkTimer = walkTimer * 3
                 self.step1 = false
                 self.step2 = true
             end
         elseif self.step2 then
+            self.waitTimer = self.waitTimer - dt
+            if self.waitTimer <= 0 then
+                self.waitTimer = math.random(2, 4)
+                self.step2 = false
+                self.step3 = true
+            end
+        elseif self.step3 then
+            self.walkTimer = self.walkTimer - dt
             self.entity.x = self.entity.x - self.entity.walkSpeed * dt
             self.entity:changeAnimation('walk-' .. tostring('left'))
-            if self.horizontalTimer > 2 then
-                self.horizontalTimer = 0
+            if self.walkTimer <= 0 then
+                self.entity:changeAnimation('idle-down')
+                self.walkTimer = walkTimer * 3
+                self.step3 = false
+                self.step4 = true
+            end
+        elseif self.step4 then
+            self.waitTimer = self.waitTimer - dt
+            if self.waitTimer <= 0 then
+                self.waitTimer = math.random(2, 4)
+                self.step4 = false
                 self.step1 = true
-                self.step2 = false
             end
         end
     end

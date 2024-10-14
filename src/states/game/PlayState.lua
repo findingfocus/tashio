@@ -461,7 +461,8 @@ function PlayState:render()
 
     --[[
     love.graphics.setColor(WHITE)
-        love.graphics.print('player_state: ' .. tostring(PLAYER_STATE), 5, 10)
-        love.graphics.print('frame: ' .. tostring(gPlayer.currentAnimation:getCurrentFrame()), 5, 20)
+       --love.graphics.print('player_wt: ' .. tostring(gPlayer.walkTimer), 5, 10)
+       -- love.graphics.print('frame: ' .. tostring(gPlayer.currentAnimation:getCurrentFrame()), 5, 20)
     --]]
+    --
 end

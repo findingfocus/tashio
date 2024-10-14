@@ -251,7 +251,7 @@ table.insert(MAP[1][11].npc, Entity {
     walkSpeed = ENTITY_DEFS['villager1'].walkSpeed,
     height = ENTITY_DEFS['villager1'].height,
     width = ENTITY_DEFS['villager1'].width,
-    x = TILE_SIZE * 3,
+    x = TILE_SIZE * 5,
     y = TILE_SIZE,
     direction = 'down',
     corrupted = false,
