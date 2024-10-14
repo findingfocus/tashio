@@ -136,8 +136,9 @@ end
 
 function Player:render()
     if not self.graveyard then
-        --[[
-        love.graphics.setColor(1,0,0,1)
+        --DIALOGUE BOX DETECTION
+        ---[[
+        love.graphics.setColor(1,0,0,0.4)
         love.graphics.rectangle('fill', self.dialogueBoxX, self.dialogueBoxY, self.dialogueBoxWidth, self.dialogueBoxHeight)
         --]]
         Entity.render(self)

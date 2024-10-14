@@ -11,14 +11,14 @@ function SignPost:init(x, y, text)
     self.textTimer = 0
     self.nextTextTrigger = 0.04
     self.result = ''
-    self.lineCount = 1
-    self.lines = {'', '', ''}
-    self.lineIndex = 1
+    --self.lineCount = 1
+    --self.lines = {'', '', ''}
+    --self.lineIndex = 1
 end
 
 function SignPost:flushText()
-    self.lines = {'', '', ''}
-    self.lineIndex = 1
+    --self.lines = {'', '', ''}
+    --self.lineIndex = 1
     self.textIndex = 1
 end
 
@@ -27,12 +27,12 @@ function SignPost:update(dt)
     self.textTimer = self.textTimer + dt
     if self.textTimer > self.nextTextTrigger and self.textIndex <= self.textLength then
         self.result = self.result .. self.text:sub(self.textIndex, self.textIndex)
-        self.lines[self.lineIndex] = self.lines[self.lineIndex] .. self.text:sub(self.textIndex, self.textIndex)
+        --self.lines[self.lineIndex] = self.lines[self.lineIndex] .. self.text:sub(self.textIndex, self.textIndex)
         self.textIndex = self.textIndex + 1
         --self.textTimer = 0
     end
     ---[[
-    if self.textIndex == self.textLength and self.lineIndex < 3 then
+    if self.textIndex == self.textLength --[[and self.lineIndex < 3--]] then
         --self.lineIndex = self.lineIndex + 1
         --self.textIndex = 1
         --self.result = ''
@@ -62,6 +62,7 @@ function SignPost:render()
         love.graphics.rectangle('fill', 1, SCREEN_HEIGHT_LIMIT - 40 + 1, VIRTUAL_WIDTH, 40)
         love.graphics.setColor(BLACK)
 
+        love.graphics.setFont(pixelFont2)
         love.graphics.printf(tostring(self.result), 5, SCREEN_HEIGHT_LIMIT - 40, VIRTUAL_WIDTH - 5, 'left')
         --[[
         if self.lineIndex == 1 then
