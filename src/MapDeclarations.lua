@@ -288,5 +288,6 @@ MAP[7][2].npc[mageIndex].stateMachine = StateMachine {
 MAP[7][2].npc[mageIndex]:changeState('npc-walk')
 MAP[7][2].npc[mageIndex].stateMachine.current.option = 'square'
 
-table.insert(MAP[7][2].signposts, SignPost(2 * TILE_SIZE, 5 * TILE_SIZE, '<-- Flower Garden is the place to be if you like flowers.'))
+--19 CHAR PER LINE = 57 CHARS for 3 lines
+table.insert(MAP[7][2].signposts, SignPost(2 * TILE_SIZE, 5 * TILE_SIZE, '1234567890123456789012345678901234567890123456789012345671234567890123456789012345678901234567890123456789012345671234567890123456789012345678901234567890123456789012345675'))
 table.insert(MAP[7][2].signposts, SignPost(7 * TILE_SIZE, 4 * TILE_SIZE, '^^ Tavern'))
