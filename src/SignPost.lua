@@ -8,10 +8,10 @@ function SignPost:init(x, y, text)
     self.text = text
     self.textLength = #text
     self.pageLength = math.ceil(self.textLength / MAX_TEXTBOX_CHAR_LENGTH)
+    self.currentPage = 1
     self.pages = {}
     for i = 1, self.pageLength do
-        table.insert(self.pages, {})
-        self.pages[i] = 'TEXT'
+        self.pages[i] = self.text:sub(i * 57 - 56)
     end
     self.textIndex = 1
     self.textTimer = 0
@@ -31,16 +31,31 @@ function SignPost:update(dt)
     --]]
     end
     if love.keyboard.wasPressed('p') and self.pReleased then
-        PAUSED = false
-        self.pReleased = false
+        if self.currentPage == self.pageLength then
+            PAUSED = false
+            self.pReleased = false
+            self:flushText()
+            self.currentPage = 1
+        else
+            self.currentPage = self.currentPage + 1
+            self.textIndex = 1
+        end
     end
+
+    ---[[
     self.textTimer = self.textTimer + dt
-    if self.textTimer > self.nextTextTrigger and self.textIndex <= self.textLength then
-        self.result = self.result .. self.text:sub(self.textIndex, self.textIndex)
+    if self.textTimer > self.nextTextTrigger and self.textIndex <= MAX_TEXTBOX_CHAR_LENGTH then
+        self.result = self.result .. self.pages[self.currentPage]:sub(self.textIndex, self.textIndex)
         self.textIndex = self.textIndex + 1
         self.textTimer = 0
     end
+    --]]
 end
+
+--[[
+local testText = '12345'
+local textPrint = testText:sub(4)
+--]]
 
 function SignPost:render()
     if PAUSED then
@@ -54,5 +69,10 @@ function SignPost:render()
         love.graphics.printf(tostring(self.result), 5, SCREEN_HEIGHT_LIMIT - 38, VIRTUAL_WIDTH - 5, 'left')
     end
     love.graphics.print('pageLength: ' .. tostring(self.pageLength), 0, 0)
-    print(Inspect(self.pages))
+    love.graphics.print('currentPage: ' .. tostring(self.currentPage), 0, 15)
+    love.graphics.print('textLength: ' .. tostring(self.textLength), 0, 25)
+    love.graphics.print('textIndex: ' .. tostring(self.textIndex), 0, 35)
+    --love.graphics.print('page1: ' .. tostring(self.pages[2]), 0, 45)
+    --love.graphics.print('test: ' .. tostring(textPrint), 0, 35)
+    --print(Inspect(self.pages))
 end
