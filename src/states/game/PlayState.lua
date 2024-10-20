@@ -220,7 +220,7 @@ function PlayState:update(dt)
                 --IF COLLIDES WITH SIGNPOST
                 if gPlayer.direction ~= 'down' then
                     table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].signpostCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k])
-                    PAUSED = PAUSED == false and true or false
+                    PAUSED = true
 
                     MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k]:flushText()
                     if not PAUSED then
@@ -313,6 +313,7 @@ function PlayState:render()
     love.graphics.pop()
 
 
+    --[[
     love.graphics.setColor(0,0,0,255)
     --love.graphics.print('Tashio Tempo', VIRTUAL_WIDTH - 150, SCREEN_HEIGHT_LIMIT + 4)
 
@@ -345,6 +346,7 @@ function PlayState:render()
     love.graphics.setColor(BLACK)
     --love.graphics.printf('Tashio Tempo', 0, VIRTUAL_HEIGHT - 13, VIRTUAL_WIDTH, 'center')
     ---[[KEYLOGGER
+    --[[
     if love.keyboard.isDown('w') then
         love.graphics.setColor(FADED)
         love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 16, SCREEN_HEIGHT_LIMIT - 11 + KEYLOGGER_YOFFSET, 0, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --UP
