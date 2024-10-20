@@ -217,12 +217,12 @@ function PlayState:update(dt)
             if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k]) then
                 MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k].result = ''
                 MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k].textIndex = 1
+                self.dialogueID = k
                 --IF COLLIDES WITH SIGNPOST
                 if gPlayer.direction ~= 'down' then
                     table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].signpostCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k])
                     PAUSED = true
-
-                    MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k]:flushText()
+                    --MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k]:flushText()
                     if not PAUSED then
                         MAP[sceneView.currentMap.row][sceneView.currentMap.column].signpostCollided = {}
                     end
@@ -236,9 +236,7 @@ function PlayState:update(dt)
     end
 
     if PAUSED then
-        for i = 1, 2 do
-            MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[i]:update(dt)
-        end
+        MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[self.dialogueID]:update(dt)
     end
 
     rotate = rotate + .05
