@@ -215,7 +215,10 @@ function PlayState:update(dt)
         --DIALOGUE DETECTION
         for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts) do
             if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k]) then
-                MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k].result = ''
+                MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k].line1Result = ''
+                MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k].line2Result = ''
+                MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k].line3Result = ''
+                MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k].lineCount = 1
                 MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k].textIndex = 1
                 self.dialogueID = k
                 --IF COLLIDES WITH SIGNPOST

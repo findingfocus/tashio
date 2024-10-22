@@ -15,10 +15,16 @@ function SignPost:init(x, y, text)
     for i = 1, self.pageLength do
         self.pages[i] = {}
     end
-
-    self.pages[1][1] = 'This is line 1'
-    self.pages[1][2] = 'This is line 2'
-    self.pages[1][3] = 'This is line 3'
+    self.pages[1][1] = {}
+    self.pages[1][2] = {}
+    self.pages[1][3] = {}
+    self.pages[1][1].string = 'This is line 1'
+    self.pages[1][1].characterCount = 14
+    self.pages[1][2].string = 'This is line 2'
+    self.pages[1][2].characterCount = 14
+    self.pages[1][3].string = 'This is line 3'
+    self.pages[1][2].characterCount = 14
+    self.lineCount = 1
     --[[
     for i = 1, self.pageLength do
         self.pages[i] = self.text:sub(i * 57 - 56)
@@ -28,6 +34,9 @@ function SignPost:init(x, y, text)
     self.textTimer = 0
     self.nextTextTrigger = 0.03
     self.result = ''
+    self.line1Result = ''
+    self.line2Result = ''
+    self.line3Result = ''
     self.pReleased = false
 end
 
@@ -56,6 +65,29 @@ function SignPost:update(dt)
     ---[[
     self.textTimer = self.textTimer + dt
     if self.textTimer > self.nextTextTrigger and self.textIndex <= MAX_TEXTBOX_CHAR_LENGTH then
+        if self.lineCount == 1 then
+            self.line1Result = self.line1Result .. self.pages[1][1].string:sub(self.textIndex, self.textIndex)
+            self.textIndex = self.textIndex + 1
+            self.textTimer = 0
+            if self.textIndex > self.pages[1][1].characterCount then
+                self.lineCount = 2
+                self.textIndex = 1
+            end
+        end
+        if self.lineCount == 2 then
+            self.line2Result = self.line2Result .. self.pages[1][2].string:sub(self.textIndex, self.textIndex)
+            self.textIndex = self.textIndex + 1
+            self.textTimer = 0
+            if self.textIndex > self.pages[1][2].characterCount then
+                self.lineCount = 3
+                self.textIndex = 1
+            end
+        end
+        if self.lineCount == 3 then
+            self.line3Result = self.line3Result .. self.pages[1][3].string:sub(self.textIndex, self.textIndex)
+            self.textIndex = self.textIndex + 1
+            self.textTimer = 0
+        end
         --[[
         self.result = self.result .. self.pages[self.currentPage]:sub(self.textIndex, self.textIndex)
         self.textIndex = self.textIndex + 1
@@ -75,6 +107,9 @@ function SignPost:render()
 
         love.graphics.setFont(pixelFont2)
         --love.graphics.printf(tostring(self.result), 5, SCREEN_HEIGHT_LIMIT - 38, VIRTUAL_WIDTH - 5, 'left')
+        love.graphics.print(tostring(self.line1Result), 5, SCREEN_HEIGHT_LIMIT - 38)
+        love.graphics.print(tostring(self.line2Result), 5, SCREEN_HEIGHT_LIMIT - 26)
+        love.graphics.print(tostring(self.line3Result), 5, SCREEN_HEIGHT_LIMIT - 14)
     end
     love.graphics.print('pageLength: ' .. tostring(self.pageLength), 0, 0)
     love.graphics.print('currentPage: ' .. tostring(self.currentPage), 0, 15)
