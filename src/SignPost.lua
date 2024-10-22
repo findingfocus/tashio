@@ -7,12 +7,23 @@ function SignPost:init(x, y, text)
     self.height = TILE_SIZE - 2
     self.text = text
     self.textLength = #text
-    self.pageLength = math.ceil(self.textLength / MAX_TEXTBOX_CHAR_LENGTH)
+    --self.pageLength = math.ceil(self.textLength / MAX_TEXTBOX_CHAR_LENGTH)
     self.currentPage = 1
     self.pages = {}
+    self.totalLineCount = 3
+    self.pageLength = math.ceil(self.totalLineCount / 3)
+    for i = 1, self.pageLength do
+        self.pages[i] = {}
+    end
+
+    self.pages[1][1] = 'This is line 1'
+    self.pages[1][2] = 'This is line 2'
+    self.pages[1][3] = 'This is line 3'
+    --[[
     for i = 1, self.pageLength do
         self.pages[i] = self.text:sub(i * 57 - 56)
     end
+    --]]
     self.textIndex = 1
     self.textTimer = 0
     self.nextTextTrigger = 0.03
@@ -45,17 +56,14 @@ function SignPost:update(dt)
     ---[[
     self.textTimer = self.textTimer + dt
     if self.textTimer > self.nextTextTrigger and self.textIndex <= MAX_TEXTBOX_CHAR_LENGTH then
+        --[[
         self.result = self.result .. self.pages[self.currentPage]:sub(self.textIndex, self.textIndex)
         self.textIndex = self.textIndex + 1
         self.textTimer = 0
+        --]]
     end
     --]]
 end
-
---[[
-local testText = '12345'
-local textPrint = testText:sub(4)
---]]
 
 function SignPost:render()
     if PAUSED then
@@ -66,7 +74,7 @@ function SignPost:render()
         love.graphics.setColor(BLACK)
 
         love.graphics.setFont(pixelFont2)
-        love.graphics.printf(tostring(self.result), 5, SCREEN_HEIGHT_LIMIT - 38, VIRTUAL_WIDTH - 5, 'left')
+        --love.graphics.printf(tostring(self.result), 5, SCREEN_HEIGHT_LIMIT - 38, VIRTUAL_WIDTH - 5, 'left')
     end
     love.graphics.print('pageLength: ' .. tostring(self.pageLength), 0, 0)
     love.graphics.print('currentPage: ' .. tostring(self.currentPage), 0, 15)
