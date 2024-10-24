@@ -1,5 +1,7 @@
 SignPost = Class{}
 
+local spaceCount = 0
+
 function SignPost:init(x, y, text)
     self.x = x + 1
     self.y = y + 1
@@ -10,8 +12,80 @@ function SignPost:init(x, y, text)
     --self.pageLength = math.ceil(self.textLength / MAX_TEXTBOX_CHAR_LENGTH)
     self.currentPage = 1
     self.pages = {}
+    self.totalLineCount = 0
+    self.inAWord = false
+    self.lineCharacterCount = 0
+    self.wordSupplementCount = 0
+    self.pageWeAreOn = 1
+    self.lineWeAreOn = 1
+    self.pages[1] = {}
+    self.pages[1][1] = {}
+    self.pages[1][2] = {}
+    self.pages[1][3] = {}
+    --[[
+    self.pages[1][1].string = 'TEST1'
+    self.pages[1][2].string = 'TEST2'
+    self.pages[1][3].string = 'TEST3'
+    --]]
+    self.pages[1][1].string = ''
+    self.pages[1][2].string = ''
+    self.pages[1][3].string = ''
+
+    for i = 1, self.textLength do
+        self.lineCharacterCount = self.lineCharacterCount + 1
+        if self.text[i] ~= ' ' then
+            self.inAWord = true
+            if self.inAWord then
+                for k = 1, 19 do
+                    if self.text[i + k] == ' ' then
+                        self.inAWord = false
+                        break
+                    else
+                        self.wordSupplementCount = self.wordSupplementCount + 1
+                    end
+                end
+
+                if self.lineCharacterCount > 19 then
+                    --ADD TO NEXT PAGE
+                    --[[
+                    self.lineCharacterCount = 0
+                    self.pageWeAreOn = self.pageWeAreOn + 1
+                    self.lineWeAreOn = 1
+                    self.pages[self.pageWeAreOn] = {}
+                    self.pages[self.pageWeAreOn][1] = {}
+                    self.pages[self.pageWeAreOn][2] = {}
+                    self.pages[self.pageWeAreOn][3] = {}
+                    --]]
+                else --ADD WHOLE WORD TO CURRENT LINE
+                    self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(1, self.text[i])
+                    --self.pages[1][1].string = 'Test1'
+                    --self.pages[1][2].string = 'Test2'
+                    self.lineCharacterCount = self.lineCharacterCount + self.wordSupplementCount
+                    --self.inAWord = false
+                    --i = i + self.wordSupplementCount
+                end
+            end
+        end
+    end
+    --self.pages[1][1].string = 'Test1'
+    --[[
+    self.pages[1][1].string = 'TEST1'
+    self.pages[1][2].string = 'TEST2'
+    self.pages[1][3].string = 'TEST3'
+    --]]
+    self.pages[1][1].characterCount = 19
+    self.pages[1][2].characterCount = 19
+    self.pages[1][3].characterCount = 19
     self.totalLineCount = 3
     self.pageLength = math.ceil(self.totalLineCount / 3)
+
+    local test = 'This has 3 spaces'
+    for i = 1, 17 do
+        if test[i] == ' ' then
+            spaceCount = spaceCount + 1
+        end
+    end
+    --[[
     for i = 1, self.pageLength do
         self.pages[i] = {}
     end
@@ -25,6 +99,7 @@ function SignPost:init(x, y, text)
     self.pages[1][3].string = 'This is line 3'
     self.pages[1][2].characterCount = 14
     self.lineCount = 1
+    --]]
     --[[
     for i = 1, self.pageLength do
         self.pages[i] = self.text:sub(i * 57 - 56)
@@ -115,6 +190,8 @@ function SignPost:render()
     love.graphics.print('currentPage: ' .. tostring(self.currentPage), 0, 15)
     love.graphics.print('textLength: ' .. tostring(self.textLength), 0, 25)
     love.graphics.print('textIndex: ' .. tostring(self.textIndex), 0, 35)
+
+    love.graphics.print('spaceCount: ' .. tostring(spaceCount), 0, 45)
     --love.graphics.print('page1: ' .. tostring(self.pages[2]), 0, 45)
     --love.graphics.print('test: ' .. tostring(textPrint), 0, 35)
     --print(Inspect(self.pages))
