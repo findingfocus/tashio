@@ -8,7 +8,15 @@ function SignPost:init(x, y, text)
     self.width = TILE_SIZE - 2
     self.height = TILE_SIZE - 2
     self.text = text
+    self.textTimer = 0
     self.textLength = #text
+    self.textIndex = 1
+    self.nextTextTrigger = 0.03
+    self.result = ''
+    self.line1Result = ''
+    self.line2Result = ''
+    self.line3Result = ''
+    self.pReleased = false
     --self.pageLength = math.ceil(self.textLength / MAX_TEXTBOX_CHAR_LENGTH)
     self.currentPage = 1
     self.pages = {}
@@ -23,6 +31,9 @@ function SignPost:init(x, y, text)
     self.pages[1][1] = {}
     self.pages[1][2] = {}
     self.pages[1][3] = {}
+    self.pages[1][1].characterCount = 19
+    self.pages[1][2].characterCount = 19
+    self.pages[1][3].characterCount = 19
     --[[
     self.pages[1][1].string = 'TEST1'
     self.pages[1][2].string = 'TEST2'
@@ -32,20 +43,30 @@ function SignPost:init(x, y, text)
     self.pages[1][2].string = ''
     self.pages[1][3].string = ''
 
-    for i = 1, self.textLength do
-        self.lineCharacterIndex = self.lineCharacterIndex + 1
-        local char = self.text:sub(i, i)
+    local charactersToCheck = true
+    local textIndex = 1
+    while charactersToCheck do
+        --self.lineCharacterIndex = self.lineCharacterIndex + 1
+        local char = self.text:sub(textIndex, textIndex)
         if not char:match("%s") then
             self.inAWord = true
+            self.currentWordLength = 0
             if self.inAWord then
-                for k = 1, 19 do
-                    local nextChar = self.text:sub(i + k, i + k)
-                    if nextChar:match("%s") then
+                local wordIndex = textIndex
+                local wordChar = self.text:sub(wordIndex, wordIndex)
+                while not wordChar:match("%s") do
+                    self.lineCharacterIndex = self.lineCharacterIndex + 1
+                    self.currentWordLength = self.currentWordLength + 1
+                    wordIndex = wordIndex + 1
+                    wordChar = self.text:sub(wordIndex, wordIndex)
+                    if self.lineCharacterIndex > self.textLength then
                         self.inAWord = false
+                        charactersToCheck = false
                         break
-                    else
-                        self.currentWordLength = self.currentWordLength + 1
                     end
+                end
+                if wordChar:match("%s") then
+                    self.inAWord = false
                 end
 
                 if self.lineCharacterIndex + self.currentWordLength > 19 then
@@ -58,30 +79,31 @@ function SignPost:init(x, y, text)
                     self.pages[self.pageWeAreOn][1] = {}
                     self.pages[self.pageWeAreOn][2] = {}
                     self.pages[self.pageWeAreOn][3] = {}
-                    self.pages[self.pageWeAreOn][1].string = self.text:sub(i, i + self.currentWordLength)
+                    self.pages[self.pageWeAreOn][1].string = self.text:sub(textIndex, textIndex + self.currentWordLength)
                     self.pages[self.pageWeAreOn][2].string = ''
                     self.pages[self.pageWeAreOn][3].string = ''
-                    i = self.currentWordLength
+                    --i = self.currentWordLength
                     --]]
                 else --ADD WHOLE WORD TO CURRENT LINE
-                    --self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(1, self.text[i])
-                    self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(i, i + self.currentWordLength)
-                    self.lineCharacterIndex = self.lineCharacterIndex + self.currentWordLength
-                    i = i + self.currentWordLength
-                    --self.inAWord = false
+                    self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(textIndex, textIndex + self.currentWordLength)
+                    --self.lineCharacterIndex = self.lineCharacterIndex + self.currentWordLength
+                    --i = i + self.currentWordLength
                 end
             end
         end
+        textIndex = textIndex + self.currentWordLength
+        if textIndex > self.textLength then
+            charactersToCheck = false
+            break
+        end
     end
+
     --self.pages[1][1].string = 'Test1'
-    --[[
-    self.pages[1][1].string = 'TEST1'
-    self.pages[1][2].string = 'TEST2'
-    self.pages[1][3].string = 'TEST3'
+    ---[[
+    self.pages[1][1].string = 'Test 1'
+    self.pages[1][2].string = 'Test 2'
+    self.pages[1][3].string = 'Test 3'
     --]]
-    self.pages[1][1].characterCount = 19
-    self.pages[1][2].characterCount = 19
-    self.pages[1][3].characterCount = 19
     self.totalLineCount = 3
     self.pageLength = math.ceil(self.totalLineCount / 3)
 
@@ -115,14 +137,6 @@ function SignPost:init(x, y, text)
         self.pages[i] = self.text:sub(i * 57 - 56)
     end
     --]]
-    self.textIndex = 1
-    self.textTimer = 0
-    self.nextTextTrigger = 0.03
-    self.result = ''
-    self.line1Result = ''
-    self.line2Result = ''
-    self.line3Result = ''
-    self.pReleased = false
 end
 
 function SignPost:flushText()
