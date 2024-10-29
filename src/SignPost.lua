@@ -44,7 +44,47 @@ function SignPost:init(x, y, text)
     self.pages[1][3].string = ''
 
     local charactersToCheck = true
-    local textIndex = 1
+    local textIndex = 0
+    local wordIndexGrabbed = false
+    printThis = 0
+    local wordCharacterIndex = 0
+    local wordCharCount = 0
+    self.lineCharCount = 0
+
+
+    while charactersToCheck do
+        textIndex = textIndex + 1
+        local char = self.text:sub(textIndex, textIndex)
+        if not char:match("%s") then
+            if not self.wordIndexGrabbed then
+                wordIndex = textIndex
+                self.wordIndexGrabbed = true
+            end
+            wordCharCount = wordCharCount + 1
+        else
+            --CHECK IF WORD CAN FIT ON CURRENT LINE
+            if self.lineCharCount + wordCharCount <= 19 then
+                self.lineCharCount = self.lineCharCount + 1
+                self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(wordIndex, wordIndex + wordCharCount)
+                self.wordIndexGrabbed = false
+                self.lineCharCount = self.lineCharCount + wordCharCount
+                wordCharCount = 0
+            end
+            --
+            --INCREMENT LINE
+            --
+            --INCREMENT PAGE
+        end
+
+        if textIndex >= self.textLength then
+            --ADD WORD IF STRING ENDS ON CHARACTER
+            break
+        end
+    end
+
+    --self.pages[1][1].string = self.text
+
+    --[[
     while charactersToCheck do
         --self.lineCharacterIndex = self.lineCharacterIndex + 1
         local char = self.text:sub(textIndex, textIndex)
@@ -83,7 +123,6 @@ function SignPost:init(x, y, text)
                     self.pages[self.pageWeAreOn][2].string = ''
                     self.pages[self.pageWeAreOn][3].string = ''
                     --i = self.currentWordLength
-                    --]]
                 else --ADD WHOLE WORD TO CURRENT LINE
                     self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(textIndex, textIndex + self.currentWordLength)
                     --self.lineCharacterIndex = self.lineCharacterIndex + self.currentWordLength
@@ -97,9 +136,10 @@ function SignPost:init(x, y, text)
             break
         end
     end
+    --]]
 
     --self.pages[1][1].string = 'Test1'
-    ---[[
+    --[[
     self.pages[1][1].string = 'Test 1'
     self.pages[1][2].string = 'Test 2'
     self.pages[1][3].string = 'Test 3'
@@ -215,7 +255,7 @@ function SignPost:render()
     love.graphics.print('textLength: ' .. tostring(self.textLength), 0, 25)
     love.graphics.print('textIndex: ' .. tostring(self.textIndex), 0, 35)
 
-    love.graphics.print('spaceCount: ' .. tostring(self.spaceCount), 0, 45)
+    love.graphics.print('lineCharCount: ' .. tostring(self.lineCharCount), 0, 45)
     --love.graphics.print('page1: ' .. tostring(self.pages[2]), 0, 45)
     --love.graphics.print('test: ' .. tostring(textPrint), 0, 35)
     --print(Inspect(self.pages))
