@@ -43,44 +43,70 @@ function SignPost:init(x, y, text)
     self.pages[1][2].string = ''
     self.pages[1][3].string = ''
 
-    local charactersToCheck = true
-    local textIndex = 0
-    local wordIndexGrabbed = false
+    self.charactersToCheck = true
+    self.textIndex = 0
+    self.wordIndexGrabbed = false
     printThis = 0
-    local wordCharacterIndex = 0
-    local wordCharCount = 0
+
+    self.wordCharacterIndex = 0
+    self.wordCharCount = 0
     self.lineCharCount = 0
 
 
-    while charactersToCheck do
-        textIndex = textIndex + 1
-        local char = self.text:sub(textIndex, textIndex)
-        if not char:match("%s") then
+    while self.charactersToCheck do
+        self.textIndex = self.textIndex + 1
+        local char = self.text:sub(self.textIndex, self.textIndex)
+        if not char:match("%s") then --IF A LETTER
             if not self.wordIndexGrabbed then
-                wordIndex = textIndex
+                self.wordIndex = self.textIndex
                 self.wordIndexGrabbed = true
             end
-            wordCharCount = wordCharCount + 1
-        else
-            --CHECK IF WORD CAN FIT ON CURRENT LINE
-            if self.lineCharCount + wordCharCount <= 19 then
-                self.lineCharCount = self.lineCharCount + 1
-                self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(wordIndex, wordIndex + wordCharCount)
-                self.wordIndexGrabbed = false
-                self.lineCharCount = self.lineCharCount + wordCharCount
-                wordCharCount = 0
+            self.wordCharCount = self.wordCharCount + 1
+            if self.textIndex == self.textLength then
+                self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(self.wordIndex, self.wordIndex + self.wordCharCount)
+                break
             end
-            --
-            --INCREMENT LINE
+        elseif char:match("%s") then --IF SPACE CHARACTER
+            --CHECK IF WORD CAN FIT ON CURRENT LINE
+            ---[[
+            if self.lineCharCount + self.wordCharCount <= 19 then
+                ---[[
+                self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(self.wordIndex, self.wordIndex + self.wordCharCount)
+                self.wordIndexGrabbed = false
+                self.lineCharCount = self.lineCharCount + self.wordCharCount + 1 --SPACE ADDED
+                self.wordCharCount = 0
+                --]]
+            elseif self.lineCharCount + self.wordCharCount > 19 then --INCREMENT LINE NUMBER
+                self.lineWeAreOn = self.lineWeAreOn + 1
+                if self.lineWeAreOn > 3 then
+                    self.lineWeAreOn = 1
+                    self.pageWeAreOn = self.pageWeAreOn + 1
+                    self.pages[self.pageWeAreOn] = {}
+                    self.pages[self.pageWeAreOn][1] = {}
+                    self.pages[self.pageWeAreOn][2] = {}
+                    self.pages[self.pageWeAreOn][3] = {}
+                    self.pages[self.pageWeAreOn][1].characterCount = 19
+                    self.pages[self.pageWeAreOn][2].characterCount = 19
+                    self.pages[self.pageWeAreOn][3].characterCount = 19
+                    self.pages[self.pageWeAreOn][1].string = ''
+                    self.pages[self.pageWeAreOn][2].string = ''
+                    self.pages[self.pageWeAreOn][3].string = ''
+                end
+                self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(self.wordIndex, self.wordIndex + self.wordCharCount)
+                self.wordIndexGrabbed = false
+                self.lineCharCount = self.wordCharCount
+                self.wordCharCount = 0
+            end
             --
             --INCREMENT PAGE
         end
 
-        if textIndex >= self.textLength then
-            --ADD WORD IF STRING ENDS ON CHARACTER
+        if self.textIndex >= self.textLength then
+            --EXIT LOOP
             break
         end
     end
+    self.textIndex = 1
 
     --self.pages[1][1].string = self.text
 
@@ -144,7 +170,9 @@ function SignPost:init(x, y, text)
     self.pages[1][2].string = 'Test 2'
     self.pages[1][3].string = 'Test 3'
     --]]
-    self.totalLineCount = 3
+    --TODO CALCULATE TOTALLINECOUNT
+    --TODO CALCULATE
+    self.totalLineCount = 4
     self.pageLength = math.ceil(self.totalLineCount / 3)
 
     local test = ""
@@ -177,6 +205,8 @@ function SignPost:init(x, y, text)
         self.pages[i] = self.text:sub(i * 57 - 56)
     end
     --]]
+    --
+    --TODO FIX CRASHING UPON EXITING INVENTORY WITH DIALOGUE SYSTEM INITIALIZED
 end
 
 function SignPost:flushText()
@@ -205,7 +235,7 @@ function SignPost:update(dt)
     self.textTimer = self.textTimer + dt
     if self.textTimer > self.nextTextTrigger and self.textIndex <= MAX_TEXTBOX_CHAR_LENGTH then
         if self.lineCount == 1 then
-            self.line1Result = self.line1Result .. self.pages[1][1].string:sub(self.textIndex, self.textIndex)
+            self.line1Result = self.line1Result .. self.pages[self.currentPage][1].string:sub(self.textIndex, self.textIndex)
             self.textIndex = self.textIndex + 1
             self.textTimer = 0
             if self.textIndex > self.pages[1][1].characterCount then
@@ -214,7 +244,7 @@ function SignPost:update(dt)
             end
         end
         if self.lineCount == 2 then
-            self.line2Result = self.line2Result .. self.pages[1][2].string:sub(self.textIndex, self.textIndex)
+            self.line2Result = self.line2Result .. self.pages[self.currentPage][2].string:sub(self.textIndex, self.textIndex)
             self.textIndex = self.textIndex + 1
             self.textTimer = 0
             if self.textIndex > self.pages[1][2].characterCount then
@@ -223,7 +253,7 @@ function SignPost:update(dt)
             end
         end
         if self.lineCount == 3 then
-            self.line3Result = self.line3Result .. self.pages[1][3].string:sub(self.textIndex, self.textIndex)
+            self.line3Result = self.line3Result .. self.pages[self.currentPage][3].string:sub(self.textIndex, self.textIndex)
             self.textIndex = self.textIndex + 1
             self.textTimer = 0
         end
@@ -252,7 +282,7 @@ function SignPost:render()
     end
     love.graphics.print('pageLength: ' .. tostring(self.pageLength), 0, 0)
     love.graphics.print('currentPage: ' .. tostring(self.currentPage), 0, 15)
-    love.graphics.print('textLength: ' .. tostring(self.textLength), 0, 25)
+    --love.graphics.print('textLength: ' .. tostring(self.textLength), 0, 25)
     love.graphics.print('textIndex: ' .. tostring(self.textIndex), 0, 35)
 
     love.graphics.print('lineCharCount: ' .. tostring(self.lineCharCount), 0, 45)
