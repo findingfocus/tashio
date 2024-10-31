@@ -31,9 +31,6 @@ function SignPost:init(x, y, text)
     self.pages[1][1] = {}
     self.pages[1][2] = {}
     self.pages[1][3] = {}
-    self.pages[1][1].characterCount = 19
-    self.pages[1][2].characterCount = 19
-    self.pages[1][3].characterCount = 19
     --[[
     self.pages[1][1].string = 'TEST1'
     self.pages[1][2].string = 'TEST2'
@@ -48,6 +45,7 @@ function SignPost:init(x, y, text)
     self.wordIndexGrabbed = false
     printThis = 0
 
+    self.totalLineCount = 1
     self.wordCharacterIndex = 0
     self.wordCharCount = 0
     self.lineCharCount = 0
@@ -69,15 +67,16 @@ function SignPost:init(x, y, text)
         elseif char:match("%s") then --IF SPACE CHARACTER
             --CHECK IF WORD CAN FIT ON CURRENT LINE
             ---[[
-            if self.lineCharCount + self.wordCharCount <= 19 then
+            if self.lineCharCount + self.wordCharCount <= MAX_TEXTBOX_LINE_LENGTH then
                 ---[[
                 self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(self.wordIndex, self.wordIndex + self.wordCharCount)
                 self.wordIndexGrabbed = false
                 self.lineCharCount = self.lineCharCount + self.wordCharCount + 1 --SPACE ADDED
                 self.wordCharCount = 0
                 --]]
-            elseif self.lineCharCount + self.wordCharCount > 19 then --INCREMENT LINE NUMBER
+            elseif self.lineCharCount + self.wordCharCount > MAX_TEXTBOX_LINE_LENGTH then --INCREMENT LINE NUMBER
                 self.lineWeAreOn = self.lineWeAreOn + 1
+                self.totalLineCount = self.totalLineCount + 1
                 if self.lineWeAreOn > 3 then
                     self.lineWeAreOn = 1
                     self.pageWeAreOn = self.pageWeAreOn + 1
@@ -85,9 +84,6 @@ function SignPost:init(x, y, text)
                     self.pages[self.pageWeAreOn][1] = {}
                     self.pages[self.pageWeAreOn][2] = {}
                     self.pages[self.pageWeAreOn][3] = {}
-                    self.pages[self.pageWeAreOn][1].characterCount = 19
-                    self.pages[self.pageWeAreOn][2].characterCount = 19
-                    self.pages[self.pageWeAreOn][3].characterCount = 19
                     self.pages[self.pageWeAreOn][1].string = ''
                     self.pages[self.pageWeAreOn][2].string = ''
                     self.pages[self.pageWeAreOn][3].string = ''
@@ -97,12 +93,9 @@ function SignPost:init(x, y, text)
                 self.lineCharCount = self.wordCharCount
                 self.wordCharCount = 0
             end
-            --
-            --INCREMENT PAGE
         end
 
         if self.textIndex >= self.textLength then
-            --EXIT LOOP
             break
         end
     end
@@ -172,7 +165,6 @@ function SignPost:init(x, y, text)
     --]]
     --TODO CALCULATE TOTALLINECOUNT
     --TODO CALCULATE
-    self.totalLineCount = 4
     self.pageLength = math.ceil(self.totalLineCount / 3)
 
     local test = ""
@@ -238,7 +230,7 @@ function SignPost:update(dt)
             self.line1Result = self.line1Result .. self.pages[self.currentPage][1].string:sub(self.textIndex, self.textIndex)
             self.textIndex = self.textIndex + 1
             self.textTimer = 0
-            if self.textIndex > self.pages[1][1].characterCount then
+            if self.textIndex > MAX_TEXTBOX_LINE_LENGTH then
                 self.lineCount = 2
                 self.textIndex = 1
             end
@@ -247,7 +239,7 @@ function SignPost:update(dt)
             self.line2Result = self.line2Result .. self.pages[self.currentPage][2].string:sub(self.textIndex, self.textIndex)
             self.textIndex = self.textIndex + 1
             self.textTimer = 0
-            if self.textIndex > self.pages[1][2].characterCount then
+            if self.textIndex > MAX_TEXTBOX_LINE_LENGTH then
                 self.lineCount = 3
                 self.textIndex = 1
             end
