@@ -61,17 +61,36 @@ function SignPost:init(x, y, text)
             end
             self.wordCharCount = self.wordCharCount + 1
             if self.textIndex == self.textLength then
-                self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(self.wordIndex, self.wordIndex + self.wordCharCount)
-                break
+                if self.lineCharCount + self.wordCharCount > MAX_TEXTBOX_LINE_LENGTH then --INCREMENT LINE NUMBER
+                    self.lineWeAreOn = self.lineWeAreOn + 1
+                    self.totalLineCount = self.totalLineCount + 1
+                    if self.lineWeAreOn > 3 then
+                        self.lineWeAreOn = 1
+                        self.pageWeAreOn = self.pageWeAreOn + 1
+                        self.pages[self.pageWeAreOn] = {}
+                        self.pages[self.pageWeAreOn][1] = {}
+                        self.pages[self.pageWeAreOn][2] = {}
+                        self.pages[self.pageWeAreOn][3] = {}
+                        self.pages[self.pageWeAreOn][1].string = ''
+                        self.pages[self.pageWeAreOn][2].string = ''
+                        self.pages[self.pageWeAreOn][3].string = ''
+                    end
+                    self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(self.wordIndex, self.wordIndex + self.wordCharCount)
+                    self.wordIndexGrabbed = false
+                    self.lineCharCount = self.wordCharCount + 1
+                    self.wordCharCount = 0
+                    break
+                end
             end
         elseif char:match("%s") then --IF SPACE CHARACTER
             --CHECK IF WORD CAN FIT ON CURRENT LINE
             ---[[
+
             if self.lineCharCount + self.wordCharCount <= MAX_TEXTBOX_LINE_LENGTH then
                 ---[[
                 self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(self.wordIndex, self.wordIndex + self.wordCharCount)
                 self.wordIndexGrabbed = false
-                self.lineCharCount = self.lineCharCount + self.wordCharCount + 1 --SPACE ADDED
+                self.lineCharCount = self.lineCharCount + self.wordCharCount + 1
                 self.wordCharCount = 0
                 --]]
             elseif self.lineCharCount + self.wordCharCount > MAX_TEXTBOX_LINE_LENGTH then --INCREMENT LINE NUMBER
@@ -90,7 +109,7 @@ function SignPost:init(x, y, text)
                 end
                 self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(self.wordIndex, self.wordIndex + self.wordCharCount)
                 self.wordIndexGrabbed = false
-                self.lineCharCount = self.wordCharCount
+                self.lineCharCount = self.wordCharCount + 1
                 self.wordCharCount = 0
             end
         end
