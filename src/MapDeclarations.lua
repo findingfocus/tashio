@@ -292,6 +292,6 @@ MAP[7][2].npc[mageIndex].stateMachine.current.option = 'square'
 --table.insert(MAP[7][2].signposts, SignPost(2 * TILE_SIZE, 5 * TILE_SIZE, '1234567890123456789012345678901234567890123456789012345671234567890123456789012345678901234567890123456789012345671234567890123456789012345678901234567890123456789012345678'))
 --table.insert(MAP[7][2].signposts, SignPost(2 * TILE_SIZE, 5 * TILE_SIZE, '111111111111111111111111111111111111111111111111111111111222222222222222222222222222222222222222222222222222222222333333333333333333333333333333333333333333333333333333333'))
 --table.insert(MAP[7][2].signposts, SignPost(2 * TILE_SIZE, 5 * TILE_SIZE, 'hello is thing on???? This is a test lin2 This is a test lin3'))
-table.insert(MAP[7][2].signposts, SignPost(2 * TILE_SIZE, 5 * TILE_SIZE, 'This is a varied it length text for testing. And we shall see if the lines are parsed correctly. How is it looking? Even working with Humungoueswords'))
+table.insert(MAP[7][2].signposts, SignPost(2 * TILE_SIZE, 5 * TILE_SIZE, 'Hello there can you hear me?'))
 --table.insert(MAP[7][2].signposts, SignPost(2 * TILE_SIZE, 5 * TILE_SIZE, '123456789012345678      1 1 1 1 1 1 1 12'))
-table.insert(MAP[7][2].signposts, SignPost(7 * TILE_SIZE, 4 * TILE_SIZE, '^^ Tavern111111111111111111111111111111111111111111111111111111111'))
+table.insert(MAP[7][2].signposts, SignPost(7 * TILE_SIZE, 4 * TILE_SIZE, 'Tavern'))
