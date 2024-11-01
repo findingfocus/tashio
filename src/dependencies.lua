@@ -63,6 +63,7 @@ classicFont = love.graphics.newFont('fonts/classic.ttf', 8)
 smallFont = love.graphics.newFont('fonts/classic.ttf', 4)
 particle = love.graphics.newImage('graphics/particle.png')
 
+textAdvance = love.graphics.newImage('graphics/textAdvance.png')
 fretOpen = love.graphics.newImage('graphics/fretOpen.png')
 fret1 = love.graphics.newImage('graphics/fret1.png')
 fret2 = love.graphics.newImage('graphics/fret2.png')

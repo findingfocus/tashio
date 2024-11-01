@@ -41,7 +41,6 @@ sceneView = Scene(gPlayer, 7, 2)
 tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 --textures = love.graphics.newImage('graphics/textures.png')
 quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
-local transitionTimer = 3
 
 function PlayState:init()
     self.stateName = 'PlayState'
@@ -63,16 +62,7 @@ function PlayState:init()
     self.unFocusGrowing = true
 end
 
-
 function PlayState:update(dt)
-    --transitionTimer = transitionTimer - dt
-    ---[[
-    if transitionTimer < 0 then
-        sceneView = Scene(gPlayer, 7, 3)
-        transitionTimer = 100
-    end
-    --]]
-    --gItemInventory:update(dt)
     if love.keyboard.wasPressed('g') then
         if WINDOW_HEIGHT == 144 * SCALE_FACTOR * 2 then
             SCALE_FACTOR = 4
@@ -90,7 +80,9 @@ function PlayState:update(dt)
     end
 
     if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('enter') then
-        gStateMachine:change('pauseState')
+        if not PAUSED then
+            gStateMachine:change('pauseState')
+        end
     end
 
     if love.keyboard.wasPressed('o') and gItemInventory.itemSlot[1] ~= nil then
@@ -225,7 +217,6 @@ function PlayState:update(dt)
                 if gPlayer.direction ~= 'down' then
                     table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].signpostCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k])
                     PAUSED = true
-                    --MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k]:flushText()
                     if not PAUSED then
                         MAP[sceneView.currentMap.row][sceneView.currentMap.column].signpostCollided = {}
                     end
@@ -249,7 +240,6 @@ function PlayState:update(dt)
     --love.window.setPosition(400, 40)
     --DEV POSITION
     love.window.setPosition(400, 100)
-
 
     --WARP ZONES
     if #MAP[sceneView.currentMap.row][sceneView.currentMap.column].warpZones > 0 then
