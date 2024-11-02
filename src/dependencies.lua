@@ -23,7 +23,7 @@ require 'src/Note'
 require 'src/BassNotes'
 require 'src/Lute'
 require 'src/Cursor'
-require 'src/SignPost'
+require 'src/DialogueBox'
 require 'src/Item'
 require 'src/Inventory'
 

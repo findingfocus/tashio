@@ -1,11 +1,11 @@
-SignPost = Class{}
+DialogueBox = Class{}
 
 local spaceCount = 0
 local blinking = true
 local blinkTimer = .5
 local blinkReset = .5
 
-function SignPost:init(x, y, text)
+function DialogueBox:init(x, y, text)
     self.x = x + 1
     self.y = y + 1
     self.width = TILE_SIZE - 2
@@ -118,11 +118,11 @@ function SignPost:init(x, y, text)
     --TODO FIX CRASHING UPON EXITING INVENTORY WITH DIALOGUE SYSTEM INITIALIZED
 end
 
-function SignPost:flushText()
+function DialogueBox:flushText()
     self.textIndex = 1
 end
 
-function SignPost:update(dt)
+function DialogueBox:update(dt)
     if self.textIndex > MAX_TEXTBOX_LINE_LENGTH then
         blinkTimer = blinkTimer - dt
         if blinkTimer <= 0 then
@@ -178,7 +178,7 @@ function SignPost:update(dt)
     end
 end
 
-function SignPost:render()
+function DialogueBox:render()
     if PAUSED then
         love.graphics.setColor(1/255, 5/255, 10/255, 255/255)
         love.graphics.rectangle('fill', 0, SCREEN_HEIGHT_LIMIT - 40, VIRTUAL_WIDTH, 40)

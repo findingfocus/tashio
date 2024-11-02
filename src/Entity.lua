@@ -10,6 +10,7 @@ function Entity:init(def)
     self.y = def.y
     self.dx = 0
     self.dy = 0
+    self.dialogueBox = {}
     self.hit = false
     self.enemy = def.enemy or false
     self.width = def.width
@@ -194,6 +195,9 @@ function Entity:update(dt)
     if self.dx == 0 or self.dy == 0 then
         self.hit = false
     end
+
+    self.dialogueBox.x = self.x
+    self.dialogueBox.y = self.y
 
     ---[[
 
