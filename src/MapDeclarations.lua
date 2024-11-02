@@ -297,4 +297,4 @@ table.insert(MAP[7][2].npc[mageIndex].dialogueBox, DialogueBox(MAP[7][2].npc[mag
 table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, 'Hello there can you hear me? This is on page 1, while this is probably on page 2.'))
 --table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, '123456789012345678      1 1 1 1 1 1 1 12'))
 table.insert(MAP[7][2].dialogueBox, DialogueBox(7 * TILE_SIZE, 4 * TILE_SIZE, '^^Tavern'))
-table.insert(MAP[7][2].dialogueBox, DialogueBox(MAP[7][2].npc[mageIndex].x, MAP[7][2].npc[mageIndex].x, 'Hi, I\'m a mage!', 3))
+table.insert(MAP[7][2].dialogueBox, DialogueBox(MAP[7][2].npc[mageIndex].x, MAP[7][2].npc[mageIndex].x, 'Hi, I\'m a mage!'))
