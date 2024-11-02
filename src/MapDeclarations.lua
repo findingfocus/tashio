@@ -44,7 +44,7 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
         MAP[i][j].pits = {}
         MAP[i][j].topLevelTileIds = {}
         MAP[i][j].aboveGroundTileIds = {}
-        MAP[i][j].signposts = {}
+        MAP[i][j].dialogueBox = {}
         MAP[i][j].signpostCollided = {}
         MAP[i][j].warpZones = {}
     end
@@ -275,6 +275,7 @@ table.insert(MAP[7][2].npc, Entity {
     width = ENTITY_DEFS['mage'].width,
     x = TILE_SIZE * 7,
     y = TILE_SIZE * 6,
+    dialogueBox = {},
     direction = 'down',
     corrupted = false,
     type = 'mage',
@@ -287,11 +288,13 @@ MAP[7][2].npc[mageIndex].stateMachine = StateMachine {
 }
 MAP[7][2].npc[mageIndex]:changeState('npc-walk')
 MAP[7][2].npc[mageIndex].stateMachine.current.option = 'square'
+table.insert(MAP[7][2].npc[mageIndex].dialogueBox, DialogueBox(MAP[7][2].npc[mageIndex].x, MAP[7][2].npc[mageIndex].x, 'Hi, I\'m a mage!'))
 
 --19 CHAR PER LINE = 57 CHARS for 3 lines
---table.insert(MAP[7][2].signposts, SignPost(2 * TILE_SIZE, 5 * TILE_SIZE, '1234567890123456789012345678901234567890123456789012345671234567890123456789012345678901234567890123456789012345671234567890123456789012345678901234567890123456789012345678'))
---table.insert(MAP[7][2].signposts, SignPost(2 * TILE_SIZE, 5 * TILE_SIZE, '111111111111111111111111111111111111111111111111111111111222222222222222222222222222222222222222222222222222222222333333333333333333333333333333333333333333333333333333333'))
---table.insert(MAP[7][2].signposts, SignPost(2 * TILE_SIZE, 5 * TILE_SIZE, 'hello is thing on???? This is a test lin2 This is a test lin3'))
-table.insert(MAP[7][2].signposts, SignPost(2 * TILE_SIZE, 5 * TILE_SIZE, 'Hello there can you hear me?'))
---table.insert(MAP[7][2].signposts, SignPost(2 * TILE_SIZE, 5 * TILE_SIZE, '123456789012345678      1 1 1 1 1 1 1 12'))
-table.insert(MAP[7][2].signposts, SignPost(7 * TILE_SIZE, 4 * TILE_SIZE, 'Tavern'))
+--table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, '1234567890123456789012345678901234567890123456789012345671234567890123456789012345678901234567890123456789012345671234567890123456789012345678901234567890123456789012345678'))
+--table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, '111111111111111111111111111111111111111111111111111111111222222222222222222222222222222222222222222222222222222222333333333333333333333333333333333333333333333333333333333'))
+--table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, 'hello is thing on???? This is a test lin2 This is a test lin3'))
+table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, 'Hello there can you hear me? This is on page 1, while this is probably on page 2.'))
+--table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, '123456789012345678      1 1 1 1 1 1 1 12'))
+table.insert(MAP[7][2].dialogueBox, DialogueBox(7 * TILE_SIZE, 4 * TILE_SIZE, '^^Tavern'))
+table.insert(MAP[7][2].dialogueBox, DialogueBox(MAP[7][2].npc[mageIndex].x, MAP[7][2].npc[mageIndex].x, 'Hi, I\'m a mage!', 3))

@@ -205,17 +205,34 @@ function PlayState:update(dt)
     --TODO MOVE FROM PLAYSTATE
     if love.keyboard.wasPressed('p') then
         --DIALOGUE DETECTION
-        for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts) do
-            if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k]) then
-                MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k].line1Result = ''
-                MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k].line2Result = ''
-                MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k].line3Result = ''
-                MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k].lineCount = 1
-                MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k].textIndex = 1
+        for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].npc) do
+            if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].npc[k]) then
+                MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[3].line1Result = ''
+                MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[3].line2Result = ''
+                MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[3].line3Result = ''
+                MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[3].lineCount = 1
+                MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[3].textIndex = 1
+                self.dialogueID = 3
+                --IF COLLIDES WITH SIGNPOST
+                table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].signpostCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[3])
+                PAUSED = true
+                if not PAUSED then
+                    MAP[sceneView.currentMap.row][sceneView.currentMap.column].signpostCollided = {}
+                end
+            end
+        end
+        --[[
+        for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do
+            if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]) then
+                MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].line1Result = ''
+                MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].line2Result = ''
+                MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].line3Result = ''
+                MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].lineCount = 1
+                MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].textIndex = 1
                 self.dialogueID = k
                 --IF COLLIDES WITH SIGNPOST
                 if gPlayer.direction ~= 'down' then
-                    table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].signpostCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[k])
+                    table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].signpostCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k])
                     PAUSED = true
                     if not PAUSED then
                         MAP[sceneView.currentMap.row][sceneView.currentMap.column].signpostCollided = {}
@@ -223,6 +240,7 @@ function PlayState:update(dt)
                 end
             end
         end
+        --]]
     end
 
     if not PAUSED then
@@ -230,7 +248,7 @@ function PlayState:update(dt)
     end
 
     if PAUSED then
-        MAP[sceneView.currentMap.row][sceneView.currentMap.column].signposts[self.dialogueID]:update(dt)
+        MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[self.dialogueID]:update(dt)
     end
 
     rotate = rotate + .05
@@ -459,4 +477,5 @@ function PlayState:render()
        -- love.graphics.print('frame: ' .. tostring(gPlayer.currentAnimation:getCurrentFrame()), 5, 20)
     --]]
     --
+    --print(MAP[sceneView.currentMap.row][sceneView.currentMap.column].npc[1].dialogueBox[1].text)
 end
