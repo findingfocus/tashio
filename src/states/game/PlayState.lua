@@ -205,23 +205,7 @@ function PlayState:update(dt)
     --TODO MOVE FROM PLAYSTATE
     if love.keyboard.wasPressed('p') then
         --DIALOGUE DETECTION
-        for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].npc) do
-            if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].npc[k]) then
-                MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[3].line1Result = ''
-                MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[3].line2Result = ''
-                MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[3].line3Result = ''
-                MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[3].lineCount = 1
-                MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[3].textIndex = 1
-                self.dialogueID = 3
-                --IF COLLIDES WITH SIGNPOST
-                table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].signpostCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[3])
-                PAUSED = true
-                if not PAUSED then
-                    MAP[sceneView.currentMap.row][sceneView.currentMap.column].signpostCollided = {}
-                end
-            end
-        end
-        --[[
+        ---[[
         for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do
             if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]) then
                 MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].line1Result = ''
