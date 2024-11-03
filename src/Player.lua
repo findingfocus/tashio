@@ -139,7 +139,7 @@ function Player:render()
         --DIALOGUE BOX DETECTION
         ---[[
         love.graphics.setColor(1,0,0,0.4)
-        love.graphics.rectangle('fill', self.dialogueBoxX, self.dialogueBoxY, self.dialogueBoxWidth, self.dialogueBoxHeight)
+        love.graphics.rectangle('fill', self.dialogueBoxX + 1, self.dialogueBoxY + 1, self.dialogueBoxWidth - COLLISION_BUFFER, self.dialogueBoxHeight - COLLISION_BUFFER)
         --]]
         Entity.render(self)
     end

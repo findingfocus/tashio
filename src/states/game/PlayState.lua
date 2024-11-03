@@ -231,6 +231,16 @@ function PlayState:update(dt)
         sceneView:update(dt)
     end
 
+    --DIALOGUE UPDATES
+    for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do
+        if v.option == 'npc' then
+            ---[[
+            v.x = v.npc.x
+            v.y = v.npc.y
+            --]]
+        end
+    end
+
     if PAUSED then
         MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[self.dialogueID]:update(dt)
     end
