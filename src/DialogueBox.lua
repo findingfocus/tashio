@@ -5,17 +5,18 @@ local blinking = true
 local blinkTimer = .5
 local blinkReset = .5
 
-function DialogueBox:init(x, y, text)
+function DialogueBox:init(x, y, text, option, npc)
     self.x = x + 1
     self.y = y + 1
     self.width = TILE_SIZE - 2
     self.height = TILE_SIZE - 2
     self.text = text
+    self.option = option or 0
+    self.npc = npc or 0
     self.textTimer = 0
     self.textLength = #text
     self.textIndex = 1
     self.nextTextTrigger = 0.03
-
     self.result = ''
     self.line1Result = ''
     self.line2Result = ''
