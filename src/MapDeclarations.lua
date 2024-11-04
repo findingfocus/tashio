@@ -245,27 +245,6 @@ FLOWERS = AnimSpitter(FLOWER_ANIM_STARTER, 1015, 0.75)
 AUTUMN_FLOWERS = AnimSpitter(AUTUMN_FLOWER_ANIM_STARTER, 1011, 0.75)
 WATER = AnimSpitter(WATER_ANIM_STARTER, 105, .5)
 
---VILLAGER 1
-table.insert(MAP[1][11].npc, Entity {
-    animations = ENTITY_DEFS['villager1'].animations,
-    walkSpeed = ENTITY_DEFS['villager1'].walkSpeed,
-    height = ENTITY_DEFS['villager1'].height,
-    width = ENTITY_DEFS['villager1'].width,
-    x = TILE_SIZE * 5,
-    y = TILE_SIZE,
-    direction = 'down',
-    corrupted = false,
-    type = 'villager1',
-})
-
-local villagerIndex = 1
-MAP[1][11].npc[villagerIndex].stateMachine = StateMachine {
-    ['npc-idle'] = function() return NPCIdleState(MAP[1][11].npc[villagerIndex]) end,
-    ['npc-walk'] = function() return NPCWalkState(MAP[1][11].npc[villagerIndex]) end,
-}
-MAP[1][11].npc[villagerIndex]:changeState('npc-walk')
-MAP[1][11].npc[villagerIndex].stateMachine.current.option = 'horizontal'
---]]
 
 --MAGE NPC
 table.insert(MAP[7][2].npc, Entity {
@@ -289,6 +268,29 @@ MAP[7][2].npc[mageIndex].stateMachine = StateMachine {
 MAP[7][2].npc[mageIndex]:changeState('npc-walk')
 MAP[7][2].npc[mageIndex].stateMachine.current.option = 'square'
 
+--VILLAGER 1
+table.insert(MAP[1][11].npc, Entity {
+    animations = ENTITY_DEFS['villager1'].animations,
+    walkSpeed = ENTITY_DEFS['villager1'].walkSpeed,
+    height = ENTITY_DEFS['villager1'].height,
+    width = ENTITY_DEFS['villager1'].width,
+    x = TILE_SIZE * 5,
+    y = TILE_SIZE,
+    dialogueBox = {},
+    direction = 'down',
+    corrupted = false,
+    type = 'villager1',
+})
+
+local villagerIndex = 1
+MAP[1][11].npc[villagerIndex].stateMachine = StateMachine {
+    ['npc-idle'] = function() return NPCIdleState(MAP[1][11].npc[villagerIndex]) end,
+    ['npc-walk'] = function() return NPCWalkState(MAP[1][11].npc[villagerIndex]) end,
+}
+MAP[1][11].npc[villagerIndex]:changeState('npc-walk')
+MAP[1][11].npc[villagerIndex].stateMachine.current.option = 'horizontal'
+table.insert(MAP[1][11].dialogueBox, DialogueBox(MAP[1][11].npc[villagerIndex].x, MAP[1][11].npc[villagerIndex].y, 'Hi, I\'m a mage!', 'npc', MAP[7][2].npc[villagerIndex], 3))
+--]]
 --19 CHAR PER LINE = 57 CHARS for 3 lines
 --table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, '1234567890123456789012345678901234567890123456789012345671234567890123456789012345678901234567890123456789012345671234567890123456789012345678901234567890123456789012345678'))
 --table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, '111111111111111111111111111111111111111111111111111111111222222222222222222222222222222222222222222222222222222222333333333333333333333333333333333333333333333333333333333'))
@@ -296,4 +298,4 @@ MAP[7][2].npc[mageIndex].stateMachine.current.option = 'square'
 table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, 'Hello there can you hear me? This is on page 1, while this is probably on page 2.', 'signpost'))
 --table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, '123456789012345678      1 1 1 1 1 1 1 12'))
 table.insert(MAP[7][2].dialogueBox, DialogueBox(7 * TILE_SIZE, 4 * TILE_SIZE, '^^Tavern', 'signpost'))
-table.insert(MAP[7][2].dialogueBox, DialogueBox(MAP[7][2].npc[mageIndex].x, MAP[7][2].npc[mageIndex].x, 'Hi, I\'m a mage!', 'npc', MAP[7][2].npc[mageIndex]))
+table.insert(MAP[7][2].dialogueBox, DialogueBox(MAP[7][2].npc[mageIndex].x, MAP[7][2].npc[mageIndex].y, 'Hi, I\'m a mage!', 'npc', MAP[7][2].npc[mageIndex]))

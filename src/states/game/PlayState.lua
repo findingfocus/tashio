@@ -217,6 +217,15 @@ function PlayState:update(dt)
                 --IF COLLIDES WITH SIGNPOST
                 if gPlayer.direction ~= 'down' then
                     table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].signpostCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k])
+                    --gPlayer.dialogueBoxHeight = 16
+                    PAUSED = true
+                    if not PAUSED then
+                        MAP[sceneView.currentMap.row][sceneView.currentMap.column].signpostCollided = {}
+                    end
+                elseif gPlayer.direction == 'down' then
+                    if MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].option == 'npc' then
+                        table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].signpostCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k])
+                    end
                     PAUSED = true
                     if not PAUSED then
                         MAP[sceneView.currentMap.row][sceneView.currentMap.column].signpostCollided = {}
