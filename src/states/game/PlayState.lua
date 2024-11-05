@@ -216,20 +216,13 @@ function PlayState:update(dt)
                 self.dialogueID = k
                 --IF COLLIDES WITH SIGNPOST
                 if gPlayer.direction ~= 'down' then
-                    table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].signpostCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k])
-                    --gPlayer.dialogueBoxHeight = 16
+                    table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k])
                     PAUSED = true
-                    if not PAUSED then
-                        MAP[sceneView.currentMap.row][sceneView.currentMap.column].signpostCollided = {}
-                    end
                 elseif gPlayer.direction == 'down' then
                     if MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].option == 'npc' then
-                        table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].signpostCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k])
+                        table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k])
                     end
                     PAUSED = true
-                    if not PAUSED then
-                        MAP[sceneView.currentMap.row][sceneView.currentMap.column].signpostCollided = {}
-                    end
                 end
             end
         end
@@ -271,6 +264,8 @@ function PlayState:update(dt)
                 gPlayer.currentAnimation:refresh()
                 triggerStartingSceneTransition = true
                 gPlayer.warping = true
+                --TODO MAKE THIS REVERT DEPENDING NECESSITY
+                gPlayer.extendDialogueBoxUpwards = true
                 --sceneView = Scene(gPlayer, v.warpRow, v.warpCol)
             end
         end
