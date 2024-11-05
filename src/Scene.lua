@@ -252,7 +252,7 @@ function Scene:render()
     love.graphics.setColor(WHITE)
 
     --ONLY RENDER COLLIDED SIGNPOST
-    for k, v in pairs(MAP[self.mapRow][self.mapColumn].signpostCollided) do
-        MAP[self.mapRow][self.mapColumn].signpostCollided[k]:render()
+    for k, v in pairs(MAP[self.mapRow][self.mapColumn].dialogueBoxCollided) do
+        MAP[self.mapRow][self.mapColumn].dialogueBoxCollided[k]:render()
     end
 end

@@ -45,7 +45,7 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
         MAP[i][j].topLevelTileIds = {}
         MAP[i][j].aboveGroundTileIds = {}
         MAP[i][j].dialogueBox = {}
-        MAP[i][j].signpostCollided = {}
+        MAP[i][j].dialogueBoxCollided = {}
         MAP[i][j].warpZones = {}
     end
 end
@@ -289,7 +289,7 @@ MAP[1][11].npc[villagerIndex].stateMachine = StateMachine {
 }
 MAP[1][11].npc[villagerIndex]:changeState('npc-walk')
 MAP[1][11].npc[villagerIndex].stateMachine.current.option = 'horizontal'
-table.insert(MAP[1][11].dialogueBox, DialogueBox(MAP[1][11].npc[villagerIndex].x, MAP[1][11].npc[villagerIndex].y, 'Hi, I\'m a mage!', 'npc', MAP[7][2].npc[villagerIndex], 3))
+table.insert(MAP[1][11].dialogueBox, DialogueBox(MAP[1][11].npc[villagerIndex].x, MAP[1][11].npc[villagerIndex].y, 'Whaddya want?', 'npc', MAP[1][11].npc[villagerIndex]))
 --]]
 --19 CHAR PER LINE = 57 CHARS for 3 lines
 --table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, '1234567890123456789012345678901234567890123456789012345671234567890123456789012345678901234567890123456789012345671234567890123456789012345678901234567890123456789012345678'))
