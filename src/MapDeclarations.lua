@@ -238,7 +238,10 @@ end
 table.insert(MAP[7][2].warpZones, WarpZone(130,20,32,100,1,11))
 table.insert(MAP[1][11].warpZones, WarpZone(35,125,130,30,7,2))
 
-table.insert(MAP[7][4].warpZones, WarpZone(50,35,0,0,7,3))
+table.insert(MAP[7][4].warpZones, WarpZone(50,35,VIRTUAL_WIDTH - TILE_SIZE * 3,VIRTUAL_HEIGHT - TILE_SIZE * 2 - 5,1,12))
+table.insert(MAP[1][12].warpZones, WarpZone(VIRTUAL_WIDTH - TILE_SIZE * 3, VIRTUAL_HEIGHT - TILE_SIZE * 2 + 15, 48, 45,7,4))
+
+
 table.insert(MAP[8][3].warpZones, WarpZone(35,80,20,100,7,5))
 
 FLOWERS = AnimSpitter(FLOWER_ANIM_STARTER, 1015, 0.75)
