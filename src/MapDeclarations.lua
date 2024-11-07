@@ -194,7 +194,7 @@ local entities = 4
 for i = 1, entities do
     local random = math.random(25, 35)
     random = (random / 100) * 60
-    table.insert(MAP[7][3].entities, Entity {
+    table.insert(MAP[1][12].entities, Entity {
         animations = ENTITY_DEFS['geckoC'].animations,
         x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
         y = math.random(10, SCREEN_HEIGHT_LIMIT),
@@ -224,25 +224,29 @@ for i = 1, entities do
     })
     --]]
 
-    MAP[7][3].entities[i].stateMachine = StateMachine {
-        ['entity-walk'] = function() return EntityWalkState(MAP[7][3].entities[i]) end,
-        ['entity-idle'] = function() return EntityIdleState(MAP[7][3].entities[i]) end,
+    MAP[1][12].entities[i].stateMachine = StateMachine {
+        ['entity-walk'] = function() return EntityWalkState(MAP[1][12].entities[i]) end,
+        ['entity-idle'] = function() return EntityIdleState(MAP[1][12].entities[i]) end,
     }
 
-    MAP[7][3].entities[i]:changeState('entity-idle')
-    MAP[7][3].entities[i].hit = false
+    MAP[1][12].entities[i]:changeState('entity-idle')
+    MAP[1][12].entities[i].hit = false
 end
 
 --TAVERN
 --TODO IMAGINE WAY TO SWAP PLAYER FRAME TO DEFAULT FRAME UPON TRANSITION
-table.insert(MAP[7][2].warpZones, WarpZone(130,20,32,100,1,11))
+--TAVERN
+table.insert(MAP[7][2].warpZones, WarpZone(130,20,32,100,1,11,true))
 table.insert(MAP[1][11].warpZones, WarpZone(35,125,130,30,7,2))
 
-table.insert(MAP[7][4].warpZones, WarpZone(50,35,VIRTUAL_WIDTH - TILE_SIZE * 3,VIRTUAL_HEIGHT - TILE_SIZE * 2 - 5,1,12))
+--DUNGEON
+table.insert(MAP[7][4].warpZones, WarpZone(50,35,TILE_SIZE * 2,VIRTUAL_HEIGHT - TILE_SIZE * 2 - 5,1,12))
 table.insert(MAP[1][12].warpZones, WarpZone(VIRTUAL_WIDTH - TILE_SIZE * 3, VIRTUAL_HEIGHT - TILE_SIZE * 2 + 15, 48, 45,7,4))
 
-
-table.insert(MAP[8][3].warpZones, WarpZone(35,80,20,100,7,5))
+--INN
+table.insert(MAP[8][3].warpZones, WarpZone(35,80,TILE_SIZE * 5, VIRTUAL_HEIGHT - TILE_SIZE * 2 - 5,2,11))
+table.insert(MAP[2][11].warpZones, WarpZone(TILE_SIZE * 5, VIRTUAL_HEIGHT - TILE_SIZE * 1,32,91,8,3))
+--table.insert(MAP[8][3].warpZones, WarpZone(35,80,20,100,7,5))
 
 FLOWERS = AnimSpitter(FLOWER_ANIM_STARTER, 1015, 0.75)
 AUTUMN_FLOWERS = AnimSpitter(AUTUMN_FLOWER_ANIM_STARTER, 1011, 0.75)
@@ -300,5 +304,5 @@ table.insert(MAP[1][11].dialogueBox, DialogueBox(MAP[1][11].npc[villagerIndex].x
 --table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, 'hello is thing on???? This is a test lin2 This is a test lin3'))
 table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, 'Hello there can you hear me? This is on page 1, while this is probably on page 2.', 'signpost'))
 --table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, '123456789012345678      1 1 1 1 1 1 1 12'))
-table.insert(MAP[7][2].dialogueBox, DialogueBox(7 * TILE_SIZE, 4 * TILE_SIZE, '^^Tavern', 'signpost'))
-table.insert(MAP[7][2].dialogueBox, DialogueBox(MAP[7][2].npc[mageIndex].x, MAP[7][2].npc[mageIndex].y, 'Hi, I\'m a mage!', 'npc', MAP[7][2].npc[mageIndex]))
+table.insert(MAP[7][2].dialogueBox, DialogueBox(7 * TILE_SIZE, 4 * TILE_SIZE, '^Tavern Dungeon ->', 'signpost'))
+table.insert(MAP[7][2].dialogueBox, DialogueBox(MAP[7][2].npc[mageIndex].x, MAP[7][2].npc[mageIndex].y, 'There\'s plenty of danger around, but treasure too...', 'npc', MAP[7][2].npc[mageIndex]))
