@@ -197,6 +197,7 @@ function DialogueBox:render()
         else
             love.graphics.setColor(WHITE)
         end
+        love.graphics.draw(textAdvance, VIRTUAL_WIDTH - 7, SCREEN_HEIGHT_LIMIT - 4)
     end
     --[[
     love.graphics.print('pageLength: ' .. tostring(self.pageLength), 0, 0)

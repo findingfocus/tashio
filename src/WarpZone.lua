@@ -1,6 +1,6 @@
 WarpZone = Class{}
 
-function WarpZone:init(x, y, playerX, playerY, warpRow, warpCol)
+function WarpZone:init(x, y, playerX, playerY, warpRow, warpCol, disjoint)
     self.x = x
     self.y = y
     self.playerX = playerX
@@ -9,13 +9,16 @@ function WarpZone:init(x, y, playerX, playerY, warpRow, warpCol)
     self.height = 10
     self.warpRow = warpRow
     self.warpCol = warpCol
+    self.disjoint = disjoint or false
     --self.warping = false
 end
 
 function WarpZone:collides()
     if self.x < gPlayer.x + gPlayer.width and self.x + self.width > gPlayer.x then
         if self.y < gPlayer.y + gPlayer.height and self.y + self.height > gPlayer.y then
-            return true
+            if not sceneView.shifting then
+                return true
+            end
         end
     end
     return false

@@ -37,7 +37,7 @@ local columns = 10
 local rows = 8
 cameraX = 0
 --STARTING SCENE gPlayer SPAWN
-sceneView = Scene(gPlayer, 7, 4)
+sceneView = Scene(gPlayer, 7, 2)
 tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 --textures = love.graphics.newImage('graphics/textures.png')
 quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
@@ -265,7 +265,12 @@ function PlayState:update(dt)
                 triggerStartingSceneTransition = true
                 gPlayer.warping = true
                 --TODO MAKE THIS REVERT DEPENDING NECESSITY
-                gPlayer.extendDialogueBoxUpwards = true
+                --DISJOINTED DIALOGUE BOX
+                if v.disjoint then
+                    gPlayer.extendDialogueBoxUpwards = true
+                else
+                    gPlayer.extendDialogueBoxUpwards = false
+                end
                 --sceneView = Scene(gPlayer, v.warpRow, v.warpCol)
             end
         end
