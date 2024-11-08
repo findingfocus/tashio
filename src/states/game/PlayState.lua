@@ -271,7 +271,6 @@ function PlayState:update(dt)
                 else
                     gPlayer.extendDialogueBoxUpwards = false
                 end
-                --sceneView = Scene(gPlayer, v.warpRow, v.warpCol)
             end
         end
     end
@@ -296,6 +295,10 @@ function PlayState:update(dt)
             rightFadeTransitionX = VIRTUAL_WIDTH / 2
             triggerStartingSceneTransition = false
             startingSceneTransitionFinished = true
+            --RESET ENTITIES UPON WARP
+            for i = 1, #MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities do
+                MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities[i]:resetOriginalPosition()
+            end
         end
         transitionFadeAlpha = math.min(transitionFadeAlpha + FADE_TO_BLACK_SPEED * dt, 255)
     end

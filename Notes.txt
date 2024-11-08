@@ -97,6 +97,7 @@ __REHAUL DOWNLOADER TO ALSO KEEP TRACK OF LOCAL ROW AND COLUMN, INSERT INSERTANI
 __Incorporate Prosto closure fix for local variables
 
 Todo
+__Add correct text indicator timing to dialogue boxes
 __Rehaul touch input into global buttonOutput table
 __IDLE STATE for Player
 __Hold off on rendering fret presses until luteState has been active a while
