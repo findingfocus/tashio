@@ -38,6 +38,7 @@ function DialogueBox:init(x, y, text, option, npc)
     self.pages[1][1].string = ''
     self.pages[1][2].string = ''
     self.pages[1][3].string = ''
+    self.lastCharWasSpace = false
 
     self.charactersToCheck = true
     self.textIndex = 0
@@ -48,6 +49,7 @@ function DialogueBox:init(x, y, text, option, npc)
     self.wordCharacterIndex = 0
     self.wordCharCount = 0
     self.lineCharCount = 0
+    self.pageLength = 0
 
 
     while self.charactersToCheck do
@@ -55,6 +57,7 @@ function DialogueBox:init(x, y, text, option, npc)
         local char = self.text:sub(self.textIndex, self.textIndex)
         if not char:match("%s") then --IF A LETTER
             if not self.wordIndexGrabbed then
+                self.lastCharWasSpace = false
                 self.wordIndex = self.textIndex
                 self.wordIndexGrabbed = true
             end
@@ -81,30 +84,47 @@ function DialogueBox:init(x, y, text, option, npc)
                 self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(self.wordIndex, self.wordIndex + self.wordCharCount)
             end
         elseif char:match("%s") then --IF SPACE CHARACTER
-            --CHECK IF WORD CAN FIT ON CURRENT LINE
-            if self.lineCharCount + self.wordCharCount <= MAX_TEXTBOX_LINE_LENGTH then
-                self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(self.wordIndex, self.wordIndex + self.wordCharCount)
+            if self.lastCharWasSpace then
+                self.pageWeAreOn = self.pageWeAreOn + 1
+                self.pages[self.pageWeAreOn] = {}
+                self.pages[self.pageWeAreOn][1] = {}
+                self.pages[self.pageWeAreOn][2] = {}
+                self.pages[self.pageWeAreOn][3] = {}
+                self.pages[self.pageWeAreOn][1].string = ''
+                self.pages[self.pageWeAreOn][2].string = ''
+                self.pages[self.pageWeAreOn][3].string = ''
                 self.wordIndexGrabbed = false
-                self.lineCharCount = self.lineCharCount + self.wordCharCount + 1
                 self.wordCharCount = 0
-            elseif self.lineCharCount + self.wordCharCount > MAX_TEXTBOX_LINE_LENGTH then --INCREMENT LINE NUMBER
-                self.lineWeAreOn = self.lineWeAreOn + 1
-                self.totalLineCount = self.totalLineCount + 1
-                if self.lineWeAreOn > 3 then
-                    self.lineWeAreOn = 1
-                    self.pageWeAreOn = self.pageWeAreOn + 1
-                    self.pages[self.pageWeAreOn] = {}
-                    self.pages[self.pageWeAreOn][1] = {}
-                    self.pages[self.pageWeAreOn][2] = {}
-                    self.pages[self.pageWeAreOn][3] = {}
-                    self.pages[self.pageWeAreOn][1].string = ''
-                    self.pages[self.pageWeAreOn][2].string = ''
-                    self.pages[self.pageWeAreOn][3].string = ''
+                self.lineWeAreOn = 1
+                self.lineCharCount = 0
+                self.totalLineCount = self.totalLineCount + 3
+            else
+                self.lastCharWasSpace = true
+                --CHECK IF WORD CAN FIT ON CURRENT LINE
+                if self.lineCharCount + self.wordCharCount <= MAX_TEXTBOX_LINE_LENGTH then
+                    self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(self.wordIndex, self.wordIndex + self.wordCharCount)
+                    self.wordIndexGrabbed = false
+                    self.lineCharCount = self.lineCharCount + self.wordCharCount + 1
+                    self.wordCharCount = 0
+                elseif self.lineCharCount + self.wordCharCount > MAX_TEXTBOX_LINE_LENGTH then --INCREMENT LINE NUMBER
+                    self.lineWeAreOn = self.lineWeAreOn + 1
+                    self.totalLineCount = self.totalLineCount + 1
+                    if self.lineWeAreOn > 3 then
+                        self.lineWeAreOn = 1
+                        self.pageWeAreOn = self.pageWeAreOn + 1
+                        self.pages[self.pageWeAreOn] = {}
+                        self.pages[self.pageWeAreOn][1] = {}
+                        self.pages[self.pageWeAreOn][2] = {}
+                        self.pages[self.pageWeAreOn][3] = {}
+                        self.pages[self.pageWeAreOn][1].string = ''
+                        self.pages[self.pageWeAreOn][2].string = ''
+                        self.pages[self.pageWeAreOn][3].string = ''
+                    end
+                    self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(self.wordIndex, self.wordIndex + self.wordCharCount)
+                    self.wordIndexGrabbed = false
+                    self.lineCharCount = self.wordCharCount + 1
+                    self.wordCharCount = 0
                 end
-                self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(self.wordIndex, self.wordIndex + self.wordCharCount)
-                self.wordIndexGrabbed = false
-                self.lineCharCount = self.wordCharCount + 1
-                self.wordCharCount = 0
             end
         end
 
