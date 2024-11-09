@@ -136,6 +136,7 @@ function DialogueBox:init(x, y, text, option, npc)
 
     self.pageLength = math.ceil(self.totalLineCount / 3)
 
+
     --TODO FIX CRASHING UPON EXITING INVENTORY WITH DIALOGUE SYSTEM INITIALIZED
 end
 
@@ -144,7 +145,7 @@ function DialogueBox:flushText()
 end
 
 function DialogueBox:update(dt)
-    if self.textIndex > MAX_TEXTBOX_LINE_LENGTH then
+    if self.textIndex > 1 then
         blinkTimer = blinkTimer - dt
         if blinkTimer <= 0 then
             blinkTimer = blinkReset
