@@ -215,15 +215,16 @@ function PlayState:update(dt)
                 MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].textIndex = 1
                 self.dialogueID = k
                 --IF COLLIDES WITH SIGNPOST
-                if gPlayer.direction ~= 'down' then
+                --if gPlayer.direction ~= 'down' then
                     table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k])
                     PAUSED = true
-                elseif gPlayer.direction == 'down' then
+                --[[elseif gPlayer.direction == 'down' then
                     if MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].option == 'npc' then
                         table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k])
                     end
                     PAUSED = true
                 end
+                --]]
             end
         end
         --]]
