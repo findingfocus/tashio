@@ -297,12 +297,43 @@ MAP[1][11].npc[villagerIndex].stateMachine = StateMachine {
 MAP[1][11].npc[villagerIndex]:changeState('npc-walk')
 MAP[1][11].npc[villagerIndex].stateMachine.current.option = 'horizontal'
 table.insert(MAP[1][11].dialogueBox, DialogueBox(MAP[1][11].npc[villagerIndex].x, MAP[1][11].npc[villagerIndex].y, 'Whaddya want?', 'npc', MAP[1][11].npc[villagerIndex]))
+
+--VILLAGER 2
+table.insert(MAP[2][11].npc, Entity {
+    animations = ENTITY_DEFS['villager1'].animations,
+    walkSpeed = ENTITY_DEFS['villager1'].walkSpeed,
+    height = ENTITY_DEFS['villager1'].height,
+    width = ENTITY_DEFS['villager1'].width,
+    x = TILE_SIZE * 5,
+    y = TILE_SIZE * 3,
+    dialogueBox = {},
+    direction = 'down',
+    corrupted = false,
+    type = 'villager1',
+})
+
+local villager2Index = 1
+MAP[2][11].npc[villager2Index].stateMachine = StateMachine {
+    ['npc-idle'] = function() return NPCIdleState(MAP[2][11].npc[villager2Index]) end,
+    ['npc-walk'] = function() return NPCWalkState(MAP[2][11].npc[villager2Index]) end,
+}
+MAP[2][11].npc[villager2Index]:changeState('npc-walk')
+MAP[2][11].npc[villager2Index].stateMachine.current.option = 'square'
+table.insert(MAP[2][11].dialogueBox, DialogueBox(MAP[2][11].npc[villager2Index].x, MAP[2][11].npc[villager2Index].y, 'A bed costs 5 gems a night', 'npc', MAP[2][11].npc[villager2Index]))
 --]]
 --19 CHAR PER LINE = 57 CHARS for 3 lines
---table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, '1234567890123456789012345678901234567890123456789012345671234567890123456789012345678901234567890123456789012345671234567890123456789012345678901234567890123456789012345678'))
---table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, '111111111111111111111111111111111111111111111111111111111222222222222222222222222222222222222222222222222222222222333333333333333333333333333333333333333333333333333333333'))
---table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, 'hello is thing on???? This is a test lin2 This is a test lin3'))
-table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, 'Hello there can you hear me? This is on page 1, while this is probably on page 2.', 'signpost'))
---table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, '123456789012345678      1 1 1 1 1 1 1 12'))
+table.insert(MAP[7][1].dialogueBox, DialogueBox(TILE_SIZE, 4 * TILE_SIZE, 'You cannot enter without light...', 'signpost'))
+
+
+table.insert(MAP[8][1].dialogueBox, DialogueBox(TILE_SIZE * 8, 2 * TILE_SIZE, 'Under Construction', 'signpost'))
+
+table.insert(MAP[7][3].dialogueBox, DialogueBox(TILE_SIZE * 7, 3 * TILE_SIZE, 'DANGER-->', 'signpost'))
+
+table.insert(MAP[7][4].dialogueBox, DialogueBox(TILE_SIZE * 8, 0, 'Ice Mountain^^', 'signpost'))
+
+table.insert(MAP[8][3].dialogueBox, DialogueBox(TILE_SIZE * 4, 6 * TILE_SIZE, 'Bed Inside^^', 'signpost'))
+
+table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, '<-Flowerbed', 'signpost'))
+table.insert(MAP[7][2].dialogueBox, DialogueBox(5 * TILE_SIZE, 0, 'Ice Mountain^^', 'signpost'))
 table.insert(MAP[7][2].dialogueBox, DialogueBox(7 * TILE_SIZE, 4 * TILE_SIZE, 'Tavern^^  Dungeon-->', 'signpost'))
 table.insert(MAP[7][2].dialogueBox, DialogueBox(MAP[7][2].npc[mageIndex].x, MAP[7][2].npc[mageIndex].y, 'There\'s plenty of danger around, but treasure too...', 'npc', MAP[7][2].npc[mageIndex]))
