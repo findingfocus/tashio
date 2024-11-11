@@ -324,7 +324,6 @@ table.insert(MAP[2][11].dialogueBox, DialogueBox(MAP[2][11].npc[villager2Index].
 --19 CHAR PER LINE = 57 CHARS for 3 lines
 table.insert(MAP[7][1].dialogueBox, DialogueBox(TILE_SIZE, 4 * TILE_SIZE, 'You cannot enter without light...', 'signpost'))
 
-
 table.insert(MAP[8][1].dialogueBox, DialogueBox(TILE_SIZE * 8, 2 * TILE_SIZE, 'Under Construction', 'signpost'))
 
 table.insert(MAP[7][3].dialogueBox, DialogueBox(TILE_SIZE * 7, 3 * TILE_SIZE, 'DANGER-->', 'signpost'))
