@@ -43,14 +43,12 @@ function DialogueBox:init(x, y, text, option, npc)
     self.charactersToCheck = true
     self.textIndex = 0
     self.wordIndexGrabbed = false
-    printThis = 0
 
     self.totalLineCount = 1
     self.wordCharacterIndex = 0
     self.wordCharCount = 0
     self.lineCharCount = 0
     self.pageLength = 0
-
 
     while self.charactersToCheck do
         self.textIndex = self.textIndex + 1
@@ -77,13 +75,13 @@ function DialogueBox:init(x, y, text, option, npc)
                         self.pages[self.pageWeAreOn][2].string = ''
                         self.pages[self.pageWeAreOn][3].string = ''
                     end
-                    self.wordIndexGrabbed = false
                     self.lineCharCount = self.wordCharCount + 1
                     self.wordCharCount = 0
                 end
                 self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(self.wordIndex, self.wordIndex + self.wordCharCount)
             end
         elseif char:match("%s") then --IF SPACE CHARACTER
+            self.wordIndexGrabbed = false
             if self.lastCharWasSpace then
                 self.pageWeAreOn = self.pageWeAreOn + 1
                 self.pages[self.pageWeAreOn] = {}
@@ -93,7 +91,6 @@ function DialogueBox:init(x, y, text, option, npc)
                 self.pages[self.pageWeAreOn][1].string = ''
                 self.pages[self.pageWeAreOn][2].string = ''
                 self.pages[self.pageWeAreOn][3].string = ''
-                self.wordIndexGrabbed = false
                 self.wordCharCount = 0
                 self.lineWeAreOn = 1
                 self.lineCharCount = 0
@@ -103,7 +100,6 @@ function DialogueBox:init(x, y, text, option, npc)
                 --CHECK IF WORD CAN FIT ON CURRENT LINE
                 if self.lineCharCount + self.wordCharCount <= MAX_TEXTBOX_LINE_LENGTH then
                     self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(self.wordIndex, self.wordIndex + self.wordCharCount)
-                    self.wordIndexGrabbed = false
                     self.lineCharCount = self.lineCharCount + self.wordCharCount + 1
                     self.wordCharCount = 0
                 elseif self.lineCharCount + self.wordCharCount > MAX_TEXTBOX_LINE_LENGTH then --INCREMENT LINE NUMBER
@@ -121,7 +117,6 @@ function DialogueBox:init(x, y, text, option, npc)
                         self.pages[self.pageWeAreOn][3].string = ''
                     end
                     self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(self.wordIndex, self.wordIndex + self.wordCharCount)
-                    self.wordIndexGrabbed = false
                     self.lineCharCount = self.wordCharCount + 1
                     self.wordCharCount = 0
                 end
@@ -129,15 +124,12 @@ function DialogueBox:init(x, y, text, option, npc)
         end
 
         if self.textIndex >= self.textLength then
-            break
+            self.charactersToCheck = false
         end
     end
     self.textIndex = 1
 
     self.pageLength = math.ceil(self.totalLineCount / 3)
-
-
-    --TODO FIX CRASHING UPON EXITING INVENTORY WITH DIALOGUE SYSTEM INITIALIZED
 end
 
 function DialogueBox:flushText()
