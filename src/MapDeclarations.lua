@@ -236,17 +236,18 @@ end
 --TAVERN
 --TODO IMAGINE WAY TO SWAP PLAYER FRAME TO DEFAULT FRAME UPON TRANSITION
 ---[[
-function insertWarpZone(warpFromRow, warpFromCol, warpToRow, warpToCol, warpFromX, warpFromY, warpToX, warpToY, warpPlayerFromX, warpPlayerToX, warpPlayerToY)
+function insertWarpZone(warpFromRow, warpFromCol, warpToRow, warpToCol, warpFromX, warpFromY, warpToX, warpToY)
     warpFromX = warpFromX * TILE_SIZE - TILE_SIZE + 3
-    warpFromY = warpFromY * TILE_SIZE - TILE_SIZE - 12
+    warpFromY = warpFromY * TILE_SIZE - TILE_SIZE - 15
     warpToX = warpToX * TILE_SIZE - TILE_SIZE + 3
     warpToY = warpToY * TILE_SIZE - TILE_SIZE
+    local warpPlayerToX = warpToX - 3
 
-    warpPlayerToX = warpPlayerToX * TILE_SIZE - TILE_SIZE
-    warpPlayerToY = warpFromY - 7
-    local warpPlayerFromX = warpToX - 3
+    local warpPlayerToY = warpToY - 16 - 5
+    local warpPlayerFromX = warpFromX - 3
+    local warpPlayerFromY = warpFromY + 10
 
-    table.insert(MAP[warpFromRow][warpFromCol].warpZones, WarpZone(warpFromX, warpFromY, warpPlayerToX, warpPlayerToY, warpToRow, warpToRow))
+    table.insert(MAP[warpFromRow][warpFromCol].warpZones, WarpZone(warpFromX, warpFromY, warpPlayerToX, warpPlayerToY, warpToRow, warpToCol))
     table.insert(MAP[warpToRow][warpToCol].warpZones, WarpZone(warpToX, warpToY, warpPlayerFromX, warpPlayerFromY, warpFromRow, warpFromCol))
 end
 --]]
@@ -256,16 +257,23 @@ end
 table.insert(MAP[7][2].warpZones, WarpZone(130,18,32,100,1,11,true))
 table.insert(MAP[1][11].warpZones, WarpZone(35,144 - 16,130,30,7,2))
 ]]
-insertWarpZone(7, 2, 1, 11, 9, 3, 3, 9, warpPlayerFromX, warpPlayerToX, warpPlayerToY)
+insertWarpZone(7, 2, 1, 11, 9, 3, 3, 9)
 
 
 --DUNGEON
+--
+insertWarpZone(7, 4, 1, 12, 4, 4, 3, 9)
+--[[
 table.insert(MAP[7][4].warpZones, WarpZone(50,35,TILE_SIZE * 2,VIRTUAL_HEIGHT - TILE_SIZE * 2 - 5,1,12))
 table.insert(MAP[1][12].warpZones, WarpZone(TILE_SIZE * 2, VIRTUAL_HEIGHT - TILE_SIZE * 2 + 15, 48, 45,7,4))
+--]]
 
 --INN
+insertWarpZone(8, 3, 2, 11, 3, 7, 6, 9)
+--[[
 table.insert(MAP[8][3].warpZones, WarpZone(35,80,TILE_SIZE * 5, VIRTUAL_HEIGHT - TILE_SIZE * 2 - 5,2,11))
 table.insert(MAP[2][11].warpZones, WarpZone(TILE_SIZE * 5, VIRTUAL_HEIGHT - TILE_SIZE * 1,32,91,8,3))
+--]]
 --table.insert(MAP[8][3].warpZones, WarpZone(35,80,20,100,7,5))
 
 FLOWERS = AnimSpitter(FLOWER_ANIM_STARTER, 1015, 0.75)
