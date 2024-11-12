@@ -235,9 +235,29 @@ end
 
 --TAVERN
 --TODO IMAGINE WAY TO SWAP PLAYER FRAME TO DEFAULT FRAME UPON TRANSITION
+---[[
+function insertWarpZone(warpFromRow, warpFromCol, warpToRow, warpToCol, warpFromX, warpFromY, warpToX, warpToY, warpPlayerFromX, warpPlayerToX, warpPlayerToY)
+    warpFromX = warpFromX * TILE_SIZE - TILE_SIZE + 3
+    warpFromY = warpFromY * TILE_SIZE - TILE_SIZE - 12
+    warpToX = warpToX * TILE_SIZE - TILE_SIZE + 3
+    warpToY = warpToY * TILE_SIZE - TILE_SIZE
+
+    warpPlayerToX = warpPlayerToX * TILE_SIZE - TILE_SIZE
+    warpPlayerToY = warpFromY - 7
+    local warpPlayerFromX = warpToX - 3
+
+    table.insert(MAP[warpFromRow][warpFromCol].warpZones, WarpZone(warpFromX, warpFromY, warpPlayerToX, warpPlayerToY, warpToRow, warpToRow))
+    table.insert(MAP[warpToRow][warpToCol].warpZones, WarpZone(warpToX, warpToY, warpPlayerFromX, warpPlayerFromY, warpFromRow, warpFromCol))
+end
+--]]
+
 --TAVERN
-table.insert(MAP[7][2].warpZones, WarpZone(130,20,32,100,1,11,true))
-table.insert(MAP[1][11].warpZones, WarpZone(35,125,130,30,7,2))
+--[[
+table.insert(MAP[7][2].warpZones, WarpZone(130,18,32,100,1,11,true))
+table.insert(MAP[1][11].warpZones, WarpZone(35,144 - 16,130,30,7,2))
+]]
+insertWarpZone(7, 2, 1, 11, 9, 3, 3, 9, warpPlayerFromX, warpPlayerToX, warpPlayerToY)
+
 
 --DUNGEON
 table.insert(MAP[7][4].warpZones, WarpZone(50,35,TILE_SIZE * 2,VIRTUAL_HEIGHT - TILE_SIZE * 2 - 5,1,12))
