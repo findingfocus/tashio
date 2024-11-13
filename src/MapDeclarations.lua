@@ -240,7 +240,7 @@ function insertWarpZone(warpFromRow, warpFromCol, warpToRow, warpToCol, warpFrom
     warpFromX = warpFromX * TILE_SIZE - TILE_SIZE + 3
     warpFromY = warpFromY * TILE_SIZE - TILE_SIZE - 15
     warpToX = warpToX * TILE_SIZE - TILE_SIZE + 3
-    warpToY = warpToY * TILE_SIZE - TILE_SIZE
+    warpToY = warpToY * TILE_SIZE - TILE_SIZE + 14
     local warpPlayerToX = warpToX - 3
 
     local warpPlayerToY = warpToY - 16 - 5
@@ -253,28 +253,13 @@ end
 --]]
 
 --TAVERN
---[[
-table.insert(MAP[7][2].warpZones, WarpZone(130,18,32,100,1,11,true))
-table.insert(MAP[1][11].warpZones, WarpZone(35,144 - 16,130,30,7,2))
-]]
-insertWarpZone(7, 2, 1, 11, 9, 3, 3, 9)
-
+insertWarpZone(7, 2, 1, 11, 9, 3, 3, 8)
 
 --DUNGEON
---
-insertWarpZone(7, 4, 1, 12, 4, 4, 3, 9)
---[[
-table.insert(MAP[7][4].warpZones, WarpZone(50,35,TILE_SIZE * 2,VIRTUAL_HEIGHT - TILE_SIZE * 2 - 5,1,12))
-table.insert(MAP[1][12].warpZones, WarpZone(TILE_SIZE * 2, VIRTUAL_HEIGHT - TILE_SIZE * 2 + 15, 48, 45,7,4))
---]]
+insertWarpZone(7, 4, 1, 12, 4, 4, 3, 8)
 
 --INN
-insertWarpZone(8, 3, 2, 11, 3, 7, 6, 9)
---[[
-table.insert(MAP[8][3].warpZones, WarpZone(35,80,TILE_SIZE * 5, VIRTUAL_HEIGHT - TILE_SIZE * 2 - 5,2,11))
-table.insert(MAP[2][11].warpZones, WarpZone(TILE_SIZE * 5, VIRTUAL_HEIGHT - TILE_SIZE * 1,32,91,8,3))
---]]
---table.insert(MAP[8][3].warpZones, WarpZone(35,80,20,100,7,5))
+insertWarpZone(8, 3, 2, 11, 3, 7, 6, 8)
 
 FLOWERS = AnimSpitter(FLOWER_ANIM_STARTER, 1015, 0.75)
 AUTUMN_FLOWERS = AnimSpitter(AUTUMN_FLOWER_ANIM_STARTER, 1011, 0.75)

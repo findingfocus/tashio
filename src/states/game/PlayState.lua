@@ -441,14 +441,16 @@ function PlayState:render()
 
         love.graphics.setColor(0/255, 0/255, 100/255, 255/255)
         love.graphics.printf('CONTROLS:', 10, 20, 150, 'left')
-        love.graphics.printf('ARROW KEYS = MOVE', 10, 40, 150, 'left')
-        love.graphics.printf('SPACE BAR = SPELLS', 10, 60, 150, 'left')
-        love.graphics.printf('ENTER = INTERACT', 10, 80, 150, 'left')
+        love.graphics.printf('WASD = MOVE', 10, 40, 150, 'left')
+        love.graphics.printf('P KEY = A BUTTON', 10, 60, 150, 'left')
+        love.graphics.printf('O KEY = B BUTTON', 10, 80, 150, 'left')
+        love.graphics.printf('ENTER = INVENTORY', 10, 100, 150, 'left')
         love.graphics.setColor(WHITE)
         love.graphics.printf('CONTROLS:', 9, 19, 150, 'left')
-        love.graphics.printf('ARROW KEYS = MOVE', 9, 39, 150, 'left')
-        love.graphics.printf('SPACE BAR = SPELLS', 9, 59, 150, 'left')
-        love.graphics.printf('ENTER = INTERACT', 9, 79, 150, 'left')
+        love.graphics.printf('WASD = MOVE', 9, 39, 150, 'left')
+        love.graphics.printf('P KEY = A BUTTON', 9, 59, 150, 'left')
+        love.graphics.printf('O KEY = B BUTTON', 9, 79, 150, 'left')
+        love.graphics.printf('ENTER = INVENTORY', 9, 99, 150, 'left')
     end
 
     --HUD RENDER
