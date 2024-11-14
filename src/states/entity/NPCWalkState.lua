@@ -130,5 +130,4 @@ function NPCWalkState:render()
     local anim = self.entity.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
         math.floor(self.entity.x), math.floor(self.entity.y))
-    --love.graphics.print('step4: ' .. tostring(self.step4), 0, 10)
 end
