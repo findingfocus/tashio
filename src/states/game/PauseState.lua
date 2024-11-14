@@ -42,7 +42,6 @@ function PauseState:render()
     gItemInventory:render(self.inventoryType)
     gKeyItemInventory:render(self.inventoryType)
     love.graphics.setColor(WHITE)
-    --]]
     --PLAYER
     love.graphics.draw(gTextures['character-walk'], gFrames['character-walk'][1], INVENTORY_PLAYER_X, INVENTORY_PLAYER_Y)
     if gPlayer.blueTunicEquipped then
