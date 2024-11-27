@@ -18,9 +18,7 @@ function EntityWalkState:init(entity, scene)
 end
 
 function EntityWalkState:update(dt)
-    --CLEANSE
     if self.entity.corrupted then
-        --self.entity.health = math.max(self.entity.health - 0.5, 0)
         if self.entity.health <= 0 then
             sounds['cleanse']:play()
             self.entity.damageFlash = false
@@ -53,13 +51,9 @@ function EntityWalkState:update(dt)
         --ADD IN BOTTOM RULE AS WELL
        self.entity.offscreen = true
     end
-    ---[[
     if self.entity.y > SCREEN_HEIGHT_LIMIT then
         self.entity.offscreen = true
     end
-    --]]
-
-    --ADD COLLISION DETECTION AND RESET POSITIONS
 end
 
 function EntityWalkState:processAI(params, dt, player)
@@ -98,9 +92,8 @@ function EntityWalkState:render()
     local anim = self.entity.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
         self.entity.x, self.entity.y)
-
-
-        --[[
+    --DIALOGUE HITBOX RENDERS
+    --[[
     love.graphics.setColor(RED)
     love.graphics.rectangle('fill', VIRTUAL_WIDTH - 8, 32, 16, 16)
     love.graphics.setColor(WHITE)

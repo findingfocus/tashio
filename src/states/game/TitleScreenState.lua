@@ -30,7 +30,6 @@ function TitleScreenState:update(dt)
 	end
 end
 
-
 function TitleScreenState:render()
 	love.graphics.clear(150/255, 150/255, 255/255, 255/255)
 end

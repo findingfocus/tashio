@@ -45,7 +45,6 @@ quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
 function PlayState:init()
     self.stateName = 'PlayState'
 
-    --gPlayer.damageFlash = true
     gPlayer.stateMachine = StateMachine {
         ['player-walk'] = function() return PlayerWalkState(gPlayer, self.scene) end,
         ['player-idle'] = function() return PlayerIdleState(gPlayer) end,
@@ -199,13 +198,11 @@ function PlayState:update(dt)
         successfulCast = false
     end
 
-
     cameraX = cameraX + 1
 
     --TODO MOVE FROM PLAYSTATE
     if love.keyboard.wasPressed('p') then
         --DIALOGUE DETECTION
-        ---[[
         for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do
             if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]) then
                 MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].line1Result = ''
@@ -215,19 +212,10 @@ function PlayState:update(dt)
                 MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].textIndex = 1
                 self.dialogueID = k
                 --IF COLLIDES WITH SIGNPOST
-                --if gPlayer.direction ~= 'down' then
-                    table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k])
-                    PAUSED = true
-                --[[elseif gPlayer.direction == 'down' then
-                    if MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].option == 'npc' then
-                        table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k])
-                    end
-                    PAUSED = true
-                end
-                --]]
+                table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k])
+                PAUSED = true
             end
         end
-        --]]
     end
 
     if not PAUSED then
@@ -265,7 +253,6 @@ function PlayState:update(dt)
                 gPlayer.currentAnimation:refresh()
                 triggerStartingSceneTransition = true
                 gPlayer.warping = true
-                --TODO MAKE THIS REVERT DEPENDING NECESSITY
                 --DISJOINTED DIALOGUE BOX
                 if v.disjoint then
                     gPlayer.extendDialogueBoxUpwards = true
@@ -327,8 +314,6 @@ function PlayState:render()
     love.graphics.push()
     sceneView:render()
     love.graphics.pop()
-
-
     --[[
     love.graphics.setColor(0,0,0,255)
     --love.graphics.print('Tashio Tempo', VIRTUAL_WIDTH - 150, SCREEN_HEIGHT_LIMIT + 4)
@@ -355,8 +340,6 @@ function PlayState:render()
     love.graphics.print('unFocusGrowing: ' .. tostring(self.unFocusGrowing), 5, SCREEN_HEIGHT_LIMIT - 25)
     love.graphics.print('focusIndicatorX: ' .. tostring(self.focusIndicatorX), 5, SCREEN_HEIGHT_LIMIT - 35)
     --]]
-
-
 
     love.graphics.setFont(classicFont)
     love.graphics.setColor(BLACK)

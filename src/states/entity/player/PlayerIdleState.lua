@@ -16,13 +16,6 @@ function PlayerIdleState:update(dt)
       if #INPUT_LIST > 0 then
           self.player.currentAnimation:refresh()
       end
-      --REHAUL INPUT
-      --[[
-      if love.keyboard.isDown('left') or love.keyboard.isDown('right') or
-          love.keyboard.isDown('up') or love.keyboard.isDown('down') then
-          self.player:changeState('player-walk')
-      end
-      --]]
       if #OUTPUT_LIST > 0 then
         self.player:changeState('player-walk')
       end
@@ -36,9 +29,6 @@ function PlayerIdleState:update(dt)
     sceneView.player.dy = 0
     sceneView.player:changeAnimation('falling')
   end
-
-    --self.player.animations['falling'].looping = false
-    --DONT CHANGE TO WALK IF CONTRIDICTING INPUTS HELD
 end
 
 function PlayerIdleState:render()
