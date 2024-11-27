@@ -247,6 +247,7 @@ function insertWarpZone(warpFromRow, warpFromCol, warpToRow, warpToCol, warpFrom
     local warpPlayerFromX = warpFromX - 3
     local warpPlayerFromY = warpFromY + 10
 
+
     table.insert(MAP[warpFromRow][warpFromCol].warpZones, WarpZone(warpFromX, warpFromY, warpPlayerToX, warpPlayerToY, warpToRow, warpToCol))
     table.insert(MAP[warpToRow][warpToCol].warpZones, WarpZone(warpToX, warpToY, warpPlayerFromX, warpPlayerFromY, warpFromRow, warpFromCol))
 end
@@ -310,6 +311,8 @@ MAP[1][11].npc[villagerIndex].stateMachine = StateMachine {
 MAP[1][11].npc[villagerIndex]:changeState('npc-walk')
 MAP[1][11].npc[villagerIndex].stateMachine.current.option = 'horizontal'
 table.insert(MAP[1][11].dialogueBox, DialogueBox(MAP[1][11].npc[villagerIndex].x, MAP[1][11].npc[villagerIndex].y, 'Whaddya want?', 'npc', MAP[1][11].npc[villagerIndex]))
+--TODO
+MAP[7][2].warpZones[1].disjoint = true
 
 --VILLAGER 2
 table.insert(MAP[2][11].npc, Entity {
