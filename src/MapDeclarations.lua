@@ -47,6 +47,7 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
         MAP[i][j].dialogueBox = {}
         MAP[i][j].dialogueBoxCollided = {}
         MAP[i][j].warpZones = {}
+        MAP[i][j].disjointUp = false
     end
 end
 
@@ -311,8 +312,8 @@ MAP[1][11].npc[villagerIndex].stateMachine = StateMachine {
 MAP[1][11].npc[villagerIndex]:changeState('npc-walk')
 MAP[1][11].npc[villagerIndex].stateMachine.current.option = 'horizontal'
 table.insert(MAP[1][11].dialogueBox, DialogueBox(MAP[1][11].npc[villagerIndex].x, MAP[1][11].npc[villagerIndex].y, 'Whaddya want?', 'npc', MAP[1][11].npc[villagerIndex]))
---TODO
-MAP[7][2].warpZones[1].disjoint = true
+MAP[1][11].disjointUp = true
+MAP[7][2].disjointUp = true
 
 --VILLAGER 2
 table.insert(MAP[2][11].npc, Entity {

@@ -129,7 +129,14 @@ function Scene:finishShifting()
     end
     --self.currentMap.row = sceneView.currentMap.row
     --self.currentMap.column = sceneView.currentMap.column
+
     self.currentMap = self.nextMap
+
+    if MAP[self.currentMap.row][self.currentMap.column].disjointUp then
+        gPlayer.extendDialogueBoxUpwards = true
+    else
+        gPlayer.extendDialogueBoxUpwards = false
+    end
 
     self.nextMap = nil
 end
