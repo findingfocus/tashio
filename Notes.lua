@@ -1,3 +1,61 @@
+__Add searchable comment throughout codebase
+__Swap AI path randomly for more interesting behavior
+__Add bounding box to cleansed geckos to prevent walking over
+__Ensure entities table in scene class not in use
+__Rename playercollision function for entity collision
+__Prevent geckos from being cut off rendering
+__Add death sprite for player
+__Have geckos return to start positions if player is dead
+__Factor gecko logic into gecko class, which aspects of entity class do enemies inherit
+__Incorporate Prosto closure fix for local variables
+
+Todo
+__Fix lone pixel in flower animation
+__Add correct text indicator timing to dialogue boxes
+__Rehaul touch input into global buttonOutput table
+__IDLE STATE for Player
+__Hold off on rendering fret presses until luteState has been active a while
+__Function to change tunic equip?
+__Init Idle State without player render bug, and properly switch to idle if no inputs
+__Add player fallState to help with falling animations
+__Add falling Tunic overlays
+__Add game objects to pickup
+__New holding item animation state for player
+__Add pushing sprites, as well as pushing animation state
+__add left and right sprite to our player class
+__Add case insensitivity to our chatbot command listens
+__Add all colors to color constants palette
+
+
+Next Episode
+__Hold off fret render on luteState swap
+__Render string colors based on string animations
+__Ensure signposts are inserted into currentMap.signposts
+__Multiple page posts for signs
+__Deinstantiate NPC when offscreen
+
+__Channel trailer edit!
+__Make substantial new sprites for tileMap
+__Give enemy entities collidable map object logic
+__Record channel trailer with demo levels
+__Have cleansed geckos pick closest edge to walk to
+__Collision detection for entities v MapObjects
+__Update only currentMap entities
+__Consider added time until next note into Note class
+
+Research
+__How to reset entities to default locations upon a scene change
+__How to render corruption particles over player
+__Start game with quick session of five sprite spell cast?
+
+CREDITED SUPPORTERS
+__K_Tronix at 7:23PM 8/17/2024 
+
+__Add flower anim to be transparent
+__Tweak falling trigger upon pit collision
+
+
+COMPLETED
 X_Add Gameboy resolution screen
 X_Add Sprite
 X_Moving with input
@@ -59,15 +117,15 @@ X_Spellcast entities need to ignore wall collisions
 X_Work on 4th panel for channel trailer
 X_Corrupted gecko health decrement bug
 X_INSERTANIM()
-X_Find where we reset Tashio's animation up falling frames playing out
+X_Find where we reset Tashios animation up falling frames playing out
 X_Add gravity suck upon pitCollide
 X_Trigger falling animation
 X_Add damage, and set Flashing for player
 X_Respawn player in safe spot... algo for legal respawn
 X_Change fall damage away from safeFromFall
 X_Refactor safeFromFall name?
-X_WALKING BUG WHEN IDLE
-X_ ADD ANIMATBLES FUNCTIONS INTO MAP[][] AS TILE ID RECOGNIZED
+X_walking bug when idle
+X_add animatbles functions into map[][] as tile id recognized
 X_Falling Animation
 X_New sprites!
 X_Inventory system
@@ -76,71 +134,10 @@ X_Manis framerate independent????
 X_NPC walking in circle state
 X_Incorporate Hud Items
 X_Stenciling for log cabin
-__stilken idea for walking partially behind sprites
-__Find animation bug for walking through transition
-__Think about refactoring animation spitter
-__HUD overlay
-__What do elements look like
-__Render Particle systems in the currentMap, not scene
-__Put entity instantions inside of MapDeclations
-__Clean up old comments
-__Add searchable comment throughout codebase
-__Swap AI path randomly for more interesting behavior
-__Add bounding box to cleansed geckos to prevent walking over
-__Ensure entities table in scene class not in use
-__Rename playercollision function for entity collision
-__Prevent geckos from being cut off rendering
-__Add death sprite for player
-__Have geckos return to start positions if player is dead
-__Factor gecko logic into gecko class, which aspects of entity class do enemies inherit
-__REHAUL DOWNLOADER TO ALSO KEEP TRACK OF LOCAL ROW AND COLUMN, INSERT INSERTANIM() BASED ON TILEID AND LOCAL ROW AND COLUMN
-__Incorporate Prosto closure fix for local variables
-
-Todo
-__Add correct text indicator timing to dialogue boxes
-__Rehaul touch input into global buttonOutput table
-__IDLE STATE for Player
-__Hold off on rendering fret presses until luteState has been active a while
-__Function to change tunic equip?
-__Init Idle State without player render bug, and properly switch to idle if no inputs
-__Add player fallState to help with falling animations
-__Add falling Tunic overlays
-__Add game objects to pickup
-__New holding item animation state for player
-__Add pushing sprites, as well as pushing animation state
-__add left and right sprite to our player class
-__Add case insensitivity to our chatbot command listens
-__Add Inventory to HUD
-__Add all colors to color constants palette
-
-CREDITED SUPPORTERS
-__K_Tronix at 7:23PM 8/17/2024 
-
-__Add flower anim to be transparent
-__Fix lone pixel in flower animation
-__Tweak falling trigger upon pit collision
-
-Next Episode
-__Fix fretsheld for touch
-__Hold off fret render on luteState swap
-__Render string colors based on string animations
-__Ensure signposts are inserted into currentMap.signposts
-__Multiple page posts for signs
-__Deinstantiate NPC when offscreen
-
-__REHAUL DATA DOWNLOADER FOR LAYERS,
-
-__Channel trailer edit!
-__Make substantial new sprites for tileMap
-__Give enemy entities collidable map object logic
-__Record channel trailer with demo levels
-__Have cleansed geckos pick closest edge to walk to
-__Collision detection for entities v MapObjects
-__Update only currentMap entities
-__Consider added time until next note into Note class
-
-Research
-__How to reset entities to default locations upon a scene change
-__How to render corruption particles over player
-__Start game with quick session of five sprite spell cast?
-
+X_stilken idea for walking partially behind sprites
+X_Add Inventory to HUD
+X_HUD mockup overlay
+X_Put entity instantions inside of MapDeclations
+X_Render Particle systems in the currentMap, not scene
+X_Fix fretsheld for touch
+X_rehaul data downloader for layers,

@@ -111,12 +111,12 @@ function love.draw()
 
 	displayFPS()
 
-    love.graphics.setColor(0,0,0,1)
-    love.graphics.rectangle('fill', 0, VIRTUAL_HEIGHT, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
-    love.graphics.setColor(1,1,1,1)
-    love.graphics.draw(gameboyOverlay, 0, VIRTUAL_HEIGHT)
-    keyboardInput:render()
-    touchInput:render()
+  love.graphics.setColor(0,0,0,1)
+  love.graphics.rectangle('fill', 0, VIRTUAL_HEIGHT, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
+  love.graphics.setColor(1,1,1,1)
+  love.graphics.draw(gameboyOverlay, 0, VIRTUAL_HEIGHT)
+  keyboardInput:render()
+  touchInput:render()
 	push:finish()
 end
 
