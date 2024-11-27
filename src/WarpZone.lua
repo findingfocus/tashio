@@ -10,7 +10,6 @@ function WarpZone:init(x, y, playerX, playerY, warpRow, warpCol, disjoint)
     self.warpRow = warpRow
     self.warpCol = warpCol
     self.disjoint = disjoint or false
-    --self.warping = false
 end
 
 function WarpZone:collides()

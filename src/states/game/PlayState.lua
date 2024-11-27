@@ -254,7 +254,7 @@ function PlayState:update(dt)
                 triggerStartingSceneTransition = true
                 gPlayer.warping = true
                 --DISJOINTED DIALOGUE BOX
-                if v.disjoint then
+                if MAP[v.warpRow][v.warpCol].disjointUp then
                     gPlayer.extendDialogueBoxUpwards = true
                 else
                     gPlayer.extendDialogueBoxUpwards = false

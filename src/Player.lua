@@ -112,6 +112,7 @@ function Player:update(dt)
         Entity.update(self, dt)
     end
 
+    --DISJOINT DIRECTIONS, ONLY HAVE UP RIGHT NOW
     if self.direction == 'up' then
         self.dialogueBoxX = self.x + DIALOGUE_TRIGGER_SHRINK / 2
         if self.extendDialogueBoxUpwards then
