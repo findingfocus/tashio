@@ -352,6 +352,7 @@ function PlayState:render()
     --FOCUS INDICATOR
     love.graphics.setColor(WHITE)
     love.graphics.rectangle('fill', self.focusIndicatorX, SCREEN_HEIGHT_LIMIT + 2 - 4, 2, 2)
+    --]]
 
     --DEBUG MANIS SPELLCASTING
     --[[

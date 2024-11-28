@@ -5,6 +5,10 @@ function love.conf(data)
     data.window.display = 1
     --TOGGLE FOR SECOND WINDOW LOADING **MAC
     --data.window.display = 2
+
+    --DESKTOP
     data.window.vsync = 1
+
+    --WEB
     --data.window.vsync = 0
 end
