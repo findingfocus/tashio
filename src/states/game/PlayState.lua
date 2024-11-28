@@ -103,6 +103,23 @@ function PlayState:update(dt)
     end
 
     for k, v in pairs(touches) do
+        if buttons[1]:collides(touches[k]) and touches[k].wasTouched then
+            --DIALOGUE DETECTION
+            for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do
+                if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]) then
+                    MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].line1Result = ''
+                    MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].line2Result = ''
+                    MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].line3Result = ''
+                    MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].lineCount = 1
+                    MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].textIndex = 1
+                    self.dialogueID = k
+                    --IF COLLIDES WITH SIGNPOST
+                    table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k])
+                    PAUSED = true
+                end
+            end
+        end
+
         if buttons[2]:collides(touches[k]) and gItemInventory.itemSlot[1] ~= nil then
             if gItemInventory.itemSlot[1].type == 'lute' then
                 if not luteState then
@@ -200,6 +217,10 @@ function PlayState:update(dt)
 
     cameraX = cameraX + 1
 
+    --ADD TOUCH
+    --
+
+
     --TODO MOVE FROM PLAYSTATE
     if love.keyboard.wasPressed('p') then
         --DIALOGUE DETECTION
@@ -222,13 +243,11 @@ function PlayState:update(dt)
         sceneView:update(dt)
     end
 
-    --DIALOGUE UPDATES
+    --DIALOGUE BOX UPDATES FOR NPCS
     for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do
         if v.option == 'npc' then
-            ---[[
             v.x = v.npc.x
             v.y = v.npc.y
-            --]]
         end
     end
 

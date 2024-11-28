@@ -108,6 +108,7 @@ function TouchHandling:update(dt)
       end
   end
 
+  --TODO PLZ FIX THIS IS NASTY
   buttons[1].fireSpellPressed = false
   for k, button in pairs(buttons) do
       for index, touch in pairs(touches) do
