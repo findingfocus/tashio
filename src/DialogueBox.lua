@@ -39,6 +39,7 @@ function DialogueBox:init(x, y, text, option, npc)
     self.pages[1][2].string = ''
     self.pages[1][3].string = ''
     self.lastCharWasSpace = false
+    self.aButtonCount = 0
     --TODO
     --ADD A BUTTON COUNT UPON PAUSE
     --INCREMENT A BUTTON BUTTON COUNT ON UPDATE AND PRESS/TOUCH
@@ -152,26 +153,39 @@ function DialogueBox:update(dt)
     --TOUCH
     for k in pairs(touches) do
         if buttons[1]:collides(touches[k]) and touches[k].wasTouched then
-            self.pReleased = true
+            self.aButtonCount = self.aButtonCount + 1
+            if self.aButtonCount > 1 then
+                blinking = true
+                blinkTimer = blinkReset
+                if self.currentPage == self.pageLength then
+                    self.aButtonCount = 0
+                    PAUSED = false
+                    MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided = {}
+                    self:flushText()
+                    self.currentPage = 1
+                else
+                    self.currentPage = self.currentPage + 1
+                    self.textIndex = 1
+                end
+            end
         end
     end
-    --ADD UNPAUSE IN HERE
-    if love.keyboard.wasReleased('p') then
-        self.pReleased = true
-    end
 
-    if love.keyboard.wasPressed('p') and self.pReleased then
-        blinking = true
-        blinkTimer = blinkReset
-        if self.currentPage == self.pageLength then
-            PAUSED = false
-            MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided = {}
-            self.pReleased = false
-            self:flushText()
-            self.currentPage = 1
-        else
-            self.currentPage = self.currentPage + 1
-            self.textIndex = 1
+    if love.keyboard.wasPressed('p') then
+        self.aButtonCount = self.aButtonCount + 1
+        if self.aButtonCount > 1 then
+            blinking = true
+            blinkTimer = blinkReset
+            if self.currentPage == self.pageLength then
+                self.aButtonCount = 0
+                PAUSED = false
+                MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided = {}
+                self:flushText()
+                self.currentPage = 1
+            else
+                self.currentPage = self.currentPage + 1
+                self.textIndex = 1
+            end
         end
     end
 
