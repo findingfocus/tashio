@@ -44,6 +44,7 @@ __Update only currentMap entities
 __Consider added time until next note into Note class
 
 Research
+__From Shaky love.system.setClipboardText( text )
 __How to reset entities to default locations upon a scene change
 __How to render corruption particles over player
 __Start game with quick session of five sprite spell cast?
