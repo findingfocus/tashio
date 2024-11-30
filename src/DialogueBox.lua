@@ -21,7 +21,6 @@ function DialogueBox:init(x, y, text, option, npc)
     self.line1Result = ''
     self.line2Result = ''
     self.line3Result = ''
-    self.pReleased = false
     self.currentPage = 1
     self.pages = {}
     self.totalLineCount = 0
