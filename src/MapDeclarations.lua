@@ -48,6 +48,7 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
         MAP[i][j].dialogueBoxCollided = {}
         MAP[i][j].warpZones = {}
         MAP[i][j].disjointUp = false
+        MAP[i][j].pushables = {}
     end
 end
 
@@ -267,7 +268,6 @@ FLOWERS = AnimSpitter(FLOWER_ANIM_STARTER, 1015, 0.75)
 AUTUMN_FLOWERS = AnimSpitter(AUTUMN_FLOWER_ANIM_STARTER, 1011, 0.75)
 WATER = AnimSpitter(WATER_ANIM_STARTER, 105, .5)
 
-
 --MAGE NPC
 table.insert(MAP[7][2].npc, Entity {
     animations = ENTITY_DEFS['mage'].animations,
@@ -352,3 +352,5 @@ table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, '<
 table.insert(MAP[7][2].dialogueBox, DialogueBox(5 * TILE_SIZE, 0, 'Ice Mountain^^', 'signpost'))
 table.insert(MAP[7][2].dialogueBox, DialogueBox(7 * TILE_SIZE, 4 * TILE_SIZE, 'Tavern^^  Dungeon-->', 'signpost'))
 table.insert(MAP[7][2].dialogueBox, DialogueBox(MAP[7][2].npc[mageIndex].x, MAP[7][2].npc[mageIndex].y, 'There\'s plenty of danger around, but treasure too...', 'npc', MAP[7][2].npc[mageIndex]))
+
+table.insert(MAP[7][2].pushables, Pushable(4, 4, 'boulder'))

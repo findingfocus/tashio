@@ -10,6 +10,8 @@ globalMap = require 'graphics/globalMap'
 bag = love.graphics.newImage('graphics/bag.png')
 berry = love.graphics.newImage('graphics/berry.png')
 lute = love.graphics.newImage('graphics/lute.png')
+boulder = love.graphics.newImage('graphics/boulder.png')
+log = love.graphics.newImage('graphics/log.png')
 
 require 'src/constants'
 
@@ -26,6 +28,7 @@ require 'src/Cursor'
 require 'src/DialogueBox'
 require 'src/Item'
 require 'src/Inventory'
+require 'src/Pushable'
 
 require 'src/states/BaseState'
 require 'src/StateMachine'

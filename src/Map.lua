@@ -151,6 +151,35 @@ function Map:update(dt)
                 end
             end
         end
+
+        pitCount = 0
+        for k, v in pairs(self.pits) do
+            if v:collide(sceneView.player) then
+                testNumber = testNumber + 1
+                pitCount = pitCount + 1
+                --TODO ESCAPE PIT
+                if #INPUT_LIST == 0 then
+                    if sceneView.player.tweenAllowed then
+                        Timer.tween(.9, {
+                            [sceneView.player] = {x = v.x, y = v.y},
+                        })
+                        --[[
+                        if love.keyboard.wasPressed('up') then
+                            Timer.clear()
+                        end
+                        --]]
+                    end
+                end
+                if math.abs(v.x - sceneView.player.x) < PIT_PROXIMITY_FALL then
+                    if math.abs(v.y - sceneView.player.y) < PIT_PROXIMITY_FALL then
+                        sceneView.player.fallTimer = sceneView.player.fallTimer + dt
+                    end
+                else
+                    sceneView.player.fallTimer = 0
+                end
+            end
+        end --PITS
+
     end
 
     --SPELLCAST_FADE CLAMPING
@@ -215,35 +244,6 @@ function Map:update(dt)
             Timer.clear()
         end
     end
-
-    pitCount = 0
-    for k, v in pairs(self.pits) do
-        if v:collide(sceneView.player) then
-            testNumber = testNumber + 1
-            pitCount = pitCount + 1
-            --TODO ESCAPE PIT
-            if #INPUT_LIST == 0 then
-                if sceneView.player.tweenAllowed then
-                    Timer.tween(.9, {
-                        [sceneView.player] = {x = v.x, y = v.y},
-                    })
-                    --[[
-                    if love.keyboard.wasPressed('up') then
-                        Timer.clear()
-                    end
-                    --]]
-                end
-            end
-            if math.abs(v.x - sceneView.player.x) < PIT_PROXIMITY_FALL then
-                if math.abs(v.y - sceneView.player.y) < PIT_PROXIMITY_FALL then
-                  sceneView.player.fallTimer = sceneView.player.fallTimer + dt
-                end
-            else
-                sceneView.player.fallTimer = 0
-            end
-        end
-    end
-
 end
 
 function Map:render()
@@ -298,6 +298,13 @@ function Map:render()
     --RENDER WARPZONES
     if MAP[self.row][self.column].warpZones[1] ~= nil then
         for k, v in pairs(MAP[self.row][self.column].warpZones) do
+            v:render(self.adjacentOffsetX, self.adjacentOffsetY)
+        end
+    end
+
+    --RENDER PUSHABLES
+    if MAP[self.row][self.column].pushables[1] ~= nil then
+        for k, v in pairs(MAP[self.row][self.column].pushables) do
             v:render(self.adjacentOffsetX, self.adjacentOffsetY)
         end
     end
