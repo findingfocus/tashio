@@ -181,6 +181,23 @@ function Scene:update(dt)
         end
     end
 
+    if not self.shifting then
+        for k, v in pairs(MAP[self.mapRow][self.mapColumn].pushables) do
+            if gPlayer:leftCollidesMapObject(v) then
+                gPlayer.x = v.x + v.width - 1
+            end
+            if gPlayer:rightCollidesMapObject(v) then
+                gPlayer.x = v.x - gPlayer.width + 1
+            end
+            if gPlayer:topCollidesMapObject(v) then
+                gPlayer.y = v.y + v.height - 6
+            end
+            if gPlayer:bottomCollidesMapObject(v) then
+                gPlayer.y = v.y - gPlayer.height
+            end
+        end
+    end
+
     --NPC COLLISION
     if not self.shifting then
       for i = 1, #MAP[self.mapRow][self.mapColumn].npc do

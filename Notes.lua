@@ -28,6 +28,8 @@ __Add all colors to color constants palette
 
 
 Next Episode
+__Lute equip upon tunic change bug
+__Magic numbers for gPlayer Collisions...
 __Hold off fret render on luteState swap
 __Render string colors based on string animations
 __Ensure signposts are inserted into currentMap.signposts
