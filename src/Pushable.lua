@@ -13,7 +13,7 @@ function Pushable:init(x, y, type)
     end
 end
 
-function Pushable:update()
+function Pushable:update(dt)
 
 end
 

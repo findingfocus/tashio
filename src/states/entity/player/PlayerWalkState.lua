@@ -64,6 +64,16 @@ function PlayerWalkState:update(dt)
     sceneView.player:changeAnimation('falling')
   end
 
+  --TODO ONLY PUSH IF AGAINST COLLIDABLE
+  if sceneView.player.direction == 'up' then
+      sceneView.player:changeAnimation('push-up')
+  elseif sceneView.player.direction == 'down' then
+      sceneView.player:changeAnimation('push-down')
+  elseif sceneView.player.direction == 'left' then
+      sceneView.player:changeAnimation('push-left')
+  elseif sceneView.player.direction == 'right' then
+      sceneView.player:changeAnimation('push-right')
+  end
 end
 
 function PlayerWalkState:render()
