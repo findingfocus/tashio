@@ -83,6 +83,7 @@ pauseMockup = love.graphics.newImage('graphics/pauseMockup.png')
 
 gTextures = {
     ['character-walk'] = love.graphics.newImage('graphics/playerAtlas.png'),
+    ['character-push'] = love.graphics.newImage('graphics/playerPushingAtlas.png'),
     ['character-element'] = love.graphics.newImage('graphics/elementAtlas.png'),
     ['character-blueTunic'] = love.graphics.newImage('graphics/blueTunicAtlas.png'),
     ['character-redTunic'] = love.graphics.newImage('graphics/redTunicAtlas.png'),
@@ -105,6 +106,7 @@ gTextures = {
 
 gFrames = {
     ['character-walk'] = GenerateQuads(gTextures['character-walk'], TILE_SIZE, TILE_SIZE),
+    ['character-push'] = GenerateQuads(gTextures['character-push'], TILE_SIZE, TILE_SIZE),
     ['character-element'] = GenerateQuads(gTextures['character-element'], TILE_SIZE, TILE_SIZE),
     ['character-blueTunic'] = GenerateQuads(gTextures['character-blueTunic'], TILE_SIZE, TILE_SIZE),
     ['character-redTunic'] = GenerateQuads(gTextures['character-redTunic'], TILE_SIZE, TILE_SIZE),

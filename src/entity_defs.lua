@@ -58,6 +58,30 @@ ENTITY_DEFS = {
                 texture = 'character-fall',
                 looping = false
             },
+            ['push-down'] = {
+                frames = {1, 2},
+                interval = 0.3,
+                texture = 'character-push',
+                looping = true
+            },
+            ['push-up'] = {
+                frames = {3, 4},
+                interval = 0.3,
+                texture = 'character-push',
+                looping = true
+            },
+            ['push-left'] = {
+                frames = {5, 6},
+                interval = 0.3,
+                texture = 'character-push',
+                looping = true
+            },
+            ['push-right'] = {
+                frames = {7, 8},
+                interval = 0.3,
+                texture = 'character-push',
+                looping = true
+            },
         }
     },
     ['character-element'] = {

@@ -168,13 +168,13 @@ function Scene:update(dt)
         local object = self.currentMap.collidableMapObjects[i]
 
         if self.player:leftCollidesMapObject(self.currentMap.collidableMapObjects[i]) then
-            self.player.x = object.x + object.width - 1
+            self.player.x = object.x + object.width - AABB_SIDE_COLLISION_BUFFER
         end
         if self.player:rightCollidesMapObject(self.currentMap.collidableMapObjects[i]) then
-            self.player.x = object.x - self.player.width + 1
+            self.player.x = object.x - self.player.width + AABB_SIDE_COLLISION_BUFFER
         end
         if self.player:topCollidesMapObject(self.currentMap.collidableMapObjects[i]) then
-            self.player.y = object.y + object.height - 6
+            self.player.y = object.y + object.height - AABB_TOP_COLLISION_BUFFER
         end
         if self.player:bottomCollidesMapObject(self.currentMap.collidableMapObjects[i]) then
             self.player.y = object.y - self.player.height
@@ -184,13 +184,13 @@ function Scene:update(dt)
     if not self.shifting then
         for k, v in pairs(MAP[self.mapRow][self.mapColumn].pushables) do
             if gPlayer:leftCollidesMapObject(v) then
-                gPlayer.x = v.x + v.width - 1
+                gPlayer.x = v.x + v.width - AABB_SIDE_COLLISION_BUFFER
             end
             if gPlayer:rightCollidesMapObject(v) then
-                gPlayer.x = v.x - gPlayer.width + 1
+                gPlayer.x = v.x - gPlayer.width + AABB_SIDE_COLLISION_BUFFER
             end
             if gPlayer:topCollidesMapObject(v) then
-                gPlayer.y = v.y + v.height - 6
+                gPlayer.y = v.y + v.height - AABB_TOP_COLLISION_BUFFER
             end
             if gPlayer:bottomCollidesMapObject(v) then
                 gPlayer.y = v.y - gPlayer.height
