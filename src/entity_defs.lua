@@ -71,13 +71,13 @@ ENTITY_DEFS = {
                 looping = true
             },
             ['push-left'] = {
-                frames = {5, 6},
+                frames = {6, 5},
                 interval = 0.3,
                 texture = 'character-push',
                 looping = true
             },
             ['push-right'] = {
-                frames = {7, 8},
+                frames = {8, 7},
                 interval = 0.3,
                 texture = 'character-push',
                 looping = true
