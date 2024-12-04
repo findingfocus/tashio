@@ -56,16 +56,14 @@ function PlayerWalkState:update(dt)
             self.player:changeState('player-idle')
             self.player.x = math.floor(self.player.x)
 
-
             --ROUND PLAYER TO NEAREST WHOLE PIXEL
-            local remainder = self.player.x % math.floor(self.player.x)
-            if remainder >= 5 then
+            if self.player.x % 1 >= 0.5 then
                 self.player.x = math.ceil(self.player.x)
             else
                 self.player.x = math.floor(self.player.x)
             end
-            local remainder = self.player.y % math.floor(self.player.y)
-            if remainder >= 5 then
+
+            if self.player.y % 1 >= 0.5 then
                 self.player.y = math.ceil(self.player.y)
             else
                 self.player.y = math.floor(self.player.y)
