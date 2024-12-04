@@ -22,6 +22,12 @@ function PlayerIdleState:update(dt)
       if #TOUCH_OUTPUT_LIST > 0 then
           self.player:changeState('player-walk')
       end
+
+      --IDLE
+      if #OUTPUT_LIST == 0 and #TOUCH_OUTPUT_LIST == 0 then
+          self.player.animations['push-' .. tostring(self.player.direction)]:refresh()
+          self.player:changeAnimation('idle-' .. tostring(self.player.direction))
+      end
   end
 
   if sceneView.player.falling then

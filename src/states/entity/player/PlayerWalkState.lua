@@ -1,5 +1,5 @@
 PlayerWalkState = Class{__includes = BaseState}
-
+topCollidesCount = 0
 function PlayerWalkState:init(player, scene)
     self.player = player
     self.scene = scene
@@ -50,13 +50,25 @@ function PlayerWalkState:update(dt)
         end
 
         --TRIGGER IDLE
-        if #OUTPUT_LIST == 0 and #TOUCH_OUTPUT_LIST == 0 then
-            self.player.animations['walk-' .. tostring(self.player.direction)]:refresh()
-            self.player:changeAnimation('idle-' .. tostring(self.player.direction))
-        end
         if #TOUCH_OUTPUT_LIST == 0 and #OUTPUT_LIST == 0 then
             self.player.animations['walk-' .. tostring(self.player.direction)]:refresh()
             self.player:changeAnimation('idle-' .. tostring(self.player.direction))
+            self.player:changeState('player-idle')
+            self.player.x = math.floor(self.player.x)
+
+            --ROUND PLAYER TO NEAREST WHOLE PIXEL
+            local remainder = self.player.x % math.floor(self.player.x)
+            if remainder >= 5 then
+                self.player.x = math.ceil(self.player.x)
+            else
+                self.player.x = math.floor(self.player.x)
+            end
+            local remainder = self.player.y % math.floor(self.player.y)
+            if remainder >= 5 then
+                self.player.y = math.ceil(self.player.y)
+            else
+                self.player.y = math.floor(self.player.y)
+            end
         end
     end
 
@@ -64,15 +76,35 @@ function PlayerWalkState:update(dt)
     sceneView.player:changeAnimation('falling')
   end
 
-  --TODO ONLY PUSH IF AGAINST COLLIDABLE
-  if sceneView.player.direction == 'up' then
-      sceneView.player:changeAnimation('push-up')
-  elseif sceneView.player.direction == 'down' then
-      sceneView.player:changeAnimation('push-down')
-  elseif sceneView.player.direction == 'left' then
-      sceneView.player:changeAnimation('push-left')
-  elseif sceneView.player.direction == 'right' then
-      sceneView.player:changeAnimation('push-right')
+  --PLAYER TO PUSHABLES COLLISION
+  if not sceneView.shifting then
+      for k, v in pairs(MAP[sceneView.mapRow][sceneView.mapColumn].pushables) do
+          if gPlayer:leftCollidesMapObject(v) then
+              if gPlayer.direction == 'left' then
+                  gPlayer:changeAnimation('push-left')
+              end
+              gPlayer.x = v.x + v.width - AABB_SIDE_COLLISION_BUFFER
+          end
+          if gPlayer:rightCollidesMapObject(v) then
+              if gPlayer.direction == 'right' then
+                  gPlayer:changeAnimation('push-right')
+              end
+              gPlayer.x = v.x - gPlayer.width + AABB_SIDE_COLLISION_BUFFER
+          end
+          if gPlayer:topCollidesMapObject(v) then
+              topCollidesCount = topCollidesCount + 1
+              if gPlayer.direction == 'up' then
+                  gPlayer:changeAnimation('push-up')
+              end
+              gPlayer.y = v.y + v.height - AABB_TOP_COLLISION_BUFFER
+          end
+          if gPlayer:bottomCollidesMapObject(v) then
+              if gPlayer.direction == 'down' then
+                  gPlayer:changeAnimation('push-down')
+              end
+              gPlayer.y = v.y - gPlayer.height
+          end
+      end
   end
 end
 
