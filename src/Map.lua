@@ -83,12 +83,21 @@ function Map:init(row, column, spellcastEntities)
         end
     end
     --]]
+    self.testTimer = 0
 end
 
 function Map:update(dt)
     --self.rainSystem:update(dt)
     --self.snowSystem:update(dt)
     self.insertAnimations:update(dt)
+    self.testTimer = self.testTimer + dt
+
+    if MAP[self.row][self.column].pushables[1] ~= nil then
+        if self.testTimer > 3 then
+            MAP[self.row][self.column].pushables[1]:pushRight()
+            self.testTimer = 0
+        end
+    end
 
     --ENTITY UPDATES
     if not sceneView.shifting then
@@ -242,6 +251,13 @@ function Map:update(dt)
             sceneView.player.tweenAllowed = true
             graveyardTimer = 0
             Timer.clear()
+        end
+    end
+
+    --UPDATE PUSHABLES
+    if MAP[self.row][self.column].pushables[1] ~= nil then
+        for k, v in pairs(MAP[self.row][self.column].pushables) do
+            v:update(dt)
         end
     end
 end
