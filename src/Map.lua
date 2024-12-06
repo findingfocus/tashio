@@ -92,12 +92,15 @@ function Map:update(dt)
     self.insertAnimations:update(dt)
     self.testTimer = self.testTimer + dt
 
+    --[[
     if MAP[self.row][self.column].pushables[1] ~= nil then
         if self.testTimer > 3 then
             MAP[self.row][self.column].pushables[1]:pushRight()
             self.testTimer = 0
         end
     end
+    --]]
+
 
     --ENTITY UPDATES
     if not sceneView.shifting then

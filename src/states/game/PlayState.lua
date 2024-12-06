@@ -414,7 +414,7 @@ function PlayState:render()
         love.graphics.print('collideCount: ' .. tostring(topCollidesCount), 5, 105)
         --love.graphics.print('fallTimer: ' .. tostring(sceneView.player.fallTimer), 5, 105)
         love.graphics.print('falling: ' .. tostring(sceneView.player.falling), 5, 115)
-        love.graphics.print('safeFFall: ' .. tostring(sceneView.player.safeFromFall), 85, 115)
+        love.graphics.print('pushTimer: ' .. tostring(sceneView.player.pushTimer), 85, 115)
     elseif love.keyboard.isDown('6') then
         love.graphics.setColor(DEBUG_BG)
         love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
