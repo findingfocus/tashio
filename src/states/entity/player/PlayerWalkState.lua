@@ -51,6 +51,7 @@ function PlayerWalkState:update(dt)
 
         --TRIGGER IDLE
         if #TOUCH_OUTPUT_LIST == 0 and #OUTPUT_LIST == 0 then
+            self.player.pushTimer = 0
             self.player.animations['walk-' .. tostring(self.player.direction)]:refresh()
             self.player:changeAnimation('idle-' .. tostring(self.player.direction))
             self.player:changeState('player-idle')
@@ -78,19 +79,44 @@ function PlayerWalkState:update(dt)
   --PLAYER TO PUSHABLES COLLISION
   if not sceneView.shifting then
       for k, v in pairs(MAP[sceneView.mapRow][sceneView.mapColumn].pushables) do
+          if gPlayer:leftCollidesMapObject(v) or gPlayer:rightCollidesMapObject(v) or gPlayer:topCollidesMapObject(v) or gPlayer:bottomCollidesMapObject(v) then
+              if #OUTPUT_LIST > 0 or #TOUCH_OUTPUT_LIST > 0 then
+                  gPlayer.pushTimer = gPlayer.pushTimer + dt
+              end
+          end
+
           if gPlayer:leftCollidesMapObject(v) then
+              if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
+                  gPlayer.pushTimer = 0
+                  --if v:legalPush() then
+                      v:pushLeft()
+                  --end
+              end
+
               if gPlayer.direction == 'left' then
                   gPlayer:changeAnimation('push-left')
               end
               gPlayer.x = v.x + v.width - AABB_SIDE_COLLISION_BUFFER
           end
           if gPlayer:rightCollidesMapObject(v) then
+              if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
+                  gPlayer.pushTimer = 0
+                  --if v:legalPush() then
+                      v:pushRight()
+                  --end
+              end
               if gPlayer.direction == 'right' then
                   gPlayer:changeAnimation('push-right')
               end
               gPlayer.x = v.x - gPlayer.width + AABB_SIDE_COLLISION_BUFFER
           end
           if gPlayer:topCollidesMapObject(v) then
+              if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
+                  gPlayer.pushTimer = 0
+                  --if v:legalPush() then
+                      v:pushUp()
+                  --end
+              end
               topCollidesCount = topCollidesCount + 1
               if gPlayer.direction == 'up' then
                   gPlayer:changeAnimation('push-up')
@@ -98,6 +124,12 @@ function PlayerWalkState:update(dt)
               gPlayer.y = v.y + v.height - AABB_TOP_COLLISION_BUFFER
           end
           if gPlayer:bottomCollidesMapObject(v) then
+              if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
+                  gPlayer.pushTimer = 0
+                  --if v:legalPush() then
+                      v:pushDown()
+                  --end
+              end
               if gPlayer.direction == 'down' then
                   gPlayer:changeAnimation('push-down')
               end

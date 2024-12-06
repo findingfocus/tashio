@@ -26,6 +26,7 @@ function Player:init(def)
     self.luteEquipped = false
     self.warping = false
     self.extendDialogueBoxUpwards = false
+    self.pushTimer = 0
 end
 
 function updateHearts(player)
