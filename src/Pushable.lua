@@ -32,6 +32,23 @@ function Pushable:pushRight()
     self.pushRightInitiated = true
 end
 
+function Pushable:legalPush(col, row)
+    local tile = sceneView.currentMap.tiles[row][col]
+    local aboveGround = sceneView.currentMap.aboveGroundTiles[row][col]
+    local topLevel = sceneView.currentMap.topLevelTiles[row][col]
+    if row < 1 or row > 8 or col < 1 or col > 10 then
+        return false
+    elseif tile.id >= 97 and tile.id <= 256 then
+        return false
+    elseif aboveGround.id >= 97 and aboveGround.id <= 256 then
+        return false
+    elseif topLevel.id >= 97 and topLevel.id <= 256 then
+        return false
+    else
+        return true
+    end
+end
+
 function Pushable:update(dt)
     if self.pushUpInitiated then
         local tileAbove = (self.tileY * TILE_SIZE) - TILE_SIZE * 2

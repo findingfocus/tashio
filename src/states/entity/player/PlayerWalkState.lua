@@ -88,9 +88,9 @@ function PlayerWalkState:update(dt)
           if gPlayer:leftCollidesMapObject(v) then
               if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
                   gPlayer.pushTimer = 0
-                  --if v:legalPush() then
+                  if v:legalPush(v.tileX - 1, v.tileY) then
                       v:pushLeft()
-                  --end
+                  end
               end
 
               if gPlayer.direction == 'left' then
@@ -101,9 +101,9 @@ function PlayerWalkState:update(dt)
           if gPlayer:rightCollidesMapObject(v) then
               if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
                   gPlayer.pushTimer = 0
-                  --if v:legalPush() then
+                  if v:legalPush(v.tileX + 1, v.tileY) then
                       v:pushRight()
-                  --end
+                  end
               end
               if gPlayer.direction == 'right' then
                   gPlayer:changeAnimation('push-right')
@@ -113,9 +113,9 @@ function PlayerWalkState:update(dt)
           if gPlayer:topCollidesMapObject(v) then
               if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
                   gPlayer.pushTimer = 0
-                  --if v:legalPush() then
+                  if v:legalPush(v.tileX, v.tileY - 1) then
                       v:pushUp()
-                  --end
+                  end
               end
               topCollidesCount = topCollidesCount + 1
               if gPlayer.direction == 'up' then
@@ -126,9 +126,9 @@ function PlayerWalkState:update(dt)
           if gPlayer:bottomCollidesMapObject(v) then
               if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
                   gPlayer.pushTimer = 0
-                  --if v:legalPush() then
+                  if v:legalPush(v.tileX, v.tileY + 1) then
                       v:pushDown()
-                  --end
+                  end
               end
               if gPlayer.direction == 'down' then
                   gPlayer:changeAnimation('push-down')
