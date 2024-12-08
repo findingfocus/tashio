@@ -7,6 +7,7 @@ function PlayerIdleState:init(player)
     self.waitDuration = 0
     self.waitTimer = 0
     PLAYER_STATE = 'IDLE'
+    gPlayer.pushing = false
 end
 
 local fallTimer = 0

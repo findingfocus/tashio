@@ -36,6 +36,7 @@ function Pushable:legalPush(col, row)
     local tile = sceneView.currentMap.tiles[row][col]
     local aboveGround = sceneView.currentMap.aboveGroundTiles[row][col]
     local topLevel = sceneView.currentMap.topLevelTiles[row][col]
+    --CRASHES SOMETIMES? TODO
     if row < 1 or row > 8 or col < 1 or col > 10 then
         return false
     elseif tile.id >= 97 and tile.id <= 256 then
