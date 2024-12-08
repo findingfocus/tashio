@@ -76,15 +76,20 @@ function PlayerWalkState:update(dt)
     sceneView.player:changeAnimation('falling')
   end
 
+  gPlayer.pushing = false
   --PLAYER TO PUSHABLES COLLISION
   if not sceneView.shifting then
       for k, v in pairs(MAP[sceneView.mapRow][sceneView.mapColumn].pushables) do
           if gPlayer:leftCollidesMapObject(v) or gPlayer:rightCollidesMapObject(v) or gPlayer:topCollidesMapObject(v) or gPlayer:bottomCollidesMapObject(v) then
+              gPlayer.pushing = true
               if #OUTPUT_LIST > 0 or #TOUCH_OUTPUT_LIST > 0 then
                   gPlayer.pushTimer = gPlayer.pushTimer + dt
               end
           end
 
+          --if (v.tileX < 1 or v.tileX <= 10) or (v.tileY < 1 or v.tileY >= 8) then
+
+          --end
           if gPlayer:leftCollidesMapObject(v) then
               if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
                   gPlayer.pushTimer = 0
@@ -145,14 +150,26 @@ function PlayerWalkState:render()
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
     --love.graphics.print('timer: ' .. tostring(self.player.animations['walk-down'].timer), 5, 55)
     if not self.player.falling then
-        if self.player.blueTunicEquipped then
-            love.graphics.draw(gTextures['character-blueTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-        elseif self.player.redTunicEquipped then
-            love.graphics.draw(gTextures['character-redTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-        elseif self.player.greenTunicEquipped then
-            love.graphics.draw(gTextures['character-greenTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-        elseif self.player.yellowTunicEquipped then
-            love.graphics.draw(gTextures['character-yellowTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+        if self.player.pushing then
+            if self.player.blueTunicEquipped then
+                love.graphics.draw(gTextures['character-push-blueTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+            elseif self.player.redTunicEquipped then
+                love.graphics.draw(gTextures['character-push-redTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+            elseif self.player.greenTunicEquipped then
+                love.graphics.draw(gTextures['character-push-greenTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+            elseif self.player.yellowTunicEquipped then
+                love.graphics.draw(gTextures['character-push-yellowTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+            end
+        else
+            if self.player.blueTunicEquipped then
+                love.graphics.draw(gTextures['character-blueTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+            elseif self.player.redTunicEquipped then
+                love.graphics.draw(gTextures['character-redTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+            elseif self.player.greenTunicEquipped then
+                love.graphics.draw(gTextures['character-greenTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+            elseif self.player.yellowTunicEquipped then
+                love.graphics.draw(gTextures['character-yellowTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+            end
         end
     else
         if self.player.blueTunicEquipped then
