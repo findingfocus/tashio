@@ -13,6 +13,7 @@ end
 local fallTimer = 0
 
 function PlayerIdleState:update(dt)
+  gPlayer.pushing = false
   if not sceneView.player.falling and not sceneView.player.graveyard then
       if #INPUT_LIST > 0 then
           self.player.currentAnimation:refresh()

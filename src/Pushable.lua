@@ -17,29 +17,67 @@ function Pushable:init(x, y, type)
 end
 
 function Pushable:pushUp()
-    self.pushUpInitiated = true
+    for k, v in pairs(OUTPUT_LIST) do
+        if v == 'up' then
+            self.pushUpInitiated = true
+        end
+    end
+    for k, v in pairs(TOUCH_OUTPUT_LIST) do
+        if v == 'up' then
+            self.pushUpInitiated = true
+        end
+    end
 end
 
 function Pushable:pushDown()
-    self.pushDownInitiated = true
+    for k, v in pairs(OUTPUT_LIST) do
+        if v == 'down' then
+            self.pushDownInitiated = true
+        end
+    end
+    for k, v in pairs(TOUCH_OUTPUT_LIST) do
+        if v == 'down' then
+            self.pushDownInitiated = true
+        end
+    end
 end
 
 function Pushable:pushLeft()
-    self.pushLeftInitiated = true
+    for k, v in pairs(OUTPUT_LIST) do
+        if v == 'left' then
+            self.pushLeftInitiated = true
+        end
+    end
+    for k, v in pairs(TOUCH_OUTPUT_LIST) do
+        if v == 'left' then
+            self.pushLeftInitiated = true
+        end
+    end
 end
 
 function Pushable:pushRight()
-    self.pushRightInitiated = true
+    for k, v in pairs(OUTPUT_LIST) do
+        if v == 'right' then
+            self.pushRightInitiated = true
+        end
+    end
+    for k, v in pairs(TOUCH_OUTPUT_LIST) do
+        if v == 'right' then
+            self.pushRightInitiated = true
+        end
+    end
 end
 
-function Pushable:legalPush(col, row)
+function Pushable:legalPush(row, col)
+    if row < 1 or row > 8 or col < 1 or col > 10 then
+        return false
+    end
+
     local tile = sceneView.currentMap.tiles[row][col]
     local aboveGround = sceneView.currentMap.aboveGroundTiles[row][col]
     local topLevel = sceneView.currentMap.topLevelTiles[row][col]
-    --CRASHES SOMETIMES? TODO
-    if row < 1 or row > 8 or col < 1 or col > 10 then
-        return false
-    elseif tile.id >= 97 and tile.id <= 256 then
+
+    if tile.id >= 97 and tile.id <= 256 then
         return false
     elseif aboveGround.id >= 97 and aboveGround.id <= 256 then
         return false
