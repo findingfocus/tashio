@@ -93,7 +93,7 @@ function PlayerWalkState:update(dt)
           if gPlayer:leftCollidesMapObject(v) then
               if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
                   gPlayer.pushTimer = 0
-                  if v:legalPush(v.tileX - 1, v.tileY) then
+                  if v:legalPush(v.tileY, v.tileX - 1) then
                       v:pushLeft()
                   end
               end
@@ -106,19 +106,19 @@ function PlayerWalkState:update(dt)
           if gPlayer:rightCollidesMapObject(v) then
               if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
                   gPlayer.pushTimer = 0
-                  if v:legalPush(v.tileX + 1, v.tileY) then
+                  if v:legalPush(v.tileY, v.tileX + 1) then
                       v:pushRight()
                   end
               end
               if gPlayer.direction == 'right' then
                   gPlayer:changeAnimation('push-right')
               end
-              gPlayer.x = v.x - gPlayer.width + AABB_SIDE_COLLISION_BUFFER
-          end
+              gPlayer.x = v.x - gPlayer.width + 1
+         end
           if gPlayer:topCollidesMapObject(v) then
               if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
                   gPlayer.pushTimer = 0
-                  if v:legalPush(v.tileX, v.tileY - 1) then
+                  if v:legalPush(v.tileY - 1, v.tileX) then
                       v:pushUp()
                   end
               end
@@ -131,7 +131,7 @@ function PlayerWalkState:update(dt)
           if gPlayer:bottomCollidesMapObject(v) then
               if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
                   gPlayer.pushTimer = 0
-                  if v:legalPush(v.tileX, v.tileY + 1) then
+                  if v:legalPush(v.tileY + 1, v.tileX) then
                       v:pushDown()
                   end
               end
