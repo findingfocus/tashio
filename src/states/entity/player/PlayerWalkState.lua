@@ -177,7 +177,7 @@ function PlayerWalkState:render()
     --love.graphics.print('timer: ' .. tostring(self.player.animations['walk-down'].timer), 5, 55)
     if not self.player.falling then
         --TODO NEXT EPISODE
-        if self.player.currentAnimation == {['push-right']} then
+        if self.player.currentAnimation == self.player.animations['push-right'] or self.player.currentAnimation == self.player.animations['push-left'] or self.player.currentAnimation == self.player.animations['push-up'] or self.player.currentAnimation == self.player.animations['push-down'] then
         for k, v in ipairs(MAP[sceneView.mapRow][sceneView.mapColumn].pushables) do
             if gPlayer:leftCollidesMapObject(v) or gPlayer:rightCollidesMapObject(v) or gPlayer:topCollidesMapObject(v) or gPlayer:bottomCollidesMapObject(v) then --gPlayer.pushing = true
                 if self.player.blueTunicEquipped then
