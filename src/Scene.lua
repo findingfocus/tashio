@@ -127,6 +127,9 @@ function Scene:finishShifting()
     for i = 1, #MAP[self.currentMap.row][self.currentMap.column].entities do
         MAP[self.currentMap.row][self.currentMap.column].entities[i]:resetOriginalPosition()
     end
+    for k, v in pairs(MAP[self.currentMap.row][self.currentMap.column].pushables) do
+        v:resetOriginalPosition()
+    end
     --self.currentMap.row = sceneView.currentMap.row
     --self.currentMap.column = sceneView.currentMap.column
 

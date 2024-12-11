@@ -1,12 +1,17 @@
 Pushable = Class{}
 
-function Pushable:init(x, y, type)
+function Pushable:init(x, y, type, keyItem)
     self.tileX = x
     self.tileY = y
+    self.originalTileX = x
+    self.originalTileY = y
     self.x = (x * TILE_SIZE) - TILE_SIZE
     self.y = (y * TILE_SIZE) - TILE_SIZE
+    self.originalX = self.x
+    self.originalY = self.y
     self.width = TILE_SIZE
     self.height = TILE_SIZE
+    self.keyItem = keyItem or nil
     self.type = type
     if self.type == 'log' then
         self.image = log
@@ -14,6 +19,15 @@ function Pushable:init(x, y, type)
         self.image = boulder
     end
     self.pushUpInitiated = false
+end
+
+function Pushable:resetOriginalPosition()
+    if self.keyItem ~= true then
+        self.x = self.originalX
+        self.y = self.originalY
+        self.tileX = self.originalTileX
+        self.tileY = self.originalTileY
+    end
 end
 
 function Pushable:pushUp()
