@@ -96,7 +96,6 @@ function PlayerWalkState:update(dt)
     sceneView.player:changeAnimation('falling')
   end
 
-  gPlayer.pushing = false
   --PLAYER TO PUSHABLES COLLISION
   if not sceneView.shifting then
       for k, v in pairs(MAP[sceneView.mapRow][sceneView.mapColumn].pushables) do
@@ -105,16 +104,6 @@ function PlayerWalkState:update(dt)
                   gPlayer.pushTimer = gPlayer.pushTimer + dt
               end
           end
-
-          if gPlayer:rightCollidesMapObject(v) then
-            if OUTPUT_LIST[1] == 'right' then
-                gPlayer.pushing = true
-            end
-          end
-
-          --if (v.tileX < 1 or v.tileX <= 10) or (v.tileY < 1 or v.tileY >= 8) then
-
-          --end
           if gPlayer:leftCollidesMapObject(v) then
               if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
                   gPlayer.pushTimer = 0
@@ -179,7 +168,7 @@ function PlayerWalkState:render()
         --TODO NEXT EPISODE
         if self.player.currentAnimation == self.player.animations['push-right'] or self.player.currentAnimation == self.player.animations['push-left'] or self.player.currentAnimation == self.player.animations['push-up'] or self.player.currentAnimation == self.player.animations['push-down'] then
         for k, v in ipairs(MAP[sceneView.mapRow][sceneView.mapColumn].pushables) do
-            if gPlayer:leftCollidesMapObject(v) or gPlayer:rightCollidesMapObject(v) or gPlayer:topCollidesMapObject(v) or gPlayer:bottomCollidesMapObject(v) then --gPlayer.pushing = true
+            if gPlayer:leftCollidesMapObject(v) or gPlayer:rightCollidesMapObject(v) or gPlayer:topCollidesMapObject(v) or gPlayer:bottomCollidesMapObject(v) then
                 if self.player.blueTunicEquipped then
                     love.graphics.draw(gTextures['character-push-blueTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
                 elseif self.player.redTunicEquipped then

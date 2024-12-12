@@ -38,6 +38,7 @@ local rows = 8
 cameraX = 0
 --STARTING SCENE gPlayer SPAWN
 sceneView = Scene(gPlayer, 7, 2)
+--sceneView = Scene(gPlayer, 1, 12)
 tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 --textures = love.graphics.newImage('graphics/textures.png')
 quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
@@ -415,7 +416,6 @@ function PlayState:render()
         --love.graphics.print('fallTimer: ' .. tostring(sceneView.player.fallTimer), 5, 105)
         love.graphics.print('falling: ' .. tostring(sceneView.player.falling), 5, 115)
         --love.graphics.print('pushTimer: ' .. tostring(sceneView.player.pushTimer), 85, 115)
-        love.graphics.print('pushing: ' .. tostring(sceneView.player.pushing), 85, 115)
         --love.graphics.print('rightCollide: ' .. tostring(gPlayer:rightCollidesMapObject(MAP[sceneView.currentMap.row][sceneView.currentMap.column].pushables[1]), 85, 115))
     elseif love.keyboard.isDown('6') then
         love.graphics.setColor(DEBUG_BG)
@@ -493,4 +493,6 @@ function PlayState:render()
     --]]
     --
     --print(MAP[sceneView.currentMap.row][sceneView.currentMap.column].npc[1].dialogueBox[1].text)
+    love.graphics.setColor(WHITE)
+    love.graphics.print('value: ' .. MAP[7][2].pushables[1].classType, 10, 10)
 end

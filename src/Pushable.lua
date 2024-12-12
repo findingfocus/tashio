@@ -12,6 +12,7 @@ function Pushable:init(x, y, type, keyItem)
     self.width = TILE_SIZE
     self.height = TILE_SIZE
     self.keyItem = keyItem or nil
+    self.classType = 'pushable'
     self.type = type
     if self.type == 'log' then
         self.image = log
