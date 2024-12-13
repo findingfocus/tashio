@@ -494,5 +494,5 @@ function PlayState:render()
     --
     --print(MAP[sceneView.currentMap.row][sceneView.currentMap.column].npc[1].dialogueBox[1].text)
     love.graphics.setColor(WHITE)
-    love.graphics.print('value: ' .. MAP[7][2].pushables[1].classType, 10, 10)
+    --love.graphics.print('value: ' .. MAP[7][2].pushables[1].classType, 10, 10)
 end

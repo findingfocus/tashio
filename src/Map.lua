@@ -92,16 +92,6 @@ function Map:update(dt)
     self.insertAnimations:update(dt)
     self.testTimer = self.testTimer + dt
 
-    --[[
-    if MAP[self.row][self.column].pushables[1] ~= nil then
-        if self.testTimer > 3 then
-            MAP[self.row][self.column].pushables[1]:pushRight()
-            self.testTimer = 0
-        end
-    end
-    --]]
-
-
     --ENTITY UPDATES
     if not sceneView.shifting then
         for i = 1, self.entityCount do
@@ -258,10 +248,16 @@ function Map:update(dt)
     end
 
     --UPDATE PUSHABLES
+    --[[
     if MAP[self.row][self.column].pushables[1] ~= nil then
         for k, v in pairs(MAP[self.row][self.column].pushables) do
             v:update(dt)
         end
+    end
+    --]]
+
+    for k, v in pairs(MAP[self.row][self.column].collidableMapObjects) do
+        v:update(dt)
     end
 end
 
@@ -324,6 +320,12 @@ function Map:render()
     --RENDER PUSHABLES
     if MAP[self.row][self.column].pushables[1] ~= nil then
         for k, v in pairs(MAP[self.row][self.column].pushables) do
+            v:render(self.adjacentOffsetX, self.adjacentOffsetY)
+        end
+    end
+
+    if MAP[self.row][self.column].collidableMapObjects[1] ~= nil then
+        for k, v in pairs(MAP[self.row][self.column].collidableMapObjects) do
             v:render(self.adjacentOffsetX, self.adjacentOffsetY)
         end
     end

@@ -28,6 +28,8 @@ __Add all colors to color constants palette
 
 
 Next Episode
+__Add to legalPush, checking for other collidable objects
+__Add entity to collidable map objects collision
 __Lute equip upon tunic change bug
 __Magic numbers for gPlayer Collisions...
 __Hold off fret render on luteState swap
