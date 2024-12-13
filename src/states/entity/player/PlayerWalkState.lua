@@ -28,32 +28,12 @@ function PlayerWalkState:update(dt)
 
         for key, value in ipairs(OUTPUT_LIST) do
             if value == 'left' then
-                for k, v in ipairs(MAP[sceneView.mapRow][sceneView.mapColumn].pushables) do
-                    if gPlayer:leftCollidesMapObject(v) then
-                        --gPlayer.pushing = true
-                    end
-                end
                 self.player.x = math.max(self.player.x - self.player.walkSpeed * dt, -SIDE_EDGE_BUFFER_PLAYER)
             elseif value == 'right' then
-                for k, v in ipairs(MAP[sceneView.mapRow][sceneView.mapColumn].pushables) do
-                    if gPlayer:rightCollidesMapObject(v) then
-                        --gPlayer.pushing = true
-                    end
-                end
                 self.player.x = math.min(self.player.x + self.player.walkSpeed * dt, VIRTUAL_WIDTH - self.player.width + SIDE_EDGE_BUFFER_PLAYER)
             elseif value == 'down' then
-                for k, v in ipairs(MAP[sceneView.mapRow][sceneView.mapColumn].pushables) do
-                    if gPlayer:bottomCollidesMapObject(v) then
-                        --gPlayer.pushing = true
-                    end
-                end
                 self.player.y = math.min(self.player.y + self.player.walkSpeed * dt, SCREEN_HEIGHT_LIMIT + BOTTOM_BUFFER - self.player.height)
             elseif value == 'up' then
-                for k, v in ipairs(MAP[sceneView.mapRow][sceneView.mapColumn].pushables) do
-                    if gPlayer:topCollidesMapObject(v) then
-                        --gPlayer.pushing = true
-                    end
-                end
                 self.player.y = math.max(self.player.y - self.player.walkSpeed * dt, -SIDE_EDGE_BUFFER_PLAYER)
             end
         end
@@ -98,61 +78,64 @@ function PlayerWalkState:update(dt)
 
   --PLAYER TO PUSHABLES COLLISION
   if not sceneView.shifting then
-      for k, v in pairs(MAP[sceneView.mapRow][sceneView.mapColumn].pushables) do
-          if gPlayer:leftCollidesMapObject(v) or gPlayer:rightCollidesMapObject(v) or gPlayer:topCollidesMapObject(v) or gPlayer:bottomCollidesMapObject(v) then --gPlayer.pushing = true
-              if #OUTPUT_LIST > 0 or #TOUCH_OUTPUT_LIST > 0 then
-                  gPlayer.pushTimer = gPlayer.pushTimer + dt
-              end
-          end
-          if gPlayer:leftCollidesMapObject(v) then
-              if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
-                  gPlayer.pushTimer = 0
-                  if v:legalPush(v.tileY, v.tileX - 1) then
-                      v:pushLeft()
+      for k, v in pairs(MAP[sceneView.mapRow][sceneView.mapColumn].collidableMapObjects) do
+          --INITIALIZE COLLIDABLE CLASS TYPES
+          if v.classType == 'pushable' then
+              if gPlayer:leftCollidesMapObject(v) or gPlayer:rightCollidesMapObject(v) or gPlayer:topCollidesMapObject(v) or gPlayer:bottomCollidesMapObject(v) then --gPlayer.pushing = true
+                  if #OUTPUT_LIST > 0 or #TOUCH_OUTPUT_LIST > 0 then
+                      gPlayer.pushTimer = gPlayer.pushTimer + dt
                   end
               end
+              if gPlayer:leftCollidesMapObject(v) then
+                  if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
+                      gPlayer.pushTimer = 0
+                      if v:legalPush(v.tileY, v.tileX - 1) then
+                          v:pushLeft()
+                      end
+                  end
 
-              if gPlayer.direction == 'left' then
-                  gPlayer:changeAnimation('push-left')
-              end
-              gPlayer.x = v.x + v.width - AABB_SIDE_COLLISION_BUFFER
-          end
-          if gPlayer:rightCollidesMapObject(v) then
-              if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
-                  gPlayer.pushTimer = 0
-                  if v:legalPush(v.tileY, v.tileX + 1) then
-                      v:pushRight()
+                  if gPlayer.direction == 'left' then
+                      gPlayer:changeAnimation('push-left')
                   end
+                  gPlayer.x = v.x + v.width - AABB_SIDE_COLLISION_BUFFER
               end
-              if gPlayer.direction == 'right' then
-                  gPlayer:changeAnimation('push-right')
-              end
-              gPlayer.x = v.x - gPlayer.width + 1
-         end
-          if gPlayer:topCollidesMapObject(v) then
-              if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
-                  gPlayer.pushTimer = 0
-                  if v:legalPush(v.tileY - 1, v.tileX) then
-                      v:pushUp()
+              if gPlayer:rightCollidesMapObject(v) then
+                  if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
+                      gPlayer.pushTimer = 0
+                      if v:legalPush(v.tileY, v.tileX + 1) then
+                          v:pushRight()
+                      end
                   end
-              end
-              topCollidesCount = topCollidesCount + 1
-              if gPlayer.direction == 'up' then
-                  gPlayer:changeAnimation('push-up')
-              end
-              gPlayer.y = v.y + v.height - AABB_TOP_COLLISION_BUFFER
-          end
-          if gPlayer:bottomCollidesMapObject(v) then
-              if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
-                  gPlayer.pushTimer = 0
-                  if v:legalPush(v.tileY + 1, v.tileX) then
-                      v:pushDown()
+                  if gPlayer.direction == 'right' then
+                      gPlayer:changeAnimation('push-right')
                   end
+                  gPlayer.x = v.x - gPlayer.width + 1
               end
-              if gPlayer.direction == 'down' then
-                  gPlayer:changeAnimation('push-down')
+              if gPlayer:topCollidesMapObject(v) then
+                  if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
+                      gPlayer.pushTimer = 0
+                      if v:legalPush(v.tileY - 1, v.tileX) then
+                          v:pushUp()
+                      end
+                  end
+                  topCollidesCount = topCollidesCount + 1
+                  if gPlayer.direction == 'up' then
+                      gPlayer:changeAnimation('push-up')
+                  end
+                  gPlayer.y = v.y + v.height - AABB_TOP_COLLISION_BUFFER
               end
-              gPlayer.y = v.y - gPlayer.height
+              if gPlayer:bottomCollidesMapObject(v) then
+                  if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
+                      gPlayer.pushTimer = 0
+                      if v:legalPush(v.tileY + 1, v.tileX) then
+                          v:pushDown()
+                      end
+                  end
+                  if gPlayer.direction == 'down' then
+                      gPlayer:changeAnimation('push-down')
+                  end
+                  gPlayer.y = v.y - gPlayer.height
+              end
           end
       end
   end
@@ -165,21 +148,22 @@ function PlayerWalkState:render()
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
     --love.graphics.print('timer: ' .. tostring(self.player.animations['walk-down'].timer), 5, 55)
     if not self.player.falling then
-        --TODO NEXT EPISODE
-        if self.player.currentAnimation == self.player.animations['push-right'] or self.player.currentAnimation == self.player.animations['push-left'] or self.player.currentAnimation == self.player.animations['push-up'] or self.player.currentAnimation == self.player.animations['push-down'] then
-        for k, v in ipairs(MAP[sceneView.mapRow][sceneView.mapColumn].pushables) do
-            if gPlayer:leftCollidesMapObject(v) or gPlayer:rightCollidesMapObject(v) or gPlayer:topCollidesMapObject(v) or gPlayer:bottomCollidesMapObject(v) then
-                if self.player.blueTunicEquipped then
-                    love.graphics.draw(gTextures['character-push-blueTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-                elseif self.player.redTunicEquipped then
-                    love.graphics.draw(gTextures['character-push-redTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-                elseif self.player.greenTunicEquipped then
-                    love.graphics.draw(gTextures['character-push-greenTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-                elseif self.player.yellowTunicEquipped then
-                    love.graphics.draw(gTextures['character-push-yellowTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+        if self.player.currentAnimation == self.player.animations['push-right'] or self.player.animations['push-left'] or self.player.animations['push-up'] or self.player.animations['push-down'] then
+            for k, v in ipairs(MAP[sceneView.mapRow][sceneView.mapColumn].collidableMapObjects) do
+                if v.classType == 'pushable' then
+                    if gPlayer:leftCollidesMapObject(v) or gPlayer:rightCollidesMapObject(v) or gPlayer:topCollidesMapObject(v) or gPlayer:bottomCollidesMapObject(v) then
+                        if self.player.blueTunicEquipped then
+                            love.graphics.draw(gTextures['character-push-blueTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+                        elseif self.player.redTunicEquipped then
+                            love.graphics.draw(gTextures['character-push-redTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+                        elseif self.player.greenTunicEquipped then
+                            love.graphics.draw(gTextures['character-push-greenTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+                        elseif self.player.yellowTunicEquipped then
+                            love.graphics.draw(gTextures['character-push-yellowTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+                        end
+                    end
                 end
             end
-        end
         else --IF NOT PUSHING
             if self.player.blueTunicEquipped then
                 love.graphics.draw(gTextures['character-blueTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
