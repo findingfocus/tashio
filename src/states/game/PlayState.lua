@@ -4,6 +4,9 @@ HEART_CROP = 56
 local STRING_WIDTH = 2
 totalHealth = 14
 healthDifference = 0
+local creditSequence = false
+local creditsY = VIRTUAL_HEIGHT
+local creditsYReset = VIRTUAL_HEIGHT
 local inspect = require "lib/inspect"
 local manisTimer = 0
 Lute = Lute()
@@ -45,6 +48,8 @@ quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
 
 function PlayState:init()
     self.stateName = 'PlayState'
+    self.snowSystem = SnowSystem()
+    self.rainSystem = RainSystem()
 
     gPlayer.stateMachine = StateMachine {
         ['player-walk'] = function() return PlayerWalkState(gPlayer, self.scene) end,
@@ -101,6 +106,16 @@ function PlayState:update(dt)
         else
             toggleHelp = toggleHelp == false and true or false
         end
+    end
+
+    if love.keyboard.wasPressed('c') then
+        creditSequence = creditSequence == false and true or false
+    end
+
+    if creditSequence then
+        self.snowSystem:update(dt)
+        self.rainSystem:update(dt)
+        creditsY = creditsY - CREDITS_SPEED
     end
 
     for k, v in pairs(touches) do
@@ -495,4 +510,21 @@ function PlayState:render()
     --print(MAP[sceneView.currentMap.row][sceneView.currentMap.column].npc[1].dialogueBox[1].text)
     love.graphics.setColor(WHITE)
     --love.graphics.print('value: ' .. MAP[7][2].pushables[1].classType, 10, 10)
+
+    displayFPS()
+
+    if creditSequence then
+        love.graphics.setColor(0, 0, 0, 190/255)
+        love.graphics.rectangle('fill',0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
+        love.graphics.setColor(WHITE)
+        --self.snowSystem:render()
+        self.rainSystem:render()
+        love.graphics.printf('SUPPORTERS:\nsoup_or_king\nakabob56\njeanniegrey\nsaltomanga\nmeesegamez\nk_tronix\nhimeh3\nflatulenceknocker\nofficial_wutnot\nroughcookie\ntheshakycoder', 0, creditsY, VIRTUAL_WIDTH, 'center')
+    end
+end
+
+function displayFPS()
+	love.graphics.setFont(classicFont)
+	love.graphics.setColor(WHITE)
+	love.graphics.print(tostring(love.timer.getFPS()), SCREEN_WIDTH_LIMIT - 27, VIRTUAL_HEIGHT - 12)
 end

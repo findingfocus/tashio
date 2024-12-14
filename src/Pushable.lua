@@ -83,9 +83,32 @@ function Pushable:pushRight()
     end
 end
 
+function Pushable:collides(x, y, target)
+    if x < target.x + target.width and x + TILE_SIZE > target.x then
+        if y < target.y + target.height and y + TILE_SIZE > target.y then
+            return true
+        end
+    end
+    return false
+end
+
 function Pushable:legalPush(row, col)
     if row < 1 or row > 8 or col < 1 or col > 10 then
         return false
+    end
+
+    for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+        if v.tileX == col and v.tileY == row then
+            return false
+        end
+    end
+
+    for k, npc in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].npc) do
+        local pushableX = (col * TILE_SIZE) - TILE_SIZE
+        local pushableY = (row * TILE_SIZE) - TILE_SIZE
+        if self:collides(pushableX, pushableY, npc) then
+            return false
+        end
     end
 
     local tile = sceneView.currentMap.tiles[row][col]

@@ -109,8 +109,6 @@ function love.draw()
 
 	gStateMachine:render()
 
-	displayFPS()
-
   love.graphics.setColor(0,0,0,1)
   love.graphics.rectangle('fill', 0, VIRTUAL_HEIGHT, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
   love.graphics.setColor(1,1,1,1)
@@ -120,8 +118,3 @@ function love.draw()
 	push:finish()
 end
 
-function displayFPS()
-	love.graphics.setFont(classicFont)
-	love.graphics.setColor(WHITE)
-	love.graphics.print(tostring(love.timer.getFPS()), SCREEN_WIDTH_LIMIT - 27, VIRTUAL_HEIGHT - 12)
-end
