@@ -127,8 +127,10 @@ function Scene:finishShifting()
     for i = 1, #MAP[self.currentMap.row][self.currentMap.column].entities do
         MAP[self.currentMap.row][self.currentMap.column].entities[i]:resetOriginalPosition()
     end
-    for k, v in pairs(MAP[self.currentMap.row][self.currentMap.column].pushables) do
-        v:resetOriginalPosition()
+    for k, v in pairs(MAP[self.currentMap.row][self.currentMap.column].collidableMapObjects) do
+        if v.classType == 'pushable' then
+            v:resetOriginalPosition()
+        end
     end
     --self.currentMap.row = sceneView.currentMap.row
     --self.currentMap.column = sceneView.currentMap.column
@@ -145,7 +147,7 @@ function Scene:finishShifting()
 end
 
 function Scene:update(dt)
-    self.snowSystem:update(dt)
+    --self.snowSystem:update(dt)
     --self.rainSystem:update(dt)
     --self.sandSystem:update(dt)
     --self.lavaSystem:update(dt)
