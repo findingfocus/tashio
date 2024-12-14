@@ -31,8 +31,8 @@ Next Episode
 __Add to legalPush, checking for other collidable objects
 __Add entity to collidable map objects collision
 __Lute equip upon tunic change bug
-__Magic numbers for gPlayer Collisions...
 __Hold off fret render on luteState swap
+__Add credited supporters role
 __Render string colors based on string animations
 __Ensure signposts are inserted into currentMap.signposts
 __Multiple page posts for signs
