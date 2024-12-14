@@ -59,7 +59,7 @@ function Player:update(dt)
         sounds['death']:play()
         self.dead = true
     end
-    --TODO
+
     healthDifference = totalHealth - self.health
     HEART_CROP = math.max(56 - (4 * healthDifference), 0)
 
