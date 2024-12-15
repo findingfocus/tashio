@@ -168,6 +168,7 @@ function Scene:update(dt)
         end
     end
     ---[[
+
     --PLAYER TO MAP OBJECT COLLISION DETECTION
     for i = 1, #self.currentMap.collidableMapObjects do
         local object = self.currentMap.collidableMapObjects[i]

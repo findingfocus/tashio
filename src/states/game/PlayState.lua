@@ -112,6 +112,7 @@ function PlayState:update(dt)
         creditSequence = creditSequence == false and true or false
     end
 
+    self.rainSystem:update(dt)
     if creditSequence then
         self.snowSystem:update(dt)
         self.rainSystem:update(dt)
@@ -521,6 +522,10 @@ function PlayState:render()
         self.rainSystem:render()
         love.graphics.printf('SUPPORTERS:\nsoup_or_king\nakabob56\njeanniegrey\nsaltomanga\nmeesegamez\nk_tronix\nhimeh3\nflatulenceknocker\nofficial_wutnot\nroughcookie\ntheshakycoder', 0, creditsY, VIRTUAL_WIDTH, 'center')
     end
+
+    --self.rainSystem:render()
+
+    print(inspect(gPlayer.currentAnimation), 0, 0)
 end
 
 function displayFPS()

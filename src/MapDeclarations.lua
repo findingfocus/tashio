@@ -356,3 +356,4 @@ table.insert(MAP[7][2].dialogueBox, DialogueBox(MAP[7][2].npc[mageIndex].x, MAP[
 
 table.insert(MAP[7][2].collidableMapObjects, Pushable(4, 4, 'boulder'))
 table.insert(MAP[7][2].collidableMapObjects, Pushable(5, 4, 'log'))
+table.insert(MAP[1][12].collidableMapObjects, TreasureChest(3, 2))

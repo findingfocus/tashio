@@ -12,6 +12,8 @@ berry = love.graphics.newImage('graphics/berry.png')
 lute = love.graphics.newImage('graphics/lute.png')
 boulder = love.graphics.newImage('graphics/boulder.png')
 log = love.graphics.newImage('graphics/log.png')
+treasureChestClosed = love.graphics.newImage('graphics/chest-closed.png')
+treasureChestOpen = love.graphics.newImage('graphics/chest-open.png')
 
 require 'src/constants'
 
@@ -50,6 +52,7 @@ require 'src/SnowSystem'
 require 'src/LavaSystem'
 require 'src/SandSystem'
 require 'src/AnimSpitter'
+require 'src/TreasureChest'
 require 'src/MapDeclarations'
 require 'src/InsertAnimation'
 require 'src/CollidableMapObjects'
