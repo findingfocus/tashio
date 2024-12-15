@@ -520,7 +520,7 @@ function PlayState:render()
         love.graphics.setColor(WHITE)
         --self.snowSystem:render()
         self.rainSystem:render()
-        love.graphics.printf('SUPPORTERS:\nsoup_or_king\nakabob56\njeanniegrey\nsaltomanga\nmeesegamez\nk_tronix\nhimeh3\nflatulenceknocker\nofficial_wutnot\nroughcookie\ntheshakycoder', 0, creditsY, VIRTUAL_WIDTH, 'center')
+        love.graphics.printf('SUPPORTERS:\nsoup_or_king\nakabob56\njeanniegrey\nsaltomanga\nmeesegamez\nk_tronix\nhimeh3\nflatulenceknocker\nofficial_wutnot\nroughcookie\ntheshakycoder\ntjtheprogrammer\npunymagus', 0, creditsY, VIRTUAL_WIDTH, 'center')
     end
 
     --self.rainSystem:render()
