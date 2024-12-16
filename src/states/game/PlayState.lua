@@ -36,12 +36,13 @@ ninetyDegrees = math.rad(90)
 oneEightyDegrees = math.rad(180)
 twoSeventyDegress = math.rad(270)
 rotate = 0
+treasureChestOption = false
 local columns = 10
 local rows = 8
 cameraX = 0
 --STARTING SCENE gPlayer SPAWN
-sceneView = Scene(gPlayer, 7, 2)
---sceneView = Scene(gPlayer, 1, 12)
+--sceneView = Scene(gPlayer, 7, 2)
+sceneView = Scene(gPlayer, 1, 12)
 tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 --textures = love.graphics.newImage('graphics/textures.png')
 quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
@@ -133,6 +134,24 @@ function PlayState:update(dt)
                     --IF COLLIDES WITH SIGNPOST
                     table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k])
                     PAUSED = true
+                end
+            end
+            for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+                if v.classType == 'treasureChest' then
+                    if not v.opened then
+                        if gPlayer:dialogueCollides(v) then
+                            v:openChest()
+                            treasureChestOption = true
+                            v.dialogueBox[1].line1Result = ''
+                            v.dialogueBox[1].line2Result = ''
+                            v.dialogueBox[1].line3Result = ''
+                            v.dialogueBox[1].lineCount = 1
+                            v.dialogueBox[1].textIndex = 1
+                            self.dialogueID = k
+                            table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects[k].dialogueBox[1])
+                            PAUSED = true
+                        end
+                    end
                 end
             end
         end
@@ -249,9 +268,27 @@ function PlayState:update(dt)
                 MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].lineCount = 1
                 MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].textIndex = 1
                 self.dialogueID = k
-                --IF COLLIDES WITH SIGNPOST
                 table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k])
                 PAUSED = true
+            end
+        end
+
+        for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+            if v.classType == 'treasureChest' then
+                if not v.opened then
+                    if gPlayer:dialogueCollides(v) then
+                        v:openChest()
+                        treasureChestOption = true
+                        v.dialogueBox[1].line1Result = ''
+                        v.dialogueBox[1].line2Result = ''
+                        v.dialogueBox[1].line3Result = ''
+                        v.dialogueBox[1].lineCount = 1
+                        v.dialogueBox[1].textIndex = 1
+                        self.dialogueID = k
+                        table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects[k].dialogueBox[1])
+                        PAUSED = true
+                    end
+                end
             end
         end
     end
@@ -269,7 +306,11 @@ function PlayState:update(dt)
     end
 
     if PAUSED then
-        MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[self.dialogueID]:update(dt)
+        if treasureChestOption then
+            MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects[self.dialogueID].dialogueBox[1]:update(dt)
+        else
+            MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[self.dialogueID]:update(dt)
+        end
     end
 
     rotate = rotate + .05
