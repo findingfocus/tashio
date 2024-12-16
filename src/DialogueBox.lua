@@ -10,6 +10,7 @@ function DialogueBox:init(x, y, text, option, npc)
     self.y = y + 1
     self.width = TILE_SIZE - 2
     self.height = TILE_SIZE - 2
+    self.classType = 'dialogueBox'
     self.text = text
     self.option = option or 0
     self.npc = npc or 0
@@ -158,6 +159,7 @@ function DialogueBox:update(dt)
                 blinkTimer = blinkReset
                 if self.currentPage == self.pageLength then
                     self.aButtonCount = 0
+                    treasureChestOption = false
                     PAUSED = false
                     MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided = {}
                     self:flushText()
@@ -177,6 +179,7 @@ function DialogueBox:update(dt)
             blinkTimer = blinkReset
             if self.currentPage == self.pageLength then
                 self.aButtonCount = 0
+                treasureChestOption = false
                 PAUSED = false
                 MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided = {}
                 self:flushText()

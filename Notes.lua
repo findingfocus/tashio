@@ -10,6 +10,8 @@ __Factor gecko logic into gecko class, which aspects of entity class do enemies 
 __Incorporate Prosto closure fix for local variables
 
 Todo
+__Add Tashio getting treasure sprite
+__Add treasure sprites
 __Fix lone pixel in flower animation
 __Add correct text indicator timing to dialogue boxes
 __Rehaul touch input into global buttonOutput table
