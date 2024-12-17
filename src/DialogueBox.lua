@@ -180,6 +180,11 @@ function DialogueBox:update(dt)
             if self.currentPage == self.pageLength then
                 self.aButtonCount = 0
                 treasureChestOption = false
+                for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+                    if v.classType == 'treasureChest' then
+                        v.showOffItem = false
+                    end
+                end
                 PAUSED = false
                 MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided = {}
                 self:flushText()

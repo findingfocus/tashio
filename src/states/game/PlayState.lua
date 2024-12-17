@@ -330,6 +330,12 @@ function PlayState:update(dt)
                 gPlayer.currentAnimation:refresh()
                 triggerStartingSceneTransition = true
                 gPlayer.warping = true
+                --RESET TREASURE CHEST TODO TURN OFF FOR DEMO
+                for k, v in pairs(MAP[v.warpRow][v.warpCol].collidableMapObjects) do
+                    if v.classType == 'treasureChest' then
+                        v:reset()
+                    end
+                end
                 --DISJOINTED DIALOGUE BOX
                 if MAP[v.warpRow][v.warpCol].disjointUp then
                     gPlayer.extendDialogueBoxUpwards = true

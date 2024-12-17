@@ -111,6 +111,13 @@ function Scene:beginShifting(shiftX, shiftY)
     }):finish(function()
         self:finishShifting()
      end)
+
+     --RESET TREASURE CHEST TODO TURN OFF FOR DEMO
+     for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+         if v.classType == 'treasureChest' then
+             v:reset()
+         end
+     end
 end
 
 function Scene:finishShifting()

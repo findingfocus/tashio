@@ -82,6 +82,12 @@ ENTITY_DEFS = {
                 texture = 'character-push',
                 looping = true
             },
+            ['showOff'] = {
+                frames = {1},
+                interval = 0,
+                texture = 'character-showOff',
+                looping = true
+            },
         }
     },
     ['character-element'] = {
