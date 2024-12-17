@@ -14,6 +14,7 @@ boulder = love.graphics.newImage('graphics/boulder.png')
 log = love.graphics.newImage('graphics/log.png')
 treasureChestClosed = love.graphics.newImage('graphics/chest-closed.png')
 treasureChestOpen = love.graphics.newImage('graphics/chest-open.png')
+coin = love.graphics.newImage('graphics/coin.png')
 
 require 'src/constants'
 
@@ -92,6 +93,7 @@ gTextures = {
     ['character-redTunic'] = love.graphics.newImage('graphics/redTunicAtlas.png'),
     ['character-greenTunic'] = love.graphics.newImage('graphics/greenTunicAtlas.png'),
     ['character-yellowTunic'] = love.graphics.newImage('graphics/yellowTunicAtlas.png'),
+    ['character-showOff'] = love.graphics.newImage('graphics/showOff.png'),
     ['lute-equip'] = love.graphics.newImage('graphics/luteEquip.png'),
     ['villager1-walk'] = love.graphics.newImage('graphics/villager1Atlas.png'),
     ['mage-walk'] = love.graphics.newImage('graphics/mageAtlas.png'),
@@ -119,6 +121,7 @@ gFrames = {
     ['character-redTunic'] = GenerateQuads(gTextures['character-redTunic'], TILE_SIZE, TILE_SIZE),
     ['character-greenTunic'] = GenerateQuads(gTextures['character-greenTunic'], TILE_SIZE, TILE_SIZE),
     ['character-blueTunic'] = GenerateQuads(gTextures['character-blueTunic'], TILE_SIZE, TILE_SIZE),
+    ['character-showOff'] = GenerateQuads(gTextures['character-showOff'], TILE_SIZE, TILE_SIZE),
     ['lute-equip'] = GenerateQuads(gTextures['lute-equip'], TILE_SIZE, TILE_SIZE),
     ['villager1-walk'] = love.graphics.newImage('graphics/villager1Atlas.png'),
     ['villager1-walk'] = GenerateQuads(gTextures['villager1-walk'], TILE_SIZE, TILE_SIZE),
