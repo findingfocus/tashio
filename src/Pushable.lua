@@ -18,9 +18,31 @@ function Pushable:init(x, y, type, keyItem)
         self.image = log
     elseif self.type == 'boulder' then
         self.image = boulder
+    elseif self.type == 'crate' then
+        self.image = crate
+        self.animations = self:createAnimations(ENTITY_DEFS['crate'].animations)
+        self:changeAnimation('breakCrate')
     end
     self.pushUpInitiated = false
 end
+
+function Pushable:createAnimations(animations)
+    local animationsReturned = {}
+
+    for k, animationsDef in pairs(animations) do
+        animationsReturned[k] = Animation {
+            texture = animationsDef.texture or 'entities',
+            frames = animationsDef.frames,
+            interval = animationsDef.interval
+        }
+    end
+    return animationsReturned
+end
+
+function Pushable:changeAnimation(name)
+    self.currentAnimation = self.animations[name]
+end
+
 
 function Pushable:resetOriginalPosition()
     if self.keyItem ~= true then
@@ -127,6 +149,13 @@ function Pushable:legalPush(row, col)
 end
 
 function Pushable:update(dt)
+    --IF ANIMATION
+    ---[[
+    if self.currentAnimation then
+        self.currentAnimation:update(dt)
+    end
+    --]]
+
     if self.pushUpInitiated then
         local tileAbove = (self.tileY * TILE_SIZE) - TILE_SIZE * 2
         if self.y > tileAbove then
@@ -175,6 +204,11 @@ end
 function Pushable:render(adjacentOffsetX, adjacentOffsetY)
     love.graphics.setColor(WHITE)
     self.x, self.y = self.x + (adjacentOffsetX or 0), self.y + (adjacentOffsetY or 0)
-    love.graphics.draw(self.image, self.x, self.y)
+    --IF BOULDER OR LOG
+    --love.graphics.draw(self.image, self.x, self.y)
+    --IF CRATE
+    local anim = self.currentAnimation
+    love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()], self.x, self.y)
+    --
     self.x, self.y = self.x - (adjacentOffsetX or 0), self.y - (adjacentOffsetY or 0)
 end

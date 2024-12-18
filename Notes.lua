@@ -27,6 +27,7 @@ __Add pushing sprites, as well as pushing animation state
 __add left and right sprite to our player class
 __Add case insensitivity to our chatbot command listens
 __Add all colors to color constants palette
+__Sweat when pushing without tunic of strength
 
 
 Next Episode

@@ -20,11 +20,15 @@ function Animation:refresh()
 end
 
 function Animation:update(dt)
-    ---[[
+    --[[
     if not self.looping and self.timesPlayed > 0 and self.texture == 'luteString' then
         return
     end
     --]]
+    --TODO
+    if not self.looping and self.timesPlayed > 0 and self.texture == 'crate' then
+        return
+    end
 
     if #self.frames > 1 then
         self.timer = self.timer + dt

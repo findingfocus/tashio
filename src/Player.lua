@@ -27,6 +27,7 @@ function Player:init(def)
     self.warping = false
     self.extendDialogueBoxUpwards = false
     self.pushTimer = 0
+    self.pushing = false
 end
 
 function updateHearts(player)

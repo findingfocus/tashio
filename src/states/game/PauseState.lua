@@ -66,8 +66,8 @@ function PauseState:render()
     --LUTE
     if gItemInventory.itemSlot[1] ~= nil then
         if gItemInventory.itemSlot[1].type == 'lute' then
-            love.graphics.setColor(WHITE)
             love.graphics.draw(gTextures['lute-equip'], gFrames['lute-equip'][1], math.floor(INVENTORY_PLAYER_X), math.floor(INVENTORY_PLAYER_Y))
+            love.graphics.setColor(WHITE)
         end
     end
 end

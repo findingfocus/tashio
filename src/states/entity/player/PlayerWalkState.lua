@@ -95,6 +95,7 @@ function PlayerWalkState:update(dt)
                   end
 
                   if gPlayer.direction == 'left' then
+                      gPlayer.pushing = true
                       gPlayer:changeAnimation('push-left')
                   end
                   gPlayer.x = v.x + v.width - AABB_SIDE_COLLISION_BUFFER
@@ -107,6 +108,7 @@ function PlayerWalkState:update(dt)
                       end
                   end
                   if gPlayer.direction == 'right' then
+                      gPlayer.pushing = true
                       gPlayer:changeAnimation('push-right')
                   end
                   gPlayer.x = v.x - gPlayer.width + 1
@@ -120,6 +122,7 @@ function PlayerWalkState:update(dt)
                   end
                   topCollidesCount = topCollidesCount + 1
                   if gPlayer.direction == 'up' then
+                      gPlayer.pushing = true
                       gPlayer:changeAnimation('push-up')
                   end
                   gPlayer.y = v.y + v.height - AABB_TOP_COLLISION_BUFFER
@@ -132,6 +135,7 @@ function PlayerWalkState:update(dt)
                       end
                   end
                   if gPlayer.direction == 'down' then
+                      gPlayer.pushing = true
                       gPlayer:changeAnimation('push-down')
                   end
                   gPlayer.y = v.y - gPlayer.height
@@ -178,6 +182,7 @@ function PlayerWalkState:render()
         elseif self.player.currentAnimation == self.player.animations['push-right'] or self.player.animations['push-left'] or self.player.animations['push-up'] or self.player.animations['push-down'] then
             for k, v in ipairs(MAP[sceneView.mapRow][sceneView.mapColumn].collidableMapObjects) do
                 if v.classType == 'pushable' then
+                    gPlayer.pushable = true
                     if gPlayer:leftCollidesMapObject(v) or gPlayer:rightCollidesMapObject(v) or gPlayer:topCollidesMapObject(v) or gPlayer:bottomCollidesMapObject(v) then
                         if self.player.blueTunicEquipped then
                             love.graphics.draw(gTextures['character-push-blueTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
@@ -205,14 +210,18 @@ function PlayerWalkState:render()
     end
 
     if self.player.fireSpellEquipped then
-        love.graphics.setColor(gKeyItemInventory.elementColor)
-        love.graphics.draw(gTextures['character-element'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+        if not gPlayer.pushing then
+            love.graphics.setColor(gKeyItemInventory.elementColor)
+            love.graphics.draw(gTextures['character-element'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+        end
     end
 
     if gItemInventory.itemSlot[1] ~= nil then
         if gItemInventory.itemSlot[1].type == 'lute' and not self.player.falling then
-            love.graphics.setColor(WHITE)
-            love.graphics.draw(gTextures['lute-equip'], gFrames['lute-equip'][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+            if not gPlayer.pushing then
+                love.graphics.setColor(WHITE)
+                love.graphics.draw(gTextures['lute-equip'], gFrames['lute-equip'][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+            end
         end
     end
 end
