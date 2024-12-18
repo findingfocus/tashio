@@ -41,8 +41,8 @@ local columns = 10
 local rows = 8
 cameraX = 0
 --STARTING SCENE gPlayer SPAWN
---sceneView = Scene(gPlayer, 7, 2)
-sceneView = Scene(gPlayer, 1, 12)
+sceneView = Scene(gPlayer, 7, 2)
+--sceneView = Scene(gPlayer, 1, 12)
 tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 --textures = love.graphics.newImage('graphics/textures.png')
 quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
@@ -567,12 +567,10 @@ function PlayState:render()
         love.graphics.setColor(WHITE)
         --self.snowSystem:render()
         self.rainSystem:render()
-        love.graphics.printf('SUPPORTERS:\nsoup_or_king\nakabob56\njeanniegrey\nsaltomanga\nmeesegamez\nk_tronix\nhimeh3\nflatulenceknocker\nofficial_wutnot\nroughcookie\ntheshakycoder\ntjtheprogrammer\npunymagus', 0, creditsY, VIRTUAL_WIDTH, 'center')
+        love.graphics.printf('SUPPORTERS:\nsoup_or_king\nakabob56\njeanniegrey\nsaltomanga\nmeesegamez\nk_tronix\nhimeh3\nflatulenceknocker\nofficial_wutnot\nroughcookie\ntheshakycoder\ntjtheprogrammer\npunymagus\nprostokotylo', 0, creditsY, VIRTUAL_WIDTH, 'center')
     end
 
     --self.rainSystem:render()
-
-    print(inspect(gPlayer.currentAnimation), 0, 0)
 end
 
 function displayFPS()
