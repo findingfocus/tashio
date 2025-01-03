@@ -21,9 +21,10 @@ function Pushable:init(x, y, type, keyItem)
     elseif self.type == 'crate' then
         self.image = crate
         self.animations = self:createAnimations(ENTITY_DEFS['crate'].animations)
-        self:changeAnimation('breakCrate')
+        self:changeAnimation('defaultCrate')
     end
     self.pushUpInitiated = false
+    self.timer = 0
 end
 
 function Pushable:createAnimations(animations)
@@ -105,6 +106,10 @@ function Pushable:pushRight()
     end
 end
 
+function Pushable:breakCrate()
+    self:changeAnimation('breakCrate')
+end
+
 function Pushable:collides(x, y, target)
     if x < target.x + target.width and x + TILE_SIZE > target.x then
         if y < target.y + target.height and y + TILE_SIZE > target.y then
@@ -149,6 +154,7 @@ function Pushable:legalPush(row, col)
 end
 
 function Pushable:update(dt)
+    self.timer = self.timer + dt
     --IF ANIMATION
     ---[[
     if self.currentAnimation then
@@ -207,8 +213,12 @@ function Pushable:render(adjacentOffsetX, adjacentOffsetY)
     --IF BOULDER OR LOG
     --love.graphics.draw(self.image, self.x, self.y)
     --IF CRATE
-    local anim = self.currentAnimation
-    love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()], self.x, self.y)
+    if self.type == 'crate' then
+        local anim = self.currentAnimation
+        love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()], self.x, self.y)
+    else
+        love.graphics.draw(self.image, self.x, self.y)
+    end
     --
     self.x, self.y = self.x - (adjacentOffsetX or 0), self.y - (adjacentOffsetY or 0)
 end

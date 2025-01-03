@@ -256,8 +256,19 @@ function Map:update(dt)
     end
     --]]
 
+    --COLLIDABLE MAP OBJECTS
     for k, v in pairs(MAP[self.row][self.column].collidableMapObjects) do
         v:update(dt)
+
+        --BREAKING CRATE
+        if v.type == 'crate' then
+            if v.timer > 3 then
+                v:breakCrate()
+                if v.currentAnimation.timesPlayed == 1 then
+                    table.remove(MAP[self.row][self.column].collidableMapObjects, k)
+                end
+            end
+        end
     end
 end
 
