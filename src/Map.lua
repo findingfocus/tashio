@@ -5,6 +5,7 @@ local EMISSION_RATE = 80
 local inspect = require "lib/inspect"
 local graveyardTimer = 0
 local pitCount = 0
+local damage = 5
 
 function Map:init(row, column, spellcastEntities)
     testNumber = 0
@@ -260,14 +261,30 @@ function Map:update(dt)
     for k, v in pairs(MAP[self.row][self.column].collidableMapObjects) do
         v:update(dt)
 
-        --BREAKING CRATE
         if v.type == 'crate' then
+            if successfulCast then
+                for i = 1, sceneView.spellcastEntityCount do
+                    if v:spellCollides(sceneView.spellcastEntities[i]) then
+                        v.health = math.max(0, v.health - damage)
+                    end
+                end
+            end
+
+            if v.health == 0 then
+                v:breakCrate()
+                if v.currentAnimation.timesPlayed == 1 then
+                    table.remove(MAP[self.row][self.column].collidableMapObjects, k)
+                end
+            end
+
+            --[[
             if v.timer > 3 then
                 v:breakCrate()
                 if v.currentAnimation.timesPlayed == 1 then
                     table.remove(MAP[self.row][self.column].collidableMapObjects, k)
                 end
             end
+            --]]
         end
     end
 end
