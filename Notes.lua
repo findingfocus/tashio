@@ -57,11 +57,9 @@ __How to render corruption particles over player
 __Start game with quick session of five sprite spell cast?
 
 CREDITED SUPPORTERS
-__K_Tronix at 7:23PM 8/17/2024 
-
+X_K_Tronix at 7:23PM 8/17/2024
 __Add flower anim to be transparent
 __Tweak falling trigger upon pit collision
-
 
 COMPLETED
 X_Add Gameboy resolution screen
