@@ -50,6 +50,7 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
         MAP[i][j].disjointUp = false
         MAP[i][j].pushables = {}
         MAP[i][j].collidableMapObjects = {}
+        MAP[i][j].coins = {}
     end
 end
 
@@ -358,4 +359,4 @@ table.insert(MAP[7][2].collidableMapObjects, Pushable(2, 4, 'boulder'))
 table.insert(MAP[7][2].collidableMapObjects, Pushable(5, 4, 'log'))
 table.insert(MAP[7][2].collidableMapObjects, Pushable(4, 4, 'crate'))
 
-table.insert(MAP[1][12].collidableMapObjects, TreasureChest(3, 2, 'coin', {DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'You found a strange coin! It emenates energy... ')}))
+table.insert(MAP[1][12].collidableMapObjects, TreasureChest(3, 2, Coin(), {DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'You found a strange coin! It emenates energy... ')}))

@@ -14,7 +14,8 @@ function Pushable:init(x, y, type, keyItem)
     self.keyItem = keyItem or nil
     self.classType = 'pushable'
     self.type = type
-    self.health = 100
+    self.health = 75
+    self.brokenCrate = false
     if self.type == 'log' then
         self.image = log
     elseif self.type == 'boulder' then
@@ -113,6 +114,10 @@ function Pushable:spellCollides(target)
 end
 
 function Pushable:breakCrate()
+    self.brokenCrate = true
+    table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].coins, Coin())
+    MAP[sceneView.currentMap.row][sceneView.currentMap.column].coins[1].x = self.x + 5
+    MAP[sceneView.currentMap.row][sceneView.currentMap.column].coins[1].y = self.y + 7
     self:changeAnimation('breakCrate')
 end
 
@@ -211,6 +216,7 @@ function Pushable:update(dt)
             self.tileX = self.tileX + 1
         end
     end
+
 end
 
 function Pushable:render(adjacentOffsetX, adjacentOffsetY)

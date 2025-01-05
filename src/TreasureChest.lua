@@ -18,7 +18,11 @@ function TreasureChest:openChest()
     self.showOffItem = true
     self.opened = true
     self.image = treasureChestOpen
+    self.contents.x = gPlayer.x + 4
+    self.contents.y = gPlayer.y - 10
     gPlayer:changeAnimation('showOff')
+    self.contents.x = gPlayer.x + 4
+    self.contents.y = gPlayer.y - 10
 end
 
 function TreasureChest:reset()
@@ -36,8 +40,8 @@ function TreasureChest:render(adjacentOffsetX, adjacentOffsetY)
     love.graphics.draw(self.image, self.x, self.y)
     self.x, self.y = self.x - (adjacentOffsetX or 0), self.y - (adjacentOffsetY or 0)
     if self.showOffItem then
-        if self.contents == 'coin' then
-            love.graphics.draw(coin, gPlayer.x + 4, gPlayer.y - 10)
+        if self.contents.type == 'coin' then
+            self.contents:render()
         end
     end
 end

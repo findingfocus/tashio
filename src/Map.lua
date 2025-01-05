@@ -155,6 +155,15 @@ function Map:update(dt)
             end
         end
 
+        --COIN COLLISION
+        if MAP[self.row][self.column].coins[1] ~= nil then
+            for k, v in pairs(MAP[self.row][self.column].coins) do
+                if sceneView.player:coinCollides(v) then
+                    table.remove(MAP[self.row][self.column].coins, k)
+                end
+            end
+        end
+
         pitCount = 0
         for k, v in pairs(self.pits) do
             if v:collide(sceneView.player) then
@@ -271,7 +280,9 @@ function Map:update(dt)
             end
 
             if v.health == 0 then
-                v:breakCrate()
+                if not v.brokenCrate then
+                    v:breakCrate()
+                end
                 if v.currentAnimation.timesPlayed == 1 then
                     table.remove(MAP[self.row][self.column].collidableMapObjects, k)
                 end
@@ -341,6 +352,13 @@ function Map:render()
     --RENDER WARPZONES
     if MAP[self.row][self.column].warpZones[1] ~= nil then
         for k, v in pairs(MAP[self.row][self.column].warpZones) do
+            v:render(self.adjacentOffsetX, self.adjacentOffsetY)
+        end
+    end
+
+    --RENDER COINS
+    if MAP[self.row][self.column].coins[1] ~= nil then
+        for k, v in pairs(MAP[self.row][self.column].coins) do
             v:render(self.adjacentOffsetX, self.adjacentOffsetY)
         end
     end
