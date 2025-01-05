@@ -15,10 +15,9 @@ crate = love.graphics.newImage('graphics/crate.png')
 log = love.graphics.newImage('graphics/log.png')
 treasureChestClosed = love.graphics.newImage('graphics/chest-closed.png')
 treasureChestOpen = love.graphics.newImage('graphics/chest-open.png')
-coin = love.graphics.newImage('graphics/coin.png')
 
 require 'src/constants'
-
+require 'src/Coin'
 require 'src/WarpZone'
 require 'src/InputHandling'
 require 'src/TouchHandling'
