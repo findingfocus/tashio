@@ -28,6 +28,7 @@ function Player:init(def)
     self.extendDialogueBoxUpwards = false
     self.pushTimer = 0
     self.pushing = false
+    self.coinCount = 0
 end
 
 function updateHearts(player)

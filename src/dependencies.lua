@@ -161,6 +161,7 @@ sounds = {
     ['death'] = love.audio.newSource('sounds/death.wav', 'static'),
     ['spellcast'] = love.audio.newSource('sounds/spellcast.wav', 'static'),
     ['cleanse'] = love.audio.newSource('sounds/cleanse.wav', 'static'),
+    ['coinPickup'] = love.audio.newSource('sounds/coinPickup.wav', 'static'),
 
     ['A1'] = love.audio.newSource('sounds/lute/A1.mp3', 'static'),
     ['A2'] = love.audio.newSource('sounds/lute/A2.mp3', 'static'),

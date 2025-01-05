@@ -159,6 +159,11 @@ function Map:update(dt)
         if MAP[self.row][self.column].coins[1] ~= nil then
             for k, v in pairs(MAP[self.row][self.column].coins) do
                 if sceneView.player:coinCollides(v) then
+                    sounds['coinPickup']:play()
+                    gPlayer.coinCount = gPlayer.coinCount + 334
+                    if gPlayer.coinCount > 999 then
+                        gPlayer.coinCount = 999
+                    end
                     table.remove(MAP[self.row][self.column].coins, k)
                 end
             end
