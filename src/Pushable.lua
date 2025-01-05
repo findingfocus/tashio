@@ -115,9 +115,11 @@ end
 
 function Pushable:breakCrate()
     self.brokenCrate = true
+    --TODO ADD POTENTIAL OTHER ITEMS
     table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].coins, Coin())
-    MAP[sceneView.currentMap.row][sceneView.currentMap.column].coins[1].x = self.x + 5
-    MAP[sceneView.currentMap.row][sceneView.currentMap.column].coins[1].y = self.y + 7
+    local index = #MAP[sceneView.currentMap.row][sceneView.currentMap.column].coins
+    MAP[sceneView.currentMap.row][sceneView.currentMap.column].coins[index].x = self.x + 5
+    MAP[sceneView.currentMap.row][sceneView.currentMap.column].coins[index].y = self.y + 7
     self:changeAnimation('breakCrate')
 end
 

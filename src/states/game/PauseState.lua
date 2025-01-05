@@ -70,4 +70,9 @@ function PauseState:render()
             love.graphics.setColor(WHITE)
         end
     end
+
+    love.graphics.setFont(pixelFont2)
+    love.graphics.setColor(BLACK)
+    --print(string.format("%03d", number))
+    love.graphics.print(string.format("%03d", gPlayer.coinCount), VIRTUAL_WIDTH - 48, VIRTUAL_HEIGHT - 29)
 end
