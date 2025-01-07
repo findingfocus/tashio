@@ -4,7 +4,6 @@ function Animation:init(def)
     self.frames = def.frames
     self.interval = def.interval
     self.texture = def.texture
-
     self.looping = def.looping
 
     self.timer = 0
@@ -20,13 +19,7 @@ function Animation:refresh()
 end
 
 function Animation:update(dt)
-    --[[
-    if not self.looping and self.timesPlayed > 0 and self.texture == 'luteString' then
-        return
-    end
-    --]]
-    --TODO
-    if not self.looping and self.timesPlayed > 0 and self.texture == 'crate' then
+    if not self.looping and self.timesPlayed > 0 then
         return
     end
 
