@@ -160,7 +160,7 @@ function Map:update(dt)
             for k, v in pairs(MAP[self.row][self.column].coins) do
                 if sceneView.player:coinCollides(v) then
                     sounds['coinPickup']:play()
-                    gPlayer.coinCount = gPlayer.coinCount + 334
+                    gPlayer.coinCount = gPlayer.coinCount + 1
                     if gPlayer.coinCount > 999 then
                         gPlayer.coinCount = 999
                     end
@@ -288,19 +288,11 @@ function Map:update(dt)
                 if not v.brokenCrate then
                     v:breakCrate()
                 end
+                --REMOVE CRATE
                 if v.currentAnimation.timesPlayed == 1 then
                     table.remove(MAP[self.row][self.column].collidableMapObjects, k)
                 end
             end
-
-            --[[
-            if v.timer > 3 then
-                v:breakCrate()
-                if v.currentAnimation.timesPlayed == 1 then
-                    table.remove(MAP[self.row][self.column].collidableMapObjects, k)
-                end
-            end
-            --]]
         end
     end
 end

@@ -36,7 +36,8 @@ function Pushable:createAnimations(animations)
         animationsReturned[k] = Animation {
             texture = animationsDef.texture or 'entities',
             frames = animationsDef.frames,
-            interval = animationsDef.interval
+            interval = animationsDef.interval,
+            looping = animationsDef.looping
         }
     end
     return animationsReturned
