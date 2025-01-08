@@ -32,18 +32,24 @@ function EntityWalkState:update(dt)
 
     self.collided = false
 
-    if self.entity.direction == 'down' then
-        self.entity.y = self.entity.y + self.entity.walkSpeed * dt
-        self.entity:changeAnimation('walk-down')
-    elseif self.entity.direction == 'up' then
-        self.entity.y = self.entity.y - self.entity.walkSpeed * dt
-        self.entity:changeAnimation('walk-up')
-    elseif self.entity.direction == 'left' then
-        self.entity.x = self.entity.x - self.entity.walkSpeed * dt
-        self.entity:changeAnimation('walk-left')
-    elseif self.entity.direction == 'right' then
-        self.entity.x = self.entity.x + self.entity.walkSpeed * dt
-        self.entity:changeAnimation('walk-right')
+    if self.entity.type == 'gecko' then
+        if self.entity.direction == 'down' then
+            self.entity.y = self.entity.y + self.entity.walkSpeed * dt
+            self.entity:changeAnimation('walk-down')
+        elseif self.entity.direction == 'up' then
+            self.entity.y = self.entity.y - self.entity.walkSpeed * dt
+            self.entity:changeAnimation('walk-up')
+        elseif self.entity.direction == 'left' then
+            self.entity.x = self.entity.x - self.entity.walkSpeed * dt
+            self.entity:changeAnimation('walk-left')
+        elseif self.entity.direction == 'right' then
+            self.entity.x = self.entity.x + self.entity.walkSpeed * dt
+            self.entity:changeAnimation('walk-right')
+        end
+    end
+
+    if self.entity.type == 'batC' then
+        self.entity:changeAnimation('fly')
     end
 
     --TRIGGER OFFSCREEN
@@ -54,11 +60,15 @@ function EntityWalkState:update(dt)
     if self.entity.y > SCREEN_HEIGHT_LIMIT then
         self.entity.offscreen = true
     end
+
 end
 
 function EntityWalkState:processAI(params, dt, player)
     local tashio = player
     local velocity = .5
+    if self.entity.type == 'batC' then
+
+    end
     if self.entity.type == 'gecko' then
         if self.entity.corrupted then
             --TRACK PLAYERS X POSITION

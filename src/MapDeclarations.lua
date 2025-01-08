@@ -237,6 +237,27 @@ for i = 1, entities do
     MAP[1][12].entities[i].hit = false
 end
 
+table.insert(MAP[1][12].entities, Entity {
+    animations = ENTITY_DEFS['batC'].animations,
+    x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
+    y = math.random(10, SCREEN_HEIGHT_LIMIT),
+    width = TILE_SIZE * 2,
+    height = TILE_SIZE,
+    health = 3,
+    type = 'batC',
+    walkSpeed = 30,
+    aiPath = math.random(1, 2),
+    corrupted = true,
+    enemy = true,
+})
+MAP[1][12].entities[5].stateMachine = StateMachine {
+    ['entity-walk'] = function() return EntityWalkState(MAP[1][12].entities[5]) end,
+    ['entity-idle'] = function() return EntityIdleState(MAP[1][12].entities[5]) end,
+}
+
+MAP[1][12].entities[5]:changeState('entity-idle')
+MAP[1][12].entities[5].hit = false
+
 --TAVERN
 --TODO IMAGINE WAY TO SWAP PLAYER FRAME TO DEFAULT FRAME UPON TRANSITION
 ---[[
