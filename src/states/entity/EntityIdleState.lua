@@ -11,6 +11,9 @@ function EntityIdleState:init(entity)
         self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['gecko'].animations)
     end
     self.entity:changeAnimation('idle-' .. self.entity.direction)
+    if self.entity.type == 'batC' then
+        self.entity:changeAnimation('fly')
+    end
 end
 
 function EntityIdleState:processAI(params, dt, player)

@@ -108,6 +108,7 @@ gTextures = {
     ['character-push-blueTunic'] = love.graphics.newImage('graphics/playerPushingAtlasBlue.png'),
     ['gecko'] = love.graphics.newImage('graphics/geckoAtlas.png'),
     ['geckoC'] = love.graphics.newImage('graphics/geckoCAtlas.png'),
+    ['batC'] = love.graphics.newImage('graphics/batlas.png'),
     ['flame'] = love.graphics.newImage('graphics/flameAtlas2.png'),
     ['crate'] = love.graphics.newImage('graphics/crate-break.png'),
     ['orb'] = love.graphics.newImage('graphics/orb.png'),
@@ -139,6 +140,7 @@ gFrames = {
     ['character-push-blueTunic'] = GenerateQuads(gTextures['character-push-yellowTunic'], TILE_SIZE, TILE_SIZE),
     ['gecko'] = GenerateQuads(gTextures['gecko'], TILE_SIZE, TILE_SIZE),
     ['geckoC'] = GenerateQuads(gTextures['geckoC'], TILE_SIZE, TILE_SIZE),
+    ['batC'] = GenerateQuads(gTextures['batC'], TILE_SIZE * 2, TILE_SIZE),
     ['flame'] = GenerateQuads(gTextures['flame'], TILE_SIZE, TILE_SIZE),
     ['luteString'] = GenerateQuads(gTextures['luteString'], TILE_SIZE * 10, 13),
 }
