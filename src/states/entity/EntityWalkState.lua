@@ -34,21 +34,33 @@ function EntityWalkState:update(dt)
 
     if self.entity.type == 'gecko' then
         if self.entity.direction == 'down' then
-            self.entity.y = self.entity.y + self.entity.walkSpeed * dt
+            --self.entity.y = self.entity.y + self.entity.walkSpeed * dt
+            self.entity.dy = self.entity.walkSpeed
+            self.entity.dx = 0
             self.entity:changeAnimation('walk-down')
         elseif self.entity.direction == 'up' then
-            self.entity.y = self.entity.y - self.entity.walkSpeed * dt
+            --self.entity.y = self.entity.y - self.entity.walkSpeed * dt
+            self.entity.dy = -self.entity.walkSpeed
+            self.entity.dx = 0
             self.entity:changeAnimation('walk-up')
         elseif self.entity.direction == 'left' then
-            self.entity.x = self.entity.x - self.entity.walkSpeed * dt
+            --self.entity.x = self.entity.x - self.entity.walkSpeed * dt
+            self.entity.dx = -self.entity.walkSpeed
+            self.entity.dy = 0
             self.entity:changeAnimation('walk-left')
         elseif self.entity.direction == 'right' then
-            self.entity.x = self.entity.x + self.entity.walkSpeed * dt
+            --self.entity.x = self.entity.x + self.entity.walkSpeed * dt
+            self.entity.dx = self.entity.walkSpeed
+            self.entity.dy = 0
             self.entity:changeAnimation('walk-right')
         end
     end
 
+    self.entity.x = self.entity.x + self.entity.dx * dt
+    self.entity.y = self.entity.y + self.entity.dy * dt
+
     if self.entity.type == 'batC' then
+        self.entity.dx = -self.entity.walkSpeed
         self.entity:changeAnimation('fly')
     end
 

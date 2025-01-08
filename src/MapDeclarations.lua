@@ -194,6 +194,7 @@ end
 mapCount = #MAP[1][1]
 
 --ENTITY DECLARATIONS
+--[[
 local entities = 4
 for i = 1, entities do
     local random = math.random(25, 35)
@@ -202,10 +203,6 @@ for i = 1, entities do
         animations = ENTITY_DEFS['geckoC'].animations,
         x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
         y = math.random(10, SCREEN_HEIGHT_LIMIT),
-        --[[
-        x = VIRTUAL_WIDTH / 2 - 8,
-        y = VIRTUAL_HEIGHT / 2 - 8,
-        --]]
         width = TILE_SIZE,
         height = TILE_SIZE,
         health = 3,
@@ -216,26 +213,8 @@ for i = 1, entities do
         corrupted = true,
         enemy = true,
     })
-    --[[
-    table.insert(MAP[7][3].entities, Entity {
-        animations = ENTITY_DEFS['villager1'].animations,
-        walkSpeed = ENTITY_DEFS['villager1'].walkSpeed,
-        height = ENTITY_DEFS['villager1'].height,
-        width = ENTITY_DEFS['villager1'].width,
-        x = ENTITY_DEFS['villager1'].x,
-        y = ENTITY_DEFS['villager1'].y,
-        direction = 'left',
-    })
-    --]]
-
-    MAP[1][12].entities[i].stateMachine = StateMachine {
-        ['entity-walk'] = function() return EntityWalkState(MAP[1][12].entities[i]) end,
-        ['entity-idle'] = function() return EntityIdleState(MAP[1][12].entities[i]) end,
-    }
-
-    MAP[1][12].entities[i]:changeState('entity-idle')
-    MAP[1][12].entities[i].hit = false
 end
+--]]
 
 table.insert(MAP[1][12].entities, Entity {
     animations = ENTITY_DEFS['batC'].animations,
@@ -245,18 +224,23 @@ table.insert(MAP[1][12].entities, Entity {
     height = TILE_SIZE,
     health = 3,
     type = 'batC',
+    --TODO WHY DOES THIS CRASH ON SCENE TRANSITION?
+    direction = 'left',
     walkSpeed = 30,
     aiPath = math.random(1, 2),
     corrupted = true,
     enemy = true,
 })
-MAP[1][12].entities[5].stateMachine = StateMachine {
-    ['entity-walk'] = function() return EntityWalkState(MAP[1][12].entities[5]) end,
-    ['entity-idle'] = function() return EntityIdleState(MAP[1][12].entities[5]) end,
-}
 
-MAP[1][12].entities[5]:changeState('entity-idle')
-MAP[1][12].entities[5].hit = false
+local entityCount = #MAP[1][12].entities
+for i = 1, entityCount do
+    MAP[1][12].entities[i].stateMachine = StateMachine {
+        ['entity-walk'] = function() return EntityWalkState(MAP[1][12].entities[i]) end,
+        ['entity-idle'] = function() return EntityIdleState(MAP[1][12].entities[i]) end,
+    }
+    MAP[1][12].entities[i]:changeState('entity-idle')
+    MAP[1][12].entities[i].hit = false
+end
 
 --TAVERN
 --TODO IMAGINE WAY TO SWAP PLAYER FRAME TO DEFAULT FRAME UPON TRANSITION
