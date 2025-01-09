@@ -55,7 +55,9 @@ function Entity:resetOriginalPosition()
     self.corrupted = true
     self.dx = 0
     self.dy = 0
-    self.direction = self.originalDirection
+    if self.type == 'gecko' or self.type == 'geckoC' then
+        self.direction = self.originalDirection
+    end
     self.type = self.originalType
     self.offscreen = false
     self.psystem:reset()
@@ -197,9 +199,11 @@ function Entity:update(dt)
     if self.dy < 0 then
         self.dy = math.min(0, self.dy + SLOW_TO_STOP * dt)
     end
+
     self.x = self.x + self.dx * dt
     self.y = self.y + self.dy * dt
-    if self.dx == 0 or self.dy == 0 then
+
+    if self.dx == 0 and self.dy == 0 then
         self.hit = false
     end
 

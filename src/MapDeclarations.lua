@@ -194,7 +194,7 @@ end
 mapCount = #MAP[1][1]
 
 --ENTITY DECLARATIONS
---[[
+---[[
 local entities = 4
 for i = 1, entities do
     local random = math.random(25, 35)
@@ -214,8 +214,8 @@ for i = 1, entities do
         enemy = true,
     })
 end
---]]
 
+---[[
 table.insert(MAP[1][12].entities, Entity {
     animations = ENTITY_DEFS['batC'].animations,
     x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
@@ -223,21 +223,46 @@ table.insert(MAP[1][12].entities, Entity {
     width = TILE_SIZE * 2,
     height = TILE_SIZE,
     health = 3,
-    type = 'batC',
-    --TODO WHY DOES THIS CRASH ON SCENE TRANSITION?
-    direction = 'left',
+    type = 'bat',
     walkSpeed = 30,
     aiPath = math.random(1, 2),
     corrupted = true,
     enemy = true,
 })
+--]]
 
 local entityCount = #MAP[1][12].entities
 for i = 1, entityCount do
-    MAP[1][12].entities[i].stateMachine = StateMachine {
-        ['entity-walk'] = function() return EntityWalkState(MAP[1][12].entities[i]) end,
-        ['entity-idle'] = function() return EntityIdleState(MAP[1][12].entities[i]) end,
-    }
+
+    if MAP[1][12].entities[i].corrupted and MAP[1][12].entities[i].type == 'gecko' then
+        MAP[1][12].entities[i].animations = MAP[1][12].entities[i]:createAnimations(ENTITY_DEFS['geckoC'].animations)
+    end
+
+    if MAP[1][12].entities[i].type == 'bat' then
+        MAP[1][12].entities[i].animations = MAP[1][12].entities[i]:createAnimations(ENTITY_DEFS['batC'].animations)
+    end
+
+    if MAP[1][12].entities[i].type == 'bat' then
+        MAP[1][12].entities[i]:changeAnimation('fly')
+    end
+
+    if MAP[1][12].entities[i].type == 'gecko' then
+        MAP[1][12].entities[i]:changeAnimation('idle-down')
+    end
+
+    if MAP[1][12].entities[i].type == 'gecko' then
+        MAP[1][12].entities[i].stateMachine = StateMachine {
+            ['gecko-walk'] = function() return GeckoWalkState(MAP[1][12].entities[i]) end,
+            ['entity-idle'] = function() return EntityIdleState(MAP[1][12].entities[i]) end,
+        }
+    end
+
+    if MAP[1][12].entities[i].type == 'bat' then
+        MAP[1][12].entities[i].stateMachine = StateMachine {
+            ['bat-walk'] = function() return BatWalkState(MAP[1][12].entities[i]) end,
+            ['entity-idle'] = function() return EntityIdleState(MAP[1][12].entities[i]) end,
+        }
+    end
     MAP[1][12].entities[i]:changeState('entity-idle')
     MAP[1][12].entities[i].hit = false
 end
