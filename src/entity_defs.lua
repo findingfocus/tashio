@@ -386,7 +386,7 @@ ENTITY_DEFS = {
         animations = {
             ['fly'] = {
                 frames = {1, 2},
-                interval = 0.07,
+                interval = 0.17,
                 texture = 'batC',
                 looping = true
             }

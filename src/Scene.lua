@@ -131,6 +131,7 @@ function Scene:finishShifting()
     for i = 1, spellcastEntityCount do
         self.currentMap.psystems[i]:release()
     end
+    --TODO CHECK CURRENT MAP ROW AND COL UPON WARP ZONE
     for i = 1, #MAP[self.currentMap.row][self.currentMap.column].entities do
         MAP[self.currentMap.row][self.currentMap.column].entities[i]:resetOriginalPosition()
     end

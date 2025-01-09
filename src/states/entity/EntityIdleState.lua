@@ -1,19 +1,8 @@
 EntityIdleState = Class{__includes = BaseState}
-
 function EntityIdleState:init(entity)
-    self.direction = 'right'
     self.entity = entity
     self.waitDuration = 0
     self.waitTimer = 0
-    if self.entity.corrupted and self.entity.type == 'gecko' then
-        self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['geckoC'].animations)
-    elseif not self.entity.corrupted and self.entity.type == 'gecko' then
-        self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['gecko'].animations)
-    end
-    self.entity:changeAnimation('idle-' .. self.entity.direction)
-    if self.entity.type == 'batC' then
-        self.entity:changeAnimation('fly')
-    end
 end
 
 function EntityIdleState:processAI(params, dt, player)
@@ -23,7 +12,7 @@ function EntityIdleState:processAI(params, dt, player)
         self.waitTimer = self.waitTimer + dt
 
         if self.waitTimer > self.waitDuration then
-            self.entity:changeState('entity-walk')
+            self.entity:changeState(tostring(self.entity.type) .. '-walk')
         end
     end
 end

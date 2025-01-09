@@ -37,6 +37,8 @@ require 'src/states/BaseState'
 require 'src/StateMachine'
 require 'src/states/entity/EntityIdleState'
 require 'src/states/entity/EntityWalkState'
+require 'src/states/entity/GeckoWalkState'
+require 'src/states/entity/BatWalkState'
 require 'src/states/entity/NPCIdleState'
 require 'src/states/entity/NPCWalkState'
 require 'src/states/entity/FlameIdle'
@@ -140,7 +142,7 @@ gFrames = {
     ['character-push-blueTunic'] = GenerateQuads(gTextures['character-push-yellowTunic'], TILE_SIZE, TILE_SIZE),
     ['gecko'] = GenerateQuads(gTextures['gecko'], TILE_SIZE, TILE_SIZE),
     ['geckoC'] = GenerateQuads(gTextures['geckoC'], TILE_SIZE, TILE_SIZE),
-    ['batC'] = GenerateQuads(gTextures['batC'], TILE_SIZE * 2, TILE_SIZE),
+    ['batC'] = GenerateQuads(gTextures['batC'], 24, 10),
     ['flame'] = GenerateQuads(gTextures['flame'], TILE_SIZE, TILE_SIZE),
     ['luteString'] = GenerateQuads(gTextures['luteString'], TILE_SIZE * 10, 13),
 }
