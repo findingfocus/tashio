@@ -17,6 +17,10 @@ function BatWalkState:init(entity, scene)
     self.collided = false
 end
 
+function roundToNearest(value)
+    return math.floor(value + 0.5)
+end
+
 function BatWalkState:update(dt)
     if self.entity.corrupted then
         if self.entity.health <= 0 then
@@ -31,14 +35,10 @@ function BatWalkState:update(dt)
 
     self.collided = false
 
+
     self.entity.x = self.entity.x + self.entity.dx * dt
     self.entity.y = self.entity.y + self.entity.dy * dt
 
-    ---[[
-    if self.entity.type == 'bat' then
-        self.entity.dx = -self.entity.walkSpeed
-    end
-    --]]
 
     --TRIGGER OFFSCREEN
     if self.entity.x + self.entity.width < -TILE_SIZE or self.entity.x > VIRTUAL_WIDTH + TILE_SIZE or self.entity.y + self.entity.height < -TILE_SIZE then
@@ -52,8 +52,41 @@ function BatWalkState:update(dt)
 end
 
 function BatWalkState:processAI(params, dt, player)
-    local tashio = player
-    local velocity = .5
+    --ORTHOGONAL MOVEMENT
+    if math.abs(player.y - self.entity.y) < .5 then
+        self.entity.y = player.y
+        if player.x < self.entity.x then --IF PLAYER IS TO THE LEFT OF BAT
+            self.entity.x = self.entity.x - self.entity.walkSpeed
+        elseif player.x > self.entity.x then --IF PLAYER IS TO THE RIGHT OF BAT
+            self.entity.x = self.entity.x + self.entity.walkSpeed
+        end
+    end
+    if math.abs(player.x - self.entity.x) < .5 then
+        self.entity.x = player.x
+        if player.y < self.entity.y then --IF PLAYER IS ABOVE THE BAT
+            self.entity.y = self.entity.y - self.entity.walkSpeed
+        elseif player.y > self.entity.y then --IF PLAYER BELOW BAT
+            self.entity.y = self.entity.y + self.entity.walkSpeed
+        end
+    end
+
+    --DIAGONAL MOVEMENT
+    if player.x < self.entity.x and player.y < self.entity.y then --IF PLAYER UPLEFT OF BAT
+        self.entity.x = self.entity.x - self.entity.walkSpeed * ((math.sqrt(2)) / 2)
+        self.entity.y = self.entity.y - self.entity.walkSpeed * ((math.sqrt(2)) / 2)
+    end
+    if player.x < self.entity.x and player.y > self.entity.y then --IF PLAYER BOTTOMLEFT OF BAT
+        self.entity.x = self.entity.x - self.entity.walkSpeed * ((math.sqrt(2)) / 2)
+        self.entity.y = self.entity.y + self.entity.walkSpeed * ((math.sqrt(2)) / 2)
+    end
+    if player.x > self.entity.x and player.y < self.entity.y then --IF PLAYER UPRIGHT OF BAT
+        self.entity.x = self.entity.x + self.entity.walkSpeed * ((math.sqrt(2)) / 2)
+        self.entity.y = self.entity.y - self.entity.walkSpeed * ((math.sqrt(2)) / 2)
+    end
+    if player.x > self.entity.x and player.y > self.entity.y then --IF PLAYER BOTTOMRIGHT OF BAT
+        self.entity.x = self.entity.x + self.entity.walkSpeed * ((math.sqrt(2)) / 2)
+        self.entity.y = self.entity.y + self.entity.walkSpeed * ((math.sqrt(2)) / 2)
+    end
 end
 
 function BatWalkState:render()
@@ -71,7 +104,9 @@ function BatWalkState:render()
     --[[
     love.graphics.setColor(1,0,0,1)
     love.graphics.rectangle('fill', self.entity.x, self.entity.y - 1, self.entity.health * 5.3, 1)
+    --]]
+    --[[
     love.graphics.setColor(WHITE)
-    love.graphics.print(self.entity.health, self.entity.x, self.entity.y - 5)
+    love.graphics.print(self.entity.x, self.entity.x, self.entity.y - 5)
     --]]
 end

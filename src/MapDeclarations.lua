@@ -195,6 +195,7 @@ mapCount = #MAP[1][1]
 
 --ENTITY DECLARATIONS
 ---[[
+--[[
 local entities = 4
 for i = 1, entities do
     local random = math.random(25, 35)
@@ -214,17 +215,46 @@ for i = 1, entities do
         enemy = true,
     })
 end
+--]]
 
 ---[[
 table.insert(MAP[1][12].entities, Entity {
     animations = ENTITY_DEFS['batC'].animations,
     x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
     y = math.random(10, SCREEN_HEIGHT_LIMIT),
-    width = TILE_SIZE * 2,
-    height = TILE_SIZE,
+    width = 24,
+    height = 10,
     health = 3,
     type = 'bat',
-    walkSpeed = 30,
+    walkSpeed = .15,
+    aiPath = math.random(1, 2),
+    corrupted = true,
+    enemy = true,
+})
+
+table.insert(MAP[1][12].entities, Entity {
+    animations = ENTITY_DEFS['batC'].animations,
+    x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
+    y = math.random(10, SCREEN_HEIGHT_LIMIT),
+    width = 24,
+    height = 10,
+    health = 3,
+    type = 'bat',
+    walkSpeed = 0.12,
+    aiPath = math.random(1, 2),
+    corrupted = true,
+    enemy = true,
+})
+
+table.insert(MAP[1][12].entities, Entity {
+    animations = ENTITY_DEFS['batC'].animations,
+    x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
+    y = math.random(10, SCREEN_HEIGHT_LIMIT),
+    width = 24,
+    height = 10,
+    health = 3,
+    type = 'bat',
+    walkSpeed = 0.10,
     aiPath = math.random(1, 2),
     corrupted = true,
     enemy = true,
