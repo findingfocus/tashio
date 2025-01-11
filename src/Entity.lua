@@ -25,6 +25,7 @@ function Entity:init(def)
     self.damageFlash = false
     self.damageFlashDuration = FLASH_DURATION
     self.damageFlashTimer = FLASH_FREQUENCY
+    self.distanceToPlayer = 25
 
     self.walkSpeed = def.walkSpeed
     self.aiPath = def.aiPath

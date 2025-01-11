@@ -17,8 +17,15 @@ function BatWalkState:init(entity, scene)
     self.collided = false
 end
 
-function roundToNearest(value)
-    return math.floor(value + 0.5)
+function getDistanceToPlayer(player, entity)
+    local aLength, bLength, cLength, aSquared, bSquared, cSquared = 0, 0, 0, 0, 0, 0
+    aLength = math.abs(player.x - entity.x)
+    bLength = math.abs(player.y - entity.y)
+    aSquared = aLength * aLength
+    bSquared = bLength * bLength
+    cSquared = aSquared + bSquared
+    cLength = math.sqrt(cSquared)
+    entity.distanceToPlayer = cLength
 end
 
 function BatWalkState:update(dt)
@@ -52,41 +59,53 @@ function BatWalkState:update(dt)
 end
 
 function BatWalkState:processAI(params, dt, player)
-    --ORTHOGONAL MOVEMENT
-    if math.abs(player.y - self.entity.y) < .5 then
-        self.entity.y = player.y
-        if player.x < self.entity.x then --IF PLAYER IS TO THE LEFT OF BAT
-            self.entity.x = self.entity.x - self.entity.walkSpeed
-        elseif player.x > self.entity.x then --IF PLAYER IS TO THE RIGHT OF BAT
-            self.entity.x = self.entity.x + self.entity.walkSpeed
-        end
-    end
-    if math.abs(player.x - self.entity.x) < .5 then
-        self.entity.x = player.x
-        if player.y < self.entity.y then --IF PLAYER IS ABOVE THE BAT
-            self.entity.y = self.entity.y - self.entity.walkSpeed
-        elseif player.y > self.entity.y then --IF PLAYER BELOW BAT
-            self.entity.y = self.entity.y + self.entity.walkSpeed
-        end
-    end
+    getDistanceToPlayer(player, self.entity)
 
-    --DIAGONAL MOVEMENT
-    if player.x < self.entity.x and player.y < self.entity.y then --IF PLAYER UPLEFT OF BAT
-        self.entity.x = self.entity.x - self.entity.walkSpeed * ((math.sqrt(2)) / 2)
-        self.entity.y = self.entity.y - self.entity.walkSpeed * ((math.sqrt(2)) / 2)
+    ---[[
+    if self.entity.distanceToPlayer > 25 then
+        --ORTHOGONAL MOVEMENT
+        if math.abs(player.y - self.entity.y) < .5 then
+            self.entity.y = player.y
+            if player.x < self.entity.x then --IF PLAYER IS TO THE LEFT OF BAT
+                self.entity.x = self.entity.x - self.entity.walkSpeed
+            elseif player.x > self.entity.x then --IF PLAYER IS TO THE RIGHT OF BAT
+                self.entity.x = self.entity.x + self.entity.walkSpeed
+            end
+        end
+        if math.abs(player.x - self.entity.x) < .5 then
+            self.entity.x = player.x
+            if player.y < self.entity.y then --IF PLAYER IS ABOVE THE BAT
+                self.entity.y = self.entity.y - self.entity.walkSpeed
+            elseif player.y > self.entity.y then --IF PLAYER BELOW BAT
+                self.entity.y = self.entity.y + self.entity.walkSpeed
+            end
+        end
+
+        --DIAGONAL MOVEMENT
+        if player.x < self.entity.x and player.y < self.entity.y then --IF PLAYER UPLEFT OF BAT
+            self.entity.x = self.entity.x - self.entity.walkSpeed * ((math.sqrt(2)) / 2)
+            self.entity.y = self.entity.y - self.entity.walkSpeed * ((math.sqrt(2)) / 2)
+        end
+        if player.x < self.entity.x and player.y > self.entity.y then --IF PLAYER BOTTOMLEFT OF BAT
+            self.entity.x = self.entity.x - self.entity.walkSpeed * ((math.sqrt(2)) / 2)
+            self.entity.y = self.entity.y + self.entity.walkSpeed * ((math.sqrt(2)) / 2)
+        end
+        if player.x > self.entity.x and player.y < self.entity.y then --IF PLAYER UPRIGHT OF BAT
+            self.entity.x = self.entity.x + self.entity.walkSpeed * ((math.sqrt(2)) / 2)
+            self.entity.y = self.entity.y - self.entity.walkSpeed * ((math.sqrt(2)) / 2)
+        end
+        if player.x > self.entity.x and player.y > self.entity.y then --IF PLAYER BOTTOMRIGHT OF BAT
+            self.entity.x = self.entity.x + self.entity.walkSpeed * ((math.sqrt(2)) / 2)
+            self.entity.y = self.entity.y + self.entity.walkSpeed * ((math.sqrt(2)) / 2)
+        end
     end
-    if player.x < self.entity.x and player.y > self.entity.y then --IF PLAYER BOTTOMLEFT OF BAT
-        self.entity.x = self.entity.x - self.entity.walkSpeed * ((math.sqrt(2)) / 2)
-        self.entity.y = self.entity.y + self.entity.walkSpeed * ((math.sqrt(2)) / 2)
-    end
-    if player.x > self.entity.x and player.y < self.entity.y then --IF PLAYER UPRIGHT OF BAT
-        self.entity.x = self.entity.x + self.entity.walkSpeed * ((math.sqrt(2)) / 2)
-        self.entity.y = self.entity.y - self.entity.walkSpeed * ((math.sqrt(2)) / 2)
-    end
-    if player.x > self.entity.x and player.y > self.entity.y then --IF PLAYER BOTTOMRIGHT OF BAT
-        self.entity.x = self.entity.x + self.entity.walkSpeed * ((math.sqrt(2)) / 2)
-        self.entity.y = self.entity.y + self.entity.walkSpeed * ((math.sqrt(2)) / 2)
-    end
+    --]]
+    --[[
+    Timer.tween(3, {
+        [self.entity] = {x = sceneView.player.x, y = sceneView.player.y},
+    })
+    --]]
+
 end
 
 function BatWalkState:render()
@@ -107,6 +126,6 @@ function BatWalkState:render()
     --]]
     --[[
     love.graphics.setColor(WHITE)
-    love.graphics.print(self.entity.x, self.entity.x, self.entity.y - 5)
+    love.graphics.print(self.entity.distanceToPlayer, self.entity.x, self.entity.y - 5)
     --]]
 end
