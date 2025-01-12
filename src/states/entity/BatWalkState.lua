@@ -15,6 +15,9 @@ function BatWalkState:init(entity, scene)
     self.movementTimer = 0
 
     self.collided = false
+    self.entity.displacementX = 0
+    self.entity.displacementY = 0
+    self.entity.displaceIncrease = true
 end
 
 function getDistanceToPlayer(player, entity)
@@ -29,6 +32,22 @@ function getDistanceToPlayer(player, entity)
 end
 
 function BatWalkState:update(dt)
+    if self.entity.displaceIncrease then
+        self.entity.displacementX = self.entity.displacementX + dt * 5
+        self.entity.displacementY = self.entity.displacementY + dt * 5
+        if self.entity.displacementX >= self.entity.displacementMagnitude then
+            self.entity.displaceIncrease = false
+        end
+    end
+
+    if not self.entity.displaceIncrease then
+        self.entity.displacementX = self.entity.displacementX - dt * 5
+        self.entity.displacementY = self.entity.displacementY - dt * 5
+        if self.entity.displacementX <= -self.entity.displacementMagnitude then
+            self.entity.displaceIncrease = true
+        end
+    end
+
     if self.entity.corrupted then
         if self.entity.health <= 0 then
             sounds['cleanse']:play()
@@ -59,10 +78,8 @@ function BatWalkState:update(dt)
 end
 
 function BatWalkState:processAI(params, dt, player)
-    getDistanceToPlayer(player, self.entity)
-
     ---[[
-    if self.entity.distanceToPlayer > 25 then
+    if self.entity.distanceToPlayer > 28 then
         --ORTHOGONAL MOVEMENT
         if math.abs(player.y - self.entity.y) < .5 then
             self.entity.y = player.y
@@ -105,13 +122,25 @@ function BatWalkState:processAI(params, dt, player)
         [self.entity] = {x = sceneView.player.x, y = sceneView.player.y},
     })
     --]]
-
+    ---[[
+    --]]
+    self.entity.x = self.entity.displacementX + self.entity.x
+    self.entity.y = self.entity.displacementY + self.entity.y
+    getDistanceToPlayer(player, self.entity)
 end
 
 function BatWalkState:render()
     local anim = self.entity.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
         self.entity.x, self.entity.y)
+    --[[
+    love.graphics.setColor(WHITE)
+    love.graphics.print(self.entity.distanceToPlayer, self.entity.x, self.entity.y - 5)
+    --]]
+    ---[[
+    self.entity.y = self.entity.y - self.entity.displacementY
+    self.entity.x = self.entity.x - self.entity.displacementX
+    --]]
     --DIALOGUE HITBOX RENDERS
     --[[
     love.graphics.setColor(RED)
@@ -123,9 +152,5 @@ function BatWalkState:render()
     --[[
     love.graphics.setColor(1,0,0,1)
     love.graphics.rectangle('fill', self.entity.x, self.entity.y - 1, self.entity.health * 5.3, 1)
-    --]]
-    --[[
-    love.graphics.setColor(WHITE)
-    love.graphics.print(self.entity.distanceToPlayer, self.entity.x, self.entity.y - 5)
     --]]
 end
