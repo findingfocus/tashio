@@ -226,13 +226,14 @@ table.insert(MAP[1][12].entities, Entity {
     height = 10,
     health = 3,
     type = 'bat',
+    displacementMagnitude = 5,
     walkSpeed = .15,
     aiPath = math.random(1, 2),
     corrupted = true,
     enemy = true,
 })
 
----[[
+--[[
 table.insert(MAP[1][12].entities, Entity {
     animations = ENTITY_DEFS['batC'].animations,
     x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
@@ -241,6 +242,7 @@ table.insert(MAP[1][12].entities, Entity {
     height = 10,
     health = 3,
     type = 'bat',
+    displacementMagnitude = 5,
     walkSpeed = 0.12,
     aiPath = math.random(1, 2),
     corrupted = true,

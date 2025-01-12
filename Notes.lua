@@ -31,6 +31,9 @@ __Sweat when pushing without tunic of strength
 
 
 Next Episode
+__Improve distanceToPlayer in Bat Entity
+__Prevent bat entity from moving upon player
+__Flush displacementX and Y upon nearing player
 __Add to legalPush, checking for other collidable objects
 __Add entity to collidable map objects collision
 __Lute equip upon tunic change bug
