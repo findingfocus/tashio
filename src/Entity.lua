@@ -144,6 +144,7 @@ function Entity:update(dt)
     end
 
     self.stateMachine:update(dt)
+
     if self.currentAnimation then
         self.currentAnimation:update(dt)
     end
