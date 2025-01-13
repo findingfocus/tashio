@@ -233,7 +233,7 @@ table.insert(MAP[1][12].entities, Entity {
     enemy = true,
 })
 
---[[
+---[[
 table.insert(MAP[1][12].entities, Entity {
     animations = ENTITY_DEFS['batC'].animations,
     x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
@@ -242,7 +242,7 @@ table.insert(MAP[1][12].entities, Entity {
     height = 10,
     health = 3,
     type = 'bat',
-    displacementMagnitude = 5,
+    displacementMagnitude = 4,
     walkSpeed = 0.12,
     aiPath = math.random(1, 2),
     corrupted = true,
@@ -250,7 +250,7 @@ table.insert(MAP[1][12].entities, Entity {
 })
 --]]
 
---[[
+---[[
 table.insert(MAP[1][12].entities, Entity {
     animations = ENTITY_DEFS['batC'].animations,
     x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
@@ -259,6 +259,7 @@ table.insert(MAP[1][12].entities, Entity {
     height = 10,
     health = 3,
     type = 'bat',
+    displacementMagnitude = 4,
     walkSpeed = 0.10,
     aiPath = math.random(1, 2),
     corrupted = true,
