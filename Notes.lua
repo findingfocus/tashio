@@ -31,6 +31,8 @@ __Sweat when pushing without tunic of strength
 
 
 Next Episode
+__Factor out distanceToPlayer into entity class
+__BUGFIX bats flying after chestOpen
 __Improve distanceToPlayer in Bat Entity
 __Prevent bat entity from moving upon player
 __Flush displacementX and Y upon nearing player
@@ -58,6 +60,7 @@ __From Shaky love.system.setClipboardText( text )
 __How to reset entities to default locations upon a scene change
 __How to render corruption particles over player
 __Start game with quick session of five sprite spell cast?
+__Circle radius for player to trigger attack states
 
 CREDITED SUPPORTERS
 X_K_Tronix at 7:23PM 8/17/2024

@@ -157,6 +157,8 @@ function BatWalkState:processAI(params, dt, player)
             self.entity.x = self.entity.x + self.entity.walkSpeed * ((math.sqrt(2)) / 2)
             self.entity.y = self.entity.y + self.entity.walkSpeed * ((math.sqrt(2)) / 2)
         end
+    else
+        self.entity:changeState('bat-attack')
     end
     --]]
     --[[
@@ -172,6 +174,7 @@ function BatWalkState:processAI(params, dt, player)
 end
 
 function BatWalkState:render()
+    love.graphics.setColor(WHITE)
     local anim = self.entity.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
         self.entity.x, self.entity.y)

@@ -297,6 +297,7 @@ for i = 1, entityCount do
         MAP[1][12].entities[i].stateMachine = StateMachine {
             ['bat-walk'] = function() return BatWalkState(MAP[1][12].entities[i]) end,
             ['entity-idle'] = function() return EntityIdleState(MAP[1][12].entities[i]) end,
+            ['bat-attack'] = function() return BatAttackState(MAP[1][12].entities[i]) end,
         }
     end
     MAP[1][12].entities[i]:changeState('entity-idle')
