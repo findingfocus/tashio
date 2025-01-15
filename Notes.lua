@@ -32,6 +32,7 @@ __Sweat when pushing without tunic of strength
 
 Next Episode
 __Factor out distanceToPlayer into entity class
+__Add timer for spitball spitting
 __BUGFIX bats flying after chestOpen
 __Improve distanceToPlayer in Bat Entity
 __Prevent bat entity from moving upon player

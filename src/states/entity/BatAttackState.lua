@@ -8,7 +8,7 @@ function BatAttackState:init(entity, scene)
     elseif not self.entity.corrupted then
         self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['batC'].animations)
     end
-
+    table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].attacks, Spitball(entity))
 end
 
 function getDistanceToPlayer(player, entity)
@@ -70,6 +70,8 @@ function BatAttackState:processAI(params, dt, player)
     if self.entity.distanceToPlayer > 10 then
         self.entity:changeState('bat-walk')
     end
+
+
 end
 
 function BatAttackState:update(dt)
