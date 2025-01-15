@@ -32,6 +32,7 @@ require 'src/DialogueBox'
 require 'src/Item'
 require 'src/Inventory'
 require 'src/Pushable'
+require 'src/Spitball'
 
 require 'src/states/BaseState'
 require 'src/StateMachine'

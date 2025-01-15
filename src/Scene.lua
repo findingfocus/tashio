@@ -232,12 +232,18 @@ function Scene:render()
     if self.player then
         self.player:render()
     end
-
-
     love.graphics.push()
     if self.shifting then
         love.graphics.translate(-math.floor(self.cameraX), -math.floor(self.cameraY))
     end
+
+    --RENDER ATTACKS
+    if #MAP[self.currentMap.row][self.currentMap.column].attacks > 0 then
+        for i = 1, #MAP[self.currentMap.row][self.currentMap.column].attacks do
+            MAP[self.currentMap.row][self.currentMap.column].attacks[i]:render()
+        end
+    end
+
     --RENDER TOP LEVEL TILES
     for y = 1, MAP_HEIGHT do
         for x = 1, MAP_WIDTH do

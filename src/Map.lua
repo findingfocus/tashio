@@ -197,6 +197,14 @@ function Map:update(dt)
             end
         end --PITS
 
+        if MAP[self.row][self.column].attacks[1] ~= nil then
+            for i = 1, #MAP[self.row][self.column].attacks do
+                MAP[self.row][self.column].attacks[i]:update(dt)
+                if MAP[self.row][self.column].attacks[i].remove then
+                    table.remove(MAP[self.row][self.column].attacks, i)
+                end
+            end
+        end
     end
 
     --SPELLCAST_FADE CLAMPING
