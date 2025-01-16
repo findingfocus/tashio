@@ -234,7 +234,7 @@ table.insert(MAP[1][12].entities, Entity {
     enemy = true,
 })
 
---[[
+---[[
 table.insert(MAP[1][12].entities, Entity {
     animations = ENTITY_DEFS['batC'].animations,
     x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
@@ -251,7 +251,7 @@ table.insert(MAP[1][12].entities, Entity {
 })
 --]]
 
---[[
+---[[
 table.insert(MAP[1][12].entities, Entity {
     animations = ENTITY_DEFS['batC'].animations,
     x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),

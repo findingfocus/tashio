@@ -202,6 +202,7 @@ function Map:update(dt)
                 MAP[self.row][self.column].attacks[i]:update(dt)
                 if MAP[self.row][self.column].attacks[i].remove then
                     table.remove(MAP[self.row][self.column].attacks, i)
+                    break
                 end
             end
         end
