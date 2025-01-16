@@ -478,7 +478,7 @@ function PlayState:render()
         love.graphics.print('collideCount: ' .. tostring(topCollidesCount), 5, 105)
         --love.graphics.print('fallTimer: ' .. tostring(sceneView.player.fallTimer), 5, 105)
         --love.graphics.print('falling: ' .. tostring(sceneView.player.falling), 5, 115)
-        love.graphics.print('crateHealth: ' .. tostring(MAP[7][2].collidableMapObjects[3].health), 5, 115)
+        love.graphics.print('attacks: ' .. tostring(MAP[sceneView.currentMap.row][sceneView.currentMap.column].attacks[1]), 5, 115)
         --love.graphics.print('pushTimer: ' .. tostring(sceneView.player.pushTimer), 85, 115)
         --love.graphics.print('rightCollide: ' .. tostring(gPlayer:rightCollidesMapObject(MAP[sceneView.currentMap.row][sceneView.currentMap.column].pushables[1]), 85, 115))
     elseif love.keyboard.isDown('6') then

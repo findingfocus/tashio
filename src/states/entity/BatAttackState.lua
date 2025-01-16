@@ -8,7 +8,7 @@ function BatAttackState:init(entity, scene)
     elseif not self.entity.corrupted then
         self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['batC'].animations)
     end
-    table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].attacks, Spitball(entity))
+    self.timer = 1
 end
 
 function getDistanceToPlayer(player, entity)
@@ -75,7 +75,11 @@ function BatAttackState:processAI(params, dt, player)
 end
 
 function BatAttackState:update(dt)
-
+    self.timer = self.timer - dt
+    if self.timer <= 0 then
+        table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].attacks, Spitball(self.entity))
+        self.timer = 1
+    end
 end
 
 function BatAttackState:render()
