@@ -164,7 +164,7 @@ function Entity:update(dt)
         end
     end
 
-    --FIRESPELL TO GECKO COLLISION
+    --SPELLCAST TO GECKO COLLISION
     if self.type == 'gecko' and successfulCast then
         for i = 1, sceneView.spellcastEntityCount do
             local spellX = sceneView.spellcastEntities[i].x
@@ -187,6 +187,30 @@ function Entity:update(dt)
                 self.hit = true
             end
         end
+    elseif self.type == 'bat' and successfulCast then
+        for i = 1, sceneView.spellcastEntityCount do
+            local spellX = sceneView.spellcastEntities[i].x
+            local spellY = sceneView.spellcastEntities[i].y
+            --ENTITY KNOCKBACK FOR SPELL COLLISIONS
+            if self:fireSpellCollides(sceneView.spellcastEntities[i]) and not self.hit and self.corrupted then
+                self.damageFlash = true
+                self.health = math.max(0, self.health - DAMAGE)
+                sounds['hurt']:play()
+                if self.x > spellX then
+                    self.dx = SPELL_KNOCKBACK
+                else
+                    self.dx = -SPELL_KNOCKBACK
+                end
+                if self.y > spellY then
+                    self.dy = SPELL_KNOCKBACK
+                else
+                    self.dy = -SPELL_KNOCKBACK
+                end
+                self.hit = true
+            end
+        end
+
+
     end
 
     --SHOULD NEST IN SELF.HIT? WAS CAUSING BUGS

@@ -40,6 +40,7 @@ require 'src/states/entity/EntityIdleState'
 require 'src/states/entity/EntityWalkState'
 require 'src/states/entity/GeckoWalkState'
 require 'src/states/entity/BatWalkState'
+require 'src/states/entity/BatFleeState'
 require 'src/states/entity/BatAttackState'
 require 'src/states/entity/NPCIdleState'
 require 'src/states/entity/NPCWalkState'
@@ -113,6 +114,7 @@ gTextures = {
     ['gecko'] = love.graphics.newImage('graphics/geckoAtlas.png'),
     ['geckoC'] = love.graphics.newImage('graphics/geckoCAtlas.png'),
     ['batC'] = love.graphics.newImage('graphics/batlas.png'),
+    ['bat'] = love.graphics.newImage('graphics/batAtlas.png'),
     ['flame'] = love.graphics.newImage('graphics/flameAtlas2.png'),
     ['crate'] = love.graphics.newImage('graphics/crate-break.png'),
     ['orb'] = love.graphics.newImage('graphics/orb.png'),
@@ -145,6 +147,7 @@ gFrames = {
     ['gecko'] = GenerateQuads(gTextures['gecko'], TILE_SIZE, TILE_SIZE),
     ['geckoC'] = GenerateQuads(gTextures['geckoC'], TILE_SIZE, TILE_SIZE),
     ['batC'] = GenerateQuads(gTextures['batC'], 24, 10),
+    ['bat'] = GenerateQuads(gTextures['bat'], 24, 10),
     ['flame'] = GenerateQuads(gTextures['flame'], TILE_SIZE, TILE_SIZE),
     ['luteString'] = GenerateQuads(gTextures['luteString'], TILE_SIZE * 10, 13),
 }

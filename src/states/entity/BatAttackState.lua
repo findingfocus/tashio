@@ -80,6 +80,15 @@ function BatAttackState:update(dt)
         table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].attacks, Spitball(self.entity))
         self.timer = 1
     end
+
+    if self.entity.corrupted then
+        if self.entity.health <= 0 then
+            sounds['cleanse']:play()
+            self.entity.damageFlash = false
+            self.entity.flashing = false
+            self.entity:createAnimations(ENTITY_DEFS['bat'])
+        end
+    end
 end
 
 function BatAttackState:render()
