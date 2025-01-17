@@ -96,8 +96,8 @@ function BatWalkState:update(dt)
             sounds['cleanse']:play()
             self.entity.damageFlash = false
             self.entity.flashing = false
-            self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['batC'].animations)
-            local random = math.random(4)
+            self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['bat'].animations)
+            self.entity:changeAnimation('flee')
             self.entity.corrupted = false
         end
     end

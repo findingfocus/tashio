@@ -197,6 +197,7 @@ function Map:update(dt)
             end
         end --PITS
 
+        --ATTACK UPDATES
         if MAP[self.row][self.column].attacks[1] ~= nil then
             for i = 1, #MAP[self.row][self.column].attacks do
                 MAP[self.row][self.column].attacks[i]:update(dt)
