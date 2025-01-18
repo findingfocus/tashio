@@ -214,19 +214,23 @@ function Entity:update(dt)
     end
 
     --SHOULD NEST IN SELF.HIT? WAS CAUSING BUGS
-    if self.dx > 0 then
-        self.dx = math.max(0, self.dx - SLOW_TO_STOP * dt)
-    end
-    if self.dy > 0 then
-        self.dy = math.max(0, self.dy - SLOW_TO_STOP * dt)
-    end
-    if self.dx < 0 then
-        self.dx = math.min(0, self.dx + SLOW_TO_STOP * dt)
-    end
-    if self.dy < 0 then
-        self.dy = math.min(0, self.dy + SLOW_TO_STOP * dt)
-    end
+    ---[[
+        if self.dx > 0 then
+            self.dx = math.max(0, self.dx - SLOW_TO_STOP * dt)
+        end
+        if self.dy > 0 then
+            self.dy = math.max(0, self.dy - SLOW_TO_STOP * dt)
+        end
+        if self.dx < 0 then
+            self.dx = math.min(0, self.dx + SLOW_TO_STOP * dt)
+        end
+        if self.dy < 0 then
+            self.dy = math.min(0, self.dy + SLOW_TO_STOP * dt)
+        end
+    --]]
 
+    --self.x = self.x + self.dx * dt
+    --self.y = self.y + self.dy * dt
     self.x = self.x + self.dx * dt
     self.y = self.y + self.dy * dt
 
