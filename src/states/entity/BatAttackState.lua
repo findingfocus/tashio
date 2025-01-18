@@ -2,12 +2,9 @@ BatAttackState = Class{__includes = BaseState}
 
 function BatAttackState:init(entity, scene)
     self.entity = entity
+    self.stateName = 'attack'
     self.scene = scene
-    if self.entity.corrupted then
-        self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['batC'].animations)
-    elseif not self.entity.corrupted then
-        self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['batC'].animations)
-    end
+    self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['batC'].animations)
     self.timer = 1
 end
 
@@ -67,11 +64,13 @@ end
 
 function BatAttackState:processAI(params, dt, player)
     getDistanceToPlayer(player, self.entity)
+    if self.entity.health <= 0 then
+        self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['bat'])
+        self.entity:changeState('bat-flee')
+    end
     if self.entity.distanceToPlayer > 10 then
         self.entity:changeState('bat-walk')
     end
-
-
 end
 
 function BatAttackState:update(dt)
@@ -83,10 +82,7 @@ function BatAttackState:update(dt)
 
     if self.entity.corrupted then
         if self.entity.health <= 0 then
-            sounds['cleanse']:play()
-            self.entity.damageFlash = false
-            self.entity.flashing = false
-            self.entity:createAnimations(ENTITY_DEFS['bat'])
+            self.entity:changeState('bat-flee')
         end
     end
 end

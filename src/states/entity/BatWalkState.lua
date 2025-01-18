@@ -2,11 +2,8 @@ BatWalkState = Class{__includes = BaseState}
 
 function BatWalkState:init(entity, scene)
     self.entity = entity
-    if self.entity.corrupted then
-        self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['batC'].animations)
-    elseif not self.entity.corrupted then
-        self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['batC'].animations)
-    end
+    self.stateName = 'pursue'
+    self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['batC'].animations)
     --self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
     --self.entity.walkSpeed = .5
     self.scene = scene
@@ -105,8 +102,10 @@ function BatWalkState:update(dt)
     self.collided = false
 
 
+    --[[
     self.entity.x = self.entity.x + self.entity.dx * dt
     self.entity.y = self.entity.y + self.entity.dy * dt
+    --]]
 
 
     --TRIGGER OFFSCREEN
@@ -120,6 +119,10 @@ function BatWalkState:update(dt)
 end
 
 function BatWalkState:processAI(params, dt, player)
+    if self.entity.health <= 0 then
+        self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['bat'])
+        self.entity:changeState('bat-flee')
+    end
     ---[[
     if self.entity.distanceToPlayer > 10 then
         --ORTHOGONAL MOVEMENT

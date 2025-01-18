@@ -234,7 +234,7 @@ table.insert(MAP[1][12].entities, Entity {
     enemy = true,
 })
 
----[[
+--[[
 table.insert(MAP[1][12].entities, Entity {
     animations = ENTITY_DEFS['batC'].animations,
     x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
@@ -251,7 +251,7 @@ table.insert(MAP[1][12].entities, Entity {
 })
 --]]
 
----[[
+--[[
 table.insert(MAP[1][12].entities, Entity {
     animations = ENTITY_DEFS['batC'].animations,
     x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
@@ -296,9 +296,10 @@ for i = 1, entityCount do
 
     if MAP[1][12].entities[i].type == 'bat' then
         MAP[1][12].entities[i].stateMachine = StateMachine {
-            ['bat-walk'] = function() return BatWalkState(MAP[1][12].entities[i]) end,
             ['entity-idle'] = function() return EntityIdleState(MAP[1][12].entities[i]) end,
+            ['bat-walk'] = function() return BatWalkState(MAP[1][12].entities[i]) end,
             ['bat-attack'] = function() return BatAttackState(MAP[1][12].entities[i]) end,
+            ['bat-flee'] = function() return BatFleeState(MAP[1][12].entities[i]) end,
         }
     end
     MAP[1][12].entities[i]:changeState('entity-idle')
