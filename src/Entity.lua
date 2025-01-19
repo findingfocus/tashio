@@ -187,6 +187,7 @@ function Entity:update(dt)
                 self.hit = true
             end
         end
+    --SPELLCAST TO BAT COLLISION
     elseif self.type == 'bat' and successfulCast then
         for i = 1, sceneView.spellcastEntityCount do
             local spellX = sceneView.spellcastEntities[i].x
@@ -197,14 +198,14 @@ function Entity:update(dt)
                 self.health = math.max(0, self.health - DAMAGE)
                 sounds['hurt']:play()
                 if self.x > spellX then
-                    self.dx = SPELL_KNOCKBACK
+                    self.dx = SPELL_KNOCKBACK / 2
                 else
-                    self.dx = -SPELL_KNOCKBACK
+                    self.dx = -SPELL_KNOCKBACK / 2
                 end
                 if self.y > spellY then
-                    self.dy = SPELL_KNOCKBACK
+                    self.dy = SPELL_KNOCKBACK / 2
                 else
-                    self.dy = -SPELL_KNOCKBACK
+                    self.dy = -SPELL_KNOCKBACK / 2
                 end
                 self.hit = true
             end
