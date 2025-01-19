@@ -3,7 +3,6 @@ BatWalkState = Class{__includes = BaseState}
 function BatWalkState:init(entity, scene)
     self.entity = entity
     self.stateName = 'pursue'
-    self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['batC'].animations)
     --self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
     --self.entity.walkSpeed = .5
     self.scene = scene
@@ -93,20 +92,17 @@ function BatWalkState:update(dt)
             sounds['cleanse']:play()
             self.entity.damageFlash = false
             self.entity.flashing = false
-            self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['bat'].animations)
-            self.entity:changeAnimation('flee')
             self.entity.corrupted = false
+            self.entity:changeState('bat-flee')
         end
     end
 
     self.collided = false
 
-
     --[[
     self.entity.x = self.entity.x + self.entity.dx * dt
     self.entity.y = self.entity.y + self.entity.dy * dt
     --]]
-
 
     --TRIGGER OFFSCREEN
     if self.entity.x + self.entity.width < -TILE_SIZE or self.entity.x > VIRTUAL_WIDTH + TILE_SIZE or self.entity.y + self.entity.height < -TILE_SIZE then
