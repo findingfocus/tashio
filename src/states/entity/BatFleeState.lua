@@ -2,26 +2,73 @@ BatFleeState = Class{__includes = BaseState}
 
 function BatFleeState:init(entity)
     self.entity = entity
-    self.fleeTable = {20, -20}
-    self.dx = 0
-    self.dy = 0
-    self.walkSpeed = 0
-    self.randomIndex1 = math.random(1, 2)
-    self.randomIndex2 = math.random(1, 2)
+    self.entity.dx = 0
+    self.entity.dy = 0
+    self.entity.displacementX = 0
+    self.entity.displacementY = 0
     self.stateName = 'flee'
-    self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['bat'])
     sounds['cleanse']:play()
     self.entity.damageFlash = true
     self.corrupted = false
+    self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['bat'].animations)
+    self.entity:changeAnimation('flee')
+    self.entity.flyTL = false
+    self.entity.flyTR = false
+    self.entity.flyBL = false
+    self.entity.flyBR = false
+
+    --TODO FACTOR THIS INTO HOR AND VERTICAL
+    --RIGHT EXIT
+    if self.entity.x > gPlayer.x then
+        --BOTTOM RIGHT EXIT
+        if self.entity.y > gPlayer.y then
+            self.entity.dy = BAT_EXIT_SPEED
+            self.entity.dx = BAT_EXIT_SPEED
+        else --TOP RIGHT EXIT
+            self.entity.dy = -BAT_EXIT_SPEED
+            self.entity.dx = BAT_EXIT_SPEED
+        end
+    else --LEFT EXIT
+        --BOTTOM LEFT EXIT
+        if self.entity.y > gPlayer.y then
+            self.entity.dy = BAT_EXIT_SPEED
+            self.entity.dx = -BAT_EXIT_SPEED
+        --TOP LEFT EXIT
+        else
+            self.entity.dy = -BAT_EXIT_SPEED
+            self.entity.dx = -BAT_EXIT_SPEED
+        end
+    end
 end
 
 function BatFleeState:processAI(params, dt, player)
+    --TODO FACTOR THIS INTO HOR AND VERTICAL
+    --RIGHT EXIT
+    if self.entity.x > gPlayer.x then
+        --BOTTOM RIGHT EXIT
+        if self.entity.y > gPlayer.y then
+            self.entity.dy = BAT_EXIT_SPEED
+            self.entity.dx = BAT_EXIT_SPEED
+        else --TOP RIGHT EXIT
+            self.entity.dy = -BAT_EXIT_SPEED
+            self.entity.dx = BAT_EXIT_SPEED
+        end
+    else --LEFT EXIT
+        --BOTTOM LEFT EXIT
+        if self.entity.y > gPlayer.y then
+            self.entity.dy = BAT_EXIT_SPEED
+            self.entity.dx = -BAT_EXIT_SPEED
+        --TOP LEFT EXIT
+        else
+            self.entity.dy = -BAT_EXIT_SPEED
+            self.entity.dx = -BAT_EXIT_SPEED
+        end
+    end
 
 end
 
 function BatFleeState:update(dt)
-    self.dx = 0
-    self.dy = 0
+
 end
 
 function BatFleeState:render()
@@ -29,9 +76,10 @@ function BatFleeState:render()
     local anim = self.entity.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
         self.entity.x, self.entity.y)
-    self.entity.y = self.entity.y - self.entity.displacementY
-    self.entity.x = self.entity.x - self.entity.displacementX
 
-    love.graphics.print('dx: ' .. tostring(self.entity.dx), 0, 0)
-    love.graphics.print('dy: ' .. tostring(self.entity.dy), 0, 10)
+        --[[
+        love.graphics.print('dx: ' .. tostring(self.entity.dx), 0, 0)
+        love.graphics.print('dy: ' .. tostring(self.entity.dy), 0, 10)
+        love.graphics.print('walkSpeed: ' .. tostring(self.entity.walkSpeed), 0, 20)
+        --]]
 end

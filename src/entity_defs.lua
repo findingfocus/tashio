@@ -382,18 +382,14 @@ ENTITY_DEFS = {
             },
         }
     },
-    ['batC'] = {
+    ['bat'] = {
         animations = {
-            ['fly'] = {
+            ['pursue'] = {
                 frames = {1, 2},
                 interval = 0.17,
                 texture = 'batC',
                 looping = true
             },
-        },
-    },
-    ['bat'] = {
-        animations = {
             ['flee'] = {
                 frames = {1, 2},
                 interval = 0.17,

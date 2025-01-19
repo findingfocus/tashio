@@ -220,7 +220,7 @@ end
 
 ---[[
 table.insert(MAP[1][12].entities, Entity {
-    animations = ENTITY_DEFS['batC'].animations,
+    animations = ENTITY_DEFS['bat'].animations,
     x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
     y = math.random(10, SCREEN_HEIGHT_LIMIT),
     width = 24,
@@ -276,11 +276,11 @@ for i = 1, entityCount do
     end
 
     if MAP[1][12].entities[i].type == 'bat' then
-        MAP[1][12].entities[i].animations = MAP[1][12].entities[i]:createAnimations(ENTITY_DEFS['batC'].animations)
+        MAP[1][12].entities[i].animations = MAP[1][12].entities[i]:createAnimations(ENTITY_DEFS['bat'].animations)
     end
 
     if MAP[1][12].entities[i].type == 'bat' then
-        MAP[1][12].entities[i]:changeAnimation('fly')
+        MAP[1][12].entities[i]:changeAnimation('pursue')
     end
 
     if MAP[1][12].entities[i].type == 'gecko' then
@@ -319,7 +319,6 @@ function insertWarpZone(warpFromRow, warpFromCol, warpToRow, warpToCol, warpFrom
     local warpPlayerToY = warpToY - 16 - 5
     local warpPlayerFromX = warpFromX - 3
     local warpPlayerFromY = warpFromY + 10
-
 
     table.insert(MAP[warpFromRow][warpFromCol].warpZones, WarpZone(warpFromX, warpFromY, warpPlayerToX, warpPlayerToY, warpToRow, warpToCol))
     table.insert(MAP[warpToRow][warpToCol].warpZones, WarpZone(warpToX, warpToY, warpPlayerFromX, warpPlayerFromY, warpFromRow, warpFromCol))

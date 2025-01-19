@@ -4,7 +4,6 @@ function BatAttackState:init(entity, scene)
     self.entity = entity
     self.stateName = 'attack'
     self.scene = scene
-    self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['batC'].animations)
     self.timer = 1
 end
 
@@ -65,7 +64,6 @@ end
 function BatAttackState:processAI(params, dt, player)
     getDistanceToPlayer(player, self.entity)
     if self.entity.health <= 0 then
-        self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['bat'])
         self.entity:changeState('bat-flee')
     end
     if self.entity.distanceToPlayer > 10 then

@@ -198,14 +198,14 @@ function Entity:update(dt)
                 self.health = math.max(0, self.health - DAMAGE)
                 sounds['hurt']:play()
                 if self.x > spellX then
-                    self.dx = SPELL_KNOCKBACK / 2
+                    self.dx = SPELL_KNOCKBACK
                 else
-                    self.dx = -SPELL_KNOCKBACK / 2
+                    self.dx = -SPELL_KNOCKBACK
                 end
                 if self.y > spellY then
-                    self.dy = SPELL_KNOCKBACK / 2
+                    self.dy = SPELL_KNOCKBACK
                 else
-                    self.dy = -SPELL_KNOCKBACK / 2
+                    self.dy = -SPELL_KNOCKBACK
                 end
                 self.hit = true
             end
@@ -216,6 +216,7 @@ function Entity:update(dt)
 
     --SHOULD NEST IN SELF.HIT? WAS CAUSING BUGS
     ---[[
+    --if self.type == 'player' then
         if self.dx > 0 then
             self.dx = math.max(0, self.dx - SLOW_TO_STOP * dt)
         end
