@@ -75,6 +75,7 @@ function BatWalkState:update(dt)
         self.entity.displacementX = self.entity.displacementX + dt * 5
         self.entity.displacementY = self.entity.displacementY + dt * 5
         if self.entity.displacementX >= self.entity.displacementMagnitude then
+            self.displacementX = self.entity.displacementMagnitude
             self.entity.displaceIncrease = false
         end
     end
@@ -83,6 +84,7 @@ function BatWalkState:update(dt)
         self.entity.displacementX = self.entity.displacementX - dt * 5
         self.entity.displacementY = self.entity.displacementY - dt * 5
         if self.entity.displacementX <= -self.entity.displacementMagnitude then
+            self.displacementX = -self.entity.displacementMagnitude
             self.entity.displaceIncrease = true
         end
     end
@@ -116,6 +118,7 @@ end
 
 function BatWalkState:processAI(params, dt, player)
     if self.entity.health <= 0 then
+        self.entity.hit = false
         self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['bat'])
         self.entity:changeState('bat-flee')
     end
@@ -182,8 +185,10 @@ function BatWalkState:render()
     love.graphics.print(self.entity.distanceToPlayer, self.entity.x, self.entity.y - 5)
     --]]
     ---[[
-    self.entity.y = self.entity.y - self.entity.displacementY
-    self.entity.x = self.entity.x - self.entity.displacementX
+    if not PAUSED then
+        self.entity.y = self.entity.y - self.entity.displacementY
+        self.entity.x = self.entity.x - self.entity.displacementX
+    end
     --]]
     --DIALOGUE HITBOX RENDERS
     --[[

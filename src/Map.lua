@@ -382,4 +382,13 @@ function Map:render()
             v:render(self.adjacentOffsetX, self.adjacentOffsetY)
         end
     end
+    --[[
+  love.graphics.setColor(WHITE)
+  love.graphics.print('x: ' .. tostring(MAP[self.row][self.column].entities[1].x), 0, 0)
+  love.graphics.print('y: ' .. tostring(MAP[self.row][self.column].entities[1].y), 0, 10)
+  love.graphics.print('walkSpeed: ' .. tostring(MAP[self.row][self.column].entities[1].walkSpeed), 0, 20)
+  love.graphics.print('dx: ' .. tostring(MAP[self.row][self.column].entities[1].dx), 0, 30)
+  love.graphics.print('dy: ' .. tostring(MAP[self.row][self.column].entities[1].dy), 0, 40)
+  love.graphics.print('PAUSED: ' .. tostring(PAUSED), 0, 50)
+  --]]
 end

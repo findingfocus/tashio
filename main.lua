@@ -116,5 +116,6 @@ function love.draw()
   keyboardInput:render()
   touchInput:render()
 	push:finish()
+
 end
 

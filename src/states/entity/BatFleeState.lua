@@ -9,62 +9,31 @@ function BatFleeState:init(entity)
     self.stateName = 'flee'
     sounds['cleanse']:play()
     self.entity.damageFlash = true
-    self.corrupted = false
+    self.entity.corrupted = false
     self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['bat'].animations)
     self.entity:changeAnimation('flee')
     self.entity.flyTL = false
     self.entity.flyTR = false
     self.entity.flyBL = false
     self.entity.flyBR = false
+    self.entity.hit = false
 
     --TODO FACTOR THIS INTO HOR AND VERTICAL
     --RIGHT EXIT
-    if self.entity.x > gPlayer.x then
-        --BOTTOM RIGHT EXIT
-        if self.entity.y > gPlayer.y then
-            self.entity.dy = BAT_EXIT_SPEED
-            self.entity.dx = BAT_EXIT_SPEED
-        else --TOP RIGHT EXIT
-            self.entity.dy = -BAT_EXIT_SPEED
-            self.entity.dx = BAT_EXIT_SPEED
-        end
-    else --LEFT EXIT
-        --BOTTOM LEFT EXIT
-        if self.entity.y > gPlayer.y then
-            self.entity.dy = BAT_EXIT_SPEED
-            self.entity.dx = -BAT_EXIT_SPEED
-        --TOP LEFT EXIT
-        else
-            self.entity.dy = -BAT_EXIT_SPEED
-            self.entity.dx = -BAT_EXIT_SPEED
-        end
+    if self.entity.x < gPlayer.x + (gPlayer.width / 2) then
+        self.entity.dx = -BAT_EXIT_SPEED
+    else
+        self.entity.dx = BAT_EXIT_SPEED
+    end
+
+    if self.entity.y + self.entity.height < gPlayer.y + (gPlayer.width / 2) then
+        self.entity.dy = -BAT_EXIT_SPEED
+    else
+        self.entity.dy = BAT_EXIT_SPEED
     end
 end
 
 function BatFleeState:processAI(params, dt, player)
-    --TODO FACTOR THIS INTO HOR AND VERTICAL
-    --RIGHT EXIT
-    if self.entity.x > gPlayer.x then
-        --BOTTOM RIGHT EXIT
-        if self.entity.y > gPlayer.y then
-            self.entity.dy = BAT_EXIT_SPEED
-            self.entity.dx = BAT_EXIT_SPEED
-        else --TOP RIGHT EXIT
-            self.entity.dy = -BAT_EXIT_SPEED
-            self.entity.dx = BAT_EXIT_SPEED
-        end
-    else --LEFT EXIT
-        --BOTTOM LEFT EXIT
-        if self.entity.y > gPlayer.y then
-            self.entity.dy = BAT_EXIT_SPEED
-            self.entity.dx = -BAT_EXIT_SPEED
-        --TOP LEFT EXIT
-        else
-            self.entity.dy = -BAT_EXIT_SPEED
-            self.entity.dx = -BAT_EXIT_SPEED
-        end
-    end
-
 end
 
 function BatFleeState:update(dt)
