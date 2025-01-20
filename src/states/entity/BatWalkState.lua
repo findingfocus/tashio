@@ -11,9 +11,10 @@ function BatWalkState:init(entity, scene)
     self.movementTimer = 0
 
     self.collided = false
-    self.entity.displacementX = 0
-    self.entity.displacementY = 0
+    self.entity.displacementX = 20
+    self.entity.displacementY = 20
     self.entity.displaceIncrease = true
+    self.entity.displaceTimer = 0
 end
 
 function getDistanceToPlayer(player, entity)
@@ -71,24 +72,6 @@ function getDistanceToPlayer(player, entity)
 end
 
 function BatWalkState:update(dt)
-    if self.entity.displaceIncrease then
-        self.entity.displacementX = self.entity.displacementX + dt * 5
-        self.entity.displacementY = self.entity.displacementY + dt * 5
-        if self.entity.displacementX >= self.entity.displacementMagnitude then
-            self.displacementX = self.entity.displacementMagnitude
-            self.entity.displaceIncrease = false
-        end
-    end
-
-    if not self.entity.displaceIncrease then
-        self.entity.displacementX = self.entity.displacementX - dt * 5
-        self.entity.displacementY = self.entity.displacementY - dt * 5
-        if self.entity.displacementX <= -self.entity.displacementMagnitude then
-            self.displacementX = -self.entity.displacementMagnitude
-            self.entity.displaceIncrease = true
-        end
-    end
-
     if self.entity.corrupted then
         if self.entity.health <= 0 then
             sounds['cleanse']:play()
@@ -170,8 +153,8 @@ function BatWalkState:processAI(params, dt, player)
     --]]
     ---[[
     --]]
-    self.entity.x = self.entity.displacementX + self.entity.x
-    self.entity.y = self.entity.displacementY + self.entity.y
+    --self.entity.x = self.entity.displacementX + self.entity.x
+    --self.entity.y = self.entity.displacementY + self.entity.y
     getDistanceToPlayer(player, self.entity)
 end
 
@@ -186,8 +169,8 @@ function BatWalkState:render()
     --]]
     ---[[
     if not PAUSED then
-        self.entity.y = self.entity.y - self.entity.displacementY
-        self.entity.x = self.entity.x - self.entity.displacementX
+        --self.entity.y = self.entity.y - self.entity.displacementY
+        --self.entity.x = self.entity.x - self.entity.displacementX
     end
     --]]
     --DIALOGUE HITBOX RENDERS
