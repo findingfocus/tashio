@@ -2,8 +2,10 @@ Spitball = Class{}
 
 function Spitball:init(entity)
     self.entity = entity
-    self.x = math.floor(entity.x + entity.displacementX + 0.5) + 12
-    self.y = math.floor(entity.y + entity.displacementY + 0.5) + 4
+    --self.x = math.floor(entity.x + entity.displacementX + 0.5) + 12
+    self.x = entity.x + 12
+    self.y = entity.y + 4
+    --self.y = math.floor(entity.y + entity.displacementY + 0.5) + 4
     self.lifespan = 0.1
     self.remove = false
     self.spitball = true
