@@ -221,50 +221,53 @@ end
 ---[[
 table.insert(MAP[1][12].entities, Entity {
     animations = ENTITY_DEFS['bat'].animations,
-    x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
-    y = math.random(10, SCREEN_HEIGHT_LIMIT),
+    x = math.random(30, VIRTUAL_WIDTH - TILE_SIZE * 2),
+    y = math.random(10, SCREEN_HEIGHT_LIMIT - 30),
     width = 24,
     height = 10,
     health = 2,
     type = 'bat',
-    displacementMagnitude = 5,
-    walkSpeed = .15,
-    aiPath = math.random(1, 2),
     corrupted = true,
     enemy = true,
+    zigzagTime = 0,
+    walkSpeed = math.random(8, 14),
+    zigzagFrequency = math.random(4.5, 6),
+    zigzagAmplitude = math.random(.5, .75),
 })
 
---[[
+---[[
 table.insert(MAP[1][12].entities, Entity {
-    animations = ENTITY_DEFS['batC'].animations,
+    animations = ENTITY_DEFS['bat'].animations,
     x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
     y = math.random(10, SCREEN_HEIGHT_LIMIT),
     width = 24,
     height = 10,
     health = 2,
     type = 'bat',
-    displacementMagnitude = 4,
-    walkSpeed = 0.12,
-    aiPath = math.random(1, 2),
     corrupted = true,
     enemy = true,
+    zigzagTime = 0,
+    walkSpeed = math.random(8, 14),
+    zigzagFrequency = math.random(4.5, 6),
+    zigzagAmplitude = math.random(.5, .75),
 })
 --]]
 
---[[
+---[[
 table.insert(MAP[1][12].entities, Entity {
-    animations = ENTITY_DEFS['batC'].animations,
+    animations = ENTITY_DEFS['bat'].animations,
     x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
     y = math.random(10, SCREEN_HEIGHT_LIMIT),
     width = 24,
     height = 10,
     health = 2,
     type = 'bat',
-    displacementMagnitude = 4,
-    walkSpeed = 0.10,
-    aiPath = math.random(1, 2),
     corrupted = true,
     enemy = true,
+    zigzagTime = 0,
+    walkSpeed = math.random(8, 14),
+    zigzagFrequency = math.random(4.5, 6),
+    zigzagAmplitude = math.random(.5, .75),
 })
 --]]
 
