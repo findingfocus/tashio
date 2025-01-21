@@ -22,6 +22,9 @@ function Entity:init(def)
     self.originalHealth = def.health
     self.corrupted = def.corrupted
     self.originalCorrupted = def.corrupted
+    self.zigzagTime = def.zigzagTime or nil
+    self.zigzagFrequency = def.zigzagFrequency or nil
+    self.zigzagAmplitude = def.zigzagAmplitude or nil
     self.damageFlash = false
     self.damageFlashDuration = FLASH_DURATION
     self.damageFlashTimer = FLASH_FREQUENCY
@@ -300,6 +303,7 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
     if self.type == 'gecko' then --IF TYPE HAS PARTICLE SYSTEM TODO
         love.graphics.draw(self.psystem, math.floor(adjacentOffsetX), math.floor(adjacentOffsetY))
     end
+
     self.x, self.y = self.x + (adjacentOffsetX or 0), self.y + (adjacentOffsetY or 0)
     self.stateMachine:render()
     self.x, self.y = self.x - (adjacentOffsetX or 0), self.y - (adjacentOffsetY or 0)

@@ -4,17 +4,14 @@ function BatWalkState:init(entity, scene)
     self.entity = entity
     self.stateName = 'pursue'
     --self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
-    --self.entity.walkSpeed = .5
+    self.entity.originalWalkSpeed = entity.walkSpeed
     self.scene = scene
 
     self.moveDuration = 0
     self.movementTimer = 0
 
     self.collided = false
-    self.entity.displacementX = 20
-    self.entity.displacementY = 20
-    self.entity.displaceIncrease = true
-    self.entity.displaceTimer = 0
+    self.entity.attackTimer = 0
 end
 
 function getDistanceToPlayer(player, entity)
@@ -23,7 +20,7 @@ function getDistanceToPlayer(player, entity)
     if math.abs(entity.x - player.x) <= 10 then
         if entity.y < player.y then
             --BOTTOM OF BAT to TOP OF PLAYER
-            entity.distanceToPlayer = player.y - (entity.y + entity.height)
+            entity.distanceToPlayer = player.y - (entity.y + entity.height - 3)
         else
             --TOP OF BAT TO BOTTOM PLAYER
             entity.distanceToPlayer = entity.y - (player.y + player.height)
@@ -38,7 +35,6 @@ function getDistanceToPlayer(player, entity)
             entity.distanceToPlayer = entity.x - (player.x + player.width)
         end
     end
-    ---[[
     if entity.x < player.x then --BAT IS ON THE LEFT
         if entity.y < player.y then --BAT IS IN TOPLEFT
             --BR OF BAT to TL of PLAYER
@@ -60,7 +56,6 @@ function getDistanceToPlayer(player, entity)
             bLength = math.abs(entity.y - (player.y + player.height - BAT_DISTANCE))
         end
     end
-    --]]
 
     aSquared = aLength * aLength
     bSquared = bLength * bLength
@@ -84,11 +79,6 @@ function BatWalkState:update(dt)
 
     self.collided = false
 
-    --[[
-    self.entity.x = self.entity.x + self.entity.dx * dt
-    self.entity.y = self.entity.y + self.entity.dy * dt
-    --]]
-
     --TRIGGER OFFSCREEN
     if self.entity.x + self.entity.width < -TILE_SIZE or self.entity.x > VIRTUAL_WIDTH + TILE_SIZE or self.entity.y + self.entity.height < -TILE_SIZE then
         --ADD IN BOTTOM RULE AS WELL
@@ -99,90 +89,52 @@ function BatWalkState:update(dt)
     end
 end
 
+
 function BatWalkState:processAI(params, dt, player)
+    getDistanceToPlayer(player, self.entity)
+    if self.entity.distanceToPlayer < 13 then
+        self.entity.walkSpeed = 0
+        self.entity.attackTimer = self.entity.attackTimer + dt
+        if self.entity.attackTimer > 2 then
+            self.entity.attackTimer = 0
+            table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].attacks, Spitball(self.entity))
+        end
+    else
+        self.entity.walkSpeed = self.entity.originalWalkSpeed
+    end
+    self.entity.zigzagTime = self.entity.zigzagTime + self.entity.zigzagFrequency * dt
+
     if self.entity.health <= 0 then
         self.entity.hit = false
         self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['bat'])
         self.entity:changeState('bat-flee')
     end
-    ---[[
-    if self.entity.distanceToPlayer > 10 then
-        --ORTHOGONAL MOVEMENT
-        if math.abs(player.y - self.entity.y) < .5 then
-            self.entity.y = player.y
-            if player.x < self.entity.x then --IF PLAYER IS TO THE LEFT OF BAT
-                self.entity.x = self.entity.x - self.entity.walkSpeed
-            elseif player.x > self.entity.x then --IF PLAYER IS TO THE RIGHT OF BAT
-                self.entity.x = self.entity.x + self.entity.walkSpeed
-            end
-        end
-        if math.abs(player.x - self.entity.x) < .5 then
-            self.entity.x = player.x
-            if player.y < self.entity.y then --IF PLAYER IS ABOVE THE BAT
-                self.entity.y = self.entity.y - self.entity.walkSpeed
-            elseif player.y > self.entity.y then --IF PLAYER BELOW BAT
-                self.entity.y = self.entity.y + self.entity.walkSpeed
-            end
-        end
 
-        --DIAGONAL MOVEMENT
-        if player.x < self.entity.x and player.y < self.entity.y then --IF PLAYER UPLEFT OF BAT
-            self.entity.x = self.entity.x - self.entity.walkSpeed * ((math.sqrt(2)) / 2)
-            self.entity.y = self.entity.y - self.entity.walkSpeed * ((math.sqrt(2)) / 2)
-        end
-        if player.x < self.entity.x and player.y > self.entity.y then --IF PLAYER BOTTOMLEFT OF BAT
-            self.entity.x = self.entity.x - self.entity.walkSpeed * ((math.sqrt(2)) / 2)
-            self.entity.y = self.entity.y + self.entity.walkSpeed * ((math.sqrt(2)) / 2)
-        end
-        if player.x > self.entity.x and player.y < self.entity.y then --IF PLAYER UPRIGHT OF BAT
-            self.entity.x = self.entity.x + self.entity.walkSpeed * ((math.sqrt(2)) / 2)
-            self.entity.y = self.entity.y - self.entity.walkSpeed * ((math.sqrt(2)) / 2)
-        end
-        if player.x > self.entity.x and player.y > self.entity.y then --IF PLAYER BOTTOMRIGHT OF BAT
-            self.entity.x = self.entity.x + self.entity.walkSpeed * ((math.sqrt(2)) / 2)
-            self.entity.y = self.entity.y + self.entity.walkSpeed * ((math.sqrt(2)) / 2)
-        end
-    else
-        self.entity:changeState('bat-attack')
+    local dx = player.x - self.entity.x
+    local dy = player.y - self.entity.y
+    local distance =  math.sqrt(dx^2 + dy^2)
+
+    if distance > 0 then
+        dx = dx / distance
+        dy = dy / distance
     end
-    --]]
-    --[[
-    Timer.tween(3, {
-        [self.entity] = {x = sceneView.player.x, y = sceneView.player.y},
-    })
-    --]]
-    ---[[
-    --]]
-    --self.entity.x = self.entity.displacementX + self.entity.x
-    --self.entity.y = self.entity.displacementY + self.entity.y
+
+    local offset = math.sin(self.entity.zigzagTime) * self.entity.zigzagAmplitude
+    local offsetX = -dy * offset
+    local offsetY = dx * offset
+
+    self.entity.x = self.entity.x + (dx * self.entity.walkSpeed * dt) + offsetX
+    self.entity.y = self.entity.y + (dy * self.entity.walkSpeed * dt) + offsetY
+
     getDistanceToPlayer(player, self.entity)
 end
 
 function BatWalkState:render()
-    love.graphics.setColor(WHITE)
     local anim = self.entity.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
         self.entity.x, self.entity.y)
     --[[
     love.graphics.setColor(WHITE)
-    love.graphics.print(self.entity.distanceToPlayer, self.entity.x, self.entity.y - 5)
-    --]]
-    ---[[
-    if not PAUSED then
-        --self.entity.y = self.entity.y - self.entity.displacementY
-        --self.entity.x = self.entity.x - self.entity.displacementX
-    end
-    --]]
-    --DIALOGUE HITBOX RENDERS
-    --[[
-    love.graphics.setColor(RED)
-    love.graphics.rectangle('fill', VIRTUAL_WIDTH - 8, 32, 16, 16)
-    love.graphics.setColor(WHITE)
-    --]]
-
-    --HEALTH BARS
-    --[[
-    love.graphics.setColor(1,0,0,1)
-    love.graphics.rectangle('fill', self.entity.x, self.entity.y - 1, self.entity.health * 5.3, 1)
+    love.graphics.print(tostring(self.entity.flashing), self.entity.x, self.entity.y - 5)
     --]]
 end
