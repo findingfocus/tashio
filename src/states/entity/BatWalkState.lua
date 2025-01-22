@@ -135,6 +135,6 @@ function BatWalkState:render()
         self.entity.x, self.entity.y)
     --[[
     love.graphics.setColor(WHITE)
-    love.graphics.print(tostring(self.entity.flashing), self.entity.x, self.entity.y - 5)
+    love.graphics.print(tostring(self.entity.x), self.entity.x, self.entity.y - 5)
     --]]
 end

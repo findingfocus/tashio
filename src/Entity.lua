@@ -32,6 +32,7 @@ function Entity:init(def)
     self.displacementMagnitude = def.displacementMagnitude
 
     self.walkSpeed = def.walkSpeed
+    self.originalWalkSpeed = def.walkSpeed
     self.aiPath = def.aiPath
     --self.walkSpeed = math.random
     self.offscreen = false
@@ -51,15 +52,18 @@ function Entity:init(def)
 end
 
 function Entity:resetOriginalPosition()
-    self.animations = self.originalAnimations
     self.x = self.originalX
     self.y = self.originalY
     self.health = self.originalHealth
     self.damageFlash = false
     self.flashing = false
     self.corrupted = true
+    self.walkSpeed = self.originalWalkSpeed
     self.dx = 0
     self.dy = 0
+    if self.type == 'bat' then
+        self:changeAnimation('pursue')
+    end
     if self.type == 'gecko' or self.type == 'geckoC' then
         self.direction = self.originalDirection
     end
