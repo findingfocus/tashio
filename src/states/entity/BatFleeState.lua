@@ -4,8 +4,6 @@ function BatFleeState:init(entity)
     self.entity = entity
     self.entity.dx = 0
     self.entity.dy = 0
-    self.entity.displacementX = 0
-    self.entity.displacementY = 0
     self.stateName = 'flee'
     sounds['cleanse']:play()
     self.entity.damageFlash = true
@@ -18,7 +16,6 @@ function BatFleeState:init(entity)
     self.entity.flyBR = false
     self.entity.hit = false
 
-    --TODO FACTOR THIS INTO HOR AND VERTICAL
     --RIGHT EXIT
     if self.entity.x < gPlayer.x + (gPlayer.width / 2) then
         self.entity.dx = -BAT_EXIT_SPEED
