@@ -1,4 +1,5 @@
 EntityIdleState = Class{__includes = BaseState}
+
 function EntityIdleState:init(entity)
     self.entity = entity
     self.stateName = 'idle'
