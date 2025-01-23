@@ -295,21 +295,22 @@ for i = 1, entityCount do
             ['gecko-walk'] = function() return GeckoWalkState(MAP[1][12].entities[i]) end,
             ['entity-idle'] = function() return EntityIdleState(MAP[1][12].entities[i]) end,
         }
+        MAP[1][12].entities[i]:changeState('entity-idle')
     end
+
 
     if MAP[1][12].entities[i].type == 'bat' then
         MAP[1][12].entities[i].stateMachine = StateMachine {
-            ['entity-idle'] = function() return EntityIdleState(MAP[1][12].entities[i]) end,
             ['bat-spawn'] = function() return BatSpawnState(MAP[1][12].entities[i]) end,
             ['bat-walk'] = function() return BatWalkState(MAP[1][12].entities[i]) end,
             ['bat-attack'] = function() return BatAttackState(MAP[1][12].entities[i]) end,
             ['bat-flee'] = function() return BatFleeState(MAP[1][12].entities[i]) end,
+            ['entity-idle'] = function() return EntityIdleState(MAP[1][12].entities[i]) end,
         }
-    end
-    MAP[1][12].entities[i]:changeState('entity-idle')
-    if MAP[1][12].entities[i].type == 'bat' then
+        --.entities[i].originalState = 'bat-spawn'
         MAP[1][12].entities[i]:changeState('bat-spawn')
     end
+
     MAP[1][12].entities[i].hit = false
 end
 

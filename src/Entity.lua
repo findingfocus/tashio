@@ -63,14 +63,15 @@ function Entity:resetOriginalPosition()
     self.dy = 0
     if self.type == 'bat' then
         self:changeAnimation('pursue')
+        self:changeState('bat-spawn')
     end
     if self.type == 'gecko' or self.type == 'geckoC' then
         self.direction = self.originalDirection
+        self:changeState('entity-idle')
     end
     self.type = self.originalType
     self.offscreen = false
     self.psystem:reset()
-    self:changeState('entity-idle')
 end
 
 function Entity:createAnimations(animations)
