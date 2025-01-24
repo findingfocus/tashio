@@ -4,7 +4,7 @@ function BatWalkState:init(entity, scene)
     self.entity = entity
     self.stateName = 'pursue'
     --self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
-    self.entity.originalWalkSpeed = entity.walkSpeed
+    self.walkSpeed = entity.originalWalkSpeed
     self.scene = scene
 
     self.moveDuration = 0

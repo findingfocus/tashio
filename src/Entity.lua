@@ -17,6 +17,7 @@ function Entity:init(def)
     self.height = def.height
     self.direction = def.direction or 'down'
     self.animations = self:createAnimations(def.animations)
+    self.spawning = def.spawning or nil
     --self:changeAnimation('idle-down')
     self.health = def.health
     self.originalHealth = def.health
@@ -201,7 +202,7 @@ function Entity:update(dt)
             local spellX = sceneView.spellcastEntities[i].x
             local spellY = sceneView.spellcastEntities[i].y
             --ENTITY KNOCKBACK FOR SPELL COLLISIONS
-            if self:fireSpellCollides(sceneView.spellcastEntities[i]) and not self.hit and self.corrupted then
+            if self:fireSpellCollides(sceneView.spellcastEntities[i]) and not self.hit and self.corrupted and not self.spawning then
                 self.damageFlash = true
                 self.health = math.max(0, self.health - DAMAGE)
                 sounds['hurt']:play()

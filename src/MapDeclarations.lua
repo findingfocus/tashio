@@ -221,21 +221,22 @@ end
 ---[[
 table.insert(MAP[1][12].entities, Entity {
     animations = ENTITY_DEFS['bat'].animations,
-    x = math.random(30, VIRTUAL_WIDTH - TILE_SIZE * 2),
-    y = math.random(10, SCREEN_HEIGHT_LIMIT - 30),
+    x = VIRTUAL_WIDTH,
+    y = TILE_SIZE * 2 + 5,
     width = 24,
     height = 10,
     health = 2,
     type = 'bat',
+    spawning = true,
     corrupted = true,
     enemy = true,
     zigzagTime = 0,
-    walkSpeed = math.random(8, 14),
+    walkSpeed = math.random(12, 14),
     zigzagFrequency = math.random(4.5, 6),
     zigzagAmplitude = math.random(.5, .75),
 })
 
----[[
+--[[
 table.insert(MAP[1][12].entities, Entity {
     animations = ENTITY_DEFS['bat'].animations,
     x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
@@ -243,6 +244,7 @@ table.insert(MAP[1][12].entities, Entity {
     width = 24,
     height = 10,
     health = 2,
+    spawning = true,
     type = 'bat',
     corrupted = true,
     enemy = true,
@@ -253,7 +255,7 @@ table.insert(MAP[1][12].entities, Entity {
 })
 --]]
 
----[[
+--[[
 table.insert(MAP[1][12].entities, Entity {
     animations = ENTITY_DEFS['bat'].animations,
     x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
@@ -261,6 +263,7 @@ table.insert(MAP[1][12].entities, Entity {
     width = 24,
     height = 10,
     health = 2,
+    spawning = true,
     type = 'bat',
     corrupted = true,
     enemy = true,
