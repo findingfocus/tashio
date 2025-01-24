@@ -259,6 +259,13 @@ function Scene:render()
             end
         end
     end
+
+    --ENTITY RENDERS
+    for k, entity in pairs(MAP[self.currentMap.row][self.currentMap.column].entities) do
+        if not entity.offscreen and not entity.spawning then
+            entity:render(self.currentMap.adjacentOffsetX, self.currentMap.adjacentOffsetY)
+        end
+    end
     love.graphics.pop()
 
     --WEATHER PARTICLE SYSTEM
