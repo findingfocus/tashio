@@ -19,6 +19,8 @@ function Entity:init(def)
     self.animations = self:createAnimations(def.animations)
     self.spawning = def.spawning or nil
     --self:changeAnimation('idle-down')
+    self.spawnRow = def.spawnRow or nil
+    self.spawnColumn = def.spawnColumn or nil
     self.health = def.health
     self.originalHealth = def.health
     self.corrupted = def.corrupted
@@ -56,6 +58,7 @@ function Entity:resetOriginalPosition()
     self.x = self.originalX
     self.y = self.originalY
     self.health = self.originalHealth
+    self.locationSet = false
     self.damageFlash = false
     self.flashing = false
     self.corrupted = true
