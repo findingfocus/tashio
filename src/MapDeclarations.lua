@@ -221,8 +221,10 @@ end
 ---[[
 table.insert(MAP[1][12].entities, Entity {
     animations = ENTITY_DEFS['bat'].animations,
-    x = VIRTUAL_WIDTH,
-    y = TILE_SIZE * 2 + 5,
+    --x = VIRTUAL_WIDTH,
+    --y = TILE_SIZE * 2 + 5,
+    spawnRow = 5,
+    spawnColumn = 1,
     width = 24,
     height = 10,
     health = 2,
@@ -236,11 +238,11 @@ table.insert(MAP[1][12].entities, Entity {
     zigzagAmplitude = math.random(.5, .75),
 })
 
---[[
+---[[
 table.insert(MAP[1][12].entities, Entity {
     animations = ENTITY_DEFS['bat'].animations,
-    x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
-    y = math.random(10, SCREEN_HEIGHT_LIMIT),
+    spawnRow = 1,
+    spawnColumn = 4,
     width = 24,
     height = 10,
     health = 2,
@@ -255,11 +257,11 @@ table.insert(MAP[1][12].entities, Entity {
 })
 --]]
 
---[[
+---[[
 table.insert(MAP[1][12].entities, Entity {
     animations = ENTITY_DEFS['bat'].animations,
-    x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
-    y = math.random(10, SCREEN_HEIGHT_LIMIT),
+    spawnRow = 8,
+    spawnColumn = 7,
     width = 24,
     height = 10,
     health = 2,
@@ -273,6 +275,22 @@ table.insert(MAP[1][12].entities, Entity {
     zigzagAmplitude = math.random(.5, .75),
 })
 --]]
+table.insert(MAP[1][12].entities, Entity {
+    animations = ENTITY_DEFS['bat'].animations,
+    spawnRow = 3,
+    spawnColumn = 10,
+    width = 24,
+    height = 10,
+    health = 2,
+    spawning = true,
+    type = 'bat',
+    corrupted = true,
+    enemy = true,
+    zigzagTime = 0,
+    walkSpeed = math.random(8, 14),
+    zigzagFrequency = math.random(4.5, 6),
+    zigzagAmplitude = math.random(.5, .75),
+})
 
 local entityCount = #MAP[1][12].entities
 for i = 1, entityCount do
@@ -304,7 +322,7 @@ for i = 1, entityCount do
 
     if MAP[1][12].entities[i].type == 'bat' then
         MAP[1][12].entities[i].stateMachine = StateMachine {
-            ['bat-spawn'] = function() return BatSpawnState(MAP[1][12].entities[i]) end,
+            ['bat-spawn'] = function() return BatSpawnState(MAP[1][12].entities[i], MAP[1][12].entities[i].spawnRow, MAP[1][12].entities[i].spawnColumn) end,
             ['bat-walk'] = function() return BatWalkState(MAP[1][12].entities[i]) end,
             ['bat-attack'] = function() return BatAttackState(MAP[1][12].entities[i]) end,
             ['bat-flee'] = function() return BatFleeState(MAP[1][12].entities[i]) end,
