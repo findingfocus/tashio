@@ -177,7 +177,7 @@ function Map:update(dt)
                 --TODO ESCAPE PIT
                 if #INPUT_LIST == 0 then
                     if sceneView.player.tweenAllowed then
-                        Timer.tween(.9, {
+                        Timer.tween(.8, {
                             [sceneView.player] = {x = v.x, y = v.y},
                         })
                         --[[

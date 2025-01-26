@@ -158,7 +158,8 @@ for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEI
         globalRowsInserted = 0
     end
 
-    if aboveGroundTiledMap[tileId] == 14 then
+    --PIT INSERTION
+    if (aboveGroundTiledMap[tileId] > 16 and aboveGroundTiledMap[tileId] < 22) then
       PITS = PITS + 1
       table.insert(MAP[mapRow][mapCol].pits, Pit(sceneRow, sceneCol))
     end
@@ -257,7 +258,7 @@ table.insert(MAP[1][12].entities, Entity {
 })
 --]]
 
----[[
+--[[
 table.insert(MAP[1][12].entities, Entity {
     animations = ENTITY_DEFS['bat'].animations,
     spawnRow = 8,
@@ -275,6 +276,7 @@ table.insert(MAP[1][12].entities, Entity {
     zigzagAmplitude = math.random(.5, .75),
 })
 --]]
+--[[
 table.insert(MAP[1][12].entities, Entity {
     animations = ENTITY_DEFS['bat'].animations,
     spawnRow = 3,
@@ -291,6 +293,7 @@ table.insert(MAP[1][12].entities, Entity {
     zigzagFrequency = math.random(4.5, 6),
     zigzagAmplitude = math.random(.5, .75),
 })
+--]]
 
 local entityCount = #MAP[1][12].entities
 for i = 1, entityCount do

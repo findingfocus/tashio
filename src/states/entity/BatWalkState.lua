@@ -117,11 +117,17 @@ function BatWalkState:processAI(params, dt, player)
     if distance > 0 then
         dx = dx / distance
         dy = dy / distance
+        if gPlayer.falling then
+            self.entity.attackTimer = 0
+            dy = -BAT_FLYBACK_SPEED
+            dx =  BAT_FLYBACK_SPEED
+        end
     end
 
     local offset = math.sin(self.entity.zigzagTime) * self.entity.zigzagAmplitude
     local offsetX = -dy * offset
     local offsetY = dx * offset
+
 
     self.entity.x = self.entity.x + (dx * self.entity.walkSpeed * dt) + offsetX
     self.entity.y = self.entity.y + (dy * self.entity.walkSpeed * dt) + offsetY
@@ -133,6 +139,7 @@ function BatWalkState:render()
     local anim = self.entity.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
         self.entity.x, self.entity.y)
+        love.graphics.print(tostring(self.entity.stateMachine.current.stateName), self.entity.x, self.entity.y)
     --[[
     love.graphics.setColor(WHITE)
     love.graphics.print(tostring(self.entity.x), self.entity.x, self.entity.y - 5)
