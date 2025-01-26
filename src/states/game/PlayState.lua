@@ -26,12 +26,14 @@ local transitionFadeAlpha = 0
 gPlayer = Player {
     animations = ENTITY_DEFS['player'].animations,
     walkSpeed = ENTITY_DEFS['player'].walkSpeed,
-    x = TILE_SIZE * 3,
-    y = TILE_SIZE * 4,
+    x = TILE_SIZE * 2,
+    y = TILE_SIZE * 6,
     --y = 30,
     width = TILE_SIZE,
     height = TILE_SIZE,
 }
+gPlayer.checkPointPositions.x = TILE_SIZE * 2
+gPlayer.checkPointPositions.y = TILE_SIZE * 6
 ninetyDegrees = math.rad(90)
 oneEightyDegrees = math.rad(180)
 twoSeventyDegress = math.rad(270)
@@ -370,6 +372,8 @@ function PlayState:update(dt)
             for i = 1, #MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities do
                 MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities[i]:resetOriginalPosition()
             end
+            sceneView.player.checkPointPositions.x = sceneView.player.x
+            sceneView.player.checkPointPositions.y = sceneView.player.y
         end
         transitionFadeAlpha = math.min(transitionFadeAlpha + FADE_TO_BLACK_SPEED * dt, 255)
     end
