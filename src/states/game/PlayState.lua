@@ -493,7 +493,6 @@ function PlayState:render()
         --love.graphics.print('graveyard: ' .. inspect(sceneView.player.graveyard), 5, 25)
         love.graphics.print('checkpoint: ' .. inspect(gPlayer.checkPointPositions), 5, 35)
         --love.graphics.print('testNumber' .. inspect(testNumber), 5, 35)
-        --love.graphics.print('pits: ' .. tostring(PITS), 5, 25)
         --print('leftCount: ' .. inspect(leftCount), 5, 15)
         --print(inspect(sceneView.player.animations['falling']))
 

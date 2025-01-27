@@ -52,6 +52,8 @@ require 'src/Entity'
 require 'src/entity_defs'
 require 'src/Player'
 require 'src/Scene'
+require 'src/Pit'
+require 'src/Chasm'
 require 'src/Map'
 require 'src/RainSystem'
 require 'src/SnowSystem'
@@ -89,6 +91,7 @@ downPress = love.graphics.newImage('graphics/downPress.png')
 leftPress = love.graphics.newImage('graphics/leftPress.png')
 rightPress = love.graphics.newImage('graphics/rightPress.png')
 pauseMockup = love.graphics.newImage('graphics/pauseMockup.png')
+tashioTester = love.graphics.newImage('graphics/tashioTester.png')
 
 gTextures = {
     ['character-walk'] = love.graphics.newImage('graphics/playerAtlas.png'),

@@ -8,6 +8,7 @@ local TRANSITION_SPEED = 0.65
 local spellcastEntityCount = 3
 local count = spellcastEntityCount
 local step = math.pi * 2 / count
+local x, y = love.mouse.getPosition()
 
 function Scene:init(player, mapRow, mapColumn)
     self.player = player
@@ -155,6 +156,7 @@ function Scene:finishShifting()
 end
 
 function Scene:update(dt)
+    x, y = love.mouse.getPosition()
     --self.snowSystem:update(dt)
     --self.rainSystem:update(dt)
     --self.sandSystem:update(dt)
@@ -289,4 +291,5 @@ function Scene:render()
     for k, v in pairs(MAP[self.mapRow][self.mapColumn].dialogueBoxCollided) do
         MAP[self.mapRow][self.mapColumn].dialogueBoxCollided[k]:render()
     end
+    love.graphics.draw(tashioTester, x, y)
 end

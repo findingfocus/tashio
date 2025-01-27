@@ -142,6 +142,48 @@ function Player:update(dt)
         self.dialogueBoxWidth = TILE_SIZE / 2
         self.dialogueBoxHeight = TILE_SIZE - DIALOGUE_TRIGGER_SHRINK
     end
+
+    --[[
+    CHASM_TOP_COLLIDE_X = self.x + 5
+    CHASM_TOP_COLLIDE_Y = self.y + 6
+    CHASM_TOP_COLLIDE_WIDTH = 6
+    CHASM_TOP_COLLIDE_HEIGHT = 2
+
+    CHASM_BOTTOM_COLLIDE_X = self.x + 5
+    CHASM_BOTTOM_COLLIDE_Y = self.y + self.height - 4
+    CHASM_BOTTOM_COLLIDE_WIDTH = 6
+    CHASM_BOTTOM_COLLIDE_HEIGHT = 2
+
+    CHASM_LEFT_COLLIDE_X = self.x + 3
+    CHASM_LEFT_COLLIDE_Y = self.y + 8
+    CHASM_LEFT_COLLIDE_WIDTH = 2
+    CHASM_LEFT_COLLIDE_HEIGHT = 4
+
+    CHASM_RIGHT_COLLIDE_X = self.x + self.width - 5
+    CHASM_RIGHT_COLLIDE_Y = self.y + 8
+    CHASM_RIGHT_COLLIDE_WIDTH = 2
+    CHASM_RIGHT_COLLIDE_HEIGHT = 4
+    --]]
+
+    CHASM_TL_COLLIDE_X = self.x + 6
+    CHASM_TL_COLLIDE_Y = self.y + 7
+    CHASM_TL_COLLIDE_WIDTH = 2
+    CHASM_TL_COLLIDE_HEIGHT = 2
+
+    CHASM_TR_COLLIDE_X = self.x + self.width - 8
+    CHASM_TR_COLLIDE_Y = self.y + 7
+    CHASM_TR_COLLIDE_WIDTH = 2
+    CHASM_TR_COLLIDE_HEIGHT = 2
+
+    CHASM_BL_COLLIDE_X = self.x + 6
+    CHASM_BL_COLLIDE_Y = self.y + self.height - 4
+    CHASM_BL_COLLIDE_WIDTH = 2
+    CHASM_BL_COLLIDE_HEIGHT = 2
+
+    CHASM_BR_COLLIDE_X = self.x + self.width - 8
+    CHASM_BR_COLLIDE_Y = self.y + self.height - 4
+    CHASM_BR_COLLIDE_WIDTH = 2
+    CHASM_BR_COLLIDE_HEIGHT = 2
 end
 
 function Player:render()
@@ -152,5 +194,18 @@ function Player:render()
         love.graphics.rectangle('fill', self.dialogueBoxX + 1, self.dialogueBoxY + 1, self.dialogueBoxWidth - COLLISION_BUFFER, self.dialogueBoxHeight - COLLISION_BUFFER)
         --]]
         Entity.render(self)
+        --[[
+        love.graphics.setColor(RED)
+        love.graphics.rectangle('fill', CHASM_TOP_COLLIDE_X, CHASM_TOP_COLLIDE_Y, CHASM_TOP_COLLIDE_WIDTH, CHASM_TOP_COLLIDE_HEIGHT)
+        love.graphics.rectangle('fill', CHASM_BOTTOM_COLLIDE_X, CHASM_BOTTOM_COLLIDE_Y, CHASM_BOTTOM_COLLIDE_WIDTH, CHASM_BOTTOM_COLLIDE_HEIGHT)
+        love.graphics.rectangle('fill', CHASM_LEFT_COLLIDE_X, CHASM_LEFT_COLLIDE_Y, CHASM_LEFT_COLLIDE_WIDTH, CHASM_LEFT_COLLIDE_HEIGHT)
+        love.graphics.rectangle('fill', CHASM_RIGHT_COLLIDE_X, CHASM_RIGHT_COLLIDE_Y, CHASM_RIGHT_COLLIDE_WIDTH, CHASM_RIGHT_COLLIDE_HEIGHT)
+        --]]
+        love.graphics.setColor(GREEN)
+        love.graphics.rectangle('fill', CHASM_TL_COLLIDE_X, CHASM_TL_COLLIDE_Y, CHASM_TL_COLLIDE_WIDTH, CHASM_TL_COLLIDE_HEIGHT)
+        love.graphics.rectangle('fill', CHASM_BL_COLLIDE_X, CHASM_BL_COLLIDE_Y, CHASM_BL_COLLIDE_WIDTH, CHASM_BL_COLLIDE_HEIGHT)
+        love.graphics.setColor(BLUE)
+        love.graphics.rectangle('fill', CHASM_TR_COLLIDE_X, CHASM_TR_COLLIDE_Y, CHASM_TR_COLLIDE_WIDTH, CHASM_TR_COLLIDE_HEIGHT)
+        love.graphics.rectangle('fill', CHASM_BR_COLLIDE_X, CHASM_BR_COLLIDE_Y, CHASM_BR_COLLIDE_WIDTH, CHASM_BR_COLLIDE_HEIGHT)
     end
 end
