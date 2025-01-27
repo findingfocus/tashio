@@ -174,8 +174,8 @@ function Map:update(dt)
             if v:collide(sceneView.player) then
                 testNumber = testNumber + 1
                 pitCount = pitCount + 1
-                --TODO ESCAPE PIT
-                if #INPUT_LIST == 0 then
+                --PIT COLLISION
+                --if #INPUT_LIST == 0 then
                     if sceneView.player.tweenAllowed then
                         Timer.tween(.8, {
                             [sceneView.player] = {x = v.x, y = v.y},
@@ -186,7 +186,7 @@ function Map:update(dt)
                         end
                         --]]
                     end
-                end
+                --end
                 if math.abs(v.x - sceneView.player.x) < PIT_PROXIMITY_FALL then
                     if math.abs(v.y - sceneView.player.y) < PIT_PROXIMITY_FALL then
                         sceneView.player.fallTimer = sceneView.player.fallTimer + dt
@@ -345,6 +345,7 @@ function Map:render()
     end
     love.graphics.setColor(255, 0, 0, 255)
 
+    --PIT COLLISION
     for k, v in pairs(self.pits) do
         if v:collide(sceneView.player) then
             --v:render()

@@ -1,5 +1,4 @@
 require 'src/constants'
-require 'src/Pit'
 
 MAP = {}
 TILEDMAP = {}
@@ -8,7 +7,6 @@ OVERWORLD_MAP_WIDTH = 20
 OVERWORLD_MAP_HEIGHT = 10
 MAP_WIDTH = 10
 MAP_HEIGHT = 8
-PITS = 0
 
 
 --DECLARING EMPTY TABLES IN GLOBAL MAP
@@ -42,6 +40,7 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
         MAP[i][j].entities = {}
         MAP[i][j].npc = {}
         MAP[i][j].pits = {}
+        MAP[i][j].chasms = {}
         MAP[i][j].topLevelTileIds = {}
         MAP[i][j].aboveGroundTileIds = {}
         MAP[i][j].dialogueBox = {}
@@ -159,9 +158,13 @@ for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEI
     end
 
     --PIT INSERTION
-    if (aboveGroundTiledMap[tileId] > 16 and aboveGroundTiledMap[tileId] < 22) then
-      PITS = PITS + 1
+    if (aboveGroundTiledMap[tileId] == 14) then
       table.insert(MAP[mapRow][mapCol].pits, Pit(sceneRow, sceneCol))
+    end
+
+    --CHASMS
+    if (aboveGroundTiledMap[tileId] > 16 and aboveGroundTiledMap[tileId] < 22) then
+      table.insert(MAP[mapRow][mapCol].chasms, Chasm(sceneRow, sceneCol))
     end
 
     table.insert(MAP[mapRow][mapCol].aboveGroundTileIds, aboveGroundTiledMap[tileId])
@@ -219,7 +222,7 @@ for i = 1, entities do
 end
 --]]
 
----[[
+--[[
 table.insert(MAP[1][12].entities, Entity {
     animations = ENTITY_DEFS['bat'].animations,
     --x = VIRTUAL_WIDTH,
