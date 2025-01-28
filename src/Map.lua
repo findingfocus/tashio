@@ -110,7 +110,6 @@ function Map:update(dt)
             end
         end
 
-
         --PLAYER TO ENTITY COLLISION
         for i = 1, #MAP[self.row][self.column].entities do
             local entity = MAP[self.row][self.column].entities[i]
@@ -154,7 +153,16 @@ function Map:update(dt)
                 end
             end
         end
+        --PLAYER TO CHASM COLLISION
+        ---[[
+        for k, v in pairs(MAP[self.row][self.column].chasms) do
+            sceneView.player:chasmTopLeftCollide(v)
+            sceneView.player:chasmTopRightCollide(v)
+            sceneView.player:chasmBottomLeftCollide(v)
+            sceneView.player:chasmBottomRightCollide(v)
+        end
 
+        --]]
         --COIN COLLISION
         if MAP[self.row][self.column].coins[1] ~= nil then
             for k, v in pairs(MAP[self.row][self.column].coins) do
@@ -383,9 +391,13 @@ function Map:render()
             v:render(self.adjacentOffsetX, self.adjacentOffsetY)
         end
     end
-    --[[
+    ---[[
   love.graphics.setColor(WHITE)
-  love.graphics.print('x: ' .. tostring(MAP[self.row][self.column].entities[1].x), 0, 0)
+  love.graphics.print('TL: ' .. tostring(sceneView.player.TLCollide), 0, 0)
+  love.graphics.print('TR: ' .. tostring(sceneView.player.TRCollide), 0, 10)
+  --love.graphics.print('BL: ' .. tostring(sceneView.player.BLCollide), 0, 20)
+  --love.graphics.print('BR: ' .. tostring(sceneView.player.BRCollide), 0, 30)
+  --[[
   love.graphics.print('y: ' .. tostring(MAP[self.row][self.column].entities[1].y), 0, 10)
   love.graphics.print('walkSpeed: ' .. tostring(MAP[self.row][self.column].entities[1].walkSpeed), 0, 20)
   love.graphics.print('dx: ' .. tostring(MAP[self.row][self.column].entities[1].dx), 0, 30)
