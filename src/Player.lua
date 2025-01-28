@@ -30,6 +30,10 @@ function Player:init(def)
     self.pushing = false
     self.coinCount = 0
     self.type = 'player'
+    self.TLCollide = 0
+    self.TRCollide = 0
+    self.BLCollide = 0
+    self.BRCollide = 0
 end
 
 function updateHearts(player)
@@ -37,7 +41,78 @@ function updateHearts(player)
     HEART_CROP = 56 - (4 * healthDifference)
 end
 
+function Player:chasmTopLeftCollide(chasm)
+    local chasmTopLeftX = self.x + 6
+    local chasmTopLeftY = self.y + 10
+    local chasmTLWidth = 2
+    local chasmTopLeftHeight = 2
+
+    if chasmTopLeftX - 1 > chasm.x and chasmTopLeftX + 1 < chasm.x + chasm.width then
+        if chasmTopLeftY + chasmTopLeftHeight - 1 > chasm.y and chasmTopLeftY < chasm.y + chasm.height then
+            self.TLCollide = self.TLCollide + 1
+        end
+    end
+end
+
+function Player:chasmTopRightCollide(chasm)
+    local chasmTopRightX = self.x + self.width - 8
+    local chasmTopRightY = self.y + 10
+    local chasmTopRightWidth = 2
+    local chasmTopRightHeight = 2
+
+    if chasmTopRightX + 1 > chasm.x and chasmTopRightX < chasm.x + chasm.width then
+        if chasmTopRightY + chasmTopRightHeight - 1 > chasm.y and chasmTopRightY < chasm.y + chasm.height then
+            self.TRCollide = self.TRCollide + 1
+        end
+    end
+end
+
+function Player:chasmBottomLeftCollide(chasm)
+    local chasmBottomLeftX = self.x + 6
+    local chasmBottomLeftY = self.y + self.height - 4
+    local chasmBottomLeftWidth = 2
+    local chasmBottomLeftHeight = 2
+
+    if chasmBottomLeftX - 1 > chasm.x and chasmBottomLeftX + 1 < chasm.x + chasm.width then
+        if chasmBottomLeftY + chasmBottomLeftHeight - 1 > chasm.y and chasmBottomLeftY < chasm.y + chasm.height then
+            self.BLCollide = self.BLCollide + 1
+        end
+    end
+end
+
+function Player:chasmBottomRightCollide(chasm)
+    local chasmBottomRightX = self.x + self.width - 8
+    local chasmBottomRightY = self.y + self.height - 4
+    local chasmBottomRightWidth = 2
+    local chasmBottomRightHeight = 2
+
+    if chasmBottomRightX + 1 > chasm.x and chasmBottomRightX < chasm.x + chasm.width then
+        if chasmBottomRightY + chasmBottomRightHeight - 1 > chasm.y and chasmBottomRightY < chasm.y + chasm.height then
+            self.BRCollide = self.BRCollide + 1
+        end
+    end
+end
+
 function Player:update(dt)
+    CHASM_TL_COLLIDE_X = self.x + 6
+    CHASM_TL_COLLIDE_Y = self.y + 10
+    CHASM_TL_COLLIDE_WIDTH = 2
+    CHASM_TL_COLLIDE_HEIGHT = 2
+
+    CHASM_TR_COLLIDE_X = self.x + self.width - 8
+    CHASM_TR_COLLIDE_Y = self.y + 10
+    CHASM_TR_COLLIDE_WIDTH = 2
+    CHASM_TR_COLLIDE_HEIGHT = 2
+
+    CHASM_BL_COLLIDE_X = self.x + 6
+    CHASM_BL_COLLIDE_Y = self.y + self.height - 4
+    CHASM_BL_COLLIDE_WIDTH = 2
+    CHASM_BL_COLLIDE_HEIGHT = 2
+
+    CHASM_BR_COLLIDE_X = self.x + self.width - 8
+    CHASM_BR_COLLIDE_Y = self.y + self.height - 4
+    CHASM_BR_COLLIDE_WIDTH = 2
+    CHASM_BR_COLLIDE_HEIGHT = 2
     pitCount = 0
     if not self.graveyard then
         for k, v in pairs(sceneView.currentMap.pits) do
@@ -116,6 +191,7 @@ function Player:update(dt)
         Entity.update(self, dt)
     end
 
+
     --DISJOINT DIRECTIONS, ONLY HAVE UP RIGHT NOW
     if self.direction == 'up' then
         self.dialogueBoxX = self.x + DIALOGUE_TRIGGER_SHRINK / 2
@@ -143,47 +219,6 @@ function Player:update(dt)
         self.dialogueBoxHeight = TILE_SIZE - DIALOGUE_TRIGGER_SHRINK
     end
 
-    --[[
-    CHASM_TOP_COLLIDE_X = self.x + 5
-    CHASM_TOP_COLLIDE_Y = self.y + 6
-    CHASM_TOP_COLLIDE_WIDTH = 6
-    CHASM_TOP_COLLIDE_HEIGHT = 2
-
-    CHASM_BOTTOM_COLLIDE_X = self.x + 5
-    CHASM_BOTTOM_COLLIDE_Y = self.y + self.height - 4
-    CHASM_BOTTOM_COLLIDE_WIDTH = 6
-    CHASM_BOTTOM_COLLIDE_HEIGHT = 2
-
-    CHASM_LEFT_COLLIDE_X = self.x + 3
-    CHASM_LEFT_COLLIDE_Y = self.y + 8
-    CHASM_LEFT_COLLIDE_WIDTH = 2
-    CHASM_LEFT_COLLIDE_HEIGHT = 4
-
-    CHASM_RIGHT_COLLIDE_X = self.x + self.width - 5
-    CHASM_RIGHT_COLLIDE_Y = self.y + 8
-    CHASM_RIGHT_COLLIDE_WIDTH = 2
-    CHASM_RIGHT_COLLIDE_HEIGHT = 4
-    --]]
-
-    CHASM_TL_COLLIDE_X = self.x + 6
-    CHASM_TL_COLLIDE_Y = self.y + 7
-    CHASM_TL_COLLIDE_WIDTH = 2
-    CHASM_TL_COLLIDE_HEIGHT = 2
-
-    CHASM_TR_COLLIDE_X = self.x + self.width - 8
-    CHASM_TR_COLLIDE_Y = self.y + 7
-    CHASM_TR_COLLIDE_WIDTH = 2
-    CHASM_TR_COLLIDE_HEIGHT = 2
-
-    CHASM_BL_COLLIDE_X = self.x + 6
-    CHASM_BL_COLLIDE_Y = self.y + self.height - 4
-    CHASM_BL_COLLIDE_WIDTH = 2
-    CHASM_BL_COLLIDE_HEIGHT = 2
-
-    CHASM_BR_COLLIDE_X = self.x + self.width - 8
-    CHASM_BR_COLLIDE_Y = self.y + self.height - 4
-    CHASM_BR_COLLIDE_WIDTH = 2
-    CHASM_BR_COLLIDE_HEIGHT = 2
 end
 
 function Player:render()
