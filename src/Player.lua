@@ -34,6 +34,17 @@ function Player:init(def)
     self.TRCollide = 0
     self.BLCollide = 0
     self.BRCollide = 0
+    self.DownLeftFall = false
+    self.LeftFall = false
+    self.UpLeftFall = false
+    self.UpFall = false
+    self.UpRightFall = false
+    self.RightFall = false
+    self.DownRightFall = false
+    self.DownFall = false
+    self.chasmCollided = {}
+    self.chasmFalling = false
+    self.chasmFallTimer = 0
 end
 
 function updateHearts(player)
@@ -50,8 +61,11 @@ function Player:chasmTopLeftCollide(chasm)
     if chasmTopLeftX - 1 > chasm.x and chasmTopLeftX + 1 < chasm.x + chasm.width then
         if chasmTopLeftY + chasmTopLeftHeight - 1 > chasm.y and chasmTopLeftY < chasm.y + chasm.height then
             self.TLCollide = self.TLCollide + 1
+            self.chasmFalling = true
+            return true
         end
     end
+    return false
 end
 
 function Player:chasmTopRightCollide(chasm)
@@ -63,34 +77,43 @@ function Player:chasmTopRightCollide(chasm)
     if chasmTopRightX + 1 > chasm.x and chasmTopRightX < chasm.x + chasm.width then
         if chasmTopRightY + chasmTopRightHeight - 1 > chasm.y and chasmTopRightY < chasm.y + chasm.height then
             self.TRCollide = self.TRCollide + 1
+            self.chasmFalling = true
+            return true
         end
     end
+    return false
 end
 
 function Player:chasmBottomLeftCollide(chasm)
     local chasmBottomLeftX = self.x + 6
-    local chasmBottomLeftY = self.y + self.height - 4
+    local chasmBottomLeftY = self.y + self.height - 2
     local chasmBottomLeftWidth = 2
     local chasmBottomLeftHeight = 2
 
     if chasmBottomLeftX - 1 > chasm.x and chasmBottomLeftX + 1 < chasm.x + chasm.width then
         if chasmBottomLeftY + chasmBottomLeftHeight - 1 > chasm.y and chasmBottomLeftY < chasm.y + chasm.height then
             self.BLCollide = self.BLCollide + 1
+            self.chasmFalling = true
+            return true
         end
     end
+    return false
 end
 
 function Player:chasmBottomRightCollide(chasm)
     local chasmBottomRightX = self.x + self.width - 8
-    local chasmBottomRightY = self.y + self.height - 4
+    local chasmBottomRightY = self.y + self.height - 2
     local chasmBottomRightWidth = 2
     local chasmBottomRightHeight = 2
 
     if chasmBottomRightX + 1 > chasm.x and chasmBottomRightX < chasm.x + chasm.width then
         if chasmBottomRightY + chasmBottomRightHeight - 1 > chasm.y and chasmBottomRightY < chasm.y + chasm.height then
             self.BRCollide = self.BRCollide + 1
+            self.chasmFalling = true
+            return true
         end
     end
+    return false
 end
 
 function Player:update(dt)
@@ -105,12 +128,12 @@ function Player:update(dt)
     CHASM_TR_COLLIDE_HEIGHT = 2
 
     CHASM_BL_COLLIDE_X = self.x + 6
-    CHASM_BL_COLLIDE_Y = self.y + self.height - 4
+    CHASM_BL_COLLIDE_Y = self.y + self.height - 2
     CHASM_BL_COLLIDE_WIDTH = 2
     CHASM_BL_COLLIDE_HEIGHT = 2
 
     CHASM_BR_COLLIDE_X = self.x + self.width - 8
-    CHASM_BR_COLLIDE_Y = self.y + self.height - 4
+    CHASM_BR_COLLIDE_Y = self.y + self.height - 2
     CHASM_BR_COLLIDE_WIDTH = 2
     CHASM_BR_COLLIDE_HEIGHT = 2
     pitCount = 0
@@ -236,11 +259,13 @@ function Player:render()
         love.graphics.rectangle('fill', CHASM_LEFT_COLLIDE_X, CHASM_LEFT_COLLIDE_Y, CHASM_LEFT_COLLIDE_WIDTH, CHASM_LEFT_COLLIDE_HEIGHT)
         love.graphics.rectangle('fill', CHASM_RIGHT_COLLIDE_X, CHASM_RIGHT_COLLIDE_Y, CHASM_RIGHT_COLLIDE_WIDTH, CHASM_RIGHT_COLLIDE_HEIGHT)
         --]]
+        ---[[
         love.graphics.setColor(GREEN)
         love.graphics.rectangle('fill', CHASM_TL_COLLIDE_X, CHASM_TL_COLLIDE_Y, CHASM_TL_COLLIDE_WIDTH, CHASM_TL_COLLIDE_HEIGHT)
         love.graphics.rectangle('fill', CHASM_BL_COLLIDE_X, CHASM_BL_COLLIDE_Y, CHASM_BL_COLLIDE_WIDTH, CHASM_BL_COLLIDE_HEIGHT)
         love.graphics.setColor(BLUE)
         love.graphics.rectangle('fill', CHASM_TR_COLLIDE_X, CHASM_TR_COLLIDE_Y, CHASM_TR_COLLIDE_WIDTH, CHASM_TR_COLLIDE_HEIGHT)
         love.graphics.rectangle('fill', CHASM_BR_COLLIDE_X, CHASM_BR_COLLIDE_Y, CHASM_BR_COLLIDE_WIDTH, CHASM_BR_COLLIDE_HEIGHT)
+        --]]
     end
 end
