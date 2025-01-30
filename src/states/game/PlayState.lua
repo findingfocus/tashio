@@ -565,6 +565,7 @@ function PlayState:render()
 
     displayFPS()
 
+    --CREDITED SUPPORTERS
     if creditSequence then
         love.graphics.setColor(0, 0, 0, 190/255)
         love.graphics.rectangle('fill',0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
