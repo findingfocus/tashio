@@ -45,6 +45,7 @@ function Player:init(def)
     self.chasmCollided = {}
     self.chasmFalling = false
     self.chasmFallTimer = 0
+    self.checkPointTick = 0
 end
 
 function updateHearts(player)
@@ -116,6 +117,17 @@ function Player:chasmBottomRightCollide(chasm)
     return false
 end
 
+function Player:resetFallingDirection()
+    self.DownLeftFall = false
+    self.LeftFall = false
+    self.UpLeftFall = false
+    self.UpFall = false
+    self.UpRightFall = false
+    self.RightFall = false
+    self.DownRightFall = false
+    self.DownFall = false
+end
+
 function Player:update(dt)
     CHASM_TL_COLLIDE_X = self.x + 6
     CHASM_TL_COLLIDE_Y = self.y + 10
@@ -136,23 +148,14 @@ function Player:update(dt)
     CHASM_BR_COLLIDE_Y = self.y + self.height - 2
     CHASM_BR_COLLIDE_WIDTH = 2
     CHASM_BR_COLLIDE_HEIGHT = 2
-    pitCount = 0
-    if not self.graveyard then
-        for k, v in pairs(sceneView.currentMap.pits) do
-            if v:collide(self) then
-                pitCount = pitCount + 1
-            end
+
+    if not self.graveyard and not self.falling and not self.chasmFalling then
+        self.checkPointTick = self.checkPointTick + dt
+        if self.checkPointTick > 1 then
+            self.checkPointPositions.x = self.x
+            self.checkPointPositions.y = self.y
+            self.checkPointTick = 0
         end
-    end
-
-    if not self.graveyard and pitCount == 0 then
-        counter = counter + dt
-    end
-
-    if counter > 1 then
-        self.checkPointPositions.x = self.x
-        self.checkPointPositions.y = self.y
-        counter = 0
     end
 
     --PLAYER DEATH
@@ -259,7 +262,7 @@ function Player:render()
         love.graphics.rectangle('fill', CHASM_LEFT_COLLIDE_X, CHASM_LEFT_COLLIDE_Y, CHASM_LEFT_COLLIDE_WIDTH, CHASM_LEFT_COLLIDE_HEIGHT)
         love.graphics.rectangle('fill', CHASM_RIGHT_COLLIDE_X, CHASM_RIGHT_COLLIDE_Y, CHASM_RIGHT_COLLIDE_WIDTH, CHASM_RIGHT_COLLIDE_HEIGHT)
         --]]
-        ---[[
+        --[[
         love.graphics.setColor(GREEN)
         love.graphics.rectangle('fill', CHASM_TL_COLLIDE_X, CHASM_TL_COLLIDE_Y, CHASM_TL_COLLIDE_WIDTH, CHASM_TL_COLLIDE_HEIGHT)
         love.graphics.rectangle('fill', CHASM_BL_COLLIDE_X, CHASM_BL_COLLIDE_Y, CHASM_BL_COLLIDE_WIDTH, CHASM_BL_COLLIDE_HEIGHT)

@@ -139,7 +139,7 @@ function BatWalkState:render()
     local anim = self.entity.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
         self.entity.x, self.entity.y)
-        love.graphics.print(tostring(self.entity.stateMachine.current.stateName), self.entity.x, self.entity.y)
+        --love.graphics.print(tostring(self.entity.stateMachine.current.stateName), self.entity.x, self.entity.y)
     --[[
     love.graphics.setColor(WHITE)
     love.graphics.print(tostring(self.entity.x), self.entity.x, self.entity.y - 5)

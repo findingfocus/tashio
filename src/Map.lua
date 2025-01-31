@@ -87,6 +87,8 @@ function Map:init(row, column, spellcastEntities)
     self.testTimer = 0
 end
 
+
+
 function Map:update(dt)
     --self.rainSystem:update(dt)
     --self.snowSystem:update(dt)
@@ -204,7 +206,7 @@ function Map:update(dt)
         if sceneView.player.DownFall then
             sceneView.player.chasmFallTimer = sceneView.player.chasmFallTimer + dt
             Timer.tween(CHASM_FALL_TWEEN, {
-                [sceneView.player] = {y = sceneView.player.chasmCollided.y},
+                [sceneView.player] = {x = sceneView.player.chasmCollided.x, y = sceneView.player.chasmCollided.y},
             })
         elseif sceneView.player.DownLeftFall then
             sceneView.player.chasmFallTimer = sceneView.player.chasmFallTimer + dt
@@ -224,7 +226,7 @@ function Map:update(dt)
         elseif sceneView.player.UpFall then
             sceneView.player.chasmFallTimer = sceneView.player.chasmFallTimer + dt
             Timer.tween(CHASM_FALL_TWEEN, {
-                [sceneView.player] = {y = sceneView.player.chasmCollided.y},
+                [sceneView.player] = {x = sceneView.player.chasmCollided.x, y = sceneView.player.chasmCollided.y},
             })
         elseif sceneView.player.UpRightFall then
             sceneView.player.chasmFallTimer = sceneView.player.chasmFallTimer + dt
@@ -243,10 +245,10 @@ function Map:update(dt)
             })
         end
 
-        if sceneView.player.chasmFallTimer >= 0.3 then
+        --CHASM FALL
+        if sceneView.player.chasmFallTimer >= CHASM_FALL_ANIM_TIMER then
             sceneView.player:changeAnimation('falling')
             sceneView.player.falling = true
-            sceneView.player.chasmFallTimer = 0
             sceneView.player.chasmFalling = false
         end
 
@@ -268,6 +270,7 @@ function Map:update(dt)
         pitCount = 0
         for k, v in pairs(self.pits) do
             if v:collide(sceneView.player) then
+                sceneView.player.checkPointTick = 0
                 testNumber = testNumber + 1
                 pitCount = pitCount + 1
                 --PIT COLLISION
@@ -339,30 +342,32 @@ function Map:update(dt)
 
     --GRAVEYARD TRIGGER
     if sceneView.player.animations['falling'].timesPlayed >= 1 then
+        Timer.clear()
+        sceneView.player.chasmFallTimer = 0
+        sceneView.player:resetFallingDirection()
+        sceneView.player.falling = false
+        sceneView.player.chasmFalling = false
         sceneView.player.tweenAllowed = false
         sceneView.player.animations['falling'].currentFrame = 1
         sounds['hurt']:play()
         sceneView.player.health = sceneView.player.health - 1
         sceneView.player.animations['falling'].timesPlayed = 0
         sceneView.player.fallTimer = -2
-        sceneView.player.falling = false
         sceneView.player.graveyard = true
         --sceneView.player.animations['falling'].currentFrame = 1
         sceneView.player:changeAnimation('walk-down')
-        sceneView.player.x = SCREEN_WIDTH_LIMIT
-        sceneView.player.y = 0
+        sceneView.player.x = sceneView.player.checkPointPositions.x
+        sceneView.player.y = sceneView.player.checkPointPositions.y
     end
 
     if sceneView.player.graveyard then
         sceneView.player.x = SCREEN_WIDTH_LIMIT
         sceneView.player.y = 0
         graveyardTimer = graveyardTimer + dt
-        if graveyardTimer > .3 then
+        if graveyardTimer > .5 then
             sceneView.player.graveyard = false
-            sceneView.player.x = TILE_SIZE * 2
-            sceneView.player.y = TILE_SIZE * 5
-            --sceneView.player.x = sceneView.player.checkPointPositions.x
-            --sceneView.player.y = sceneView.player.checkPointPositions.y
+            sceneView.player.x = sceneView.player.checkPointPositions.x
+            sceneView.player.y = sceneView.player.checkPointPositions.y
             sceneView.player.damageFlash = true
             sceneView.player.tweenAllowed = true
             graveyardTimer = 0
@@ -443,12 +448,6 @@ function Map:render()
     end
     love.graphics.setColor(255, 0, 0, 255)
 
-    --PIT COLLISION
-    for k, v in pairs(self.pits) do
-        if v:collide(sceneView.player) then
-            --v:render()
-        end
-    end
     --love.graphics.print("pitCountMap: " .. pitCount, 0, 0)
     --self.rainSystem:render()
     --self.snowSystem:render()
@@ -484,7 +483,13 @@ function Map:render()
     ---[[
   love.graphics.setColor(WHITE)
 
-  ---[[
+  --MAP DEBUG
+  --[[
+  love.graphics.print('player.falling: ' .. tostring(gPlayer.falling), 0, 0)
+  love.graphics.print('player.fallTimer: ' .. tostring(gPlayer.fallTimer), 0, 20)
+  love.graphics.print('anim.timesPlayed' .. tostring(sceneView.player.animations['falling'].timesPlayed), 0, 30)
+  --]]
+  --[[
   love.graphics.print('UpLeftFall: ' .. tostring(gPlayer.UpLeftFall), 0, 0)
   love.graphics.print('UpRightFall: ' .. tostring(gPlayer.UpRightFall), 0, 10)
   love.graphics.print('Up: ' .. tostring(gPlayer.UpFall), 0, 20)

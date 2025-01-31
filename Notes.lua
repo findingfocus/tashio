@@ -10,6 +10,7 @@ __Factor gecko logic into gecko class, which aspects of entity class do enemies 
 __Incorporate Prosto closure fix for local variables
 
 Todo
+__Add invulnerable state for tashio upon being hurt, esp when falling
 __Normalize outputs based on both keyboard and touch
 __Add Tashio getting treasure sprite
 __Add treasure sprites

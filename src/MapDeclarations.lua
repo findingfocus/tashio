@@ -222,7 +222,7 @@ for i = 1, entities do
 end
 --]]
 
---[[
+---[[
 table.insert(MAP[1][12].entities, Entity {
     animations = ENTITY_DEFS['bat'].animations,
     --x = VIRTUAL_WIDTH,
