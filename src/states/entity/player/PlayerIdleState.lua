@@ -31,7 +31,7 @@ function PlayerIdleState:update(dt)
       end
   end
 
-  if sceneView.player.falling then
+  if sceneView.player.falling or sceneView.player.chasmFalling then
     sceneView.player.dx = 0
     sceneView.player.dy = 0
     sceneView.player:changeAnimation('falling')
