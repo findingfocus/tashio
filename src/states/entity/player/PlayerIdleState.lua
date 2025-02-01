@@ -34,7 +34,8 @@ function PlayerIdleState:update(dt)
   if sceneView.player.falling or sceneView.player.chasmFalling then
     sceneView.player.dx = 0
     sceneView.player.dy = 0
-    sceneView.player:changeAnimation('falling')
+    --IS THIS OK TO KEEP REMOVED? CHECK
+    --sceneView.player:changeAnimation('falling')
   end
 end
 
