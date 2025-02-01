@@ -73,7 +73,8 @@ function PlayerWalkState:update(dt)
     end
 
   if sceneView.player.falling then
-    sceneView.player:changeAnimation('falling')
+      --CHECK
+    --sceneView.player:changeAnimation('falling')
   end
 
   --PLAYER TO PUSHABLES COLLISION
