@@ -88,6 +88,18 @@ ENTITY_DEFS = {
                 texture = 'character-showOff',
                 looping = true
             },
+            ['death'] = {
+                frames = {1, 2, 3, 4, 5, 6, 7, 8, 9},
+                interval = .1,
+                texture = 'player-death',
+                looping = false,
+            },
+            ['chasm-fall'] = {
+                frames = {2, 3, 4, 5, 6, 7},
+                interval = .1,
+                texture = 'player-death',
+                looping = true,
+            }
         }
     },
     ['character-element'] = {

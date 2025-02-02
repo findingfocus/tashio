@@ -47,6 +47,7 @@ require 'src/states/entity/NPCWalkState'
 require 'src/states/entity/FlameIdle'
 require 'src/states/entity/player/PlayerIdleState'
 require 'src/states/entity/player/PlayerWalkState'
+require 'src/states/entity/player/PlayerDeathState'
 
 require 'src/Entity'
 require 'src/entity_defs'
@@ -114,6 +115,7 @@ gTextures = {
     ['character-push-redTunic'] = love.graphics.newImage('graphics/playerPushingAtlasRed.png'),
     ['character-push-greenTunic'] = love.graphics.newImage('graphics/playerPushingAtlasGreen.png'),
     ['character-push-blueTunic'] = love.graphics.newImage('graphics/playerPushingAtlasBlue.png'),
+    ['player-death'] = love.graphics.newImage('graphics/playerDeath.png'),
     ['gecko'] = love.graphics.newImage('graphics/geckoAtlas.png'),
     ['geckoC'] = love.graphics.newImage('graphics/geckoCAtlas.png'),
     ['batC'] = love.graphics.newImage('graphics/batlas.png'),
@@ -147,6 +149,7 @@ gFrames = {
     ['character-push-redTunic'] = GenerateQuads(gTextures['character-push-yellowTunic'], TILE_SIZE, TILE_SIZE),
     ['character-push-greenTunic'] = GenerateQuads(gTextures['character-push-yellowTunic'], TILE_SIZE, TILE_SIZE),
     ['character-push-blueTunic'] = GenerateQuads(gTextures['character-push-yellowTunic'], TILE_SIZE, TILE_SIZE),
+    ['player-death'] = GenerateQuads(gTextures['player-death'], TILE_SIZE, TILE_SIZE),
     ['gecko'] = GenerateQuads(gTextures['gecko'], TILE_SIZE, TILE_SIZE),
     ['geckoC'] = GenerateQuads(gTextures['geckoC'], TILE_SIZE, TILE_SIZE),
     ['batC'] = GenerateQuads(gTextures['batC'], 24, 10),
