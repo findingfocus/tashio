@@ -3,6 +3,9 @@ successfulCast = false
 HEART_CROP = 56
 local STRING_WIDTH = 2
 totalHealth = 14
+--TODO FIX THIS NASTY
+healthDifference = totalHealth - 2
+HEART_CROP = math.max(56 - (4 * healthDifference), 0)
 healthDifference = 0
 local creditSequence = false
 local creditsY = VIRTUAL_HEIGHT
@@ -57,8 +60,10 @@ function PlayState:init()
     gPlayer.stateMachine = StateMachine {
         ['player-walk'] = function() return PlayerWalkState(gPlayer, self.scene) end,
         ['player-idle'] = function() return PlayerIdleState(gPlayer) end,
+        ['player-death'] = function() return PlayerDeathState(gPlayer) end,
     }
 
+    --gPlayer:changeState('player-death')
     gPlayer:changeState('player-idle')
     self.manis = 100
     self.manisMax = 100
@@ -576,6 +581,15 @@ function PlayState:render()
     end
 
     --self.rainSystem:render()
+    if sceneView.player.deadTimer > 2 then
+        gameOver = true
+    end
+    if gameOver then
+        love.graphics.setColor(255/255, 0/255, 20/255, 120/255)
+        love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
+        love.graphics.setColor(WHITE)
+        love.graphics.printf('GAME OVER', 0, VIRTUAL_HEIGHT / 2 - 10, VIRTUAL_WIDTH, 'center')
+    end
 end
 
 function displayFPS()

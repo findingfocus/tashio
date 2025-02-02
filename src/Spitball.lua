@@ -52,7 +52,7 @@ function Spitball:update(dt)
         [self] = {x = sceneView.player.x + 8, y = sceneView.player.y + 6},
     })
     self.lifespan = self.lifespan - dt
-    if self.lifespan < 0 then
+    if self.lifespan < 0 and not sceneView.player.dead then
         sounds['hurt']:play()
         sceneView.player.damageFlash = true
         sceneView.player.hit = true

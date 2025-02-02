@@ -232,6 +232,21 @@ function Scene:render()
         self.nextMap:render()
     end
     love.graphics.pop()
+
+
+    --CHASM FALL TODO MOVE INTO OWN STATE
+    --[[
+    gameOver = true
+    if gameOver then
+        sceneView.player.dead = true
+        love.graphics.setColor(0/255, 0/255, 20/255, 255/255)
+        love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
+        --sceneView.rainSystem:render()
+        --love.graphics.setColor(WHITE)
+        --love.graphics.printf('GAME OVER', 0, VIRTUAL_HEIGHT / 2, VIRTUAL_WIDTH, 'center')
+    end
+    --]]
+
     if self.player then
         self.player:render()
     end
