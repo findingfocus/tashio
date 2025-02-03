@@ -48,6 +48,7 @@ require 'src/states/entity/FlameIdle'
 require 'src/states/entity/player/PlayerIdleState'
 require 'src/states/entity/player/PlayerWalkState'
 require 'src/states/entity/player/PlayerDeathState'
+require 'src/states/game/FallingChasmState'
 
 require 'src/Entity'
 require 'src/entity_defs'
