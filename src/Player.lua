@@ -164,6 +164,13 @@ function Player:update(dt)
         self.dead = true
         self:changeState('player-death')
         sounds['death']:play()
+
+        --WHY ISNT THIS CONSISTENT TODO
+        for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].chasms) do
+            if self:chasmTopLeftCollide(v) then
+                gStateMachine:change('chasmFallingState')
+            end
+        end
     end
 
     if self.dead then

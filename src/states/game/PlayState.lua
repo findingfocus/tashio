@@ -73,9 +73,14 @@ function PlayState:init()
     self.focusMax = 4
     self.unFocus = 0
     self.unFocusGrowing = true
+    self.stateTimer = 0
 end
 
 function PlayState:update(dt)
+    self.stateTimer = self.stateTimer + dt
+    if self.stateTimer >= 1 then
+        --gStateMachine:change('chasmFallingState')
+    end
     if love.keyboard.wasPressed('g') then
         if WINDOW_HEIGHT == 144 * SCALE_FACTOR * 2 then
             SCALE_FACTOR = 4
