@@ -47,6 +47,7 @@ function Player:init(def)
     self.chasmFallTimer = 0
     self.checkPointTick = 0
     self.deadTimer = 0
+    self.chasmDeath = false
 end
 
 function updateHearts(player)
@@ -165,11 +166,8 @@ function Player:update(dt)
         self:changeState('player-death')
         sounds['death']:play()
 
-        --WHY ISNT THIS CONSISTENT TODO
-        for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].chasms) do
-            if self:chasmTopLeftCollide(v) then
-                gStateMachine:change('chasmFallingState')
-            end
+        if self.chasmDeath then
+            gStateMachine:change('chasmFallingState')
         end
     end
 
