@@ -348,6 +348,7 @@ function Map:update(dt)
         sceneView.player.chasmFallTimer = 0
         sceneView.player:resetFallingDirection()
         sceneView.player.falling = false
+        sceneView.player.chasmDeath = true
         sceneView.player.chasmFalling = false
         sceneView.player.tweenAllowed = false
         sceneView.player.animations['falling'].currentFrame = 1
@@ -372,6 +373,7 @@ function Map:update(dt)
             sceneView.player.y = sceneView.player.checkPointPositions.y
             sceneView.player.damageFlash = true
             sceneView.player.tweenAllowed = true
+            sceneView.player.chasmDeath = false
             graveyardTimer = 0
             Timer.clear()
         end
