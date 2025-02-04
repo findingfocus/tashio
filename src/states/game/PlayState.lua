@@ -330,8 +330,9 @@ function PlayState:update(dt)
     --LOCK SCREEN POSITION
     --GAMEBOY TOGGLE
     --love.window.setPosition(400, 40)
+    --SCREEN LOCK POSITION
     --DEV POSITION
-    love.window.setPosition(400, 100)
+    love.window.setPosition(220, 120)
 
     --WARP ZONES
     if #MAP[sceneView.currentMap.row][sceneView.currentMap.column].warpZones > 0 then
