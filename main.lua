@@ -8,6 +8,7 @@ function love.load()
 
   math.randomseed(os.time())
 
+
   love.graphics.setFont(pixelFont)
 
   keyboardInput = InputHandling()
@@ -49,6 +50,7 @@ function love.load()
   }
 
   gStateMachine:change('playState')
+  --gStateMachine:change('chasmFallingState')
 
   love.keyboard.keysPressed = {}
   love.keyboard.keysReleased = {}
