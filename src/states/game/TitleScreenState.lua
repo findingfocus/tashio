@@ -1,35 +1,34 @@
 TitleScreenState = Class{__includes = BaseState}
 
 function TitleScreenState:init()
-
+  --SCREEN LOCK POSITION
+  love.window.setPosition(220, 120)
+  self.playFlashing = false
+  self.flashTimer = 0
+  self.lavaSystem = LavaSystem()
 end
 
-local highlighted = 1
-
 function TitleScreenState:update(dt)
-
---[[
-	sounds['titleMusic']:setLooping(true)
-	sounds['titleMusic']:play()
---]]
-
-	if love.keyboard.wasPressed('left') or love.keyboard.wasPressed('right') then
-		highlighted = highlighted == 1 and 2 or 1
-		sounds['beep']:play()
-	end
-
+  self.lavaSystem:update(dt)
+  self.flashTimer = self.flashTimer + dt
+  if self.flashTimer > 1 then
+    self.playFlashing = not self.playFlashing
+    self.flashTimer = 0
+  end
 	if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
-		if highlighted == 1 then
-			--sounds['titleMusic']:stop()
-			sounds['select']:play()
 			gStateMachine:change('playState')
-		else
-			--sounds['titleMusic']:stop()
 			sounds['select']:play()
-		end
 	end
 end
 
 function TitleScreenState:render()
-	love.graphics.clear(150/255, 150/255, 255/255, 255/255)
+	love.graphics.clear(0/255, 0/255, 0/255, 255/255)
+  love.graphics.draw(titleScreenTemp, 0, 0)
+  if self.playFlashing then
+    love.graphics.setColor(WHITE)
+  else
+    love.graphics.setColor(0,0,0,0)
+  end
+  love.graphics.printf('START', 0, VIRTUAL_HEIGHT - 24, VIRTUAL_WIDTH, 'center')
+  self.lavaSystem:render()
 end

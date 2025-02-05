@@ -307,5 +307,4 @@ function Scene:render()
     for k, v in pairs(MAP[self.mapRow][self.mapColumn].dialogueBoxCollided) do
         MAP[self.mapRow][self.mapColumn].dialogueBoxCollided[k]:render()
     end
-    love.graphics.draw(tashioTester, x, y)
 end
