@@ -14,6 +14,7 @@ function FallingChasmState:init()
   self.playerX = -17
   self.playerY = -8
   self.zigzagTime = 0
+  self.optionSelector = 1
 end
 
 function FallingChasmState:update(dt)
@@ -63,6 +64,25 @@ function FallingChasmState:update(dt)
   if self.emissionArea2 > 100 then
     self.emissionArea2 = 0
   end
+  if love.keyboard.wasPressed('down') or love.keyboard.wasPressed('s') then
+    if self.optionSelector ~= 2 then
+      sounds['beep']:play()
+    end
+    self.optionSelector = 2 
+  elseif love.keyboard.wasPressed('up') or love.keyboard.wasPressed('w') then
+    if self.optionSelector ~= 1 then
+      sounds['beep']:play()
+    end
+    self.optionSelector = 1 
+  end
+
+  if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+    if self.optionSelector == 2 then
+      gStateMachine:change('titleState') 
+    elseif self.optionSelector == 1 then
+      gStateMachine:change('playState')
+    end
+  end
 end
 
 function FallingChasmState:render()
@@ -83,4 +103,22 @@ function FallingChasmState:render()
   love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.playerX), math.floor(self.playerY))
   love.graphics.pop()
   --love.graphics.print(tostring(self.offset), 0, 0)
+
+  love.graphics.setFont(classicFont)
+  love.graphics.setColor(WHITE)
+  love.graphics.printf('GAME OVER', 0, 24, VIRTUAL_WIDTH, 'center')
+
+  love.graphics.setFont(pixelFont)
+
+  if self.optionSelector == 1 then
+    love.graphics.setColor(DARK_CYAN)
+    love.graphics.printf('CONTINUE', 0, VIRTUAL_HEIGHT - 36, VIRTUAL_WIDTH, 'center')
+    love.graphics.setColor(DARK_RED)
+    love.graphics.printf('QUIT', 0, VIRTUAL_HEIGHT - 16, VIRTUAL_WIDTH, 'center')
+  elseif self.optionSelector == 2 then
+    love.graphics.setColor(DARK_RED)
+    love.graphics.printf('CONTINUE', 0, VIRTUAL_HEIGHT - 36, VIRTUAL_WIDTH, 'center')
+    love.graphics.setColor(DARK_CYAN)
+    love.graphics.printf('QUIT', 0, VIRTUAL_HEIGHT - 16, VIRTUAL_WIDTH, 'center')
+  end
 end

@@ -49,8 +49,9 @@ function love.load()
       ['chasmFallingState'] = function() return FallingChasmState() end,
   }
 
-  gStateMachine:change('playState')
-  --gStateMachine:change('chasmFallingState')
+  --gStateMachine:change('titleState')
+  --gStateMachine:change('playState')
+  gStateMachine:change('chasmFallingState')
 
   love.keyboard.keysPressed = {}
   love.keyboard.keysReleased = {}
