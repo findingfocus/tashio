@@ -1,5 +1,4 @@
 require 'src/dependencies'
-local inspect = require 'lib/inspect'
 
 function love.load()
   love.window.setTitle('Tashio Tempo')
@@ -7,8 +6,7 @@ function love.load()
   love.mouse.setVisible(false)
 
   math.randomseed(os.time())
-
-
+  
   love.graphics.setFont(pixelFont)
 
   keyboardInput = InputHandling()
@@ -50,8 +48,8 @@ function love.load()
   }
 
   --gStateMachine:change('titleState')
-  --gStateMachine:change('playState')
-  gStateMachine:change('chasmFallingState')
+  gStateMachine:change('playState')
+  --gStateMachine:change('chasmFallingState')
 
   love.keyboard.keysPressed = {}
   love.keyboard.keysReleased = {}
