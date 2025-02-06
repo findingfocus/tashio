@@ -2,7 +2,8 @@ push = require 'src/push'
 Class = require 'src/class'
 Event = require 'lib/knife.event'
 Timer = require 'lib/knife.timer'
-Inspect = require "lib/inspect"
+Inspect = require 'lib/inspect'
+bitser = require 'lib/bitser'
 require 'lib/slam'
 
 love.graphics.setDefaultFilter('nearest', 'nearest')
