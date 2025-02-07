@@ -74,6 +74,8 @@ function PlayState:init()
     self.unFocus = 0
     self.unFocusGrowing = true
     self.stateTimer = 0
+    self.saveUtility = SaveData()
+    self.loadTest = {}
 end
 
 function PlayState:update(dt)
@@ -404,6 +406,28 @@ function PlayState:update(dt)
         end
         transitionFadeAlpha = math.max(transitionFadeAlpha - FADE_TO_BLACK_SPEED * dt, 0)
     end
+
+    if love.keyboard.wasPressed('k') then
+      local test = self.saveUtility:savePlayerData()
+
+      local file = io.open("saves/savePlayerData.bin", "wb")
+      if file then
+        local serialized = bitser.dumps(test)
+        file:write(serialized)
+        file:close()
+      else
+        print("Error saving game!")
+      end
+    end
+    if love.keyboard.wasPressed('l') then
+      self.loadTest = bitser.loadLoveFile("saves/savePlayerData.bin")
+      love.graphics.print(Inspect(fileLoad), 0, 0)
+      for k, v in pairs(self.loadTest) do
+        if k == 'health' then
+          gPlayer.health = v
+        end
+      end
+    end
 end
 
 function PlayState:render()
@@ -596,6 +620,7 @@ function PlayState:render()
         love.graphics.setColor(WHITE)
         love.graphics.printf('GAME OVER', 0, VIRTUAL_HEIGHT / 2 - 10, VIRTUAL_WIDTH, 'center')
     end
+    love.graphics.print(Inspect(self.loadTest), 0, 0)
 end
 
 function displayFPS()
@@ -603,3 +628,4 @@ function displayFPS()
 	love.graphics.setColor(WHITE)
 	love.graphics.print(tostring(love.timer.getFPS()), SCREEN_WIDTH_LIMIT - 27, VIRTUAL_HEIGHT - 12)
 end
+

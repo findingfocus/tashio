@@ -50,6 +50,12 @@ function Player:init(def)
     self.chasmDeath = false
 end
 
+function Player:saveDataTable()
+  local saveData = {}
+  saveData['health'] = self.health
+  return saveData
+end
+
 function updateHearts(player)
     healthDifference = totalHealth - player.health
     HEART_CROP = 56 - (4 * healthDifference)
