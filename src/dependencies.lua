@@ -34,6 +34,7 @@ require 'src/Item'
 require 'src/Inventory'
 require 'src/Pushable'
 require 'src/Spitball'
+require 'src/SaveData'
 
 require 'src/states/BaseState'
 require 'src/StateMachine'
