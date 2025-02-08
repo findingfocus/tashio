@@ -15,6 +15,7 @@ function FallingChasmState:init()
   self.playerY = -8
   self.zigzagTime = 0
   self.optionSelector = 1
+  self.saveUtility = SaveData()
 end
 
 function FallingChasmState:update(dt)
@@ -77,11 +78,14 @@ function FallingChasmState:update(dt)
   end
 
   if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
-    if self.optionSelector == 2 then
-      gStateMachine:change('titleState') 
-    elseif self.optionSelector == 1 then
-      gStateMachine:change('playState')
-    end
+      if self.optionSelector == 2 then
+          gStateMachine:change('titleState')
+      elseif self.optionSelector == 1 then
+          --CONTINUE GAME
+          --LOAD LAST SAVE
+          self.saveUtility:loadPlayerData()
+          gStateMachine:change('playState')
+      end
   end
 end
 

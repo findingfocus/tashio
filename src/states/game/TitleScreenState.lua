@@ -6,6 +6,7 @@ function TitleScreenState:init()
   self.playFlashing = false
   self.flashTimer = 0
   self.lavaSystem = LavaSystem()
+  self.saveDataUtility = SaveData()
 end
 
 function TitleScreenState:update(dt)
@@ -16,6 +17,8 @@ function TitleScreenState:update(dt)
     self.flashTimer = 0
   end
 	if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+            --LOAD SAVE FILE
+            self.saveDataUtility:loadPlayerData()
 			gStateMachine:change('playState')
 			sounds['select']:play()
 	end

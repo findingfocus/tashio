@@ -4,5 +4,45 @@ function SaveData:savePlayerData()
   local saveData = {}
   saveData['health'] = gPlayer.health
   saveData['currentMapRow'] = sceneView.currentMap.row
-  return saveData
+  saveData['currentMapColumn'] = sceneView.currentMap.column
+  saveData['currentMap'] = 40
+  saveData['playerCoordinates'] = {gPlayer.x, gPlayer.y}
+  saveData['playerDirection'] = gPlayer.direction
+
+  local file = io.open("saves/savePlayerData.bin", "wb")
+  if file then
+      local serialized = bitser.dumps(saveData)
+      file:write(serialized)
+      file:close()
+  else
+      print("Error saving game!")
+  end
+end
+
+function SaveData:loadPlayerData()
+    local load = bitser.loadLoveFile("saves/savePlayerData.bin")
+    --love.graphics.print(Inspect(fileLoad), 0, 0)
+    for k, v in pairs(load) do
+        if k == 'health' then
+            gPlayer.health = v
+        end
+        if k == 'currentMapRow' then
+            sceneView.currentMap.row = v
+        end
+        if k == 'currentMapColumn' then
+            sceneView.currentMap.column = v
+        end
+        if k == 'playerCoordinates' then
+            gPlayer.x, gPlayer.y = v[1], v[2]
+        end
+        if k == 'playerDirection' then
+            gPlayer.direction = v
+        end
+    end
+
+    for k, v in pairs(load) do
+        if k == 'currentMap' then
+            sceneView.currentMap = Map(sceneView.currentMap.row, sceneView.currentMap.column, 1)
+        end
+    end
 end
