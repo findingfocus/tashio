@@ -173,6 +173,13 @@ function Player:update(dt)
         sounds['death']:play()
 
         if self.chasmDeath then
+            self.deadTimer = 0
+            self.dead = false
+            self.damageFlash = false
+            self.graveyard = false
+            self.dx = 0
+            self.dy = 0
+            self.hit = false
             gStateMachine:change('chasmFallingState')
         end
     end
