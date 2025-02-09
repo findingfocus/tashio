@@ -40,6 +40,8 @@ function DialogueBox:init(x, y, text, option, npc)
     self.pages[1][3].string = ''
     self.lastCharWasSpace = false
     self.aButtonCount = 0
+    self.meditateOption = false
+    self.saveDataUtility = SaveData()
     --TODO
     --ADD A BUTTON COUNT UPON PAUSE
     --INCREMENT A BUTTON BUTTON COUNT ON UPDATE AND PRESS/TOUCH
@@ -48,6 +50,7 @@ function DialogueBox:init(x, y, text, option, npc)
     self.charactersToCheck = true
     self.textIndex = 0
     self.wordIndexGrabbed = false
+    self.meditateYes = true
 
     self.totalLineCount = 1
     self.wordCharacterIndex = 0
@@ -142,6 +145,9 @@ function DialogueBox:flushText()
 end
 
 function DialogueBox:update(dt)
+    if self.option == 'idol' then
+        self.meditateOption = true
+    end
     if self.textIndex > 1 then
         blinkTimer = blinkTimer - dt
         if blinkTimer <= 0 then
@@ -189,6 +195,11 @@ function DialogueBox:update(dt)
                 MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided = {}
                 self:flushText()
                 self.currentPage = 1
+                if self.meditateOption then
+                    if self.meditateYes then
+                        self.saveDataUtility:savePlayerData()
+                    end
+                end
             else
                 self.currentPage = self.currentPage + 1
                 self.textIndex = 1
@@ -222,6 +233,14 @@ function DialogueBox:update(dt)
             self.textTimer = 0
         end
     end
+
+    if love.keyboard.wasPressed('w') or love.keyboard.wasPressed('s') then
+        self.meditateYes = not self.meditateYes
+        sounds['beep']:play()
+        blinking = false
+        blinkTimer = blinkReset
+    end
+
 end
 
 function DialogueBox:render()
@@ -236,13 +255,27 @@ function DialogueBox:render()
         love.graphics.print(tostring(self.line1Result), 5, SCREEN_HEIGHT_LIMIT - 38)
         love.graphics.print(tostring(self.line2Result), 5, SCREEN_HEIGHT_LIMIT - 26)
         love.graphics.print(tostring(self.line3Result), 5, SCREEN_HEIGHT_LIMIT - 14)
+        if self.meditateOption then
+            love.graphics.print('Yes', VIRTUAL_WIDTH - 30, SCREEN_HEIGHT_LIMIT - 38)
+            love.graphics.print('No', VIRTUAL_WIDTH - 30, SCREEN_HEIGHT_LIMIT - 14)
+        end
         if blinking then
             love.graphics.setColor(1,1,1,0)
         else
             love.graphics.setColor(WHITE)
         end
-        love.graphics.draw(textAdvance, VIRTUAL_WIDTH - 7, SCREEN_HEIGHT_LIMIT - 4)
+        if not self.meditateOption then
+            love.graphics.draw(textAdvance, VIRTUAL_WIDTH - 7, SCREEN_HEIGHT_LIMIT - 4)
+        else
+            if self.meditateYes then
+                love.graphics.draw(rightArrowSelector, VIRTUAL_WIDTH - 40, SCREEN_HEIGHT_LIMIT - 35)
+            else
+                love.graphics.draw(rightArrowSelector, VIRTUAL_WIDTH - 40, SCREEN_HEIGHT_LIMIT - 11)
+            end
+        end
     end
+    love.graphics.print('meditateYes: ' .. tostring(self.meditateYes), 0, 0)
+    love.graphics.print('meditateOption: ' .. tostring(self.meditateOption), 0, 10)
     --[[
     love.graphics.print('pageLength: ' .. tostring(self.pageLength), 0, 0)
     love.graphics.print('currentPage: ' .. tostring(self.currentPage), 0, 15)
