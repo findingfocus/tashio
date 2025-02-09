@@ -409,7 +409,7 @@ function PlayState:update(dt)
 
     --SAVE
     if love.keyboard.wasPressed('k') then
-      self.saveUtility:savePlayerData()
+        self.saveUtility:savePlayerData()
     end
 
     --LOADING

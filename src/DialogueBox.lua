@@ -198,6 +198,9 @@ function DialogueBox:update(dt)
                 if self.meditateOption then
                     if self.meditateYes then
                         self.saveDataUtility:savePlayerData()
+                    else
+                        --RESET DEFAULT VALUE
+                        self.meditateYes = true
                     end
                 end
             else
@@ -274,8 +277,8 @@ function DialogueBox:render()
             end
         end
     end
-    love.graphics.print('meditateYes: ' .. tostring(self.meditateYes), 0, 0)
-    love.graphics.print('meditateOption: ' .. tostring(self.meditateOption), 0, 10)
+    --love.graphics.print('meditateYes: ' .. tostring(self.meditateYes), 0, 0)
+    --love.graphics.print('meditateOption: ' .. tostring(self.meditateOption), 0, 10)
     --[[
     love.graphics.print('pageLength: ' .. tostring(self.pageLength), 0, 0)
     love.graphics.print('currentPage: ' .. tostring(self.currentPage), 0, 15)
