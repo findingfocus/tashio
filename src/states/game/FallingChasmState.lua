@@ -19,6 +19,8 @@ function FallingChasmState:init()
 end
 
 function FallingChasmState:update(dt)
+    gPlayer.dx = 0
+    gPlayer.dy = 0
   self.zigzagTime = self.zigzagTime + dt
   self.offsetX = math.sin(self.zigzagTime) / 6
   self.offsetY = math.cos(self.zigzagTime) / 6
@@ -77,7 +79,7 @@ function FallingChasmState:update(dt)
     self.optionSelector = 1 
   end
 
-  if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+  if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') or love.keyboard.wasPressed('p') then
       if self.optionSelector == 2 then
           gStateMachine:change('titleState')
       elseif self.optionSelector == 1 then
@@ -85,6 +87,7 @@ function FallingChasmState:update(dt)
           --LOAD LAST SAVE
           self.saveUtility:loadPlayerData()
           gStateMachine:change('playState')
+          gPlayer.stateMachine:change('player-meditate')
       end
   end
 end

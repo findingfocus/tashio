@@ -46,8 +46,8 @@ local columns = 10
 local rows = 8
 cameraX = 0
 --STARTING SCENE gPlayer SPAWN
-sceneView = Scene(gPlayer, 7, 2)
---sceneView = Scene(gPlayer, 1, 12)
+--sceneView = Scene(gPlayer, 7, 2)
+sceneView = Scene(gPlayer, 1, 12)
 tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 --textures = love.graphics.newImage('graphics/textures.png')
 quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
@@ -61,6 +61,7 @@ function PlayState:init()
         ['player-walk'] = function() return PlayerWalkState(gPlayer, self.scene) end,
         ['player-idle'] = function() return PlayerIdleState(gPlayer) end,
         ['player-death'] = function() return PlayerDeathState(gPlayer) end,
+        ['player-meditate'] = function() return PlayerMeditateState(gPlayer) end,
     }
 
     --gPlayer:changeState('player-death')
@@ -414,6 +415,7 @@ function PlayState:update(dt)
 
     --LOADING
     if love.keyboard.wasPressed('l') then
+        gPlayer.stateMachine:change('player-meditate')
         self.saveUtility:loadPlayerData()
     end
 
@@ -601,6 +603,9 @@ function PlayState:render()
 
     --self.rainSystem:render()
     if sceneView.player.deadTimer > 2 then
+        gPlayer.dx = 0
+        gPlayer.dy = 0
+        gPlayer:changeAnimation('death')
         gameOver = true
     end
     if gameOver then
@@ -611,6 +616,7 @@ function PlayState:render()
     end
     --LOAD TEST
     --love.graphics.print(Inspect(self.loadTest), 0, 0)
+    --love.graphics.print(tostring(sceneView.player.animations['falling'].timesPlayed), 0, 0)
 end
 
 function displayFPS()
