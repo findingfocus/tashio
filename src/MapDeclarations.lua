@@ -191,6 +191,9 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
                 table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, FLOWERS.frame) end)
             elseif MAP[i][j][k] == AUTUMN_FLOWER_ANIM_STARTER then
                 table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, AUTUMN_FLOWERS.frame) end)
+            --TODO WHY NO WORK
+            elseif MAP[i][j].aboveGroundTileIds[k] == IDOL then
+                table.insert(MAP[i][j].dialogueBox, DialogueBox(animRow, animCol, 'Meditate?', 'idol'))
             end
         end
     end
@@ -417,7 +420,7 @@ MAP[1][11].npc[villagerIndex].stateMachine = StateMachine {
 MAP[1][11].npc[villagerIndex]:changeState('npc-walk')
 MAP[1][11].npc[villagerIndex].stateMachine.current.option = 'horizontal'
 table.insert(MAP[1][11].dialogueBox, DialogueBox(MAP[1][11].npc[villagerIndex].x, MAP[1][11].npc[villagerIndex].y, 'Whaddya want?', 'npc', MAP[1][11].npc[villagerIndex]))
-table.insert(MAP[7][2].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 2, 'Meditate?', 'idol'))
+--table.insert(MAP[7][2].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 2, 'Meditate?', 'idol'))
 MAP[1][11].disjointUp = true
 
 --VILLAGER 2

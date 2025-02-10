@@ -180,6 +180,8 @@ function Player:update(dt)
             self.dx = 0
             self.dy = 0
             self.hit = false
+            self.dead = false
+            self.deadTimer = 0
             gStateMachine:change('chasmFallingState')
         end
     end

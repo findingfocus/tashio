@@ -197,6 +197,7 @@ function DialogueBox:update(dt)
                 self.currentPage = 1
                 if self.meditateOption then
                     if self.meditateYes then
+                        gPlayer.stateMachine:change('player-meditate')
                         self.saveDataUtility:savePlayerData()
                     else
                         --RESET DEFAULT VALUE

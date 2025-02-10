@@ -359,8 +359,14 @@ function Map:update(dt)
         sceneView.player.graveyard = true
         --sceneView.player.animations['falling'].currentFrame = 1
         sceneView.player:changeAnimation('walk-down')
-        sceneView.player.x = sceneView.player.checkPointPositions.x
-        sceneView.player.y = sceneView.player.checkPointPositions.y
+        if sceneView.player.health <= 0 then
+            gPlayer.dead = false
+            gPlayer.deadTimer = 0
+            gStateMachine:change('chasmFallingState')
+        else
+            sceneView.player.x = sceneView.player.checkPointPositions.x
+            sceneView.player.y = sceneView.player.checkPointPositions.y
+        end
     end
 
     if sceneView.player.graveyard then
