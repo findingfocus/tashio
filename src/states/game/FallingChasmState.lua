@@ -2,7 +2,7 @@ FallingChasmState = Class{__includes = BaseState}
 
 function FallingChasmState:init()
   --SCREEN LOCK POSITION
-  love.window.setPosition(220, 120)
+  love.window.setPosition(220, 60)
   self.init = false
   self.psystems = {}
   self.psystems[1] = love.graphics.newParticleSystem(particle, 4000)
@@ -19,8 +19,12 @@ function FallingChasmState:init()
 end
 
 function FallingChasmState:update(dt)
+    --[[
     gPlayer.dx = 0
     gPlayer.dy = 0
+    gPlayer.dead = false
+    gPlayer.deadTimer = 0
+    --]]
   self.zigzagTime = self.zigzagTime + dt
   self.offsetX = math.sin(self.zigzagTime) / 6
   self.offsetY = math.cos(self.zigzagTime) / 6
@@ -45,7 +49,7 @@ function FallingChasmState:update(dt)
   self.psystems[1]:setEmissionArea('borderellipse', 20, 20)
   self.psystems[1]:setEmissionRate(400)
   self.psystems[1]:setRadialAcceleration(40, 220)
-  self.psystems[1]:setColors(80/255, 50/255, 80/255, 10/255, 130/255, 7/255, 230/255, 255/255)
+  self.psystems[1]:setColors(80/255, 50/255, 90/255, 40/255, 130/255, 7/255, 230/255, 255/255)
   self.psystems[1]:update(dt)
 
 

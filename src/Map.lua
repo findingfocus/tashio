@@ -343,29 +343,40 @@ function Map:update(dt)
     end
 
     --GRAVEYARD TRIGGER
-    if sceneView.player.animations['falling'].timesPlayed >= 1 then
-        Timer.clear()
-        sceneView.player.chasmFallTimer = 0
-        sceneView.player:resetFallingDirection()
-        sceneView.player.falling = false
-        sceneView.player.chasmDeath = true
-        sceneView.player.chasmFalling = false
-        sceneView.player.tweenAllowed = false
-        sceneView.player.animations['falling'].currentFrame = 1
-        sounds['hurt']:play()
-        sceneView.player.health = sceneView.player.health - 1
-        sceneView.player.animations['falling'].timesPlayed = 0
-        sceneView.player.fallTimer = -2
-        sceneView.player.graveyard = true
-        --sceneView.player.animations['falling'].currentFrame = 1
-        sceneView.player:changeAnimation('walk-down')
-        if sceneView.player.health <= 0 then
-            gPlayer.dead = false
-            gPlayer.deadTimer = 0
-            gStateMachine:change('chasmFallingState')
-        else
-            sceneView.player.x = sceneView.player.checkPointPositions.x
-            sceneView.player.y = sceneView.player.checkPointPositions.y
+    if sceneView.player.falling then
+        if sceneView.player.animations['falling'].timesPlayed >= 1 then
+            Timer.clear()
+            sceneView.player.chasmFallTimer = 0
+            sceneView.player:resetFallingDirection()
+            sceneView.player.falling = false
+            sceneView.player.chasmDeath = true
+            sceneView.player.chasmFalling = false
+            sceneView.player.tweenAllowed = false
+            sceneView.player.animations['falling'].currentFrame = 1
+            sounds['hurt']:play()
+            sceneView.player.health = sceneView.player.health - 1
+            sceneView.player.animations['falling'].timesPlayed = 0
+            sceneView.player.fallTimer = -2
+            sceneView.player.graveyard = true
+
+            sceneView.player.deadTimer = 0
+            sceneView.player.dead = false
+            sceneView.player.damageFlash = false
+            --sceneView.player.graveyard = false
+            sceneView.player.dx = 0
+            sceneView.player.dy = 0
+            sceneView.player.hit = false
+            sceneView.player.dead = false
+            sceneView.player.deadTimer = 0
+            --sceneView.player.animations['falling'].currentFrame = 1
+            sceneView.player:changeAnimation('walk-down')
+            if sceneView.player.health <= 0 then
+                MAP[sceneView.currentMap.row][sceneView.currentMap.column].attacks = {}
+                gStateMachine:change('chasmFallingState')
+            else
+                sceneView.player.x = sceneView.player.checkPointPositions.x
+                sceneView.player.y = sceneView.player.checkPointPositions.y
+            end
         end
     end
 

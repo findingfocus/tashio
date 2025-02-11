@@ -44,7 +44,6 @@ function Spitball:init(entity)
     elseif self.y > sceneView.player.y + sceneView.player.height then --HIT UP
         self.hitUp = true
     end
-
 end
 
 function Spitball:update(dt)

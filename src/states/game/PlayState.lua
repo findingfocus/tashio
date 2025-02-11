@@ -77,6 +77,8 @@ function PlayState:init()
     self.stateTimer = 0
     self.saveUtility = SaveData()
     self.loadTest = {}
+    self.optionSelector = 1
+    self.gameOver = false
 end
 
 function PlayState:update(dt)
@@ -101,8 +103,26 @@ function PlayState:update(dt)
     end
 
     if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('enter') then
-        if not PAUSED then
+        if not PAUSED and not gPlayer.dead then
             gStateMachine:change('pauseState')
+        end
+    end
+
+    if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('p') then
+        if self.gameOver then
+            sceneView.player.deadTimer = 0
+            sceneView.player.dead = false
+            self.gameOver = false
+            MAP[sceneView.currentMap.row][sceneView.currentMap.column].attacks = {}
+            if self.optionSelector == 2 then
+                gStateMachine:change('titleState')
+            elseif self.optionSelector == 1 then
+                --CONTINUE GAME
+                --LOAD LAST SAVE
+                self.saveUtility:loadPlayerData()
+                gStateMachine:change('playState')
+                gPlayer.stateMachine:change('player-meditate')
+            end
         end
     end
 
@@ -285,6 +305,7 @@ function PlayState:update(dt)
                 self.dialogueID = k
                 table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k])
                 PAUSED = true
+        --]]
             end
         end
 
@@ -323,8 +344,8 @@ function PlayState:update(dt)
     if PAUSED then
         if treasureChestOption then
             MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects[self.dialogueID].dialogueBox[1]:update(dt)
-        else
-            MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[self.dialogueID]:update(dt)
+        elseif MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided ~= nil then
+            MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided[1]:update(dt)
         end
     end
 
@@ -335,7 +356,7 @@ function PlayState:update(dt)
     --love.window.setPosition(400, 40)
     --SCREEN LOCK POSITION
     --DEV POSITION
-    love.window.setPosition(220, 120)
+    love.window.setPosition(220, 60)
 
     --WARP ZONES
     if #MAP[sceneView.currentMap.row][sceneView.currentMap.column].warpZones > 0 then
@@ -419,6 +440,21 @@ function PlayState:update(dt)
         self.saveUtility:loadPlayerData()
     end
 
+    --GAME OVER OPTION SELECTOR
+    if self.gameOver then
+        if love.keyboard.wasPressed('down') or love.keyboard.wasPressed('s') then
+            if self.optionSelector ~= 2 then
+                sounds['beep']:play()
+            end
+            self.optionSelector = 2
+        elseif love.keyboard.wasPressed('up') or love.keyboard.wasPressed('w') then
+            if self.optionSelector ~= 1 then
+                sounds['beep']:play()
+            end
+            self.optionSelector = 1
+        end
+
+    end
 end
 
 function PlayState:render()
@@ -606,17 +642,34 @@ function PlayState:render()
         gPlayer.dx = 0
         gPlayer.dy = 0
         gPlayer:changeAnimation('death')
-        gameOver = true
+        self.gameOver = true
     end
-    if gameOver then
-        love.graphics.setColor(255/255, 0/255, 20/255, 120/255)
+    if self.gameOver then
+        love.graphics.setColor(1,0,0,100/255)
         love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
+
+        love.graphics.setFont(classicFont)
         love.graphics.setColor(WHITE)
-        love.graphics.printf('GAME OVER', 0, VIRTUAL_HEIGHT / 2 - 10, VIRTUAL_WIDTH, 'center')
+        love.graphics.printf('GAME OVER', 0, 24, VIRTUAL_WIDTH, 'center')
+
+        love.graphics.setFont(pixelFont)
+
+        if self.optionSelector == 1 then
+            love.graphics.setColor(DARK_CYAN)
+            love.graphics.printf('CONTINUE', 0, VIRTUAL_HEIGHT - 56, VIRTUAL_WIDTH, 'center')
+            love.graphics.setColor(DARK_RED)
+            love.graphics.printf('QUIT', 0, VIRTUAL_HEIGHT - 36, VIRTUAL_WIDTH, 'center')
+        elseif self.optionSelector == 2 then
+            love.graphics.setColor(DARK_RED)
+            love.graphics.printf('CONTINUE', 0, VIRTUAL_HEIGHT - 56, VIRTUAL_WIDTH, 'center')
+            love.graphics.setColor(DARK_CYAN)
+            love.graphics.printf('QUIT', 0, VIRTUAL_HEIGHT - 36, VIRTUAL_WIDTH, 'center')
+        end
     end
     --LOAD TEST
     --love.graphics.print(Inspect(self.loadTest), 0, 0)
-    --love.graphics.print(tostring(sceneView.player.animations['falling'].timesPlayed), 0, 0)
+    love.graphics.print(tostring(sceneView.player.deadTimer), 0, 0)
+    love.graphics.print(tostring(sceneView.player.dead), 0, 10)
 end
 
 function displayFPS()
