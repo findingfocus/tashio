@@ -170,8 +170,11 @@ function Player:update(dt)
     if self.health <= 0 and not self.dead then
         self.dead = true
         self:changeState('player-death')
-        sounds['death']:play()
+        if self.health == 0 then
+            sounds['death']:play()
+        end
 
+        --[[
         if self.chasmDeath then
             self.deadTimer = 0
             self.dead = false
@@ -182,8 +185,9 @@ function Player:update(dt)
             self.hit = false
             self.dead = false
             self.deadTimer = 0
-            gStateMachine:change('chasmFallingState')
+            --gStateMachine:change('chasmFallingState')
         end
+        --]]
     end
 
     if self.dead then

@@ -40,6 +40,13 @@ function SaveData:loadPlayerData()
         end
     end
 
+    gPlayer.dead = false
+    gPlayer.deadTimer = 0
+    gPlayer.graveyard = false
+    gPlayer.damageFlash = false
+    gPlayer.hit = false
+    gPlayer.flashing = false
+
     for k, v in pairs(load) do
         if k == 'currentMap' then
             sceneView.currentMap = Map(sceneView.currentMap.row, sceneView.currentMap.column, 1)

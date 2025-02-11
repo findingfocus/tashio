@@ -10,6 +10,8 @@ __Factor gecko logic into gecko class, which aspects of entity class do enemies 
 __Incorporate Prosto closure fix for local variables
 
 Todo
+__Remove beeps on non idol DialogueBox
+__WHY game break with collision and pits after playerLoad
 __Prevent Inventory load if gameOver
 __Flush DX DY, flashing, hit, resetAll player variables upon gameOver
 __Add invulnerable state for tashio upon being hurt, esp when falling
