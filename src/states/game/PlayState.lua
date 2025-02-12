@@ -551,7 +551,6 @@ function PlayState:render()
         love.graphics.setColor(DEBUG_BG)
         love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
         love.graphics.setColor(WHITE)
-        --love.graphics.print('pits: ' .. inspect(sceneView.currentMap.pits), 5, 15)
         --love.graphics.print('graveyard: ' .. inspect(sceneView.player.graveyard), 5, 25)
         love.graphics.print('checkpoint: ' .. inspect(gPlayer.checkPointPositions), 5, 35)
         --love.graphics.print('testNumber' .. inspect(testNumber), 5, 35)
@@ -668,8 +667,8 @@ function PlayState:render()
     end
     --LOAD TEST
     --love.graphics.print(Inspect(self.loadTest), 0, 0)
-    love.graphics.print(tostring(sceneView.player.deadTimer), 0, 0)
-    love.graphics.print(tostring(sceneView.player.dead), 0, 10)
+    --love.graphics.print(tostring(sceneView.shifting), 0, 0)
+    --love.graphics.print(tostring(sceneView.player.dead), 0, 10)
 end
 
 function displayFPS()

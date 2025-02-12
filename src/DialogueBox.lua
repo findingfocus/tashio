@@ -238,13 +238,14 @@ function DialogueBox:update(dt)
         end
     end
 
-    if love.keyboard.wasPressed('w') or love.keyboard.wasPressed('s') then
-        self.meditateYes = not self.meditateYes
-        sounds['beep']:play()
-        blinking = false
-        blinkTimer = blinkReset
+    if self.option == 'idol' then
+        if love.keyboard.wasPressed('w') or love.keyboard.wasPressed('s') then
+            self.meditateYes = not self.meditateYes
+            sounds['beep']:play()
+            blinking = false
+            blinkTimer = blinkReset
+        end
     end
-
 end
 
 function DialogueBox:render()

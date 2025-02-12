@@ -21,7 +21,6 @@ function Map:init(row, column, spellcastEntities)
     self.row = row
     self.column = column
     self.spellcastEntityCount = spellcastEntities
-    self.pits = MAP[row][column].pits
     self.adjacentOffsetX = 0
     self.adjacentOffsetY = 0
     self.renderOffsetY = MAP_RENDER_OFFSET_Y
@@ -268,35 +267,6 @@ function Map:update(dt)
                 end
             end
         end
-
-        pitCount = 0
-        for k, v in pairs(self.pits) do
-            if v:collide(sceneView.player) then
-                sceneView.player.checkPointTick = 0
-                testNumber = testNumber + 1
-                pitCount = pitCount + 1
-                --PIT COLLISION
-                --if #INPUT_LIST == 0 then
-                    if sceneView.player.tweenAllowed then
-                        Timer.tween(.8, {
-                            [sceneView.player] = {x = v.x, y = v.y},
-                        })
-                        --[[
-                        if love.keyboard.wasPressed('up') then
-                            Timer.clear()
-                        end
-                        --]]
-                    end
-                --end
-                if math.abs(v.x - sceneView.player.x) < PIT_PROXIMITY_FALL then
-                    if math.abs(v.y - sceneView.player.y) < PIT_PROXIMITY_FALL then
-                        sceneView.player.fallTimer = sceneView.player.fallTimer + dt
-                    end
-                else
-                    sceneView.player.fallTimer = 0
-                end
-            end
-        end --PITS
 
         --ATTACK UPDATES
         if MAP[self.row][self.column].attacks[1] ~= nil then
