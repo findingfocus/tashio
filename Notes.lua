@@ -11,7 +11,6 @@ __Incorporate Prosto closure fix for local variables
 
 Todo
 __Remove beeps on non idol DialogueBox
-__WHY game break with collision and pits after playerLoad
 __Prevent Inventory load if gameOver
 __Flush DX DY, flashing, hit, resetAll player variables upon gameOver
 __Add invulnerable state for tashio upon being hurt, esp when falling
@@ -161,3 +160,4 @@ X_Put entity instantions inside of MapDeclations
 X_Render Particle systems in the currentMap, not scene
 X_Fix fretsheld for touch
 X_rehaul data downloader for layers,
+X_WHY game break with collision and pits after playerLoad

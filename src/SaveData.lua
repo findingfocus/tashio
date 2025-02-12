@@ -20,6 +20,7 @@ function SaveData:savePlayerData()
 end
 
 function SaveData:loadPlayerData()
+    gPlayer.currentAnimation:refresh()
     local load = bitser.loadLoveFile("saves/savePlayerData.bin")
     --love.graphics.print(Inspect(fileLoad), 0, 0)
     for k, v in pairs(load) do
@@ -28,9 +29,11 @@ function SaveData:loadPlayerData()
         end
         if k == 'currentMapRow' then
             sceneView.currentMap.row = v
+            sceneView.mapRow = v
         end
         if k == 'currentMapColumn' then
             sceneView.currentMap.column = v
+            sceneView.mapColumn = v
         end
         if k == 'playerCoordinates' then
             gPlayer.x, gPlayer.y = v[1], v[2]

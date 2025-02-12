@@ -39,7 +39,6 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
         MAP[i][j].animatables = {}
         MAP[i][j].entities = {}
         MAP[i][j].npc = {}
-        MAP[i][j].pits = {}
         MAP[i][j].chasms = {}
         MAP[i][j].topLevelTileIds = {}
         MAP[i][j].aboveGroundTileIds = {}
@@ -157,13 +156,8 @@ for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEI
         globalRowsInserted = 0
     end
 
-    --PIT INSERTION
-    if (aboveGroundTiledMap[tileId] == 14) then
-      table.insert(MAP[mapRow][mapCol].pits, Pit(sceneRow, sceneCol))
-    end
-
     --CHASMS
-    if (aboveGroundTiledMap[tileId] > 16 and aboveGroundTiledMap[tileId] < 22) then
+    if (aboveGroundTiledMap[tileId] > 13 and aboveGroundTiledMap[tileId] < 22) then
       table.insert(MAP[mapRow][mapCol].chasms, Chasm(sceneRow, sceneCol))
     end
 
@@ -171,11 +165,6 @@ for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEI
 
     sceneCol = sceneCol + 1
 end
-
---table.insert(MAP[7][2].pits, {row = 1, col = 2})
-
-
-
 
 for i = 1, OVERWORLD_MAP_HEIGHT do
     for j = 1, OVERWORLD_MAP_WIDTH do
@@ -421,6 +410,7 @@ MAP[1][11].npc[villagerIndex]:changeState('npc-walk')
 MAP[1][11].npc[villagerIndex].stateMachine.current.option = 'horizontal'
 table.insert(MAP[1][11].dialogueBox, DialogueBox(MAP[1][11].npc[villagerIndex].x, MAP[1][11].npc[villagerIndex].y, 'Whaddya want?', 'npc', MAP[1][11].npc[villagerIndex]))
 table.insert(MAP[7][2].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 2, 'Meditate?', 'idol'))
+table.insert(MAP[7][4].dialogueBox, DialogueBox(TILE_SIZE * 5, TILE_SIZE * 5, 'Meditate?', 'idol'))
 MAP[1][11].disjointUp = true
 
 --VILLAGER 2
