@@ -352,11 +352,17 @@ function insertWarpZone(warpFromRow, warpFromCol, warpToRow, warpToCol, warpFrom
 end
 --]]
 
+
+
+
+--warpFromRow, warpFromCol, warpToRow, warpToCol, warpFromX, warpFromY, warpToX, warpToY)
+
 --TAVERN
 insertWarpZone(7, 2, 1, 11, 9, 3, 3, 8)
 
 --DUNGEON
-insertWarpZone(7, 4, 1, 12, 4, 4, 3, 8)
+--insertWarpZone(7, 4, 1, 12, 4, 4, 3, 8)
+insertWarpZone(7, 4, 4, 11, 4, 4, 3, 8)
 
 --INN
 insertWarpZone(8, 3, 2, 11, 3, 7, 6, 8)

@@ -199,7 +199,7 @@ function Player:update(dt)
 
     --TRANSITION EVENT TRIGGERS
     if not sceneView.shifting and not sceneView.player.falling and not sceneView.player.graveyard then
-        if #OUTPUT_LIST > 0 then
+        --if #OUTPUT_LIST > 0 then
             for k, v in ipairs(OUTPUT_LIST) do
                 if v == 'right' then
                     if self.x + self.width >= VIRTUAL_WIDTH + SIDE_EDGE_BUFFER_PLAYER then
@@ -219,7 +219,7 @@ function Player:update(dt)
                     end
                 end
             end
-        end
+        --end
         if #TOUCH_OUTPUT_LIST > 0 then
             for k, v in ipairs(TOUCH_OUTPUT_LIST) do
                 if v == 'right' then
