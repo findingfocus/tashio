@@ -79,9 +79,11 @@ function PlayState:init()
     self.loadTest = {}
     self.optionSelector = 1
     self.gameOver = false
+    self.activeEvent = false
 end
 
 function PlayState:update(dt)
+    Event.dispatch('event-test', 100)
     self.stateTimer = self.stateTimer + dt
     if self.stateTimer >= 1 then
         --gStateMachine:change('chasmFallingState')
@@ -665,10 +667,19 @@ function PlayState:render()
             love.graphics.printf('QUIT', 0, VIRTUAL_HEIGHT - 36, VIRTUAL_WIDTH, 'center')
         end
     end
+
     --LOAD TEST
     --love.graphics.print(Inspect(self.loadTest), 0, 0)
     --love.graphics.print(tostring(sceneView.shifting), 0, 0)
-    --love.graphics.print(tostring(sceneView.player.dead), 0, 10)
+    local testValues = Event.handlers['event-test'].callback()
+    --love.graphics.print(Inspect(testValues), 0, 0)
+    ---[[
+    local startingY = 0
+    for k, v in pairs(testValues) do
+        love.graphics.print(Inspect(v), 0, startingY)
+        startingY = startingY + 10
+    end
+    --]]
 end
 
 function displayFPS()

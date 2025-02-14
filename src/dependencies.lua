@@ -35,6 +35,7 @@ require 'src/Inventory'
 require 'src/Pushable'
 require 'src/Spitball'
 require 'src/SaveData'
+require 'src/EventManager'
 
 require 'src/states/BaseState'
 require 'src/StateMachine'
