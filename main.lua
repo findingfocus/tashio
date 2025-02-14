@@ -45,6 +45,7 @@ function love.load()
       ['playState'] = function() return PlayState() end,
       ['pauseState'] = function() return PauseState() end,
       ['chasmFallingState'] = function() return FallingChasmState() end,
+      ['openingCinematic'] = function() return OpeningCinematic() end,
   }
 
   --gStateMachine:change('titleState')
