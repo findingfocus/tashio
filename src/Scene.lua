@@ -16,7 +16,6 @@ function Scene:init(player, mapRow, mapColumn)
     self.mapRow = mapRow
     self.mapColumn = mapColumn
     self.currentMap = Map(mapRow, mapColumn, spellcastEntityCount)
-    --self.nextMap = Map(mapRow, mapColumn, spellcastEntityCount)
     self.snowSystem = SnowSystem()
     self.rainSystem = RainSystem()
     self.lavaSystem = LavaSystem()
