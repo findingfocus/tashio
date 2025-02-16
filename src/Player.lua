@@ -48,6 +48,7 @@ function Player:init(def)
     self.checkPointTick = 0
     self.deadTimer = 0
     self.chasmDeath = false
+    self.spellcastCount = 1
 end
 
 function Player:saveDataTable()

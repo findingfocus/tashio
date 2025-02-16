@@ -80,14 +80,11 @@ function PlayState:init()
     self.optionSelector = 1
     self.gameOver = false
     self.activeEvent = false
-    self.eventTimer = 0
 end
 
 function PlayState:update(dt)
-    self.eventTimer = self.eventTimer + dt
-    if self.eventTimer > 2 then
+    if love.keyboard.wasPressed('y') then
         gStateMachine:change('openingCinematic')
-        self.eventTimer = -99
     end
     self.stateTimer = self.stateTimer + dt
     if self.stateTimer >= 1 then
@@ -502,7 +499,7 @@ function PlayState:render()
     love.graphics.setColor(BLACK)
     --love.graphics.printf('Tashio Tempo', 0, VIRTUAL_HEIGHT - 13, VIRTUAL_WIDTH, 'center')
     ---[[KEYLOGGER
-    --[[
+    ---[[
     if love.keyboard.isDown('w') then
         love.graphics.setColor(FADED)
         love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 16, SCREEN_HEIGHT_LIMIT - 11 + KEYLOGGER_YOFFSET, 0, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --UP
