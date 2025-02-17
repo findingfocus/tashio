@@ -52,7 +52,6 @@ require 'src/states/entity/player/PlayerWalkState'
 require 'src/states/entity/player/PlayerDeathState'
 require 'src/states/entity/player/PlayerMeditateState'
 require 'src/states/game/FallingChasmState'
-require 'src/events/OpeningCinematic'
 
 require 'src/Entity'
 require 'src/entity_defs'
@@ -75,6 +74,7 @@ require 'src/util'
 require 'src/states/game/TitleScreenState'
 require 'src/states/game/PlayState'
 require 'src/states/game/PauseState'
+require 'src/events/OpeningCinematic'
 
 
 pixelFont = love.graphics.newFont('fonts/Pixel.ttf', 8)
