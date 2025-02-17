@@ -465,3 +465,29 @@ table.insert(MAP[7][2].collidableMapObjects, Pushable(3, 4, 'crate'))
 table.insert(MAP[7][2].collidableMapObjects, Pushable(3, 5, 'crate'))
 
 table.insert(MAP[1][12].collidableMapObjects, TreasureChest(3, 2, Coin(), {DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'You found a strange coin! It emenates energy... ')}))
+
+
+
+--SCRIPTED EVENTS
+--MAGE NPC
+table.insert(MAP[10][20].npc, Entity {
+    animations = ENTITY_DEFS['mage'].animations,
+    walkSpeed = ENTITY_DEFS['mage'].walkSpeed,
+    height = ENTITY_DEFS['mage'].height,
+    width = ENTITY_DEFS['mage'].width,
+    x = -TILE_SIZE * 2,
+    y = TILE_SIZE * 6,
+    dialogueBox = {},
+    direction = 'down',
+    corrupted = false,
+    type = 'mage',
+})
+
+local mageIndex = 1
+MAP[10][20].npc[mageIndex].stateMachine = StateMachine {
+    ['npc-idle'] = function() return NPCIdleState(MAP[10][20].npc[mageIndex]) end,
+    ['npc-walk'] = function() return NPCWalkState(MAP[10][20].npc[mageIndex]) end,
+}
+MAP[10][20].npc[mageIndex]:changeState('npc-walk')
+--MAP[10][20].npc[mageIndex].stateMachine.current.option = 'horizontal'
+
