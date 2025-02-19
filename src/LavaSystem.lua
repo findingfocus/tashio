@@ -7,7 +7,7 @@ local SOOT_MIN_Y = 5
 local SOOT_MAX_Y = 15
 local LAVA_MIN_Y = -5
 local LAVA_MAX_Y = -18
-local LAVA_EMISSION_RATE = 20
+local LAVA_EMISSION_RATE = 10
 local LIFESPAN = 15
 local increase = false
 
@@ -47,7 +47,7 @@ function LavaSystem:update(dt)
     self.lavaBubbles:setParticleLifetime(1, LIFESPAN)
     self.lavaBubbles:setEmissionRate(LAVA_EMISSION_RATE)
     self.lavaBubbles:setLinearAcceleration(-10, LAVA_MIN_Y, 10, LAVA_MAX_Y)
-    self.lavaBubbles:setColors(250/255, 0/255, 0/255, 255/255, 255/255, 0/255, 0/255, 0/0255)
+    self.lavaBubbles:setColors(250/255, 0/255, 0/255, 150/255, 255/255, 0/255, 0/255, 0/255)
     self.lavaBubbles:update(dt)
 end
 

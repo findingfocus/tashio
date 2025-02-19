@@ -180,6 +180,12 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
                 table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, FLOWERS.frame) end)
             elseif MAP[i][j][k] == AUTUMN_FLOWER_ANIM_STARTER then
                 table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, AUTUMN_FLOWERS.frame) end)
+            elseif MAP[i][j][k] == LAVA_LEFT_EDGE_ANIM_STARTER then
+                table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, LAVA_LEFT_EDGE.frame) end)
+            elseif MAP[i][j][k] == LAVA_RIGHT_EDGE_ANIM_STARTER then
+                table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, LAVA_RIGHT_EDGE.frame) end)
+            elseif MAP[i][j][k] == LAVA_FLOW_ANIM_STARTER then
+                table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, LAVA_FLOW.frame) end)
             --TODO WHY NO WORK
             elseif MAP[i][j].aboveGroundTileIds[k] == IDOL then
                 table.insert(MAP[i][j].dialogueBox, DialogueBox(animRow, animCol, 'Meditate?', 'idol'))
@@ -370,6 +376,9 @@ insertWarpZone(8, 3, 2, 11, 3, 7, 6, 8)
 FLOWERS = AnimSpitter(FLOWER_ANIM_STARTER, 1015, 0.75)
 AUTUMN_FLOWERS = AnimSpitter(AUTUMN_FLOWER_ANIM_STARTER, 1011, 0.75)
 WATER = AnimSpitter(WATER_ANIM_STARTER, 105, .5)
+LAVA_LEFT_EDGE = AnimSpitter(LAVA_LEFT_EDGE_ANIM_STARTER, 1007, .35)
+LAVA_RIGHT_EDGE = AnimSpitter(LAVA_RIGHT_EDGE_ANIM_STARTER, 1002, .35)
+LAVA_FLOW = AnimSpitter(LAVA_FLOW_ANIM_STARTER, 121, .35)
 
 --MAGE NPC
 table.insert(MAP[7][2].npc, Entity {
@@ -476,7 +485,7 @@ table.insert(MAP[10][20].npc, Entity {
     height = ENTITY_DEFS['mage'].height,
     width = ENTITY_DEFS['mage'].width,
     x = -TILE_SIZE * 2,
-    y = TILE_SIZE * 6,
+    y = TILE_SIZE * 4,
     dialogueBox = {},
     direction = 'down',
     corrupted = false,
