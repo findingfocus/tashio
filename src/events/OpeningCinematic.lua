@@ -6,12 +6,13 @@ function OpeningCinematic:init()
     self.testX = 0
     self.originalPlayerX, self.originalPlayerY = gPlayer.x, gPlayer.y
     --self.originalSceneRow, self.originalSceneColumn = sceneView.currentMap.row, sceneView.currentMap.column
-    gPlayer.x = TILE_SIZE * 6
-    gPlayer.y = TILE_SIZE * 5
+    gPlayer.x = TILE_SIZE * 8
+    gPlayer.y = TILE_SIZE * 3
     sceneView.currentMap = Map(10,20, gPlayer.spellcastCount)
     gPlayer:changeState('player-death')
     gPlayer:changeAnimation('death')
     gPlayer.animations['death'].currentFrame = 9
+    self.lavaSystem = LavaSystem()
     self.mageStep1 = true
     self.mageStep2 = false
     self.mageStep3 = false
@@ -30,6 +31,7 @@ function OpeningCinematic:init()
 end
 
 function OpeningCinematic:update(dt)
+    self.lavaSystem:update(dt)
     self.testX = self.testX + dt * 2
     sceneView.currentMap.insertAnimations:update(dt)
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
@@ -76,7 +78,7 @@ function OpeningCinematic:update(dt)
     end
 
     if self.tashioStep1 then
-        gPlayer.y = math.max(TILE_SIZE * 5 - 8, gPlayer.y - dt * 2)
+        gPlayer.y = math.max(TILE_SIZE * 3 - 8, gPlayer.y - dt * 2)
         self.psystem2:moveTo(gPlayer.x + 8, gPlayer.y + gPlayer.height)
         self.psystem2:setParticleLifetime(2, 3)
         self.psystem2:setEmissionArea('borderrectangle', 5, 0)
@@ -101,6 +103,7 @@ function OpeningCinematic:render()
     love.graphics.setColor(WHITE)
     love.graphics.draw(self.psystem, 0, 0)
     love.graphics.draw(self.psystem2, 0, 0)
+    self.lavaSystem:render()
     --HUD RENDER
     ---[[
     love.graphics.setColor(WHITE)
@@ -110,6 +113,7 @@ function OpeningCinematic:render()
         love.graphics.setFont(pixelFont)
         gItemInventory.itemSlot[1]:render()
     end
+
 
     love.graphics.setColor(gKeyItemInventory.elementColor)
     love.graphics.circle('fill', VIRTUAL_WIDTH - 86, VIRTUAL_HEIGHT - 8, 6)
