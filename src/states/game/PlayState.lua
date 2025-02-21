@@ -46,8 +46,8 @@ local columns = 10
 local rows = 8
 cameraX = 0
 --STARTING SCENE gPlayer SPAWN
-sceneView = Scene(gPlayer, 10, 19)
---sceneView = Scene(gPlayer, 7, 4)
+--sceneView = Scene(gPlayer, 10, 19)
+sceneView = Scene(gPlayer, 7, 4)
 --sceneView = Scene(gPlayer, 1, 12)
 tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 --textures = love.graphics.newImage('graphics/textures.png')

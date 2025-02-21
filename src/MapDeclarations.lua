@@ -492,6 +492,19 @@ table.insert(MAP[10][20].npc, Entity {
     type = 'mage',
 })
 
+table.insert(MAP[10][19].npc, Entity {
+    animations = ENTITY_DEFS['mage'].animations,
+    walkSpeed = ENTITY_DEFS['mage'].walkSpeed,
+    height = ENTITY_DEFS['mage'].height,
+    width = ENTITY_DEFS['mage'].width,
+    x = TILE_SIZE * 3,
+    y = -TILE_SIZE,
+    dialogueBox = {},
+    direction = 'down',
+    corrupted = false,
+    type = 'mage',
+})
+
 local mageIndex = 1
 MAP[10][20].npc[mageIndex].stateMachine = StateMachine {
     ['npc-idle'] = function() return NPCIdleState(MAP[10][20].npc[mageIndex]) end,
@@ -500,3 +513,11 @@ MAP[10][20].npc[mageIndex].stateMachine = StateMachine {
 MAP[10][20].npc[mageIndex]:changeState('npc-walk')
 --MAP[10][20].npc[mageIndex].stateMachine.current.option = 'horizontal'
 
+
+MAP[10][19].npc[mageIndex].stateMachine = StateMachine {
+    ['npc-idle'] = function() return NPCIdleState(MAP[10][19].npc[mageIndex]) end,
+    ['npc-walk'] = function() return NPCWalkState(MAP[10][19].npc[mageIndex]) end,
+}
+
+MAP[10][19].npc[mageIndex]:changeState('npc-walk')
+table.insert(MAP[10][19].dialogueBox, DialogueBox(1, 1, 'BrightsideMovement just raided! And Coaley is also here to teach us all phonics, we are all hooked!!! '))
