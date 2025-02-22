@@ -10,10 +10,13 @@ function OpeningCinematic:init()
     gPlayer.x = TILE_SIZE * 8
     gPlayer.y = TILE_SIZE * 3
     sceneView.currentMap = Map(10,20, gPlayer.spellcastCount)
+    sceneView.mapRow = 10
+    sceneView.mapColumn = 20
+    sceneView.activeDialogueID = nil
     gPlayer:changeState('player-death')
     gPlayer:changeAnimation('death')
     gPlayer.animations['death'].currentFrame = 9
-    table.insert(MAP[10][19].dialogueBoxCollided, MAP[10][19].dialogueBox[1])
+    --table.insert(MAP[10][19].dialogueBoxCollided, MAP[10][19].dialogueBox[1])
     self.lavaSystem = LavaSystem()
     self.mageStep1 = false
     --self.mageStep1 = true
@@ -47,6 +50,8 @@ function OpeningCinematic:update(dt)
     sceneView.currentMap.insertAnimations:update(dt)
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
         sceneView.currentMap = Map(7, 4, gPlayer.spellcastCount)
+        sceneView.mapRow = 7
+        sceneView.mapColumn = 4
         gPlayer.x = self.originalPlayerX
         gPlayer.y = self.originalPlayerY
         gStateMachine:change('playState')
@@ -66,18 +71,27 @@ function OpeningCinematic:update(dt)
             castleMage:changeAnimation('idle-right')
             self.castleStep2 = false
             self.castleStep3 = true
+            --[[
             MAP[10][19].dialogueBox[1].line1Result = ''
             MAP[10][19].dialogueBox[1].line2Result = ''
             MAP[10][19].dialogueBox[1].line3Result = ''
             MAP[10][19].dialogueBox[1].lineCount = 1
             MAP[10][19].dialogueBox[1].textIndex = 1
+            --]]
         end
+
+        --DIALOGUE UPDATE
     elseif self.castleStep3 then
-        PAUSED = true
+        sceneView.activeDialogueID = 1
+        MAP[10][19].dialogueBox[sceneView.activeDialogueID]:flushText()
+        MAP[10][19].dialogueBox[sceneView.activeDialogueID].aButtonCount = 1
+        --PAUSED = true
         self.castleStep3 = false
         self.castleStep4 = true
     elseif self.castleStep4 then
-        MAP[10][19].dialogueBox[1]:update(dt)
+        if sceneView.activeDialogueID ~= nil then
+            MAP[10][19].dialogueBox[sceneView.activeDialogueID]:update(dt)
+        end
     end
 
     if self.mageStep1 then
@@ -141,6 +155,8 @@ function OpeningCinematic:update(dt)
             --castleMage.x, castleMage.y = TILE_SIZE * 2, -TILE_SIZE
             gPlayer.direction = 'down'
             sceneView.currentMap = Map(10,19, gPlayer.spellcastCount)
+            sceneView.mapRow = 10
+            sceneView.mapColumn = 19
             gPlayer:changeState('player-idle')
             --gPlayer:changeAnimation('death')
             --gPlayer.animations['death'].currentFrame = 9
@@ -201,8 +217,15 @@ function OpeningCinematic:render()
 
     --love.graphics.print('state: ' .. tostring(PLAYER_STATE), 5, 0)
     if self.castleStep4 then
+        --[[
         if MAP[10][19].dialogueBoxCollided[1] ~= nil then
             MAP[10][19].dialogueBoxCollided[1]:render()
+        end
+        --]]
+
+        --MAP[10][19].dialogueBox[sceneView.activeDialogueID].line1Result = 'SALTOMANGA'
+        if MAP[10][19].dialogueBox[sceneView.activeDialogueID] ~= nil then
+            MAP[10][19].dialogueBox[sceneView.activeDialogueID]:render()
         end
     end
 
@@ -244,5 +267,8 @@ function OpeningCinematic:render()
         love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
     end
 
-    love.graphics.print('PAUSED: ' .. tostring(PAUSED), 0, 0)
+
+   love.graphics.print('PAUSED: ' .. tostring(PAUSED), 0, 68)
+   love.graphics.print('salto: ' .. tostring(MAP[10][19].dialogueBox[1].salto), 0, 78)
+   --love.graphics.print('column: ' .. tostring(sceneView.mapColumn), 0, 88)
 end

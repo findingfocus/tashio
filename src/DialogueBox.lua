@@ -5,12 +5,13 @@ local blinking = true
 local blinkTimer = .5
 local blinkReset = .5
 
-function DialogueBox:init(x, y, text, option, npc)
+function DialogueBox:init(x, y, text, option, npc, index)
+    self.salto = 0
+    self.dialogueID = index or 1
     self.x = x + 1
     self.y = y + 1
     self.width = TILE_SIZE - 2
     self.height = TILE_SIZE - 2
-    self.classType = 'dialogueBox'
     self.text = text
     self.option = option or 0
     self.npc = npc or 0
@@ -141,10 +142,15 @@ function DialogueBox:init(x, y, text, option, npc)
 end
 
 function DialogueBox:flushText()
-    self.textIndex = 1
+    MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[self.dialogueID].line1Result = ''
+    MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[self.dialogueID].line2Result = ''
+    MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[self.dialogueID].line3Result = ''
+    MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[self.dialogueID].lineCount = 1
+    MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[self.dialogueID].textIndex = 1
 end
 
 function DialogueBox:update(dt)
+    self.salto = self.salto + dt
     if self.option == 'idol' then
         self.meditateOption = true
     end
@@ -194,6 +200,7 @@ function DialogueBox:update(dt)
                 PAUSED = false
                 MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided = {}
                 self:flushText()
+                sceneView.activeDialogueID = nil
                 self.currentPage = 1
                 if self.meditateOption then
                     if self.meditateYes then
@@ -249,7 +256,7 @@ function DialogueBox:update(dt)
 end
 
 function DialogueBox:render()
-    if PAUSED then
+    --if PAUSED then
         love.graphics.setColor(1/255, 5/255, 10/255, 255/255)
         love.graphics.rectangle('fill', 0, SCREEN_HEIGHT_LIMIT - 40, VIRTUAL_WIDTH, 40)
         love.graphics.setColor(200/255, 200/255, 200/255, 255/255)
@@ -278,13 +285,15 @@ function DialogueBox:render()
                 love.graphics.draw(rightArrowSelector, VIRTUAL_WIDTH - 40, SCREEN_HEIGHT_LIMIT - 11)
             end
         end
-    end
+    --end
     --love.graphics.print('meditateYes: ' .. tostring(self.meditateYes), 0, 0)
     --love.graphics.print('meditateOption: ' .. tostring(self.meditateOption), 0, 10)
-    --[[
-    love.graphics.print('pageLength: ' .. tostring(self.pageLength), 0, 0)
+    ---[[
+    love.graphics.setColor(WHITE)
+    love.graphics.print('pageLength: ' .. tostring(self.pageLength), 0, 25)
     love.graphics.print('currentPage: ' .. tostring(self.currentPage), 0, 15)
-    love.graphics.print('textIndex: ' .. tostring(self.textIndex), 0, 35)
-    love.graphics.print('lineCharCount: ' .. tostring(self.lineCharCount), 0, 45)
+    love.graphics.print('buttonCount: ' .. tostring(self.aButtonCount), 0, 35)
+    love.graphics.print('textIndex: ' .. tostring(self.textIndex), 0, 45)
+    --love.graphics.print('lineCharCount: ' .. tostring(self.lineCharCount), 0, 45)
     --]]
 end

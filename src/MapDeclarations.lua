@@ -456,7 +456,7 @@ table.insert(MAP[7][1].dialogueBox, DialogueBox(TILE_SIZE, 4 * TILE_SIZE, 'You c
 
 table.insert(MAP[8][1].dialogueBox, DialogueBox(TILE_SIZE * 8, 2 * TILE_SIZE, 'Under Construction', 'signpost'))
 
-table.insert(MAP[7][3].dialogueBox, DialogueBox(TILE_SIZE * 7, 3 * TILE_SIZE, 'DANGER-->', 'signpost'))
+table.insert(MAP[7][3].dialogueBox, DialogueBox(TILE_SIZE * 7, 3 * TILE_SIZE, 'DANGER-->', 'signpost', nil, nil, 1))
 
 table.insert(MAP[7][4].dialogueBox, DialogueBox(TILE_SIZE * 8, 0, 'Ice Mountain^^', 'signpost'))
 
@@ -473,6 +473,7 @@ table.insert(MAP[7][2].collidableMapObjects, Pushable(4, 4, 'crate'))
 table.insert(MAP[7][2].collidableMapObjects, Pushable(3, 4, 'crate'))
 table.insert(MAP[7][2].collidableMapObjects, Pushable(3, 5, 'crate'))
 
+--REFACTOR DIALOGUE BOX OUT OF TREASURE CHEST
 table.insert(MAP[1][12].collidableMapObjects, TreasureChest(3, 2, Coin(), {DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'You found a strange coin! It emenates energy... ')}))
 
 
@@ -520,4 +521,5 @@ MAP[10][19].npc[mageIndex].stateMachine = StateMachine {
 }
 
 MAP[10][19].npc[mageIndex]:changeState('npc-walk')
-table.insert(MAP[10][19].dialogueBox, DialogueBox(1, 1, 'BrightsideMovement just raided! And Coaley is also here to teach us all phonics, we are all hooked!!! '))
+--table.insert(MAP[10][19].dialogueBox, DialogueBox(1, 1, 'BrightsideMovement just raided!', 'signpost', nil, nil, 1))
+table.insert(MAP[10][19].dialogueBox, DialogueBox(0, 0, 'DANGER-->', 'signpost', nil, nil, 1))

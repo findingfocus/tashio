@@ -27,6 +27,7 @@ function Scene:init(player, mapRow, mapColumn)
     self.spellcastEntityCount = spellcastEntityCount
     self.spellcastEntities = {}
     self.possibleDirections = {'left', 'right', 'up', 'down'}
+    self.activeDialogueID = nil
     for i = 1, self.spellcastEntityCount do
         table.insert(self.spellcastEntities, Entity {
             animations = ENTITY_DEFS['spellcast'].animations,
@@ -215,6 +216,12 @@ function Scene:update(dt)
         end
       end
     end
+
+    --DIALOGUE UPDATE
+    --MAP[self.mapRow][self.mapColumn].dialogueBox[1]:update(dt)
+    if self.activeDialogueID ~= nil then
+        MAP[self.mapRow][self.mapColumn].dialogueBox[self.activeDialogueID]:update(dt)
+    end
 end
 
 function Scene:render()
@@ -303,7 +310,17 @@ function Scene:render()
     love.graphics.setColor(WHITE)
 
     --ONLY RENDER COLLIDED SIGNPOST
+    --[[
     for k, v in pairs(MAP[self.mapRow][self.mapColumn].dialogueBoxCollided) do
         MAP[self.mapRow][self.mapColumn].dialogueBoxCollided[k]:render()
     end
+    --]]
+    if self.activeDialogueID ~= nil then
+        --MAP[10][19].dialogueBox[1]:render()
+        MAP[self.mapRow][self.mapColumn].dialogueBox[self.activeDialogueID]:render()
+    end
+    --if
+    --MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[self.activeDialogueID]:render(dt)
+    love.graphics.setColor(WHITE)
+    love.graphics.print('activeID: ' .. tostring(sceneView.activeDialogueID))
 end
