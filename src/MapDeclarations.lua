@@ -11,46 +11,46 @@ MAP_HEIGHT = 8
 
 --DECLARING EMPTY TABLES IN GLOBAL MAP
 for x = 1, OVERWORLD_MAP_HEIGHT do
-    table.insert(MAP, {})
-    for y = 1, OVERWORLD_MAP_WIDTH do
-        table.insert(MAP[x], {})
-    end
+  table.insert(MAP, {})
+  for y = 1, OVERWORLD_MAP_WIDTH do
+    table.insert(MAP[x], {})
+  end
 end
 
 tiledMap = {}
 for k, v in pairs(globalMap.layers[1].data) do
-    tiledMap[k] = v
+  tiledMap[k] = v
 end
 aboveGroundTiledMap = {}
 for k, v in pairs(globalMap.layers[2].data) do
-    aboveGroundTiledMap[k] = v
+  aboveGroundTiledMap[k] = v
 end
 
 topLevelTiledMap = {}
 for k, v in pairs(globalMap.layers[3].data) do
-    topLevelTiledMap[k] = v
+  topLevelTiledMap[k] = v
 end
 
 
 
 --tiledMapCount = #tiledMap
 for i = 1, OVERWORLD_MAP_HEIGHT do
-    for j = 1, OVERWORLD_MAP_WIDTH do
-        MAP[i][j].animatables = {}
-        MAP[i][j].entities = {}
-        MAP[i][j].npc = {}
-        MAP[i][j].chasms = {}
-        MAP[i][j].topLevelTileIds = {}
-        MAP[i][j].aboveGroundTileIds = {}
-        MAP[i][j].dialogueBox = {}
-        MAP[i][j].dialogueBoxCollided = {}
-        MAP[i][j].warpZones = {}
-        MAP[i][j].disjointUp = false
-        MAP[i][j].pushables = {}
-        MAP[i][j].collidableMapObjects = {}
-        MAP[i][j].coins = {}
-        MAP[i][j].attacks = {}
-    end
+  for j = 1, OVERWORLD_MAP_WIDTH do
+    MAP[i][j].animatables = {}
+    MAP[i][j].entities = {}
+    MAP[i][j].npc = {}
+    MAP[i][j].chasms = {}
+    MAP[i][j].topLevelTileIds = {}
+    MAP[i][j].aboveGroundTileIds = {}
+    MAP[i][j].dialogueBox = {}
+    MAP[i][j].dialogueBoxCollided = {}
+    MAP[i][j].warpZones = {}
+    MAP[i][j].disjointUp = false
+    MAP[i][j].pushables = {}
+    MAP[i][j].collidableMapObjects = {}
+    MAP[i][j].coins = {}
+    MAP[i][j].attacks = {}
+  end
 end
 
 --MAP DOWNLOADER FROM TILED DATA DOWNLOADER
@@ -62,33 +62,33 @@ local sceneRowsInserted = 0
 local globalRowsInserted = 0
 
 for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEIGHT do
-    if sceneCol > MAP_WIDTH then
-      sceneCol = 1
-      mapCol = mapCol + 1
-      sceneRowsInserted = sceneRowsInserted + 1
-    end
-    if sceneRowsInserted == OVERWORLD_MAP_WIDTH then
-        mapCol = 1
-        globalRowsInserted = globalRowsInserted + 1
-        sceneRow = sceneRow + 1
-        sceneRowsInserted = 0
-    end
-    if globalRowsInserted == MAP_HEIGHT then --CYCLE TO NEXT MAP ROW
-        sceneRow = 1
-        mapRow = mapRow + 1
-        globalRowsInserted = 0
-    end
+  if sceneCol > MAP_WIDTH then
+    sceneCol = 1
+    mapCol = mapCol + 1
+    sceneRowsInserted = sceneRowsInserted + 1
+  end
+  if sceneRowsInserted == OVERWORLD_MAP_WIDTH then
+    mapCol = 1
+    globalRowsInserted = globalRowsInserted + 1
+    sceneRow = sceneRow + 1
+    sceneRowsInserted = 0
+  end
+  if globalRowsInserted == MAP_HEIGHT then --CYCLE TO NEXT MAP ROW
+    sceneRow = 1
+    mapRow = mapRow + 1
+    globalRowsInserted = 0
+  end
 
-    --tileId = 1
-    table.insert(MAP[mapRow][mapCol], tiledMap[tileId])
+  --tileId = 1
+  table.insert(MAP[mapRow][mapCol], tiledMap[tileId])
 
-    ---[[
-    --if tileId == WATER_ANIM_STARTER then
-    --test1 = 2
-    --table.insert(MAP[mapRow][mapCol].animatables, function() insertAnim(sceneRow, sceneCol, WATER.frame) end)
-    --end
-    --]]
-    sceneCol = sceneCol + 1
+  ---[[
+  --if tileId == WATER_ANIM_STARTER then
+  --test1 = 2
+  --table.insert(MAP[mapRow][mapCol].animatables, function() insertAnim(sceneRow, sceneCol, WATER.frame) end)
+  --end
+  --]]
+  sceneCol = sceneCol + 1
 end
 
 
@@ -102,32 +102,32 @@ local sceneRowsInserted = 0
 local globalRowsInserted = 0
 
 for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEIGHT do
-    if sceneCol > MAP_WIDTH then
-      sceneCol = 1
-      mapCol = mapCol + 1
-      sceneRowsInserted = sceneRowsInserted + 1
-    end
-    if sceneRowsInserted == OVERWORLD_MAP_WIDTH then
-        mapCol = 1
-        globalRowsInserted = globalRowsInserted + 1
-        sceneRow = sceneRow + 1
-        sceneRowsInserted = 0
-    end
-    if globalRowsInserted == MAP_HEIGHT then --CYCLE TO NEXT MAP ROW
-        sceneRow = 1
-        mapRow = mapRow + 1
-        globalRowsInserted = 0
-    end
+  if sceneCol > MAP_WIDTH then
+    sceneCol = 1
+    mapCol = mapCol + 1
+    sceneRowsInserted = sceneRowsInserted + 1
+  end
+  if sceneRowsInserted == OVERWORLD_MAP_WIDTH then
+    mapCol = 1
+    globalRowsInserted = globalRowsInserted + 1
+    sceneRow = sceneRow + 1
+    sceneRowsInserted = 0
+  end
+  if globalRowsInserted == MAP_HEIGHT then --CYCLE TO NEXT MAP ROW
+    sceneRow = 1
+    mapRow = mapRow + 1
+    globalRowsInserted = 0
+  end
 
-    --tileId = 1
-    table.insert(MAP[mapRow][mapCol].topLevelTileIds, topLevelTiledMap[tileId])
-    --[[
-    --if tileId == WATER_ANIM_STARTER then
-    --test1 = 2
-    --table.insert(MAP[mapRow][mapCol].animatables, function() insertAnim(sceneRow, sceneCol, WATER.frame) end)
-    --end
-    --]]
-    sceneCol = sceneCol + 1
+  --tileId = 1
+  table.insert(MAP[mapRow][mapCol].topLevelTileIds, topLevelTiledMap[tileId])
+  --[[
+  --if tileId == WATER_ANIM_STARTER then
+  --test1 = 2
+  --table.insert(MAP[mapRow][mapCol].animatables, function() insertAnim(sceneRow, sceneCol, WATER.frame) end)
+  --end
+  --]]
+  sceneCol = sceneCol + 1
 end
 
 --MAP DOWNLOADER FROM TILED DATA DOWNLOADER
@@ -139,59 +139,59 @@ local sceneRowsInserted = 0
 local globalRowsInserted = 0
 
 for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEIGHT do
-    if sceneCol > MAP_WIDTH then
-      sceneCol = 1
-      mapCol = mapCol + 1
-      sceneRowsInserted = sceneRowsInserted + 1
-    end
-    if sceneRowsInserted == OVERWORLD_MAP_WIDTH then
-        mapCol = 1
-        globalRowsInserted = globalRowsInserted + 1
-        sceneRow = sceneRow + 1
-        sceneRowsInserted = 0
-    end
-    if globalRowsInserted == MAP_HEIGHT then --CYCLE TO NEXT MAP ROW
-        sceneRow = 1
-        mapRow = mapRow + 1
-        globalRowsInserted = 0
-    end
+  if sceneCol > MAP_WIDTH then
+    sceneCol = 1
+    mapCol = mapCol + 1
+    sceneRowsInserted = sceneRowsInserted + 1
+  end
+  if sceneRowsInserted == OVERWORLD_MAP_WIDTH then
+    mapCol = 1
+    globalRowsInserted = globalRowsInserted + 1
+    sceneRow = sceneRow + 1
+    sceneRowsInserted = 0
+  end
+  if globalRowsInserted == MAP_HEIGHT then --CYCLE TO NEXT MAP ROW
+    sceneRow = 1
+    mapRow = mapRow + 1
+    globalRowsInserted = 0
+  end
 
-    --CHASMS
-    if (aboveGroundTiledMap[tileId] > 13 and aboveGroundTiledMap[tileId] < 22) then
-      table.insert(MAP[mapRow][mapCol].chasms, Chasm(sceneRow, sceneCol))
-    end
+  --CHASMS
+  if (aboveGroundTiledMap[tileId] > 13 and aboveGroundTiledMap[tileId] < 22) then
+    table.insert(MAP[mapRow][mapCol].chasms, Chasm(sceneRow, sceneCol))
+  end
 
-    table.insert(MAP[mapRow][mapCol].aboveGroundTileIds, aboveGroundTiledMap[tileId])
+  table.insert(MAP[mapRow][mapCol].aboveGroundTileIds, aboveGroundTiledMap[tileId])
 
-    sceneCol = sceneCol + 1
+  sceneCol = sceneCol + 1
 end
 
 for i = 1, OVERWORLD_MAP_HEIGHT do
-    for j = 1, OVERWORLD_MAP_WIDTH do
-        for k = 1, MAP_HEIGHT * MAP_WIDTH do
-            local animRow = math.floor((k - 1) / 10) + 1
-            local animCol = (k % 10)
-            if animCol == 0 then
-                animCol = 10
-            end
-            if MAP[i][j][k] == WATER_ANIM_STARTER then
-                table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, WATER.frame) end)
-            elseif MAP[i][j][k] == FLOWER_ANIM_STARTER then
-                table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, FLOWERS.frame) end)
-            elseif MAP[i][j][k] == AUTUMN_FLOWER_ANIM_STARTER then
-                table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, AUTUMN_FLOWERS.frame) end)
-            elseif MAP[i][j][k] == LAVA_LEFT_EDGE_ANIM_STARTER then
-                table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, LAVA_LEFT_EDGE.frame) end)
-            elseif MAP[i][j][k] == LAVA_RIGHT_EDGE_ANIM_STARTER then
-                table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, LAVA_RIGHT_EDGE.frame) end)
-            elseif MAP[i][j][k] == LAVA_FLOW_ANIM_STARTER then
-                table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, LAVA_FLOW.frame) end)
-            --TODO WHY NO WORK
-            elseif MAP[i][j].aboveGroundTileIds[k] == IDOL then
-                table.insert(MAP[i][j].dialogueBox, DialogueBox(animRow, animCol, 'Meditate?', 'idol'))
-            end
-        end
+  for j = 1, OVERWORLD_MAP_WIDTH do
+    for k = 1, MAP_HEIGHT * MAP_WIDTH do
+      local animRow = math.floor((k - 1) / 10) + 1
+      local animCol = (k % 10)
+      if animCol == 0 then
+        animCol = 10
+      end
+      if MAP[i][j][k] == WATER_ANIM_STARTER then
+        table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, WATER.frame) end)
+      elseif MAP[i][j][k] == FLOWER_ANIM_STARTER then
+        table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, FLOWERS.frame) end)
+      elseif MAP[i][j][k] == AUTUMN_FLOWER_ANIM_STARTER then
+        table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, AUTUMN_FLOWERS.frame) end)
+      elseif MAP[i][j][k] == LAVA_LEFT_EDGE_ANIM_STARTER then
+        table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, LAVA_LEFT_EDGE.frame) end)
+      elseif MAP[i][j][k] == LAVA_RIGHT_EDGE_ANIM_STARTER then
+        table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, LAVA_RIGHT_EDGE.frame) end)
+      elseif MAP[i][j][k] == LAVA_FLOW_ANIM_STARTER then
+        table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, LAVA_FLOW.frame) end)
+        --TODO WHY NO WORK
+      elseif MAP[i][j].aboveGroundTileIds[k] == IDOL then
+        table.insert(MAP[i][j].dialogueBox, DialogueBox(animRow, animCol, 'Meditate?', 'idol'))
+      end
     end
+  end
 end
 
 mapCount = #MAP[1][1]
@@ -201,160 +201,160 @@ mapCount = #MAP[1][1]
 --[[
 local entities = 4
 for i = 1, entities do
-    local random = math.random(25, 35)
-    random = (random / 100) * 60
-    table.insert(MAP[1][12].entities, Entity {
-        animations = ENTITY_DEFS['geckoC'].animations,
-        x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
-        y = math.random(10, SCREEN_HEIGHT_LIMIT),
-        width = TILE_SIZE,
-        height = TILE_SIZE,
-        health = 3,
-        direction = 'left',
-        type = 'gecko',
-        walkSpeed = random,
-        aiPath = math.random(1, 2),
-        corrupted = true,
-        enemy = true,
-    })
+  local random = math.random(25, 35)
+  random = (random / 100) * 60
+  table.insert(MAP[1][12].entities, Entity {
+    animations = ENTITY_DEFS['geckoC'].animations,
+    x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
+    y = math.random(10, SCREEN_HEIGHT_LIMIT),
+    width = TILE_SIZE,
+    height = TILE_SIZE,
+    health = 3,
+    direction = 'left',
+    type = 'gecko',
+    walkSpeed = random,
+    aiPath = math.random(1, 2),
+    corrupted = true,
+    enemy = true,
+  })
 end
 --]]
 
 ---[[
 table.insert(MAP[1][12].entities, Entity {
-    animations = ENTITY_DEFS['bat'].animations,
-    --x = VIRTUAL_WIDTH,
-    --y = TILE_SIZE * 2 + 5,
-    spawnRow = 5,
-    spawnColumn = 1,
-    width = 24,
-    height = 10,
-    health = 2,
-    type = 'bat',
-    spawning = true,
-    corrupted = true,
-    enemy = true,
-    zigzagTime = 0,
-    walkSpeed = math.random(12, 14),
-    zigzagFrequency = math.random(4.5, 6),
-    zigzagAmplitude = math.random(.5, .75),
+  animations = ENTITY_DEFS['bat'].animations,
+  --x = VIRTUAL_WIDTH,
+  --y = TILE_SIZE * 2 + 5,
+  spawnRow = 5,
+  spawnColumn = 1,
+  width = 24,
+  height = 10,
+  health = 2,
+  type = 'bat',
+  spawning = true,
+  corrupted = true,
+  enemy = true,
+  zigzagTime = 0,
+  walkSpeed = math.random(12, 14),
+  zigzagFrequency = math.random(4.5, 6),
+  zigzagAmplitude = math.random(.5, .75),
 })
 
 ---[[
 table.insert(MAP[1][12].entities, Entity {
-    animations = ENTITY_DEFS['bat'].animations,
-    spawnRow = 1,
-    spawnColumn = 4,
-    width = 24,
-    height = 10,
-    health = 2,
-    spawning = true,
-    type = 'bat',
-    corrupted = true,
-    enemy = true,
-    zigzagTime = 0,
-    walkSpeed = math.random(8, 14),
-    zigzagFrequency = math.random(4.5, 6),
-    zigzagAmplitude = math.random(.5, .75),
+  animations = ENTITY_DEFS['bat'].animations,
+  spawnRow = 1,
+  spawnColumn = 4,
+  width = 24,
+  height = 10,
+  health = 2,
+  spawning = true,
+  type = 'bat',
+  corrupted = true,
+  enemy = true,
+  zigzagTime = 0,
+  walkSpeed = math.random(8, 14),
+  zigzagFrequency = math.random(4.5, 6),
+  zigzagAmplitude = math.random(.5, .75),
 })
 --]]
 
 --[[
 table.insert(MAP[1][12].entities, Entity {
-    animations = ENTITY_DEFS['bat'].animations,
-    spawnRow = 8,
-    spawnColumn = 7,
-    width = 24,
-    height = 10,
-    health = 2,
-    spawning = true,
-    type = 'bat',
-    corrupted = true,
-    enemy = true,
-    zigzagTime = 0,
-    walkSpeed = math.random(8, 14),
-    zigzagFrequency = math.random(4.5, 6),
-    zigzagAmplitude = math.random(.5, .75),
+  animations = ENTITY_DEFS['bat'].animations,
+  spawnRow = 8,
+  spawnColumn = 7,
+  width = 24,
+  height = 10,
+  health = 2,
+  spawning = true,
+  type = 'bat',
+  corrupted = true,
+  enemy = true,
+  zigzagTime = 0,
+  walkSpeed = math.random(8, 14),
+  zigzagFrequency = math.random(4.5, 6),
+  zigzagAmplitude = math.random(.5, .75),
 })
 --]]
 --[[
 table.insert(MAP[1][12].entities, Entity {
-    animations = ENTITY_DEFS['bat'].animations,
-    spawnRow = 3,
-    spawnColumn = 10,
-    width = 24,
-    height = 10,
-    health = 2,
-    spawning = true,
-    type = 'bat',
-    corrupted = true,
-    enemy = true,
-    zigzagTime = 0,
-    walkSpeed = math.random(8, 14),
-    zigzagFrequency = math.random(4.5, 6),
-    zigzagAmplitude = math.random(.5, .75),
+  animations = ENTITY_DEFS['bat'].animations,
+  spawnRow = 3,
+  spawnColumn = 10,
+  width = 24,
+  height = 10,
+  health = 2,
+  spawning = true,
+  type = 'bat',
+  corrupted = true,
+  enemy = true,
+  zigzagTime = 0,
+  walkSpeed = math.random(8, 14),
+  zigzagFrequency = math.random(4.5, 6),
+  zigzagAmplitude = math.random(.5, .75),
 })
 --]]
 
 local entityCount = #MAP[1][12].entities
 for i = 1, entityCount do
 
-    if MAP[1][12].entities[i].corrupted and MAP[1][12].entities[i].type == 'gecko' then
-        MAP[1][12].entities[i].animations = MAP[1][12].entities[i]:createAnimations(ENTITY_DEFS['geckoC'].animations)
-    end
+  if MAP[1][12].entities[i].corrupted and MAP[1][12].entities[i].type == 'gecko' then
+    MAP[1][12].entities[i].animations = MAP[1][12].entities[i]:createAnimations(ENTITY_DEFS['geckoC'].animations)
+  end
 
-    if MAP[1][12].entities[i].type == 'bat' then
-        MAP[1][12].entities[i].animations = MAP[1][12].entities[i]:createAnimations(ENTITY_DEFS['bat'].animations)
-    end
+  if MAP[1][12].entities[i].type == 'bat' then
+    MAP[1][12].entities[i].animations = MAP[1][12].entities[i]:createAnimations(ENTITY_DEFS['bat'].animations)
+  end
 
-    if MAP[1][12].entities[i].type == 'bat' then
-        MAP[1][12].entities[i]:changeAnimation('pursue')
-    end
+  if MAP[1][12].entities[i].type == 'bat' then
+    MAP[1][12].entities[i]:changeAnimation('pursue')
+  end
 
-    if MAP[1][12].entities[i].type == 'gecko' then
-        MAP[1][12].entities[i]:changeAnimation('idle-down')
-    end
+  if MAP[1][12].entities[i].type == 'gecko' then
+    MAP[1][12].entities[i]:changeAnimation('idle-down')
+  end
 
-    if MAP[1][12].entities[i].type == 'gecko' then
-        MAP[1][12].entities[i].stateMachine = StateMachine {
-            ['gecko-walk'] = function() return GeckoWalkState(MAP[1][12].entities[i]) end,
-            ['entity-idle'] = function() return EntityIdleState(MAP[1][12].entities[i]) end,
-        }
-        MAP[1][12].entities[i]:changeState('entity-idle')
-    end
+  if MAP[1][12].entities[i].type == 'gecko' then
+    MAP[1][12].entities[i].stateMachine = StateMachine {
+      ['gecko-walk'] = function() return GeckoWalkState(MAP[1][12].entities[i]) end,
+      ['entity-idle'] = function() return EntityIdleState(MAP[1][12].entities[i]) end,
+    }
+    MAP[1][12].entities[i]:changeState('entity-idle')
+  end
 
 
-    if MAP[1][12].entities[i].type == 'bat' then
-        MAP[1][12].entities[i].stateMachine = StateMachine {
-            ['bat-spawn'] = function() return BatSpawnState(MAP[1][12].entities[i], MAP[1][12].entities[i].spawnRow, MAP[1][12].entities[i].spawnColumn) end,
-            ['bat-walk'] = function() return BatWalkState(MAP[1][12].entities[i]) end,
-            ['bat-attack'] = function() return BatAttackState(MAP[1][12].entities[i]) end,
-            ['bat-flee'] = function() return BatFleeState(MAP[1][12].entities[i]) end,
-            ['entity-idle'] = function() return EntityIdleState(MAP[1][12].entities[i]) end,
-        }
-        --.entities[i].originalState = 'bat-spawn'
-        MAP[1][12].entities[i]:changeState('bat-spawn')
-    end
+  if MAP[1][12].entities[i].type == 'bat' then
+    MAP[1][12].entities[i].stateMachine = StateMachine {
+      ['bat-spawn'] = function() return BatSpawnState(MAP[1][12].entities[i], MAP[1][12].entities[i].spawnRow, MAP[1][12].entities[i].spawnColumn) end,
+      ['bat-walk'] = function() return BatWalkState(MAP[1][12].entities[i]) end,
+      ['bat-attack'] = function() return BatAttackState(MAP[1][12].entities[i]) end,
+      ['bat-flee'] = function() return BatFleeState(MAP[1][12].entities[i]) end,
+      ['entity-idle'] = function() return EntityIdleState(MAP[1][12].entities[i]) end,
+    }
+    --.entities[i].originalState = 'bat-spawn'
+    MAP[1][12].entities[i]:changeState('bat-spawn')
+  end
 
-    MAP[1][12].entities[i].hit = false
+  MAP[1][12].entities[i].hit = false
 end
 
 --TAVERN
 --TODO IMAGINE WAY TO SWAP PLAYER FRAME TO DEFAULT FRAME UPON TRANSITION
 ---[[
 function insertWarpZone(warpFromRow, warpFromCol, warpToRow, warpToCol, warpFromX, warpFromY, warpToX, warpToY)
-    warpFromX = warpFromX * TILE_SIZE - TILE_SIZE + 3
-    warpFromY = warpFromY * TILE_SIZE - TILE_SIZE - 15
-    warpToX = warpToX * TILE_SIZE - TILE_SIZE + 3
-    warpToY = warpToY * TILE_SIZE - TILE_SIZE + 14
-    local warpPlayerToX = warpToX - 3
+  warpFromX = warpFromX * TILE_SIZE - TILE_SIZE + 3
+  warpFromY = warpFromY * TILE_SIZE - TILE_SIZE - 15
+  warpToX = warpToX * TILE_SIZE - TILE_SIZE + 3
+  warpToY = warpToY * TILE_SIZE - TILE_SIZE + 14
+  local warpPlayerToX = warpToX - 3
 
-    local warpPlayerToY = warpToY - 16 - 5
-    local warpPlayerFromX = warpFromX - 3
-    local warpPlayerFromY = warpFromY + 10
+  local warpPlayerToY = warpToY - 16 - 5
+  local warpPlayerFromX = warpFromX - 3
+  local warpPlayerFromY = warpFromY + 10
 
-    table.insert(MAP[warpFromRow][warpFromCol].warpZones, WarpZone(warpFromX, warpFromY, warpPlayerToX, warpPlayerToY, warpToRow, warpToCol))
-    table.insert(MAP[warpToRow][warpToCol].warpZones, WarpZone(warpToX, warpToY, warpPlayerFromX, warpPlayerFromY, warpFromRow, warpFromCol))
+  table.insert(MAP[warpFromRow][warpFromCol].warpZones, WarpZone(warpFromX, warpFromY, warpPlayerToX, warpPlayerToY, warpToRow, warpToCol))
+  table.insert(MAP[warpToRow][warpToCol].warpZones, WarpZone(warpToX, warpToY, warpPlayerFromX, warpPlayerFromY, warpFromRow, warpFromCol))
 end
 --]]
 
@@ -382,44 +382,44 @@ LAVA_FLOW = AnimSpitter(LAVA_FLOW_ANIM_STARTER, 121, .35)
 
 --MAGE NPC
 table.insert(MAP[7][2].npc, Entity {
-    animations = ENTITY_DEFS['mage'].animations,
-    walkSpeed = ENTITY_DEFS['mage'].walkSpeed,
-    height = ENTITY_DEFS['mage'].height,
-    width = ENTITY_DEFS['mage'].width,
-    x = TILE_SIZE * 7,
-    y = TILE_SIZE * 6,
-    dialogueBox = {},
-    direction = 'down',
-    corrupted = false,
-    type = 'mage',
+  animations = ENTITY_DEFS['mage'].animations,
+  walkSpeed = ENTITY_DEFS['mage'].walkSpeed,
+  height = ENTITY_DEFS['mage'].height,
+  width = ENTITY_DEFS['mage'].width,
+  x = TILE_SIZE * 7,
+  y = TILE_SIZE * 6,
+  dialogueBox = {},
+  direction = 'down',
+  corrupted = false,
+  type = 'mage',
 })
 
 local mageIndex = 1
 MAP[7][2].npc[mageIndex].stateMachine = StateMachine {
-    ['npc-idle'] = function() return NPCIdleState(MAP[7][2].npc[mageIndex]) end,
-    ['npc-walk'] = function() return NPCWalkState(MAP[7][2].npc[mageIndex]) end,
+  ['npc-idle'] = function() return NPCIdleState(MAP[7][2].npc[mageIndex]) end,
+  ['npc-walk'] = function() return NPCWalkState(MAP[7][2].npc[mageIndex]) end,
 }
 MAP[7][2].npc[mageIndex]:changeState('npc-walk')
 MAP[7][2].npc[mageIndex].stateMachine.current.option = 'square'
 
 --VILLAGER 1
 table.insert(MAP[1][11].npc, Entity {
-    animations = ENTITY_DEFS['villager1'].animations,
-    walkSpeed = ENTITY_DEFS['villager1'].walkSpeed,
-    height = ENTITY_DEFS['villager1'].height,
-    width = ENTITY_DEFS['villager1'].width,
-    x = TILE_SIZE * 5,
-    y = TILE_SIZE,
-    dialogueBox = {},
-    direction = 'down',
-    corrupted = false,
-    type = 'villager1',
+  animations = ENTITY_DEFS['villager1'].animations,
+  walkSpeed = ENTITY_DEFS['villager1'].walkSpeed,
+  height = ENTITY_DEFS['villager1'].height,
+  width = ENTITY_DEFS['villager1'].width,
+  x = TILE_SIZE * 5,
+  y = TILE_SIZE,
+  dialogueBox = {},
+  direction = 'down',
+  corrupted = false,
+  type = 'villager1',
 })
 
 local villagerIndex = 1
 MAP[1][11].npc[villagerIndex].stateMachine = StateMachine {
-    ['npc-idle'] = function() return NPCIdleState(MAP[1][11].npc[villagerIndex]) end,
-    ['npc-walk'] = function() return NPCWalkState(MAP[1][11].npc[villagerIndex]) end,
+  ['npc-idle'] = function() return NPCIdleState(MAP[1][11].npc[villagerIndex]) end,
+  ['npc-walk'] = function() return NPCWalkState(MAP[1][11].npc[villagerIndex]) end,
 }
 MAP[1][11].npc[villagerIndex]:changeState('npc-walk')
 MAP[1][11].npc[villagerIndex].stateMachine.current.option = 'horizontal'
@@ -430,22 +430,22 @@ MAP[1][11].disjointUp = true
 
 --VILLAGER 2
 table.insert(MAP[2][11].npc, Entity {
-    animations = ENTITY_DEFS['villager1'].animations,
-    walkSpeed = ENTITY_DEFS['villager1'].walkSpeed,
-    height = ENTITY_DEFS['villager1'].height,
-    width = ENTITY_DEFS['villager1'].width,
-    x = TILE_SIZE * 5,
-    y = TILE_SIZE * 3,
-    dialogueBox = {},
-    direction = 'down',
-    corrupted = false,
-    type = 'villager1',
+  animations = ENTITY_DEFS['villager1'].animations,
+  walkSpeed = ENTITY_DEFS['villager1'].walkSpeed,
+  height = ENTITY_DEFS['villager1'].height,
+  width = ENTITY_DEFS['villager1'].width,
+  x = TILE_SIZE * 5,
+  y = TILE_SIZE * 3,
+  dialogueBox = {},
+  direction = 'down',
+  corrupted = false,
+  type = 'villager1',
 })
 
 local villager2Index = 1
 MAP[2][11].npc[villager2Index].stateMachine = StateMachine {
-    ['npc-idle'] = function() return NPCIdleState(MAP[2][11].npc[villager2Index]) end,
-    ['npc-walk'] = function() return NPCWalkState(MAP[2][11].npc[villager2Index]) end,
+  ['npc-idle'] = function() return NPCIdleState(MAP[2][11].npc[villager2Index]) end,
+  ['npc-walk'] = function() return NPCWalkState(MAP[2][11].npc[villager2Index]) end,
 }
 MAP[2][11].npc[villager2Index]:changeState('npc-walk')
 MAP[2][11].npc[villager2Index].stateMachine.current.option = 'square'
@@ -481,43 +481,43 @@ table.insert(MAP[1][12].collidableMapObjects, TreasureChest(3, 2, Coin(), {Dialo
 --SCRIPTED EVENTS
 --MAGE NPC
 table.insert(MAP[10][20].npc, Entity {
-    animations = ENTITY_DEFS['mage'].animations,
-    walkSpeed = ENTITY_DEFS['mage'].walkSpeed,
-    height = ENTITY_DEFS['mage'].height,
-    width = ENTITY_DEFS['mage'].width,
-    x = -TILE_SIZE * 2,
-    y = TILE_SIZE * 4,
-    dialogueBox = {},
-    direction = 'down',
-    corrupted = false,
-    type = 'mage',
+  animations = ENTITY_DEFS['mage'].animations,
+  walkSpeed = ENTITY_DEFS['mage'].walkSpeed,
+  height = ENTITY_DEFS['mage'].height,
+  width = ENTITY_DEFS['mage'].width,
+  x = -TILE_SIZE * 2,
+  y = TILE_SIZE * 4,
+  dialogueBox = {},
+  direction = 'down',
+  corrupted = false,
+  type = 'mage',
 })
 
 table.insert(MAP[10][19].npc, Entity {
-    animations = ENTITY_DEFS['mage'].animations,
-    walkSpeed = ENTITY_DEFS['mage'].walkSpeed,
-    height = ENTITY_DEFS['mage'].height,
-    width = ENTITY_DEFS['mage'].width,
-    x = TILE_SIZE * 3,
-    y = -TILE_SIZE,
-    dialogueBox = {},
-    direction = 'down',
-    corrupted = false,
-    type = 'mage',
+  animations = ENTITY_DEFS['mage'].animations,
+  walkSpeed = ENTITY_DEFS['mage'].walkSpeed,
+  height = ENTITY_DEFS['mage'].height,
+  width = ENTITY_DEFS['mage'].width,
+  x = TILE_SIZE * 3,
+  y = -TILE_SIZE,
+  dialogueBox = {},
+  direction = 'down',
+  corrupted = false,
+  type = 'mage',
 })
 
 local mageIndex = 1
 MAP[10][20].npc[mageIndex].stateMachine = StateMachine {
-    ['npc-idle'] = function() return NPCIdleState(MAP[10][20].npc[mageIndex]) end,
-    ['npc-walk'] = function() return NPCWalkState(MAP[10][20].npc[mageIndex]) end,
+  ['npc-idle'] = function() return NPCIdleState(MAP[10][20].npc[mageIndex]) end,
+  ['npc-walk'] = function() return NPCWalkState(MAP[10][20].npc[mageIndex]) end,
 }
 MAP[10][20].npc[mageIndex]:changeState('npc-walk')
 --MAP[10][20].npc[mageIndex].stateMachine.current.option = 'horizontal'
 
 
 MAP[10][19].npc[mageIndex].stateMachine = StateMachine {
-    ['npc-idle'] = function() return NPCIdleState(MAP[10][19].npc[mageIndex]) end,
-    ['npc-walk'] = function() return NPCWalkState(MAP[10][19].npc[mageIndex]) end,
+  ['npc-idle'] = function() return NPCIdleState(MAP[10][19].npc[mageIndex]) end,
+  ['npc-walk'] = function() return NPCWalkState(MAP[10][19].npc[mageIndex]) end,
 }
 
 MAP[10][19].npc[mageIndex]:changeState('npc-walk')

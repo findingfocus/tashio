@@ -13,39 +13,39 @@ function love.load()
   touchInput = TouchHandling()
 
   io.stdout:setvbuf ('no')
-    
+
   if arg and arg [#arg] == '-debug' then
-      MODDEBUG = require ('lib/mobdebug')
-      MODDEBUG.start()
-      MODDEBUG.off()
+    MODDEBUG = require ('lib/mobdebug')
+    MODDEBUG.start()
+    MODDEBUG.off()
   end
 
   function debug_on (on)
-      if MODDEBUG then
-          if on then
-              MODDEBUG.on()
-          else
-              MODDEBUG.off()
-          end
+    if MODDEBUG then
+      if on then
+        MODDEBUG.on()
+      else
+        MODDEBUG.off()
       end
+    end
   end
 
   function debug(v)
-      debug_on(v ~= false)
+    debug_on(v ~= false)
   end
 
   push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT_GB, WINDOW_WIDTH, WINDOW_HEIGHT, {
-      vsync = true,
-      fullscreen = false,
-      resizable = false
+    vsync = true,
+    fullscreen = false,
+    resizable = false
   })
 
   gStateMachine = StateMachine {
-      ['titleState'] = function() return TitleScreenState() end,
-      ['playState'] = function() return PlayState() end,
-      ['pauseState'] = function() return PauseState() end,
-      ['chasmFallingState'] = function() return FallingChasmState() end,
-      ['openingCinematic'] = function() return OpeningCinematic() end,
+    ['titleState'] = function() return TitleScreenState() end,
+    ['playState'] = function() return PlayState() end,
+    ['pauseState'] = function() return PauseState() end,
+    ['chasmFallingState'] = function() return FallingChasmState() end,
+    ['openingCinematic'] = function() return OpeningCinematic() end,
   }
 
   --gStateMachine:change('titleState')
@@ -57,35 +57,35 @@ function love.load()
 end
 
 function love.resize(w, h)
-	push:resize(w,h)
+  push:resize(w,h)
 end
 
 function love.keyreleased(key)
-    love.keyboard.keysReleased[key] = true
+  love.keyboard.keysReleased[key] = true
 end
 
 function love.keypressed(key)
-	love.keyboard.keysPressed[key] = true
+  love.keyboard.keysPressed[key] = true
 
-	if key == 'escape' then
-		love.event.quit()
-	end
+  if key == 'escape' then
+    love.event.quit()
+  end
 end
 
 function love.keyboard.wasPressed(key)
-	if love.keyboard.keysPressed[key] then
-		return true
-	else
-		return false
-	end
+  if love.keyboard.keysPressed[key] then
+    return true
+  else
+    return false
+  end
 end
 
 function love.keyboard.wasReleased(key)
-    if love.keyboard.keysReleased[key] then
-        return true
-    else
-        return false
-    end
+  if love.keyboard.keysReleased[key] then
+    return true
+  else
+    return false
+  end
 end
 
 function love.update(dt)
@@ -103,14 +103,14 @@ function love.update(dt)
   love.keyboard.keysPressed = {}
   love.keyboard.keysReleased = {}
   for k, v in pairs(touches) do
-      touches[k].wasTouched = false
+    touches[k].wasTouched = false
   end
 end
 
 function love.draw()
-	push:start()
+  push:start()
 
-	gStateMachine:render()
+  gStateMachine:render()
 
   love.graphics.setColor(0,0,0,1)
   love.graphics.rectangle('fill', 0, VIRTUAL_HEIGHT, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
@@ -118,7 +118,6 @@ function love.draw()
   love.graphics.draw(gameboyOverlay, 0, VIRTUAL_HEIGHT)
   keyboardInput:render()
   touchInput:render()
-	push:finish()
-
+  push:finish()
 end
 
