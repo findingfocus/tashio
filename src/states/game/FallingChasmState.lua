@@ -19,12 +19,12 @@ function FallingChasmState:init()
 end
 
 function FallingChasmState:update(dt)
-    --[[
-    gPlayer.dx = 0
-    gPlayer.dy = 0
-    gPlayer.dead = false
-    gPlayer.deadTimer = 0
-    --]]
+  --[[
+  gPlayer.dx = 0
+  gPlayer.dy = 0
+  gPlayer.dead = false
+  gPlayer.deadTimer = 0
+  --]]
   self.zigzagTime = self.zigzagTime + dt
   self.offsetX = math.sin(self.zigzagTime) / 6
   self.offsetY = math.cos(self.zigzagTime) / 6
@@ -84,15 +84,15 @@ function FallingChasmState:update(dt)
   end
 
   if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') or love.keyboard.wasPressed('p') then
-      if self.optionSelector == 2 then
-          gStateMachine:change('titleState')
-      elseif self.optionSelector == 1 then
-          --CONTINUE GAME
-          --LOAD LAST SAVE
-          self.saveUtility:loadPlayerData()
-          gStateMachine:change('playState')
-          gPlayer.stateMachine:change('player-meditate')
-      end
+    if self.optionSelector == 2 then
+      gStateMachine:change('titleState')
+    elseif self.optionSelector == 1 then
+      --CONTINUE GAME
+      --LOAD LAST SAVE
+      self.saveUtility:loadPlayerData()
+      gStateMachine:change('playState')
+      gPlayer.stateMachine:change('player-meditate')
+    end
   end
 end
 
@@ -107,7 +107,7 @@ function FallingChasmState:render()
 
   local anim = gPlayer.currentAnimation
   --PLAYER BASE LAYER
-  
+
   --love.graphics.translate(VIRTUAL_WIDTH / 2 - 8 - 10, VIRTUAL_HEIGHT / 2 - 8 -2)
   love.graphics.push()
   love.graphics.translate(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2)
