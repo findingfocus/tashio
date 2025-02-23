@@ -82,6 +82,7 @@ function PlayState:init()
   self.gameOver = false
   self.activeEvent = false
   self.activeDialogueID = nil
+  self.animatables = InsertAnimation(sceneView.currentMap.row, sceneView.currentMap.column)
 end
 
 function PlayState:update(dt)
@@ -321,10 +322,10 @@ function PlayState:update(dt)
         MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].textIndex = 1
         self.dialogueID = k
         -]]
-        self.activeDialogueID = 1
-        sceneView.activeDialogueID = 1
+        self.activeDialogueID = v.dialogueID
+        sceneView.activeDialogueID = v.dialogueID
+        PAUSED = true
         --table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k])
-        --PAUSED = true
         --]]
       end
     end
@@ -351,6 +352,18 @@ function PlayState:update(dt)
 
   if not PAUSED then
     sceneView:update(dt)
+    --TODO CAN WE DIG DOWN INTO THE PLAY STATE AND PULL FIELDS
+    self.activeDialogueID = sceneView.activeDialogueID
+  end
+
+  if gStateMachine.current.stateName == 'PlayState' then
+    self.animatables:update(dt)
+  end
+
+  --UPDATE DIALOGUE BOXES
+  --DIALOGUE UPDATE
+  if self.activeDialogueID ~= nil then
+    MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[self.activeDialogueID]:update(dt)
   end
 
   --DIALOGUE BOX UPDATES FOR NPCS
