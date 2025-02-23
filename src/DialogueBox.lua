@@ -257,10 +257,11 @@ end
 
 function DialogueBox:render()
   --if PAUSED then
+  --BOX COLOR
   love.graphics.setColor(1/255, 5/255, 10/255, 255/255)
   love.graphics.rectangle('fill', 0, SCREEN_HEIGHT_LIMIT - 40, VIRTUAL_WIDTH, 40)
   love.graphics.setColor(200/255, 200/255, 200/255, 255/255)
-  love.graphics.rectangle('fill', 1, SCREEN_HEIGHT_LIMIT - 40 + 1, VIRTUAL_WIDTH, 40)
+  love.graphics.rectangle('fill', 1, SCREEN_HEIGHT_LIMIT - 40 + 1, VIRTUAL_WIDTH - 1, 39)
   love.graphics.setColor(BLACK)
 
   love.graphics.setFont(pixelFont2)

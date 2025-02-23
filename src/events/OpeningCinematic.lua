@@ -4,8 +4,10 @@ local mage = MAP[10][20].npc[1]
 local castleMage = MAP[10][19].npc[1]
 
 function OpeningCinematic:init()
+  self.stateName = 'openingCinematic'
   self.testX = 0
   self.originalPlayerX, self.originalPlayerY = gPlayer.x, gPlayer.y
+  self.animatables = {}
   --self.originalSceneRow, self.originalSceneColumn = sceneView.currentMap.row, sceneView.currentMap.column
   gPlayer.x = TILE_SIZE * 8
   gPlayer.y = TILE_SIZE * 3
@@ -13,13 +15,15 @@ function OpeningCinematic:init()
   sceneView.mapRow = 10
   sceneView.mapColumn = 20
   sceneView.activeDialogueID = nil
+  --gStateMachine.current.animatables = {}
+  self.animatables = InsertAnimation(sceneView.currentMap.row, sceneView.currentMap.column)
   gPlayer:changeState('player-death')
   gPlayer:changeAnimation('death')
   gPlayer.animations['death'].currentFrame = 9
   --table.insert(MAP[10][19].dialogueBoxCollided, MAP[10][19].dialogueBox[1])
   self.lavaSystem = LavaSystem()
-  --self.mageStep1 = false
-  self.mageStep1 = true
+  self.mageStep1 = false
+  --self.mageStep1 = true
   self.mageStep2 = false
   self.mageStep3 = false
   self.mageStep4 = false
@@ -37,8 +41,8 @@ function OpeningCinematic:init()
   self.zigzagAmplitude = 0.15
   self.zigzagTime = 0
   self.offset = 0
-  --self.fadeToBlack = true
-  self.fadeToBlack = false
+  self.fadeToBlack = true
+  --self.fadeToBlack = false
   self.fadeFromBlack = false
   self.blackOpacity = 0
   self.castleView = false
@@ -47,7 +51,8 @@ end
 function OpeningCinematic:update(dt)
   self.lavaSystem:update(dt)
   self.testX = self.testX + dt * 2
-  sceneView.currentMap.insertAnimations:update(dt)
+  self.animatables:update(dt)
+  --sceneView.currentMap.insertAnimations:update(dt)
   if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
     sceneView.currentMap = Map(7, 4, gPlayer.spellcastCount)
     sceneView.mapRow = 7
@@ -157,6 +162,7 @@ function OpeningCinematic:update(dt)
       sceneView.currentMap = Map(10,19, gPlayer.spellcastCount)
       sceneView.mapRow = 10
       sceneView.mapColumn = 19
+      self.animatables = InsertAnimation(sceneView.currentMap.row, sceneView.currentMap.column)
       gPlayer:changeState('player-idle')
       --gPlayer:changeAnimation('death')
       --gPlayer.animations['death'].currentFrame = 9

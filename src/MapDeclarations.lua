@@ -186,9 +186,6 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
         table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, LAVA_RIGHT_EDGE.frame) end)
       elseif MAP[i][j][k] == LAVA_FLOW_ANIM_STARTER then
         table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, LAVA_FLOW.frame) end)
-        --TODO WHY NO WORK
-      elseif MAP[i][j].aboveGroundTileIds[k] == IDOL then
-        table.insert(MAP[i][j].dialogueBox, DialogueBox(animRow, animCol, 'Meditate?', 'idol'))
       end
     end
   end
@@ -423,9 +420,9 @@ MAP[1][11].npc[villagerIndex].stateMachine = StateMachine {
 }
 MAP[1][11].npc[villagerIndex]:changeState('npc-walk')
 MAP[1][11].npc[villagerIndex].stateMachine.current.option = 'horizontal'
-table.insert(MAP[1][11].dialogueBox, DialogueBox(MAP[1][11].npc[villagerIndex].x, MAP[1][11].npc[villagerIndex].y, 'Whaddya want?', 'npc', MAP[1][11].npc[villagerIndex]))
-table.insert(MAP[7][2].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 2, 'Meditate?', 'idol'))
-table.insert(MAP[7][4].dialogueBox, DialogueBox(TILE_SIZE * 5, TILE_SIZE * 5, 'Meditate?', 'idol'))
+table.insert(MAP[1][11].dialogueBox, DialogueBox(MAP[1][11].npc[villagerIndex].x, MAP[1][11].npc[villagerIndex].y, 'Whaddya want?', 'npc', MAP[1][11].npc[villagerIndex], 1))
+table.insert(MAP[7][2].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 2, 'Meditate?', 'idol', nil, 1 ))
+table.insert(MAP[7][4].dialogueBox, DialogueBox(TILE_SIZE * 5, TILE_SIZE * 5, 'Meditate?', 'idol', nil, 1))
 MAP[1][11].disjointUp = true
 
 --VILLAGER 2
@@ -449,23 +446,23 @@ MAP[2][11].npc[villager2Index].stateMachine = StateMachine {
 }
 MAP[2][11].npc[villager2Index]:changeState('npc-walk')
 MAP[2][11].npc[villager2Index].stateMachine.current.option = 'square'
-table.insert(MAP[2][11].dialogueBox, DialogueBox(MAP[2][11].npc[villager2Index].x, MAP[2][11].npc[villager2Index].y, 'A bed costs 5 gems a night', 'npc', MAP[2][11].npc[villager2Index]))
+table.insert(MAP[2][11].dialogueBox, DialogueBox(MAP[2][11].npc[villager2Index].x, MAP[2][11].npc[villager2Index].y, 'A bed costs 5 gems a night', 'npc', MAP[2][11].npc[villager2Index], 1))
 --]]
 --19 CHAR PER LINE = 57 CHARS for 3 lines
-table.insert(MAP[7][1].dialogueBox, DialogueBox(TILE_SIZE, 4 * TILE_SIZE, 'You cannot enter without light...', 'signpost'))
+table.insert(MAP[7][1].dialogueBox, DialogueBox(TILE_SIZE, 4 * TILE_SIZE, 'You cannot enter without light...', 'signpost', nil, 1))
 
-table.insert(MAP[8][1].dialogueBox, DialogueBox(TILE_SIZE * 8, 2 * TILE_SIZE, 'Under Construction', 'signpost'))
+table.insert(MAP[8][1].dialogueBox, DialogueBox(TILE_SIZE * 8, 2 * TILE_SIZE, 'Under Construction', 'signpost', nil, 1))
 
-table.insert(MAP[7][3].dialogueBox, DialogueBox(TILE_SIZE * 7, 3 * TILE_SIZE, 'DANGER-->', 'signpost', nil, nil, 1))
+table.insert(MAP[7][3].dialogueBox, DialogueBox(TILE_SIZE * 7, 3 * TILE_SIZE, 'DANGER-->', 'signpost', nil, 1))
 
-table.insert(MAP[7][4].dialogueBox, DialogueBox(TILE_SIZE * 8, 0, 'Ice Mountain^^', 'signpost'))
+table.insert(MAP[7][4].dialogueBox, DialogueBox(TILE_SIZE * 8, 0, 'Ice Mountain^^', 'signpost', nil, 2))
 
-table.insert(MAP[8][3].dialogueBox, DialogueBox(TILE_SIZE * 4, 6 * TILE_SIZE, 'Bed Inside^^', 'signpost'))
+table.insert(MAP[8][3].dialogueBox, DialogueBox(TILE_SIZE * 4, 6 * TILE_SIZE, 'Bed Inside^^', 'signpost', nil, 1))
 
-table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, '<-Flowerbed', 'signpost'))
-table.insert(MAP[7][2].dialogueBox, DialogueBox(5 * TILE_SIZE, 0, 'Ice Mountain^^', 'signpost'))
-table.insert(MAP[7][2].dialogueBox, DialogueBox(7 * TILE_SIZE, 4 * TILE_SIZE, 'Tavern^^  Dungeon-->', 'signpost'))
-table.insert(MAP[7][2].dialogueBox, DialogueBox(MAP[7][2].npc[mageIndex].x, MAP[7][2].npc[mageIndex].y, 'There\'s plenty of danger around, but treasure too...', 'npc', MAP[7][2].npc[mageIndex]))
+table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, '<-Flowerbed', 'signpost', nil, 2))
+table.insert(MAP[7][2].dialogueBox, DialogueBox(5 * TILE_SIZE, 0, 'Ice Mountain^^', 'signpost', nil, 3))
+table.insert(MAP[7][2].dialogueBox, DialogueBox(7 * TILE_SIZE, 4 * TILE_SIZE, 'Tavern^^  Dungeon-->', 'signpost', nil, 4))
+table.insert(MAP[7][2].dialogueBox, DialogueBox(MAP[7][2].npc[mageIndex].x, MAP[7][2].npc[mageIndex].y, 'There\'s plenty of danger around, but treasure too...', 'npc', MAP[7][2].npc[mageIndex], 5))
 
 table.insert(MAP[7][2].collidableMapObjects, Pushable(2, 4, 'boulder'))
 table.insert(MAP[7][2].collidableMapObjects, Pushable(5, 4, 'log'))
@@ -522,4 +519,4 @@ MAP[10][19].npc[mageIndex].stateMachine = StateMachine {
 
 MAP[10][19].npc[mageIndex]:changeState('npc-walk')
 --table.insert(MAP[10][19].dialogueBox, DialogueBox(1, 1, 'BrightsideMovement just raided!', 'signpost', nil, nil, 1))
-table.insert(MAP[10][19].dialogueBox, DialogueBox(0, 0, 'DANGER-->', 'signpost', nil, nil, 1))
+table.insert(MAP[10][19].dialogueBox, DialogueBox(0, 0, 'DANGER-->', 'signpost', nil, 1))
