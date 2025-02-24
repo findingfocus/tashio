@@ -6,7 +6,6 @@ local blinkTimer = .5
 local blinkReset = .5
 
 function DialogueBox:init(x, y, text, option, npc, index)
-  self.salto = 0
   self.dialogueID = index or 1
   self.x = x + 1
   self.y = y + 1
@@ -17,7 +16,6 @@ function DialogueBox:init(x, y, text, option, npc, index)
   self.npc = npc or 0
   self.textTimer = 0
   self.textLength = #text
-  self.textIndex = 1
   self.nextTextTrigger = 0.03
   self.result = ''
   self.line1Result = ''
@@ -25,7 +23,6 @@ function DialogueBox:init(x, y, text, option, npc, index)
   self.line3Result = ''
   self.currentPage = 1
   self.pages = {}
-  self.totalLineCount = 0
   self.inAWord = false
   self.lineCharacterIndex = 0
   self.wordSupplementCount = 0
@@ -42,6 +39,7 @@ function DialogueBox:init(x, y, text, option, npc, index)
   self.lastCharWasSpace = false
   self.aButtonCount = 0
   self.meditateOption = false
+  self.finishedPrinting = false
   self.saveDataUtility = SaveData()
   --TODO
   --ADD A BUTTON COUNT UPON PAUSE
@@ -100,10 +98,14 @@ function DialogueBox:init(x, y, text, option, npc, index)
         self.pages[self.pageWeAreOn][1].string = ''
         self.pages[self.pageWeAreOn][2].string = ''
         self.pages[self.pageWeAreOn][3].string = ''
+        if self.lineWeAreOn == 1 then
+          self.totalLineCount = self.totalLineCount + 3
+        elseif self.lineWeAreOn == 2 then
+          self.totalLineCount = self.totalLineCount + 2
+        end
         self.wordCharCount = 0
         self.lineWeAreOn = 1
         self.lineCharCount = 0
-        self.totalLineCount = self.totalLineCount + 3
       else
         self.lastCharWasSpace = true
         --CHECK IF WORD CAN FIT ON CURRENT LINE
@@ -136,8 +138,8 @@ function DialogueBox:init(x, y, text, option, npc, index)
       self.charactersToCheck = false
     end
   end
-  self.textIndex = 1
 
+  --self.textIndex = 1
   self.pageLength = math.ceil(self.totalLineCount / 3)
 end
 
@@ -150,7 +152,6 @@ function DialogueBox:flushText()
 end
 
 function DialogueBox:update(dt)
-  self.salto = self.salto + dt
   if self.option == 'idol' then
     self.meditateOption = true
   end
@@ -173,7 +174,8 @@ function DialogueBox:update(dt)
           self.aButtonCount = 0
           treasureChestOption = false
           PAUSED = false
-          MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided = {}
+          self.finishedPrinting = true
+          --MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided = {}
           self:flushText()
           self.currentPage = 1
         else
@@ -198,7 +200,8 @@ function DialogueBox:update(dt)
           end
         end
         PAUSED = false
-        MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided = {}
+        self.finishedPrinting = true
+        --MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided = {}
         self:flushText()
         sceneView.activeDialogueID = nil
         self.currentPage = 1
@@ -213,12 +216,17 @@ function DialogueBox:update(dt)
         end
       else
         self.currentPage = self.currentPage + 1
+        self.lineCount = 1
         self.textIndex = 1
+        self.line1Result = ''
+        self.line2Result = ''
+        self.line3Result = ''
       end
     end
   end
 
   self.textTimer = self.textTimer + dt
+
   if self.textTimer > self.nextTextTrigger and self.textIndex <= MAX_TEXTBOX_CHAR_LENGTH then
     if self.lineCount == 1 then
       self.line1Result = self.line1Result .. self.pages[self.currentPage][1].string:sub(self.textIndex, self.textIndex)
@@ -291,10 +299,19 @@ function DialogueBox:render()
   --love.graphics.print('meditateOption: ' .. tostring(self.meditateOption), 0, 10)
   ---[[
   love.graphics.setColor(WHITE)
+  --[[
   love.graphics.print('pageLength: ' .. tostring(self.pageLength), 0, 25)
   love.graphics.print('currentPage: ' .. tostring(self.currentPage), 0, 15)
   love.graphics.print('buttonCount: ' .. tostring(self.aButtonCount), 0, 35)
   love.graphics.print('textIndex: ' .. tostring(self.textIndex), 0, 45)
-  --love.graphics.print('lineCharCount: ' .. tostring(self.lineCharCount), 0, 45)
+  --]]
+
+
+  --DIALOGUE DEBUG
+  --[[
+  love.graphics.print('currentPage: ' .. tostring(self.currentPage), 0, 0)
+  love.graphics.print('pageLength: ' .. tostring(self.pageLength), 0, 10)
+  love.graphics.print('lineCharCount: ' .. tostring(self.lineCharCount), 0, 20)
+  love.graphics.print('textIndex: ' .. tostring(self.textIndex), 0, 30)
   --]]
 end

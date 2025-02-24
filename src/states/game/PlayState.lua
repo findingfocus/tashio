@@ -47,7 +47,7 @@ local rows = 8
 cameraX = 0
 --STARTING SCENE gPlayer SPAWN
 --sceneView = Scene(gPlayer, 10, 19)
-sceneView = Scene(gPlayer, 7, 4)
+sceneView = Scene(gPlayer, 7, 2)
 --sceneView = Scene(gPlayer, 1, 12)
 tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 --textures = love.graphics.newImage('graphics/textures.png')
@@ -63,6 +63,7 @@ function PlayState:init()
     ['player-idle'] = function() return PlayerIdleState(gPlayer) end,
     ['player-death'] = function() return PlayerDeathState(gPlayer) end,
     ['player-meditate'] = function() return PlayerMeditateState(gPlayer) end,
+    ['player-cinematic'] = function() return PlayerCinematicState(gPlayer, self.scene) end,
   }
 
   --gPlayer:changeState('player-death')
@@ -431,6 +432,7 @@ function PlayState:update(dt)
       for k, v in pairs(sceneView.currentMap.warpZones) do
         if gPlayer.warping then
           sceneView = Scene(gPlayer, sceneView.currentMap.warpZones[k].warpRow, sceneView.currentMap.warpZones[k].warpCol)
+          gStateMachine.current.animatables = InsertAnimation(sceneView.currentMap.row, sceneView.currentMap.column)
           gPlayer.x = v.playerX
           gPlayer.y = v.playerY
         end

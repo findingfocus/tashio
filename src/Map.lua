@@ -24,8 +24,6 @@ function Map:init(row, column, spellcastEntities)
   self.adjacentOffsetX = 0
   self.adjacentOffsetY = 0
   self.renderOffsetY = MAP_RENDER_OFFSET_Y
-  --SALTO
-  --self.insertAnimations = InsertAnimation(self.row, self.column)
   self.entityCount = #MAP[row][column].entities
   self.npcCount = #MAP[row][column].npc
   self.warpZones = MAP[row][column].warpZones
@@ -92,9 +90,6 @@ end
 function Map:update(dt)
   --self.rainSystem:update(dt)
   --self.snowSystem:update(dt)
-
-  --SALTO
-  --self.insertAnimations:update(dt)
 
   self.testTimer = self.testTimer + dt
 
