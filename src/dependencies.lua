@@ -51,6 +51,7 @@ require 'src/states/entity/player/PlayerIdleState'
 require 'src/states/entity/player/PlayerWalkState'
 require 'src/states/entity/player/PlayerDeathState'
 require 'src/states/entity/player/PlayerMeditateState'
+require 'src/states/entity/player/PlayerCinematicState'
 require 'src/states/game/FallingChasmState'
 
 require 'src/Entity'

@@ -4,9 +4,11 @@ function PlayerWalkState:init(player, scene)
   self.player = player
   self.scene = scene
   PLAYER_STATE = 'WALK'
+  self.test = 0
 end
 
 function PlayerWalkState:update(dt)
+  self.test = self.test + dt
   if not self.player.falling and not luteState then
     if #OUTPUT_LIST > 0 then
       self.player.direction = OUTPUT_LIST[#OUTPUT_LIST]

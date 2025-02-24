@@ -22,8 +22,8 @@ function OpeningCinematic:init()
   gPlayer.animations['death'].currentFrame = 9
   --table.insert(MAP[10][19].dialogueBoxCollided, MAP[10][19].dialogueBox[1])
   self.lavaSystem = LavaSystem()
-  self.mageStep1 = false
-  --self.mageStep1 = true
+  --self.mageStep1 = false
+  self.mageStep1 = true
   self.mageStep2 = false
   self.mageStep3 = false
   self.mageStep4 = false
@@ -32,6 +32,11 @@ function OpeningCinematic:init()
   self.castleStep1 = false
   self.castleStep2 = false
   self.castleStep3 = false
+  self.castleStep4 = false
+  self.castleStep5 = false
+  self.castleStep6 = false
+  self.castleStep7 = false
+  self.castleStep8 = false
   self.tashioWaitTimer = 0
   self.mageWaitTimer = 0
   self.mageWalkTimer = 0
@@ -41,8 +46,8 @@ function OpeningCinematic:init()
   self.zigzagAmplitude = 0.15
   self.zigzagTime = 0
   self.offset = 0
-  self.fadeToBlack = true
-  --self.fadeToBlack = false
+ -- self.fadeToBlack = true
+ self.fadeToBlack = false
   self.fadeFromBlack = false
   self.blackOpacity = 0
   self.castleView = false
@@ -74,6 +79,7 @@ function OpeningCinematic:update(dt)
     castleMage:changeAnimation('walk-right')
     if castleMage.x == TILE_SIZE * 5 then
       castleMage:changeAnimation('idle-right')
+      gPlayer:changeAnimation('idle-left')
       self.castleStep2 = false
       self.castleStep3 = true
       --[[
@@ -91,12 +97,49 @@ function OpeningCinematic:update(dt)
     MAP[10][19].dialogueBox[sceneView.activeDialogueID]:flushText()
     MAP[10][19].dialogueBox[sceneView.activeDialogueID].aButtonCount = 1
     --PAUSED = true
+    self.castleStep2 = false
     self.castleStep3 = false
     self.castleStep4 = true
   elseif self.castleStep4 then
+    if MAP[10][19].dialogueBox[1].finishedPrinting then
+      self.castleStep4 = false
+      self.castleStep5 = true
+    end
     if sceneView.activeDialogueID ~= nil then
       MAP[10][19].dialogueBox[sceneView.activeDialogueID]:update(dt)
     end
+  elseif self.castleStep5 then
+    castleMage:changeAnimation('walk-left')
+    castleMage.x = castleMage.x - castleMage.walkSpeed * dt
+    if castleMage.x < TILE_SIZE * 3 then
+      castleMage.x = TILE_SIZE * 3
+      self.castleStep5 = false
+      self.castleStep6 = true
+      castleMage:changeAnimation('walk-up')
+    end
+  elseif self.castleStep6 then
+    castleMage.y = castleMage.y - castleMage.walkSpeed * dt
+    if castleMage.y + castleMage.height < 0 then
+      self.castleStep6 = false
+      self.castleStep7 = true
+      gPlayer:changeAnimation('walk-left')
+    end
+  elseif self.castleStep7 then
+      gPlayer.x = gPlayer.x - gPlayer.walkSpeed / 1.5 * dt
+      if gPlayer.x < TILE_SIZE * 6 then
+        gPlayer.x = TILE_SIZE * 6
+        self.castleStep7 = false
+        self.castleStep8 = true
+        gPlayer.direction = 'down'
+        gPlayer:changeAnimation('walk-down')
+      end
+  elseif self.castleStep8 then
+    gPlayer.y = gPlayer.y + gPlayer.walkSpeed / 1.5 * dt
+  end
+
+  if self.castleView then
+    gPlayer:update(dt)
+    gPlayer:changeState('player-cinematic')
   end
 
   if self.mageStep1 then
@@ -133,25 +176,6 @@ function OpeningCinematic:update(dt)
     gPlayer.y = gPlayer.y + self.offset
     mage.x = mage.x - mage.walkSpeed * dt
     mage:changeAnimation('walk-left')
-  end
-
-  if self.tashioStep1 then
-    gPlayer.y = math.max(TILE_SIZE * 3 - 8, gPlayer.y - dt * 2)
-    self.psystem2:moveTo(gPlayer.x + 8, gPlayer.y + gPlayer.height)
-    self.psystem2:setParticleLifetime(2, 3)
-    self.psystem2:setEmissionArea('borderrectangle', 5, 0)
-    self.psystem2:setLinearAcceleration(0, -5)
-    self.psystem2:setEmissionRate(20)
-    self.psystem2:setColors(80/255, 40/255, 255/255, 255/255, 80/255, 180/255, 255/255, 0/255)
-    self.psystem2:update(dt)
-  end
-
-  if gPlayer.x < 0 then
-    self.fadeToBlack = true
-  end
-
-  if self.fadeToBlack then
-    self.blackOpacity = self.blackOpacity + 5
     if self.blackOpacity >= 255 then
       self.mageStep3 = false
       self.tashioStep1 = false
@@ -171,6 +195,29 @@ function OpeningCinematic:update(dt)
       self.castleView = true
       self.castleStep1 = true
     end
+  end
+
+  if self.tashioStep1 then
+    gPlayer.y = math.max(TILE_SIZE * 3 - 8, gPlayer.y - dt * 2)
+    self.psystem2:moveTo(gPlayer.x + 8, gPlayer.y + gPlayer.height)
+    self.psystem2:setParticleLifetime(2, 3)
+    self.psystem2:setEmissionArea('borderrectangle', 5, 0)
+    self.psystem2:setLinearAcceleration(0, -5)
+    self.psystem2:setEmissionRate(20)
+    self.psystem2:setColors(80/255, 40/255, 255/255, 255/255, 80/255, 180/255, 255/255, 0/255)
+    self.psystem2:update(dt)
+  end
+
+  if gPlayer.x < 0 then
+    self.fadeToBlack = true
+  end
+
+  if gPlayer.y > VIRTUAL_HEIGHT - 8 then
+    self.fadeToBlack = true
+  end
+
+  if self.fadeToBlack then
+    self.blackOpacity = self.blackOpacity + 5
   elseif self.fadeFromBlack then
     self.blackOpacity = self.blackOpacity - 5
     if self.blackOpacity <= 0 then
@@ -229,7 +276,6 @@ function OpeningCinematic:render()
     end
     --]]
 
-    --MAP[10][19].dialogueBox[sceneView.activeDialogueID].line1Result = 'SALTOMANGA'
     if MAP[10][19].dialogueBox[sceneView.activeDialogueID] ~= nil then
       MAP[10][19].dialogueBox[sceneView.activeDialogueID]:render()
     end
@@ -274,7 +320,16 @@ function OpeningCinematic:render()
   end
 
 
-  love.graphics.print('PAUSED: ' .. tostring(PAUSED), 0, 68)
-  love.graphics.print('salto: ' .. tostring(MAP[10][19].dialogueBox[1].salto), 0, 78)
+  --PAUSED DEBUG
+  --love.graphics.print('PlayerState: ' .. tostring(PLAYER_STATE), 0, 0)
+  --[[
+  love.graphics.print('step1: ' .. tostring(self.castleStep1), 0, 0)
+  love.graphics.print('step2: ' .. tostring(self.castleStep2), 0, 10)
+  love.graphics.print('step3: ' .. tostring(self.castleStep3), 0, 20)
+  love.graphics.print('step4: ' .. tostring(self.castleStep4), 0, 30)
+  love.graphics.print('step5: ' .. tostring(self.castleStep5), 0, 40)
+  love.graphics.print('step6: ' .. tostring(self.castleStep6), 0, 50)
+  love.graphics.print('step7: ' .. tostring(self.castleStep7), 0, 60)
+  --]]
   --love.graphics.print('column: ' .. tostring(sceneView.mapColumn), 0, 88)
 end

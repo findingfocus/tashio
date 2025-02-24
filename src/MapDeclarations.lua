@@ -518,5 +518,5 @@ MAP[10][19].npc[mageIndex].stateMachine = StateMachine {
 }
 
 MAP[10][19].npc[mageIndex]:changeState('npc-walk')
---table.insert(MAP[10][19].dialogueBox, DialogueBox(1, 1, 'BrightsideMovement just raided!', 'signpost', nil, nil, 1))
-table.insert(MAP[10][19].dialogueBox, DialogueBox(0, 0, 'DANGER-->', 'signpost', nil, 1))
+table.insert(MAP[10][19].dialogueBox, DialogueBox(0, 0, 'Are you ok?  ...  You don\'t remember anything?  ...  There\'s much to relearn, but take it slow.  Meet me at the library when you are ready.', 'signpost', nil, 1))
+--table.insert(MAP[10][19].dialogueBox, DialogueBox(0, 0, 'Are you ok? ...', 'signpost', nil, 1))
