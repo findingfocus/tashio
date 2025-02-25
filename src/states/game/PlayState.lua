@@ -313,8 +313,9 @@ function PlayState:update(dt)
   if love.keyboard.wasPressed('p') then
     --DIALOGUE DETECTION
     for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do
-      if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]) then
+      if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]) and not MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated then
         MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]:flushText()
+        MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated = true
         --[[
         MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].line1Result = ''
         MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].line2Result = ''
@@ -503,7 +504,7 @@ function PlayState:render()
   love.graphics.push()
   sceneView:render()
   love.graphics.pop()
-  --[[
+  ---[[
   love.graphics.setColor(0,0,0,255)
   --love.graphics.print('Tashio Tempo', VIRTUAL_WIDTH - 150, SCREEN_HEIGHT_LIMIT + 4)
 
