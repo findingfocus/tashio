@@ -46,8 +46,8 @@ function OpeningCinematic:init()
   self.zigzagAmplitude = 0.15
   self.zigzagTime = 0
   self.offset = 0
- -- self.fadeToBlack = true
- self.fadeToBlack = false
+  --self.fadeToBlack = true
+  self.fadeToBlack = false
   self.fadeFromBlack = false
   self.blackOpacity = 0
   self.castleView = false
@@ -135,7 +135,24 @@ function OpeningCinematic:update(dt)
       end
   elseif self.castleStep8 then
     gPlayer.y = gPlayer.y + gPlayer.walkSpeed / 1.5 * dt
+  elseif self.castleStep9 then
+    sceneView.currentMap = Map(9,2, gPlayer.spellcastCount)
+    sceneView.mapRow = 9
+    sceneView.mapColumn = 2
+    self.animatables = InsertAnimation(sceneView.currentMap.row, sceneView.currentMap.column)
+    gPlayer.x = TILE_SIZE * 4
+    gPlayer.y = TILE_SIZE * 2
+    gPlayer:changeState('player-idle')
+    self.fadeToBlack = false
+    self.fadeFromBlack = true
+    self.castleStep9 = false
+    self.castleStep10 = true
+  elseif self.castleStep10 then
+    if self.blackOpacity == 0 then
+      gStateMachine:change('playState')
+    end
   end
+
 
   if self.castleView then
     gPlayer:update(dt)
@@ -214,7 +231,23 @@ function OpeningCinematic:update(dt)
 
   if gPlayer.y > VIRTUAL_HEIGHT - 8 then
     self.fadeToBlack = true
+    if self.blackOpacity == 255 then
+      self.castleStep8 = false
+      self.castleStep9 = true
+    end
   end
+
+  --[[
+  if gPlayer.y > VIRTUAL_HEIGHT + 32 then
+    sceneView.currentMap = Map(9,2, gPlayer.spellcastCount)
+    sceneView.mapRow = 9
+    sceneView.mapColumn = 2
+    gPlayer.x = TILE_SIZE * 4
+    gPlayer.y = TILE_SIZE * 2
+    --self.fadeToBlack = false
+    --self.fadeFromBlack = true
+  end
+  --]]
 
   if self.fadeToBlack then
     self.blackOpacity = self.blackOpacity + 5
