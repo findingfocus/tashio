@@ -2,7 +2,7 @@ FallingChasmState = Class{__includes = BaseState}
 
 function FallingChasmState:init()
   --SCREEN LOCK POSITION
-  love.window.setPosition(220, 60)
+  love.window.setPosition(400, 60)
   self.init = false
   self.psystems = {}
   self.psystems[1] = love.graphics.newParticleSystem(particle, 4000)

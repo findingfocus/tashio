@@ -2,7 +2,7 @@ TitleScreenState = Class{__includes = BaseState}
 
 function TitleScreenState:init()
   --SCREEN LOCK POSITION
-  love.window.setPosition(220, 60)
+  love.window.setPosition(400, 60)
   self.playFlashing = false
   self.flashTimer = 0
   self.lavaSystem = LavaSystem()

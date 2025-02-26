@@ -396,7 +396,7 @@ function PlayState:update(dt)
   --love.window.setPosition(400, 40)
   --SCREEN LOCK POSITION
   --DEV POSITION
-  love.window.setPosition(220, 60)
+  love.window.setPosition(400, 60)
 
   --WARP ZONES
   if #MAP[sceneView.currentMap.row][sceneView.currentMap.column].warpZones > 0 then
