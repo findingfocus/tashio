@@ -143,6 +143,7 @@ function OpeningCinematic:update(dt)
     gPlayer.x = TILE_SIZE * 4
     gPlayer.y = TILE_SIZE * 2
     gPlayer:changeState('player-idle')
+    self.castleView = false
     self.fadeToBlack = false
     self.fadeFromBlack = true
     self.castleStep9 = false
@@ -364,5 +365,4 @@ function OpeningCinematic:render()
   love.graphics.print('step6: ' .. tostring(self.castleStep6), 0, 50)
   love.graphics.print('step7: ' .. tostring(self.castleStep7), 0, 60)
   --]]
-  --love.graphics.print('column: ' .. tostring(sceneView.mapColumn), 0, 88)
 end
