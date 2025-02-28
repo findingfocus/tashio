@@ -4,7 +4,25 @@ Event = require 'lib/knife.event'
 Timer = require 'lib/knife.timer'
 Inspect = require 'lib/inspect'
 bitser = require 'lib/bitser'
+baton = require 'lib/baton'
 require 'lib/slam'
+
+INPUT = baton.new {
+  controls = {
+    left = {'key:left', 'key:a', 'axis:leftx-', 'button:dpleft'},
+    right = {'key:right', 'key:d', 'axis:leftx+', 'button:dpright'},
+    up = {'key:up', 'key:w', 'axis:lefty-', 'button:dpup'},
+    down = {'key:down', 'key:s', 'axis:lefty+', 'button:dpdown'},
+    action = {'key:p', 'button:a'},
+    actionB = {'key:o', 'button:b'},
+    start = {'key:return', 'button:start'},
+    select = {'key:h', 'button:back'}
+  },
+  pairs = {
+    move = {'left', 'right', 'up', 'down'}
+  },
+  joystick = love.joystick.getJoysticks()[1],
+}
 
 love.graphics.setDefaultFilter('nearest', 'nearest')
 globalMap = require 'graphics/globalMap'

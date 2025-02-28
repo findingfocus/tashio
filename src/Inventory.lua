@@ -147,21 +147,21 @@ function Inventory:update(dt)
       end
     end
 
-    if love.keyboard.wasPressed('w') then
+    if INPUT:pressed('up') then
       handleUpInput(self)
     end
 
-    if love.keyboard.wasPressed('a') then
+    if INPUT:pressed('left') then
       handleLeftInput(self)
     end
-    if love.keyboard.wasPressed('s') then
+    if INPUT:pressed('down') then
       handleDownInput(self)
     end
-    if love.keyboard.wasPressed('d') then
+    if INPUT:pressed('right') then
       handleRightInput(self)
     end
 
-    if love.keyboard.wasPressed('p') then
+    if INPUT:pressed('action') then
       handleAInput(self)
     end
 
@@ -238,20 +238,20 @@ function Inventory:update(dt)
       end
     end
 
-    if love.keyboard.wasPressed('w') then
+    if INPUT:pressed('up') then
       handleUpInput(self)
     end
-    if love.keyboard.wasPressed('a') then
+    if INPUT:pressed('left') then
       handleLeftInput(self)
     end
-    if love.keyboard.wasPressed('s') then
+    if INPUT:pressed('down') then
       handleDownInput(self)
     end
-    if love.keyboard.wasPressed('d') then
+    if INPUT:pressed('right') then
       handleRightInput(self)
     end
 
-    if love.keyboard.wasPressed('p') then
+    if INPUT:pressed('action') then
       if self.selectedRow == 1 then
         if self.selectedCol == 1 then
           self.elementSlot = 'fireSpell'

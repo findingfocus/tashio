@@ -6,7 +6,7 @@ function PlayerMeditateState:init(player)
 end
 
 function PlayerMeditateState:update(dt)
-  if love.keyboard.wasPressed('w') or love.keyboard.wasPressed('a') or love.keyboard.wasPressed('s') or love.keyboard.wasPressed('d') then
+  if INPUT:pressed('up') or INPUT:pressed('left') or INPUT:pressed('down') or INPUT:pressed('right') then
     self.player.stateMachine:change('player-walk')
   end
 end

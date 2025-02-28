@@ -16,7 +16,7 @@ function TitleScreenState:update(dt)
     self.playFlashing = not self.playFlashing
     self.flashTimer = 0
   end
-  if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+  if INPUT:pressed('start') then
     --LOAD SAVE FILE
     self.saveDataUtility:loadPlayerData()
     gStateMachine:change('playState')

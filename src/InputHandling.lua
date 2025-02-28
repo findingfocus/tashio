@@ -28,29 +28,30 @@ function removeDirection(direction)
 end
 
 function InputHandling:update(dt)
-  if love.keyboard.wasPressed('a') then
+  INPUT:update()
+  if INPUT:pressed('left') then
     insertDirection('left')
   end
-  if love.keyboard.wasPressed('w') then
+  if INPUT:pressed('up') then
     insertDirection('up')
   end
-  if love.keyboard.wasPressed('d') then
+  if INPUT:pressed('right') then
     insertDirection('right')
   end
-  if love.keyboard.wasPressed('s') then
+  if INPUT:pressed('down') then
     insertDirection('down')
   end
 
-  if love.keyboard.wasReleased('a') then
+  if INPUT:released('left') then
     removeDirection('left')
   end
-  if love.keyboard.wasReleased('w') then
+  if INPUT:released('up') then
     removeDirection('up')
   end
-  if love.keyboard.wasReleased('d') then
+  if INPUT:released('right') then
     removeDirection('right')
   end
-  if love.keyboard.wasReleased('s') then
+  if INPUT:released('down') then
     removeDirection('down')
   end
 

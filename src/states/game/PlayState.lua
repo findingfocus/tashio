@@ -111,13 +111,13 @@ function PlayState:update(dt)
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT_GB, WINDOW_WIDTH, WINDOW_HEIGHT)
   end
 
-  if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('enter') then
+  if INPUT:pressed('start') then
     if not PAUSED and not gPlayer.dead then
       gStateMachine:change('pauseState')
     end
   end
 
-  if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('p') then
+  if INPUT:pressed('start') or INPUT:pressed('action') then
     if self.gameOver then
       sceneView.player.deadTimer = 0
       sceneView.player.dead = false
@@ -135,7 +135,7 @@ function PlayState:update(dt)
     end
   end
 
-  if love.keyboard.wasPressed('o') and gItemInventory.itemSlot[1] ~= nil then
+  if INPUT:pressed('actionB') and gItemInventory.itemSlot[1] ~= nil then
     if gItemInventory.itemSlot[1].type == 'lute' then
       if not luteState then
         gPlayer.direction = 'down'
@@ -145,7 +145,7 @@ function PlayState:update(dt)
     end
   end
 
-  if love.keyboard.wasPressed('h') then
+  if INPUT:pressed('select') then
     if luteState then
       luteState = false
     else
@@ -230,7 +230,7 @@ function PlayState:update(dt)
 
   if not sceneView.shifting then
     --FOCUS GAIN
-    if (love.keyboard.isDown('p') and not luteState) or (buttons[1].fireSpellPressed and not luteState) then
+    if (INPUT:down('action') and not luteState) or (buttons[1].fireSpellPressed and not luteState) then
       --UNFOCUS
       if (self.unFocus < self.focusMax) and self.unFocusGrowing then
         if self.manis > 0 then
@@ -310,7 +310,7 @@ function PlayState:update(dt)
 
 
 
-  if love.keyboard.wasPressed('p') then
+  if INPUT:pressed('action') then
     --DIALOGUE DETECTION
     for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do
       if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]) and not MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated then
@@ -483,12 +483,12 @@ function PlayState:update(dt)
 
   --GAME OVER OPTION SELECTOR
   if self.gameOver then
-    if love.keyboard.wasPressed('down') or love.keyboard.wasPressed('s') then
+    if INPUT:pressed('down') then
       if self.optionSelector ~= 2 then
         sounds['beep']:play()
       end
       self.optionSelector = 2
-    elseif love.keyboard.wasPressed('up') or love.keyboard.wasPressed('w') then
+    elseif INPUT:pressed('up') then
       if self.optionSelector ~= 1 then
         sounds['beep']:play()
       end
@@ -537,28 +537,28 @@ function PlayState:render()
   --love.graphics.printf('Tashio Tempo', 0, VIRTUAL_HEIGHT - 13, VIRTUAL_WIDTH, 'center')
   ---[[KEYLOGGER
   --[[
-  if love.keyboard.isDown('w') then
+  if INPUT:down('up') then
     love.graphics.setColor(FADED)
     love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 16, SCREEN_HEIGHT_LIMIT - 11 + KEYLOGGER_YOFFSET, 0, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --UP
   else
     love.graphics.setColor(WHITE)
     love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 16, SCREEN_HEIGHT_LIMIT - 11 + KEYLOGGER_YOFFSET, 0, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --UP
   end
-  if love.keyboard.isDown('d') then
+  if INPUT:down('right') then
     love.graphics.setColor(FADED)
     love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 8, SCREEN_HEIGHT_LIMIT - 4 + KEYLOGGER_YOFFSET, ninetyDegrees, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --RIGHT
   else
     love.graphics.setColor(WHITE)
     love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 8, SCREEN_HEIGHT_LIMIT - 4 + KEYLOGGER_YOFFSET, ninetyDegrees, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --RIGHT
   end
-  if love.keyboard.isDown('s') then
+  if INPUT:down('down') then
     love.graphics.setColor(FADED)
     love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 16, SCREEN_HEIGHT_LIMIT - 4 + KEYLOGGER_YOFFSET, oneEightyDegrees, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --DOWN
   else
     love.graphics.setColor(WHITE)
     love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 16, SCREEN_HEIGHT_LIMIT - 4 + KEYLOGGER_YOFFSET, oneEightyDegrees, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --DOWN
   end
-  if love.keyboard.isDown('a') then
+  if INPUT:down('left') then
     love.graphics.setColor(FADED)
     love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 24, SCREEN_HEIGHT_LIMIT - 4 + KEYLOGGER_YOFFSET, twoSeventyDegress, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --LEFT
   else
