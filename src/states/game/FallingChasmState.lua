@@ -71,19 +71,19 @@ function FallingChasmState:update(dt)
   if self.emissionArea2 > 100 then
     self.emissionArea2 = 0
   end
-  if love.keyboard.wasPressed('down') or love.keyboard.wasPressed('s') then
+  if INPUT:down('down') then
     if self.optionSelector ~= 2 then
       sounds['beep']:play()
     end
     self.optionSelector = 2 
-  elseif love.keyboard.wasPressed('up') or love.keyboard.wasPressed('w') then
+  elseif INPUT:pressed('up') then
     if self.optionSelector ~= 1 then
       sounds['beep']:play()
     end
     self.optionSelector = 1 
   end
 
-  if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') or love.keyboard.wasPressed('p') then
+  if INPUT:pressed('start') or INPUT:pressed('action') then
     if self.optionSelector == 2 then
       gStateMachine:change('titleState')
     elseif self.optionSelector == 1 then

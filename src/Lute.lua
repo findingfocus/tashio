@@ -224,15 +224,16 @@ function Lute:update(dt)
   --FLUSH FRETS HELD
   fretsHeld = {}
   --KEYBOARD FRETS HELD
-  if love.keyboard.wasPressed('o') or love.keyboard.isDown('o') then
+  if INPUT:pressed('actionB') or INPUT:down('actionB') then
     table.insert(fretsHeld, 1)
   end
-  if love.keyboard.wasPressed('p') or love.keyboard.isDown('p') then
+
+  if INPUT:pressed('action') or INPUT:down('action') then
     table.insert(fretsHeld, 2)
   end
 
   --KEYBOARD FRETS REMOVED
-  if love.keyboard.wasReleased('o') then
+  if INPUT:released('actionB') then
     for k, v in pairs(fretsHeld) do
       if v == 1 then
         table.remove(fretsHeld, k)
@@ -240,7 +241,7 @@ function Lute:update(dt)
     end
   end
 
-  if love.keyboard.wasReleased('p') then
+  if INPUT:released('action') then
     for k, v in pairs(fretsHeld) do
       if v == 2 then
         table.remove(fretsHeld, k)
@@ -286,7 +287,7 @@ function Lute:update(dt)
   end
 
   --STRING 1
-  if love.keyboard.wasPressed('d') then
+  if INPUT:pressed('right') then
     validNoteChecker(4)
     if #fretsHeld == 0 then
       sounds['F1']:play()
@@ -301,7 +302,7 @@ function Lute:update(dt)
   end
 
   --STRING 2
-  if love.keyboard.wasPressed('s') then
+  if INPUT:pressed('down') then
     validNoteChecker(3)
     if #fretsHeld == 0 then
       sounds['A1']:play()
@@ -316,7 +317,7 @@ function Lute:update(dt)
   end
 
   --STRING 3
-  if love.keyboard.wasPressed('a') then
+  if INPUT:pressed('left') then
     validNoteChecker(2)
     if #fretsHeld == 0 then
       sounds['D1']:play()
@@ -331,7 +332,7 @@ function Lute:update(dt)
   end
 
   --STRING 4
-  if love.keyboard.wasPressed('w') then
+  if INPUT:pressed('up') then
     validNoteChecker(1)
     if #fretsHeld == 0 then
       sounds['F2']:play()

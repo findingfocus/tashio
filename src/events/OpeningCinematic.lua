@@ -58,7 +58,7 @@ function OpeningCinematic:update(dt)
   self.testX = self.testX + dt * 2
   self.animatables:update(dt)
   --sceneView.currentMap.insertAnimations:update(dt)
-  if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+  if INPUT:pressed('start')  then
     sceneView.currentMap = Map(7, 4, gPlayer.spellcastCount)
     sceneView.mapRow = 7
     sceneView.mapColumn = 4
@@ -318,28 +318,28 @@ function OpeningCinematic:render()
 
   --KEYLOGGER
   --[[
-  if love.keyboard.isDown('w') then
+  if INPUT:down('up') then
     love.graphics.setColor(FADED)
     love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 16, SCREEN_HEIGHT_LIMIT - 11 + KEYLOGGER_YOFFSET, 0, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --UP
   else
     love.graphics.setColor(WHITE)
     love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 16, SCREEN_HEIGHT_LIMIT - 11 + KEYLOGGER_YOFFSET, 0, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --UP
   end
-  if love.keyboard.isDown('d') then
+  if INPUT:down('right') then
     love.graphics.setColor(FADED)
     love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 8, SCREEN_HEIGHT_LIMIT - 4 + KEYLOGGER_YOFFSET, ninetyDegrees, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --RIGHT
   else
     love.graphics.setColor(WHITE)
     love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 8, SCREEN_HEIGHT_LIMIT - 4 + KEYLOGGER_YOFFSET, ninetyDegrees, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --RIGHT
   end
-  if love.keyboard.isDown('s') then
+  if INPUT:down('down') then
     love.graphics.setColor(FADED)
     love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 16, SCREEN_HEIGHT_LIMIT - 4 + KEYLOGGER_YOFFSET, oneEightyDegrees, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --DOWN
   else
     love.graphics.setColor(WHITE)
     love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 16, SCREEN_HEIGHT_LIMIT - 4 + KEYLOGGER_YOFFSET, oneEightyDegrees, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --DOWN
   end
-  if love.keyboard.isDown('a') then
+  if INPUT:down('left') then
     love.graphics.setColor(FADED)
     love.graphics.draw(arrowKeyLogger, ROTATEOFFSET + VIRTUAL_WIDTH - 24, SCREEN_HEIGHT_LIMIT - 4 + KEYLOGGER_YOFFSET, twoSeventyDegress, 1, 1, ROTATEOFFSET, ROTATEOFFSET) --LEFT
   else

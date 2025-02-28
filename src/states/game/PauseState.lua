@@ -6,11 +6,11 @@ function PauseState:init()
 end
 
 function PauseState:update(dt)
-  if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('enter') then
+  if INPUT:pressed('start') then
     luteState = false
     gStateMachine:change('playState')
   end
-  if love.keyboard.wasPressed('o') then
+  if INPUT:pressed('actionB') then
     if self.inventoryType == 'keyItem' then
       self.inventoryType = 'item'
     else

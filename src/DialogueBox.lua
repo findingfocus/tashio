@@ -199,7 +199,7 @@ function DialogueBox:update(dt)
   end
 
   ---[[
-  if love.keyboard.wasPressed('p') then
+  if INPUT:pressed('action') then
     self.aButtonCount = self.aButtonCount + 1
     if self.aButtonCount > 1 then
       blinking = true
@@ -277,7 +277,7 @@ function DialogueBox:update(dt)
   end
 
   if self.option == 'idol' then
-    if love.keyboard.wasPressed('w') or love.keyboard.wasPressed('s') then
+    if INPUT:pressed('up') or INPUT:pressed('down') then
       self.meditateYes = not self.meditateYes
       sounds['beep']:play()
       blinking = false
