@@ -197,16 +197,16 @@ function Inventory:update(dt)
         if self.selectedRow == 1 then
           if self.selectedCol == 1 then
             self.elementSlot = 'fireSpell'
-            self.elementColor = CYAN
+            self.elementColor = FLAMME_COLOR
           elseif self.selectedCol == 2 then
             self.elementSlot = 'sandSpell'
-            self.elementColor = YELLOW
+            self.elementColor = AQUIS_COLOR
           elseif self.selectedCol == 3 then
             self.elementSlot = 'iceSpell'
-            self.elementColor = WHITE
+            self.elementColor = EKKO_COLOR
           elseif self.selectedCol == 4 then
             self.elementSlot = 'waterSpell'
-            self.elementColor = BLUE
+            self.elementColor = LOX_COLOR
           end
         end
         if self.selectedRow == 2 then
@@ -254,17 +254,18 @@ function Inventory:update(dt)
     if INPUT:pressed('action') then
       if self.selectedRow == 1 then
         if self.selectedCol == 1 then
+          --TODO FIX SPELL NAMES
           self.elementSlot = 'fireSpell'
-          self.elementColor = CYAN
+          self.elementColor = FLAMME_COLOR
         elseif self.selectedCol == 2 then
           self.elementSlot = 'sandSpell'
-          self.elementColor = YELLOW
+          self.elementColor = AQUIS_COLOR
         elseif self.selectedCol == 3 then
           self.elementSlot = 'iceSpell'
-          self.elementColor = WHITE
+          self.elementColor = EKKO_COLOR
         elseif self.selectedCol == 4 then
           self.elementSlot = 'waterSpell'
-          self.elementColor = BLUE
+          self.elementColor = LOX_COLOR
         end
       end
       if self.selectedRow == 2 then
