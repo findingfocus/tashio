@@ -509,6 +509,7 @@ function PlayState:render()
   --love.graphics.print('Tashio Tempo', VIRTUAL_WIDTH - 150, SCREEN_HEIGHT_LIMIT + 4)
 
   --MANIS BAR RENDER
+  --[[
   love.graphics.setColor(255/255, 0/255, 0/255, 255/255)
   love.graphics.rectangle('fill', 0, SCREEN_HEIGHT_LIMIT - 4, self.manis, 2)
 

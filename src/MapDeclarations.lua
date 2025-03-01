@@ -400,6 +400,7 @@ MAP[7][2].npc[mageIndex]:changeState('npc-walk')
 MAP[7][2].npc[mageIndex].stateMachine.current.option = 'square'
 
 --VILLAGER 1
+--[[
 table.insert(MAP[1][11].npc, Entity {
   animations = ENTITY_DEFS['villager1'].animations,
   walkSpeed = ENTITY_DEFS['villager1'].walkSpeed,
@@ -412,7 +413,9 @@ table.insert(MAP[1][11].npc, Entity {
   corrupted = false,
   type = 'villager1',
 })
+--]]
 
+--[[
 local villagerIndex = 1
 MAP[1][11].npc[villagerIndex].stateMachine = StateMachine {
   ['npc-idle'] = function() return NPCIdleState(MAP[1][11].npc[villagerIndex]) end,
@@ -420,10 +423,19 @@ MAP[1][11].npc[villagerIndex].stateMachine = StateMachine {
 }
 MAP[1][11].npc[villagerIndex]:changeState('npc-walk')
 MAP[1][11].npc[villagerIndex].stateMachine.current.option = 'horizontal'
-table.insert(MAP[1][11].dialogueBox, DialogueBox(MAP[1][11].npc[villagerIndex].x, MAP[1][11].npc[villagerIndex].y, 'Whaddya want?', 'npc', MAP[1][11].npc[villagerIndex], 1))
+MAP[1][11].disjointUp = true
+--]]
+--table.insert(MAP[1][11].dialogueBox, DialogueBox(MAP[1][11].npc[villagerIndex].x, MAP[1][11].npc[villagerIndex].y, 'Whaddya want?', 'npc', MAP[1][11].npc[villagerIndex], 1))
 table.insert(MAP[7][2].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 2, 'Meditate?', 'idol', nil, 1 ))
 table.insert(MAP[7][4].dialogueBox, DialogueBox(TILE_SIZE * 5, TILE_SIZE * 5, 'Meditate?', 'idol', nil, 1))
-MAP[1][11].disjointUp = true
+
+--LIBRARY
+table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 3, TILE_SIZE * 4, 'Meditation idols are used to save your game, as well as recharge your elements. ', 'signpost', nil, 1 ))
+
+table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 5, TILE_SIZE * 4, 'Flamme is energy from Mount Kasan, it burns brightly. ', 'signpost', nil, 2 ))
+table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 4, 'Aquis contains lifeforce from the Azai Ocean, it flows with great energy. ', 'signpost', nil, 3 ))
+table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 7, TILE_SIZE * 4, 'Ekko is vibrant green and shimmers quite beautifully. ', 'signpost', nil, 4 ))
+table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 8, TILE_SIZE * 4, 'Lox shines as bright as the sun, focusing it\'s energy can be quite powerful. ', 'signpost', nil, 5 ))
 
 --VILLAGER 2
 table.insert(MAP[2][11].npc, Entity {
@@ -461,7 +473,7 @@ table.insert(MAP[8][3].dialogueBox, DialogueBox(TILE_SIZE * 4, 6 * TILE_SIZE, 'B
 
 table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, '<-Flowerbed', 'signpost', nil, 2))
 table.insert(MAP[7][2].dialogueBox, DialogueBox(5 * TILE_SIZE, 0, 'Ice Mountain^^', 'signpost', nil, 3))
-table.insert(MAP[7][2].dialogueBox, DialogueBox(7 * TILE_SIZE, 4 * TILE_SIZE, 'Tavern^^  Dungeon-->', 'signpost', nil, 4))
+table.insert(MAP[7][2].dialogueBox, DialogueBox(7 * TILE_SIZE, 4 * TILE_SIZE, 'Library^^', 'signpost', nil, 4))
 table.insert(MAP[7][2].dialogueBox, DialogueBox(MAP[7][2].npc[mageIndex].x, MAP[7][2].npc[mageIndex].y, 'There\'s plenty of danger around, but treasure too...', 'npc', MAP[7][2].npc[mageIndex], 5))
 
 table.insert(MAP[7][2].collidableMapObjects, Pushable(2, 4, 'boulder'))
