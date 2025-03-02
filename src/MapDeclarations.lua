@@ -430,12 +430,12 @@ table.insert(MAP[7][2].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 2, 'M
 table.insert(MAP[7][4].dialogueBox, DialogueBox(TILE_SIZE * 5, TILE_SIZE * 5, 'Meditate?', 'idol', nil, 1))
 
 --LIBRARY
-table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 3, TILE_SIZE * 4, 'Meditation idols are used to save your game, as well as recharge your elements. ', 'signpost', nil, 1 ))
+table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 3, TILE_SIZE * 2, 'Meditation idols are used to save your game, as well as recharge your elements. ', 'signpost', nil, 1 ))
 
-table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 5, TILE_SIZE * 4, 'Flamme is energy from Mount Kasan, it burns brightly. ', 'signpost', nil, 2 ))
-table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 4, 'Aquis contains lifeforce from the Azai Ocean, it flows with great energy. ', 'signpost', nil, 3 ))
-table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 7, TILE_SIZE * 4, 'Ekko is vibrant green and shimmers quite beautifully. ', 'signpost', nil, 4 ))
-table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 8, TILE_SIZE * 4, 'Lox shines as bright as the sun, focusing it\'s energy can be quite powerful. ', 'signpost', nil, 5 ))
+table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 5, TILE_SIZE * 2, 'Flamme is energy from Mount Kasan, it burns brightly. ', 'signpost', nil, 2 ))
+table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 2, 'Aquis contains lifeforce from the Azai Ocean, it flows with great energy. ', 'signpost', nil, 3 ))
+table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 7, TILE_SIZE * 2, 'Ekko is vibrant green and shimmers quite beautifully. ', 'signpost', nil, 4 ))
+table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 8, TILE_SIZE * 2, 'Lox shines as bright as the sun, focusing it\'s energy can be quite powerful. ', 'signpost', nil, 5 ))
 
 --VILLAGER 2
 table.insert(MAP[2][11].npc, Entity {

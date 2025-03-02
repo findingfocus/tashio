@@ -13,9 +13,9 @@ INPUT = baton.new {
     right = {'key:right', 'key:d', 'axis:leftx+', 'button:dpright'},
     up = {'key:up', 'key:w', 'axis:lefty-', 'button:dpup'},
     down = {'key:down', 'key:s', 'axis:lefty+', 'button:dpdown'},
-    action = {'key:p', 'button:a'},
-    actionB = {'key:o', 'button:b'},
-    start = {'key:return', 'button:start'},
+    action = {'key:space', 'button:a'},
+    actionB = {'key:lshift', 'key:rshift', 'button:b'},
+    start = {'key:tab', 'button:start'},
     select = {'key:h', 'button:back'}
   },
   pairs = {
