@@ -199,6 +199,23 @@ function Scene:update(dt)
     end
   end
 
+  --PLAYER TO WALL OBJECT COLLISION DETECTION
+  for i = 1, #self.currentMap.collidableWallObjects do
+    local wall = self.currentMap.collidableWallObjects[i]
+    if self.player:topCollidesWallObject(self.currentMap.collidableWallObjects[i]) then
+      self.player.y = wall.y + wall.height - 1
+    end
+    if self.player:leftCollidesMapObject(self.currentMap.collidableWallObjects[i]) then
+      self.player.x = wall.x + wall.width - AABB_SIDE_COLLISION_BUFFER
+    end
+    if self.player:rightCollidesMapObject(self.currentMap.collidableWallObjects[i]) then
+      self.player.x = wall.x - self.player.width + AABB_SIDE_COLLISION_BUFFER
+    end
+    if self.player:bottomCollidesMapObject(self.currentMap.collidableWallObjects[i]) then
+      self.player.y = wall.y - self.player.height
+    end
+  end
+
   --NPC COLLISION
   if not self.shifting then
     for i = 1, #MAP[self.mapRow][self.mapColumn].npc do
@@ -318,4 +335,5 @@ function Scene:render()
   --if
   --MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[self.activeDialogueID]:render(dt)
   love.graphics.setColor(WHITE)
+  --love.graphics.print(Inspect(sceneView.currentMap.collidableWallObjects[1]), 0, 0)
 end
