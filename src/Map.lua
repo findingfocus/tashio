@@ -67,13 +67,17 @@ function Map:init(row, column, spellcastEntities)
     end
   end
   ---[[
-  --COLLIDABLE MAP OBJECTS
+  --COLLIDABLE MAP OBJECTS COLLISION
   self.collidableMapObjects = {}
+  self.collidableWallObjects = {}
   for i = 1, MAP_HEIGHT do
     for j = 1, MAP_WIDTH do
       local tile = self.tiles[i][j]
       if tile.id >= 97 and tile.id <= 256 then
         table.insert(self.collidableMapObjects, CollidableMapObjects(i, j))
+      end
+      if tile.id >= 897 and tile.id <= 928 then
+        table.insert(self.collidableWallObjects, CollidableMapObjects(i, j))
       end
       local tile = self.aboveGroundTiles[i][j]
       if tile.id >= 97 and tile.id <= 256 then
@@ -374,6 +378,9 @@ function Map:update(dt)
   end
   --]]
 
+  for k, v in pairs(MAP[self.row][self.column].collidableWallObjects) do
+    v:update(dt)
+  end
   --COLLIDABLE MAP OBJECTS
   for k, v in pairs(MAP[self.row][self.column].collidableMapObjects) do
     v:update(dt)
@@ -470,6 +477,15 @@ function Map:render()
       v:render(self.adjacentOffsetX, self.adjacentOffsetY)
     end
   end
+
+  --[[
+  --COLLIDABLE WALL UPDATE
+  if MAP[self.row][self.column].collidableWallObjects[1] ~= nil then
+    for k, v in pairs(MAP[self.row][self.column].collidableWallObjects) do
+      --v:render(self.adjacentOffsetX, self.adjacentOffsetY)
+    end
+  end
+  --]]
   ---[[
   love.graphics.setColor(WHITE)
 

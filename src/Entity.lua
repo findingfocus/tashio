@@ -127,6 +127,11 @@ function Entity:topCollidesMapObject(target)
   self.y + 6 > target.y + target.height or self.y + 8 < target.y)
 end
 
+function Entity:topCollidesWallObject(target)
+  return not (self.x + 3 > target.x + target.width or self.x + self.width - 3 < target.x or
+  self.y + 1 > target.y + target.height or self.y + 3 < target.y)
+end
+
 function Entity:bottomCollidesMapObject(target)
   return not (self.x + 3 > target.x + target.width or self.x + self.width - 3 < target.x or
   self.y + self.height - 2 > target.y + target.height or self.y + self.height < target.y)
