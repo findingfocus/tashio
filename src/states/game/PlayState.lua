@@ -149,7 +149,7 @@ function PlayState:update(dt)
     if luteState then
       luteState = false
     else
-      toggleHelp = toggleHelp == false and true or false
+      --toggleHelp = toggleHelp == false and true or false
     end
   end
 
@@ -308,6 +308,15 @@ function PlayState:update(dt)
 
   --TODO MOVE FROM PLAYSTATE
 
+  if INPUT:pressed('select') then
+    gStateMachine:change('minimap')
+    gStateMachine.current.cursorX = sceneView.currentMap.column * 16 - 16
+    gStateMachine.current.cursorY = sceneView.currentMap.row * 13 - 13
+    gStateMachine.current.row = sceneView.currentMap.row
+    gStateMachine.current.column = sceneView.currentMap.column
+    --MINIMAP_ROW = sceneView.currentMap.row
+    --MINIMAP_COLUMN = sceneView.currentMap.column
+  end
 
 
   if INPUT:pressed('action') then

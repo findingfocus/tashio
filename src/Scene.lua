@@ -28,6 +28,7 @@ function Scene:init(player, mapRow, mapColumn)
   self.spellcastEntities = {}
   self.possibleDirections = {'left', 'right', 'up', 'down'}
   self.activeDialogueID = nil
+  self.tutorialText = false
   for i = 1, self.spellcastEntityCount do
     table.insert(self.spellcastEntities, Entity {
       animations = ENTITY_DEFS['spellcast'].animations,
@@ -75,6 +76,7 @@ end
 
 function Scene:beginShifting(shiftX, shiftY)
   self.currentMap.collidableMapObjects = {}
+  self.currentMap.collidableWallObjects = {}
   self.shifting = true
   self.nextMap.adjacentOffsetY = shiftY
   self.nextMap.adjacentOffsetX = shiftX
@@ -204,14 +206,11 @@ function Scene:update(dt)
     local wall = self.currentMap.collidableWallObjects[i]
     if self.player:topCollidesWallObject(self.currentMap.collidableWallObjects[i]) then
       self.player.y = wall.y + wall.height - 1
-    end
-    if self.player:leftCollidesMapObject(self.currentMap.collidableWallObjects[i]) then
+    elseif self.player:leftCollidesWallObject(self.currentMap.collidableWallObjects[i]) then
       self.player.x = wall.x + wall.width - AABB_SIDE_COLLISION_BUFFER
-    end
-    if self.player:rightCollidesMapObject(self.currentMap.collidableWallObjects[i]) then
+    elseif self.player:rightCollidesWallObject(self.currentMap.collidableWallObjects[i]) then
       self.player.x = wall.x - self.player.width + AABB_SIDE_COLLISION_BUFFER
-    end
-    if self.player:bottomCollidesMapObject(self.currentMap.collidableWallObjects[i]) then
+    elseif self.player:bottomCollidesMapObject(self.currentMap.collidableWallObjects[i]) then
       self.player.y = wall.y - self.player.height
     end
   end
@@ -250,6 +249,18 @@ function Scene:render()
   if self.nextMap then
     self.nextMap:render()
   end
+
+  if self.tutorialText then
+    local yStarting = 15
+    local yOffset = 10
+    local xPosition = 40
+    love.graphics.print('\'WASD\' to move', xPosition, yStarting)
+    love.graphics.print('Spacebar is \'A\'', xPosition, yStarting + yOffset * 2)
+    love.graphics.print('Shift is \'B\'', xPosition, yStarting + yOffset * 4)
+    love.graphics.print('Tab is \'START\'', xPosition, yStarting + yOffset * 6)
+    love.graphics.print('Esc is \'SELECT\'', xPosition, yStarting + yOffset * 8)
+  end
+
   love.graphics.pop()
 
 

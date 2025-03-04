@@ -132,6 +132,16 @@ function Entity:topCollidesWallObject(target)
   self.y + 1 > target.y + target.height or self.y + 3 < target.y)
 end
 
+function Entity:leftCollidesWallObject(target)
+  return not (self.x + 1 > target.x + target.width or self.x + 3 < target.x or
+  self.y + 3 > target.y + target.height or self.y + self.height - 2 < target.y)
+end
+
+function Entity:rightCollidesWallObject(target)
+  return not (self.x + self.width - 3 > target.x + target.width or self.x + self.width - 1 < target.x or
+  self.y + 3 > target.y + target.height or self.y + self.height - 2 < target.y)
+end
+
 function Entity:bottomCollidesMapObject(target)
   return not (self.x + 3 > target.x + target.width or self.x + self.width - 3 < target.x or
   self.y + self.height - 2 > target.y + target.height or self.y + self.height < target.y)

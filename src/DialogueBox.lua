@@ -16,7 +16,7 @@ function DialogueBox:init(x, y, text, option, npc, index)
   self.npc = npc or 0
   self.textTimer = 0
   self.textLength = #text
-  self.nextTextTrigger = 0.03
+  self.nextTextTrigger = 0.02
   self.result = ''
   self.line1Result = ''
   self.line2Result = ''
@@ -54,11 +54,10 @@ function DialogueBox:init(x, y, text, option, npc, index)
   self.wordIndexGrabbed = false
   self.meditateYes = true
 
-  self.totalLineCount = 1
   self.wordCharacterIndex = 0
   self.wordCharCount = 0
   self.lineCharCount = 0
-  self.pageLength = 0
+  self.pageLength = 1
 
   while self.charactersToCheck do
     self.textIndex = self.textIndex + 1
@@ -74,10 +73,10 @@ function DialogueBox:init(x, y, text, option, npc, index)
       if self.textIndex == self.textLength then
         if self.lineCharCount + self.wordCharCount > MAX_TEXTBOX_LINE_LENGTH then --INCREMENT LINE NUMBER
           self.lineWeAreOn = self.lineWeAreOn + 1
-          self.totalLineCount = self.totalLineCount + 1
           if self.lineWeAreOn > 3 then
             self.lineWeAreOn = 1
             self.pageWeAreOn = self.pageWeAreOn + 1
+            self.pageLength = self.pageLength + 1
             self.pages[self.pageWeAreOn] = {}
             self.pages[self.pageWeAreOn][1] = {}
             self.pages[self.pageWeAreOn][2] = {}
@@ -98,6 +97,7 @@ function DialogueBox:init(x, y, text, option, npc, index)
       if self.lastCharWasSpace then
         self.pages[self.pageWeAreOn].pageCharCount = self.pages[self.pageWeAreOn].pageCharCount - 1
         self.pageWeAreOn = self.pageWeAreOn + 1
+        self.pageLength = self.pageLength + 1
         self.pages[self.pageWeAreOn] = {}
         self.pages[self.pageWeAreOn][1] = {}
         self.pages[self.pageWeAreOn][2] = {}
@@ -106,11 +106,6 @@ function DialogueBox:init(x, y, text, option, npc, index)
         self.pages[self.pageWeAreOn][2].string = ''
         self.pages[self.pageWeAreOn][3].string = ''
         self.pages[self.pageWeAreOn].pageCharCount = 0
-        if self.lineWeAreOn == 1 then
-          self.totalLineCount = self.totalLineCount + 3
-        elseif self.lineWeAreOn == 2 then
-          self.totalLineCount = self.totalLineCount + 2
-        end
         self.wordCharCount = 0
         self.lineWeAreOn = 1
         self.lineCharCount = 0
@@ -123,10 +118,10 @@ function DialogueBox:init(x, y, text, option, npc, index)
           self.wordCharCount = 0
         elseif self.lineCharCount + self.wordCharCount > MAX_TEXTBOX_LINE_LENGTH then --INCREMENT LINE NUMBER
           self.lineWeAreOn = self.lineWeAreOn + 1
-          self.totalLineCount = self.totalLineCount + 1
           if self.lineWeAreOn > 3 then
             self.lineWeAreOn = 1
             self.pageWeAreOn = self.pageWeAreOn + 1
+            self.pageLength = self.pageLength + 1
             self.pages[self.pageWeAreOn] = {}
             self.pages[self.pageWeAreOn][1] = {}
             self.pages[self.pageWeAreOn][2] = {}
@@ -149,7 +144,7 @@ function DialogueBox:init(x, y, text, option, npc, index)
   end
 
   --self.textIndex = 1
-  self.pageLength = math.ceil(self.totalLineCount / 3)
+  --self.pageLength = math.ceil(self.totalLineCount / 3)
 end
 
 function DialogueBox:flushText()
@@ -194,6 +189,32 @@ function DialogueBox:update(dt)
           self.currentPage = self.currentPage + 1
           self.textIndex = 1
         end
+      end
+    end
+  end
+
+  if INPUT:pressed('actionB') then
+    self.activated = false
+    self.aButtonCount = 0
+    treasureChestOption = false
+    for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+      if v.classType == 'treasureChest' then
+        v.showOffItem = false
+      end
+    end
+    PAUSED = false
+    self.finishedPrinting = true
+    --MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided = {}
+    self:flushText()
+    sceneView.activeDialogueID = nil
+    self.currentPage = 1
+    if self.meditateOption then
+      if self.meditateYes then
+        gPlayer.stateMachine:change('player-meditate')
+        self.saveDataUtility:savePlayerData()
+      else
+        --RESET DEFAULT VALUE
+        self.meditateYes = true
       end
     end
   end
@@ -336,5 +357,6 @@ function DialogueBox:render()
   love.graphics.print('pageLength: ' .. tostring(self.pageLength), 0, 10)
   love.graphics.print('pageCharCount: ' .. tostring(self.pages[self.currentPage].pageCharCount), 0, 20)
   love.graphics.print('printedPCC: ' .. tostring(self.currentPagePrintedCharCount), 0, 30)
+  --love.graphics.print('totalLine: ' .. tostring(self.totalLineCount), 0, 30)
   --]]
 end
