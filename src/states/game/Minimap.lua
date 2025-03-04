@@ -8,10 +8,14 @@ function Minimap:init()
   self.blinkTimer = .5
   self.row = 0
   self.column = 0
+  self.tashioRow = 0
+  self.tashioColumn = 0
+  self.tashioX = 0
+  self.tashioY = 0
   self.names = {}
-  for i = 1, 10 do
+  for i = 1, 20 do
     table.insert(self.names, {})
-    for j = 1, 10 do
+    for j = 1, 20 do
       table.insert(self.names[i], {})
       self.names[i][j].locationName = 'Forgotten Forest'
     end
@@ -35,7 +39,7 @@ function Minimap:init()
   self.names[7][1].locationName = 'Dark Temple'
   self.names[7][2].locationName = 'Village'
   self.names[7][3].locationName = 'Gecko Road'
-  self.names[7][4].locationName = 'Dungeon'
+  self.names[7][4].locationName = 'Dungeon Entrance'
   self.names[8][3].locationName = 'Inn'
   self.names[9][3].locationName = 'Test of Strength'
   self.names[10][3].locationName = 'Test of Strength'
@@ -45,6 +49,7 @@ function Minimap:init()
   self.names[8][1].locationName = 'Test of Strength'
   self.names[8][2].locationName = 'Rickety Bridge'
   self.names[9][2].locationName = 'Mage\'s Castle'
+  self.fastSelectTimer = .25
 end
 
 function Minimap:update(dt)
@@ -56,26 +61,130 @@ function Minimap:update(dt)
   if INPUT:pressed('select') then
     gStateMachine:change('playState')
   end
+
+  --DIAGONAL MOVEMENT
+  if INPUT:down('up') and INPUT:down('left') then
+    self.fastSelectTimer = self.fastSelectTimer - dt
+    if self.fastSelectTimer <= 0 then
+      self.fastSelectTimer = FAST_SELECT_TIMER + .15
+      self.cursorX = math.max(self.cursorX - 16, 0)
+      self.cursorY = math.max(self.cursorY - 13, 0)
+      self.blink = false
+      self.blinkTimer = .5
+    end
+  end
+  if INPUT:down('up') and INPUT:down('right') then
+    self.fastSelectTimer = self.fastSelectTimer - dt
+    if self.fastSelectTimer <= 0 then
+      self.fastSelectTimer = FAST_SELECT_TIMER + .15
+      self.cursorX = math.min(self.cursorX + 16, 144)
+      self.cursorY = math.max(self.cursorY - 13, 0)
+      self.blink = false
+      self.blinkTimer = .5
+    end
+  end
+  if INPUT:down('right') and INPUT:down('down') then
+    self.fastSelectTimer = self.fastSelectTimer - dt 
+    if self.fastSelectTimer <= 0 then
+      self.fastSelectTimer = FAST_SELECT_TIMER + .15
+      self.cursorX = math.min(self.cursorX + 16, 144)
+      self.cursorY = math.min(self.cursorY + 13, 117)
+      self.blink = false
+      self.blinkTimer = .5
+    end
+  end
+  if INPUT:down('down') and INPUT:down('left') then
+    self.fastSelectTimer = self.fastSelectTimer - dt
+    if self.fastSelectTimer <= 0 then
+      self.fastSelectTimer = FAST_SELECT_TIMER + .15
+      self.cursorX = math.max(self.cursorX - 16, 0)
+      self.cursorY = math.min(self.cursorY + 13, 117)
+      self.blink = false
+      self.blinkTimer = .5
+    end
+  end
+
+
+  --JUST LEFT
   if INPUT:pressed('left') then
     self.cursorX = math.max(self.cursorX - 16, 0)
     self.blink = false
     self.blinkTimer = .5
   end
+  if INPUT:down('left') and not INPUT:down('right') and not INPUT:down('up') and not INPUT:down('down') then
+    self.fastSelectTimer = self.fastSelectTimer - dt 
+    if self.fastSelectTimer <= 0 then
+      self.fastSelectTimer = FAST_SELECT_TIMER
+      self.cursorX = math.max(self.cursorX - 16, 0)
+      self.blink = false
+      self.blinkTimer = .5
+    end
+  end
+  if INPUT:released('left') then
+    self.fastSelectTimer = FAST_SELECT_TIMER
+  end
+
+
+  --JUST RIGHT
   if INPUT:pressed('right') then
     self.cursorX = math.min(self.cursorX + 16, 144)
     self.blink = false
     self.blinkTimer = .5
   end
+  if INPUT:down('right') and not INPUT:down('left') and not INPUT:down('up') and not INPUT:down('down') then
+    self.fastSelectTimer = self.fastSelectTimer - dt 
+    if self.fastSelectTimer <= 0 then
+      self.fastSelectTimer = FAST_SELECT_TIMER
+      self.cursorX = math.min(self.cursorX + 16, 144)
+      self.blink = false
+      self.blinkTimer = .5
+    end
+  end
+  if INPUT:released('right') then
+    self.fastSelectTimer = FAST_SELECT_TIMER
+  end
+
+
+  --JUST UP
   if INPUT:pressed('up') then
     self.cursorY = math.max(self.cursorY - 13, 0)
     self.blink = false
     self.blinkTimer = .5
   end
+  if INPUT:down('up') and not INPUT:down('left') and not INPUT:down('right') and not INPUT:down('down') then
+    self.fastSelectTimer = self.fastSelectTimer - dt 
+    if self.fastSelectTimer <= 0 then
+      self.fastSelectTimer = FAST_SELECT_TIMER
+      self.cursorY = math.max(self.cursorY - 13, 0)
+      self.blink = false
+      self.blinkTimer = .5
+    end
+  end
+  if INPUT:released('up') then
+    self.fastSelectTimer = FAST_SELECT_TIMER
+  end
+
+
+  --JUST DOWN
   if INPUT:pressed('down') then
     self.cursorY = math.min(self.cursorY + 13, 117)
     self.blink = false
     self.blinkTimer = .5
   end
+
+  if INPUT:down('down') and not INPUT:down('left') and not INPUT:down('right') and not INPUT:down('up') then
+    self.fastSelectTimer = self.fastSelectTimer - dt 
+    if self.fastSelectTimer <= 0 then
+      self.fastSelectTimer = FAST_SELECT_TIMER
+      self.cursorY = math.min(self.cursorY + 13, 117)
+      self.blink = false
+      self.blinkTimer = .5
+    end
+  end
+  if INPUT:released('down') then
+    self.fastSelectTimer = FAST_SELECT_TIMER
+  end
+
 
   self.column = self.cursorX / 16 + 1
   self.row = self.cursorY / 13 + 1
@@ -90,6 +199,9 @@ function Minimap:render()
     love.graphics.setColor(WHITE)
   end
   love.graphics.draw(minimapCursor, self.cursorX, self.cursorY)
+
+  love.graphics.setColor(WHITE)
+  love.graphics.draw(tashioMini, self.tashioColumn * 16 - 16 + self.tashioX, self.tashioRow * 13 - 13 + self.tashioY)
 
   love.graphics.setColor(BLACK)
   --love.graphics.print('Valley of death', 5, VIRTUAL_HEIGHT - 15)

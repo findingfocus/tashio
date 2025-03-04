@@ -314,6 +314,10 @@ function PlayState:update(dt)
     gStateMachine.current.cursorY = sceneView.currentMap.row * 13 - 13
     gStateMachine.current.row = sceneView.currentMap.row
     gStateMachine.current.column = sceneView.currentMap.column
+    gStateMachine.current.tashioRow = sceneView.currentMap.row
+    gStateMachine.current.tashioColumn = sceneView.currentMap.column
+    gStateMachine.current.tashioX = gPlayer.x / 16
+    gStateMachine.current.tashioY = gPlayer.y / 13
     --MINIMAP_ROW = sceneView.currentMap.row
     --MINIMAP_COLUMN = sceneView.currentMap.column
   end
