@@ -46,10 +46,12 @@ function love.load()
     ['pauseState'] = function() return PauseState() end,
     ['chasmFallingState'] = function() return FallingChasmState() end,
     ['openingCinematic'] = function() return OpeningCinematic() end,
+    ['minimap'] = function() return Minimap() end,
   }
 
   --gStateMachine:change('titleState')
   gStateMachine:change('playState')
+  --gStateMachine:change('minimap')
   --gStateMachine:change('chasmFallingState')
 
   love.keyboard.keysPressed = {}
@@ -93,7 +95,7 @@ function love.update(dt)
   touchInput:update(dt)
 
   Timer.update(dt)
-  if love.keyboard.wasPressed('tab') then
+  if love.keyboard.wasPressed('`') then
     mouseState = not love.mouse.isVisible()
     love.mouse.setVisible(mouseState)
   end

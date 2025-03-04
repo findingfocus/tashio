@@ -3,6 +3,10 @@ OpeningCinematic = Class{__includes = BaseState}
 local mage = MAP[10][20].npc[1]
 local castleMage = MAP[10][19].npc[1]
 
+Event.on('turnOffTutorialText', function()
+    sceneView.tutorialText = false
+end)
+
 function OpeningCinematic:init()
   self.stateName = 'openingCinematic'
   self.testX = 0
@@ -23,6 +27,11 @@ function OpeningCinematic:init()
   --table.insert(MAP[10][19].dialogueBoxCollided, MAP[10][19].dialogueBox[1])
   self.lavaSystem = LavaSystem()
   --self.mageStep1 = false
+  self.step = 1
+  --[[
+  self.step = 3
+  gPlayer.x = -32
+  --]]
   self.mageStep1 = true
   self.mageStep2 = false
   self.mageStep3 = false
@@ -54,20 +63,35 @@ function OpeningCinematic:init()
 end
 
 function OpeningCinematic:update(dt)
+  if not PAUSED and self.castleView then
+    sceneView:update(dt)
+  end
   self.lavaSystem:update(dt)
   self.testX = self.testX + dt * 2
   self.animatables:update(dt)
+  if self.castleView then
+    local yStarting = 15
+    local yOffset = 10
+    love.graphics.print('\'WASD\' to move', 42, yStarting)
+    love.graphics.print('Spacebar is A Button', 42, yStarting + yOffset)
+    love.graphics.print('Shift is B Button', 42, yStarting + yOffset * 2)
+  end
+
+
+
   --sceneView.currentMap.insertAnimations:update(dt)
+  --[[
   if INPUT:pressed('start')  then
     sceneView.currentMap = Map(7, 4, gPlayer.spellcastCount)
     sceneView.mapRow = 7
     sceneView.mapColumn = 4
     gPlayer.x = self.originalPlayerX
     gPlayer.y = self.originalPlayerY
-    gStateMachine:change('playState')
+    --gStateMachine:change('playState')
   end
+  --]]
 
-  ---[[
+  --[[
   if self.castleStep1 then
     castleMage.y = math.min(castleMage.y + castleMage.walkSpeed / 2 * dt, TILE_SIZE * 2 - 6)
     castleMage:changeAnimation('walk-down')
@@ -89,7 +113,6 @@ function OpeningCinematic:update(dt)
       MAP[10][19].dialogueBox[1].line3Result = ''
       MAP[10][19].dialogueBox[1].lineCount = 1
       MAP[10][19].dialogueBox[1].textIndex = 1
-      --]]
     end
 
     --DIALOGUE UPDATE
@@ -151,27 +174,25 @@ function OpeningCinematic:update(dt)
     self.castleStep10 = true
   elseif self.castleStep10 then
     if self.blackOpacity == 0 then
-      gStateMachine:change('playState')
+      --gStateMachine:change('playState')
     end
   end
   --]]
 
 
   if self.castleView then
-    gPlayer:update(dt)
-    gStateMachine:change('playState')
+    --gStateMachine:change('playState')
     --gPlayer:changeState('player-cinematic')
   end
 
-  if self.mageStep1 then
+  if self.step == 1 then
     mage.x = mage.x + mage.walkSpeed * dt
     mage:changeAnimation('walk-right')
     if mage.x > TILE_SIZE * 3 then
-      self.mageStep1 = false
-      self.mageStep2 = true
+      self.step = 2
       mage:changeAnimation('idle-right')
     end
-  elseif self.mageStep2 then
+  elseif self.step == 2 then
     self.tashioWaitTimer = self.tashioWaitTimer + dt
     if self.tashioWaitTimer > 0.5 then
       self.tashioStep1 = true
@@ -185,21 +206,28 @@ function OpeningCinematic:update(dt)
     self.psystem:update(dt)
     self.mageWaitTimer = self.mageWaitTimer + dt
     if self.mageWaitTimer > 4 then
-      self.mageStep2 = false
-      self.mageStep3 = true
+      self.step = 3
     end
-  elseif self.mageStep3 then
+  elseif self.step == 3 then
     self.zigzagTime = self.zigzagTime + self.zigzagFrequency * dt
     self.offset = math.sin(self.zigzagTime) * self.zigzagAmplitude
+    --MAGE PARTICLES
     self.psystem:moveTo(mage.x + 14, mage.y + 4)
     self.psystem:update(dt)
+
+    --TASHIO PARTICLES
+    self.psystem2:moveTo(gPlayer.x + 8, gPlayer.y + gPlayer.height)
+    self.psystem2:setParticleLifetime(2, 3)
+    self.psystem2:setEmissionArea('borderrectangle', 5, 0)
+    self.psystem2:setLinearAcceleration(0, -5)
+    self.psystem2:setEmissionRate(20)
+    self.psystem2:setColors(80/255, 40/255, 255/255, 255/255, 80/255, 180/255, 255/255, 0/255)
+    self.psystem2:update(dt)
     gPlayer.x = gPlayer.x - mage.walkSpeed * dt
     gPlayer.y = gPlayer.y + self.offset
     mage.x = mage.x - mage.walkSpeed * dt
     mage:changeAnimation('walk-left')
     if self.blackOpacity >= 255 then
-      self.mageStep3 = false
-      self.tashioStep1 = false
       gPlayer.x = TILE_SIZE * 1
       gPlayer.y = TILE_SIZE * 2 - 6
       --castleMage.x, castleMage.y = TILE_SIZE * 2, -TILE_SIZE
@@ -214,11 +242,20 @@ function OpeningCinematic:update(dt)
       self.fadeToBlack = false
       self.fadeFromBlack = true
       self.castleView = true
+      self.step = 4
+      sceneView.tutorialText = true
       --self.castleStep1 = true
     end
+  elseif self.step == 4 then
+    if sceneView.cameraX > VIRTUAL_WIDTH - 5 then
+      Event.dispatch('turnOffTutorialText')
+      self.step = 5
+    end
+  elseif self.step == 5 then
+    gStateMachine:change('playState')
   end
 
-  if self.tashioStep1 then
+  if self.step == 2 then
     gPlayer.y = math.max(TILE_SIZE * 3 - 8, gPlayer.y - dt * 2)
     self.psystem2:moveTo(gPlayer.x + 8, gPlayer.y + gPlayer.height)
     self.psystem2:setParticleLifetime(2, 3)
@@ -229,17 +266,27 @@ function OpeningCinematic:update(dt)
     self.psystem2:update(dt)
   end
 
+  --FIRST FADE TO BLACK
   if gPlayer.x < 0 and not self.castleView then
     self.fadeToBlack = true
   end
 
+  --[[
   if gPlayer.y > VIRTUAL_HEIGHT - 8 then
     self.fadeToBlack = true
     if self.blackOpacity == 255 then
+      self.step = self.step + 1
       self.castleStep8 = false
       self.castleStep9 = true
+      self.mageStep1 = false
+      self.mageStep2 = false
+      self.mageStep3 = false
+      self.mageStep4 = false
+      self.tashioStep1 = false
+      self.tashioStep2 = false
     end
   end
+  --]]
 
   --[[
   if gPlayer.y > VIRTUAL_HEIGHT + 32 then
@@ -280,8 +327,8 @@ function OpeningCinematic:render()
   sceneView:render()
   love.graphics.pop()
   love.graphics.setFont(classicFont)
+  local anim = gPlayer.currentAnimation
 
-  love.graphics.setColor(WHITE)
   if not self.castleView then
     love.graphics.draw(self.psystem, 0, 0)
     love.graphics.draw(self.psystem2, 0, 0)
@@ -357,12 +404,8 @@ function OpeningCinematic:render()
   end
 
 
-  if self.castleView then
-    love.graphics.print('WASD to move', 42, 10)
-    love.graphics.print('Spacebar is A', 42, 25)
-    love.graphics.print('Shift is B', 42, 49)
-  end
-  --love.graphics.print('PLAYER: ' .. tostring(PLAYER_STATE), 0, 10)
+  --love.graphics.print('cameraX: ' .. tostring(sceneView.cameraX), 0, 0)
+  --love.graphics.print('walk: ' .. tostring(gPlayer.walkSpeed), 0, 0)
   --PAUSED DEBUG
   --love.graphics.print('PlayerState: ' .. tostring(PLAYER_STATE), 0, 0)
   --[[

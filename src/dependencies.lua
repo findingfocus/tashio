@@ -24,6 +24,8 @@ INPUT = baton.new {
   joystick = love.joystick.getJoysticks()[1],
 }
 
+minimap = love.graphics.newImage('graphics/minimap.png')
+minimapCursor = love.graphics.newImage('graphics/minimapCursor.png')
 love.graphics.setDefaultFilter('nearest', 'nearest')
 globalMap = require 'graphics/globalMap'
 bag = love.graphics.newImage('graphics/bag.png')
@@ -92,6 +94,7 @@ require 'src/util'
 
 require 'src/states/game/TitleScreenState'
 require 'src/states/game/PlayState'
+require 'src/states/game/Minimap'
 require 'src/states/game/PauseState'
 require 'src/events/OpeningCinematic'
 

@@ -431,12 +431,23 @@ table.insert(MAP[7][2].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 2, 'M
 table.insert(MAP[7][4].dialogueBox, DialogueBox(TILE_SIZE * 5, TILE_SIZE * 5, 'Meditate?', 'idol', nil, 1))
 
 --LIBRARY
-table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 3, TILE_SIZE * 2, 'Meditation idols are used to save your game, as well as recharge your elements. ', 'signpost', nil, 1 ))
+table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 1, TILE_SIZE * 1, 'Flamme is energy from Mount Kasan, it burns brightly. ', 'signpost', nil, 1 ))
+table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 3, TILE_SIZE * 1, 'Aquis contains lifeforce from the Azai Ocean, it flows with great energy. ', 'signpost', nil, 2 ))
+table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 1, 'Ekko is vibrant green and shimmers quite beautifully. ', 'signpost', nil, 3 ))
+table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 8, TILE_SIZE * 1, 'Lox shines as bright as the sun, focusing it\'s energy can be quite powerful. ', 'signpost', nil, 4 ))
 
-table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 5, TILE_SIZE * 2, 'Flamme is energy from Mount Kasan, it burns brightly. ', 'signpost', nil, 2 ))
-table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 2, 'Aquis contains lifeforce from the Azai Ocean, it flows with great energy. ', 'signpost', nil, 3 ))
-table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 7, TILE_SIZE * 2, 'Ekko is vibrant green and shimmers quite beautifully. ', 'signpost', nil, 4 ))
-table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 8, TILE_SIZE * 2, 'Lox shines as bright as the sun, focusing it\'s energy can be quite powerful. ', 'signpost', nil, 5 ))
+table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 1, TILE_SIZE * 3, 'WASD keys are directional buttons.  Spacebar is the A Button.  Shift is the B Button.  Tab is the Start Button.  The A Button will interact with objects, or use the item in the A Slot. ', 'signpost', nil, 5 ))
+table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 3, TILE_SIZE * 3, 'Press Start Button to open inventory.  B button will swap inventory selection.  A button will equip selected item.  Start Button while in inventory will resume the game. ', 'signpost', nil, 6 ))
+table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 3, 'To use an Element, you need to equip it in your A Slot.  In order to successfully cast magic, you need to balance your focus using the A Button. ', 'signpost', nil, 7 ))
+table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 8, TILE_SIZE * 3, 'Once the lute is equipped Press B button to start playing music. The Directional Buttons play different strings, and the A/B Buttons play different frets.  The Start Button will exit music mode. ', 'signpost', nil, 8 ))
+
+table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 5, 'Meditation idols are used to save your game, as well as recharge your elements. ', 'signpost', nil, 9 ))
+table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 8, TILE_SIZE * 5, 'Once the lute is equipped, select the tome you want to play. Press B button to start playing music and Start Button to exit music mode. ', 'signpost', nil, 10 ))
+
+table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 2, 0, 'Magic is cast using an Element\'s vibrancy.  Vibrancy is the energy stored inside an Element and it depletes with use. If a mage rests at an idol, they can replenish their Element\'s vibrancy. ', 'signpost', nil, 11 ))
+table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 7, 0, 'In order to cast magic, a mage needs to exert their focus also known as Manis. The result of their focus isn\'t stable, so they need to strive to balance their focus to reach the desired output. Manis is the red bar. Focus output is the white square.  A successful cast is when the focus output resides in the green range of a selected element. ', 'signpost', nil, 12 ))
+
+--table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 3, TILE_SIZE * 2, 'Meditation idols are used to save your game, as well as recharge your elements. ', 'signpost', nil, 1 ))
 
 --VILLAGER 2
 table.insert(MAP[2][11].npc, Entity {
