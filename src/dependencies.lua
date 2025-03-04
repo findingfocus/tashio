@@ -24,10 +24,11 @@ INPUT = baton.new {
   joystick = love.joystick.getJoysticks()[1],
 }
 
-minimap = love.graphics.newImage('graphics/minimap.png')
-minimapCursor = love.graphics.newImage('graphics/minimapCursor.png')
 love.graphics.setDefaultFilter('nearest', 'nearest')
 globalMap = require 'graphics/globalMap'
+minimap = love.graphics.newImage('graphics/minimap.png')
+minimapCursor = love.graphics.newImage('graphics/minimapCursor.png')
+tashioMini = love.graphics.newImage('graphics/tashioMini.png')
 bag = love.graphics.newImage('graphics/bag.png')
 berry = love.graphics.newImage('graphics/berry.png')
 lute = love.graphics.newImage('graphics/lute.png')
