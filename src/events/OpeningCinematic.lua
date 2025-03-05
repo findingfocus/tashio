@@ -3,10 +3,6 @@ OpeningCinematic = Class{__includes = BaseState}
 local mage = MAP[10][20].npc[1]
 local castleMage = MAP[10][19].npc[1]
 
-Event.on('turnOffTutorialText', function()
-    sceneView.tutorialText = false
-end)
-
 function OpeningCinematic:init()
   self.stateName = 'openingCinematic'
   self.testX = 0
@@ -27,8 +23,11 @@ function OpeningCinematic:init()
   --table.insert(MAP[10][19].dialogueBoxCollided, MAP[10][19].dialogueBox[1])
   self.lavaSystem = LavaSystem()
   --self.mageStep1 = false
-  self.step = 1
-  --[[
+  --self.step = 1
+  self.turnTimer = 0.8
+  self.turnCount = 0
+  self.sleepTimer = 0
+  ---[[
   self.step = 3
   gPlayer.x = -32
   --]]
@@ -60,7 +59,18 @@ function OpeningCinematic:init()
   self.fadeFromBlack = false
   self.blackOpacity = 0
   self.castleView = false
+  self.tutorialTextAlpha = 0
 end
+
+Event.on('turnOffTutorialText', function()
+    sceneView.tutorialText = false
+end)
+
+Event.on('fadeInTutorialText', function(dt)
+    gStateMachine.current.tutorialTextAlpha = math.min(255, gStateMachine.current.tutorialTextAlpha + dt * 120)
+    sceneView.tutorialText = true
+    sceneView.tutorialTextAlpha = math.min(gStateMachine.current.tutorialTextAlpha, 255)
+end)
 
 function OpeningCinematic:update(dt)
   if not PAUSED and self.castleView then
@@ -236,7 +246,9 @@ function OpeningCinematic:update(dt)
       sceneView.mapRow = 10
       sceneView.mapColumn = 18
       self.animatables = InsertAnimation(sceneView.currentMap.row, sceneView.currentMap.column)
-      gPlayer:changeState('player-idle')
+      gPlayer:changeState('player-cinematic')
+      gPlayer:changeAnimation('sleep-left')
+      gPlayer.direction = 'left'
       --gPlayer:changeAnimation('death')
       --gPlayer.animations['death'].currentFrame = 9
       self.fadeToBlack = false
@@ -247,12 +259,44 @@ function OpeningCinematic:update(dt)
       --self.castleStep1 = true
     end
   elseif self.step == 4 then
-    if sceneView.cameraX > VIRTUAL_WIDTH - 5 then
-      Event.dispatch('turnOffTutorialText')
-      self.step = 5
+    if self.blackOpacity <= 0 then
+        self.step = 5
     end
   elseif self.step == 5 then
-    gStateMachine:change('playState')
+    self.turnTimer = self.turnTimer + dt
+    if self.turnTimer > 1 then
+      if gPlayer.direction == 'left' then
+        self.turnCount = self.turnCount + 1
+        gPlayer.direction = 'right'
+        gPlayer:changeAnimation('sleep-right')
+      else
+        self.turnCount = self.turnCount + 1
+        gPlayer.direction = 'left'
+        gPlayer:changeAnimation('sleep-left')
+      end
+    self.turnTimer = 0
+    end
+    if self.turnCount >= 4 then
+      gPlayer:changeAnimation('sleep-down')
+      self.turnTimer = -5
+      self.sleepTimer = self.sleepTimer + dt
+      if self.sleepTimer > .8 then
+        gPlayer:changeAnimation('idle-down')
+        gPlayer.direction = 'down'
+        --self.step = 6
+        Event.dispatch('fadeInTutorialText', dt)
+        --gStateMachine:change('playState')
+      if self.tutorialTextAlpha == 255 then
+        self.step = 7
+        gPlayer:changeState('player-idle')
+      end
+      end
+    end
+ elseif self.step == 7 then
+    if sceneView.cameraX > VIRTUAL_WIDTH - 5 then
+      Event.dispatch('turnOffTutorialText', dt)
+      gStateMachine:change('playState')
+    end
   end
 
   if self.step == 2 then
@@ -407,7 +451,7 @@ function OpeningCinematic:render()
   --love.graphics.print('cameraX: ' .. tostring(sceneView.cameraX), 0, 0)
   --love.graphics.print('walk: ' .. tostring(gPlayer.walkSpeed), 0, 0)
   --PAUSED DEBUG
-  --love.graphics.print('PlayerState: ' .. tostring(PLAYER_STATE), 0, 0)
+  --love.graphics.print('alpha: ' .. tostring(gStateMachine.current.tutorialTextAlpha), 0, 0)
   --[[
   love.graphics.print('step1: ' .. tostring(self.castleStep1), 0, 0)
   love.graphics.print('step2: ' .. tostring(self.castleStep2), 0, 10)
@@ -417,4 +461,5 @@ function OpeningCinematic:render()
   love.graphics.print('step6: ' .. tostring(self.castleStep6), 0, 50)
   love.graphics.print('step7: ' .. tostring(self.castleStep7), 0, 60)
   --]]
+  --
 end

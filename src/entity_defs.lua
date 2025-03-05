@@ -52,6 +52,24 @@ ENTITY_DEFS = {
         texture = 'character-walk',
         looping = true
       },
+      ['sleep-down'] = {
+        frames = {1},
+        interval = 0.3,
+        texture = 'character-sleep',
+        looping = false
+      },
+      ['sleep-left'] = {
+        frames = {5},
+        interval = 0.3,
+        texture = 'character-sleep',
+        looping = false
+      },
+      ['sleep-right'] = {
+        frames = {8},
+        interval = 0.3,
+        texture = 'character-sleep',
+        looping = false
+      },
       ['falling'] = {
         frames = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
         interval = 0.1,

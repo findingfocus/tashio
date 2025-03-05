@@ -88,9 +88,9 @@ require 'src/LavaSystem'
 require 'src/SandSystem'
 require 'src/AnimSpitter'
 require 'src/TreasureChest'
+require 'src/CollidableMapObjects'
 require 'src/MapDeclarations'
 require 'src/InsertAnimation'
-require 'src/CollidableMapObjects'
 require 'src/util'
 
 require 'src/states/game/TitleScreenState'
@@ -126,6 +126,7 @@ titleScreenTemp = love.graphics.newImage('graphics/titleScreenTemp.png')
 
 gTextures = {
   ['character-walk'] = love.graphics.newImage('graphics/playerAtlas.png'),
+  ['character-sleep'] = love.graphics.newImage('graphics/playerSleepAtlas.png'),
   ['character-push'] = love.graphics.newImage('graphics/playerPushingAtlas.png'),
   ['character-element'] = love.graphics.newImage('graphics/elementAtlas.png'),
   ['character-blueTunic'] = love.graphics.newImage('graphics/blueTunicAtlas.png'),
@@ -158,6 +159,7 @@ gTextures = {
 
 gFrames = {
   ['character-walk'] = GenerateQuads(gTextures['character-walk'], TILE_SIZE, TILE_SIZE),
+  ['character-sleep'] = GenerateQuads(gTextures['character-sleep'], TILE_SIZE, TILE_SIZE),
   ['character-push'] = GenerateQuads(gTextures['character-push'], TILE_SIZE, TILE_SIZE),
   ['character-element'] = GenerateQuads(gTextures['character-element'], TILE_SIZE, TILE_SIZE),
   ['character-yellowTunic'] = GenerateQuads(gTextures['character-yellowTunic'], TILE_SIZE, TILE_SIZE),
