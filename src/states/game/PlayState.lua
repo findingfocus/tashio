@@ -46,8 +46,8 @@ local columns = 10
 local rows = 8
 cameraX = 0
 --STARTING SCENE gPlayer SPAWN
---sceneView = Scene(gPlayer, 10, 19)
-sceneView = Scene(gPlayer, 7, 2)
+sceneView = Scene(gPlayer, 10, 18)
+--sceneView = Scene(gPlayer, 7, 2)
 --sceneView = Scene(gPlayer, 1, 12)
 tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 --textures = love.graphics.newImage('graphics/textures.png')
@@ -187,8 +187,9 @@ function PlayState:update(dt)
           if not v.opened then
             if gPlayer:dialogueCollides(v) then
               v:openChest()
-              treasureChestOption = true
-              v.dialogueBox[1]:flushText()
+              self.dialogueID = k
+              --treasureChestOption = true
+              --v.dialogueBox[1]:flushText()
               --[[
               v.dialogueBox[1].line1Result = ''
               v.dialogueBox[1].line2Result = ''
@@ -196,9 +197,8 @@ function PlayState:update(dt)
               v.dialogueBox[1].lineCount = 1
               v.dialogueBox[1].textIndex = 1
               --]]
-              self.dialogueID = k
               --table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects[k].dialogueBox[1])
-              PAUSED = true
+              --PAUSED = true
             end
           end
         end
@@ -329,17 +329,16 @@ function PlayState:update(dt)
       if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]) and not MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated then
         MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]:flushText()
         MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated = true
+        self.dialogueID = k
+        self.activeDialogueID = v.dialogueID
+        sceneView.activeDialogueID = v.dialogueID
         --[[
         MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].line1Result = ''
         MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].line2Result = ''
         MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].line3Result = ''
         MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].lineCount = 1
         MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].textIndex = 1
-        self.dialogueID = k
         -]]
-        self.activeDialogueID = v.dialogueID
-        sceneView.activeDialogueID = v.dialogueID
-        PAUSED = true
         --table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k])
         --]]
       end
@@ -351,14 +350,6 @@ function PlayState:update(dt)
           if gPlayer:dialogueCollides(v) then
             v:openChest()
             treasureChestOption = true
-            v.dialogueBox[1].line1Result = ''
-            v.dialogueBox[1].line2Result = ''
-            v.dialogueBox[1].line3Result = ''
-            v.dialogueBox[1].lineCount = 1
-            v.dialogueBox[1].textIndex = 1
-            self.dialogueID = k
-            --table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects[k].dialogueBox[1])
-            PAUSED = true
           end
         end
       end
@@ -391,9 +382,8 @@ function PlayState:update(dt)
 
   --DIALOGUE UPDATE
   if PAUSED then
-    if treasureChestOption then
-      MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects[self.dialogueID].dialogueBox[1]:update(dt)
-    elseif MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[self.activeDialogueID] ~= nil then
+      --MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects[self.dialogueID].dialogueBox[1]:update(dt)
+    if MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[self.activeDialogueID] ~= nil then
       --MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[self.activeDialogueID]:update(dt)
       --[[
     elseif MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided ~= nil then
@@ -678,7 +668,6 @@ function PlayState:render()
   --print(MAP[sceneView.currentMap.row][sceneView.currentMap.column].npc[1].dialogueBox[1].text)
   love.graphics.setColor(WHITE)
   --love.graphics.print('value: ' .. MAP[7][2].pushables[1].classType, 10, 10)
-
   displayFPS()
 
   --CREDITED SUPPORTERS

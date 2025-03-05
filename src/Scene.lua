@@ -29,6 +29,7 @@ function Scene:init(player, mapRow, mapColumn)
   self.possibleDirections = {'left', 'right', 'up', 'down'}
   self.activeDialogueID = nil
   self.tutorialText = false
+  self.tutorialTextAlpha = 0
   for i = 1, self.spellcastEntityCount do
     table.insert(self.spellcastEntities, Entity {
       animations = ENTITY_DEFS['spellcast'].animations,
@@ -254,11 +255,13 @@ function Scene:render()
     local yStarting = 15
     local yOffset = 10
     local xPosition = 40
+    love.graphics.setColor(1,1,1, self.tutorialTextAlpha/255)
     love.graphics.print('\'WASD\' to move', xPosition, yStarting)
     love.graphics.print('Spacebar is \'A\'', xPosition, yStarting + yOffset * 2)
     love.graphics.print('Shift is \'B\'', xPosition, yStarting + yOffset * 4)
     love.graphics.print('Tab is \'START\'', xPosition, yStarting + yOffset * 6)
     love.graphics.print('Esc is \'SELECT\'', xPosition, yStarting + yOffset * 8)
+    love.graphics.setColor(WHITE)
   end
 
   love.graphics.pop()

@@ -498,6 +498,12 @@ table.insert(MAP[7][2].collidableMapObjects, Pushable(5, 4, 'log'))
 table.insert(MAP[1][12].collidableMapObjects, TreasureChest(3, 2, Coin(), {DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'You found a strange coin! It emenates energy... ')}))
 
 
+--LUTE TREASURE CHEST
+table.insert(MAP[10][18].collidableMapObjects, TreasureChest(2, 4, 'lute', 1))
+table.insert(MAP[10][18].dialogueBox, DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'It\'s your ancient lute! It possesses a calming power. ',  nil, 1))
+table.insert(MAP[10][18].collidableMapObjects, CollidableMapObjects(10, 18, TILE_SIZE, 26, TILE_SIZE, 4))
+table.insert(MAP[10][18].collidableMapObjects, CollidableMapObjects(10, 18, TILE_SIZE, TILE_SIZE * 3 - 6, TILE_SIZE, TILE_SIZE))
+table.insert(MAP[10][18].collidableMapObjects, CollidableMapObjects(10, 18, 0, 26, TILE_SIZE + 1, TILE_SIZE))
 
 --SCRIPTED EVENTS
 --MAGE NPC
