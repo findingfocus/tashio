@@ -62,7 +62,8 @@ end
 	categories slightly differently.
 ]]
 
-local sourceFunction = {keyboardMouse = {}, joystick = {}}
+local sourceFunction = {keyboardMouse = {}, joystick = {}, touch = {}}
+
 
 -- checks whether a keyboard key is down or not
 function sourceFunction.keyboardMouse.key(key)
@@ -178,6 +179,8 @@ function Player:_init(config)
 	self:_initControls()
 	self:_initPairs()
 	self._activeDevice = 'none'
+  --BATON TOUCH
+  self._touches = {}  -- Table to store active touch IDs and their states
 end
 
 --[[
@@ -190,56 +193,71 @@ end
 	used throughout the rest of the update loop to check only
 	keyboard or joystick inputs.
 ]]
+
+--TOUCH BATON
+function sourceFunction.touch.touch(player, id)
+    -- For now, return 1 if ANY touch is active, ignoring specific ID
+    for touchId, state in pairs(player._touches) do
+        if state.down then
+            return 1
+        end
+    end
+    return 0
+end
+
 function Player:_setActiveDevice()
-	-- if the joystick is unset, then we should make sure _activeDevice
-	-- isn't "joy" anymore, otherwise there will be an error later
-	-- when we try to query a joystick that isn't there
-	if self._activeDevice == 'joy' and not self.config.joystick then
-		self._activeDevice = 'none'
-	end
-	for _, control in pairs(self._controls) do
-		for _, source in ipairs(control.sources) do
-			local type, value = parseSource(source)
-			if sourceFunction.keyboardMouse[type] then
-				if sourceFunction.keyboardMouse[type](value) > self.config.deadzone then
-					self._activeDevice = 'kbm'
-					return
-				end
-			elseif self.config.joystick and sourceFunction.joystick[type] then
-				if sourceFunction.joystick[type](self.config.joystick, value) > self.config.deadzone then
-					self._activeDevice = 'joy'
-				end
-			end
-		end
-	end
+    if self._activeDevice == 'joy' and not self.config.joystick then
+        self._activeDevice = 'none'
+    end
+    if self._activeDevice == 'touch' and not next(self._touches) then
+        self._activeDevice = 'none'
+    end
+    for _, control in pairs(self._controls) do
+        for _, source in ipairs(control.sources) do
+            local type, value = parseSource(source)
+            if sourceFunction.keyboardMouse[type] then
+                if sourceFunction.keyboardMouse[type](value) > self.config.deadzone then
+                    self._activeDevice = 'kbm'
+                    return
+                end
+            elseif self.config.joystick and sourceFunction.joystick[type] then
+                if sourceFunction.joystick[type](self.config.joystick, value) > self.config.deadzone then
+                    self._activeDevice = 'joy'
+                    return
+                end
+            elseif sourceFunction.touch[type] then
+                local touchValue = sourceFunction.touch[type](self, value)
+                if touchValue > self.config.deadzone then
+                    self._activeDevice = 'touch'
+                    return
+                end
+            end
+        end
+    end
 end
 
---[[
-	gets the value of a control by running the appropriate source functions
-	for all of its sources. does not apply deadzone.
-]]
 function Player:_getControlRawValue(control)
-	local rawValue = 0
-	for _, source in ipairs(control.sources) do
-		local type, value = parseSource(source)
-		if sourceFunction.keyboardMouse[type] and self._activeDevice == 'kbm' then
-			if sourceFunction.keyboardMouse[type](value) == 1 then
-				return 1
-			end
-		elseif sourceFunction.joystick[type] and self._activeDevice == 'joy' then
-			rawValue = rawValue + sourceFunction.joystick[type](self.config.joystick, value)
-			if rawValue >= 1 then
-				return 1
-			end
-		end
-	end
-	return rawValue
+    local rawValue = 0
+    for _, source in ipairs(control.sources) do
+        local type, value = parseSource(source)
+        if sourceFunction.keyboardMouse[type] and self._activeDevice == 'kbm' then
+            if sourceFunction.keyboardMouse[type](value) == 1 then
+                return 1
+            end
+        elseif sourceFunction.joystick[type] and self._activeDevice == 'joy' then
+            rawValue = rawValue + sourceFunction.joystick[type](self.config.joystick, value)
+            if rawValue >= 1 then
+                return 1
+            end
+        elseif sourceFunction.touch[type] and self._activeDevice == 'touch' then
+            if sourceFunction.touch[type](self, value) == 1 then
+                return 1
+            end
+        end
+    end
+    return rawValue
 end
 
---[[
-	updates each control in a player. saves the value with and without deadzone
-	and the down/pressed/released state.
-]]
 function Player:_updateControls()
 	for _, control in pairs(self._controls) do
 		control.rawValue = self:_getControlRawValue(control)
@@ -290,10 +308,57 @@ end
 -- public API --
 
 -- checks for changes in inputs
+-- BATON TOUCH
 function Player:update()
-	self:_setActiveDevice()
-	self:_updateControls()
-	self:_updatePairs()
+    local currentTouches = love.touch.getTouches()
+    local newTouches = {}
+    for _, id in ipairs(currentTouches) do
+        if self._touches[id] then  -- Only update existing touches
+            self._touches[id].pressed = false  -- Reset unless set by touchpressed
+            self._touches[id].down = true
+            self._touches[id].released = false
+        end
+        newTouches[id] = self._touches[id]  -- Could be nil if not yet pressed
+    end
+    for id, state in pairs(self._touches) do
+        if not newTouches[id] then
+            state.pressed = false
+            state.down = false
+            state.released = true
+        end
+    end
+    self._touches = newTouches
+    self:_setActiveDevice()
+    self:_updateControls()
+    self:_updatePairs()
+end
+--
+--BATON TOUCH
+function Player:touchpressed(id, x, y, dx, dy, pressure)
+    self._touches[id] = {
+        pressed = true,
+        down = true,
+        released = false,
+        x = x,
+        y = y,
+        pressure = pressure
+    }
+end
+
+function Player:touchmoved(id, x, y, dx, dy, pressure)
+    if self._touches[id] then
+        self._touches[id].x = x
+        self._touches[id].y = y
+        self._touches[id].pressure = pressure
+    end
+end
+
+function Player:touchreleased(id, x, y, dx, dy, pressure)
+    if self._touches[id] then
+        self._touches[id].pressed = false
+        self._touches[id].down = false
+        self._touches[id].released = true
+    end
 end
 
 -- gets the value of a control or axis pair without deadzone applied

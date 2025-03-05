@@ -3,7 +3,7 @@ Class = require 'src/class'
 Event = require 'lib/knife.event'
 Timer = require 'lib/knife.timer'
 Inspect = require 'lib/inspect'
-bitser = require 'lib/bitser'
+--bitser = require 'lib/bitser'
 baton = require 'lib/baton'
 require 'lib/slam'
 
@@ -11,7 +11,7 @@ INPUT = baton.new {
   controls = {
     left = {'key:left', 'key:a', 'axis:leftx-', 'button:dpleft'},
     right = {'key:right', 'key:d', 'axis:leftx+', 'button:dpright'},
-    up = {'key:up', 'key:w', 'axis:lefty-', 'button:dpup'},
+    up = {'key:up', 'key:w', 'axis:lefty-', 'button:dpup', 'touch:1'},
     down = {'key:down', 'key:s', 'axis:lefty+', 'button:dpdown'},
     action = {'key:space', 'button:a'},
     actionB = {'key:lshift', 'key:rshift', 'button:b'},

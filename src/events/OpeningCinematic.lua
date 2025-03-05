@@ -117,7 +117,7 @@ function OpeningCinematic:update(dt)
       gPlayer:changeAnimation('idle-left')
       self.castleStep2 = false
       self.castleStep3 = true
-      --[[
+      ------
       MAP[10][19].dialogueBox[1].line1Result = ''
       MAP[10][19].dialogueBox[1].line2Result = ''
       MAP[10][19].dialogueBox[1].line3Result = ''
