@@ -709,9 +709,9 @@ function PlayState:render()
       love.graphics.printf('QUIT', 0, VIRTUAL_HEIGHT - 36, VIRTUAL_WIDTH, 'center')
     end
   end
-    for id, state in pairs(INPUT._touches) do
+    for id, touch in pairs(INPUT._touches) do
       --love.graphics.print(id, "pressed:", state.pressed, "down:", state.down, "released:", state.released)
-      love.graphics.print(tostring(INPUT:getActiveDevice()), 0,0)
+      love.graphics.print(Inspect(touch), 0,0)
     end
 end
 
