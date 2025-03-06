@@ -22,6 +22,7 @@ function removeTouchDirection(direction)
 end
 
 function TouchHandling:init()
+  --[[
   dpad = {
     TouchDetection(DPAD_X,DPAD_Y, DPAD_COLOR_TL, 'left', 'up'), --UPLEFT
     TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH, DPAD_Y, DPAD_COLOR_TC, 'up'), --UP
@@ -33,11 +34,13 @@ function TouchHandling:init()
     TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y + DPAD_DIAGONAL_WIDTH * 2, DPAD_COLOR_BR, 'right', 'down'), --DOWNRIGHT
   }
   buttons = {
-    TouchDetection(VIRTUAL_WIDTH - 33, VIRTUAL_HEIGHT_GB / 2 + DPAD_DIAGONAL_WIDTH + 2, DPAD_COLOR_TL, 'A'), --A
-    TouchDetection(VIRTUAL_WIDTH - 64, VIRTUAL_HEIGHT_GB / 2 + DPAD_DIAGONAL_WIDTH * 2 + 3, DPAD_COLOR_TL, 'B'), --B
-    TouchDetection(VIRTUAL_WIDTH / 2 - 56, VIRTUAL_HEIGHT_GB - 30, DPAD_COLOR_TL, 'SELECT'), --SELECT
-    TouchDetection(VIRTUAL_WIDTH / 2 - 14, VIRTUAL_HEIGHT_GB - 30, DPAD_COLOR_TL, 'START'), --START
+    TouchDetection(ABUTTON_X, ABUTTON_Y, DPAD_COLOR_TL, 'A'), --A
+    TouchDetection(BBUTTON_X, BBUTTON_Y, DPAD_COLOR_TL, 'B'), --B
+    TouchDetection(SELECT_X, OPTIONS_Y, DPAD_COLOR_TL, 'SELECT'), --SELECT
+    TouchDetection(START_X, OPTIONS_Y, DPAD_COLOR_TL, 'START'), --START
   }
+  --]]
+  --]]
   --[2] == UP
   --[4] == LEFT
   --[5] == RIGHT
@@ -51,7 +54,7 @@ function TouchHandling:init()
 
   function love.touchpressed(id, x, y, dx, dy)
     touches[id] = {x = x, y = y, dx = dx, dy = dy, wasTouched = true}
-    touches[id].x, touches[id].y = push:toGame(x, y)
+    --touches[id].x, touches[id].y = push:toGame(x, y)
     --TODO
     if buttons[4]:collides(touches[id]) then
       if gStateMachine.current.stateName == 'PlayState' then
@@ -65,7 +68,7 @@ function TouchHandling:init()
 
   function love.touchmoved(id, x, y, dx, dy)
     if touches[id] then
-      touches[id].x, touches[id].y = push:toGame(x, y)
+      --touches[id].x, touches[id].y = push:toGame(x, y)
       touches[id].dx = dx
       touches[id].dy = dy
     end
@@ -73,22 +76,8 @@ function TouchHandling:init()
 
   function love.touchreleased(id, x, y, dx, dy)
     touches[id] = nil
-    --[[
-    if touches[id].fretsHeld ~= nil then
-      for k, v in pairs(fretsHeld) do
-        if touches[id].fretHeld == 'b' then
-          if v == 1 then
-            table.remove(fretsHeld, k)
-          end
-        elseif touches[id].fretHeld == 'a' then
-          if v == 2 then
-            table.remove(fretsHeld, k)
-          end
-        end
-      end
-    end
-    --]]
   end
+  --]]
 end
 
 function TouchHandling:update(dt)
