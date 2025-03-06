@@ -19,26 +19,27 @@ function PlayerWalkState:update(dt)
       self.player:changeAnimation('walk-' .. tostring(TOUCH_OUTPUT_LIST[#TOUCH_OUTPUT_LIST]))
     end
 
-    self.player.walkSpeed = PLAYER_WALK_SPEED
+    self.player.walkSpeed = PLAYER_WALK_SPEED * dt
 
     if #OUTPUT_LIST == 2 then
-      self.player.walkSpeed = (math.sqrt(2) / 2) * PLAYER_WALK_SPEED
+      self.player.walkSpeed = (math.sqrt(2) / 2) * PLAYER_WALK_SPEED * dt
     end
     if #TOUCH_OUTPUT_LIST == 2 then
-      self.player.walkSpeed = (math.sqrt(2) / 2) * PLAYER_WALK_SPEED
+      self.player.walkSpeed = (math.sqrt(2) / 2) * PLAYER_WALK_SPEED * dt 
     end
 
     for key, value in ipairs(OUTPUT_LIST) do
       if value == 'left' then
-        self.player.x = math.max(self.player.x - self.player.walkSpeed * dt, -SIDE_EDGE_BUFFER_PLAYER)
+        self.player.x = math.max(self.player.x - self.player.walkSpeed, -SIDE_EDGE_BUFFER_PLAYER)
       elseif value == 'right' then
-        self.player.x = math.min(self.player.x + self.player.walkSpeed * dt, VIRTUAL_WIDTH - self.player.width + SIDE_EDGE_BUFFER_PLAYER)
+        self.player.x = math.min(self.player.x + self.player.walkSpeed, VIRTUAL_WIDTH - self.player.width + SIDE_EDGE_BUFFER_PLAYER)
       elseif value == 'down' then
-        self.player.y = math.min(self.player.y + self.player.walkSpeed * dt, SCREEN_HEIGHT_LIMIT + BOTTOM_BUFFER - self.player.height)
+        self.player.y = math.min(self.player.y + self.player.walkSpeed, SCREEN_HEIGHT_LIMIT + BOTTOM_BUFFER - self.player.height)
       elseif value == 'up' then
-        self.player.y = math.max(self.player.y - self.player.walkSpeed * dt, -SIDE_EDGE_BUFFER_PLAYER)
+        self.player.y = math.max(self.player.y - self.player.walkSpeed, -SIDE_EDGE_BUFFER_PLAYER)
       end
     end
+    --[[
     for key, value in ipairs(TOUCH_OUTPUT_LIST) do
       if value == 'left' then
         self.player.x = math.max(self.player.x - self.player.walkSpeed * dt, -SIDE_EDGE_BUFFER_PLAYER)
@@ -50,6 +51,7 @@ function PlayerWalkState:update(dt)
         self.player.y = math.max(self.player.y - self.player.walkSpeed * dt, -SIDE_EDGE_BUFFER_PLAYER)
       end
     end
+    --]]
 
     --TRIGGER IDLE
     if #TOUCH_OUTPUT_LIST == 0 and #OUTPUT_LIST == 0 then
@@ -151,16 +153,20 @@ function PlayerWalkState:update(dt)
     local object = v
 
     if self.player:leftCollidesMapObject(object) then
-      self.player.x = object.x + object.width - AABB_SIDE_COLLISION_BUFFER
+      --self.player.x = object.x + object.width - AABB_SIDE_COLLISION_BUFFER
+      self.player.x = self.player.x + self.player.walkSpeed * dt
     end
     if self.player:rightCollidesMapObject(object) then
-      self.player.x = object.x - self.player.width + AABB_SIDE_COLLISION_BUFFER
+      --self.player.x = object.x - self.player.width + AABB_SIDE_COLLISION_BUFFER
+      self.player.x = self.player.x - self.player.walkSpeed * dt
     end
     if self.player:topCollidesMapObject(object) then
-      self.player.y = object.y + object.height - AABB_TOP_COLLISION_BUFFER
+      --self.player.y = object.y + object.height - AABB_TOP_COLLISION_BUFFER
+      self.player.y = self.player.y + self.player.walkSpeed * dt
     end
     if self.player:bottomCollidesMapObject(object) then
-      self.player.y = object.y - self.player.height
+      --self.player.y = object.y - self.player.height
+      self.player.y = self.player.y - self.player.walkSpeed * dt
     end
   end
 end

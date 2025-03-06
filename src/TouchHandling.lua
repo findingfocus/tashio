@@ -54,7 +54,7 @@ function TouchHandling:init()
 
   function love.touchpressed(id, x, y, dx, dy)
     touches[id] = {x = x, y = y, dx = dx, dy = dy, wasTouched = true}
-    --touches[id].x, touches[id].y = push:toGame(x, y)
+    touches[id].x, touches[id].y = push:toGame(x, y)
     --TODO
     if buttons[4]:collides(touches[id]) then
       if gStateMachine.current.stateName == 'PlayState' then
@@ -68,7 +68,7 @@ function TouchHandling:init()
 
   function love.touchmoved(id, x, y, dx, dy)
     if touches[id] then
-      --touches[id].x, touches[id].y = push:toGame(x, y)
+      touches[id].x, touches[id].y = push:toGame(x, y)
       touches[id].dx = dx
       touches[id].dy = dy
     end
@@ -153,7 +153,7 @@ function TouchHandling:render()
   end
 
   love.graphics.setColor(RED)
-  for id, touch in pairs(touches) do
+  for id, touch in pairs(INPUT._touches) do
     love.graphics.setColor(RED)
     --love.graphics.print('x: ' .. tostring(touch.x), 10, 40)
     --love.graphics.print('y: ' .. tostring(touch.y), 10, 50)
