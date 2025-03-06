@@ -6,17 +6,43 @@ Inspect = require 'lib/inspect'
 --bitser = require 'lib/bitser'
 baton = require 'lib/baton'
 require 'lib/slam'
+require 'src/TouchDetection'
+require 'src/constants'
+
+dpad = {
+    TouchDetection(DPAD_X, DPAD_Y, DPAD_COLOR_TL, 'left', 'up'),
+    TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH, DPAD_Y, DPAD_COLOR_TC, 'up'),
+    TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y, DPAD_COLOR_TR, 'right', 'up'),
+    TouchDetection(DPAD_X, DPAD_Y + DPAD_DIAGONAL_WIDTH, DPAD_COLOR_LEFT, 'left'),
+    TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y + DPAD_DIAGONAL_WIDTH, DPAD_COLOR_RIGHT, 'right'),
+    TouchDetection(DPAD_X, DPAD_Y + DPAD_DIAGONAL_WIDTH * 2, DPAD_COLOR_BL, 'left', 'down'),
+    TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH, DPAD_Y + DPAD_DIAGONAL_WIDTH * 2, DPAD_COLOR_BC, 'down'),
+    TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y + DPAD_DIAGONAL_WIDTH * 2, DPAD_COLOR_BR, 'right', 'down')
+}
+
+buttons = {
+    TouchDetection(ABUTTON_X, ABUTTON_Y, DPAD_COLOR_TL, 'A'),
+    TouchDetection(BBUTTON_X, BBUTTON_Y, DPAD_COLOR_TL, 'B'),
+    TouchDetection(SELECT_X, OPTIONS_Y, DPAD_COLOR_TL, 'SELECT'),
+    TouchDetection(START_X, OPTIONS_Y, DPAD_COLOR_TL, 'START')
+    --[[
+    TouchDetection(VIRTUAL_WIDTH - 33, VIRTUAL_HEIGHT_GB / 2 + DPAD_DIAGONAL_WIDTH + 2, DPAD_COLOR_TL, 'A'),
+    TouchDetection(VIRTUAL_WIDTH - 64, VIRTUAL_HEIGHT_GB / 2 + DPAD_DIAGONAL_WIDTH * 2 + 3, DPAD_COLOR_TL, 'B'),
+    TouchDetection(VIRTUAL_WIDTH / 2 - 56, VIRTUAL_HEIGHT_GB - 30, DPAD_COLOR_TL, 'SELECT'),
+    TouchDetection(VIRTUAL_WIDTH / 2 - 14, VIRTUAL_HEIGHT_GB - 30, DPAD_COLOR_TL, 'START')
+    --]]
+}
 
 INPUT = baton.new {
   controls = {
-    left = {'key:left', 'key:a', 'axis:leftx-', 'button:dpleft'},
-    right = {'key:right', 'key:d', 'axis:leftx+', 'button:dpright'},
-    up = {'key:up', 'key:w', 'axis:lefty-', 'button:dpup', 'touch:1'},
-    down = {'key:down', 'key:s', 'axis:lefty+', 'button:dpdown'},
-    action = {'key:space', 'button:a'},
-    actionB = {'key:lshift', 'key:rshift', 'button:b'},
-    start = {'key:tab', 'button:start'},
-    select = {'key:h', 'button:back'}
+    left = {'key:left', 'key:a', 'axis:leftx-', 'button:dpleft', 'touch:left'},
+    right = {'key:right', 'key:d', 'axis:leftx+', 'button:dpright', 'touch:right'},
+    up = {'key:up', 'key:w', 'axis:lefty-', 'button:dpup', 'touch:up'},
+    down = {'key:down', 'key:s', 'axis:lefty+', 'button:dpdown', 'touch:down'},
+    action = {'key:space', 'button:a', 'touch:A'},
+    actionB = {'key:lshift', 'key:rshift', 'button:b', 'touch:B'},
+    start = {'key:tab', 'button:start', 'touch:START'},
+    select = {'key:h', 'button:back', 'touch:SELECT'}
   },
   pairs = {
     move = {'left', 'right', 'up', 'down'}
@@ -38,14 +64,12 @@ log = love.graphics.newImage('graphics/log.png')
 treasureChestClosed = love.graphics.newImage('graphics/chest-closed.png')
 treasureChestOpen = love.graphics.newImage('graphics/chest-open.png')
 
-require 'src/constants'
 require 'src/Coin'
 require 'src/WarpZone'
 require 'src/InputHandling'
 require 'src/TouchHandling'
 require 'src/Animation'
 require 'src/LuteString'
-require 'src/TouchDetection'
 require 'src/Note'
 require 'src/BassNotes'
 require 'src/Lute'

@@ -53,6 +53,14 @@ function love.load()
   gStateMachine:change('playState')
   --gStateMachine:change('minimap')
   --gStateMachine:change('chasmFallingState')
+  for _, button in ipairs(dpad) do
+    button:render()
+    --button.pressed = INPUT:down(button.direction) or (button.secondDirection and INPUT:down(button.secondDirection))
+  end
+  for _, button in ipairs(buttons) do
+    button:render()
+    --button.pressed = INPUT:down(button.direction)
+  end
 
   love.keyboard.keysPressed = {}
   love.keyboard.keysReleased = {}
@@ -95,10 +103,12 @@ function love.update(dt)
   touchInput:update(dt)
   ---[[
   function love.touchpressed(id, x, y, dx, dy, pressure)
+    local gameX, gameY = push:toGame(x, y)
     INPUT:touchpressed(id, x, y, dx, dy, pressure)
   end
 
   function love.touchmoved(id, x, y, dx, dy, pressure)
+    local gameX, gameY = push:toGame(x, y)
     INPUT:touchmoved(id, x, y, dx, dy, pressure)
   end
 

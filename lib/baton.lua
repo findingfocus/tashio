@@ -195,15 +195,27 @@ end
 ]]
 
 --TOUCH BATON
-function sourceFunction.touch.touch(player, id)
-    -- For now, return 1 if ANY touch is active, ignoring specific ID
-    for touchId, state in pairs(player._touches) do
+function sourceFunction.touch.touch(player, region)
+    for id, state in pairs(player._touches) do
         if state.down then
-            return 1
+            local x, y = state.x, state.y
+            for _, button in ipairs(dpad) do
+                if button:collides({x = x, y = y}) then
+                    if button.direction == region or (button.secondDirection and button.secondDirection == region) then
+                        return 1
+                    end
+                end
+            end
+            for _, button in ipairs(buttons) do
+                if button:collides({x = x, y = y}) and button.direction == region then
+                    return 1
+                end
+            end
         end
     end
     return 0
 end
+
 
 function Player:_setActiveDevice()
     if self._activeDevice == 'joy' and not self.config.joystick then
