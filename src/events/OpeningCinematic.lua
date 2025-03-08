@@ -22,12 +22,12 @@ function OpeningCinematic:init()
   gPlayer.animations['death'].currentFrame = 9
   --table.insert(MAP[10][19].dialogueBoxCollided, MAP[10][19].dialogueBox[1])
   self.lavaSystem = LavaSystem()
-  --self.mageStep1 = false
-  --self.step = 1
+  self.mageStep1 = false
+  self.step = 1
   self.turnTimer = 0.8
   self.turnCount = 0
   self.sleepTimer = 0
-  ---[[
+  --[[
   self.step = 3
   gPlayer.x = -32
   --]]
@@ -86,8 +86,6 @@ function OpeningCinematic:update(dt)
     love.graphics.print('Spacebar is A Button', 42, yStarting + yOffset)
     love.graphics.print('Shift is B Button', 42, yStarting + yOffset * 2)
   end
-
-
 
   --sceneView.currentMap.insertAnimations:update(dt)
   --[[

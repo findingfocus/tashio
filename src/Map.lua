@@ -27,6 +27,7 @@ function Map:init(row, column, spellcastEntities)
   self.entityCount = #MAP[row][column].entities
   self.npcCount = #MAP[row][column].npc
   self.warpZones = MAP[row][column].warpZones
+  self.cookieVignette = true
 
   local count = 1
   for y = 1, MAP_HEIGHT do

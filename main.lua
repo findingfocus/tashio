@@ -36,7 +36,7 @@ function love.load()
 
   push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT_GB, WINDOW_WIDTH, WINDOW_HEIGHT, {
     vsync = true,
-    fullscreen = true,
+    fullscreen = false,
     resizable = false
   })
 
@@ -46,6 +46,7 @@ function love.load()
     ['pauseState'] = function() return PauseState() end,
     ['chasmFallingState'] = function() return FallingChasmState() end,
     ['openingCinematic'] = function() return OpeningCinematic() end,
+    ['mageIntroTopTrigger'] = function() return MageIntroTopTrigger() end,
     ['minimap'] = function() return Minimap() end,
   }
 
