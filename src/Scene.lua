@@ -231,6 +231,7 @@ function Scene:update(dt)
         end
       end
 
+      --[[
       for i = 1, #self.currentMap.collidableWallObjects do
         local wall = self.currentMap.collidableWallObjects[i]
         if self.player:leftCollidesMapObject(wall) then
@@ -248,6 +249,7 @@ function Scene:update(dt)
           verticalCollision = true
         end
       end
+      --]]
 
       --TODO
       --COLLISIONS DEFERRED TO WALK STATE MAYBE MOVE INTO PLAYER CLASS?
@@ -304,6 +306,20 @@ function Scene:update(dt)
     end
   end
 
+  --PLAYER TO WALL OBJECT COLLISION DETECTION
+  for i = 1, #self.currentMap.collidableWallObjects do
+    local wall = self.currentMap.collidableWallObjects[i]
+    if self.player:topCollidesWallObject(self.currentMap.collidableWallObjects[i]) then
+      self.player.y = wall.y + wall.height - 1
+    elseif self.player:leftCollidesWallObject(self.currentMap.collidableWallObjects[i]) then
+      self.player.x = wall.x + wall.width - AABB_SIDE_COLLISION_BUFFER
+    elseif self.player:rightCollidesWallObject(self.currentMap.collidableWallObjects[i]) then
+      self.player.x = wall.x - self.player.width + AABB_SIDE_COLLISION_BUFFER
+    elseif self.player:bottomCollidesMapObject(self.currentMap.collidableWallObjects[i]) then
+      self.player.y = wall.y - self.player.height
+    end
+  end
+
   --OLD PLAYER TO MAP OBJECT COLLISION DETECTION
   --[[
   for k, v in pairs(sceneView.currentMap.collidableMapObjects) do
@@ -320,20 +336,6 @@ function Scene:update(dt)
     end
     if self.player:bottomCollidesMapObject(object) then
       self.player.y = object.y - self.player.height
-    end
-  end
-
-  --PLAYER TO WALL OBJECT COLLISION DETECTION
-  for i = 1, #self.currentMap.collidableWallObjects do
-    local wall = self.currentMap.collidableWallObjects[i]
-    if self.player:topCollidesWallObject(self.currentMap.collidableWallObjects[i]) then
-      self.player.y = wall.y + wall.height - 1
-    elseif self.player:leftCollidesWallObject(self.currentMap.collidableWallObjects[i]) then
-      self.player.x = wall.x + wall.width - AABB_SIDE_COLLISION_BUFFER
-    elseif self.player:rightCollidesWallObject(self.currentMap.collidableWallObjects[i]) then
-      self.player.x = wall.x - self.player.width + AABB_SIDE_COLLISION_BUFFER
-    elseif self.player:bottomCollidesMapObject(self.currentMap.collidableWallObjects[i]) then
-      self.player.y = wall.y - self.player.height
     end
   end
   --]]
@@ -420,11 +422,12 @@ function Scene:render()
   end
 
 
+  love.graphics.setColor(WHITE)
   --RENDER TOP LEVEL TILES
   for y = 1, MAP_HEIGHT do
     for x = 1, MAP_WIDTH do
       local tile = self.currentMap.topLevelTiles[y][x]
-      if tile.id ~= 75 then
+      if quads[tile.id] ~= 75 then
         love.graphics.draw(tileSheet, quads[tile.id], (x - 1) * TILE_SIZE + self.currentMap.adjacentOffsetX, (y - 1) * TILE_SIZE + self.currentMap.adjacentOffsetY)
       end
       if self.nextMap then
