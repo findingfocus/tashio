@@ -34,11 +34,9 @@ function TouchDetection:render()
   --love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
   --if self.pressed then
     --love.graphics.setColor(DPAD_COLOR_TL)
-    --[[
     love.graphics.setColor(self.color)
     love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
     love.graphics.setColor(WHITE)
     love.graphics.print(self.direction, self.x, self.y)
-    --]]
   --end
 end
