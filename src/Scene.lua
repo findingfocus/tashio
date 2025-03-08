@@ -173,6 +173,127 @@ function Scene:update(dt)
 
   if not self.shifting then
     TIME = TIME + dt
+
+    local newX = self.player.x 
+    local newY = self.player.y
+
+    local velX = newX - self.player.prevX
+    local velY = newY - self.player.prevY
+
+    --STEP TO CALCULATE COLLISION IN SMALLER INCREMENTS
+    local stepSize = 1 
+    local stepsX = math.ceil(math.abs(velX) / stepSize)
+    local stepsY = math.ceil(math.abs(velY) / stepSize)
+    local stepVelX = velX ~= 0 and (velX / stepsX) or 0
+    local stepVelY = velY ~= 0 and (velY / stepsY) or 0
+
+    --RESET PLAYER POSITION TO PREVENT DOUBLE UPDATING
+    self.player.x = self.player.prevX
+    self.player.y = self.player.prevY
+
+    local function checkCollisions()
+      local horizontalCollision = false
+      local verticalCollision = false
+
+      for k, v in pairs(sceneView.currentMap.collidableMapObjects) do
+        local object = v
+        if self.player:leftCollidesMapObject(object) then
+          self.player.x = object.x + object.width - AABB_SIDE_COLLISION_BUFFER
+          horizontalCollision = true
+        elseif self.player:rightCollidesMapObject(object) then
+          self.player.x = object.x - self.player.width + AABB_SIDE_COLLISION_BUFFER
+          horizontalCollision = true
+        end
+        if self.player:topCollidesMapObject(object) then
+          self.player.y = object.y + object.height - AABB_TOP_COLLISION_BUFFER
+          verticalCollision = true
+        elseif self.player:bottomCollidesMapObject(object) then
+          self.player.y = object.y - self.player.height
+          verticalCollision = true
+        end
+      end
+
+      for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+        local object = v
+        if self.player:leftCollidesMapObject(object) then
+          self.player.x = object.x + object.width - AABB_SIDE_COLLISION_BUFFER
+          horizontalCollision = true
+        elseif self.player:rightCollidesMapObject(object) then
+          self.player.x = object.x - self.player.width + AABB_SIDE_COLLISION_BUFFER
+          horizontalCollision = true
+        end
+        if self.player:topCollidesMapObject(object) then
+          self.player.y = object.y + object.height - AABB_TOP_COLLISION_BUFFER
+          verticalCollision = true
+        elseif self.player:bottomCollidesMapObject(object) then
+          self.player.y = object.y - self.player.height
+          verticalCollision = true
+        end
+      end
+
+      for i = 1, #self.currentMap.collidableWallObjects do
+        local wall = self.currentMap.collidableWallObjects[i]
+        if self.player:leftCollidesMapObject(wall) then
+          self.player.x = wall.x + wall.width - AABB_SIDE_COLLISION_BUFFER
+          horizontalCollision = true
+        elseif self.player:rightCollidesMapObject(wall) then
+          self.player.x = wall.x - self.player.width + AABB_SIDE_COLLISION_BUFFER
+          horizontalCollision = true
+        end
+        if self.player:topCollidesMapObject(wall) then
+          self.player.y = wall.y + wall.height - AABB_TOP_COLLISION_BUFFER
+          verticalCollision = true
+        elseif self.player:bottomCollidesMapObject(wall) then
+          self.player.y = wall.y - self.player.height
+          verticalCollision = true
+        end
+      end
+
+      --TODO
+      --COLLISIONS DEFERRED TO WALK STATE MAYBE MOVE INTO PLAYER CLASS?
+      --[[
+      for i = 1, #MAP[self.mapRow][self.mapColumn].npc do
+        local npc = MAP[self.mapRow][self.mapColumn].npc[i]
+        if self.player:leftCollidesMapObject(npc) then
+          self.player.x = npc.x + npc.width - AABB_SIDE_COLLISION_BUFFER
+          horizontalCollision = true
+        elseif self.player:rightCollidesMapObject(npc) then
+          self.player.x = npc.x - self.player.width + AABB_SIDE_COLLISION_BUFFER
+          horizontalCollision = true
+        end
+        if self.player:topCollidesMapObject(npc) then
+          self.player.y = npc.y + npc.height - AABB_TOP_COLLISION_BUFFER
+          verticalCollision = true
+        elseif self.player:bottomCollidesMapObject(npc) then
+          self.player.y = npc.y - self.player.height
+          verticalCollision = true
+        end
+      end
+      --]]
+
+      return horizontalCollision, verticalCollision
+    end
+
+    for i = 1, stepsX do
+      self.player.x = self.player.x + stepVelX
+      local horizontalCollision = checkCollisions()
+      if horizontalCollision then
+        stepVelX = 0
+        break
+      end
+    end
+
+    for i = 1, stepsY do
+      self.player.y = self.player.y + stepVelY
+      local _, verticalCollision = checkCollisions()
+      if verticalCollision then
+        stepVelY = 0 
+        break
+      end
+    end
+
+    self.player.prevX = self.player.x
+    self.player.prevY = self.player.y
   end
 
   for i = 1, #self.spellcastEntities do
@@ -182,22 +303,22 @@ function Scene:update(dt)
       self.spellcastEntities[i]:update(dt)
     end
   end
-  ---[[
 
-  --PLAYER TO MAP OBJECT COLLISION DETECTION
-  for i = 1, #self.currentMap.collidableMapObjects do
-    local object = self.currentMap.collidableMapObjects[i]
+  --OLD PLAYER TO MAP OBJECT COLLISION DETECTION
+  --[[
+  for k, v in pairs(sceneView.currentMap.collidableMapObjects) do
+    local object = v
 
-    if self.player:leftCollidesMapObject(self.currentMap.collidableMapObjects[i]) then
+    if self.player:leftCollidesMapObject(object) then
       self.player.x = object.x + object.width - AABB_SIDE_COLLISION_BUFFER
     end
-    if self.player:rightCollidesMapObject(self.currentMap.collidableMapObjects[i]) then
+    if self.player:rightCollidesMapObject(object) then
       self.player.x = object.x - self.player.width + AABB_SIDE_COLLISION_BUFFER
     end
-    if self.player:topCollidesMapObject(self.currentMap.collidableMapObjects[i]) then
+    if self.player:topCollidesMapObject(object) then
       self.player.y = object.y + object.height - AABB_TOP_COLLISION_BUFFER
     end
-    if self.player:bottomCollidesMapObject(self.currentMap.collidableMapObjects[i]) then
+    if self.player:bottomCollidesMapObject(object) then
       self.player.y = object.y - self.player.height
     end
   end
@@ -215,7 +336,9 @@ function Scene:update(dt)
       self.player.y = wall.y - self.player.height
     end
   end
+  --]]
 
+  ---[[
   --NPC COLLISION
   if not self.shifting then
     for i = 1, #MAP[self.mapRow][self.mapColumn].npc do
@@ -234,6 +357,7 @@ function Scene:update(dt)
       end
     end
   end
+  --]]
 
 end
 

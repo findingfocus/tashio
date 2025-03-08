@@ -179,7 +179,7 @@ function Pushable:update(dt)
   if self.pushUpInitiated then
     local tileAbove = (self.tileY * TILE_SIZE) - TILE_SIZE * 2
     if self.y > tileAbove then
-      self.y = self.y - PUSH_SPEED
+      self.y = self.y - PUSH_SPEED * dt
     else
       self.y = tileAbove
       self.pushUpInitiated = false
@@ -190,7 +190,7 @@ function Pushable:update(dt)
   if self.pushDownInitiated then
     local tileBelow = self.tileY * TILE_SIZE
     if self.y < tileBelow then
-      self.y = self.y + PUSH_SPEED
+      self.y = self.y + PUSH_SPEED * dt
     else
       self.y = tileBelow
       self.pushDownInitiated = false
@@ -201,7 +201,7 @@ function Pushable:update(dt)
   if self.pushLeftInitiated then
     local tileLeft = (self.tileX * TILE_SIZE) - TILE_SIZE * 2
     if self.x > tileLeft then
-      self.x = self.x - PUSH_SPEED
+      self.x = self.x - PUSH_SPEED * dt
     else
       self.x = tileLeft
       self.pushLeftInitiated = false
@@ -212,7 +212,7 @@ function Pushable:update(dt)
   if self.pushRightInitiated then
     local tileRight = self.tileX * TILE_SIZE
     if self.x < tileRight then
-      self.x = self.x + PUSH_SPEED
+      self.x = self.x + PUSH_SPEED * dt
     else
       self.x = tileRight
       self.pushRightInitiated = false
