@@ -46,8 +46,8 @@ local columns = 10
 local rows = 8
 cameraX = 0
 --STARTING SCENE gPlayer SPAWN
---sceneView = Scene(gPlayer, 10, 18)
-sceneView = Scene(gPlayer, 7, 2)
+sceneView = Scene(gPlayer, 10, 19)
+--sceneView = Scene(gPlayer, 7, 2)
 --sceneView = Scene(gPlayer, 1, 12)
 tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 --textures = love.graphics.newImage('graphics/textures.png')
@@ -90,6 +90,10 @@ function PlayState:update(dt)
   if love.keyboard.wasPressed('y') then
     sceneView.activeDialogueID = nil
     gStateMachine:change('openingCinematic')
+  end
+  if love.keyboard.wasPressed('t') then
+    sceneView.activeDialogueID = nil
+    gStateMachine:change('mageIntroTopTrigger')
   end
   self.stateTimer = self.stateTimer + dt
   if self.stateTimer >= 1 then

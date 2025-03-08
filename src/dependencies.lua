@@ -3,7 +3,7 @@ Class = require 'src/class'
 Event = require 'lib/knife.event'
 Timer = require 'lib/knife.timer'
 Inspect = require 'lib/inspect'
---bitser = require 'lib/bitser'
+bitser = require 'lib/bitser'
 baton = require 'lib/baton'
 require 'lib/slam'
 require 'src/TouchDetection'
@@ -121,6 +121,7 @@ require 'src/states/game/PlayState'
 require 'src/states/game/Minimap'
 require 'src/states/game/PauseState'
 require 'src/events/OpeningCinematic'
+require 'src/events/MageIntroTopTrigger'
 
 
 pixelFont = love.graphics.newFont('fonts/Pixel.ttf', 8)
@@ -128,6 +129,8 @@ pixelFont2 = love.graphics.newFont('fonts/712_serif.ttf', 16)
 classicFont = love.graphics.newFont('fonts/classic.ttf', 8)
 smallFont = love.graphics.newFont('fonts/classic.ttf', 4)
 particle = love.graphics.newImage('graphics/particle.png')
+flamme = love.graphics.newImage('graphics/flamme.png')
+brightside = love.graphics.newImage('graphics/brightside.png')
 
 rightArrowSelector = love.graphics.newImage('graphics/rightArrowSelector.png')
 textAdvance = love.graphics.newImage('graphics/textAdvance.png')

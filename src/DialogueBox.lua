@@ -229,6 +229,7 @@ function DialogueBox:update(dt)
       if self.currentPagePrintedCharCount >= self.pages[self.currentPage].pageCharCount then
         --END OF PAGE
         if self.currentPage == self.pageLength then
+          self.finishedPrinting = true
           self.activated = false
           self.aButtonCount = 0
           treasureChestOption = false
@@ -238,7 +239,6 @@ function DialogueBox:update(dt)
             end
           end
           PAUSED = false
-          self.finishedPrinting = true
           --MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided = {}
           self:flushText()
           sceneView.activeDialogueID = nil
