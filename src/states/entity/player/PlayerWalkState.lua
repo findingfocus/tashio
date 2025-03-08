@@ -149,6 +149,7 @@ function PlayerWalkState:update(dt)
     end
   end
   --PLAYER TO MAP OBJECT COLLISION DETECTION
+  --[[
   for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
     local object = v
 
@@ -169,6 +170,7 @@ function PlayerWalkState:update(dt)
       self.player.y = self.player.y - self.player.walkSpeed * dt
     end
   end
+  --]]
 end
 
 function PlayerWalkState:render()

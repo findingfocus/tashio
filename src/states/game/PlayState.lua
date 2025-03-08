@@ -46,8 +46,8 @@ local columns = 10
 local rows = 8
 cameraX = 0
 --STARTING SCENE gPlayer SPAWN
-sceneView = Scene(gPlayer, 10, 18)
---sceneView = Scene(gPlayer, 7, 2)
+--sceneView = Scene(gPlayer, 10, 18)
+sceneView = Scene(gPlayer, 7, 2)
 --sceneView = Scene(gPlayer, 1, 12)
 tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 --textures = love.graphics.newImage('graphics/textures.png')
@@ -709,9 +709,10 @@ function PlayState:render()
       love.graphics.printf('QUIT', 0, VIRTUAL_HEIGHT - 36, VIRTUAL_WIDTH, 'center')
     end
   end
-    for id, touch in pairs(INPUT._touches) do
+  --TOUCH DEBUG
+    for id, state in pairs(INPUT._touches) do
       --love.graphics.print(id, "pressed:", state.pressed, "down:", state.down, "released:", state.released)
-      love.graphics.print(Inspect(touch), 0,0)
+      --love.graphics.print(tostring(INPUT:getActiveDevice()), 0,0)
     end
 end
 

@@ -18,6 +18,8 @@ function Player:init(def)
   self.fallTimer = 0
   self.graveyard = false
   self.tweenAllowed = true
+  self.prevX = 0
+  self.prevY = 0
   self.dialogueBoxX = self.x
   self.dialogueBoxY = self.y - TILE_SIZE
   self.dialogueBoxWidth = TILE_SIZE
@@ -138,6 +140,8 @@ function Player:resetFallingDirection()
 end
 
 function Player:update(dt)
+  self.prevX = self.x
+  self.prevY = self.y
   CHASM_TL_COLLIDE_X = self.x + 6
   CHASM_TL_COLLIDE_Y = self.y + 10
   CHASM_TL_COLLIDE_WIDTH = 2

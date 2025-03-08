@@ -119,8 +119,8 @@ function BatWalkState:processAI(params, dt, player)
     dy = dy / distance
     if gPlayer.falling then
       self.entity.attackTimer = 0
-      dy = -BAT_FLYBACK_SPEED
-      dx =  BAT_FLYBACK_SPEED
+      dy = -BAT_FLYBACK_SPEED * dt
+      dx =  BAT_FLYBACK_SPEED * dt
     end
   end
 
