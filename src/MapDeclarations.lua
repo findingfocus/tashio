@@ -548,6 +548,7 @@ MAP[10][19].npc[mageIndex].stateMachine = StateMachine {
 }
 
 MAP[10][19].npc[mageIndex]:changeState('npc-walk')
-table.insert(MAP[10][19].dialogueBox, DialogueBox(0, 0, 'Are you ok?  ...  You don\'t remember anything?  ...  There\'s much to relearn, but take it slow.', 'signpost', nil, 13))
-table.insert(MAP[10][19].dialogueBox, DialogueBox(0, 0, 'This can be dangerous if you\'re careless. But you will need it for doing your taxes...', 'signpost', nil, 14))
+--table.insert(MAP[10][19].dialogueBox, DialogueBox(0, 0, 'Are you ok?  ...  You don\'t remember anything?  ...  There\'s much to relearn, but take it slow.', 'signpost', nil, 13))
+table.insert(MAP[10][19].dialogueBox, DialogueBox(0, 0, 'hello. ', 'signpost', nil, 13))
+table.insert(MAP[10][19].dialogueBox, DialogueBox(0, 0, 'This can be dangerous if you\'re careless. But you\'ll need it for your journey.  You got the flamme element!  I have important work to finish, I\'ll find you when you\'re ready for your next lesson. ', 'signpost', nil, 14))
 --table.insert(MAP[10][19].dialogueBox, DialogueBox(0, 0, 'Are you ok? ...', 'signpost', nil, 1))

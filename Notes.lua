@@ -37,6 +37,11 @@ __Sweat when pushing without tunic of strength
 
 
 Next Episode
+__Add better Mage text for open
+__Move DialogueBox collidables into MageOpenCinematic State
+__Add Collision to the magic barrier
+__Store Scene Particles systems in scene psystem table
+__Render psystem at scenes adjacent offset
 __Factor out distanceToPlayer into entity class
 __Add timer for spitball spitting
 __BUGFIX bats flying after chestOpen
