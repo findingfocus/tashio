@@ -3,28 +3,32 @@ Class = require 'src/class'
 Event = require 'lib/knife.event'
 Timer = require 'lib/knife.timer'
 Inspect = require 'lib/inspect'
-bitser = require 'lib/bitser'
+--bitser = require 'lib/bitser'
 baton = require 'lib/baton'
 require 'lib/slam'
 require 'src/TouchDetection'
 require 'src/constants'
 
 dpad = {
-  TouchDetection(DPAD_X,DPAD_Y, DPAD_COLOR_TL, 'left', 'up'), --UPLEFT
-  TouchDetection(20,VIRTUAL_HEIGHT_GB / 2, DPAD_COLOR_TC, 'up'), --UP
+  --TouchDetection(DPAD_X,DPAD_Y, DPAD_COLOR_TL, 'left', 'up'), --UPLEFT
+  TouchDetection(9, VIRTUAL_HEIGHT_GB / 2 + 18, DPAD_DIAGONAL_WIDTH * 3, DPAD_COLOR_TC, 'up'), --UP
+  --[[
   TouchDetection(40, VIRTUAL_HEIGHT_GB / 2 + 20, DPAD_COLOR_TR, 'right', 'up'), --UPRIGHT
   TouchDetection(0, VIRTUAL_HEIGHT_GB / 2 + 20, DPAD_COLOR_LEFT, 'left'), --LEFT
   TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y + DPAD_DIAGONAL_WIDTH, DPAD_COLOR_RIGHT, 'right'), --RIGHT
   TouchDetection(DPAD_X, DPAD_Y + DPAD_DIAGONAL_WIDTH * 2, DPAD_COLOR_BL, 'left', 'down'), --DOWNLEFT
   TouchDetection(20, VIRTUAL_HEIGHT_GB / 2 + 40, DPAD_COLOR_BC, 'down'), --DOWN
   TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y + DPAD_DIAGONAL_WIDTH * 2, DPAD_COLOR_BR, 'right', 'down'), --DOWNRIGHT
+  --]]
 }
+
 buttons = {
-  TouchDetection(VIRTUAL_WIDTH - 33, VIRTUAL_HEIGHT_GB / 2 + DPAD_DIAGONAL_WIDTH + 2, DPAD_COLOR_TL, 'A'), --A
-  TouchDetection(VIRTUAL_WIDTH - 64, VIRTUAL_HEIGHT_GB / 2 + DPAD_DIAGONAL_WIDTH * 2 + 3, DPAD_COLOR_TL, 'B'), --B
-  TouchDetection(VIRTUAL_WIDTH / 2 - 56, VIRTUAL_HEIGHT_GB - 30, DPAD_COLOR_TL, 'SELECT'), --SELECT
-  TouchDetection(VIRTUAL_WIDTH / 2 - 14, VIRTUAL_HEIGHT_GB - 30, DPAD_COLOR_TL, 'START'), --START
+  TouchDetection(VIRTUAL_WIDTH - 33, VIRTUAL_HEIGHT_GB / 2 + DPAD_DIAGONAL_WIDTH + 2, DPAD_DIAGONAL_WIDTH, DPAD_COLOR_TL, 'A'), --A
+  TouchDetection(VIRTUAL_WIDTH - 64, VIRTUAL_HEIGHT_GB / 2 + DPAD_DIAGONAL_WIDTH * 2 + 3, DPAD_DIAGONAL_WIDTH, DPAD_COLOR_TL, 'B'), --B
+  TouchDetection(VIRTUAL_WIDTH / 2 - 56, VIRTUAL_HEIGHT_GB - 30, DPAD_DIAGONAL_WIDTH, DPAD_COLOR_TL, 'SELECT'), --SELECT
+  TouchDetection(VIRTUAL_WIDTH / 2 - 14, VIRTUAL_HEIGHT_GB - 30, DPAD_DIAGONAL_WIDTH, DPAD_COLOR_TL, 'START'), --START
 }
+
 --[[
 TouchDetection(VIRTUAL_WIDTH - 33, VIRTUAL_HEIGHT_GB / 2 + DPAD_DIAGONAL_WIDTH + 2, DPAD_COLOR_TL, 'A'),
 TouchDetection(VIRTUAL_WIDTH - 64, VIRTUAL_HEIGHT_GB / 2 + DPAD_DIAGONAL_WIDTH * 2 + 3, DPAD_COLOR_TL, 'B'),
