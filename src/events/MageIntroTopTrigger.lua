@@ -9,6 +9,9 @@ function MageIntroTopTrigger:init()
   self.step = 1
   sceneView.activeDialogueID = nil
   self.showOff = false
+  self.treasureX = -TILE_SIZE
+  self.treasureY = -TILE_SIZE
+  self.psystem = love.graphics.newParticleSystem(particle, 500)
 end
 
 function MageIntroTopTrigger:update(dt)
@@ -61,17 +64,45 @@ function MageIntroTopTrigger:update(dt)
     MAP[10][19].dialogueBox[sceneView.activeDialogueID].aButtonCount = 1
     self.step = 7
   elseif self.step == 7 then
-      if MAP[10][19].dialogueBox[14].finishedPrinting then
-        self.step = 8
+    if MAP[10][19].dialogueBox[14].finishedPrinting then
+      self.step = 8
+      mage:changeAnimation('walk-up')
+    end
+      if MAP[10][19].dialogueBox[14].currentPage == 3 then
+        self.treasureX = gPlayer.x + 3
+        self.treasureY = gPlayer.y - 10
         self.showOff = true
+        gPlayer:changeAnimation('showOff')
+        mage:changeAnimation('idle-down')
+      end
+      if MAP[10][19].dialogueBox[14].currentPage == 4 then
+        self.showOff = false
+        gPlayer:changeAnimation('idle-up')
+        mage:changeAnimation('walk-down')
       end
     if sceneView.activeDialogueID ~= nil then
       MAP[10][19].dialogueBox[sceneView.activeDialogueID]:update(dt)
     end
   elseif self.step == 8 then
-    self.treasureX = gPlayer.x + 3
-    self.treasureY = gPlayer.y - 10
-    gPlayer:changeAnimation('showOff')
+    Timer.tween(2, {
+      [mage] = {y = -TILE_SIZE},
+    }):finish()
+    if mage.y == -TILE_SIZE then
+      Timer.clear()
+      self.step = 9
+      gPlayer:changeAnimation('idle-up')
+      gPlayer.direction = 'up'
+    end
+  elseif self.step == 9 then
+    --CHANGE TO PLAY STATE
+    gPlayer:changeState('player-walk')
+    self.psystem:moveTo(TILE_SIZE * 5, TILE_SIZE - 1)
+    self.psystem:setParticleLifetime(2, 4)
+    self.psystem:setEmissionArea('borderrectangle', TILE_SIZE, 0)
+    self.psystem:setLinearAcceleration(0, math.random(-6, -12))
+    self.psystem:setEmissionRate(500)
+    self.psystem:setColors(80/255, 40/255, 255/255, 255/255, 80/255, 120/255, 255/255, 100/255)
+    self.psystem:update(dt)
   end
 end
 
@@ -105,12 +136,17 @@ function MageIntroTopTrigger:render()
 
   if self.showOff then
     love.graphics.setColor(COOKIE_VIGNETTE_COLOR)
-    love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
-    love.graphics.setColor(1, 1, 1, 150/255)
+    love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, SCREEN_HEIGHT_LIMIT - 40)
+    love.graphics.setColor(1, 1, 1, 120/255)
     love.graphics.draw(brightside, gPlayer.x + 8 - TILE_SIZE, gPlayer.y - 6 - TILE_SIZE)
     gPlayer:render()
     love.graphics.draw(flamme, self.treasureX, self.treasureY)
   end
+
+  if self.step == 9 then
+    love.graphics.draw(self.psystem, 0, 0)
+  end
+
 
   --[[
   love.graphics.setColor(YELLOW)
