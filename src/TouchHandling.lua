@@ -52,6 +52,9 @@ function TouchHandling:init()
   --[8] == DOWNRIGHT
   touches = {}
 
+
+--OLD TOUCH
+--[[
   function love.touchpressed(id, x, y, dx, dy)
     touches[id] = {x = x, y = y, dx = dx, dy = dy, wasTouched = true}
     touches[id].x, touches[id].y = push:toGame(x, y)
@@ -65,6 +68,7 @@ function TouchHandling:init()
       end
     end
   end
+  --]]
 
   function love.touchmoved(id, x, y, dx, dy)
     if touches[id] then
