@@ -39,7 +39,7 @@ INPUT = baton.new {
     action = {'key:space', 'key:p', 'button:a', 'touch:A'},
     actionB = {'key:lshift', 'key:rshift', 'key:o', 'button:b', 'touch:B'},
     start = {'key:tab', 'button:start', 'touch:START'},
-    select = {'key:h', 'key:`', 'button:back', 'touch:SELECT'}
+    select = {'key:h', 'key:`', 'key:lctrl', 'key:rctrl', 'button:back', 'touch:SELECT'}
   },
   pairs = {
     move = {'left', 'right', 'up', 'down'}
@@ -108,6 +108,7 @@ require 'src/RainSystem'
 require 'src/SnowSystem'
 require 'src/LavaSystem'
 require 'src/SandSystem'
+require 'src/MageMagicWall'
 require 'src/AnimSpitter'
 require 'src/TreasureChest'
 require 'src/CollidableMapObjects'

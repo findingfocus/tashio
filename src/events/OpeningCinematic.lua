@@ -60,6 +60,8 @@ function OpeningCinematic:init()
   self.blackOpacity = 0
   self.castleView = false
   self.tutorialTextAlpha = 0
+  self.dialogueID = 0
+  self.activeDialogueID = 0
 end
 
 Event.on('turnOffTutorialText', function()
@@ -85,112 +87,6 @@ function OpeningCinematic:update(dt)
     love.graphics.print('\'WASD\' to move', 42, yStarting)
     love.graphics.print('Spacebar is A Button', 42, yStarting + yOffset)
     love.graphics.print('Shift is B Button', 42, yStarting + yOffset * 2)
-  end
-
-  --sceneView.currentMap.insertAnimations:update(dt)
-  --[[
-  if INPUT:pressed('start')  then
-    sceneView.currentMap = Map(7, 4, gPlayer.spellcastCount)
-    sceneView.mapRow = 7
-    sceneView.mapColumn = 4
-    gPlayer.x = self.originalPlayerX
-    gPlayer.y = self.originalPlayerY
-    --gStateMachine:change('playState')
-  end
-  --]]
-
-  --[[
-  if self.castleStep1 then
-    castleMage.y = math.min(castleMage.y + castleMage.walkSpeed / 2 * dt, TILE_SIZE * 2 - 6)
-    castleMage:changeAnimation('walk-down')
-    if castleMage.y == TILE_SIZE * 2 - 6 then
-      self.castleStep1 = false
-      self.castleStep2 = true
-    end
-  elseif self.castleStep2 then
-    castleMage.x = math.min(castleMage.x + castleMage.walkSpeed / 2 * dt, TILE_SIZE * 5)
-    castleMage:changeAnimation('walk-right')
-    if castleMage.x == TILE_SIZE * 5 then
-      castleMage:changeAnimation('idle-right')
-      gPlayer:changeAnimation('idle-left')
-      self.castleStep2 = false
-      self.castleStep3 = true
-      ------
-      MAP[10][19].dialogueBox[1].line1Result = ''
-      MAP[10][19].dialogueBox[1].line2Result = ''
-      MAP[10][19].dialogueBox[1].line3Result = ''
-      MAP[10][19].dialogueBox[1].lineCount = 1
-      MAP[10][19].dialogueBox[1].textIndex = 1
-    end
-
-    --DIALOGUE UPDATE
-  elseif self.castleStep3 then
-    sceneView.activeDialogueID = 1
-    MAP[10][19].dialogueBox[sceneView.activeDialogueID]:flushText()
-    MAP[10][19].dialogueBox[sceneView.activeDialogueID].aButtonCount = 1
-    --PAUSED = true
-    self.castleStep2 = false
-    self.castleStep3 = false
-    self.castleStep4 = true
-  elseif self.castleStep4 then
-    if MAP[10][19].dialogueBox[1].finishedPrinting then
-      self.castleStep4 = false
-      self.castleStep5 = true
-    end
-    if sceneView.activeDialogueID ~= nil then
-      MAP[10][19].dialogueBox[sceneView.activeDialogueID]:update(dt)
-    end
-  elseif self.castleStep5 then
-    castleMage:changeAnimation('walk-left')
-    castleMage.x = castleMage.x - castleMage.walkSpeed * dt
-    if castleMage.x < TILE_SIZE * 3 then
-      castleMage.x = TILE_SIZE * 3
-      self.castleStep5 = false
-      self.castleStep6 = true
-      castleMage:changeAnimation('walk-up')
-    end
-  elseif self.castleStep6 then
-    castleMage.y = castleMage.y - castleMage.walkSpeed * dt
-    if castleMage.y + castleMage.height < 0 then
-      self.castleStep6 = false
-      self.castleStep7 = true
-      gPlayer:changeAnimation('walk-left')
-    end
-  elseif self.castleStep7 then
-      gPlayer.x = gPlayer.x - gPlayer.walkSpeed / 1.5 * dt
-      if gPlayer.x < TILE_SIZE * 6 then
-        gPlayer.x = TILE_SIZE * 6
-        self.castleStep7 = false
-        self.castleStep8 = true
-        gPlayer.direction = 'down'
-        gPlayer:changeAnimation('walk-down')
-      end
-  elseif self.castleStep8 then
-    gPlayer.y = gPlayer.y + gPlayer.walkSpeed / 1.5 * dt
-  elseif self.castleStep9 then
-    sceneView.currentMap = Map(9,2, gPlayer.spellcastCount)
-    sceneView.mapRow = 9
-    sceneView.mapColumn = 2
-    self.animatables = InsertAnimation(sceneView.currentMap.row, sceneView.currentMap.column)
-    gPlayer.x = TILE_SIZE * 4
-    gPlayer.y = TILE_SIZE * 2
-    gPlayer:changeState('player-idle')
-    self.castleView = false
-    self.fadeToBlack = false
-    self.fadeFromBlack = true
-    self.castleStep9 = false
-    self.castleStep10 = true
-  elseif self.castleStep10 then
-    if self.blackOpacity == 0 then
-      --gStateMachine:change('playState')
-    end
-  end
-  --]]
-
-
-  if self.castleView then
-    --gStateMachine:change('playState')
-    --gPlayer:changeState('player-cinematic')
   end
 
   if self.step == 1 then
@@ -293,7 +189,8 @@ function OpeningCinematic:update(dt)
  elseif self.step == 7 then
     if sceneView.cameraX > VIRTUAL_WIDTH - 5 then
       Event.dispatch('turnOffTutorialText', dt)
-      gStateMachine:change('playState')
+      MAP[10][19].collidableMapObjects = {}
+      gStateMachine:change('mageIntroTopTrigger')
     end
   end
 
@@ -313,34 +210,32 @@ function OpeningCinematic:update(dt)
     self.fadeToBlack = true
   end
 
-  --[[
-  if gPlayer.y > VIRTUAL_HEIGHT - 8 then
-    self.fadeToBlack = true
-    if self.blackOpacity == 255 then
-      self.step = self.step + 1
-      self.castleStep8 = false
-      self.castleStep9 = true
-      self.mageStep1 = false
-      self.mageStep2 = false
-      self.mageStep3 = false
-      self.mageStep4 = false
-      self.tashioStep1 = false
-      self.tashioStep2 = false
+  if INPUT:pressed('action') then
+    --DIALOGUE DETECTION
+    for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do
+      if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]) and not MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated then
+        PAUSED = true
+        MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]:flushText()
+        MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated = true
+        self.dialogueID = k
+        sceneView.activeDialogueID = v.dialogueID
+      end
+    end
+    for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+      if v.classType == 'treasureChest' then
+        if not v.opened then
+          if gPlayer:dialogueCollides(v) then
+            v:openChest()
+            treasureChestOption = true
+          end
+        end
+      end
     end
   end
-  --]]
 
-  --[[
-  if gPlayer.y > VIRTUAL_HEIGHT + 32 then
-    sceneView.currentMap = Map(9,2, gPlayer.spellcastCount)
-    sceneView.mapRow = 9
-    sceneView.mapColumn = 2
-    gPlayer.x = TILE_SIZE * 4
-    gPlayer.y = TILE_SIZE * 2
-    --self.fadeToBlack = false
-    --self.fadeFromBlack = true
+  if sceneView.activeDialogueID ~= nil then
+      MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[sceneView.activeDialogueID]:update(dt)
   end
-  --]]
 
   if self.fadeToBlack then
     self.blackOpacity = self.blackOpacity + 5
@@ -351,7 +246,6 @@ function OpeningCinematic:update(dt)
       self.fadeFromBlack = false
     end
   end
-
 
   for k, v in pairs(MAP[10][20].npc) do
     v:update(dt)
@@ -394,19 +288,9 @@ function OpeningCinematic:render()
   heartRowQuad:setViewport(0, 0, HEART_CROP, 7, heartRow:getDimensions())
   love.graphics.draw(heartRow, heartRowQuad, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)
 
-  --love.graphics.print('state: ' .. tostring(PLAYER_STATE), 5, 0)
-  if self.castleStep4 then
-    --[[
-    if MAP[10][19].dialogueBoxCollided[1] ~= nil then
-      MAP[10][19].dialogueBoxCollided[1]:render()
-    end
-    --]]
-
-    if MAP[10][19].dialogueBox[sceneView.activeDialogueID] ~= nil then
-      MAP[10][19].dialogueBox[sceneView.activeDialogueID]:render()
-    end
+  if sceneView.activeDialogueID ~= nil then
+    MAP[10][18].dialogueBox[sceneView.activeDialogueID]:render()
   end
-
 
   --KEYLOGGER
   --[[

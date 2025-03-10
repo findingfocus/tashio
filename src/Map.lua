@@ -479,6 +479,11 @@ function Map:render()
     end
   end
 
+  --MAP PARTICLE SYSTEM RENDER
+  for k, v in pairs(MAP[self.row][self.column].psystems) do
+    v:render(self.adjacentOffsetX, self.adjacentOffsetY)
+  end
+
   --[[
   --COLLIDABLE WALL UPDATE
   if MAP[self.row][self.column].collidableWallObjects[1] ~= nil then

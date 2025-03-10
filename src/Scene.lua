@@ -361,6 +361,9 @@ function Scene:update(dt)
   end
   --]]
 
+  for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].psystems) do
+    v:update(dt)
+  end
 end
 
 function Scene:render()
@@ -382,11 +385,12 @@ function Scene:render()
     local yOffset = 10
     local xPosition = 40
     love.graphics.setColor(1,1,1, self.tutorialTextAlpha/255)
+    love.graphics.setFont(classicFont)
     love.graphics.print('\'WASD\' to move', xPosition, yStarting)
     love.graphics.print('Spacebar is \'A\'', xPosition, yStarting + yOffset * 2)
     love.graphics.print('Shift is \'B\'', xPosition, yStarting + yOffset * 4)
     love.graphics.print('Tab is \'START\'', xPosition, yStarting + yOffset * 6)
-    love.graphics.print('` is \'SELECT\'', xPosition, yStarting + yOffset * 8)
+    love.graphics.print('Ctrl is \'SELECT\'', xPosition, yStarting + yOffset * 8)
     love.graphics.setColor(WHITE)
   end
 
@@ -405,6 +409,7 @@ function Scene:render()
     --love.graphics.printf('GAME OVER', 0, VIRTUAL_HEIGHT / 2, VIRTUAL_WIDTH, 'center')
   end
   --]]
+
 
   if self.player then
     self.player:render()
@@ -468,6 +473,7 @@ function Scene:render()
     MAP[self.mapRow][self.mapColumn].dialogueBoxCollided[k]:render()
   end
   --]]
+  --DIALOGUE RENDER
   if self.activeDialogueID ~= nil then
     --MAP[10][19].dialogueBox[1]:render()
     MAP[self.mapRow][self.mapColumn].dialogueBox[self.activeDialogueID]:render()
