@@ -386,7 +386,7 @@ function Scene:render()
     love.graphics.print('Spacebar is \'A\'', xPosition, yStarting + yOffset * 2)
     love.graphics.print('Shift is \'B\'', xPosition, yStarting + yOffset * 4)
     love.graphics.print('Tab is \'START\'', xPosition, yStarting + yOffset * 6)
-    love.graphics.print('Esc is \'SELECT\'', xPosition, yStarting + yOffset * 8)
+    love.graphics.print('` is \'SELECT\'', xPosition, yStarting + yOffset * 8)
     love.graphics.setColor(WHITE)
   end
 

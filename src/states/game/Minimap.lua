@@ -62,132 +62,134 @@ function Minimap:update(dt)
     gStateMachine:change('playState')
   end
 
-  --DIAGONAL MOVEMENT
-  if INPUT:down('up') and INPUT:down('left') then
-    self.fastSelectTimer = self.fastSelectTimer - dt
-    if self.fastSelectTimer <= 0 then
-      self.fastSelectTimer = FAST_SELECT_TIMER + .15
-      self.cursorX = math.max(self.cursorX - 16, 0)
-      self.cursorY = math.max(self.cursorY - 13, 0)
-      self.blink = false
-      self.blinkTimer = .5
+  if #INPUT_LIST < 3 then
+    --DIAGONAL MOVEMENT
+    if INPUT:down('up') and INPUT:down('left') then
+      self.fastSelectTimer = self.fastSelectTimer - dt
+      if self.fastSelectTimer <= 0 then
+        self.fastSelectTimer = FAST_SELECT_TIMER + .15
+        self.cursorX = math.max(self.cursorX - 16, 0)
+        self.cursorY = math.max(self.cursorY - 13, 0)
+        self.blink = false
+        self.blinkTimer = .5
+      end
     end
-  end
-  if INPUT:down('up') and INPUT:down('right') then
-    self.fastSelectTimer = self.fastSelectTimer - dt
-    if self.fastSelectTimer <= 0 then
-      self.fastSelectTimer = FAST_SELECT_TIMER + .15
-      self.cursorX = math.min(self.cursorX + 16, 144)
-      self.cursorY = math.max(self.cursorY - 13, 0)
-      self.blink = false
-      self.blinkTimer = .5
+    if INPUT:down('up') and INPUT:down('right') then
+      self.fastSelectTimer = self.fastSelectTimer - dt
+      if self.fastSelectTimer <= 0 then
+        self.fastSelectTimer = FAST_SELECT_TIMER + .15
+        self.cursorX = math.min(self.cursorX + 16, 144)
+        self.cursorY = math.max(self.cursorY - 13, 0)
+        self.blink = false
+        self.blinkTimer = .5
+      end
     end
-  end
-  if INPUT:down('right') and INPUT:down('down') then
-    self.fastSelectTimer = self.fastSelectTimer - dt 
-    if self.fastSelectTimer <= 0 then
-      self.fastSelectTimer = FAST_SELECT_TIMER + .15
-      self.cursorX = math.min(self.cursorX + 16, 144)
-      self.cursorY = math.min(self.cursorY + 13, 117)
-      self.blink = false
-      self.blinkTimer = .5
+    if INPUT:down('right') and INPUT:down('down') then
+      self.fastSelectTimer = self.fastSelectTimer - dt
+      if self.fastSelectTimer <= 0 then
+        self.fastSelectTimer = FAST_SELECT_TIMER + .15
+        self.cursorX = math.min(self.cursorX + 16, 144)
+        self.cursorY = math.min(self.cursorY + 13, 117)
+        self.blink = false
+        self.blinkTimer = .5
+      end
     end
-  end
-  if INPUT:down('down') and INPUT:down('left') then
-    self.fastSelectTimer = self.fastSelectTimer - dt
-    if self.fastSelectTimer <= 0 then
-      self.fastSelectTimer = FAST_SELECT_TIMER + .15
-      self.cursorX = math.max(self.cursorX - 16, 0)
-      self.cursorY = math.min(self.cursorY + 13, 117)
-      self.blink = false
-      self.blinkTimer = .5
+    if INPUT:down('down') and INPUT:down('left') then
+      self.fastSelectTimer = self.fastSelectTimer - dt
+      if self.fastSelectTimer <= 0 then
+        self.fastSelectTimer = FAST_SELECT_TIMER + .15
+        self.cursorX = math.max(self.cursorX - 16, 0)
+        self.cursorY = math.min(self.cursorY + 13, 117)
+        self.blink = false
+        self.blinkTimer = .5
+      end
     end
-  end
 
 
-  --JUST LEFT
-  if INPUT:pressed('left') then
-    self.cursorX = math.max(self.cursorX - 16, 0)
-    self.blink = false
-    self.blinkTimer = .5
-  end
-  if INPUT:down('left') and not INPUT:down('right') and not INPUT:down('up') and not INPUT:down('down') then
-    self.fastSelectTimer = self.fastSelectTimer - dt 
-    if self.fastSelectTimer <= 0 then
-      self.fastSelectTimer = FAST_SELECT_TIMER
+    --JUST LEFT
+    if INPUT:pressed('left') then
       self.cursorX = math.max(self.cursorX - 16, 0)
       self.blink = false
       self.blinkTimer = .5
     end
-  end
-  if INPUT:released('left') then
-    self.fastSelectTimer = FAST_SELECT_TIMER
-  end
-
-
-  --JUST RIGHT
-  if INPUT:pressed('right') then
-    self.cursorX = math.min(self.cursorX + 16, 144)
-    self.blink = false
-    self.blinkTimer = .5
-  end
-  if INPUT:down('right') and not INPUT:down('left') and not INPUT:down('up') and not INPUT:down('down') then
-    self.fastSelectTimer = self.fastSelectTimer - dt 
-    if self.fastSelectTimer <= 0 then
+    if INPUT:down('left') and not INPUT:down('right') and not INPUT:down('up') and not INPUT:down('down') then
+      self.fastSelectTimer = self.fastSelectTimer - dt
+      if self.fastSelectTimer <= 0 then
+        self.fastSelectTimer = FAST_SELECT_TIMER
+        self.cursorX = math.max(self.cursorX - 16, 0)
+        self.blink = false
+        self.blinkTimer = .5
+      end
+    end
+    if INPUT:released('left') then
       self.fastSelectTimer = FAST_SELECT_TIMER
+    end
+
+
+    --JUST RIGHT
+    if INPUT:pressed('right') then
       self.cursorX = math.min(self.cursorX + 16, 144)
       self.blink = false
       self.blinkTimer = .5
     end
-  end
-  if INPUT:released('right') then
-    self.fastSelectTimer = FAST_SELECT_TIMER
-  end
-
-
-  --JUST UP
-  if INPUT:pressed('up') then
-    self.cursorY = math.max(self.cursorY - 13, 0)
-    self.blink = false
-    self.blinkTimer = .5
-  end
-  if INPUT:down('up') and not INPUT:down('left') and not INPUT:down('right') and not INPUT:down('down') then
-    self.fastSelectTimer = self.fastSelectTimer - dt 
-    if self.fastSelectTimer <= 0 then
+    if INPUT:down('right') and not INPUT:down('left') and not INPUT:down('up') and not INPUT:down('down') then
+      self.fastSelectTimer = self.fastSelectTimer - dt
+      if self.fastSelectTimer <= 0 then
+        self.fastSelectTimer = FAST_SELECT_TIMER
+        self.cursorX = math.min(self.cursorX + 16, 144)
+        self.blink = false
+        self.blinkTimer = .5
+      end
+    end
+    if INPUT:released('right') then
       self.fastSelectTimer = FAST_SELECT_TIMER
+    end
+
+
+    --JUST UP
+    if INPUT:pressed('up') then
       self.cursorY = math.max(self.cursorY - 13, 0)
       self.blink = false
       self.blinkTimer = .5
     end
-  end
-  if INPUT:released('up') then
-    self.fastSelectTimer = FAST_SELECT_TIMER
-  end
-
-
-  --JUST DOWN
-  if INPUT:pressed('down') then
-    self.cursorY = math.min(self.cursorY + 13, 117)
-    self.blink = false
-    self.blinkTimer = .5
-  end
-
-  if INPUT:down('down') and not INPUT:down('left') and not INPUT:down('right') and not INPUT:down('up') then
-    self.fastSelectTimer = self.fastSelectTimer - dt 
-    if self.fastSelectTimer <= 0 then
+    if INPUT:down('up') and not INPUT:down('left') and not INPUT:down('right') and not INPUT:down('down') then
+      self.fastSelectTimer = self.fastSelectTimer - dt
+      if self.fastSelectTimer <= 0 then
+        self.fastSelectTimer = FAST_SELECT_TIMER
+        self.cursorY = math.max(self.cursorY - 13, 0)
+        self.blink = false
+        self.blinkTimer = .5
+      end
+    end
+    if INPUT:released('up') then
       self.fastSelectTimer = FAST_SELECT_TIMER
+    end
+
+
+    --JUST DOWN
+    if INPUT:pressed('down') then
       self.cursorY = math.min(self.cursorY + 13, 117)
       self.blink = false
       self.blinkTimer = .5
     end
-  end
-  if INPUT:released('down') then
-    self.fastSelectTimer = FAST_SELECT_TIMER
-  end
+
+    if INPUT:down('down') and not INPUT:down('left') and not INPUT:down('right') and not INPUT:down('up') then
+      self.fastSelectTimer = self.fastSelectTimer - dt
+      if self.fastSelectTimer <= 0 then
+        self.fastSelectTimer = FAST_SELECT_TIMER
+        self.cursorY = math.min(self.cursorY + 13, 117)
+        self.blink = false
+        self.blinkTimer = .5
+      end
+    end
+    if INPUT:released('down') then
+      self.fastSelectTimer = FAST_SELECT_TIMER
+    end
 
 
-  self.column = self.cursorX / 16 + 1
-  self.row = self.cursorY / 13 + 1
+    self.column = self.cursorX / 16 + 1
+    self.row = self.cursorY / 13 + 1
+  end
 end
 
 function Minimap:render()

@@ -27,6 +27,27 @@ function removeDirection(direction)
   end
 end
 
+function insertButton(button)
+  local buttonCount = 0
+  for key, value in ipairs(BUTTON_LIST) do
+    if value == button then
+      buttonCount = buttonCount + 1
+    end
+  end
+  if buttonCount == 0 then
+    table.insert(BUTTON_LIST, button)
+  end
+end
+
+function removeButton(button)
+  for key, value in ipairs(BUTTON_LIST) do
+    if value == button then
+      table.remove(BUTTON_LIST, key)
+      break
+    end
+  end
+end
+
 function InputHandling:update(dt)
   INPUT:update()
   if INPUT:pressed('left') then
@@ -53,6 +74,32 @@ function InputHandling:update(dt)
   end
   if INPUT:released('down') then
     removeDirection('down')
+  end
+
+
+  if INPUT:pressed('action') then
+    insertButton('A')
+  end
+  if INPUT:released('action') then
+    removeButton('A')
+  end
+  if INPUT:pressed('actionB') then
+    insertButton('B')
+  end
+  if INPUT:released('actionB') then
+    removeButton('B')
+  end
+  if INPUT:pressed('start') then
+    insertButton('START')
+  end
+  if INPUT:released('start') then
+    removeButton('START')
+  end
+  if INPUT:pressed('select') then
+    insertButton('SELECT')
+  end
+  if INPUT:released('select') then
+    removeButton('SELECT')
   end
 
   --INPUT LIST SANITATION

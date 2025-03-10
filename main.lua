@@ -111,7 +111,7 @@ function love.update(dt)
   --]]
 
   Timer.update(dt)
-  if love.keyboard.wasPressed('`') then
+  if love.keyboard.wasPressed('0') then
     mouseState = not love.mouse.isVisible()
     love.mouse.setVisible(mouseState)
   end

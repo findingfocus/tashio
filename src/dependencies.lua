@@ -10,28 +10,22 @@ require 'src/TouchDetection'
 require 'src/constants'
 
 dpad = {
-  --TouchDetection(DPAD_X,DPAD_Y, DPAD_COLOR_TL, 'left', 'up'), --UPLEFT
-  TouchDetection(9, VIRTUAL_HEIGHT_GB / 2 + 18, DPAD_DIAGONAL_WIDTH * 3, DPAD_COLOR_TC, 'up'), --UP
-  --[[
-  TouchDetection(40, VIRTUAL_HEIGHT_GB / 2 + 20, DPAD_COLOR_TR, 'right', 'up'), --UPRIGHT
-  TouchDetection(0, VIRTUAL_HEIGHT_GB / 2 + 20, DPAD_COLOR_LEFT, 'left'), --LEFT
-  TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y + DPAD_DIAGONAL_WIDTH, DPAD_COLOR_RIGHT, 'right'), --RIGHT
-  TouchDetection(DPAD_X, DPAD_Y + DPAD_DIAGONAL_WIDTH * 2, DPAD_COLOR_BL, 'left', 'down'), --DOWNLEFT
-  TouchDetection(20, VIRTUAL_HEIGHT_GB / 2 + 40, DPAD_COLOR_BC, 'down'), --DOWN
-  TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y + DPAD_DIAGONAL_WIDTH * 2, DPAD_COLOR_BR, 'right', 'down'), --DOWNRIGHT
-  --]]
+  TouchDetection(DPAD_LEFT_EDGE, DPAD_TOP_EDGE, DPAD_BUTTON_WIDTH * 3, DPAD_BUTTON_WIDTH, DPAD_COLOR_TC, 'up'),
+  TouchDetection(DPAD_LEFT_EDGE, DPAD_TOP_EDGE + DPAD_BUTTON_WIDTH * 2, DPAD_BUTTON_WIDTH * 3, DPAD_BUTTON_WIDTH, DPAD_COLOR_BC, 'down'),
+  TouchDetection(DPAD_LEFT_EDGE, DPAD_TOP_EDGE, DPAD_BUTTON_WIDTH, DPAD_BUTTON_WIDTH * 3, DPAD_COLOR_LEFT, 'left'),
+  TouchDetection(DPAD_LEFT_EDGE + DPAD_BUTTON_WIDTH * 2, DPAD_TOP_EDGE, DPAD_BUTTON_WIDTH, DPAD_BUTTON_WIDTH * 3, DPAD_COLOR_RIGHT, 'right')
 }
 
 buttons = {
-  TouchDetection(VIRTUAL_WIDTH - 33, VIRTUAL_HEIGHT_GB / 2 + DPAD_DIAGONAL_WIDTH + 2, DPAD_DIAGONAL_WIDTH, DPAD_COLOR_TL, 'A'), --A
-  TouchDetection(VIRTUAL_WIDTH - 64, VIRTUAL_HEIGHT_GB / 2 + DPAD_DIAGONAL_WIDTH * 2 + 3, DPAD_DIAGONAL_WIDTH, DPAD_COLOR_TL, 'B'), --B
-  TouchDetection(VIRTUAL_WIDTH / 2 - 56, VIRTUAL_HEIGHT_GB - 30, DPAD_DIAGONAL_WIDTH, DPAD_COLOR_TL, 'SELECT'), --SELECT
-  TouchDetection(VIRTUAL_WIDTH / 2 - 14, VIRTUAL_HEIGHT_GB - 30, DPAD_DIAGONAL_WIDTH, DPAD_COLOR_TL, 'START'), --START
+  TouchDetection(VIRTUAL_WIDTH - 33, VIRTUAL_HEIGHT_GB / 2 + DPAD_BUTTON_WIDTH + 3, DPAD_BUTTON_WIDTH, DPAD_BUTTON_WIDTH, DPAD_COLOR_TL, 'A'), --A
+  TouchDetection(VIRTUAL_WIDTH - 63, VIRTUAL_HEIGHT_GB / 2 + DPAD_BUTTON_WIDTH * 2 + 6, DPAD_BUTTON_WIDTH, DPAD_BUTTON_WIDTH, DPAD_COLOR_TL, 'B'), --B
+  TouchDetection(VIRTUAL_WIDTH / 2 - 56, OPTIONS_Y, DPAD_BUTTON_WIDTH, DPAD_BUTTON_WIDTH, DPAD_COLOR_TL, 'SELECT'), --SELECT
+  TouchDetection(VIRTUAL_WIDTH / 2 - 14, OPTIONS_Y, DPAD_BUTTON_WIDTH, DPAD_BUTTON_WIDTH, DPAD_COLOR_TL, 'START'), --START
 }
 
 --[[
-TouchDetection(VIRTUAL_WIDTH - 33, VIRTUAL_HEIGHT_GB / 2 + DPAD_DIAGONAL_WIDTH + 2, DPAD_COLOR_TL, 'A'),
-TouchDetection(VIRTUAL_WIDTH - 64, VIRTUAL_HEIGHT_GB / 2 + DPAD_DIAGONAL_WIDTH * 2 + 3, DPAD_COLOR_TL, 'B'),
+TouchDetection(VIRTUAL_WIDTH - 33, VIRTUAL_HEIGHT_GB / 2 + DPAD_BUTTON_WIDTH + 2, DPAD_COLOR_TL, 'A'),
+TouchDetection(VIRTUAL_WIDTH - 64, VIRTUAL_HEIGHT_GB / 2 + DPAD_BUTTON_WIDTH * 2 + 3, DPAD_COLOR_TL, 'B'),
 TouchDetection(VIRTUAL_WIDTH / 2 - 56, VIRTUAL_HEIGHT_GB - 30, DPAD_COLOR_TL, 'SELECT'),
 TouchDetection(VIRTUAL_WIDTH / 2 - 14, VIRTUAL_HEIGHT_GB - 30, DPAD_COLOR_TL, 'START')
 --]]
@@ -42,10 +36,10 @@ INPUT = baton.new {
     right = {'key:right', 'key:d', 'axis:leftx+', 'button:dpright', 'touch:right'},
     up = {'key:up', 'key:w', 'axis:lefty-', 'button:dpup', 'touch:up'},
     down = {'key:down', 'key:s', 'axis:lefty+', 'button:dpdown', 'touch:down'},
-    action = {'key:space', 'button:a', 'touch:A'},
-    actionB = {'key:lshift', 'key:rshift', 'button:b', 'touch:B'},
+    action = {'key:space', 'key:p', 'button:a', 'touch:A'},
+    actionB = {'key:lshift', 'key:rshift', 'key:o', 'button:b', 'touch:B'},
     start = {'key:tab', 'button:start', 'touch:START'},
-    select = {'key:h', 'button:back', 'touch:SELECT'}
+    select = {'key:h', 'key:`', 'button:back', 'touch:SELECT'}
   },
   pairs = {
     move = {'left', 'right', 'up', 'down'}
@@ -64,6 +58,7 @@ lute = love.graphics.newImage('graphics/lute.png')
 boulder = love.graphics.newImage('graphics/boulder.png')
 crate = love.graphics.newImage('graphics/crate.png')
 log = love.graphics.newImage('graphics/log.png')
+optionsButtonPressed = love.graphics.newImage('graphics/optionsButtonPressed.png')
 treasureChestClosed = love.graphics.newImage('graphics/chest-closed.png')
 treasureChestOpen = love.graphics.newImage('graphics/chest-open.png')
 
