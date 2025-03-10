@@ -25,13 +25,13 @@ function TouchHandling:init()
   --[[
   dpad = {
     TouchDetection(DPAD_X,DPAD_Y, DPAD_COLOR_TL, 'left', 'up'), --UPLEFT
-    TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH, DPAD_Y, DPAD_COLOR_TC, 'up'), --UP
-    TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y, DPAD_COLOR_TR, 'right', 'up'), --UPRIGHT
-    TouchDetection(DPAD_X, DPAD_Y + DPAD_DIAGONAL_WIDTH, DPAD_COLOR_LEFT, 'left'), --LEFT
-    TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y + DPAD_DIAGONAL_WIDTH, DPAD_COLOR_RIGHT, 'right'), --RIGHT
-    TouchDetection(DPAD_X, DPAD_Y + DPAD_DIAGONAL_WIDTH * 2, DPAD_COLOR_BL, 'left', 'down'), --DOWNLEFT
-    TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH, DPAD_Y + DPAD_DIAGONAL_WIDTH * 2, DPAD_COLOR_BC, 'down'), --DOWN
-    TouchDetection(DPAD_X + DPAD_DIAGONAL_WIDTH * 2, DPAD_Y + DPAD_DIAGONAL_WIDTH * 2, DPAD_COLOR_BR, 'right', 'down'), --DOWNRIGHT
+    TouchDetection(DPAD_X + DPAD_BUTTON_WIDTH, DPAD_Y, DPAD_COLOR_TC, 'up'), --UP
+    TouchDetection(DPAD_X + DPAD_BUTTON_WIDTH * 2, DPAD_Y, DPAD_COLOR_TR, 'right', 'up'), --UPRIGHT
+    TouchDetection(DPAD_X, DPAD_Y + DPAD_BUTTON_WIDTH, DPAD_COLOR_LEFT, 'left'), --LEFT
+    TouchDetection(DPAD_X + DPAD_BUTTON_WIDTH * 2, DPAD_Y + DPAD_BUTTON_WIDTH, DPAD_COLOR_RIGHT, 'right'), --RIGHT
+    TouchDetection(DPAD_X, DPAD_Y + DPAD_BUTTON_WIDTH * 2, DPAD_COLOR_BL, 'left', 'down'), --DOWNLEFT
+    TouchDetection(DPAD_X + DPAD_BUTTON_WIDTH, DPAD_Y + DPAD_BUTTON_WIDTH * 2, DPAD_COLOR_BC, 'down'), --DOWN
+    TouchDetection(DPAD_X + DPAD_BUTTON_WIDTH * 2, DPAD_Y + DPAD_BUTTON_WIDTH * 2, DPAD_COLOR_BR, 'right', 'down'), --DOWNRIGHT
   }
   buttons = {
     TouchDetection(ABUTTON_X, ABUTTON_Y, DPAD_COLOR_TL, 'A'), --A
@@ -50,7 +50,6 @@ function TouchHandling:init()
   --[3] == UPRIGHT
   --[6] == DOWNLEFT
   --[8] == DOWNRIGHT
-  touches = {}
 
 
 --OLD TOUCH
@@ -69,6 +68,7 @@ function TouchHandling:init()
     end
   end
   --]]
+  touches = {}
 
   function love.touchmoved(id, x, y, dx, dy)
     if touches[id] then
@@ -93,7 +93,7 @@ function TouchHandling:update(dt)
   end
 
   for k, button in pairs(dpad) do
-    for index, touch in pairs(touches) do
+    for _, touch in pairs(INPUT._touches) do
       if button:collides(touch) then
         button.pressed = true
         break
@@ -161,6 +161,8 @@ function TouchHandling:render()
     love.graphics.setColor(RED)
     --love.graphics.print('x: ' .. tostring(touch.x), 10, 40)
     --love.graphics.print('y: ' .. tostring(touch.y), 10, 50)
-    love.graphics.circle('fill', touch.x, touch.y, 10)
+
+    --TOUCH DETECTION CIRCLE DEBUG
+    --love.graphics.circle('fill', touch.x, touch.y, 10)
   end
 end
