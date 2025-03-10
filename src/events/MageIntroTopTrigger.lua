@@ -6,34 +6,90 @@ function MageIntroTopTrigger:init()
   self.stateName = 'mageIntroTopTrigger'
 
   self.originalPlayerX, self.originalPlayerY = gPlayer.x, gPlayer.y
-  self.step = 1
+  self.step = 0
   sceneView.activeDialogueID = nil
   self.showOff = false
   self.treasureX = -TILE_SIZE
   self.treasureY = -TILE_SIZE
   self.psystem = love.graphics.newParticleSystem(particle, 500)
+  self.option = nil
 end
 
 function MageIntroTopTrigger:update(dt)
   if not PAUSED then
     sceneView:update(dt)
   end
-  if gPlayer.y < TILE_SIZE then
+  if gPlayer.y < TILE_SIZE - 8 and (gPlayer.x > TILE_SIZE * 4 and gPlayer.x < TILE_SIZE * 6) then
+    self.option = 1
+    gPlayer:changeAnimation('walk-down')
+    table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(10, 19, TILE_SIZE * 4, 0, TILE_SIZE, TILE_SIZE))
+    table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(10, 19, TILE_SIZE * 5, 0, TILE_SIZE, TILE_SIZE))
+    self.step = 1
+  elseif gPlayer.y > TILE_SIZE * 7 then
+    self.option = 2
+    table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(10, 19, TILE_SIZE * 4, 0, TILE_SIZE, TILE_SIZE))
+    table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(10, 19, TILE_SIZE * 5, 0, TILE_SIZE, TILE_SIZE))
+    gPlayer:changeAnimation('walk-up')
     self.step = 1
   end
+
+  if INPUT:pressed('action') then
+    --DIALOGUE DETECTION
+    for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do
+      if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]) and not MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated then
+        PAUSED = true
+        MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]:flushText()
+        MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated = true
+        self.dialogueID = k
+        sceneView.activeDialogueID = v.dialogueID
+      end
+    end
+    for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+      if v.classType == 'treasureChest' then
+        if not v.opened then
+          if gPlayer:dialogueCollides(v) then
+            v:openChest()
+            treasureChestOption = true
+          end
+        end
+      end
+    end
+  end
+
+  --DIALOGUE UPDATE
+  if sceneView.activeDialogueID ~= nil then
+      MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[sceneView.activeDialogueID]:update(dt)
+  end
+
   if self.step == 1 then
     mage:changeAnimation('walk-down')
     gPlayer:changeState('player-cinematic')
-    Timer.tween(1.5, {
-      [mage] = {x = TILE_SIZE * 4 + TILE_SIZE / 2, y = TILE_SIZE},
-    }):finish()
-    gPlayer:changeAnimation('walk-down')
-    Timer.tween(1.5, {
-      [gPlayer] = {x = TILE_SIZE * 4 + TILE_SIZE / 2, y = TILE_SIZE * 3},
-    }):finish()
-    if gPlayer.y == TILE_SIZE * 3 then
-      Timer.clear()
-      self.step = 2
+    if self.option == 1 then
+      Timer.tween(2, {
+        [mage] = {x = TILE_SIZE * 4 + TILE_SIZE / 2, y = TILE_SIZE},
+      }):finish()
+      Timer.tween(1.5, {
+        [gPlayer] = {x = TILE_SIZE * 4 + TILE_SIZE / 2, y = TILE_SIZE * 3},
+      }):finish()
+      if gPlayer.y == TILE_SIZE * 3 then
+        Timer.clear()
+        self.step = 2
+      end
+    elseif self.option == 2 then
+      if gPlayer.y < TILE_SIZE * 6 then
+        Timer.tween(2, {
+          [mage] = {x = TILE_SIZE * 4 + TILE_SIZE / 2, y = TILE_SIZE},
+        }):finish()
+        Timer.tween(1.5, {
+          [gPlayer] = {x = TILE_SIZE * 4 + TILE_SIZE / 2, y = TILE_SIZE * 4},
+        }):finish()
+        if gPlayer.y == TILE_SIZE * 4 then
+          Timer.clear()
+          self.step = 2
+        end
+      else
+        gPlayer.y = gPlayer.y - (PLAYER_WALK_SPEED / 2) * dt
+      end
     end
   elseif self.step == 2 then
     gPlayer:changeAnimation('idle-up')
@@ -89,6 +145,7 @@ function MageIntroTopTrigger:update(dt)
     }):finish()
     if mage.y == -TILE_SIZE then
       Timer.clear()
+      table.insert(MAP[10][19].psystems, MageMagicWall())
       self.step = 9
       gPlayer:changeAnimation('idle-up')
       gPlayer.direction = 'up'
@@ -96,13 +153,6 @@ function MageIntroTopTrigger:update(dt)
   elseif self.step == 9 then
     --CHANGE TO PLAY STATE
     gPlayer:changeState('player-walk')
-    self.psystem:moveTo(TILE_SIZE * 5, TILE_SIZE - 1)
-    self.psystem:setParticleLifetime(2, 4)
-    self.psystem:setEmissionArea('borderrectangle', TILE_SIZE, 0)
-    self.psystem:setLinearAcceleration(0, math.random(-6, -12))
-    self.psystem:setEmissionRate(500)
-    self.psystem:setColors(80/255, 40/255, 255/255, 255/255, 80/255, 120/255, 255/255, 100/255)
-    self.psystem:update(dt)
   end
 end
 
@@ -111,6 +161,11 @@ function MageIntroTopTrigger:render()
   sceneView:render()
   love.graphics.pop()
   love.graphics.setFont(classicFont)
+
+  if self.step == 9 then
+    gStateMachine:change('playState')
+  end
+
   local anim = gPlayer.currentAnimation
   --HUD RENDER
   ---[[
@@ -143,10 +198,10 @@ function MageIntroTopTrigger:render()
     love.graphics.draw(flamme, self.treasureX, self.treasureY)
   end
 
-  if self.step == 9 then
-    love.graphics.draw(self.psystem, 0, 0)
-  end
 
+  if sceneView.activeDialogueID ~= nil then
+    MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[sceneView.activeDialogueID]:render()
+  end
 
   --[[
   love.graphics.setColor(YELLOW)

@@ -10,13 +10,13 @@ __Factor gecko logic into gecko class, which aspects of entity class do enemies 
 __Incorporate Prosto closure fix for local variables
 
 Todo
+__Standardize particle emission upon init
+__Add showOff to Lute
 __Remove beeps on non idol DialogueBox
 __Prevent Inventory load if gameOver
 __Flush DX DY, flashing, hit, resetAll player variables upon gameOver
 __Add invulnerable state for tashio upon being hurt, esp when falling
 __Automate idol DialogueBox insertions, have code, not working
-__Normalize outputs based on both keyboard and touch
-__Add Tashio getting treasure sprite
 __Add treasure sprites
 __Fix lone pixel in flower animation
 __Add correct text indicator timing to dialogue boxes
@@ -38,17 +38,9 @@ __Sweat when pushing without tunic of strength
 
 Next Episode
 __Add better Mage text for open
-__Move DialogueBox collidables into MageOpenCinematic State
-__Add Collision to the magic barrier
-__Store Scene Particles systems in scene psystem table
-__Render psystem at scenes adjacent offset
 __Factor out distanceToPlayer into entity class
-__Add timer for spitball spitting
 __BUGFIX bats flying after chestOpen
 __Improve distanceToPlayer in Bat Entity
-__Prevent bat entity from moving upon player
-__Flush displacementX and Y upon nearing player
-__Add to legalPush, checking for other collidable objects
 __Add entity to collidable map objects collision
 __Lute equip upon tunic change bug
 __Hold off fret render on luteState swap
@@ -80,6 +72,15 @@ __Add flower anim to be transparent
 __Tweak falling trigger upon pit collision
 
 COMPLETED
+X_Add timer for spitball spitting
+X_Prevent bat entity from moving upon player
+X_Normalize outputs based on both keyboard and touch
+X_Add Tashio getting treasure sprite
+X_Scripting for bottom trigger mageOpen cinematic
+X_Move DialogueBox collidables into MageOpenCinematic State
+X_Add Collision to the magic barrier
+X_Store Scene Particles systems in scene psystem table
+X_Render psystem at scenes adjacent offset
 X_Add Gameboy resolution screen
 X_Add Sprite
 X_Moving with input

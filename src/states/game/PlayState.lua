@@ -93,6 +93,7 @@ function PlayState:update(dt)
   end
   if love.keyboard.wasPressed('t') then
     sceneView.activeDialogueID = nil
+    MAP[10][19].collidableMapObjects = {}
     gStateMachine:change('mageIntroTopTrigger')
   end
   self.stateTimer = self.stateTimer + dt
@@ -161,10 +162,11 @@ function PlayState:update(dt)
     creditSequence = creditSequence == false and true or false
   end
 
-  self.rainSystem:update(dt)
+  --self.rainSystem:update(dt)
+  --self.snowSystem:update(dt)
   if creditSequence then
-    self.snowSystem:update(dt)
     self.rainSystem:update(dt)
+    self.snowSystem:update(dt)
     creditsY = creditsY - CREDITS_SPEED
   end
 
@@ -331,23 +333,14 @@ function PlayState:update(dt)
     --DIALOGUE DETECTION
     for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do
       if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]) and not MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated then
+        PAUSED = true
         MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]:flushText()
         MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated = true
         self.dialogueID = k
         self.activeDialogueID = v.dialogueID
         sceneView.activeDialogueID = v.dialogueID
-        --[[
-        MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].line1Result = ''
-        MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].line2Result = ''
-        MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].line3Result = ''
-        MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].lineCount = 1
-        MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].textIndex = 1
-        -]]
-        --table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k])
-        --]]
       end
     end
-
     for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
       if v.classType == 'treasureChest' then
         if not v.opened then
@@ -684,6 +677,7 @@ function PlayState:render()
     love.graphics.printf('SUPPORTERS:\nsoup_or_king\nakabob56\njeanniegrey\nsaltomanga\nmeesegamez\nk_tronix\nhimeh3\nflatulenceknocker\nofficial_wutnot\nroughcookie\ntheshakycoder\ntjtheprogrammer\npunymagus\nprostokotylo\ntheveryrealrev\nsqwinge\nbrettdoestwitch\nbrightsidemovement\nlokitrixter', 0, creditsY, VIRTUAL_WIDTH, 'center')
   end
 
+  --self.snowSystem:render()
   --self.rainSystem:render()
   if sceneView.player.deadTimer > 2 then
     gPlayer.dx = 0
