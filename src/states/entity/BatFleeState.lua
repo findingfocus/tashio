@@ -15,6 +15,7 @@ function BatFleeState:init(entity)
   self.entity.flyBL = false
   self.entity.flyBR = false
   self.entity.hit = false
+  self.blocked = false
 
   --RIGHT EXIT
   if self.entity.x < gPlayer.x + (gPlayer.width / 2) then
@@ -30,11 +31,72 @@ function BatFleeState:init(entity)
   end
 end
 
-function BatFleeState:processAI(params, dt, player)
+function BatFleeState:resetOriginalPosition()
+  self.entity.health = 2
+  self.entity.spawning = true
+  self.entity.corrupted = true
+  self.entity.zigzagTime = 0
+  self.entity.walkSpeed = math.random(8, 14)
+  self.entity.zigzagFrequency = math.random(4.5, 6)
+  self.entity.zigzagAmplitude = math.random(.5, .75)
+  self.entity.spawnTimer = 0
+  self.entity.setLocation = false
+  self.entity:changeState('bat-spawn')
+  self.entity:changeAnimation('pursue')
 end
 
-function BatFleeState:update(dt)
+function BatFleeState:processAI(params, dt, player)
 
+end
+
+boxY = 0
+
+function BatFleeState:update(dt)
+  for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+    if v.classType == 'pushable' then
+      boxY = v.y
+    end
+  end
+  if self.entity.x < 0 or self.entity.x > VIRTUAL_WIDTH then
+    if self.entity.y < 0 or self.entity.y > VIRTUAL_HEIGHT then
+      for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+        if v.classType == 'pushable' then
+          if self.entity.spawnRow == 1 then
+            if v.y == TILE_SIZE and v.x == self.entity.spawnColumn * TILE_SIZE - TILE_SIZE then
+              self.blocked = true
+              break
+            else
+              self.blocked = false
+            end
+          elseif self.spawnRow == 8 then --BOTTOM ENTRANCE
+            if v.y == TILE_SIZE * 6 and v.x == self.entity.spawnColumn * TILE_SIZE - TILE_SIZE then
+              self.blocked = true
+              break
+            else
+              self.blocked = false
+            end
+          elseif self.spawnColumn == 10 then --RIGHT SIDE ENTRANCE
+            if v.y == self.entity.spawnRow * TILE_SIZE - TILE_SIZE and v.x == TILE_SIZE * 8 then
+              self.blocked = true
+              break
+            else
+              self.blocked = false
+            end
+          elseif self.spawnColumn == 1 then --LEFT SIDE ENTRANCE
+            if v.y == self.entity.spawnRow * TILE_SIZE - TILE_SIZE and v.x == TILE_SIZE then
+              self.blocked = true
+              break
+            else
+              self.blocked = false
+            end
+          end
+        end
+
+        if not self.blocked then
+          self:resetOriginalPosition()
+        end
+      end
+    end
 end
 
 function BatFleeState:render()
@@ -49,4 +111,6 @@ function BatFleeState:render()
   love.graphics.print('dy: ' .. tostring(self.entity.dy), 0, 10)
   love.graphics.print('walkSpeed: ' .. tostring(self.entity.walkSpeed), 0, 20)
   --]]
+  love.graphics.print('blocked: ' .. tostring(self.blocked), 0, 10)
+  love.graphics.print('boxY: ' .. tostring(boxY), 0, 20)
 end

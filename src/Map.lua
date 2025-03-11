@@ -370,7 +370,6 @@ function Map:update(dt)
     end
   end
 
-  --UPDATE PUSHABLES
   --[[
   if MAP[self.row][self.column].pushables[1] ~= nil then
     for k, v in pairs(MAP[self.row][self.column].pushables) do
@@ -382,9 +381,16 @@ function Map:update(dt)
   for k, v in pairs(MAP[self.row][self.column].collidableWallObjects) do
     v:update(dt)
   end
+  --UPDATE PUSHABLES
   --COLLIDABLE MAP OBJECTS
   for k, v in pairs(MAP[self.row][self.column].collidableMapObjects) do
-    v:update(dt)
+    if v.classType == 'pushable' then
+      if not v.fallen then
+        v:update(dt)
+      end
+    else
+      v:update(dt)
+    end
 
     if v.type == 'crate' then
       if successfulCast then
@@ -466,10 +472,10 @@ function Map:render()
     end
   end
 
-  --RENDER PUSHABLES
+  --RENDER PUSHABLES TODO PROBABLY REMOVE PUSHABLE TABLE YEAH?
   if MAP[self.row][self.column].pushables[1] ~= nil then
     for k, v in pairs(MAP[self.row][self.column].pushables) do
-      v:render(self.adjacentOffsetX, self.adjacentOffsetY)
+      --v:render(self.adjacentOffsetX, self.adjacentOffsetY)
     end
   end
 

@@ -162,7 +162,7 @@ for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEI
   end
 
   --CHASMS
-  if (aboveGroundTiledMap[tileId] > 13 and aboveGroundTiledMap[tileId] < 22) then
+  if (aboveGroundTiledMap[tileId] > 15 and aboveGroundTiledMap[tileId] < 28) then
     table.insert(MAP[mapRow][mapCol].chasms, Chasm(sceneRow, sceneCol))
   end
 
@@ -259,6 +259,44 @@ table.insert(MAP[1][12].entities, Entity {
   zigzagFrequency = math.random(4.5, 6),
   zigzagAmplitude = math.random(.5, .75),
 })
+
+
+--DUNGEON 1
+table.insert(MAP[4][11].collidableMapObjects, Pushable(5, 4, 'crate'))
+--[[
+table.insert(MAP[4][11].entities, Entity {
+  animations = ENTITY_DEFS['bat'].animations,
+  spawnColumn = 3,
+  spawnRow = 8,
+  width = 24,
+  height = 10,
+  health = 2,
+  spawning = true,
+  type = 'bat',
+  corrupted = true,
+  enemy = true,
+  zigzagTime = 0,
+  walkSpeed = math.random(8, 14),
+  zigzagFrequency = math.random(4.5, 6),
+  zigzagAmplitude = math.random(.5, .75),
+})
+
+local entityCount = 1
+for i = 1, entityCount do
+  MAP[4][11].entities[i].animations = MAP[4][11].entities[i]:createAnimations(ENTITY_DEFS['bat'].animations)
+  MAP[4][11].entities[i]:changeAnimation('pursue')
+  MAP[4][11].entities[i].stateMachine = StateMachine {
+    ['bat-spawn'] = function() return BatSpawnState(MAP[4][11].entities[i], MAP[4][11].entities[i].spawnRow, MAP[4][11].entities[i].spawnColumn) end,
+    ['bat-walk'] = function() return BatWalkState(MAP[4][11].entities[i]) end,
+    ['bat-attack'] = function() return BatAttackState(MAP[4][11].entities[i]) end,
+    ['bat-flee'] = function() return BatFleeState(MAP[4][11].entities[i]) end,
+    ['entity-idle'] = function() return EntityIdleState(MAP[4][11].entities[i]) end,
+  }
+  --.entities[i].originalState = 'bat-spawn'
+  MAP[4][11].entities[i]:changeState('bat-spawn')
+
+  MAP[4][11].entities[i].hit = false
+end
 --]]
 
 --[[
@@ -365,6 +403,10 @@ end
 
 --warpFromRow, warpFromCol, warpToRow, warpToCol, warpFromX, warpFromY, warpToX, warpToY)
 
+
+--MAGE'S CASTLE
+insertWarpZone(9, 2, 10, 19, 5, 3, 5, 8)
+
 --TAVERN
 insertWarpZone(7, 2, 1, 11, 9, 3, 3, 8)
 
@@ -383,6 +425,7 @@ LAVA_RIGHT_EDGE = AnimSpitter(LAVA_RIGHT_EDGE_ANIM_STARTER, 1002, .35)
 LAVA_FLOW = AnimSpitter(LAVA_FLOW_ANIM_STARTER, 121, .35)
 
 --MAGE NPC
+--[[
 table.insert(MAP[7][2].npc, Entity {
   animations = ENTITY_DEFS['mage'].animations,
   walkSpeed = ENTITY_DEFS['mage'].walkSpeed,
@@ -403,6 +446,7 @@ MAP[7][2].npc[mageIndex].stateMachine = StateMachine {
 }
 MAP[7][2].npc[mageIndex]:changeState('npc-walk')
 MAP[7][2].npc[mageIndex].stateMachine.current.option = 'square'
+--]]
 
 --VILLAGER 1
 --[[
@@ -490,13 +534,14 @@ table.insert(MAP[8][3].dialogueBox, DialogueBox(TILE_SIZE * 4, 6 * TILE_SIZE, 'B
 table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, '<-Flowerbed', 'signpost', nil, 2))
 table.insert(MAP[7][2].dialogueBox, DialogueBox(5 * TILE_SIZE, 0, 'Ice Mountain^^', 'signpost', nil, 3))
 table.insert(MAP[7][2].dialogueBox, DialogueBox(7 * TILE_SIZE, 4 * TILE_SIZE, 'Library^^', 'signpost', nil, 4))
-table.insert(MAP[7][2].dialogueBox, DialogueBox(MAP[7][2].npc[mageIndex].x, MAP[7][2].npc[mageIndex].y, 'There\'s plenty of danger around, but treasure too...', 'npc', MAP[7][2].npc[mageIndex], 5))
+--table.insert(MAP[7][2].dialogueBox, DialogueBox(MAP[7][2].npc[mageIndex].x, MAP[7][2].npc[mageIndex].y, 'There\'s plenty of danger around, but treasure too...', 'npc', MAP[7][2].npc[mageIndex], 5))
 
 table.insert(MAP[7][2].collidableMapObjects, Pushable(2, 4, 'boulder'))
 table.insert(MAP[7][2].collidableMapObjects, Pushable(5, 4, 'log'))
 --table.insert(MAP[7][2].collidableMapObjects, Pushable(4, 4, 'crate'))
 --table.insert(MAP[7][2].collidableMapObjects, Pushable(3, 4, 'crate'))
 --table.insert(MAP[7][2].collidableMapObjects, Pushable(3, 5, 'crate'))
+--
 
 --REFACTOR DIALOGUE BOX OUT OF TREASURE CHEST
 table.insert(MAP[1][12].collidableMapObjects, TreasureChest(3, 2, Coin(), {DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'You found a strange coin! It emenates energy... ')}))

@@ -46,9 +46,10 @@ local columns = 10
 local rows = 8
 cameraX = 0
 --STARTING SCENE gPlayer SPAWN
-sceneView = Scene(gPlayer, 10, 19)
+--sceneView = Scene(gPlayer, 10, 19)
 --sceneView = Scene(gPlayer, 7, 2)
 --sceneView = Scene(gPlayer, 1, 12)
+sceneView = Scene(gPlayer, 4, 11)
 tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 --textures = love.graphics.newImage('graphics/textures.png')
 quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
@@ -410,7 +411,10 @@ function PlayState:update(dt)
         --RESET TREASURE CHEST TODO TURN OFF FOR DEMO
         for k, v in pairs(MAP[v.warpRow][v.warpCol].collidableMapObjects) do
           if v.classType == 'treasureChest' then
-            v:reset()
+            --v:reset()
+          end
+          if v.classType == 'pushable' then
+            v:resetOriginalPosition()
           end
         end
         --DISJOINTED DIALOGUE BOX
@@ -509,7 +513,7 @@ function PlayState:render()
   --love.graphics.print('Tashio Tempo', VIRTUAL_WIDTH - 150, SCREEN_HEIGHT_LIMIT + 4)
 
   --MANIS BAR RENDER
-  --[[
+  ---[[
   love.graphics.setColor(255/255, 0/255, 0/255, 255/255)
   love.graphics.rectangle('fill', 0, SCREEN_HEIGHT_LIMIT - 4, self.manis, 2)
 
@@ -711,6 +715,10 @@ function PlayState:render()
     for id, state in pairs(INPUT._touches) do
       --love.graphics.print(id, "pressed:", state.pressed, "down:", state.down, "released:", state.released)
       --love.graphics.print(tostring(INPUT:getActiveDevice()), 0,0)
+    end
+
+    if SnaggedTile ~= nil then
+        love.graphics.print(tostring(SnaggedTile), 0, 0)
     end
 end
 
