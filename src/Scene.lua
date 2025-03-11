@@ -195,39 +195,44 @@ function Scene:update(dt)
       local horizontalCollision = false
       local verticalCollision = false
 
+      --COLLIDABLE MAP OBJECT COLLISION
       for k, v in pairs(sceneView.currentMap.collidableMapObjects) do
         local object = v
-        if self.player:leftCollidesMapObject(object) then
-          self.player.x = object.x + object.width - AABB_SIDE_COLLISION_BUFFER
-          horizontalCollision = true
-        elseif self.player:rightCollidesMapObject(object) then
-          self.player.x = object.x - self.player.width + AABB_SIDE_COLLISION_BUFFER
-          horizontalCollision = true
-        end
-        if self.player:topCollidesMapObject(object) then
-          self.player.y = object.y + object.height - AABB_TOP_COLLISION_BUFFER
-          verticalCollision = true
-        elseif self.player:bottomCollidesMapObject(object) then
-          self.player.y = object.y - self.player.height
-          verticalCollision = true
+        if not v.falling then
+          if self.player:leftCollidesMapObject(object) then
+            self.player.x = object.x + object.width - AABB_SIDE_COLLISION_BUFFER
+            horizontalCollision = true
+          elseif self.player:rightCollidesMapObject(object) then
+            self.player.x = object.x - self.player.width + AABB_SIDE_COLLISION_BUFFER
+            horizontalCollision = true
+          end
+          if self.player:topCollidesMapObject(object) then
+            self.player.y = object.y + object.height - AABB_TOP_COLLISION_BUFFER
+            verticalCollision = true
+          elseif self.player:bottomCollidesMapObject(object) then
+            self.player.y = object.y - self.player.height
+            verticalCollision = true
+          end
         end
       end
 
       for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
         local object = v
-        if self.player:leftCollidesMapObject(object) then
-          self.player.x = object.x + object.width - AABB_SIDE_COLLISION_BUFFER
-          horizontalCollision = true
-        elseif self.player:rightCollidesMapObject(object) then
-          self.player.x = object.x - self.player.width + AABB_SIDE_COLLISION_BUFFER
-          horizontalCollision = true
-        end
-        if self.player:topCollidesMapObject(object) then
-          self.player.y = object.y + object.height - AABB_TOP_COLLISION_BUFFER
-          verticalCollision = true
-        elseif self.player:bottomCollidesMapObject(object) then
-          self.player.y = object.y - self.player.height
-          verticalCollision = true
+        if not v.falling then
+          if self.player:leftCollidesMapObject(object) then
+            self.player.x = object.x + object.width - AABB_SIDE_COLLISION_BUFFER
+            horizontalCollision = true
+          elseif self.player:rightCollidesMapObject(object) then
+            self.player.x = object.x - self.player.width + AABB_SIDE_COLLISION_BUFFER
+            horizontalCollision = true
+          end
+          if self.player:topCollidesMapObject(object) then
+            self.player.y = object.y + object.height - AABB_TOP_COLLISION_BUFFER
+            verticalCollision = true
+          elseif self.player:bottomCollidesMapObject(object) then
+            self.player.y = object.y - self.player.height
+            verticalCollision = true
+          end
         end
       end
 

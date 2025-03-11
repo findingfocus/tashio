@@ -16,6 +16,12 @@ function Pushable:init(x, y, type, keyItem)
   self.type = type
   self.health = 75
   self.brokenCrate = false
+  self.legalPushCheckRow = nil
+  self.legalPushCheckColumn = nil
+  self.scaleX = 1
+  self.scaleY = 1
+  self.falling = false
+  self.fallen = false
   if self.type == 'log' then
     self.image = log
   elseif self.type == 'boulder' then
@@ -52,8 +58,12 @@ function Pushable:resetOriginalPosition()
   if self.keyItem ~= true then
     self.x = self.originalX
     self.y = self.originalY
+    self.scaleX = 1
+    self.scaleY = 1
     self.tileX = self.originalTileX
     self.tileY = self.originalTileY
+    self.falling = false
+    self.fallen = false
   end
 end
 
@@ -134,6 +144,8 @@ function Pushable:collides(x, y, target)
 end
 
 function Pushable:legalPush(row, col)
+  self.legalPushCheckRow = row
+  self.legalPushCheckColumn = col
   if row < 1 or row > 8 or col < 1 or col > 10 then
     return false
   end
@@ -176,11 +188,18 @@ function Pushable:update(dt)
   end
   --]]
 
+
+
   if self.pushUpInitiated then
     local tileAbove = (self.tileY * TILE_SIZE) - TILE_SIZE * 2
+    local tile = sceneView.currentMap.aboveGroundTiles[self.legalPushCheckRow][self.legalPushCheckColumn].id
     if self.y > tileAbove then
       self.y = self.y - PUSH_SPEED * dt
     else
+      --CHASM DETECTION
+      if tile == SQUARE_CHASM_ID then
+          self.falling = true
+      end
       self.y = tileAbove
       self.pushUpInitiated = false
       self.tileY = self.tileY - 1
@@ -189,9 +208,14 @@ function Pushable:update(dt)
 
   if self.pushDownInitiated then
     local tileBelow = self.tileY * TILE_SIZE
+    local tile = sceneView.currentMap.aboveGroundTiles[self.legalPushCheckRow][self.legalPushCheckColumn].id
     if self.y < tileBelow then
       self.y = self.y + PUSH_SPEED * dt
     else
+      --CHASM DETECTION
+      if tile == SQUARE_CHASM_ID then
+          self.falling = true
+      end
       self.y = tileBelow
       self.pushDownInitiated = false
       self.tileY = self.tileY + 1
@@ -200,9 +224,14 @@ function Pushable:update(dt)
 
   if self.pushLeftInitiated then
     local tileLeft = (self.tileX * TILE_SIZE) - TILE_SIZE * 2
+    local tile = sceneView.currentMap.aboveGroundTiles[self.legalPushCheckRow][self.legalPushCheckColumn].id
     if self.x > tileLeft then
       self.x = self.x - PUSH_SPEED * dt
     else
+      --CHASM DETECTION
+      if tile == SQUARE_CHASM_ID then
+          self.falling = true
+      end
       self.x = tileLeft
       self.pushLeftInitiated = false
       self.tileX = self.tileX - 1
@@ -211,15 +240,27 @@ function Pushable:update(dt)
 
   if self.pushRightInitiated then
     local tileRight = self.tileX * TILE_SIZE
+    local tile = sceneView.currentMap.aboveGroundTiles[self.legalPushCheckRow][self.legalPushCheckColumn].id
     if self.x < tileRight then
       self.x = self.x + PUSH_SPEED * dt
     else
+      --CHASM DETECTION
+      if tile == SQUARE_CHASM_ID then
+          self.falling = true
+      end
       self.x = tileRight
       self.pushRightInitiated = false
       self.tileX = self.tileX + 1
     end
   end
 
+  if self.falling then
+    self.scaleX = math.max(0, self.scaleX - dt)
+    self.scaleY = math.max(0, self.scaleY - dt)
+    if self.scaleX == 0 then
+      self.fallen = true
+    end
+  end
 end
 
 function Pushable:render(adjacentOffsetX, adjacentOffsetY)
@@ -230,10 +271,18 @@ function Pushable:render(adjacentOffsetX, adjacentOffsetY)
   --IF CRATE
   if self.type == 'crate' then
     local anim = self.currentAnimation
-    love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()], self.x, self.y)
-  else
-    love.graphics.draw(self.image, self.x, self.y)
+    if self.falling then
+      love.graphics.draw(self.image, self.x + 8, self.y + 8, 0, self.scaleX, self.scaleY, TILE_SIZE / 2, TILE_SIZE / 2)
+      love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()], self.x + 8, self.y + 8, 0, self.scaleX, self.scaleY, TILE_SIZE / 2, TILE_SIZE / 2)
+    else
+      love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()], self.x, self.y)
+    end
+  elseif self.type == 'boulder' then
+    if self.falling then
+      love.graphics.draw(self.image, self.x + 8, self.y + 8, 0, self.scaleX, self.scaleY, TILE_SIZE / 2, TILE_SIZE / 2)
+    else
+      love.graphics.draw(self.image, self.x, self.y)
+    end
   end
-  --
   self.x, self.y = self.x - (adjacentOffsetX or 0), self.y - (adjacentOffsetY or 0)
 end

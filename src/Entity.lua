@@ -21,6 +21,8 @@ function Entity:init(def)
   --self:changeAnimation('idle-down')
   self.spawnRow = def.spawnRow or nil
   self.spawnColumn = def.spawnColumn or nil
+  self.originalSpawnRow = def.spawnRow or nil
+  self.originalSpawnColumn = def.spawnColumn or nil
   self.health = def.health
   self.originalHealth = def.health
   self.corrupted = def.corrupted
