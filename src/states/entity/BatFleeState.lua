@@ -32,13 +32,14 @@ function BatFleeState:init(entity)
 end
 
 function BatFleeState:resetOriginalPosition()
-  self.entity.health = 2
+  self.entity.health = 1
   self.entity.spawning = true
   self.entity.corrupted = true
   self.entity.zigzagTime = 0
   self.entity.walkSpeed = math.random(8, 14)
-  self.entity.zigzagFrequency = math.random(4.5, 6)
-  self.entity.zigzagAmplitude = math.random(.5, .75)
+  self.entity.zigzagFrequency = math.random(1, 5)
+  --self.entity.zigzagAmplitude = math.random(.3, .35)
+  self.entity.zigzagAmplitude = math.random(1, 5) / 10
   self.entity.spawnTimer = 0
   self.entity.setLocation = false
   self.entity:changeState('bat-spawn')
@@ -49,16 +50,9 @@ function BatFleeState:processAI(params, dt, player)
 
 end
 
-boxY = 0
-
 function BatFleeState:update(dt)
-  for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
-    if v.classType == 'pushable' then
-      boxY = v.y
-    end
-  end
-  if self.entity.x < 0 or self.entity.x > VIRTUAL_WIDTH then
-    if self.entity.y < 0 or self.entity.y > VIRTUAL_HEIGHT then
+  if self.entity.x < -self.entity.width or self.entity.x > VIRTUAL_WIDTH then
+    if self.entity.y + self.entity.height < 0 or self.entity.y > VIRTUAL_HEIGHT then
       for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
         if v.classType == 'pushable' then
           if self.entity.spawnRow == 1 then
@@ -97,6 +91,7 @@ function BatFleeState:update(dt)
         end
       end
     end
+  end
 end
 
 function BatFleeState:render()
@@ -112,5 +107,4 @@ function BatFleeState:render()
   love.graphics.print('walkSpeed: ' .. tostring(self.entity.walkSpeed), 0, 20)
   --]]
   love.graphics.print('blocked: ' .. tostring(self.blocked), 0, 10)
-  love.graphics.print('boxY: ' .. tostring(boxY), 0, 20)
 end

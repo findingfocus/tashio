@@ -24,8 +24,6 @@ function BatSpawnState:init(entity, spawnRow, spawnColumn)
   self.collided = false
   self.entity.attackTimer = 0
   --self.entity.dx = -0.8
-  --self.entity.spawnTimer = math.random(1)
-  self.entity.spawnTimer = math.random(30)
   self.pursueTimer = 0
   self.pursueTrigger = 1.5 + self.entity.spawnTimer
 end
@@ -93,7 +91,9 @@ function BatSpawnState:processAI(params, dt, player)
     self.entity.spawnTimer = self.entity.spawnTimer - dt
   end
 
-  self.pursueTimer = self.pursueTimer+ dt
+  if self.entity.spawnTimer < 0 then
+    self.pursueTimer = self.pursueTimer + dt
+  end
   if self.pursueTimer > self.pursueTrigger then
     self.entity.spawning = false
     self.entity:changeState('bat-walk')
@@ -111,5 +111,5 @@ function BatSpawnState:render()
   love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
   self.entity.x, self.entity.y)
   --love.graphics.print(tostring(self.entity.stateMachine.current.stateName), self.entity.x, self.entity.y)
-  love.graphics.print(tostring(self.entity.spawnTimer), 0,0)
+  --love.graphics.print(tostring(self.entity.spawnTimer), 0,0)
 end

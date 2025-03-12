@@ -437,12 +437,6 @@ function Map:render()
     love.graphics.draw(self.psystems[i], self.psystems[i].x, self.psystems[i].y)
   end
 
-  --ENTITY RENDERS
-  for k, entity in pairs(MAP[self.row][self.column].entities) do
-    if not entity.offscreen and entity.spawning then
-      entity:render(self.adjacentOffsetX, self.adjacentOffsetY)
-    end
-  end
 
   --NPC RENDERS
   for k, npc in pairs(MAP[self.row][self.column].npc) do
@@ -472,16 +466,17 @@ function Map:render()
     end
   end
 
-  --RENDER PUSHABLES TODO PROBABLY REMOVE PUSHABLE TABLE YEAH?
-  if MAP[self.row][self.column].pushables[1] ~= nil then
-    for k, v in pairs(MAP[self.row][self.column].pushables) do
-      --v:render(self.adjacentOffsetX, self.adjacentOffsetY)
-    end
-  end
-
+  --RENDER COLLIDABLE MAP OBJECTS
   if MAP[self.row][self.column].collidableMapObjects[1] ~= nil then
     for k, v in pairs(MAP[self.row][self.column].collidableMapObjects) do
       v:render(self.adjacentOffsetX, self.adjacentOffsetY)
+    end
+  end
+
+  --ENTITY RENDER ENTITY
+  for k, entity in pairs(MAP[self.row][self.column].entities) do
+    if not entity.offscreen --[[and entity.spawning--]] then
+      entity:render(self.adjacentOffsetX, self.adjacentOffsetY)
     end
   end
 
