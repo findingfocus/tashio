@@ -22,6 +22,7 @@ function Pushable:init(x, y, type, keyItem)
   self.scaleY = 1
   self.falling = false
   self.fallen = false
+  self.crateCompletelyBroken = false
   if self.type == 'log' then
     self.image = log
   elseif self.type == 'boulder' then
@@ -197,7 +198,7 @@ function Pushable:update(dt)
       self.y = self.y - PUSH_SPEED * dt
     else
       --CHASM DETECTION
-      if tile == SQUARE_CHASM_ID then
+      if tile >= CHASM_DEF_BEGIN and tile <= CHASM_DEF_END then
           self.falling = true
       end
       self.y = tileAbove
@@ -213,7 +214,7 @@ function Pushable:update(dt)
       self.y = self.y + PUSH_SPEED * dt
     else
       --CHASM DETECTION
-      if tile == SQUARE_CHASM_ID then
+      if tile >= CHASM_DEF_BEGIN and tile <= CHASM_DEF_END then
           self.falling = true
       end
       self.y = tileBelow
@@ -229,7 +230,7 @@ function Pushable:update(dt)
       self.x = self.x - PUSH_SPEED * dt
     else
       --CHASM DETECTION
-      if tile == SQUARE_CHASM_ID then
+      if tile >= CHASM_DEF_BEGIN and tile <= CHASM_DEF_END then
           self.falling = true
       end
       self.x = tileLeft
@@ -245,7 +246,7 @@ function Pushable:update(dt)
       self.x = self.x + PUSH_SPEED * dt
     else
       --CHASM DETECTION
-      if tile == SQUARE_CHASM_ID then
+      if tile >= CHASM_DEF_BEGIN and tile <= CHASM_DEF_END then
           self.falling = true
       end
       self.x = tileRight
@@ -277,6 +278,7 @@ function Pushable:render(adjacentOffsetX, adjacentOffsetY)
     else
       love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()], self.x, self.y)
     end
+    love.graphics.print(tostring(self.brokenCrate), self.x, self.y)
   elseif self.type == 'boulder' then
     if self.falling then
       love.graphics.draw(self.image, self.x + 8, self.y + 8, 0, self.scaleX, self.scaleY, TILE_SIZE / 2, TILE_SIZE / 2)

@@ -1,4 +1,5 @@
 require 'src/constants'
+math.randomseed(os.time())
 
 MAP = {}
 TILEDMAP = {}
@@ -162,7 +163,7 @@ for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEI
   end
 
   --CHASMS
-  if (aboveGroundTiledMap[tileId] > 15 and aboveGroundTiledMap[tileId] < 28) then
+  if (aboveGroundTiledMap[tileId] >= CHASM_DEF_BEGIN and aboveGroundTiledMap[tileId] <= CHASM_DEF_END) then
     table.insert(MAP[mapRow][mapCol].chasms, Chasm(sceneRow, sceneCol))
   end
 
@@ -262,23 +263,29 @@ table.insert(MAP[1][12].entities, Entity {
 
 
 --DUNGEON 1
-table.insert(MAP[4][11].collidableMapObjects, Pushable(5, 4, 'crate'))
---[[
+table.insert(MAP[4][11].collidableMapObjects, Pushable(8,5, 'boulder'))
+table.insert(MAP[4][11].collidableMapObjects, Pushable(8, 4, 'boulder'))
+table.insert(MAP[4][11].collidableMapObjects, Pushable(8, 3, 'boulder'))
+table.insert(MAP[4][11].collidableMapObjects, Pushable(9, 3, 'boulder'))
+table.insert(MAP[4][11].collidableMapObjects, Pushable(9, 4, 'boulder'))
+table.insert(MAP[4][11].collidableMapObjects, Pushable(7,2, 'crate'))
+
+---[[
 table.insert(MAP[4][11].entities, Entity {
   animations = ENTITY_DEFS['bat'].animations,
   spawnColumn = 3,
-  spawnRow = 8,
+  spawnRow = 1,
   width = 24,
   height = 10,
-  health = 2,
+  health = 1,
   spawning = true,
   type = 'bat',
   corrupted = true,
   enemy = true,
   zigzagTime = 0,
   walkSpeed = math.random(8, 14),
-  zigzagFrequency = math.random(4.5, 6),
-  zigzagAmplitude = math.random(.5, .75),
+  zigzagFrequency = math.random(1, 5),
+  zigzagAmplitude = math.random(1, 5) / 10,
 })
 
 local entityCount = 1

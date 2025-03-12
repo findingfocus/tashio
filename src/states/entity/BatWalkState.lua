@@ -89,7 +89,6 @@ function BatWalkState:update(dt)
   end
 end
 
-
 function BatWalkState:processAI(params, dt, player)
   getDistanceToPlayer(player, self.entity)
   if self.entity.distanceToPlayer < 13 then
@@ -128,7 +127,6 @@ function BatWalkState:processAI(params, dt, player)
   local offsetX = -dy * offset
   local offsetY = dx * offset
 
-
   self.entity.x = self.entity.x + (dx * self.entity.walkSpeed * dt) + offsetX
   self.entity.y = self.entity.y + (dy * self.entity.walkSpeed * dt) + offsetY
 
@@ -140,8 +138,7 @@ function BatWalkState:render()
   love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
   self.entity.x, self.entity.y)
   --love.graphics.print(tostring(self.entity.stateMachine.current.stateName), self.entity.x, self.entity.y)
-  --[[
   love.graphics.setColor(WHITE)
-  love.graphics.print(tostring(self.entity.x), self.entity.x, self.entity.y - 5)
-  --]]
+  love.graphics.print('freq: ' .. tostring(self.entity.zigzagFrequency), 0, 0)
+  love.graphics.print('amp: ' .. tostring(self.entity.zigzagAmplitude), 0, 10)
 end

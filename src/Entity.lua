@@ -35,6 +35,7 @@ function Entity:init(def)
   self.damageFlashTimer = FLASH_FREQUENCY
   self.distanceToPlayer = 25
   self.displacementMagnitude = def.displacementMagnitude
+  self.spawnTimer = def.spawnTimer or 0
 
   self.walkSpeed = def.walkSpeed
   self.originalWalkSpeed = def.walkSpeed

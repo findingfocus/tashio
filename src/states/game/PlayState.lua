@@ -300,7 +300,7 @@ function PlayState:update(dt)
     end
   end
 
-  if self.focusIndicatorX > 65 and self.focusIndicatorX < 85 then
+  if self.focusIndicatorX >= 65 and self.focusIndicatorX <= 85 then
     successfulCast = true
     --sounds['spellcast']:play()
   else
