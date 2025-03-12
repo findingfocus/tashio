@@ -139,6 +139,6 @@ function BatWalkState:render()
   self.entity.x, self.entity.y)
   --love.graphics.print(tostring(self.entity.stateMachine.current.stateName), self.entity.x, self.entity.y)
   love.graphics.setColor(WHITE)
-  love.graphics.print('freq: ' .. tostring(self.entity.zigzagFrequency), 0, 0)
-  love.graphics.print('amp: ' .. tostring(self.entity.zigzagAmplitude), 0, 10)
+  --love.graphics.print('freq: ' .. tostring(self.entity.zigzagFrequency), 0, 0)
+  --love.graphics.print('amp: ' .. tostring(self.entity.zigzagAmplitude), 0, 10)
 end

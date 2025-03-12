@@ -106,5 +106,5 @@ function BatFleeState:render()
   love.graphics.print('dy: ' .. tostring(self.entity.dy), 0, 10)
   love.graphics.print('walkSpeed: ' .. tostring(self.entity.walkSpeed), 0, 20)
   --]]
-  love.graphics.print('blocked: ' .. tostring(self.blocked), 0, 10)
+  --love.graphics.print('blocked: ' .. tostring(self.blocked), 0, 10)
 end
