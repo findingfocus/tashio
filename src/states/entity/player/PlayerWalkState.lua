@@ -85,7 +85,7 @@ function PlayerWalkState:update(dt)
   if not sceneView.shifting then
     for k, v in pairs(MAP[sceneView.mapRow][sceneView.mapColumn].collidableMapObjects) do
       --INITIALIZE COLLIDABLE CLASS TYPES
-      if v.classType == 'pushable' and not v.falling and not gPlayer.falling and not v.crateCompletelyBroken then
+      if v.classType == 'pushable' and not v.falling and not gPlayer.falling and not v.crateCompletelyBroken and v.active then
         if gPlayer:leftCollidesMapObject(v) or gPlayer:rightCollidesMapObject(v) or gPlayer:topCollidesMapObject(v) or gPlayer:bottomCollidesMapObject(v) then --gPlayer.pushing = true
           if #OUTPUT_LIST > 0 or #TOUCH_OUTPUT_LIST > 0 then
             gPlayer.pushTimer = gPlayer.pushTimer + dt

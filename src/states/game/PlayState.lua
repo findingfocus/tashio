@@ -716,10 +716,6 @@ function PlayState:render()
       --love.graphics.print(id, "pressed:", state.pressed, "down:", state.down, "released:", state.released)
       --love.graphics.print(tostring(INPUT:getActiveDevice()), 0,0)
     end
-
-    if SnaggedTile ~= nil then
-        love.graphics.print(tostring(SnaggedTile), 0, 0)
-    end
 end
 
 function displayFPS()

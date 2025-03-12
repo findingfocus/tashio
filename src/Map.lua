@@ -407,7 +407,8 @@ function Map:update(dt)
         end
         --REMOVE CRATE
         if v.currentAnimation.timesPlayed == 1 then
-          table.remove(MAP[self.row][self.column].collidableMapObjects, k)
+          v.active = false
+          --table.remove(MAP[self.row][self.column].collidableMapObjects, k)
         end
       end
     end

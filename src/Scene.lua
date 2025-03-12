@@ -218,7 +218,7 @@ function Scene:update(dt)
 
       for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
         local object = v
-        if not v.falling then
+        if not v.falling and v.active then
           if self.player:leftCollidesMapObject(object) then
             self.player.x = object.x + object.width - AABB_SIDE_COLLISION_BUFFER
             horizontalCollision = true

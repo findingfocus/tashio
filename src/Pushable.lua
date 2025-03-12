@@ -14,7 +14,8 @@ function Pushable:init(x, y, type, keyItem)
   self.keyItem = keyItem or nil
   self.classType = 'pushable'
   self.type = type
-  self.health = 75
+  self.originalHealth = 50
+  self.health = self.originalHealth
   self.brokenCrate = false
   self.legalPushCheckRow = nil
   self.legalPushCheckColumn = nil
@@ -23,6 +24,7 @@ function Pushable:init(x, y, type, keyItem)
   self.falling = false
   self.fallen = false
   self.crateCompletelyBroken = false
+  self.active = true
   if self.type == 'log' then
     self.image = log
   elseif self.type == 'boulder' then
@@ -65,6 +67,14 @@ function Pushable:resetOriginalPosition()
     self.tileY = self.originalTileY
     self.falling = false
     self.fallen = false
+    self.active = true
+    self.brokenCrate = false
+    self.health = self.originalHealth
+  end
+  if self.type == 'crate' then
+    self.image = crate
+    self.animations = self:createAnimations(ENTITY_DEFS['crate'].animations)
+    self:changeAnimation('defaultCrate')
   end
 end
 
@@ -278,7 +288,7 @@ function Pushable:render(adjacentOffsetX, adjacentOffsetY)
     else
       love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()], self.x, self.y)
     end
-    love.graphics.print(tostring(self.brokenCrate), self.x, self.y)
+    --love.graphics.print(tostring(self.health), self.x, self.y)
   elseif self.type == 'boulder' then
     if self.falling then
       love.graphics.draw(self.image, self.x + 8, self.y + 8, 0, self.scaleX, self.scaleY, TILE_SIZE / 2, TILE_SIZE / 2)
