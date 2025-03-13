@@ -36,7 +36,7 @@ function Entity:init(def)
   self.distanceToPlayer = 25
   self.displacementMagnitude = def.displacementMagnitude
   self.spawnTimer = def.spawnTimer or 0
-
+  self.originalSpawnTimer = def.spawnTimer or 0
   self.walkSpeed = def.walkSpeed
   self.originalWalkSpeed = def.walkSpeed
   self.aiPath = def.aiPath
@@ -71,6 +71,9 @@ function Entity:resetOriginalPosition()
   if self.type == 'bat' then
     self:changeAnimation('pursue')
     self:changeState('bat-spawn')
+    self.locationSet = false
+    self.spawnTimer = self.originalSpawnTimer
+    self.pursueTrigger = 1.5 + self.spawnTimer
   end
   if self.type == 'gecko' or self.type == 'geckoC' then
     self.direction = self.originalDirection

@@ -24,8 +24,8 @@ function BatSpawnState:init(entity, spawnRow, spawnColumn)
   self.collided = false
   self.entity.attackTimer = 0
   --self.entity.dx = -0.8
-  self.pursueTimer = 0
-  self.pursueTrigger = 1.5 + self.entity.spawnTimer
+  self.entity.pursueTimer = 0
+  self.entity.pursueTrigger = 1.5 + self.entity.spawnTimer
 end
 
 function BatSpawnState:setBatLocation()
@@ -58,29 +58,37 @@ function BatSpawnState:processAI(params, dt, player)
     if v.classType == 'pushable' then
       if self.entity.spawnRow == 1 then
         if v.y == TILE_SIZE and v.x == self.entity.spawnColumn * TILE_SIZE - TILE_SIZE then
-          self.blocked = true
-          break
+          if v.active then
+            self.blocked = true
+            break
+          end
         else
           self.blocked = false
         end
       elseif self.spawnRow == 8 then --BOTTOM ENTRANCE
         if v.y == TILE_SIZE * 6 and v.x == self.entity.spawnColumn * TILE_SIZE - TILE_SIZE then
-          self.blocked = true
-          break
+          if v.active then
+            self.blocked = true
+            break
+          end
         else
           self.blocked = false
         end
       elseif self.spawnColumn == 10 then --RIGHT SIDE ENTRANCE
         if v.y == self.entity.spawnRow * TILE_SIZE - TILE_SIZE and v.x == TILE_SIZE * 8 then
-          self.blocked = true
-          break
+          if v.active then
+            self.blocked = true
+            break
+          end
         else
           self.blocked = false
         end
       elseif self.spawnColumn == 1 then --LEFT SIDE ENTRANCE
         if v.y == self.entity.spawnRow * TILE_SIZE - TILE_SIZE and v.x == TILE_SIZE then
-          self.blocked = true
-          break
+          if v.active then
+            self.blocked = true
+            break
+          end
         else
           self.blocked = false
         end
@@ -92,9 +100,9 @@ function BatSpawnState:processAI(params, dt, player)
   end
 
   if self.entity.spawnTimer < 0 then
-    self.pursueTimer = self.pursueTimer + dt
+    self.entity.pursueTimer = self.entity.pursueTimer + dt
   end
-  if self.pursueTimer > self.pursueTrigger then
+  if self.entity.pursueTimer > self.entity.pursueTrigger then
     self.entity.spawning = false
     self.entity:changeState('bat-walk')
   end

@@ -145,6 +145,7 @@ function Scene:finishShifting()
       v:resetOriginalPosition()
     end
   end
+  MAP[self.currentMap.row][self.currentMap.column].coins = {}
   --self.currentMap.row = sceneView.currentMap.row
   --self.currentMap.column = sceneView.currentMap.column
 
@@ -452,6 +453,7 @@ function Scene:render()
     if not entity.offscreen and not entity.spawning then
       entity:render(self.currentMap.adjacentOffsetX, self.currentMap.adjacentOffsetY)
     end
+    --love.graphics.print(entity.stateMachine.current.stateName, 0, 0)
   end
   love.graphics.pop()
 
