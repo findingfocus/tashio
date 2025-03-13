@@ -223,53 +223,24 @@ for i = 1, entities do
 end
 --]]
 
----[[
-table.insert(MAP[1][12].entities, Entity {
-  animations = ENTITY_DEFS['bat'].animations,
-  --x = VIRTUAL_WIDTH,
-  --y = TILE_SIZE * 2 + 5,
-  spawnRow = 5,
-  spawnColumn = 1,
-  width = 24,
-  height = 10,
-  health = 2,
-  type = 'bat',
-  spawning = true,
-  corrupted = true,
-  enemy = true,
-  zigzagTime = 0,
-  walkSpeed = math.random(12, 14),
-  zigzagFrequency = math.random(4.5, 6),
-  zigzagAmplitude = math.random(.5, .75),
-})
-
----[[
-table.insert(MAP[1][12].entities, Entity {
-  animations = ENTITY_DEFS['bat'].animations,
-  spawnRow = 1,
-  spawnColumn = 4,
-  width = 24,
-  height = 10,
-  health = 2,
-  spawning = true,
-  type = 'bat',
-  corrupted = true,
-  enemy = true,
-  zigzagTime = 0,
-  walkSpeed = math.random(8, 14),
-  zigzagFrequency = math.random(4.5, 6),
-  zigzagAmplitude = math.random(.5, .75),
-})
-
 
 --DUNGEON 1
 table.insert(MAP[4][11].collidableMapObjects, Pushable(8,6, 'boulder'))
 table.insert(MAP[4][11].collidableMapObjects, Pushable(7,2, 'crate'))
 
+
 --TOP LEFT ROOM
 table.insert(MAP[3][11].collidableMapObjects, Pushable(3,7, 'crate'))
 table.insert(MAP[3][11].collidableMapObjects, Pushable(9,6, 'crate'))
 
+
+--BOTTOM RIGHT ROOM
+table.insert(MAP[4][13].collidableMapObjects, Pushable(9,3, 'crate'))
+table.insert(MAP[4][13].collidableMapObjects, Pushable(6,2, 'crate'))
+table.insert(MAP[4][13].collidableMapObjects, Pushable(3,6, 'crate'))
+table.insert(MAP[4][13].collidableMapObjects, Pushable(2,5, 'crate'))
+
+--BOTTOM LEFT ROOM
 ---[[
 table.insert(MAP[4][11].entities, Entity {
   animations = ENTITY_DEFS['bat'].animations,
@@ -279,6 +250,7 @@ table.insert(MAP[4][11].entities, Entity {
   height = 10,
   health = 1,
   spawning = true,
+  spawnTimer = 3,
   type = 'bat',
   corrupted = true,
   enemy = true,
@@ -287,6 +259,7 @@ table.insert(MAP[4][11].entities, Entity {
   zigzagFrequency = math.random(1, 5),
   zigzagAmplitude = math.random(1, 5) / 10,
 })
+
 
 local entityCount = 1
 for i = 1, entityCount do
@@ -316,6 +289,7 @@ table.insert(MAP[3][11].entities, Entity {
   height = 10,
   health = 1,
   spawning = true,
+  attackSpeed = BAT_ATTACK_SPEED / 2,
   type = 'bat',
   corrupted = true,
   enemy = true,
@@ -334,6 +308,7 @@ table.insert(MAP[3][11].entities, Entity {
   height = 10,
   health = 1,
   spawning = true,
+  attackSpeed = BAT_ATTACK_SPEED / 2,
   type = 'bat',
   corrupted = true,
   enemy = true,
@@ -352,10 +327,11 @@ table.insert(MAP[3][11].entities, Entity {
   height = 10,
   health = 1,
   spawning = true,
+  attackSpeed = BAT_ATTACK_SPEED / 2,
   type = 'bat',
   corrupted = true,
   enemy = true,
-  spawnTimer = 0,
+  spawnTimer = .25,
   zigzagTime = 0,
   walkSpeed = math.random(8, 14),
   zigzagFrequency = math.random(1, 5),
@@ -378,9 +354,320 @@ for k, v in pairs(MAP[3][11].entities) do
 
   MAP[3][11].entities[k].hit = false
 end
+
+
+
+--TOP MIDDLE ROOM
+---[[
+table.insert(MAP[3][12].entities, Entity {
+  animations = ENTITY_DEFS['bat'].animations,
+  spawnColumn = 5,
+  spawnRow = 1,
+  width = 24,
+  height = 10,
+  health = 1,
+  attackSpeed = BAT_ATTACK_SPEED,
+  type = 'bat',
+  corrupted = true,
+  enemy = true,
+  spawnTimer = 1 ,
+  zigzagTime = 0,
+  walkSpeed = math.random(8, 14),
+  zigzagFrequency = math.random(1, 5),
+  zigzagAmplitude = math.random(1, 5) / 10,
+})
+--]]
+
+table.insert(MAP[3][12].entities, Entity {
+  animations = ENTITY_DEFS['bat'].animations,
+  spawnColumn = 10,
+  spawnRow = 3,
+  width = 24,
+  height = 10,
+  health = 1,
+  attackSpeed = BAT_ATTACK_SPEED,
+  type = 'bat',
+  corrupted = true,
+  enemy = true,
+  spawnTimer = 1,
+  pursueTrigger = 2,
+  zigzagTime = 0,
+  walkSpeed = math.random(8, 14),
+  zigzagFrequency = math.random(1, 5),
+  zigzagAmplitude = math.random(1, 5) / 10,
+})
+
+local entityCount = 2
+for k, v in pairs(MAP[3][12].entities) do
+  MAP[3][12].entities[k].animations = MAP[3][12].entities[k]:createAnimations(ENTITY_DEFS['bat'].animations)
+  MAP[3][12].entities[k]:changeAnimation('pursue')
+  MAP[3][12].entities[k].stateMachine = StateMachine {
+    ['bat-spawn'] = function() return BatSpawnState(MAP[3][12].entities[k], MAP[3][12].entities[k].spawnRow, MAP[3][12].entities[k].spawnColumn) end,
+    ['bat-walk'] = function() return BatWalkState(MAP[3][12].entities[k]) end,
+    ['bat-attack'] = function() return BatAttackState(MAP[3][12].entities[k]) end,
+    ['bat-flee'] = function() return BatFleeState(MAP[3][12].entities[k]) end,
+    ['entity-idle'] = function() return EntityIdleState(MAP[3][12].entities[k]) end,
+  }
+  --.entities[i].originalState = 'bat-spawn'
+  MAP[3][12].entities[k]:changeState('bat-spawn')
+
+  MAP[3][12].entities[k].hit = false
+end
 --]]
 
 
+--TOP RIGHT ROOM
+---[[
+table.insert(MAP[3][13].entities, Entity {
+  animations = ENTITY_DEFS['bat'].animations,
+  spawnColumn = 3,
+  spawnRow = 1,
+  width = 24,
+  height = 10,
+  health = 1,
+  attackSpeed = BAT_ATTACK_SPEED,
+  type = 'bat',
+  corrupted = true,
+  enemy = true,
+  spawnTimer = 4,
+  zigzagTime = 0,
+  walkSpeed = math.random(8, 14),
+  zigzagFrequency = math.random(1, 5),
+  zigzagAmplitude = math.random(1, 5) / 10,
+})
+--]]
+
+table.insert(MAP[3][13].entities, Entity {
+  animations = ENTITY_DEFS['bat'].animations,
+  spawnColumn = 5,
+  spawnRow = 8,
+  width = 24,
+  height = 10,
+  health = 1,
+  attackSpeed = BAT_ATTACK_SPEED,
+  type = 'bat',
+  corrupted = true,
+  enemy = true,
+  spawnTimer = 3,
+  pursueTrigger = 2,
+  zigzagTime = 0,
+  walkSpeed = math.random(8, 14),
+  zigzagFrequency = math.random(1, 5),
+  zigzagAmplitude = math.random(1, 5) / 10,
+})
+
+table.insert(MAP[3][13].entities, Entity {
+  animations = ENTITY_DEFS['bat'].animations,
+  spawnColumn = 10,
+  spawnRow = 3,
+  width = 24,
+  height = 10,
+  health = 1,
+  attackSpeed = BAT_ATTACK_SPEED,
+  type = 'bat',
+  corrupted = true,
+  enemy = true,
+  spawnTimer = 9,
+  pursueTrigger = 2,
+  zigzagTime = 0,
+  walkSpeed = math.random(8, 14),
+  zigzagFrequency = math.random(1, 5),
+  zigzagAmplitude = math.random(1, 5) / 10,
+})
+
+table.insert(MAP[3][13].entities, Entity {
+  animations = ENTITY_DEFS['bat'].animations,
+  spawnColumn = 10,
+  spawnRow = 6,
+  width = 24,
+  height = 10,
+  health = 1,
+  attackSpeed = BAT_ATTACK_SPEED,
+  type = 'bat',
+  corrupted = true,
+  enemy = true,
+  spawnTimer = 18,
+  pursueTrigger = 2,
+  zigzagTime = 0,
+  walkSpeed = math.random(8, 14),
+  zigzagFrequency = math.random(1, 5),
+  zigzagAmplitude = math.random(1, 5) / 10,
+})
+
+local entityCount = 4
+for k, v in pairs(MAP[3][13].entities) do
+  MAP[3][13].entities[k].animations = MAP[3][13].entities[k]:createAnimations(ENTITY_DEFS['bat'].animations)
+  MAP[3][13].entities[k]:changeAnimation('pursue')
+  MAP[3][13].entities[k].stateMachine = StateMachine {
+    ['bat-spawn'] = function() return BatSpawnState(MAP[3][13].entities[k], MAP[3][13].entities[k].spawnRow, MAP[3][13].entities[k].spawnColumn) end,
+    ['bat-walk'] = function() return BatWalkState(MAP[3][13].entities[k]) end,
+    ['bat-attack'] = function() return BatAttackState(MAP[3][13].entities[k]) end,
+    ['bat-flee'] = function() return BatFleeState(MAP[3][13].entities[k]) end,
+    ['entity-idle'] = function() return EntityIdleState(MAP[3][13].entities[k]) end,
+  }
+  --.entities[i].originalState = 'bat-spawn'
+  MAP[3][13].entities[k]:changeState('bat-spawn')
+
+  MAP[3][13].entities[k].hit = false
+end
+
+
+
+--BOTTOM RIGHT ROOM
+---[[
+--
+--NORMIE BAT
+table.insert(MAP[4][13].entities, Entity {
+  animations = ENTITY_DEFS['bat'].animations,
+  spawnColumn = 7,
+  spawnRow = 1,
+  width = 24,
+  height = 10,
+  health = 1,
+  attackSpeed = BAT_ATTACK_SPEED,
+  type = 'bat',
+  corrupted = true,
+  enemy = true,
+  spawnTimer = 5,
+  zigzagTime = 0,
+  walkSpeed = 25,
+  zigzagFrequency = math.random(1, 5),
+  zigzagAmplitude = math.random(1, 5) / 10,
+})
+
+table.insert(MAP[4][13].entities, Entity {
+  animations = ENTITY_DEFS['bat'].animations,
+  spawnColumn = 1,
+  spawnRow = 2,
+  width = 24,
+  height = 10,
+  health = 1,
+  attackSpeed = BAT_ATTACK_SPEED / 2,
+  type = 'bat',
+  corrupted = true,
+  enemy = true,
+  spawnTimer = 12,
+  pursueTrigger = 2,
+  zigzagTime = 0,
+  walkSpeed = math.random(8, 14),
+  zigzagFrequency = math.random(1, 5),
+  zigzagAmplitude = math.random(1, 5) / 10,
+})
+
+table.insert(MAP[4][13].entities, Entity {
+  animations = ENTITY_DEFS['bat'].animations,
+  spawnColumn = 1,
+  spawnRow = 4,
+  width = 24,
+  height = 10,
+  health = 1,
+  attackSpeed = BAT_ATTACK_SPEED / 2,
+  type = 'bat',
+  corrupted = true,
+  enemy = true,
+  spawnTimer = 16,
+  pursueTrigger = 2,
+  zigzagTime = 0,
+  walkSpeed = math.random(8, 14),
+  zigzagFrequency = math.random(1, 5),
+  zigzagAmplitude = math.random(1, 5) / 10,
+})
+
+table.insert(MAP[4][13].entities, Entity {
+  animations = ENTITY_DEFS['bat'].animations,
+  spawnColumn = 3,
+  spawnRow = 8,
+  width = 24,
+  height = 10,
+  health = 1,
+  attackSpeed = BAT_ATTACK_SPEED / 2,
+  type = 'bat',
+  corrupted = true,
+  enemy = true,
+  spawnTimer = 14,
+  pursueTrigger = 2,
+  zigzagTime = 0,
+  walkSpeed = math.random(8, 14),
+  zigzagFrequency = math.random(1, 5),
+  zigzagAmplitude = math.random(1, 5) / 10,
+})
+
+
+
+--RIGHT SIDE DEMON BATS
+table.insert(MAP[4][13].entities, Entity {
+  animations = ENTITY_DEFS['bat'].animations,
+  spawnColumn = 10,
+  spawnRow = 4,
+  width = 24,
+  height = 10,
+  health = 1,
+  attackSpeed = 0.2,
+  type = 'bat',
+  corrupted = true,
+  enemy = true,
+  spawnTimer = 2,
+  pursueTrigger = 2,
+  zigzagTime = 0,
+  walkSpeed = math.random(8, 14),
+  zigzagFrequency = math.random(1, 5),
+  zigzagAmplitude = math.random(1, 5) / 10,
+})
+table.insert(MAP[4][13].entities, Entity {
+  animations = ENTITY_DEFS['bat'].animations,
+  spawnColumn = 10,
+  spawnRow = 4,
+  width = 24,
+  height = 10,
+  health = 1,
+  attackSpeed = 0.2,
+  type = 'bat',
+  corrupted = true,
+  enemy = true,
+  spawnTimer = 2,
+  pursueTrigger = 2,
+  zigzagTime = 0,
+  walkSpeed = math.random(8, 14),
+  zigzagFrequency = math.random(1, 5),
+  zigzagAmplitude = math.random(1, 5) / 10,
+})
+
+table.insert(MAP[4][13].entities, Entity {
+  animations = ENTITY_DEFS['bat'].animations,
+  spawnColumn = 10,
+  spawnRow = 4,
+  width = 24,
+  height = 10,
+  health = 1,
+  attackSpeed = BAT_ATTACK_SPEED / 4,
+  type = 'bat',
+  corrupted = true,
+  enemy = true,
+  spawnTimer = 2,
+  pursueTrigger = 2,
+  zigzagTime = 0,
+  walkSpeed = math.random(8, 14),
+  zigzagFrequency = math.random(1, 5),
+  zigzagAmplitude = math.random(1, 5) / 10,
+})
+--]]
+
+for k, v in pairs(MAP[4][13].entities) do
+  MAP[4][13].entities[k].animations = MAP[4][13].entities[k]:createAnimations(ENTITY_DEFS['bat'].animations)
+  MAP[4][13].entities[k]:changeAnimation('pursue')
+  MAP[4][13].entities[k].stateMachine = StateMachine {
+    ['bat-spawn'] = function() return BatSpawnState(MAP[4][13].entities[k], MAP[4][13].entities[k].spawnRow, MAP[4][13].entities[k].spawnColumn) end,
+    ['bat-walk'] = function() return BatWalkState(MAP[4][13].entities[k]) end,
+    ['bat-attack'] = function() return BatAttackState(MAP[4][13].entities[k]) end,
+    ['bat-flee'] = function() return BatFleeState(MAP[4][13].entities[k]) end,
+    ['entity-idle'] = function() return EntityIdleState(MAP[4][13].entities[k]) end,
+  }
+  --.entities[i].originalState = 'bat-spawn'
+  MAP[4][13].entities[k]:changeState('bat-spawn')
+
+  MAP[4][13].entities[k].hit = false
+end
+--]]
 --[[
 table.insert(MAP[1][12].entities, Entity {
   animations = ENTITY_DEFS['bat'].animations,
@@ -619,7 +906,12 @@ table.insert(MAP[7][2].dialogueBox, DialogueBox(7 * TILE_SIZE, 4 * TILE_SIZE, 'L
 --table.insert(MAP[7][2].dialogueBox, DialogueBox(MAP[7][2].npc[mageIndex].x, MAP[7][2].npc[mageIndex].y, 'There\'s plenty of danger around, but treasure too...', 'npc', MAP[7][2].npc[mageIndex], 5))
 
 table.insert(MAP[7][2].collidableMapObjects, Pushable(2, 4, 'boulder'))
-table.insert(MAP[7][2].collidableMapObjects, Pushable(5, 4, 'log'))
+table.insert(MAP[7][2].collidableMapObjects, Pushable(2, 4, 'boulder'))
+table.insert(MAP[3][12].collidableMapObjects, Pushable(4, 3, 'boulder'))
+table.insert(MAP[3][13].collidableMapObjects, Pushable(3, 7, 'crate'))
+table.insert(MAP[3][13].collidableMapObjects, Pushable(3, 4, 'crate'))
+table.insert(MAP[3][13].collidableMapObjects, Pushable(6, 6, 'crate'))
+table.insert(MAP[3][13].collidableMapObjects, Pushable(7, 3, 'crate'))
 --table.insert(MAP[7][2].collidableMapObjects, Pushable(4, 4, 'crate'))
 --table.insert(MAP[7][2].collidableMapObjects, Pushable(3, 4, 'crate'))
 --table.insert(MAP[7][2].collidableMapObjects, Pushable(3, 5, 'crate'))

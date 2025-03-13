@@ -47,9 +47,11 @@ local rows = 8
 cameraX = 0
 --STARTING SCENE gPlayer SPAWN
 --sceneView = Scene(gPlayer, 10, 19)
---sceneView = Scene(gPlayer, 7, 2)
+sceneView = Scene(gPlayer, 7, 4)
 --sceneView = Scene(gPlayer, 1, 12)
-sceneView = Scene(gPlayer, 4, 11)
+--sceneView = Scene(gPlayer, 4, 13)
+--gPlayer.y = TILE_SIZE
+--gPlayer.x = TILE_SIZE * 8
 tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 --textures = love.graphics.newImage('graphics/textures.png')
 quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
@@ -717,6 +719,16 @@ function PlayState:render()
       --love.graphics.print(id, "pressed:", state.pressed, "down:", state.down, "released:", state.released)
       --love.graphics.print(tostring(INPUT:getActiveDevice()), 0,0)
     end
+    --DEBUG
+    local bat = MAP[4][11].entities[1]
+    --[[
+    love.graphics.print('sTimer: ' .. tostring(bat.spawnTimer), 0,10)
+    love.graphics.print('pTimer: ' .. tostring(bat.pursueTimer), 0,20)
+    love.graphics.print('pTrigger: ' .. tostring(bat.pursueTrigger), 0,30)
+    --]]
+    --DEBUGG
+    --love.graphics.print('state: ' .. tostring(bat.stateMachine.current.stateName), 0,40)
+    --love.graphics.print('blocked: ' .. tostring(bat.blocked), 0,0)
 end
 
 function displayFPS()
