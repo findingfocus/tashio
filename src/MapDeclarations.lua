@@ -263,18 +263,18 @@ table.insert(MAP[1][12].entities, Entity {
 
 
 --DUNGEON 1
-table.insert(MAP[4][11].collidableMapObjects, Pushable(8,5, 'boulder'))
-table.insert(MAP[4][11].collidableMapObjects, Pushable(8, 4, 'boulder'))
-table.insert(MAP[4][11].collidableMapObjects, Pushable(8, 3, 'boulder'))
-table.insert(MAP[4][11].collidableMapObjects, Pushable(9, 3, 'boulder'))
-table.insert(MAP[4][11].collidableMapObjects, Pushable(9, 4, 'boulder'))
+table.insert(MAP[4][11].collidableMapObjects, Pushable(8,6, 'boulder'))
 table.insert(MAP[4][11].collidableMapObjects, Pushable(7,2, 'crate'))
+
+--TOP LEFT ROOM
+table.insert(MAP[3][11].collidableMapObjects, Pushable(3,7, 'crate'))
+table.insert(MAP[3][11].collidableMapObjects, Pushable(9,6, 'crate'))
 
 ---[[
 table.insert(MAP[4][11].entities, Entity {
   animations = ENTITY_DEFS['bat'].animations,
-  spawnColumn = 3,
-  spawnRow = 1,
+  spawnColumn = 8,
+  spawnRow = 8,
   width = 24,
   height = 10,
   health = 1,
@@ -305,6 +305,81 @@ for i = 1, entityCount do
   MAP[4][11].entities[i].hit = false
 end
 --]]
+
+
+--TOP LEFT ROOM
+table.insert(MAP[3][11].entities, Entity {
+  animations = ENTITY_DEFS['bat'].animations,
+  spawnColumn = 3,
+  spawnRow = 8,
+  width = 24,
+  height = 10,
+  health = 1,
+  spawning = true,
+  type = 'bat',
+  corrupted = true,
+  enemy = true,
+  spawnTimer = 1,
+  zigzagTime = 0,
+  walkSpeed = math.random(8, 14),
+  zigzagFrequency = math.random(1, 5),
+  zigzagAmplitude = math.random(1, 5) / 10,
+})
+
+table.insert(MAP[3][11].entities, Entity {
+  animations = ENTITY_DEFS['bat'].animations,
+  spawnColumn = 10,
+  spawnRow = 6,
+  width = 24,
+  height = 10,
+  health = 1,
+  spawning = true,
+  type = 'bat',
+  corrupted = true,
+  enemy = true,
+  spawnTimer = 1,
+  zigzagTime = 0,
+  walkSpeed = math.random(8, 14),
+  zigzagFrequency = math.random(1, 5),
+  zigzagAmplitude = math.random(1, 5) / 10,
+})
+
+table.insert(MAP[3][11].entities, Entity {
+  animations = ENTITY_DEFS['bat'].animations,
+  spawnColumn = 3,
+  spawnRow = 1,
+  width = 24,
+  height = 10,
+  health = 1,
+  spawning = true,
+  type = 'bat',
+  corrupted = true,
+  enemy = true,
+  spawnTimer = 0,
+  zigzagTime = 0,
+  walkSpeed = math.random(8, 14),
+  zigzagFrequency = math.random(1, 5),
+  zigzagAmplitude = math.random(1, 5) / 10,
+})
+
+local entityCount = 3
+for k, v in pairs(MAP[3][11].entities) do
+  MAP[3][11].entities[k].animations = MAP[3][11].entities[k]:createAnimations(ENTITY_DEFS['bat'].animations)
+  MAP[3][11].entities[k]:changeAnimation('pursue')
+  MAP[3][11].entities[k].stateMachine = StateMachine {
+    ['bat-spawn'] = function() return BatSpawnState(MAP[3][11].entities[k], MAP[3][11].entities[k].spawnRow, MAP[3][11].entities[k].spawnColumn) end,
+    ['bat-walk'] = function() return BatWalkState(MAP[3][11].entities[k]) end,
+    ['bat-attack'] = function() return BatAttackState(MAP[3][11].entities[k]) end,
+    ['bat-flee'] = function() return BatFleeState(MAP[3][11].entities[k]) end,
+    ['entity-idle'] = function() return EntityIdleState(MAP[3][11].entities[k]) end,
+  }
+  --.entities[i].originalState = 'bat-spawn'
+  MAP[3][11].entities[k]:changeState('bat-spawn')
+
+  MAP[3][11].entities[k].hit = false
+end
+--]]
+
 
 --[[
 table.insert(MAP[1][12].entities, Entity {

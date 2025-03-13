@@ -417,6 +417,7 @@ function PlayState:update(dt)
             v:resetOriginalPosition()
           end
         end
+        MAP[v.warpRow][v.warpCol].coins = {}
         --DISJOINTED DIALOGUE BOX
         if MAP[v.warpRow][v.warpCol].disjointUp then
           gPlayer.extendDialogueBoxUpwards = true
