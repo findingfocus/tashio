@@ -36,12 +36,13 @@ function BatFleeState:resetOriginalPosition()
   self.entity.spawning = true
   self.entity.corrupted = true
   self.entity.zigzagTime = 0
-  self.entity.walkSpeed = math.random(8, 14)
+  self.entity.walkSpeed = self.entity.originalWalkSpeed
   self.entity.zigzagFrequency = math.random(1, 5)
   --self.entity.zigzagAmplitude = math.random(.3, .35)
   self.entity.zigzagAmplitude = math.random(1, 5) / 10
-  self.entity.spawnTimer = 0
+  self.entity.spawnTimer = 2
   self.entity.setLocation = false
+  self.entity.pursueTimer = 0
   self.entity:changeState('bat-spawn')
   self.entity:changeAnimation('pursue')
 end

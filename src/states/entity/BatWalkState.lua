@@ -94,7 +94,7 @@ function BatWalkState:processAI(params, dt, player)
   if self.entity.distanceToPlayer < 13 then
     self.entity.walkSpeed = 0
     self.entity.attackTimer = self.entity.attackTimer + dt
-    if self.entity.attackTimer > BAT_ATTACK_SPEED then
+    if self.entity.attackTimer > self.entity.attackSpeed then
       self.entity.attackTimer = 0
       table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].attacks, Spitball(self.entity))
     end

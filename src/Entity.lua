@@ -18,6 +18,7 @@ function Entity:init(def)
   self.direction = def.direction or 'down'
   self.animations = self:createAnimations(def.animations)
   self.spawning = def.spawning or nil
+  self.blocked = false
   --self:changeAnimation('idle-down')
   self.spawnRow = def.spawnRow or nil
   self.spawnColumn = def.spawnColumn or nil
@@ -36,6 +37,8 @@ function Entity:init(def)
   self.distanceToPlayer = 25
   self.displacementMagnitude = def.displacementMagnitude
   self.spawnTimer = def.spawnTimer or 0
+  self.pursueTimer = 0
+  self.pursueTrigger = def.pursueTrigger or 1.5
   self.originalSpawnTimer = def.spawnTimer or 0
   self.walkSpeed = def.walkSpeed
   self.originalWalkSpeed = def.walkSpeed
@@ -48,6 +51,9 @@ function Entity:init(def)
   self.offsetX = def.offsetX or 0
   self.offsetY = def.offsetY or 0
   self.type = def.type or nil
+  if self.type == 'bat' then
+    self.attackSpeed = def.attackSpeed or BAT_ATTACK_SPEED
+  end
 
   --ORIGINAL POSITION RESETS
   self.originalAnimations = self:createAnimations(def.animations)
@@ -73,7 +79,8 @@ function Entity:resetOriginalPosition()
     self:changeState('bat-spawn')
     self.locationSet = false
     self.spawnTimer = self.originalSpawnTimer
-    self.pursueTrigger = 1.5 + self.spawnTimer
+    self.pursueTimer = 0
+    --self.pursueTrigger = 1.5 + self.spawnTimer
   end
   if self.type == 'gecko' or self.type == 'geckoC' then
     self.direction = self.originalDirection

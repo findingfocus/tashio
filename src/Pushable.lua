@@ -14,7 +14,7 @@ function Pushable:init(x, y, type, keyItem)
   self.keyItem = keyItem or nil
   self.classType = 'pushable'
   self.type = type
-  self.originalHealth = 50
+  self.originalHealth = 25
   self.health = self.originalHealth
   self.brokenCrate = false
   self.legalPushCheckRow = nil
@@ -208,7 +208,7 @@ function Pushable:update(dt)
       self.y = self.y - PUSH_SPEED * dt
     else
       --CHASM DETECTION
-      if tile >= CHASM_DEF_BEGIN and tile <= CHASM_DEF_END then
+      if tile >= CHASM_DEF_BEGIN + 2 and tile <= CHASM_DEF_END then
           self.falling = true
       end
       self.y = tileAbove
@@ -224,7 +224,7 @@ function Pushable:update(dt)
       self.y = self.y + PUSH_SPEED * dt
     else
       --CHASM DETECTION
-      if tile >= CHASM_DEF_BEGIN and tile <= CHASM_DEF_END then
+      if tile >= CHASM_DEF_BEGIN + 2 and tile <= CHASM_DEF_END then
           self.falling = true
       end
       self.y = tileBelow
@@ -240,7 +240,7 @@ function Pushable:update(dt)
       self.x = self.x - PUSH_SPEED * dt
     else
       --CHASM DETECTION
-      if tile >= CHASM_DEF_BEGIN and tile <= CHASM_DEF_END then
+      if tile >= CHASM_DEF_BEGIN + 2 and tile <= CHASM_DEF_END then
           self.falling = true
       end
       self.x = tileLeft
@@ -256,7 +256,7 @@ function Pushable:update(dt)
       self.x = self.x + PUSH_SPEED * dt
     else
       --CHASM DETECTION
-      if tile >= CHASM_DEF_BEGIN and tile <= CHASM_DEF_END then
+      if tile >= CHASM_DEF_BEGIN + 2 and tile <= CHASM_DEF_END then
           self.falling = true
       end
       self.x = tileRight

@@ -66,12 +66,12 @@ end
 
 function Player:chasmTopLeftCollide(chasm)
   local chasmTopLeftX = self.x + 6
-  local chasmTopLeftY = self.y + 10
+  local chasmTopLeftY = self.y + 14
   local chasmTLWidth = 2
   local chasmTopLeftHeight = 2
 
-  if chasmTopLeftX - 1 > chasm.x and chasmTopLeftX + 1 < chasm.x + chasm.width then
-    if chasmTopLeftY + chasmTopLeftHeight - 1 > chasm.y and chasmTopLeftY < chasm.y + chasm.height then
+  if chasmTopLeftX - 1 > chasm.x and chasmTopLeftX + 1 < chasm.x + chasm.width - 3 then
+    if chasmTopLeftY + chasmTopLeftHeight - 1 > chasm.y + 2 and chasmTopLeftY < chasm.y + chasm.height then
       self.TLCollide = self.TLCollide + 1
       self.chasmFalling = true
       return true
@@ -82,12 +82,12 @@ end
 
 function Player:chasmTopRightCollide(chasm)
   local chasmTopRightX = self.x + self.width - 8
-  local chasmTopRightY = self.y + 10
+  local chasmTopRightY = self.y + 14
   local chasmTopRightWidth = 2
   local chasmTopRightHeight = 2
 
-  if chasmTopRightX + 1 > chasm.x and chasmTopRightX < chasm.x + chasm.width then
-    if chasmTopRightY + chasmTopRightHeight - 1 > chasm.y and chasmTopRightY < chasm.y + chasm.height then
+  if chasmTopRightX + 1 > chasm.x + 2 and chasmTopRightX < chasm.x + chasm.width then
+    if chasmTopRightY + chasmTopRightHeight - 1 > chasm.y + 2 and chasmTopRightY < chasm.y + chasm.height then
       self.TRCollide = self.TRCollide + 1
       self.chasmFalling = true
       return true
@@ -102,8 +102,8 @@ function Player:chasmBottomLeftCollide(chasm)
   local chasmBottomLeftWidth = 2
   local chasmBottomLeftHeight = 2
 
-  if chasmBottomLeftX - 1 > chasm.x and chasmBottomLeftX + 1 < chasm.x + chasm.width then
-    if chasmBottomLeftY + chasmBottomLeftHeight - 1 > chasm.y and chasmBottomLeftY < chasm.y + chasm.height then
+  if chasmBottomLeftX - 1 > chasm.x and chasmBottomLeftX + 1 < chasm.x + chasm.width - 3 then
+    if chasmBottomLeftY + chasmBottomLeftHeight - 1 > chasm.y + 4 and chasmBottomLeftY < chasm.y + chasm.height then
       self.BLCollide = self.BLCollide + 1
       self.chasmFalling = true
       return true
@@ -118,8 +118,8 @@ function Player:chasmBottomRightCollide(chasm)
   local chasmBottomRightWidth = 2
   local chasmBottomRightHeight = 2
 
-  if chasmBottomRightX + 1 > chasm.x and chasmBottomRightX < chasm.x + chasm.width then
-    if chasmBottomRightY + chasmBottomRightHeight - 1 > chasm.y and chasmBottomRightY < chasm.y + chasm.height then
+  if chasmBottomRightX + 1 > chasm.x + 2 and chasmBottomRightX < chasm.x + chasm.width then
+    if chasmBottomRightY + chasmBottomRightHeight - 1 > chasm.y + 4 and chasmBottomRightY < chasm.y + chasm.height then
       self.BRCollide = self.BRCollide + 1
       self.chasmFalling = true
       return true
