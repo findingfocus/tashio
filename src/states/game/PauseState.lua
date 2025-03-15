@@ -75,4 +75,9 @@ function PauseState:render()
   love.graphics.setColor(BLACK)
   --print(string.format("%03d", number))
   love.graphics.print(string.format("%03d", gPlayer.coinCount), VIRTUAL_WIDTH - 48, VIRTUAL_HEIGHT - 29)
+  --RUBY
+  love.graphics.setColor(WHITE)
+  love.graphics.draw(ruby, VIRTUAL_WIDTH - 59, VIRTUAL_HEIGHT - 49)
+  love.graphics.setColor(BLACK)
+  love.graphics.print(string.format("%02d", gPlayer.rubyCount), VIRTUAL_WIDTH - 48, VIRTUAL_HEIGHT - 51)
 end

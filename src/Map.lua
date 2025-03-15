@@ -381,6 +381,39 @@ function Map:update(dt)
   for k, v in pairs(MAP[self.row][self.column].collidableWallObjects) do
     v:update(dt)
   end
+
+
+  --MINERAL TO SPELLCAST COLLISION
+  for k, mineralDeposit in pairs(MAP[self.row][self.column].mineralDeposits) do
+    if successfulCast then
+      for i = 1, sceneView.spellcastEntityCount do
+        if mineralDeposit.mined then
+          break
+        else
+          if mineralDeposit:spellCollides(sceneView.spellcastEntities[1]) then
+            table.insert(MAP[self.row][self.column].minerals, Mineral(mineralDeposit.x, mineralDeposit.y + 3, 'ruby'))
+            mineralDeposit.mined = true
+            mineralDeposit.image = minedRuby
+          end
+        end
+      end
+    end
+  end
+
+  --MINERAL UPDATE
+  if MAP[self.row][self.column].minerals[1] ~= nil then
+    for k, v in pairs(MAP[self.row][self.column].minerals) do
+      v:update(dt)
+      local object = v
+      if gPlayer:leftCollidesMapObject(object) or gPlayer:rightCollidesMapObject(object) or gPlayer:topCollidesMapObject(object) or gPlayer:bottomCollidesMapObject(object) then
+        --RUBY PICKUP
+        gPlayer.rubyCount = gPlayer.rubyCount + 1
+        sounds['coinPickup']:play();
+        table.remove(MAP[self.row][self.column].minerals, k)
+      end
+    end
+  end
+
   --UPDATE PUSHABLES
   --COLLIDABLE MAP OBJECTS
   for k, v in pairs(MAP[self.row][self.column].collidableMapObjects) do
@@ -470,6 +503,20 @@ function Map:render()
   --RENDER COLLIDABLE MAP OBJECTS
   if MAP[self.row][self.column].collidableMapObjects[1] ~= nil then
     for k, v in pairs(MAP[self.row][self.column].collidableMapObjects) do
+      v:render(self.adjacentOffsetX, self.adjacentOffsetY)
+    end
+  end
+
+  --RENDER MINERAL DEPOSITS
+  if MAP[self.row][self.column].mineralDeposits[1] ~= nil then
+    for k, v in pairs(MAP[self.row][self.column].mineralDeposits) do
+      v:render(self.adjacentOffsetX, self.adjacentOffsetY)
+    end
+  end
+
+  --RENDER MINERALS
+  if MAP[self.row][self.column].minerals[1] ~= nil then
+    for k, v in pairs(MAP[self.row][self.column].minerals) do
       v:render(self.adjacentOffsetX, self.adjacentOffsetY)
     end
   end

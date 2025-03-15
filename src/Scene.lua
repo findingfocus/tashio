@@ -304,6 +304,25 @@ function Scene:update(dt)
     self.player.prevY = self.player.y
   end
 
+  --PLAYER TO MINERAL COLLISION
+  for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].mineralDeposits) do
+    if v.mined then
+      break
+    else
+      local object = v
+      if self.player:leftCollidesMapObject(object) then
+        self.player.x = object.x + object.width - AABB_SIDE_COLLISION_BUFFER
+      elseif self.player:rightCollidesMapObject(object) then
+        self.player.x = object.x - self.player.width + AABB_SIDE_COLLISION_BUFFER
+      end
+      if self.player:topCollidesMapObject(object) then
+        self.player.y = object.y + object.height - AABB_TOP_COLLISION_BUFFER
+      elseif self.player:bottomCollidesMapObject(object) then
+        self.player.y = object.y - self.player.height
+      end
+    end
+  end
+
   for i = 1, #self.spellcastEntities do
     if not self.shifting then
       self.spellcastEntities[i].x = self.player.x + math.cos(i * step + TIME * SPEED) * AMP

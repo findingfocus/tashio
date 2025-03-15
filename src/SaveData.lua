@@ -8,6 +8,8 @@ function SaveData:savePlayerData()
   saveData['currentMap'] = 40
   saveData['playerCoordinates'] = {gPlayer.x, gPlayer.y}
   saveData['playerDirection'] = gPlayer.direction
+  saveData['coinCount'] = gPlayer.coinCount
+  saveData['rubyCount'] = gPlayer.rubyCount
 
   local file = io.open("saves/savePlayerData.bin", "wb")
   if file then
@@ -40,6 +42,12 @@ function SaveData:loadPlayerData()
     end
     if k == 'playerDirection' then
       gPlayer.direction = v
+    end
+    if k == 'coinCount' then
+      gPlayer.coinCount = v
+    end
+    if k == 'rubyCount' then
+      gPlayer.rubyCount = v
     end
   end
 

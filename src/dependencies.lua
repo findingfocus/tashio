@@ -58,6 +58,9 @@ lute = love.graphics.newImage('graphics/lute.png')
 boulder = love.graphics.newImage('graphics/boulder.png')
 crate = love.graphics.newImage('graphics/crate.png')
 log = love.graphics.newImage('graphics/log.png')
+unminedRuby = love.graphics.newImage('graphics/rubyMineralUnmined.png')
+minedRuby = love.graphics.newImage('graphics/rubyMineralMined.png')
+ruby = love.graphics.newImage('graphics/rubyMineral.png')
 optionsButtonPressed = love.graphics.newImage('graphics/optionsButtonPressed.png')
 treasureChestClosed = love.graphics.newImage('graphics/chest-closed.png')
 treasureChestOpen = love.graphics.newImage('graphics/chest-open.png')
@@ -71,6 +74,8 @@ require 'src/LuteString'
 require 'src/Note'
 require 'src/BassNotes'
 require 'src/Lute'
+require 'src/Mineral'
+require 'src/MineralDeposit'
 require 'src/Cursor'
 require 'src/DialogueBox'
 require 'src/Item'

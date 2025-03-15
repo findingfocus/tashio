@@ -53,6 +53,8 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
     MAP[i][j].coins = {}
     MAP[i][j].attacks = {}
     MAP[i][j].psystems = {}
+    MAP[i][j].mineralDeposits = {}
+    MAP[i][j].minerals = {}
   end
 end
 
@@ -974,3 +976,8 @@ MAP[10][19].npc[mageIndex]:changeState('npc-walk')
 table.insert(MAP[10][19].dialogueBox, DialogueBox(0, 0, 'You\'re finally awake... How are you feeling?  ...  You don\'t remember anything?  ...  There\'s much to relearn, but take it slow.', 'signpost', nil, 13))
 table.insert(MAP[10][19].dialogueBox, DialogueBox(0, 0, 'This can be dangerous if you\'re careless. But you\'ll need it for your journey.  You got the flamme element!  I have important work to finish, I\'ll find you when you\'re ready for your next lesson. ', 'signpost', nil, 14))
 --table.insert(MAP[10][19].dialogueBox, DialogueBox(0, 0, 'Are you ok? ...', 'signpost', nil, 1))
+--
+table.insert(MAP[4][12].mineralDeposits, MineralDeposit(3, 3, 'ruby'))
+table.insert(MAP[4][12].mineralDeposits, MineralDeposit(8, 2, 'ruby'))
+table.insert(MAP[4][12].mineralDeposits, MineralDeposit(7, 6, 'ruby'))
+table.insert(MAP[4][12].mineralDeposits, MineralDeposit(2, 7, 'ruby'))
