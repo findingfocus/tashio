@@ -391,7 +391,7 @@ function Map:update(dt)
           break
         else
           if mineralDeposit:spellCollides(sceneView.spellcastEntities[1]) then
-            table.insert(MAP[self.row][self.column].minerals, Mineral(mineralDeposit.x, mineralDeposit.y + 3, 'ruby'))
+            table.insert(MAP[self.row][self.column].minerals, Mineral(mineralDeposit.x - 1, mineralDeposit.y, 'ruby'))
             mineralDeposit.mined = true
             mineralDeposit.image = minedRuby
           end
@@ -405,12 +405,15 @@ function Map:update(dt)
     for k, v in pairs(MAP[self.row][self.column].minerals) do
       v:update(dt)
       local object = v
+      --[[
       if gPlayer:leftCollidesMapObject(object) or gPlayer:rightCollidesMapObject(object) or gPlayer:topCollidesMapObject(object) or gPlayer:bottomCollidesMapObject(object) then
-        --RUBY PICKUP
-        gPlayer.rubyCount = gPlayer.rubyCount + 1
-        sounds['coinPickup']:play();
-        table.remove(MAP[self.row][self.column].minerals, k)
-      end
+        --]]
+        if v:mineralCollides(gPlayer) then
+          --RUBY PICKUP
+          gPlayer.rubyCount = gPlayer.rubyCount + 1
+          sounds['coinPickup']:play();
+          table.remove(MAP[self.row][self.column].minerals, k)
+        end
     end
   end
 

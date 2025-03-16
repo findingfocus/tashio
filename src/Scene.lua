@@ -306,9 +306,7 @@ function Scene:update(dt)
 
   --PLAYER TO MINERAL COLLISION
   for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].mineralDeposits) do
-    if v.mined then
-      break
-    else
+    if not v.mined then
       local object = v
       if self.player:leftCollidesMapObject(object) then
         self.player.x = object.x + object.width - AABB_SIDE_COLLISION_BUFFER

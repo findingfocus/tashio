@@ -13,6 +13,15 @@ function Mineral:init(x, y, type)
   self.waverX = 0
   self.waverY = 0
 end
+ 
+function Mineral:mineralCollides(player)
+    if self.x < player.x + player.width and self.x + self.width > player.x then
+     if self.y < player.y + player.height and self.y + self.height > player.y + 6 then
+      return true
+     end
+    end
+    return false
+end
 
 function Mineral:update(dt)
   ---[[
@@ -26,7 +35,7 @@ function Mineral:update(dt)
 end
 
 function Mineral:render(adjacentOffsetX, adjacentOffsetY)
-  self.x, self.y = self.x + (adjacentOffsetX or 0), self.y + (adjacentOffsetY or 0) - 5
+  self.x, self.y = self.x + (adjacentOffsetX or 0), self.y + (adjacentOffsetY or 0)
   love.graphics.draw(ruby, self.x, self.y)
-  self.x, self.y = self.x - (adjacentOffsetX or 0), self.y - (adjacentOffsetY or 0) + 5
+  self.x, self.y = self.x - (adjacentOffsetX or 0), self.y - (adjacentOffsetY or 0)
 end
