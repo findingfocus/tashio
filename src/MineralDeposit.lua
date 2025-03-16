@@ -24,6 +24,7 @@ function MineralDeposit:update(dt)
 end
 
 function MineralDeposit:render(adjacentOffsetX, adjacentOffsetY)
+  love.graphics.setColor(WHITE)
    self.renderX, self.renderY = self.renderX + (adjacentOffsetX or 0), self.renderY + (adjacentOffsetY or 0)
    love.graphics.draw(self.image, self.renderX, self.renderY)
    self.renderX, self.renderY = self.renderX - (adjacentOffsetX or 0), self.renderY - (adjacentOffsetY or 0)

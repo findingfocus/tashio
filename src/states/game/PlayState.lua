@@ -729,6 +729,8 @@ function PlayState:render()
     --DEBUGG
     --love.graphics.print('state: ' .. tostring(bat.stateMachine.current.stateName), 0,40)
     --love.graphics.print('blocked: ' .. tostring(bat.blocked), 0,0)
+    love.graphics.setColor(WHITE)
+    love.graphics.draw(flamme, VIRTUAL_WIDTH / 2 - 11, VIRTUAL_HEIGHT - 13)
 end
 
 function displayFPS()
