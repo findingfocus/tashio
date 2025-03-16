@@ -20,6 +20,9 @@ gItemInventory = Inventory('item')
 gKeyItemInventory = Inventory('keyItem')
 gItems = {}
 
+local vibrancy = 0
+local vibrancyGrow = true
+
 local triggerSceneTransition = false
 local leftFadeTransitionX = -VIRTUAL_WIDTH / 2
 local rightFadeTransitionX = VIRTUAL_WIDTH
@@ -73,7 +76,8 @@ function PlayState:init()
   gPlayer:changeState('player-idle')
   self.manis = 100
   self.manisMax = 100
-  self.manisDrain = .45
+  --self.manisDrain = .45
+  self.manisDrain = 10
   self.manisRegen = 1.2
   self.focusIndicatorX = 0
   self.focusMax = 4
@@ -90,6 +94,19 @@ function PlayState:init()
 end
 
 function PlayState:update(dt)
+  --[[
+  if vibrancyGrow then
+    vibrancy = math.min(vibrancy + dt, 10)
+    if vibrancy == 10 then
+      vibrancyGrow = false
+    end
+  else
+    vibrancy = math.max(0, vibrancy - dt)
+    if vibrancy == 0 then
+      vibrancyGrow = true
+    end
+ end
+ --]]
   if love.keyboard.wasPressed('y') then
     sceneView.activeDialogueID = nil
     gStateMachine:change('openingCinematic')
@@ -240,6 +257,11 @@ function PlayState:update(dt)
   if not sceneView.shifting then
     --FOCUS GAIN
     if (INPUT:down('action') and not luteState) or (buttons[1].fireSpellPressed and not luteState) then
+      --VIBRANCY DRAIN
+      --if gPlayer.flammeVibrancy <a
+
+      gPlayer.flammeVibrancy = math.min(100, gPlayer.flammeVibrancy + dt * 2)
+
       --UNFOCUS
       if (self.unFocus < self.focusMax) and self.unFocusGrowing then
         if self.manis > 0 then
@@ -271,10 +293,9 @@ function PlayState:update(dt)
       self.focusIndicatorX = math.max(self.focusIndicatorX - (self.manisDrain + self.unFocus) * dt, 0)
 
       --CLAMP FOCUS INDICATOR TO 0 IF NO MANIS
-      if self.manis == 0 then
+      if self.manis <= 0 then
         self.focusIndicatorX = math.max(self.focusIndicatorX - (self.manisDrain - self.unFocus) * dt, 0)
       end
-
 
       --MANIS DRAIN
       self.manis = math.max(self.manis - MANIS_DRAIN * dt, 0)
@@ -501,7 +522,13 @@ function PlayState:update(dt)
       end
       self.optionSelector = 1
     end
+  end
 
+  --MINERAL UPDATE
+  for k, v in pairs(MAP[4][12].mineralDeposits) do
+      if v.harvestTime < MINERAL_HARVEST_RESET then
+        v:update(dt)
+      end
   end
 end
 
@@ -654,6 +681,18 @@ function PlayState:render()
   heartRowQuad:setViewport(0, 0, HEART_CROP, 7, heartRow:getDimensions())
   love.graphics.draw(heartRow, heartRowQuad, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)
 
+  --VIBRANCY RENDER
+  love.graphics.draw(flamme, VIRTUAL_WIDTH / 2 - 11, VIRTUAL_HEIGHT - 13)
+  --EMPTY VIBRANCY BAR
+  love.graphics.setColor(255/255, 30/255, 30/255, 255/255)
+  love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, 10)
+  --VIBRANCY BAR
+  love.graphics.setColor(30/255, 30/255, 30/255, 255/255)
+  love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, gPlayer.flammeVibrancy / 10)
+  --love.graphics.print('vibrancy: ' .. tostring(gPlayer.flammeVibrancy), 0, 0)
+  love.graphics.setColor(WHITE)
+  love.graphics.draw(flamme, VIRTUAL_WIDTH / 2 - 11, VIRTUAL_HEIGHT - 13)
+
   --TRANSITION START
   love.graphics.setColor(BLACK)
   love.graphics.rectangle('fill', leftFadeTransitionX, 0, VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT)
@@ -714,6 +753,9 @@ function PlayState:render()
       love.graphics.printf('QUIT', 0, VIRTUAL_HEIGHT - 36, VIRTUAL_WIDTH, 'center')
     end
   end
+
+
+
   --TOUCH DEBUG
     for id, state in pairs(INPUT._touches) do
       --love.graphics.print(id, "pressed:", state.pressed, "down:", state.down, "released:", state.released)
@@ -729,8 +771,6 @@ function PlayState:render()
     --DEBUGG
     --love.graphics.print('state: ' .. tostring(bat.stateMachine.current.stateName), 0,40)
     --love.graphics.print('blocked: ' .. tostring(bat.blocked), 0,0)
-    love.graphics.setColor(WHITE)
-    love.graphics.draw(flamme, VIRTUAL_WIDTH / 2 - 11, VIRTUAL_HEIGHT - 13)
 end
 
 function displayFPS()
