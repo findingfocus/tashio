@@ -207,6 +207,8 @@ function DialogueBox:update(dt)
     --MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided = {}
     self:flushText()
     sceneView.activeDialogueID = nil
+    --I THINK THIS IS JUNK TODO CHECK MULTIPAGE DIALOGUE BOXES UP EXITING IF THE RESET CURRENT PAGE
+    --[[
     self.currentPage = 1
     if self.meditateOption then
       if self.meditateYes then
@@ -217,6 +219,7 @@ function DialogueBox:update(dt)
         self.meditateYes = true
       end
     end
+    --]]
   end
 
   ---[[
@@ -246,6 +249,7 @@ function DialogueBox:update(dt)
           if self.meditateOption then
             if self.meditateYes then
               gPlayer.stateMachine:change('player-meditate')
+              gPlayer.flammeVibrancy = 0
               self.saveDataUtility:savePlayerData()
             else
               --RESET DEFAULT VALUE

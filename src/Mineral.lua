@@ -15,7 +15,7 @@ function Mineral:init(x, y, type)
 end
  
 function Mineral:mineralCollides(player)
-    if self.x < player.x + player.width and self.x + self.width > player.x then
+    if self.x < player.x + player.width - 2 and self.x + self.width > player.x + 2 then
      if self.y < player.y + player.height and self.y + self.height > player.y + 6 then
       return true
      end

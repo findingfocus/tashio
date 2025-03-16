@@ -149,6 +149,13 @@ function Scene:finishShifting()
   --self.currentMap.row = sceneView.currentMap.row
   --self.currentMap.column = sceneView.currentMap.column
 
+  --MINERAL RESET
+  for k, v in pairs(MAP[4][12].mineralDeposits) do
+    if v.harvestTime > MINERAL_HARVEST_RESET then
+      v:resetMineral()
+    end
+  end
+
   self.currentMap = self.nextMap
   gStateMachine.current.animatables = InsertAnimation(self.currentMap.row, self.currentMap.column)
 
