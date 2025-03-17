@@ -4,7 +4,7 @@ function Note:init(string, fret, timer)
   self.x = SCREEN_WIDTH_LIMIT
   self.string = string
   self.fret = fret
-  self.speed = 35
+  self.speed = 28
   self.timer = timer
   self.validTiming = false
   self.invalidTiming = false
@@ -23,14 +23,10 @@ function Note:render()
     love.graphics.setColor(WHITE)
   end
   if self.fret == 1 then
-    love.graphics.draw(fret1, self.x, LUTE_STRING_YOFFSET)
+    love.graphics.draw(fret1, self.x, LUTE_STRING_YOFFSET + self.string * 12 - 12)
   elseif self.fret == 2 then
     love.graphics.draw(fret2, self.x, LUTE_STRING_YOFFSET + self.string * 12 - 12)
-  elseif self.fret == 3 then
-    love.graphics.draw(fret3, self.x, LUTE_STRING_YOFFSET + self.string * 12 - 12)
-  elseif self.fret == 4 then
-    love.graphics.draw(fret4, self.x, LUTE_STRING_YOFFSET + self.string * 12 - 12)
-  elseif self.fret == 5 then
+  else
     love.graphics.draw(fretOpen, self.x, LUTE_STRING_YOFFSET + self.string * 12 - 12)
   end
 

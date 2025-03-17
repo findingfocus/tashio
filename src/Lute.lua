@@ -11,11 +11,14 @@ local A1Pressed = false
 local F2Pressed = false
 local fretsHeld = {}
 local song1 = {}
-song1 = {{Note(4,3,.5), Note(2,3,.25), Note(3,3,.25)}, {Note(3,4,.25)}, {Note(2,2,1)}, {Note(3,4,1), Note(4,4,1)}, {Note(2,2,1)}}
---song1 = {{Note(1,1,1), Note(1,1,1), Note(1,1,1)}}
+--song1 = {{Note(4,3,.5), Note(2,3,.25), Note(3,3,.25)}, {Note(3,4,.25)}, {Note(2,2,1)}, {Note(3,4,1), Note(4,4,1)}, {Note(2,2,1)}}
+song1 = {{Note(3,1,1)}, {Note(2,0,0.5)}, {Note(2,2,1)}, {Note(3,0,2)}, {Note(3,2,0.5)}, {Note(2,2,1)}, {Note(2,2,2)}, {Note(2,1,0.5)}, {Note(2,2,2)}}
 bassNotes1 = BassNotes({'5-D3', '4-C3', '3-Bb2', '2-A2'})
 local activeNotes = {}
-local songTimer = 1
+local songTimer = 0
+local bpm = 30
+local seconds_per_beat = 60 / bpm 
+local nextNoteTime = 0
 
 function validNoteChecker(string)
   if #activeNotes > 0 then
@@ -32,7 +35,7 @@ function validNoteChecker(string)
 end
 
 function Lute:update(dt)
-  --bassNotes1:update(dt)
+  bassNotes1:update(dt)
   for k, v in pairs(touches) do
     --STRING 1 RIGHT
     if dpad[5]:collides(touches[k]) and touches[k].wasTouched then
@@ -201,14 +204,18 @@ function Lute:update(dt)
     end
   end
 
-  songTimer = songTimer - dt
+  songTimer = songTimer + dt
 
-  if songTimer < 0 then
+  if songTimer > nextNoteTime then
+    --sounds['1-G2']:play()
     if #song1 > 0 then
       table.insert(activeNotes, song1[1])
-      songTimer = song1[1][1].timer
+      nextNoteTime = song1[1][1].timer
+      table.remove(song1, 1)
+    else
+      nextNoteTime = math.huge
     end
-    table.remove(song1, 1)
+    songTimer = 0
   end
 
   --DEINSTANTIATE NOTES WHEN OFFSCREEN
@@ -372,13 +379,6 @@ function Lute:render()
   luteStringA1:render()
   luteStringF1:render()
 
-  --BEAT BOX RENDER
-  love.graphics.setLineStyle("rough")
-  if #fretsHeld > 0 then
-    love.graphics.setColor(55/255, 0/255, 255/255, 255/255)
-    love.graphics.setLineWidth(1)
-    love.graphics.rectangle('line', 1, LUTE_STRING_YOFFSET, 11, 47)
-  end
   --FRET GUIDES
   love.graphics.setColor(WHITE)
   if #fretsHeld > 0 then
@@ -392,18 +392,19 @@ function Lute:render()
         love.graphics.draw(fret2,1,LUTE_STRING_YOFFSET + (12 * i))
       end
     end
-    if fretsHeld[1] == 3 then
+  else
       for i = 0, 3 do
-        love.graphics.draw(fret3,1,LUTE_STRING_YOFFSET + (12 * i))
+        love.graphics.draw(fretOpen,1,LUTE_STRING_YOFFSET + (12 * i))
       end
-    end
-    if fretsHeld[1] == 4 then
-      for i = 0, 3 do
-        love.graphics.draw(fret4,1,LUTE_STRING_YOFFSET + (12 * i))
-      end
-    end
   end
+
+  --BEAT BOX RENDER
+  love.graphics.setLineStyle("rough")
+  love.graphics.setColor(55/255, 0/255, 255/255, 255/255)
+  love.graphics.setLineWidth(1)
+  love.graphics.rectangle('line', 1, LUTE_STRING_YOFFSET, 11, 47)
   love.graphics.print('fretsHeld: ' .. Inspect(fretsHeld), 0, 100)
+
   for k, v in ipairs(activeNotes) do
     for index, note in ipairs(v) do
       note:render()
