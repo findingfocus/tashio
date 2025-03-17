@@ -10,10 +10,10 @@ end
 
 function BassNotes:update(dt)
   self.timingOffset = self.timingOffset + dt
-  if self.timingOffset > 4.5 then
+  if self.timingOffset > 0.5 then
     self.timer = self.timer + dt
   end
-  if self.timer > 1.5 then
+  if self.timer > 2.5 then
     if self.currentNote == 4 then
       self.currentNote = 1
     else

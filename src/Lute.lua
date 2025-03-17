@@ -11,8 +11,9 @@ local A1Pressed = false
 local F2Pressed = false
 local fretsHeld = {}
 local song1 = {}
-song1 = {{Note(4,3,2), Note(2,3,1), Note(3,3,1)}, {Note(3,4,1)}, {Note(2,2,1)}, {Note(3,4,1), Note(4,4,1)}, {Note(2,2,1)}}
-bassNotes1 = BassNotes({'Bb1', 'A1', 'G1', 'F1'})
+song1 = {{Note(4,3,.5), Note(2,3,.25), Note(3,3,.25)}, {Note(3,4,.25)}, {Note(2,2,1)}, {Note(3,4,1), Note(4,4,1)}, {Note(2,2,1)}}
+--song1 = {{Note(1,1,1), Note(1,1,1), Note(1,1,1)}}
+bassNotes1 = BassNotes({'5-D3', '4-C3', '3-Bb2', '2-A2'})
 local activeNotes = {}
 local songTimer = 1
 
@@ -31,6 +32,7 @@ function validNoteChecker(string)
 end
 
 function Lute:update(dt)
+  --bassNotes1:update(dt)
   for k, v in pairs(touches) do
     --STRING 1 RIGHT
     if dpad[5]:collides(touches[k]) and touches[k].wasTouched then
@@ -290,13 +292,13 @@ function Lute:update(dt)
   if INPUT:pressed('right') then
     validNoteChecker(4)
     if #fretsHeld == 0 then
-      sounds['F1']:play()
+      sounds['1-G2']:play()
       luteStringF1.animation:refresh()
     elseif fretsHeld[1] == 1 then
-      sounds['G1']:play()
+      sounds['2-A2']:play()
       luteStringF1.animation:refresh()
     elseif fretsHeld[1] == 2 then
-      sounds['A1']:play()
+      sounds['3-Bb2']:play()
       luteStringF1.animation:refresh()
     end
   end
@@ -305,13 +307,13 @@ function Lute:update(dt)
   if INPUT:pressed('down') then
     validNoteChecker(3)
     if #fretsHeld == 0 then
-      sounds['A1']:play()
+      sounds['4-C3']:play()
       luteStringA1.animation:refresh()
     elseif fretsHeld[1] == 1 then
-      sounds['Bb1']:play()
+      sounds['5-D3']:play()
       luteStringA1.animation:refresh()
     elseif fretsHeld[1] == 2 then
-      sounds['C1']:play()
+      sounds['6-E3']:play()
       luteStringA1.animation:refresh()
     end
   end
@@ -320,13 +322,13 @@ function Lute:update(dt)
   if INPUT:pressed('left') then
     validNoteChecker(2)
     if #fretsHeld == 0 then
-      sounds['D1']:play()
+      sounds['7-F3']:play()
       luteStringD1.animation:refresh()
     elseif fretsHeld[1] == 1 then
-      sounds['E1']:play()
+      sounds['8-G3']:play()
       luteStringD1.animation:refresh()
     elseif fretsHeld[1] == 2 then
-      sounds['F2']:play()
+      sounds['9-A3']:play()
       luteStringD1.animation:refresh()
     end
   end
@@ -335,13 +337,13 @@ function Lute:update(dt)
   if INPUT:pressed('up') then
     validNoteChecker(1)
     if #fretsHeld == 0 then
-      sounds['F2']:play()
+      sounds['10-Bb3']:play()
       luteStringF2.animation:refresh()
     elseif fretsHeld[1] == 1 then
-      sounds['G2']:play()
+      sounds['11-C4']:play()
       luteStringF2.animation:refresh()
     elseif fretsHeld[1] == 2 then
-      sounds['A2']:play()
+      sounds['12-D4']:play()
       luteStringF2.animation:refresh()
     end
   end
