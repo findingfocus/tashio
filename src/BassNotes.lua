@@ -8,6 +8,13 @@ function BassNotes:init(notes)
   self.totalNotes = 4
 end
 
+function BassNotes:reset()
+  self.timingOffset = 0
+  self.timer = 0
+  self.currentNote = 1
+  self.totalNotes = 4
+end
+
 function BassNotes:update(dt)
   self.timingOffset = self.timingOffset + dt
   if self.timingOffset > 3.6 then

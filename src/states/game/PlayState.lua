@@ -137,7 +137,7 @@ function PlayState:update(dt)
   end
 
   if INPUT:pressed('start') then
-    if not PAUSED and not gPlayer.dead then
+    if not PAUSED and not gPlayer.dead and not luteState then
       gStateMachine:change('pauseState')
     end
   end
@@ -160,17 +160,27 @@ function PlayState:update(dt)
     end
   end
 
+  --TRIGGER LUTE STATE
   if INPUT:pressed('actionB') and gItemInventory.itemSlot[1] ~= nil then
     if gItemInventory.itemSlot[1].type == 'lute' then
       if not luteState then
         gPlayer.direction = 'down'
         gPlayer:changeAnimation('idle-down')
         luteState = true
+        Lute:reset()
+        bassNotes1:reset()
       end
     end
   end
 
-  if INPUT:pressed('select') then
+  if luteState then
+    if INPUT:pressed('select') then
+      Lute:reset()
+      bassNotes1:reset()
+    end
+  end
+
+  if INPUT:pressed('start') then
     if luteState then
       luteState = false
     else
@@ -338,7 +348,7 @@ function PlayState:update(dt)
 
   --TODO MOVE FROM PLAYSTATE
 
-  if INPUT:pressed('select') then
+  if INPUT:pressed('select') and not luteState then
     gStateMachine:change('minimap')
     gStateMachine.current.cursorX = sceneView.currentMap.column * 16 - 16
     gStateMachine.current.cursorY = sceneView.currentMap.row * 13 - 13

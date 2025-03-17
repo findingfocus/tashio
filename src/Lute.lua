@@ -11,8 +11,45 @@ local A1Pressed = false
 local F2Pressed = false
 local fretsHeld = {}
 local song1 = {}
+local correctCount = 0
+local incorrectCount = 0
+
+--[[
+Music = {}
+Music['Bb'] -->
+
+Music[1] = {4, 0}
+Music[2] = {4, 1}
+Music[3] = {4, 2}
+
+
+Note(Music[1][1], Music[1][2], 2)
+
+
+--]]
+--
+--[[
+function Music(noteNumber, timeToNextNote)
+  local note = Music[noteNumber] = {4, 0}
+  return Note(note, timeToNextNote)
+end
+--]]
+
+
+--[[
+insertNote(number, timeToNextNote)
+sounds['1-G2']
+--]]
+
 --song1 = {{Note(4,3,.5), Note(2,3,.25), Note(3,3,.25)}, {Note(3,4,.25)}, {Note(2,2,1)}, {Note(3,4,1), Note(4,4,1)}, {Note(2,2,1)}}
-song1 = {{Note(3,1,1)}, {Note(2,0,0.5)}, {Note(2,2,1)}, {Note(3,0,2)}, {Note(3,2,0.5)}, {Note(2,2,1)}, {Note(2,2,2)}, {Note(2,1,0.5)}, {Note(2,2,2)}}
+--song1 = {{Note(3,1,1)}, {Note(2,0,0.5)}, {Note(2,2,1)}, {Note(3,0,2)}, {Note(3,2,0.5)}, {Note(2,2,1)}, {Note(2,2,2)}, {Note(2,1,0.5)}, {Note(2,2,2)}}
+--song1 = {{Note(1,1,2)}, {Note(2,2,2)}, {Note(3,1,2)}, {Note(4,1,2)}}
+song1 = {{Note(4,0,2)}, {Note(4,0,2)}}
+originalSong = {{Note(4,0,2)}, {Note(4,0,2)}}
+for i, v in pairs(song1) do
+  originalSong[i] = {v[1]}
+end
+
 bassNotes1 = BassNotes({'5-D3', '4-C3', '3-Bb2', '2-A2'})
 local activeNotes = {}
 local songTimer = 0
@@ -20,14 +57,41 @@ local bpm = 30
 local seconds_per_beat = 60 / bpm 
 local nextNoteTime = 0
 
+function Lute:reset()
+  activeNotes = {}
+  songTimer = 0
+  nextNoteTime = 0
+  --TODO DEEP COPY
+  song1 = {{Note(4,0,2)}, {Note(4,0,2)}}
+  correctCount = 0
+  incorrectCount = 0
+end
+
 function validNoteChecker(string)
   if #activeNotes > 0 then
     for k, v in ipairs(activeNotes[1]) do
+      --CORRECT NOTE
       if activeNotes[1][k].x < 12 and activeNotes[1][k].string == string and activeNotes[1][k].fret == fretsHeld[1] then
         if not activeNotes[1][k].invalidTiming then
+          if not activeNotes[1][k].checked then
+            correctCount = correctCount + 1
+            activeNotes[1][k].checked = true
+          end
           activeNotes[1][k].validTiming = true
         end
+        --OPEN STRING CHECK
+      elseif activeNotes[1][k].x < 12 and fretsHeld[1] == nil then
+        if not activeNotes[1][k].checked then
+          correctCount = correctCount + 1
+          activeNotes[1][k].checked = true
+        end
+        activeNotes[1][k].validTiming = true
+        --MISSED NOTE
       elseif activeNotes[1][k].string == string then
+        if not activeNotes[1][k].checked then
+          incorrectCount = incorrectCount + 1
+          activeNotes[1][k].checked = true
+        end
         activeNotes[1][k].invalidTiming = true
       end
     end
@@ -403,7 +467,10 @@ function Lute:render()
   love.graphics.setColor(55/255, 0/255, 255/255, 255/255)
   love.graphics.setLineWidth(1)
   love.graphics.rectangle('line', 1, LUTE_STRING_YOFFSET, 11, 47)
-  love.graphics.print('fretsHeld: ' .. Inspect(fretsHeld), 0, 100)
+  love.graphics.setColor(WHITE)
+  --love.graphics.print('fretsHeld: ' .. Inspect(fretsHeld), 0, 100)
+  love.graphics.print('correct: ' .. tostring(correctCount), 5, VIRTUAL_HEIGHT - 70)
+  love.graphics.print('incorrect: ' .. tostring(incorrectCount), 5, VIRTUAL_HEIGHT - 60)
 
   for k, v in ipairs(activeNotes) do
     for index, note in ipairs(v) do
