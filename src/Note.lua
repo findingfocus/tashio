@@ -8,6 +8,7 @@ function Note:init(string, fret, timer)
   self.timer = timer
   self.validTiming = false
   self.invalidTiming = false
+  self.checked = false
 end
 
 function Note:update(dt)
