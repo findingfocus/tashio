@@ -241,6 +241,7 @@ sounds = {
   ['cleanse'] = love.audio.newSource('sounds/cleanse.wav', 'static'),
   ['coinPickup'] = love.audio.newSource('sounds/coinPickup.wav', 'static'),
 
+  ---[[
   ['A1'] = love.audio.newSource('sounds/lute/A1.mp3', 'static'),
   ['A2'] = love.audio.newSource('sounds/lute/A2.mp3', 'static'),
   ['Bb1'] = love.audio.newSource('sounds/lute/Bb1.mp3', 'static'),
@@ -256,6 +257,19 @@ sounds = {
   ['F2'] = love.audio.newSource('sounds/lute/F2.mp3', 'static'),
   ['G1'] = love.audio.newSource('sounds/lute/G1.mp3', 'static'),
   ['G2'] = love.audio.newSource('sounds/lute/G2.mp3', 'static'),
+
+  ['1-G2'] = love.audio.newSource('sounds/lute2/1-G2.wav', 'static'),
+  ['2-A2'] = love.audio.newSource('sounds/lute2/2-A2.wav', 'static'),
+  ['3-Bb2'] = love.audio.newSource('sounds/lute2/3-Bb2.wav', 'static'),
+  ['4-C3'] = love.audio.newSource('sounds/lute2/4-C3.wav', 'static'),
+  ['5-D3'] = love.audio.newSource('sounds/lute2/5-D3.wav', 'static'),
+  ['6-E3'] = love.audio.newSource('sounds/lute2/6-E3.wav', 'static'),
+  ['7-F3'] = love.audio.newSource('sounds/lute2/7-F3.wav', 'static'),
+  ['8-G3'] = love.audio.newSource('sounds/lute2/8-G3.wav', 'static'),
+  ['9-A3'] = love.audio.newSource('sounds/lute2/9-A3.wav', 'static'),
+  ['10-Bb3'] = love.audio.newSource('sounds/lute2/10-Bb3.wav', 'static'),
+  ['11-C4'] = love.audio.newSource('sounds/lute2/11-C4.wav', 'static'),
+  ['12-D4'] = love.audio.newSource('sounds/lute2/12-D4.wav', 'static'),
 }
 
 sounds['cleanse']:setVolume(.2)
