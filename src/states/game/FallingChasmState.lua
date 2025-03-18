@@ -89,7 +89,7 @@ function FallingChasmState:update(dt)
     elseif self.optionSelector == 1 then
       --CONTINUE GAME
       --LOAD LAST SAVE
-      self.saveUtility:loadPlayerData()
+      --self.saveUtility:loadPlayerData()
       gStateMachine:change('playState')
       gPlayer.stateMachine:change('player-meditate')
     end

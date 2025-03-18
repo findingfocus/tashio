@@ -9,7 +9,7 @@ function Player:init(def)
   Entity.init(self, def)
   self.lastInput = nil
   self.inputsHeld = 0
-  self.health = 8
+  self.health = 14
   self.heartTimer = heartSpeed
   self.decrement = true
   self.dead = false
@@ -223,28 +223,6 @@ function Player:update(dt)
       elseif v == 'down' then
         if self.y + self.height >= SCREEN_HEIGHT_LIMIT + BOTTOM_BUFFER then
           Event.dispatch('down-transition')
-        end
-      end
-    end
-    --end
-    if #TOUCH_OUTPUT_LIST > 0 then
-      for k, v in ipairs(TOUCH_OUTPUT_LIST) do
-        if v == 'right' then
-          if self.x + self.width >= VIRTUAL_WIDTH + SIDE_EDGE_BUFFER_PLAYER then
-            Event.dispatch('right-transition')
-          end
-        elseif v == 'left' then
-          if self.x <= -SIDE_EDGE_BUFFER_PLAYER then
-            Event.dispatch('left-transition')
-          end
-        elseif v == 'up' then
-          if self.y <= -SIDE_EDGE_BUFFER_PLAYER then
-            Event.dispatch('up-transition')
-          end
-        elseif v == 'down' then
-          if self.y + self.height >= SCREEN_HEIGHT_LIMIT + BOTTOM_BUFFER then
-            Event.dispatch('down-transition')
-          end
         end
       end
     end

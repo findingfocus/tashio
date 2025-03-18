@@ -99,7 +99,7 @@ function validNoteChecker(string)
 end
 
 function Lute:update(dt)
-  bassNotes1:update(dt)
+  --bassNotes1:update(dt)
   for k, v in pairs(touches) do
     --STRING 1 RIGHT
     if dpad[5]:collides(touches[k]) and touches[k].wasTouched then

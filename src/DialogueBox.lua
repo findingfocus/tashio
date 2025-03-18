@@ -250,7 +250,7 @@ function DialogueBox:update(dt)
             if self.meditateYes then
               gPlayer.stateMachine:change('player-meditate')
               gPlayer.flammeVibrancy = 0
-              self.saveDataUtility:savePlayerData()
+              --self.saveDataUtility:savePlayerData()
             else
               --RESET DEFAULT VALUE
               self.meditateYes = true
