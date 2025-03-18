@@ -12,6 +12,7 @@ local creditsY = VIRTUAL_HEIGHT
 local creditsYReset = VIRTUAL_HEIGHT
 local inspect = require "lib/inspect"
 local manisTimer = 0
+local magicHudOpacity = 0
 Lute = Lute()
 leftCount = 0
 luteState = false
@@ -540,6 +541,12 @@ function PlayState:update(dt)
         v:update(dt)
       end
   end
+
+  if self.focusIndicatorX > 0 then
+    magicHudOpacity = math.min(255, magicHudOpacity + dt * 900)
+  elseif self.focusIndicatorX <= 0 then
+    magicHudOpacity = math.max(0, magicHudOpacity - dt * 400)
+  end
 end
 
 function PlayState:render()
@@ -552,22 +559,26 @@ function PlayState:render()
   love.graphics.setColor(0,0,0,255)
   --love.graphics.print('Tashio Tempo', VIRTUAL_WIDTH - 150, SCREEN_HEIGHT_LIMIT + 4)
 
+  --MAGIC RENDER
+
   --MANIS BAR RENDER
   ---[[
-  love.graphics.setColor(255/255, 0/255, 0/255, 255/255)
+  love.graphics.setColor(255/255, 0/255, 0/255, magicHudOpacity/255)
   love.graphics.rectangle('fill', 0, SCREEN_HEIGHT_LIMIT - 4, self.manis, 2)
 
   --CAST BAR RENDER
-  love.graphics.setColor(BLACK)
+  love.graphics.setColor(0,0,0, magicHudOpacity/255)
   love.graphics.rectangle('fill', 0, SCREEN_HEIGHT_LIMIT + 2 - 4, 100, 2)
 
   --SUCCESSFUL CAST RANGE
-  love.graphics.setColor(GREEN)
+  love.graphics.setColor(0,1,0, magicHudOpacity/255)
   love.graphics.rectangle('fill', 65, SCREEN_HEIGHT_LIMIT + 2 - 4, 20, 2)
 
   --FOCUS INDICATOR
-  love.graphics.setColor(WHITE)
+  love.graphics.setColor(1,1,1, magicHudOpacity/255)
   love.graphics.rectangle('fill', self.focusIndicatorX, SCREEN_HEIGHT_LIMIT + 2 - 4, 2, 2)
+
+  love.graphics.setColor(WHITE)
   --]]
 
   --DEBUG MANIS SPELLCASTING
