@@ -11,8 +11,6 @@ local creditSequence = false
 local creditsY = VIRTUAL_HEIGHT
 local creditsYReset = VIRTUAL_HEIGHT
 local inspect = require "lib/inspect"
-local manisTimer = 0
-local magicHudOpacity = 0
 Lute = Lute()
 leftCount = 0
 luteState = false
@@ -29,6 +27,7 @@ local leftFadeTransitionX = -VIRTUAL_WIDTH / 2
 local rightFadeTransitionX = VIRTUAL_WIDTH
 local startingSceneTransitionFinished = false
 local transitionFadeAlpha = 0
+
 
 gPlayer = Player {
   animations = ENTITY_DEFS['player'].animations,
@@ -75,15 +74,6 @@ function PlayState:init()
 
   --gPlayer:changeState('player-death')
   gPlayer:changeState('player-idle')
-  self.manis = 100
-  self.manisMax = 100
-  --self.manisDrain = .45
-  self.manisDrain = 10
-  self.manisRegen = 1.2
-  self.focusIndicatorX = 0
-  self.focusMax = 4
-  self.unFocus = 0
-  self.unFocusGrowing = true
   self.stateTimer = 0
   self.saveUtility = SaveData()
   self.loadTest = {}
@@ -265,81 +255,6 @@ function PlayState:update(dt)
     Lute:update(dt)
   end
 
-  if not sceneView.shifting then
-    --FOCUS GAIN
-    if (INPUT:down('action') and not luteState) or (buttons[1].fireSpellPressed and not luteState) then
-      --VIBRANCY DRAIN
-      --if gPlayer.flammeVibrancy <a
-
-      gPlayer.flammeVibrancy = math.min(100, gPlayer.flammeVibrancy + dt * 2)
-
-      --UNFOCUS
-      if (self.unFocus < self.focusMax) and self.unFocusGrowing then
-        if self.manis > 0 then
-          self.unFocus = self.unFocus + FOCUS_GROW * dt
-        else
-          self.unFocus = 0
-        end
-      end
-
-      --UNFOCUS SHRINK
-      if self.unFocus >= self.focusMax then
-        self.unFocus = self.focusMax
-        self.unFocusGrowing = false
-      end
-
-      --UNFOCUS DECREMENT
-      if (self.unFocus <= self.focusMax) and not self.unFocusGrowing then
-        self.unFocus = self.unFocus - FOCUS_GROW * dt
-      end
-
-      --UNFOCUS GROW
-      if self.unFocus <= 0 then
-        self.unFocus = 0
-        self.unFocusGrowing = true
-      end
-
-
-      --APPLY UNFOCUS TO FOCUS INDICATOR
-      self.focusIndicatorX = math.max(self.focusIndicatorX - (self.manisDrain + self.unFocus) * dt, 0)
-
-      --CLAMP FOCUS INDICATOR TO 0 IF NO MANIS
-      if self.manis <= 0 then
-        self.focusIndicatorX = math.max(self.focusIndicatorX - (self.manisDrain - self.unFocus) * dt, 0)
-      end
-
-      --MANIS DRAIN
-      self.manis = math.max(self.manis - MANIS_DRAIN * dt, 0)
-      if self.manis > 0 then
-        manisTimer = manisTimer + dt
-      end
-
-      if self.manis > 0 then
-        --FOCUS INDICATOR RISING
-        self.focusIndicatorX = math.min(self.focusIndicatorX + (self.unFocus * UNFOCUS_SCALER) * dt, self.manisMax - 2)
-      end
-    else
-      --MANIS REGEN
-      self.manis = math.min(self.manis + MANIS_REGEN * dt, self.manisMax)
-      --UNFOCUS DRAIN
-      self.unFocus = 0
-      self.focusIndicatorX = math.max(self.focusIndicatorX - FOCUS_DRAIN * dt, 0)
-    end
-
-    --TODO
-    for k, v in ipairs(buttons) do
-      if v.direction == 'B' then
-
-      end
-    end
-  end
-
-  if self.focusIndicatorX >= 65 and self.focusIndicatorX <= 85 then
-    successfulCast = true
-    --sounds['spellcast']:play()
-  else
-    successfulCast = false
-  end
 
   cameraX = cameraX + 1
 
@@ -542,11 +457,6 @@ function PlayState:update(dt)
       end
   end
 
-  if self.focusIndicatorX > 0 then
-    magicHudOpacity = math.min(255, magicHudOpacity + dt * 900)
-  elseif self.focusIndicatorX <= 0 then
-    magicHudOpacity = math.max(0, magicHudOpacity - dt * 400)
-  end
 end
 
 function PlayState:render()
@@ -559,27 +469,6 @@ function PlayState:render()
   love.graphics.setColor(0,0,0,255)
   --love.graphics.print('Tashio Tempo', VIRTUAL_WIDTH - 150, SCREEN_HEIGHT_LIMIT + 4)
 
-  --MAGIC RENDER
-
-  --MANIS BAR RENDER
-  ---[[
-  love.graphics.setColor(255/255, 0/255, 0/255, magicHudOpacity/255)
-  love.graphics.rectangle('fill', 0, SCREEN_HEIGHT_LIMIT - 4, self.manis, 2)
-
-  --CAST BAR RENDER
-  love.graphics.setColor(0,0,0, magicHudOpacity/255)
-  love.graphics.rectangle('fill', 0, SCREEN_HEIGHT_LIMIT + 2 - 4, 100, 2)
-
-  --SUCCESSFUL CAST RANGE
-  love.graphics.setColor(0,1,0, magicHudOpacity/255)
-  love.graphics.rectangle('fill', 65, SCREEN_HEIGHT_LIMIT + 2 - 4, 20, 2)
-
-  --FOCUS INDICATOR
-  love.graphics.setColor(1,1,1, magicHudOpacity/255)
-  love.graphics.rectangle('fill', self.focusIndicatorX, SCREEN_HEIGHT_LIMIT + 2 - 4, 2, 2)
-
-  love.graphics.setColor(WHITE)
-  --]]
 
   --DEBUG MANIS SPELLCASTING
   --[[
@@ -714,14 +603,35 @@ function PlayState:render()
   love.graphics.setColor(WHITE)
   love.graphics.draw(flamme, VIRTUAL_WIDTH / 2 - 11, VIRTUAL_HEIGHT - 13)
 
-  --TRANSITION START
-  love.graphics.setColor(BLACK)
-  love.graphics.rectangle('fill', leftFadeTransitionX, 0, VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT)
-  love.graphics.rectangle('fill', rightFadeTransitionX, 0, VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT)
+  --MAGIC RENDER
+  --MANIS BAR RENDER
+  ---[[
+  if self.activeDialogueID == nil then
+    love.graphics.setColor(255/255, 0/255, 0/255, gPlayer.magicHudOpacity/255)
+    love.graphics.rectangle('fill', 0, SCREEN_HEIGHT_LIMIT - 4, gPlayer.manis, 2)
 
-  --TRANSITION BLACK FADE
-  love.graphics.setColor(0/255, 0/255, 0/255, transitionFadeAlpha/255)
-  love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
+    --CAST BAR RENDER
+    love.graphics.setColor(0,0,0, gPlayer.magicHudOpacity/255)
+    love.graphics.rectangle('fill', 0, SCREEN_HEIGHT_LIMIT + 2 - 4, 100, 2)
+
+    --SUCCESSFUL CAST RANGE
+    love.graphics.setColor(0,1,0, gPlayer.magicHudOpacity/255)
+    love.graphics.rectangle('fill', 65, SCREEN_HEIGHT_LIMIT + 2 - 4, 20, 2)
+
+    --FOCUS INDICATOR
+    love.graphics.setColor(1,1,1, gPlayer.magicHudOpacity/255)
+    love.graphics.rectangle('fill', gPlayer.focusIndicatorX, SCREEN_HEIGHT_LIMIT + 2 - 4, 2, 2)
+    --]]
+
+    --TRANSITION START
+    love.graphics.setColor(BLACK)
+    love.graphics.rectangle('fill', leftFadeTransitionX, 0, VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT)
+    love.graphics.rectangle('fill', rightFadeTransitionX, 0, VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT)
+
+    --TRANSITION BLACK FADE
+    love.graphics.setColor(0/255, 0/255, 0/255, transitionFadeAlpha/255)
+    love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
+  end
 
   --[[
   love.graphics.setColor(WHITE)
