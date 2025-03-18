@@ -8,8 +8,8 @@ function love.conf(data)
   --data.window.display = 2
 
   --DESKTOP
-  data.window.vsync = 1
+  --data.window.vsync = 1
 
   --WEB
-  --data.window.vsync = 0
+  data.window.vsync = 0
 end

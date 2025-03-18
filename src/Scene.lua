@@ -110,17 +110,12 @@ function Scene:beginShifting(shiftX, shiftY)
   end
 
   --PLAYER AND CAMERA TWEEN
-  if self.nextMap then
-    Timer.tween(TRANSITION_SPEED, {
-      [self] = {cameraX = shiftX, cameraY = shiftY},
-      [self.player] = {x = math.floor(playerX), y = math.floor(playerY)},
-    }):finish(function()
-      self:finishShifting()
-    end)
-  else
-    --MOBILE DELAY
-    Timer.after(0.1, function() self:finishShifting() end)
-  end
+  Timer.tween(TRANSITION_SPEED, {
+    [self] = {cameraX = shiftX, cameraY = shiftY},
+    [self.player] = {x = math.floor(playerX), y = math.floor(playerY)},
+  }):finish(function()
+    self:finishShifting()
+  end)
 
   --RESET TREASURE CHEST TODO TURN OFF FOR DEMO
   for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
@@ -134,10 +129,6 @@ function Scene:finishShifting()
   self.shifting = false
   self.cameraX = 0
   self.cameraY = 0
-  --MOBILE BUG FIX
-  if not self.nextMap then
-    return
-  end
   self.nextMap.adjacentOffsetX = 0
   self.nextMap.adjacentOffsetY = 0
   sceneView.player.checkPointPositions.x = sceneView.player.x

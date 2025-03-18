@@ -153,7 +153,7 @@ function PlayState:update(dt)
       elseif self.optionSelector == 1 then
         --CONTINUE GAME
         --LOAD LAST SAVE
-        self.saveUtility:loadPlayerData()
+        --self.saveUtility:loadPlayerData()
         gStateMachine:change('playState')
         gPlayer.stateMachine:change('player-meditate')
       end
@@ -510,13 +510,13 @@ function PlayState:update(dt)
 
   --SAVE
   if love.keyboard.wasPressed('k') then
-    self.saveUtility:savePlayerData()
+    --self.saveUtility:savePlayerData()
   end
 
   --LOADING
   if love.keyboard.wasPressed('l') then
     gPlayer.stateMachine:change('player-meditate')
-    self.saveUtility:loadPlayerData()
+    --self.saveUtility:loadPlayerData()
   end
 
   --GAME OVER OPTION SELECTOR

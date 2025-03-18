@@ -18,7 +18,7 @@ function TitleScreenState:update(dt)
   end
   if INPUT:pressed('start') then
     --LOAD SAVE FILE
-    self.saveDataUtility:loadPlayerData()
+    --self.saveDataUtility:loadPlayerData()
     gStateMachine:change('playState')
     gPlayer.stateMachine:change('player-meditate')
     sounds['select']:play()
