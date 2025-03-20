@@ -820,12 +820,12 @@ MAP[7][2].npc[mageIndex].stateMachine.current.option = 'square'
 --]]
 
 --VILLAGER 1
---[[
+---[[
 table.insert(MAP[1][11].npc, Entity {
-  animations = ENTITY_DEFS['villager1'].animations,
-  walkSpeed = ENTITY_DEFS['villager1'].walkSpeed,
-  height = ENTITY_DEFS['villager1'].height,
-  width = ENTITY_DEFS['villager1'].width,
+  animations = ENTITY_DEFS['ren'].animations,
+  walkSpeed = ENTITY_DEFS['ren'].walkSpeed,
+  height = ENTITY_DEFS['ren'].height,
+  width = ENTITY_DEFS['ren'].width,
   x = TILE_SIZE * 5,
   y = TILE_SIZE,
   dialogueBox = {},
@@ -835,7 +835,7 @@ table.insert(MAP[1][11].npc, Entity {
 })
 --]]
 
---[[
+---[[
 local villagerIndex = 1
 MAP[1][11].npc[villagerIndex].stateMachine = StateMachine {
   ['npc-idle'] = function() return NPCIdleState(MAP[1][11].npc[villagerIndex]) end,
@@ -844,8 +844,8 @@ MAP[1][11].npc[villagerIndex].stateMachine = StateMachine {
 MAP[1][11].npc[villagerIndex]:changeState('npc-walk')
 MAP[1][11].npc[villagerIndex].stateMachine.current.option = 'horizontal'
 MAP[1][11].disjointUp = true
+table.insert(MAP[1][11].dialogueBox, DialogueBox(MAP[1][11].npc[villagerIndex].x, MAP[1][11].npc[villagerIndex].y, 'Bring me minerals so I can upgrade your elements! ', 'npc', MAP[1][11].npc[villagerIndex], 1))
 --]]
---table.insert(MAP[1][11].dialogueBox, DialogueBox(MAP[1][11].npc[villagerIndex].x, MAP[1][11].npc[villagerIndex].y, 'Whaddya want?', 'npc', MAP[1][11].npc[villagerIndex], 1))
 table.insert(MAP[7][2].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 2, 'Meditate?', 'idol', nil, 1 ))
 table.insert(MAP[7][4].dialogueBox, DialogueBox(TILE_SIZE * 5, TILE_SIZE * 5, 'Meditate?', 'idol', nil, 1))
 
