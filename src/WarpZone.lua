@@ -1,6 +1,6 @@
 WarpZone = Class{}
 
-function WarpZone:init(x, y, playerX, playerY, warpRow, warpCol, disjoint)
+function WarpZone:init(x, y, playerX, playerY, warpRow, warpCol, disjoint, stateChange)
   self.x = x
   self.y = y
   self.playerX = playerX
@@ -10,6 +10,7 @@ function WarpZone:init(x, y, playerX, playerY, warpRow, warpCol, disjoint)
   self.warpRow = warpRow
   self.warpCol = warpCol
   self.disjoint = disjoint or false
+  self.stateChange = stateChange or nil
 end
 
 function WarpZone:collides()

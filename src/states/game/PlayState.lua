@@ -356,6 +356,7 @@ function PlayState:update(dt)
         gPlayer.currentAnimation:refresh()
         triggerStartingSceneTransition = true
         gPlayer.warping = true
+        gPlayer.warpObject = v
         --RESET TREASURE CHEST TODO TURN OFF FOR DEMO
         for k, v in pairs(MAP[v.warpRow][v.warpCol].collidableMapObjects) do
           if v.classType == 'treasureChest' then
@@ -383,6 +384,7 @@ function PlayState:update(dt)
       leftFadeTransitionX = 0
       triggerStartingSceneTransition = false
       startingSceneTransitionFinished = true
+      --TODO ALLOW SPECIFIC WARPZONE TO TRIGGER
       for k, v in pairs(sceneView.currentMap.warpZones) do
         if gPlayer.warping then
           sceneView = Scene(gPlayer, sceneView.currentMap.warpZones[k].warpRow, sceneView.currentMap.warpZones[k].warpCol)
@@ -418,7 +420,14 @@ function PlayState:update(dt)
       rightFadeTransitionX = VIRTUAL_WIDTH
       triggerFinishingSceneTransition = false
       startingSceneTransition = false
+      if gPlayer.warpObject.stateChange == 'refineryState' then
+        sceneView.mapRow = 1
+        sceneView.mapColumn = 11
+        gPlayer.extendDialogueBoxUpwards = true
+        gStateMachine:change('refineryState')
+      end
       gPlayer.warping = false
+      gPlayer.warpObject = nil
     end
     transitionFadeAlpha = math.max(transitionFadeAlpha - FADE_TO_BLACK_SPEED * dt, 0)
   end
