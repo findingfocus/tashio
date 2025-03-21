@@ -156,6 +156,13 @@ function DialogueBox:flushText()
   self.currentPagePrintedCharCount = 0
 end
 
+function DialogueBox:clearAButtonCount()
+  for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do
+    v.aButtonCount = 0
+    v.activated = false
+  end
+end
+
 function DialogueBox:update(dt)
   if self.option == 'idol' then
     self.meditateOption = true
@@ -195,7 +202,7 @@ function DialogueBox:update(dt)
 
   if INPUT:pressed('actionB') then
     self.activated = false
-    self.aButtonCount = 0
+    self:clearAButtonCount()
     treasureChestOption = false
     for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
       if v.classType == 'treasureChest' then
@@ -234,7 +241,7 @@ function DialogueBox:update(dt)
         if self.currentPage == self.pageLength then
           self.finishedPrinting = true
           self.activated = false
-          self.aButtonCount = 0
+          self:clearAButtonCount()
           treasureChestOption = false
           for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
             if v.classType == 'treasureChest' then

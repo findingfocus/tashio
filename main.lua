@@ -63,6 +63,14 @@ function love.resize(w, h)
   push:resize(w,h)
 end
 
+function fixGame()
+  for index, object in pairs(entireGame) do
+    if object.broken then
+      object.broken = false
+    end
+  end
+end
+
 function love.keyreleased(key)
   love.keyboard.keysReleased[key] = true
 end
@@ -92,6 +100,10 @@ function love.keyboard.wasReleased(key)
 end
 
 function love.update(dt)
+  if gameBroken then
+    fixGame()
+  end
+
   keyboardInput:update(dt)
   touchInput:update(dt)
   ---[[

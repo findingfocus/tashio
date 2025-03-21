@@ -214,7 +214,7 @@ function PlayState:update(dt)
           if not v.opened then
             if gPlayer:dialogueCollides(v) then
               v:openChest()
-              self.dialogueID = k
+              --self.dialogueID = k
               --treasureChestOption = true
               --v.dialogueBox[1]:flushText()
               --[[
@@ -286,9 +286,8 @@ function PlayState:update(dt)
         PAUSED = true
         MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]:flushText()
         MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated = true
-        self.dialogueID = k
-        self.activeDialogueID = v.dialogueID
-        sceneView.activeDialogueID = v.dialogueID
+        self.activeDialogueID = k
+        sceneView.activeDialogueID = self.activeDialogueID
       end
     end
     for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
@@ -702,6 +701,7 @@ function PlayState:render()
     --DEBUGG
     --love.graphics.print('state: ' .. tostring(bat.stateMachine.current.stateName), 0,40)
     --love.graphics.print('blocked: ' .. tostring(bat.blocked), 0,0)
+    --love.graphics.print('dID: ' .. tostring(sceneView.activeDialogueID), 0,0)
 end
 
 function displayFPS()
