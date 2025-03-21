@@ -9,6 +9,9 @@ require 'lib/slam'
 require 'src/TouchDetection'
 require 'src/constants'
 
+gameBroken = false
+entireGame = {}
+
 dpad = {
   TouchDetection(DPAD_LEFT_EDGE, DPAD_TOP_EDGE, DPAD_BUTTON_WIDTH * 3, DPAD_BUTTON_WIDTH, DPAD_COLOR_TC, 'up'),
   TouchDetection(DPAD_LEFT_EDGE, DPAD_TOP_EDGE + DPAD_BUTTON_WIDTH * 2, DPAD_BUTTON_WIDTH * 3, DPAD_BUTTON_WIDTH, DPAD_COLOR_BC, 'down'),

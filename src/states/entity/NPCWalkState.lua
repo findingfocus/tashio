@@ -101,7 +101,7 @@ function NPCWalkState:update(dt)
     elseif self.step2 then
       self.waitTimer = self.waitTimer - dt
       if self.waitTimer <= 0 then
-        self.waitTimer = math.random(2, 4)
+        self.waitTimer = 4
         self.step2 = false
         self.step3 = true
       end
@@ -118,7 +118,7 @@ function NPCWalkState:update(dt)
     elseif self.step4 then
       self.waitTimer = self.waitTimer - dt
       if self.waitTimer <= 0 then
-        self.waitTimer = math.random(2, 4)
+        self.waitTimer = 3
         self.step4 = false
         self.step1 = true
       end
