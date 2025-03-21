@@ -164,7 +164,6 @@ function Scene:finishShifting()
   else
     gPlayer.extendDialogueBoxUpwards = false
   end
-
   self.nextMap = nil
 end
 

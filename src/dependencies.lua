@@ -130,6 +130,7 @@ require 'src/states/game/Minimap'
 require 'src/states/game/PauseState'
 require 'src/events/OpeningCinematic'
 require 'src/events/MageIntroTopTrigger'
+require 'src/states/game/RefineryState'
 
 
 pixelFont = love.graphics.newFont('fonts/Pixel.ttf', 8)

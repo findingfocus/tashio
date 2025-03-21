@@ -13,6 +13,7 @@ function Player:init(def)
   self.heartTimer = heartSpeed
   self.decrement = true
   self.dead = false
+  self.warpObject = nil
   self.checkPointPositions = {x = 0, y = 0}
   self.falling = false
   self.fallTimer = 0
@@ -348,6 +349,7 @@ end
 
 function Player:render()
   if not self.graveyard then
+    --RED BOX
     --DIALOGUE BOX DETECTION
     ---[[
     love.graphics.setColor(1,0,0,0.7)
