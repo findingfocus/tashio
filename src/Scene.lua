@@ -11,6 +11,12 @@ local count = spellcastEntityCount
 local step = math.pi * 2 / count
 local x, y = love.mouse.getPosition()
 
+local triggerSceneTransition = false
+local leftFadeTransitionX = -VIRTUAL_WIDTH / 2
+local rightFadeTransitionX = VIRTUAL_WIDTH
+local startingSceneTransitionFinished = false
+local transitionFadeAlpha = 0
+
 function Scene:init(player, mapRow, mapColumn)
   self.player = player
   self.mapRow = mapRow
@@ -393,6 +399,95 @@ function Scene:update(dt)
   for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].psystems) do
     v:update(dt)
   end
+
+
+
+  --WARP ZONES
+  if #MAP[sceneView.currentMap.row][sceneView.currentMap.column].warpZones > 0 then
+    for k, v in pairs(sceneView.currentMap.warpZones) do
+      if v:collides() and not gPlayer.warping then
+        gPlayer:changeState('player-idle')
+        --gPlayer:changeState('player-walk')
+        gPlayer.currentAnimation:refresh()
+        triggerStartingSceneTransition = true
+        gPlayer.warping = true
+        gPlayer.warpObject = v
+        --RESET TREASURE CHEST TODO TURN OFF FOR DEMO
+        for k, v in pairs(MAP[v.warpRow][v.warpCol].collidableMapObjects) do
+          if v.classType == 'treasureChest' then
+            --v:reset()
+          end
+          if v.classType == 'pushable' then
+            v:resetOriginalPosition()
+          end
+        end
+        MAP[v.warpRow][v.warpCol].coins = {}
+        --DISJOINTED DIALOGUE BOX
+        if MAP[v.warpRow][v.warpCol].disjointUp then
+          gPlayer.extendDialogueBoxUpwards = true
+        else
+          gPlayer.extendDialogueBoxUpwards = false
+        end
+      end
+    end
+  end
+
+  if triggerStartingSceneTransition then
+    leftFadeTransitionX = leftFadeTransitionX + FADE_TRANSITION_SPEED * dt
+    rightFadeTransitionX = rightFadeTransitionX - FADE_TRANSITION_SPEED * dt
+    if leftFadeTransitionX > 0 then
+      leftFadeTransitionX = 0
+      triggerStartingSceneTransition = false
+      startingSceneTransitionFinished = true
+      --TODO ALLOW SPECIFIC WARPZONE TO TRIGGER
+      for k, v in pairs(sceneView.currentMap.warpZones) do
+        if gPlayer.warping then
+          sceneView = Scene(gPlayer, sceneView.currentMap.warpZones[k].warpRow, sceneView.currentMap.warpZones[k].warpCol)
+          gStateMachine.current.animatables = InsertAnimation(sceneView.currentMap.row, sceneView.currentMap.column)
+          gPlayer.x = v.playerX
+          gPlayer.y = v.playerY
+        end
+      end
+      triggerFinishingSceneTransition = true
+    end
+    if rightFadeTransitionX < VIRTUAL_WIDTH / 2 then
+      rightFadeTransitionX = VIRTUAL_WIDTH / 2
+      triggerStartingSceneTransition = false
+      startingSceneTransitionFinished = true
+      --RESET ENTITIES UPON WARP
+      for i = 1, #MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities do
+        MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities[i]:resetOriginalPosition()
+      end
+      sceneView.player.checkPointPositions.x = sceneView.player.x
+      sceneView.player.checkPointPositions.y = sceneView.player.y
+    end
+    transitionFadeAlpha = math.min(transitionFadeAlpha + FADE_TO_BLACK_SPEED * dt, 255)
+  end
+  if triggerFinishingSceneTransition then
+    leftFadeTransitionX = leftFadeTransitionX - FADE_TRANSITION_SPEED * dt
+    rightFadeTransitionX = rightFadeTransitionX + FADE_TRANSITION_SPEED * dt
+    if leftFadeTransitionX < -VIRTUAL_WIDTH / 2 then
+      leftFadeTransitionX = -VIRTUAL_WIDTH / 2
+      triggerFinishingSceneTransition = false
+      startingSceneTransitionFinished = false
+    end
+    if rightFadeTransitionX > VIRTUAL_WIDTH then
+      rightFadeTransitionX = VIRTUAL_WIDTH
+      triggerFinishingSceneTransition = false
+      startingSceneTransition = false
+      if gPlayer.warpObject.warpToStateChange == 'refineryState' then
+        sceneView.mapRow = 1
+        sceneView.mapColumn = 11
+        gPlayer.extendDialogueBoxUpwards = true
+        gStateMachine:change('refineryState')
+      elseif gPlayer.warpObject.warpToStateChange == 'playState' then
+        gStateMachine:change('playState')
+      end
+      gPlayer.warping = false
+      gPlayer.warpObject = nil
+    end
+    transitionFadeAlpha = math.max(transitionFadeAlpha - FADE_TO_BLACK_SPEED * dt, 0)
+  end
 end
 
 function Scene:render()
@@ -512,4 +607,13 @@ function Scene:render()
   --MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[self.activeDialogueID]:render(dt)
   love.graphics.setColor(WHITE)
   --love.graphics.print(Inspect(sceneView.currentMap.collidableWallObjects[1]), 0, 0)
+
+  --TRANSITION START
+  love.graphics.setColor(BLACK)
+  love.graphics.rectangle('fill', leftFadeTransitionX, 0, VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT)
+  love.graphics.rectangle('fill', rightFadeTransitionX, 0, VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT)
+
+  --TRANSITION BLACK FADE
+  love.graphics.setColor(0/255, 0/255, 0/255, transitionFadeAlpha/255)
+  love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
 end

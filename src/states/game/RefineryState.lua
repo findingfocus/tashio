@@ -42,25 +42,6 @@ function RefineryState:update(dt)
       MAP[1][11].dialogueBox[self.dialogueID]:update(dt)
   end
 
-
-  --[[
-  if not PAUSED then
-    sceneView:update(dt)
-    --TODO CAN WE DIG DOWN INTO THE PLAY STATE AND PULL FIELDS
-    self.activeDialogueID = sceneView.activeDialogueID
-  end
-
-  if gStateMachine.current.stateName == 'PlayState' then
-    self.animatables:update(dt)
-  end
-
-  --UPDATE DIALOGUE BOXES
-  --DIALOGUE UPDATE
-  if self.activeDialogueID ~= nil then
-    MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[self.activeDialogueID]:update(dt)
-  end
-  --]]
-
   --DIALOGUE BOX UPDATES FOR NPCS
   for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do
     if v.option == 'npc' then
