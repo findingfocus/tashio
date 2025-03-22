@@ -1,7 +1,7 @@
 RefineryState = Class{__includes = BaseState}
 
 local ren = MAP[1][11].npc[1]
-  local count = 0
+local count = 0
 
 function RefineryState:init()
   self.stateName = 'refineryState'
@@ -17,16 +17,16 @@ function RefineryState:update(dt)
 
   if INPUT:pressed('action') then
     --DIALOGUE DETECTION
-    for k, v in pairs(MAP[1][11].dialogueBox) do
-      if gPlayer:dialogueCollides(MAP[1][11].dialogueBox[k]) and not MAP[1][11].dialogueBox[k].activated then
+    for k, v in pairs(MAP[self.row][self.column].dialogueBox) do
+      if gPlayer:dialogueCollides(MAP[self.row][self.column].dialogueBox[k]) and not MAP[self.row][self.column].dialogueBox[k].activated then
         PAUSED = true
-        MAP[1][11].dialogueBox[k]:flushText()
-        MAP[1][11].dialogueBox[k].activated = true
+        MAP[self.row][self.column].dialogueBox[k]:flushText()
+        MAP[self.row][self.column].dialogueBox[k].activated = true
         self.dialogueID = k
         sceneView.activeDialogueID = self.dialogueID
       end
     end
-    for k, v in pairs(MAP[1][11].collidableMapObjects) do
+    for k, v in pairs(MAP[self.row][self.column].collidableMapObjects) do
       if v.classType == 'treasureChest' then
         if not v.opened then
           if gPlayer:dialogueCollides(v) then
@@ -39,7 +39,7 @@ function RefineryState:update(dt)
   end
 
   if sceneView.activeDialogueID ~= nil then
-      MAP[1][11].dialogueBox[self.dialogueID]:update(dt)
+      MAP[self.row][self.column].dialogueBox[self.dialogueID]:update(dt)
   end
 
   --DIALOGUE BOX UPDATES FOR NPCS
@@ -72,15 +72,27 @@ function RefineryState:render()
   heartRowQuad:setViewport(0, 0, HEART_CROP, 7, heartRow:getDimensions())
   love.graphics.draw(heartRow, heartRowQuad, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)
 
+  --VIBRANCY RENDER
+  love.graphics.draw(flamme, VIRTUAL_WIDTH / 2 - 11, VIRTUAL_HEIGHT - 13)
+  --EMPTY VIBRANCY BAR
+  love.graphics.setColor(255/255, 30/255, 30/255, 255/255)
+  love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, 10)
+  --VIBRANCY BAR
+  love.graphics.setColor(30/255, 30/255, 30/255, 255/255)
+  love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, gPlayer.flammeVibrancy / 10)
+  --love.graphics.print('vibrancy: ' .. tostring(gPlayer.flammeVibrancy), 0, 0)
+  love.graphics.setColor(WHITE)
+  love.graphics.draw(flamme, VIRTUAL_WIDTH / 2 - 11, VIRTUAL_HEIGHT - 13)
+
   if sceneView.activeDialogueID ~= nil then
-    MAP[1][11].dialogueBox[self.dialogueID]:render()
+    MAP[self.row][self.column].dialogueBox[self.dialogueID]:render()
   end
 
   love.graphics.setColor(GREEN)
   love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, 20)
 
-  --love.graphics.print(Inspect(MAP[1][11].dialogueBox[4]), 0, 0)
+  --love.graphics.print(Inspect(MAP[self.row][self.column].dialogueBox[4]), 0, 0)
   --love.graphics.print(self.dialogueID, 0, 10)
-  --love.graphics.print('5: ' .. tostring(MAP[1][11].dialogueBox[5].activated), 0, 20)
+  --love.graphics.print('5: ' .. tostring(MAP[self.row][self.column].dialogueBox[5].activated), 0, 20)
   love.graphics.print('player_state: ' .. tostring(PLAYER_STATE), 5, 95)
 end
