@@ -278,8 +278,7 @@ function DialogueBox:update(dt)
   --]]
 
   self.textTimer = self.textTimer + dt
-
-  if self.textTimer > self.nextTextTrigger and self.textIndex <= MAX_TEXTBOX_CHAR_LENGTH then
+if self.textTimer > self.nextTextTrigger and self.textIndex <= MAX_TEXTBOX_CHAR_LENGTH then
     if self.lineCount == 1 then
       self.line1Result = self.line1Result .. self.pages[self.currentPage][1].string:sub(self.textIndex, self.textIndex)
       self.textIndex = self.textIndex + 1
