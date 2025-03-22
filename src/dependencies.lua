@@ -112,6 +112,7 @@ require 'src/Scene'
 require 'src/Pit'
 require 'src/Chasm'
 require 'src/Map'
+require 'src/UpgradeElement'
 require 'src/RainSystem'
 require 'src/SnowSystem'
 require 'src/LavaSystem'
@@ -139,7 +140,11 @@ classicFont = love.graphics.newFont('fonts/classic.ttf', 8)
 smallFont = love.graphics.newFont('fonts/classic.ttf', 4)
 particle = love.graphics.newImage('graphics/particle.png')
 flamme = love.graphics.newImage('graphics/flamme.png')
+aquis = love.graphics.newImage('graphics/aquis.png')
+ekko = love.graphics.newImage('graphics/ekko.png')
+lox = love.graphics.newImage('graphics/lox.png')
 brightside = love.graphics.newImage('graphics/brightside.png')
+upgradeCursor = love.graphics.newImage('graphics/upgradeCursor.png')
 
 rightArrowSelector = love.graphics.newImage('graphics/rightArrowSelector.png')
 textAdvance = love.graphics.newImage('graphics/textAdvance.png')

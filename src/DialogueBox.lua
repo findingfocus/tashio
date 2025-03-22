@@ -7,6 +7,7 @@ local blinkReset = .5
 
 function DialogueBox:init(x, y, text, option, npc, index)
   self.dialogueID = index or 1
+  self.index = index or nil
   self.x = x + 1
   self.y = y + 1
   self.width = TILE_SIZE - 2

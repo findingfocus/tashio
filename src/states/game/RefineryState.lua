@@ -2,36 +2,6 @@ RefineryState = Class{__includes = BaseState}
 
 local ren = MAP[1][11].npc[1]
 local count = 0
-local lineYSpacing = 15
-local line1Y = SCREEN_HEIGHT_LIMIT - 40 - 50 + 6
-local line2Y = line1Y + lineYSpacing
-local line3Y = line2Y + lineYSpacing
-local selection = 1
-local selectionYTable = {line1Y, line2Y, line3Y}
-local selectionCostTable = {0, 25, 50}
-local selectionY = selectionYTable[selection]
-local lineTextX = 19
-local upgradeCursor = love.graphics.newImage('graphics/upgradeCursor.png')
-local upgradeCursorBlink = false
-local upgradeCursorBlinkTimer = 0
-local upgradeCursorBlinkThreshold = .5
-local activeLevel = 1
-local resultString = ''
---[[
-
-  resultString = nonSelectable
-  'Already have upgrade'
-
-  resultString = tooExpensive
-  'X minerals are Needed'
-
-  resultString = outOfRange
-  'Level X is Needed'
-
-  resultString = availableUpgrade
-  'Can afford'
-
---]]
 
 function RefineryState:init()
   self.stateName = 'refineryState'
@@ -39,6 +9,11 @@ function RefineryState:init()
   self.row = 1
   self.column = 11
   self.flammeUI = false
+  self.flammeUpgrade = UpgradeElement('flamme')
+  self.aquisUpgrade = UpgradeElement('aquis')
+  self.ekkoUpgrade = UpgradeElement('ekko')
+  self.loxUpgrade = UpgradeElement('lox')
+  self.activeUpgrade = nil
 end
 
 function RefineryState:update(dt)
@@ -46,32 +21,9 @@ function RefineryState:update(dt)
     sceneView:update(dt)
   end
 
-  if self.flammeUI then
-
-    if INPUT:pressed('down') then
-      if selection < 3 then
-        selection = selection + 1
-      end
-      selectionY = selectionYTable[selection]
-      upgradeCursorBlinkTimer = 0
-      upgradeCursorBlink = false
-    end
-
-    if INPUT:pressed('up') then
-      if selection > 1 then
-        selection = selection - 1
-      end
-      selectionY = selectionYTable[selection]
-      upgradeCursorBlinkTimer = 0
-      upgradeCursorBlink = false
-      upgradeCursorBlink = false
-    end
-
-    upgradeCursorBlinkTimer = upgradeCursorBlinkTimer + dt
-    if upgradeCursorBlinkTimer > upgradeCursorBlinkThreshold then
-      upgradeCursorBlink = not upgradeCursorBlink
-      upgradeCursorBlinkTimer = 0
-    end
+  --UPDATE ACTIVE UPGRADE
+  if self.activeUpgrade ~= nil then
+    self.activeUpgrade:update(dt)
   end
 
   if INPUT:pressed('action') then
@@ -83,7 +35,15 @@ function RefineryState:update(dt)
         MAP[self.row][self.column].dialogueBox[k].activated = true
         self.dialogueID = k
         sceneView.activeDialogueID = self.dialogueID
-        self.flammeUI = true
+        if v.index == 2 then
+          self.activeUpgrade = self.flammeUpgrade
+        elseif v.index == 3 then
+          self.activeUpgrade = self.aquisUpgrade
+        elseif v.index == 4 then
+          self.activeUpgrade = self.ekkoUpgrade
+        elseif v.index == 5 then
+          self.activeUpgrade = self.loxUpgrade
+        end
       end
     end
     for k, v in pairs(MAP[self.row][self.column].collidableMapObjects) do
@@ -101,9 +61,13 @@ function RefineryState:update(dt)
   if sceneView.activeDialogueID ~= nil then
       MAP[self.row][self.column].dialogueBox[self.dialogueID]:update(dt)
   else
-    self.flammeUI = false
-    selection = 1
-    selectionY = selectionYTable[selection]
+    ---[[
+    if self.activeUpgrade ~= nil then
+      self.activeUpgrade.selection = 1
+      self.activeUpgrade.selectionY = self.activeUpgrade.selectionYTable[self.activeUpgrade.selection]
+    end
+    self.activeUpgrade = nil
+    --]]
   end
 
   --DIALOGUE BOX UPDATES FOR NPCS
@@ -129,62 +93,12 @@ function RefineryState:render()
     gItemInventory.itemSlot[1]:render()
   end
 
-  --UPGRADE UI
-  if self.flammeUI then
 
-    local upgradeBoxY = SCREEN_HEIGHT_LIMIT - 40 - 46
-    local upgradeBoxWidth = 80
-    local upgradeBoxHeight = 46
-    --TAN BOX
-    love.graphics.setColor(BLACK)
-    love.graphics.rectangle('fill', 0, upgradeBoxY - 1, upgradeBoxWidth + 1, upgradeBoxHeight + 1)
-    love.graphics.setColor(INVENTORY_COLOR)
-    love.graphics.rectangle('fill', 0, upgradeBoxY, upgradeBoxWidth, upgradeBoxHeight)
-
-    love.graphics.setColor(WHITE)
-    love.graphics.draw(flamme, 5, line1Y + 1)
-    love.graphics.draw(flamme, 5, line2Y + 1)
-    love.graphics.draw(flamme, 5, line3Y + 1)
-    love.graphics.setColor(BLACK)
-    love.graphics.print('Level 1', lineTextX, line1Y)
-    love.graphics.print('Level 2', lineTextX, line2Y)
-    love.graphics.print('Level 3', lineTextX, line3Y)
-
-    love.graphics.setColor(WHITE)
-    love.graphics.print('Cost: ' .. tostring(selectionCostTable[selection]), 0, 0)
-
-    --UPGRADE CURSOR
-    if upgradeCursorBlink then
-      love.graphics.setColor(TRANSPARENT)
-    else
-      love.graphics.setColor(WHITE)
-    end
-
-
-    love.graphics.draw(upgradeCursor, lineTextX - 2, selectionY)
-
-    --ACTIVE LEVEL
-    --local resultColors = {}
-    love.graphics.setColor(resultColor)
-    love.graphics.draw(rightArrowSelector, 0, selectionYTable[activeLevel] + 3)
-
-    --MINERAL INVENTORY BOX
-    local mineralInventoryX = VIRTUAL_WIDTH - 28
-    local mineralInventoryY = SCREEN_HEIGHT_LIMIT - 40 - 12
-    local mineralInventoryWidth = 28
-    local mineralInventoryHeight = 12
-
-    love.graphics.setColor(BLACK)
-    love.graphics.rectangle('fill', mineralInventoryX - 1, mineralInventoryY - 1, mineralInventoryWidth + 1, mineralInventoryHeight + 1)
-    love.graphics.setColor(INVENTORY_COLOR)
-    love.graphics.rectangle('fill', mineralInventoryX, mineralInventoryY, mineralInventoryWidth, mineralInventoryHeight)
-
-    love.graphics.setColor(WHITE)
-    love.graphics.draw(ruby, VIRTUAL_WIDTH -28 + 2, SCREEN_HEIGHT_LIMIT - 40 - 12 + 2)
-    love.graphics.setColor(BLACK)
-    love.graphics.print(string.format("%02d", gPlayer.rubyCount), VIRTUAL_WIDTH - 16, SCREEN_HEIGHT_LIMIT - 40 - 12)
-
+----RENDER ACTIVE UPGRADE
+  if self.activeUpgrade ~= nil then
+    self.activeUpgrade:render()
   end
+
 
   love.graphics.setColor(gKeyItemInventory.elementColor)
   love.graphics.circle('fill', VIRTUAL_WIDTH - 86, VIRTUAL_HEIGHT - 8, 6)
