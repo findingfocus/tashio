@@ -37,12 +37,16 @@ function RefineryState:update(dt)
         sceneView.activeDialogueID = self.dialogueID
         if v.index == 2 then
           self.activeUpgrade = self.flammeUpgrade
+          self.activeUpgrade:calculate()
         elseif v.index == 3 then
           self.activeUpgrade = self.aquisUpgrade
+          self.activeUpgrade:calculate()
         elseif v.index == 4 then
           self.activeUpgrade = self.ekkoUpgrade
+          self.activeUpgrade:calculate()
         elseif v.index == 5 then
           self.activeUpgrade = self.loxUpgrade
+          self.activeUpgrade:calculate()
         end
       end
     end

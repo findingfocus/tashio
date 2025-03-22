@@ -22,13 +22,22 @@ function UpgradeElement:init(type)
   self.line3Y = self.line2Y + self.lineYSpacing
   self.selection = 1
   self.selectionYTable = {self.line1Y, self.line2Y, self.line3Y}
-  self.selectionCostTable = {0, 25, 50}
+  --[[
+  self.resultTable = {'unlocked', 'unavailable', 'purchasable'}
+  self.colorResultTable = {GRAY, RED, GREEN}
+  --]]
+  self.resultTable = {'', '', ''}
+  self.colorResultTable = {0, 0, 0}
+  self.selectionCostTable = {10, 25, 50}
   self.selectionY = self.selectionYTable[self.selection]
   self.lineTextX = 19
   self.upgradeCursorBlink = false
   self.upgradeCursorBlinkTimer = 0
   self.upgradeCursorBlinkThreshold = .5
   self.activeLevel = 1
+  if self.type ~= 'flamme' then
+    self.activeLevel = 0
+  end
   self.resultString = ''
   self.upgradeBoxY = SCREEN_HEIGHT_LIMIT - 40 - 46
   self.upgradeBoxWidth = 80
@@ -37,6 +46,7 @@ function UpgradeElement:init(type)
   self.mineralInventoryY = SCREEN_HEIGHT_LIMIT - 40 - 12
   self.mineralInventoryWidth = 28
   self.mineralInventoryHeight = 12
+  self.calculatedResult = ''
 
   --[[
 
@@ -53,6 +63,91 @@ function UpgradeElement:init(type)
   'Can afford'
 
   --]]
+end
+
+function UpgradeElement:calculate()
+  if self.activeLevel == 1 then
+    self.resultTable[1] = 'unlocked'
+    self.resultTable[3] = 'unavailable'
+    if self.type == 'flamme' then
+      if gPlayer.rubyCount >= self.selectionCostTable[2] then
+        self.resultTable[2] = 'purchasable'
+      else
+        self.resultTable[2] = 'unavailable'
+      end
+    elseif self.type == 'aquis' then
+      if gPlayer.sapphireCount >= self.selectionCostTable[2] then
+        self.resultTable[2] = 'purchasable'
+      else
+        self.resultTable[2] = 'unavailable'
+      end
+    elseif self.type == 'ekko' then
+      if gPlayer.emeraldCount >= self.selectionCostTable[2] then
+        self.resultTable[2] = 'purchasable'
+      else
+        self.resultTable[2] = 'unavailable'
+      end
+    elseif self.type == 'lox' then
+      if gPlayer.topazCount >= self.selectionCostTable[2] then
+        self.resultTable[2] = 'purchasable'
+      else
+        self.resultTable[2] = 'unavailable'
+      end
+    end
+  elseif self.activeLevel == 2 then
+    self.resultTable[1] = 'unlocked'
+    self.resultTable[2] = 'unlocked'
+  elseif self.activeLevel == 3 then
+    self.resultTable[1] = 'unlocked'
+    self.resultTable[2] = 'unlocked'
+    self.resultTable[3] = 'unlocked'
+  end
+
+  if self.activeLevel == 0 then
+    self.resultTable[1] = 'unavailable'
+    self.resultTable[2] = 'unavailable'
+    self.resultTable[3] = 'unavailable'
+  end
+
+  if self.activeLevel == 0 then
+    if self.type == 'aquis' then
+        if gPlayer.sapphireCount < self.selectionCostTable[1] then
+          self.resultTable[1] = 'unavailable'
+        else
+          self.resultTable[1] = 'purchasable'
+        end
+      elseif self.type == 'aquis' then
+        if gPlayer.sapphireCount < self.selectionCostTable[1] then
+          self.resultTable[1] = 'unavailable'
+        else
+          self.resultTable[1] = 'purchasable'
+        end
+      elseif self.type == 'ekko' then
+        if gPlayer.emeraldCount < self.selectionCostTable[1] then
+          self.resultTable[1] = 'unavailable'
+        else
+          self.resultTable[1] = 'purchasable'
+        end
+      elseif self.type == 'lox' then
+        if gPlayer.topazCount < self.selectionCostTable[1] then
+          self.resultTable[1] = 'unavailable'
+        else
+          self.resultTable[1] = 'purchasable'
+        end
+      end
+    end
+
+  for k, v in pairs(self.resultTable) do
+    if v == 'unlocked' then
+      self.colorResultTable[k] = BLACK
+    elseif v == 'unavailable' then
+      self.colorResultTable[k] = RED
+    elseif v == 'purchasable' then
+      self.colorResultTable[k] = GREEN
+    else
+        self.colorResultTable[k] = BLACK
+    end
+  end
 end
 
 function UpgradeElement:update(dt)
@@ -100,12 +195,14 @@ function UpgradeElement:render()
 
     love.graphics.setColor(WHITE)
     love.graphics.print('Cost: ' .. tostring(self.selectionCostTable[self.selection]), 0, 0)
+    love.graphics.print('Selection: ' .. Inspect(self.resultTable[self.selection]), 0, 10)
 
     --UPGRADE CURSOR
     if self.upgradeCursorBlink then
       love.graphics.setColor(TRANSPARENT)
     else
-      love.graphics.setColor(WHITE)
+      --love.graphics.setColor(WHITE)
+      love.graphics.setColor(self.colorResultTable[self.selection])
     end
 
 
@@ -115,7 +212,9 @@ function UpgradeElement:render()
     --local resultColors = {}
     --love.graphics.setColor(resultColor)
     love.graphics.setColor(WHITE)
-    love.graphics.draw(rightArrowSelector, 0, self.selectionYTable[self.activeLevel] + 3)
+    if self.activeLevel ~= 0 then
+      love.graphics.draw(rightArrowSelector, 0, self.selectionYTable[self.activeLevel] + 3)
+    end
 
 
     love.graphics.setColor(BLACK)
@@ -126,5 +225,13 @@ function UpgradeElement:render()
     love.graphics.setColor(WHITE)
     love.graphics.draw(self.mineral, VIRTUAL_WIDTH -28 + 2, SCREEN_HEIGHT_LIMIT - 40 - 12 + 2)
     love.graphics.setColor(BLACK)
-    love.graphics.print(string.format("%02d", gPlayer.rubyCount), VIRTUAL_WIDTH - 16, SCREEN_HEIGHT_LIMIT - 40 - 12)
+    if self.type == 'flamme' then
+      love.graphics.print(string.format("%02d", gPlayer.rubyCount), VIRTUAL_WIDTH - 16, SCREEN_HEIGHT_LIMIT - 40 - 12)
+    elseif self.type == 'aquis' then
+      love.graphics.print(string.format("%02d", gPlayer.sapphireCount), VIRTUAL_WIDTH - 16, SCREEN_HEIGHT_LIMIT - 40 - 12)
+    elseif self.type == 'ekko' then
+      love.graphics.print(string.format("%02d", gPlayer.emeraldCount), VIRTUAL_WIDTH - 16, SCREEN_HEIGHT_LIMIT - 40 - 12)
+    elseif self.type == 'lox' then
+      love.graphics.print(string.format("%02d", gPlayer.topazCount), VIRTUAL_WIDTH - 16, SCREEN_HEIGHT_LIMIT - 40 - 12)
+    end
 end
