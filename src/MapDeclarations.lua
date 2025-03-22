@@ -780,7 +780,8 @@ insertWarpZone(9, 2, 10, 19, 5, 3, 5, 8)
 
 --RENS REFINERY
 insertWarpZone(7, 2, 1, 11, 9, 3, 3, 8)
-MAP[7][2].warpZones[1].stateChange = 'refineryState'
+MAP[7][2].warpZones[1].warpToStateChange = 'refineryState'
+MAP[1][11].warpZones[1].warpToStateChange = 'playState'
 
 --DUNGEON
 --insertWarpZone(7, 4, 1, 12, 4, 4, 3, 8)
