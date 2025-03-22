@@ -8,13 +8,13 @@ function UpgradeElement:init(type)
     self.mineral = ruby
   elseif self.type == 'aquis' then
     self.element = aquis
-    self.mineral = ruby
+    self.mineral = sapphire
   elseif self.type == 'ekko' then
     self.element = ekko
-    self.mineral = ruby
+    self.mineral = emerald
   elseif self.type == 'lox' then
     self.element = lox
-    self.mineral = ruby
+    self.mineral = topaz
   end
   self.lineYSpacing = 15
   self.line1Y = SCREEN_HEIGHT_LIMIT - 40 - 50 + 6
