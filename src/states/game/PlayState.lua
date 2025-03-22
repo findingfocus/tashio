@@ -53,8 +53,8 @@ cameraX = 0
 sceneView = Scene(gPlayer, 7, 2)
 --sceneView = Scene(gPlayer, 1, 12)
 --sceneView = Scene(gPlayer, 1, 11)
---gPlayer.y = TILE_SIZE
---gPlayer.x = TILE_SIZE * 8
+gPlayer.y = TILE_SIZE * 3
+gPlayer.x = TILE_SIZE * 8
 tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 --textures = love.graphics.newImage('graphics/textures.png')
 quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
@@ -380,7 +380,6 @@ function PlayState:update(dt)
         v:update(dt)
       end
   end
-
 end
 
 function PlayState:render()

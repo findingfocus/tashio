@@ -6,7 +6,7 @@ local PLAYER_OFFSET = TILE_SIZE / 2
 local AMP = 20
 local TRANSITION_SPEED = 0.65
 --SPELLCAST COUNT
-local spellcastEntityCount = 1
+local spellcastEntityCount = 3
 local count = spellcastEntityCount
 local step = math.pi * 2 / count
 local x, y = love.mouse.getPosition()

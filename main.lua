@@ -52,6 +52,7 @@ function love.load()
   }
 
   --gStateMachine:change('titleState')
+  --gStateMachine:change('refineryState')
   gStateMachine:change('playState')
   --gStateMachine:change('minimap')
   --gStateMachine:change('chasmFallingState')
