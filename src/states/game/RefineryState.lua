@@ -88,11 +88,11 @@ function RefineryState:render()
     MAP[self.row][self.column].dialogueBox[self.dialogueID]:render()
   end
 
-  love.graphics.setColor(GREEN)
-  love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, 20)
+  --love.graphics.setColor(GREEN)
+  --love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, 20)
 
   --love.graphics.print(Inspect(MAP[self.row][self.column].dialogueBox[4]), 0, 0)
   --love.graphics.print(self.dialogueID, 0, 10)
   --love.graphics.print('5: ' .. tostring(MAP[self.row][self.column].dialogueBox[5].activated), 0, 20)
-  love.graphics.print('player_state: ' .. tostring(PLAYER_STATE), 5, 95)
+  --love.graphics.print('player_state: ' .. tostring(PLAYER_STATE), 5, 95)
 end
