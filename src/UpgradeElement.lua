@@ -27,7 +27,7 @@ function UpgradeElement:init(type)
   self.colorResultTable = {GRAY, RED, GREEN}
   --]]
   self.resultTable = {'', '', ''}
-  self.colorResultTable = {0, 0, 0}
+  self.colorResultTable = {BLACK, BLACK, BLACK}
   self.selectionCostTable = {10, 25, 50}
   self.selectionY = self.selectionYTable[self.selection]
   self.lineTextX = 19
@@ -65,10 +65,24 @@ function UpgradeElement:init(type)
   --]]
 end
 
+function UpgradeElement:setSelection()
+  if self.activeLevel == 0 then
+    self.selection = 1
+  else
+  self.selection = self.activeLevel
+  end
+  self.selectionY = self.selectionYTable[self.selection]
+end
+
 function UpgradeElement:calculate()
-  if self.activeLevel == 1 then
+  if self.activeLevel == 0 then
+    self.resultTable[1] = 'unavailable'
+    self.resultTable[2] = 'unavailable'
+    self.resultTable[3] = 'unavailable'
+  elseif self.activeLevel == 1 then
     self.resultTable[1] = 'unlocked'
     self.resultTable[3] = 'unavailable'
+    --CAN WE AFFORD LEVEL 2
     if self.type == 'flamme' then
       if gPlayer.rubyCount >= self.selectionCostTable[2] then
         self.resultTable[2] = 'purchasable'
@@ -97,45 +111,37 @@ function UpgradeElement:calculate()
   elseif self.activeLevel == 2 then
     self.resultTable[1] = 'unlocked'
     self.resultTable[2] = 'unlocked'
+    self.resultTable[3] = 'unavailable'
+    if self.type == 'flamme' then
+      if gPlayer.rubyCount >= self.selectionCostTable[3] then
+        self.resultTable[3] = 'purchasable'
+      else
+        self.resultTable[3] = 'unavailable'
+      end
+    elseif self.type == 'aquis' then
+      if gPlayer.sapphireCount >= self.selectionCostTable[3] then
+        self.resultTable[3] = 'purchasable'
+      else
+        self.resultTable[3] = 'unavailable'
+      end
+    elseif self.type == 'ekko' then
+      if gPlayer.emeraldCount >= self.selectionCostTable[3] then
+        self.resultTable[3] = 'purchasable'
+      else
+        self.resultTable[3] = 'unavailable'
+      end
+    elseif self.type == 'lox' then
+      if gPlayer.topazCount >= self.selectionCostTable[3] then
+        self.resultTable[3] = 'purchasable'
+      else
+        self.resultTable[3] = 'unavailable'
+      end
+    end
   elseif self.activeLevel == 3 then
     self.resultTable[1] = 'unlocked'
     self.resultTable[2] = 'unlocked'
     self.resultTable[3] = 'unlocked'
   end
-
-  if self.activeLevel == 0 then
-    self.resultTable[1] = 'unavailable'
-    self.resultTable[2] = 'unavailable'
-    self.resultTable[3] = 'unavailable'
-  end
-
-  if self.activeLevel == 0 then
-    if self.type == 'aquis' then
-        if gPlayer.sapphireCount < self.selectionCostTable[1] then
-          self.resultTable[1] = 'unavailable'
-        else
-          self.resultTable[1] = 'purchasable'
-        end
-      elseif self.type == 'aquis' then
-        if gPlayer.sapphireCount < self.selectionCostTable[1] then
-          self.resultTable[1] = 'unavailable'
-        else
-          self.resultTable[1] = 'purchasable'
-        end
-      elseif self.type == 'ekko' then
-        if gPlayer.emeraldCount < self.selectionCostTable[1] then
-          self.resultTable[1] = 'unavailable'
-        else
-          self.resultTable[1] = 'purchasable'
-        end
-      elseif self.type == 'lox' then
-        if gPlayer.topazCount < self.selectionCostTable[1] then
-          self.resultTable[1] = 'unavailable'
-        else
-          self.resultTable[1] = 'purchasable'
-        end
-      end
-    end
 
   for k, v in pairs(self.resultTable) do
     if v == 'unlocked' then
@@ -148,6 +154,37 @@ function UpgradeElement:calculate()
         self.colorResultTable[k] = BLACK
     end
   end
+
+  --UNLOCKING ELEMENTS IN THE FIRST PLACE
+  --[[
+  if self.activeLevel == 0 then
+    if self.type == 'aquis' then
+      if gPlayer.sapphireCount < self.selectionCostTable[1] then
+        self.resultTable[1] = 'unavailable'
+      else
+        self.resultTable[1] = 'purchasable'
+      end
+    elseif self.type == 'aquis' then
+      if gPlayer.sapphireCount < self.selectionCostTable[1] then
+        self.resultTable[1] = 'unavailable'
+      else
+        self.resultTable[1] = 'purchasable'
+      end
+    elseif self.type == 'ekko' then
+      if gPlayer.emeraldCount < self.selectionCostTable[1] then
+        self.resultTable[1] = 'unavailable'
+      else
+        self.resultTable[1] = 'purchasable'
+      end
+    elseif self.type == 'lox' then
+      if gPlayer.topazCount < self.selectionCostTable[1] then
+        self.resultTable[1] = 'unavailable'
+      else
+        self.resultTable[1] = 'purchasable'
+      end
+    end
+  end
+  --]]
 end
 
 function UpgradeElement:update(dt)

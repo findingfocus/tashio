@@ -10,6 +10,7 @@ function RefineryState:init()
   self.column = 11
   self.flammeUI = false
   self.flammeUpgrade = UpgradeElement('flamme')
+  --self.flammeUpgrade.activeLevel = 2
   self.aquisUpgrade = UpgradeElement('aquis')
   self.ekkoUpgrade = UpgradeElement('ekko')
   self.loxUpgrade = UpgradeElement('lox')
@@ -37,15 +38,19 @@ function RefineryState:update(dt)
         sceneView.activeDialogueID = self.dialogueID
         if v.index == 2 then
           self.activeUpgrade = self.flammeUpgrade
+          self.activeUpgrade:setSelection()
           self.activeUpgrade:calculate()
         elseif v.index == 3 then
           self.activeUpgrade = self.aquisUpgrade
+          self.activeUpgrade:setSelection()
           self.activeUpgrade:calculate()
         elseif v.index == 4 then
           self.activeUpgrade = self.ekkoUpgrade
+          self.activeUpgrade:setSelection()
           self.activeUpgrade:calculate()
         elseif v.index == 5 then
           self.activeUpgrade = self.loxUpgrade
+          self.activeUpgrade:setSelection()
           self.activeUpgrade:calculate()
         end
       end
