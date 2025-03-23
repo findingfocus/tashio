@@ -32,10 +32,10 @@ function Player:init(def)
   self.pushTimer = 0
   self.pushing = false
   self.coinCount = 0
-  self.rubyCount = 26
-  self.sapphireCount = 10
-  self.topazCount = 9
-  self.emeraldCount = 98
+  self.rubyCount = 50
+  self.sapphireCount = 0
+  self.topazCount = 0
+  self.emeraldCount = 0
   self.flammeVibrancy = 0
   self.type = 'player'
   self.TLCollide = 0
