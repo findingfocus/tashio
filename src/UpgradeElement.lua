@@ -80,11 +80,29 @@ function UpgradeElement:calculate()
     self.resultTable[1] = 'unavailable'
     self.resultTable[2] = 'unavailable'
     self.resultTable[3] = 'unavailable'
+    if self.type == 'flamme' then
+      self.infoTable[1] = 'Creating Flamme costs ' .. tostring(self.selectionCostTable[1]) .. ' rubys. '
+      self.infoTable[2] = 'Level 2 Flamme requires Level 1 Flamme first. '
+      self.infoTable[3] = 'Level 3 Flamme requires Level 2 Flamme first. '
+    elseif self.type == 'aquis' then
+      self.infoTable[1] = 'Creating Aquis costs ' .. tostring(self.selectionCostTable[1]) .. ' sapphires. '
+      self.infoTable[2] = 'Level 2 Aquis requires Level 1 Aquis first. '
+      self.infoTable[3] = 'Level 3 Aquis requires Level 2 Aquis first. '
+    elseif self.type == 'ekko' then
+      self.infoTable[1] = 'Creating Ekko costs ' .. tostring(self.selectionCostTable[1]) .. ' emeralds. '
+      self.infoTable[2] = 'Level 2 Ekko requires Level 1 Ekko first. '
+      self.infoTable[3] = 'Level 3 Ekko requires Level 2 Ekko first. '
+    elseif self.type == 'lox' then
+      self.infoTable[1] = 'Creating Lox costs ' .. tostring(self.selectionCostTable[1]) .. ' topaz. '
+      self.infoTable[2] = 'Level 2 Lox requires Level 1 Lox first. '
+      self.infoTable[3] = 'Level 3 Lox requires Level 2 Lox first. '
+    end
   elseif self.activeLevel == 1 then
     self.resultTable[1] = 'unlocked'
     self.resultTable[3] = 'unavailable'
     --CAN WE AFFORD LEVEL 2
     if self.type == 'flamme' then
+      self.infoTable[1] = 'You have already unlocked Level 1 Flamme. '
       if gPlayer.rubyCount >= self.selectionCostTable[2] then
         self.resultTable[2] = 'purchasable'
         self.infoTable[2] = 'Refine Flamme to Level 2 for ' .. tostring(self.selectionCostTable[2]) .. ' rubys? '
@@ -93,6 +111,7 @@ function UpgradeElement:calculate()
         self.infoTable[2] = 'Refining Flamme to Level 2 costs ' .. tostring(self.selectionCostTable[2]) .. ' rubys. '
       end
     elseif self.type == 'aquis' then
+      self.infoTable[1] = 'You have already unlocked Level 1 Aquis. '
       if gPlayer.sapphireCount >= self.selectionCostTable[2] then
         self.resultTable[2] = 'purchasable'
         self.infoTable[2] = 'Refine Aquis to Level 2 for ' .. tostring(self.selectionCostTable[2]) .. ' sapphires? '
@@ -101,6 +120,7 @@ function UpgradeElement:calculate()
         self.infoTable[2] = 'Refining Aquis to Level 2 costs ' .. tostring(self.selectionCostTable[2]) .. ' sapphires. '
       end
     elseif self.type == 'ekko' then
+      self.infoTable[1] = 'You have already unlocked Level 1 Ekko. '
       if gPlayer.emeraldCount >= self.selectionCostTable[2] then
         self.resultTable[2] = 'purchasable'
         self.infoTable[2] = 'Refine Ekko to Level 2 for ' .. tostring(self.selectionCostTable[2]) .. ' emeralds? '
@@ -109,6 +129,7 @@ function UpgradeElement:calculate()
         self.infoTable[2] = 'Refining Ekko to Level 2 costs ' .. tostring(self.selectionCostTable[2]) .. ' emeralds. '
       end
     elseif self.type == 'lox' then
+      self.infoTable[1] = 'You have already unlocked Level 1 Lox. '
       if gPlayer.topazCount >= self.selectionCostTable[2] then
         self.resultTable[2] = 'purchasable'
         self.infoTable[2] = 'Refine Lox to Level 2 for ' .. tostring(self.selectionCostTable[2]) .. ' topaz? '
@@ -121,35 +142,69 @@ function UpgradeElement:calculate()
     self.resultTable[1] = 'unlocked'
     self.resultTable[2] = 'unlocked'
     self.resultTable[3] = 'unavailable'
+    --CAN AFFORD LEVEL 3 UPGRADE
     if self.type == 'flamme' then
+      self.infoTable[1] = 'You have already unlocked Level 1 Flamme. '
+      self.infoTable[2] = 'You have already unlocked Level 2 Flamme. '
       if gPlayer.rubyCount >= self.selectionCostTable[3] then
         self.resultTable[3] = 'purchasable'
+        self.infoTable[3] = 'Refine Flamme to Level 3 for ' .. tostring(self.selectionCostTable[3]) .. ' rubys? '
       else
         self.resultTable[3] = 'unavailable'
+        self.infoTable[3] = 'Refining Flamme to Level 3 costs ' .. tostring(self.selectionCostTable[3]) .. ' rubys. '
       end
     elseif self.type == 'aquis' then
+      self.infoTable[1] = 'You have already unlocked Level 1 Aquis. '
+      self.infoTable[2] = 'You have already unlocked Level 2 Aquis. '
       if gPlayer.sapphireCount >= self.selectionCostTable[3] then
         self.resultTable[3] = 'purchasable'
+        self.infoTable[3] = 'Refine Aquis to Level 3 for ' .. tostring(self.selectionCostTable[3]) .. ' sapphires? '
       else
         self.resultTable[3] = 'unavailable'
+        self.infoTable[3] = 'Refining Aquis to Level 3 costs ' .. tostring(self.selectionCostTable[3]) .. ' sapphires . '
       end
     elseif self.type == 'ekko' then
+      self.infoTable[1] = 'You have already unlocked Level 1 Ekko. '
+      self.infoTable[2] = 'You have already unlocked Level 2 Ekko. '
       if gPlayer.emeraldCount >= self.selectionCostTable[3] then
         self.resultTable[3] = 'purchasable'
+        self.infoTable[3] = 'Refine Ekko to Level 3 for ' .. tostring(self.selectionCostTable[3]) .. ' emeralds? '
       else
         self.resultTable[3] = 'unavailable'
+        self.infoTable[3] = 'Refining Ekko to Level 3 costs ' .. tostring(self.selectionCostTable[3]) .. ' emeralds . '
       end
     elseif self.type == 'lox' then
+      self.infoTable[1] = 'You have already unlocked Level 1 Lox. '
+      self.infoTable[2] = 'You have already unlocked Level 2 Lox. '
       if gPlayer.topazCount >= self.selectionCostTable[3] then
         self.resultTable[3] = 'purchasable'
+        self.infoTable[3] = 'Refine Lox to Level 3 for ' .. tostring(self.selectionCostTable[3]) .. ' topaz? '
       else
         self.resultTable[3] = 'unavailable'
+        self.infoTable[3] = 'Refining Lox to Level 3 costs ' .. tostring(self.selectionCostTable[3]) .. ' topaz . '
       end
     end
   elseif self.activeLevel == 3 then
     self.resultTable[1] = 'unlocked'
     self.resultTable[2] = 'unlocked'
     self.resultTable[3] = 'unlocked'
+    if self.type == 'flamme' then
+      self.infoTable[1] = 'You have already unlocked Level 1 Flamme. '
+      self.infoTable[2] = 'You have already unlocked Level 2 Flamme. '
+      self.infoTable[3] = 'You have already unlocked Level 3 Flamme. '
+    elseif self.type == 'aquis' then
+      self.infoTable[1] = 'You have already unlocked Level 1 Aquis. '
+      self.infoTable[2] = 'You have already unlocked Level 2 Aquis. '
+      self.infoTable[3] = 'You have already unlocked Level 3 Aquis. '
+    elseif self.type == 'ekko' then
+      self.infoTable[1] = 'You have already unlocked Level 1 Ekko. '
+      self.infoTable[2] = 'You have already unlocked Level 2 Ekko. '
+      self.infoTable[3] = 'You have already unlocked Level 3 Ekko. '
+    elseif self.type == 'lox' then
+      self.infoTable[1] = 'You have already unlocked Level 1 Lox. '
+      self.infoTable[2] = 'You have already unlocked Level 2 Lox. '
+      self.infoTable[3] = 'You have already unlocked Level 3 Lox. '
+    end
   end
 
   for k, v in pairs(self.resultTable) do
@@ -282,9 +337,12 @@ function UpgradeElement:render()
     love.graphics.print('Level 2', self.lineTextX, self.line2Y)
     love.graphics.print('Level 3', self.lineTextX, self.line3Y)
 
+    --UPGRADE DEBUG COST
+    --[[
     love.graphics.setColor(WHITE)
     love.graphics.print('Cost: ' .. tostring(self.selectionCostTable[self.selection]), 0, 0)
     love.graphics.print('Selection: ' .. Inspect(self.resultTable[self.selection]), 0, 10)
+    --]]
 
     --UPGRADE CURSOR
     if self.upgradeCursorBlink then
