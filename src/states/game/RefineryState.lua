@@ -10,9 +10,9 @@ function RefineryState:init()
   self.column = 11
   self.flammeUI = false
   self.flammeUpgrade = UpgradeElement('flamme')
-  --self.flammeUpgrade.activeLevel = 2
+  --self.flammeUpgrade.activeLevel = 3
   self.aquisUpgrade = UpgradeElement('aquis')
-  --self.aquisUpgrade.activeLevel = 1
+  --self.aquisUpgrade.activeLevel = 3
   self.ekkoUpgrade = UpgradeElement('ekko')
   self.loxUpgrade = UpgradeElement('lox')
   self.activeUpgrade = nil
@@ -150,8 +150,10 @@ function RefineryState:render()
     MAP[self.row][self.column].dialogueBox[self.dialogueID]:render()
   end
 
+  --[[
   love.graphics.setColor(GREEN)
   love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, 2)
+  --]]
 
   --love.graphics.print(Inspect(MAP[self.row][self.column].dialogueBox[4]), 0, 0)
   --love.graphics.print(self.dialogueID, 0, 10)
