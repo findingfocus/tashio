@@ -148,6 +148,143 @@ function DialogueBox:init(x, y, text, option, npc, index)
   --self.pageLength = math.ceil(self.totalLineCount / 3)
 end
 
+function DialogueBox:reinit(text)
+  self.width = TILE_SIZE - 2
+  self.height = TILE_SIZE - 2
+  self.text = text
+  self.textTimer = 0
+  self.textLength = #text
+  self.nextTextTrigger = 0.02
+  self.result = ''
+  self.line1Result = ''
+  self.line2Result = ''
+  self.line3Result = ''
+  self.currentPage = 1
+  self.pages = {}
+  self.inAWord = false
+  self.lineCharacterIndex = 0
+  self.wordSupplementCount = 0
+  self.currentWordLength = 0
+  self.pageWeAreOn = 1
+  self.lineWeAreOn = 1
+  self.pages[1] = {}
+  self.pages[1][1] = {}
+  self.pages[1][2] = {}
+  self.pages[1][3] = {}
+  self.pages[1][1].string = ''
+  self.pages[1][2].string = ''
+  self.pages[1][3].string = ''
+  self.pages[1].pageCharCount = 0
+  self.currentPagePrintedCharCount = 0
+  self.activated = false
+  self.lastCharWasSpace = false
+  self.aButtonCount = 0
+  self.meditateOption = false
+  self.finishedPrinting = false
+  self.saveDataUtility = SaveData()
+  --TODO
+  --ADD A BUTTON COUNT UPON PAUSE
+  --INCREMENT A BUTTON BUTTON COUNT ON UPDATE AND PRESS/TOUCH
+  --ONLY ADVANCE PAGE IF A BUTTON COUNT > 1
+
+  self.charactersToCheck = true
+  self.textIndex = 0
+  self.wordIndexGrabbed = false
+  self.meditateYes = true
+
+  self.wordCharacterIndex = 0
+  self.wordCharCount = 0
+  self.lineCharCount = 0
+  self.pageLength = 1
+
+  while self.charactersToCheck do
+    self.textIndex = self.textIndex + 1
+    local char = self.text:sub(self.textIndex, self.textIndex)
+    if not char:match("%s") then --IF A LETTER
+      self.pages[self.pageWeAreOn].pageCharCount = self.pages[self.pageWeAreOn].pageCharCount + 1
+      if not self.wordIndexGrabbed then
+        self.lastCharWasSpace = false
+        self.wordIndex = self.textIndex
+        self.wordIndexGrabbed = true
+      end
+      self.wordCharCount = self.wordCharCount + 1
+      if self.textIndex == self.textLength then
+        if self.lineCharCount + self.wordCharCount > MAX_TEXTBOX_LINE_LENGTH then --INCREMENT LINE NUMBER
+          self.lineWeAreOn = self.lineWeAreOn + 1
+          if self.lineWeAreOn > 3 then
+            self.lineWeAreOn = 1
+            self.pageWeAreOn = self.pageWeAreOn + 1
+            self.pageLength = self.pageLength + 1
+            self.pages[self.pageWeAreOn] = {}
+            self.pages[self.pageWeAreOn][1] = {}
+            self.pages[self.pageWeAreOn][2] = {}
+            self.pages[self.pageWeAreOn][3] = {}
+            self.pages[self.pageWeAreOn][1].string = ''
+            self.pages[self.pageWeAreOn][2].string = ''
+            self.pages[self.pageWeAreOn][3].string = ''
+            self.pages[self.pageWeAreOn].pageCharCount = 0
+          end
+          self.lineCharCount = self.wordCharCount + 1
+          self.wordCharCount = 0
+        end
+        self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(self.wordIndex, self.wordIndex + self.wordCharCount)
+      end
+    elseif char:match("%s") then --IF SPACE CHARACTER
+      self.pages[self.pageWeAreOn].pageCharCount = self.pages[self.pageWeAreOn].pageCharCount + 1
+      self.wordIndexGrabbed = false
+      if self.lastCharWasSpace then
+        self.pages[self.pageWeAreOn].pageCharCount = self.pages[self.pageWeAreOn].pageCharCount - 1
+        self.pageWeAreOn = self.pageWeAreOn + 1
+        self.pageLength = self.pageLength + 1
+        self.pages[self.pageWeAreOn] = {}
+        self.pages[self.pageWeAreOn][1] = {}
+        self.pages[self.pageWeAreOn][2] = {}
+        self.pages[self.pageWeAreOn][3] = {}
+        self.pages[self.pageWeAreOn][1].string = ''
+        self.pages[self.pageWeAreOn][2].string = ''
+        self.pages[self.pageWeAreOn][3].string = ''
+        self.pages[self.pageWeAreOn].pageCharCount = 0
+        self.wordCharCount = 0
+        self.lineWeAreOn = 1
+        self.lineCharCount = 0
+      else
+        self.lastCharWasSpace = true
+        --CHECK IF WORD CAN FIT ON CURRENT LINE
+        if self.lineCharCount + self.wordCharCount <= MAX_TEXTBOX_LINE_LENGTH then
+          self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(self.wordIndex, self.wordIndex + self.wordCharCount)
+          self.lineCharCount = self.lineCharCount + self.wordCharCount + 1
+          self.wordCharCount = 0
+        elseif self.lineCharCount + self.wordCharCount > MAX_TEXTBOX_LINE_LENGTH then --INCREMENT LINE NUMBER
+          self.lineWeAreOn = self.lineWeAreOn + 1
+          if self.lineWeAreOn > 3 then
+            self.lineWeAreOn = 1
+            self.pageWeAreOn = self.pageWeAreOn + 1
+            self.pageLength = self.pageLength + 1
+            self.pages[self.pageWeAreOn] = {}
+            self.pages[self.pageWeAreOn][1] = {}
+            self.pages[self.pageWeAreOn][2] = {}
+            self.pages[self.pageWeAreOn][3] = {}
+            self.pages[self.pageWeAreOn][1].string = ''
+            self.pages[self.pageWeAreOn][2].string = ''
+            self.pages[self.pageWeAreOn][3].string = ''
+            self.pages[self.pageWeAreOn].pageCharCount = 0
+          end
+          self.pages[self.pageWeAreOn][self.lineWeAreOn].string = self.pages[self.pageWeAreOn][self.lineWeAreOn].string .. self.text:sub(self.wordIndex, self.wordIndex + self.wordCharCount)
+          self.lineCharCount = self.wordCharCount + 1
+          self.wordCharCount = 0
+        end
+      end
+    end
+
+    if self.textIndex >= self.textLength then
+      self.charactersToCheck = false
+    end
+  end
+
+  --self.textIndex = 1
+  --self.pageLength = math.ceil(self.totalLineCount / 3)
+end
+
 function DialogueBox:flushText()
   MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[self.dialogueID].line1Result = ''
   MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[self.dialogueID].line2Result = ''
@@ -167,6 +304,11 @@ end
 function DialogueBox:update(dt)
   if self.option == 'idol' then
     self.meditateOption = true
+  elseif self.option == 'upgrade' then
+    --[[
+      self:reinit('HELLO WORLD')
+      self.aButtonCount = 2
+      --]]
   end
   if self.textIndex > 1 then
     blinkTimer = blinkTimer - dt
@@ -229,6 +371,7 @@ function DialogueBox:update(dt)
     end
     --]]
   end
+
 
   ---[[
   if INPUT:pressed('action') then
