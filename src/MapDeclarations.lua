@@ -851,7 +851,7 @@ MAP[1][11].disjointUp = true
 table.insert(MAP[1][11].dialogueBox, DialogueBox(MAP[1][11].npc[villagerIndex].x, MAP[1][11].npc[villagerIndex].y, 'Bring me minerals so I can upgrade your elements! ', 'npc', MAP[1][11].npc[villagerIndex], 1))
 
 --function DialogueBox:init(x, y, text, option, npc, index)
-table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 5, TILE_SIZE, 'FLAMME', 'upgradeFlamme', nil, 2))
+table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 5, TILE_SIZE, 'FLAMME', 'upgrade', nil, 2))
 table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE, 'AQUIS', 'upgrade', nil, 3))
 table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 7, TILE_SIZE, 'Ekko', 'upgrade', nil, 4))
 table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 8, TILE_SIZE, 'Lox', 'upgrade', nil, 5))

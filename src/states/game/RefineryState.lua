@@ -12,6 +12,7 @@ function RefineryState:init()
   self.flammeUpgrade = UpgradeElement('flamme')
   --self.flammeUpgrade.activeLevel = 2
   self.aquisUpgrade = UpgradeElement('aquis')
+  --self.aquisUpgrade.activeLevel = 1
   self.ekkoUpgrade = UpgradeElement('ekko')
   self.loxUpgrade = UpgradeElement('lox')
   self.activeUpgrade = nil
@@ -40,18 +41,34 @@ function RefineryState:update(dt)
           self.activeUpgrade = self.flammeUpgrade
           self.activeUpgrade:setSelection()
           self.activeUpgrade:calculate()
+          MAP[1][11].dialogueBox[2].aButtonCount = MAP[1][11].dialogueBox[2].aButtonCount + 1
+          MAP[1][11].dialogueBox[2]:reinit(self.activeUpgrade.infoTable[self.activeUpgrade.selection])
+          MAP[1][11].dialogueBox[2]:flushText()
+          MAP[1][11].dialogueBox[2].activated = true
         elseif v.index == 3 then
           self.activeUpgrade = self.aquisUpgrade
           self.activeUpgrade:setSelection()
           self.activeUpgrade:calculate()
+          MAP[1][11].dialogueBox[3].aButtonCount = MAP[1][11].dialogueBox[3].aButtonCount + 1
+          MAP[1][11].dialogueBox[3]:reinit(self.activeUpgrade.infoTable[self.activeUpgrade.selection])
+          MAP[1][11].dialogueBox[3]:flushText()
+          MAP[1][11].dialogueBox[3].activated = true
         elseif v.index == 4 then
           self.activeUpgrade = self.ekkoUpgrade
           self.activeUpgrade:setSelection()
           self.activeUpgrade:calculate()
+          MAP[1][11].dialogueBox[4].aButtonCount = MAP[1][11].dialogueBox[4].aButtonCount + 1
+          MAP[1][11].dialogueBox[4]:reinit(self.activeUpgrade.infoTable[self.activeUpgrade.selection])
+          MAP[1][11].dialogueBox[4]:flushText()
+          MAP[1][11].dialogueBox[4].activated = true
         elseif v.index == 5 then
           self.activeUpgrade = self.loxUpgrade
           self.activeUpgrade:setSelection()
           self.activeUpgrade:calculate()
+          MAP[1][11].dialogueBox[5].aButtonCount = MAP[1][11].dialogueBox[5].aButtonCount + 1
+          MAP[1][11].dialogueBox[5]:reinit(self.activeUpgrade.infoTable[self.activeUpgrade.selection])
+          MAP[1][11].dialogueBox[5]:flushText()
+          MAP[1][11].dialogueBox[5].activated = true
         end
       end
     end
