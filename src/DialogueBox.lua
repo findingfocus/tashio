@@ -178,7 +178,7 @@ function DialogueBox:reinit(text)
   self.currentPagePrintedCharCount = 0
   self.activated = false
   self.lastCharWasSpace = false
-  self.aButtonCount = 0
+  self.aButtonCount = 1
   self.meditateOption = false
   self.finishedPrinting = false
   self.saveDataUtility = SaveData()
@@ -497,6 +497,8 @@ function DialogueBox:render()
   --love.graphics.print('meditateOption: ' .. tostring(self.meditateOption), 0, 10)
   ---[[
   love.graphics.setColor(WHITE)
+
+  --love.graphics.print('aButton: ' .. tostring(self.aButtonCount), 0, 40)
   --[[
   love.graphics.print('pageLength: ' .. tostring(self.pageLength), 0, 25)
   love.graphics.print('currentPage: ' .. tostring(self.currentPage), 0, 15)
