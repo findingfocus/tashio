@@ -28,6 +28,7 @@ function RefineryState:update(dt)
     self.activeUpgrade:update(dt)
   end
 
+
   if INPUT:pressed('action') then
     --DIALOGUE DETECTION
     for k, v in pairs(MAP[self.row][self.column].dialogueBox) do
@@ -95,6 +96,7 @@ function RefineryState:update(dt)
     self.activeUpgrade = nil
     --]]
   end
+
 
   --DIALOGUE BOX UPDATES FOR NPCS
   for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do

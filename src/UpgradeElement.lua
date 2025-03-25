@@ -70,9 +70,27 @@ function UpgradeElement:setSelection()
   if self.activeLevel == 0 then
     self.selection = 1
   else
-  self.selection = self.activeLevel
+    self.selection = self.activeLevel
   end
   self.selectionY = self.selectionYTable[self.selection]
+end
+
+function UpgradeElement:handleUpgrade(type)
+    if type == 'flamme' then
+      gPlayer.rubyCount = gPlayer.rubyCount - self.selectionCostTable[self.selection]
+      MAP[1][11].dialogueBox[2]:reinit(self.infoTable[self.selection])
+    elseif type == 'aquis' then
+      gPlayer.sapphireCount = gPlayer.sapphireCount - self.selectionCostTable[self.selection]
+      MAP[1][11].dialogueBox[3]:reinit(self.infoTable[self.selection])
+    elseif type == 'ekko' then
+      gPlayer.emeraldCount = gPlayer.emeraldCount - self.selectionCostTable[self.selection]
+      MAP[1][11].dialogueBox[4]:reinit(self.infoTable[self.selection])
+    elseif type == 'lox' then
+      gPlayer.topazCount = gPlayer.topazCount - self.selectionCostTable[self.selection]
+      MAP[1][11].dialogueBox[5]:reinit(self.infoTable[self.selection])
+    end
+    self.activeLevel = math.min(3, self.activeLevel + 1)
+    self:calculate()
 end
 
 function UpgradeElement:calculate()
@@ -84,6 +102,9 @@ function UpgradeElement:calculate()
       self.infoTable[1] = 'Creating Flamme costs ' .. tostring(self.selectionCostTable[1]) .. ' rubys. '
       self.infoTable[2] = 'Level 2 Flamme requires Level 1 Flamme first. '
       self.infoTable[3] = 'Level 3 Flamme requires Level 2 Flamme first. '
+      if gPlayer.rubyCount >= self.selectionCostTable[1] then
+        self.resultTable[1] = 'purchasable'
+      end
     elseif self.type == 'aquis' then
       self.infoTable[1] = 'Creating Aquis costs ' .. tostring(self.selectionCostTable[1]) .. ' sapphires. '
       self.infoTable[2] = 'Level 2 Aquis requires Level 1 Aquis first. '
@@ -96,6 +117,9 @@ function UpgradeElement:calculate()
       self.infoTable[1] = 'Creating Lox costs ' .. tostring(self.selectionCostTable[1]) .. ' topaz. '
       self.infoTable[2] = 'Level 2 Lox requires Level 1 Lox first. '
       self.infoTable[3] = 'Level 3 Lox requires Level 2 Lox first. '
+      if gPlayer.topazCount >= self.selectionCostTable[1] then
+        self.resultTable[1] = 'purchasable'
+      end
     end
   elseif self.activeLevel == 1 then
     self.resultTable[1] = 'unlocked'
@@ -103,6 +127,7 @@ function UpgradeElement:calculate()
     --CAN WE AFFORD LEVEL 2
     if self.type == 'flamme' then
       self.infoTable[1] = 'You have already unlocked Level 1 Flamme. '
+      self.infoTable[3] = 'Level 3 Flamme requires Level 2 Flamme first. '
       if gPlayer.rubyCount >= self.selectionCostTable[2] then
         self.resultTable[2] = 'purchasable'
         self.infoTable[2] = 'Refine Flamme to Level 2 for ' .. tostring(self.selectionCostTable[2]) .. ' rubys? '
@@ -112,6 +137,7 @@ function UpgradeElement:calculate()
       end
     elseif self.type == 'aquis' then
       self.infoTable[1] = 'You have already unlocked Level 1 Aquis. '
+      self.infoTable[3] = 'Level 3 Aquis requires Level 2 Aquis first. '
       if gPlayer.sapphireCount >= self.selectionCostTable[2] then
         self.resultTable[2] = 'purchasable'
         self.infoTable[2] = 'Refine Aquis to Level 2 for ' .. tostring(self.selectionCostTable[2]) .. ' sapphires? '
@@ -121,6 +147,7 @@ function UpgradeElement:calculate()
       end
     elseif self.type == 'ekko' then
       self.infoTable[1] = 'You have already unlocked Level 1 Ekko. '
+      self.infoTable[3] = 'Level 3 Ekko requires Level 2 Ekko first. '
       if gPlayer.emeraldCount >= self.selectionCostTable[2] then
         self.resultTable[2] = 'purchasable'
         self.infoTable[2] = 'Refine Ekko to Level 2 for ' .. tostring(self.selectionCostTable[2]) .. ' emeralds? '
@@ -130,6 +157,7 @@ function UpgradeElement:calculate()
       end
     elseif self.type == 'lox' then
       self.infoTable[1] = 'You have already unlocked Level 1 Lox. '
+      self.infoTable[3] = 'Level 3 Lox requires Level 2 Lox first. '
       if gPlayer.topazCount >= self.selectionCostTable[2] then
         self.resultTable[2] = 'purchasable'
         self.infoTable[2] = 'Refine Lox to Level 2 for ' .. tostring(self.selectionCostTable[2]) .. ' topaz? '
@@ -253,7 +281,6 @@ end
 
 function UpgradeElement:update(dt)
     if INPUT:pressed('down') then
-
       if self.selection < 3 then
         self.selection = self.selection + 1
       end
@@ -262,21 +289,34 @@ function UpgradeElement:update(dt)
         MAP[1][11].dialogueBox[2]:reinit(self.infoTable[self.selection])
         MAP[1][11].dialogueBox[2]:flushText()
         MAP[1][11].dialogueBox[2].activated = true
+        --RESET TO 0 TO ALLOW PLAYER TO SEE UPGRADE HAPPEN
+        if self.resultTable[self.selection] == 'purchasable' then
+          MAP[1][11].dialogueBox[2].aButtonCount = 0
+        end
       elseif self.type == 'aquis' then
         MAP[1][11].dialogueBox[3].aButtonCount = MAP[1][11].dialogueBox[3].aButtonCount + 1
         MAP[1][11].dialogueBox[3]:reinit(self.infoTable[self.selection])
         MAP[1][11].dialogueBox[3]:flushText()
         MAP[1][11].dialogueBox[3].activated = true
+        if self.resultTable[self.selection] == 'purchasable' then
+          MAP[1][11].dialogueBox[3].aButtonCount = 0
+        end
       elseif self.type == 'ekko' then
         MAP[1][11].dialogueBox[4].aButtonCount = MAP[1][11].dialogueBox[4].aButtonCount + 1
         MAP[1][11].dialogueBox[4]:reinit(self.infoTable[self.selection])
         MAP[1][11].dialogueBox[4]:flushText()
         MAP[1][11].dialogueBox[4].activated = true
+        if self.resultTable[self.selection] == 'purchasable' then
+          MAP[1][11].dialogueBox[4].aButtonCount = 0
+        end
       elseif self.type == 'lox' then
         MAP[1][11].dialogueBox[5].aButtonCount = MAP[1][11].dialogueBox[5].aButtonCount + 1
         MAP[1][11].dialogueBox[5]:reinit(self.infoTable[self.selection])
         MAP[1][11].dialogueBox[5]:flushText()
         MAP[1][11].dialogueBox[5].activated = true
+        if self.resultTable[self.selection] == 'purchasable' then
+          MAP[1][11].dialogueBox[5].aButtonCount = 0
+        end
       end
       self.selectionY = self.selectionYTable[self.selection]
       self.upgradeCursorBlinkTimer = 0
@@ -292,21 +332,33 @@ function UpgradeElement:update(dt)
         MAP[1][11].dialogueBox[2]:reinit(self.infoTable[self.selection])
         MAP[1][11].dialogueBox[2]:flushText()
         MAP[1][11].dialogueBox[2].activated = true
+        if self.resultTable[self.selection] == 'purchasable' then
+          MAP[1][11].dialogueBox[2].aButtonCount = 0
+        end
       elseif self.type == 'aquis' then
         MAP[1][11].dialogueBox[3].aButtonCount = MAP[1][11].dialogueBox[3].aButtonCount + 1
         MAP[1][11].dialogueBox[3]:reinit(self.infoTable[self.selection])
         MAP[1][11].dialogueBox[3]:flushText()
         MAP[1][11].dialogueBox[3].activated = true
+        if self.resultTable[self.selection] == 'purchasable' then
+          MAP[1][11].dialogueBox[3].aButtonCount = 0
+        end
       elseif self.type == 'ekko' then
         MAP[1][11].dialogueBox[4].aButtonCount = MAP[1][11].dialogueBox[4].aButtonCount + 1
         MAP[1][11].dialogueBox[4]:reinit(self.infoTable[self.selection])
         MAP[1][11].dialogueBox[4]:flushText()
         MAP[1][11].dialogueBox[4].activated = true
+        if self.resultTable[self.selection] == 'purchasable' then
+          MAP[1][11].dialogueBox[4].aButtonCount = 0
+        end
       elseif self.type == 'lox' then
         MAP[1][11].dialogueBox[5].aButtonCount = MAP[1][11].dialogueBox[5].aButtonCount + 1
         MAP[1][11].dialogueBox[5]:reinit(self.infoTable[self.selection])
         MAP[1][11].dialogueBox[5]:flushText()
         MAP[1][11].dialogueBox[5].activated = true
+        if self.resultTable[self.selection] == 'purchasable' then
+          MAP[1][11].dialogueBox[5].aButtonCount = 0
+        end
       end
       self.selectionY = self.selectionYTable[self.selection]
       self.upgradeCursorBlinkTimer = 0
@@ -318,6 +370,12 @@ function UpgradeElement:update(dt)
     if self.upgradeCursorBlinkTimer > self.upgradeCursorBlinkThreshold then
       self.upgradeCursorBlink = not self.upgradeCursorBlink
       self.upgradeCursorBlinkTimer = 0
+    end
+
+    if INPUT:pressed('action') then
+      if self.resultTable[self.selection] == 'purchasable' then
+          self:handleUpgrade(self.type)
+      end
     end
 end
 
@@ -362,7 +420,6 @@ function UpgradeElement:render()
     if self.activeLevel ~= 0 then
       love.graphics.draw(rightArrowSelector, 0, self.selectionYTable[self.activeLevel] + 3)
     end
-
 
     love.graphics.setColor(BLACK)
     love.graphics.rectangle('fill', self.mineralInventoryX - 1, self.mineralInventoryY - 1, self.mineralInventoryWidth + 1, self.mineralInventoryHeight + 1)
