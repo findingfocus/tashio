@@ -12,7 +12,7 @@ function Map:init(row, column, spellcastEntities)
   self.psystems = {}
   self.rainSystem = RainSystem()
   self.snowSystem = SnowSystem()
-  for i = 1, spellcastEntities do
+  for i = 1, 7 do
     self.psystems[i] = love.graphics.newParticleSystem(particle, 400)
   end
   self.tiles = {}
@@ -292,7 +292,7 @@ function Map:update(dt)
   end
 
   --SPELLCAST PARTICLE SYSTEMS
-  for i = 1, self.spellcastEntityCount do
+  for i = 1, gPlayer.spellcastCount do
     if not sceneView.shifting then
       self.psystems[i]:moveTo(sceneView.spellcastEntities[i].x + 4, sceneView.spellcastEntities[i].y + 13)
       if SPELLCAST_FADE > 30 then
@@ -470,7 +470,7 @@ function Map:render()
 
   love.graphics.setColor(WHITE)
   --SPELLCAST ENTITY RENDERS
-  for i = 1, self.spellcastEntityCount do
+  for i = 1, gPlayer.spellcastCount do
     love.graphics.draw(self.psystems[i], self.psystems[i].x, self.psystems[i].y)
   end
 
