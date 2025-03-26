@@ -29,10 +29,11 @@ function Player:init(def)
   self.luteEquipped = false
   self.warping = false
   self.extendDialogueBoxUpwards = false
+  self.flammeUpgradeLevel = 1
   self.pushTimer = 0
   self.pushing = false
   self.coinCount = 0
-  self.rubyCount = 28
+  self.rubyCount = 98
   self.sapphireCount = 0
   self.topazCount = 99
   self.emeraldCount = 0

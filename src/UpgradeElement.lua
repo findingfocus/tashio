@@ -35,10 +35,10 @@ function UpgradeElement:init(type)
   self.upgradeCursorBlink = false
   self.upgradeCursorBlinkTimer = 0
   self.upgradeCursorBlinkThreshold = .5
-  self.activeLevel = 1
   if self.type ~= 'flamme' then
-    self.activeLevel = 0
+    --self.activeLevel = 0
   end
+  self.activeLevel = gPlayer.flammeUpgradeLevel
   self.resultString = ''
   self.upgradeBoxY = SCREEN_HEIGHT_LIMIT - 40 - 46
   self.upgradeBoxWidth = 80
@@ -79,6 +79,9 @@ function UpgradeElement:handleUpgrade(type)
     if type == 'flamme' then
       gPlayer.rubyCount = gPlayer.rubyCount - self.selectionCostTable[self.selection]
       MAP[1][11].dialogueBox[2]:reinit(self.infoTable[self.selection])
+      gPlayer.spellcastCount = gPlayer.spellcastCount + 1
+      sceneView.count = gPlayer.spellcastCount
+      sceneView.step = math.pi * 2 / sceneView.count
     elseif type == 'aquis' then
       gPlayer.sapphireCount = gPlayer.sapphireCount - self.selectionCostTable[self.selection]
       MAP[1][11].dialogueBox[3]:reinit(self.infoTable[self.selection])
@@ -90,6 +93,7 @@ function UpgradeElement:handleUpgrade(type)
       MAP[1][11].dialogueBox[5]:reinit(self.infoTable[self.selection])
     end
     self.activeLevel = math.min(3, self.activeLevel + 1)
+    gPlayer.flammeUpgradeLevel = self.activeLevel
     self:calculate()
 end
 
@@ -177,6 +181,11 @@ function UpgradeElement:calculate()
       if gPlayer.rubyCount >= self.selectionCostTable[3] then
         self.resultTable[3] = 'purchasable'
         self.infoTable[3] = 'Refine Flamme to Level 3 for ' .. tostring(self.selectionCostTable[3]) .. ' rubys? '
+        --[[
+        gPlayer.spellcastCount = gPlayer.spellcastCount - 1
+        sceneView.count = gPlayer.spellcastCount
+        sceneView.step = math.pi * 2 / sceneView.count
+        --]]
       else
         self.resultTable[3] = 'unavailable'
         self.infoTable[3] = 'Refining Flamme to Level 3 costs ' .. tostring(self.selectionCostTable[3]) .. ' rubys. '

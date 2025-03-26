@@ -6,9 +6,6 @@ local PLAYER_OFFSET = TILE_SIZE / 2
 local AMP = 20
 local TRANSITION_SPEED = 0.65
 --SPELLCAST COUNT
-local spellcastEntityCount = 1
-local count = spellcastEntityCount
-local step = math.pi * 2 / count
 local x, y = love.mouse.getPosition()
 
 local triggerSceneTransition = false
@@ -21,7 +18,7 @@ function Scene:init(player, mapRow, mapColumn)
   self.player = player
   self.mapRow = mapRow
   self.mapColumn = mapColumn
-  self.currentMap = Map(mapRow, mapColumn, spellcastEntityCount)
+  self.currentMap = Map(mapRow, mapColumn, self.player.spellcastCount)
   self.snowSystem = SnowSystem()
   self.rainSystem = RainSystem()
   self.lavaSystem = LavaSystem()
@@ -30,13 +27,17 @@ function Scene:init(player, mapRow, mapColumn)
   self.cameraY = 0
   self.shifting = false
   self.entities = {}
-  self.spellcastEntityCount = spellcastEntityCount
+
+  self.spellcastEntityCount = self.player.spellcastCount
+  self.count = self.spellcastEntityCount
+  self.step = math.pi * 2 / self.count
+
   self.spellcastEntities = {}
   self.possibleDirections = {'left', 'right', 'up', 'down'}
   self.activeDialogueID = nil
   self.tutorialText = false
   self.tutorialTextAlpha = 0
-  for i = 1, self.spellcastEntityCount do
+  for i = 1, 3 do
     table.insert(self.spellcastEntities, Entity {
       animations = ENTITY_DEFS['spellcast'].animations,
       x = 25,
@@ -46,35 +47,35 @@ function Scene:init(player, mapRow, mapColumn)
       type = 'spellcast',
     })
     self.spellcastEntities[i].stateMachine = StateMachine {
-      ['flame-idle'] = function() return FlameIdle(self.spellcastEntities[i], self, spellcastEntityCount) end,
+      ['flame-idle'] = function() return FlameIdle(self.spellcastEntities[i], self, self.spellcastEntityCount) end,
     }
     self.spellcastEntities[i]:changeState('flame-idle')
   end
 
   Event.on('left-transition', function()
     if self.currentMap.column ~= 1 and self.currentMap.column ~= 11 and not gPlayer.warping then
-      self.nextMap = Map(self.currentMap.row, self.currentMap.column - 1, spellcastEntityCount)
+      self.nextMap = Map(self.currentMap.row, self.currentMap.column - 1, self.player.spellcastCount)
       self.mapColumn = self.mapColumn - 1
       self:beginShifting(-VIRTUAL_WIDTH, 0)
     end
   end)
   Event.on('right-transition', function()
     if self.currentMap.column ~= OVERWORLD_MAP_WIDTH / 2 and self.currentMap.column ~= OVERWORLD_MAP_WIDTH and not gPlayer.warping then
-      self.nextMap = Map(self.currentMap.row, self.currentMap.column + 1, spellcastEntityCount)
+      self.nextMap = Map(self.currentMap.row, self.currentMap.column + 1, self.player.spellcastCount)
       self.mapColumn = self.mapColumn + 1
       self:beginShifting(VIRTUAL_WIDTH, 0)
     end
   end)
   Event.on('up-transition', function()
     if self.currentMap.row ~= 1 and not gPlayer.warping then
-      self.nextMap = Map(self.currentMap.row - 1, self.currentMap.column, spellcastEntityCount)
+      self.nextMap = Map(self.currentMap.row - 1, self.currentMap.column, self.player.spellcastCount)
       self.mapRow = self.mapRow - 1
       self:beginShifting(0, -VIRTUAL_HEIGHT)
     end
   end)
   Event.on('down-transition', function()
     if self.currentMap.row ~= OVERWORLD_MAP_HEIGHT and not gPlayer.warping then
-      self.nextMap = Map(self.currentMap.row + 1, self.currentMap.column, spellcastEntityCount)
+      self.nextMap = Map(self.currentMap.row + 1, self.currentMap.column, self.player.spellcastCount)
       self.mapRow = self.mapRow + 1
       self:beginShifting(0, VIRTUAL_HEIGHT)
     end
@@ -111,7 +112,7 @@ function Scene:beginShifting(shiftX, shiftY)
   --SPELLCAST TWEEN
   for k, v in pairs(self.spellcastEntities) do
     Timer.tween(TRANSITION_SPEED, {
-      [self.spellcastEntities[k]] = {x = playerX + math.cos(k * step + TIME * SPEED) * AMP, y = playerY + math.sin(k * step + TIME * SPEED) * AMP - 5},
+      [self.spellcastEntities[k]] = {x = playerX + math.cos(k * self.step + TIME * SPEED) * AMP, y = playerY + math.sin(k * self.step + TIME * SPEED) * AMP - 5},
     }):finish()
   end
 
@@ -139,7 +140,7 @@ function Scene:finishShifting()
   self.nextMap.adjacentOffsetY = 0
   sceneView.player.checkPointPositions.x = sceneView.player.x
   sceneView.player.checkPointPositions.y = sceneView.player.y
-  for i = 1, spellcastEntityCount do
+  for i = 1, 3 do
     self.currentMap.psystems[i]:release()
   end
   --TODO CHECK CURRENT MAP ROW AND COL UPON WARP ZONE
@@ -187,14 +188,14 @@ function Scene:update(dt)
   if not self.shifting then
     TIME = TIME + dt
 
-    local newX = self.player.x 
+    local newX = self.player.x
     local newY = self.player.y
 
     local velX = newX - self.player.prevX
     local velY = newY - self.player.prevY
 
     --STEP TO CALCULATE COLLISION IN SMALLER INCREMENTS
-    local stepSize = 1 
+    local stepSize = 1
     local stepsX = math.ceil(math.abs(velX) / stepSize)
     local stepsY = math.ceil(math.abs(velY) / stepSize)
     local stepVelX = velX ~= 0 and (velX / stepsX) or 0
@@ -307,7 +308,7 @@ function Scene:update(dt)
       self.player.y = self.player.y + stepVelY
       local _, verticalCollision = checkCollisions()
       if verticalCollision then
-        stepVelY = 0 
+        stepVelY = 0
         break
       end
     end
@@ -335,8 +336,8 @@ function Scene:update(dt)
 
   for i = 1, #self.spellcastEntities do
     if not self.shifting then
-      self.spellcastEntities[i].x = self.player.x + math.cos(i * step + TIME * SPEED) * AMP
-      self.spellcastEntities[i].y = self.player.y + math.sin(i * step + TIME * SPEED) * AMP - 5
+      self.spellcastEntities[i].x = self.player.x + math.cos(i * self.step + TIME * SPEED) * AMP
+      self.spellcastEntities[i].y = self.player.y + math.sin(i * self.step + TIME * SPEED) * AMP - 5
       self.spellcastEntities[i]:update(dt)
     end
   end
@@ -582,11 +583,9 @@ function Scene:render()
   --self.sandSystem:render()
 
   --SET FADE FOR SPELLCAST
+  --RENDER SPELLCAST
   love.graphics.setColor(255/255, 255/255, 255/255, SPELLCAST_FADE/225)
-  for i = 1, spellcastEntityCount do
-    if successfulCast then
-      self.spellcastEntities[i]:render()
-    end
+  for i = 1, gPlayer.spellcastCount do
     self.spellcastEntities[i]:render()
   end
 
