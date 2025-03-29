@@ -380,6 +380,12 @@ function PlayState:update(dt)
         v:update(dt)
       end
   end
+
+  if love.keyboard.wasPressed('n') then
+    WATER.startingQuad = CLEAN_WATER_ANIM_STARTER
+    WATER.frame = CLEAN_WATER_ANIM_STARTER
+    WATER.endingQuad = CLEAN_WATER_ANIM_ENDER
+  end
 end
 
 function PlayState:render()
