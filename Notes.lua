@@ -10,6 +10,7 @@ __Factor gecko logic into gecko class, which aspects of entity class do enemies 
 __Incorporate Prosto closure fix for local variables
 
 Todo
+__Add inventory to state changes
 __Standardize particle emission upon init
 __Add showOff to Lute
 __Remove beeps on non idol DialogueBox
