@@ -50,11 +50,11 @@ local rows = 8
 cameraX = 0
 --STARTING SCENE gPlayer SPAWN
 --sceneView = Scene(gPlayer, 10, 19)
-sceneView = Scene(gPlayer, 7, 2)
+sceneView = Scene(gPlayer, 9, 2)
 --sceneView = Scene(gPlayer, 1, 12)
 --sceneView = Scene(gPlayer, 1, 11)
 gPlayer.y = TILE_SIZE * 3
-gPlayer.x = TILE_SIZE * 8
+gPlayer.x = TILE_SIZE * 4
 tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 --textures = love.graphics.newImage('graphics/textures.png')
 quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
@@ -308,9 +308,11 @@ function PlayState:update(dt)
     self.activeDialogueID = sceneView.activeDialogueID
   end
 
+  --TODO DOES THIS WORK OUTSIDE OF CONDITIONAL
   if gStateMachine.current.stateName == 'PlayState' then
-    self.animatables:update(dt)
+    --self.animatables:update(dt)
   end
+  self.animatables:update(dt)
 
   --UPDATE DIALOGUE BOXES
   --DIALOGUE UPDATE
@@ -382,9 +384,12 @@ function PlayState:update(dt)
   end
 
   if love.keyboard.wasPressed('n') then
+    gStateMachine:change('Tome1SuccessState')
+    --[[
     WATER.startingQuad = CLEAN_WATER_ANIM_STARTER
     WATER.frame = CLEAN_WATER_ANIM_STARTER
     WATER.endingQuad = CLEAN_WATER_ANIM_ENDER
+    --]]
   end
 end
 
@@ -632,6 +637,10 @@ function PlayState:render()
     --love.graphics.print('state: ' .. tostring(bat.stateMachine.current.stateName), 0,40)
     --love.graphics.print('blocked: ' .. tostring(bat.blocked), 0,0)
     --love.graphics.print('dID: ' .. tostring(sceneView.activeDialogueID), 0,0)
+    --STATE DEBUG
+    --[[
+    print(Inspect(gStateMachine.states.playState.animatables[1]))
+    --]]
 end
 
 function displayFPS()

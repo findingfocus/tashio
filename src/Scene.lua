@@ -444,6 +444,7 @@ function Scene:update(dt)
       for k, v in pairs(sceneView.currentMap.warpZones) do
         if gPlayer.warping then
           sceneView = Scene(gPlayer, sceneView.currentMap.warpZones[k].warpRow, sceneView.currentMap.warpZones[k].warpCol)
+          WATER:update(dt)
           gStateMachine.current.animatables = InsertAnimation(sceneView.currentMap.row, sceneView.currentMap.column)
           gPlayer.x = v.playerX
           gPlayer.y = v.playerY
