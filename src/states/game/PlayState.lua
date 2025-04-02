@@ -50,7 +50,7 @@ local rows = 8
 cameraX = 0
 --STARTING SCENE gPlayer SPAWN
 --sceneView = Scene(gPlayer, 10, 19)
-sceneView = Scene(gPlayer, 9, 2)
+sceneView = Scene(gPlayer, 7, 1)
 --sceneView = Scene(gPlayer, 1, 12)
 --sceneView = Scene(gPlayer, 1, 11)
 gPlayer.y = TILE_SIZE * 3
@@ -385,6 +385,7 @@ function PlayState:update(dt)
 
   if love.keyboard.wasPressed('n') then
     gStateMachine:change('Tome1SuccessState')
+    gStateMachine.current.animatables:update(dt)
     --[[
     WATER.startingQuad = CLEAN_WATER_ANIM_STARTER
     WATER.frame = CLEAN_WATER_ANIM_STARTER
@@ -619,8 +620,6 @@ function PlayState:render()
     end
   end
 
-
-
   --TOUCH DEBUG
     for id, state in pairs(INPUT._touches) do
       --love.graphics.print(id, "pressed:", state.pressed, "down:", state.down, "released:", state.released)
@@ -640,6 +639,13 @@ function PlayState:render()
     --STATE DEBUG
     --[[
     print(Inspect(gStateMachine.states.playState.animatables[1]))
+    --]]
+    --DEBUG
+    --[[
+    love.graphics.print(tostring(MAP[1][12].entities[1].x), 0, 10)
+    love.graphics.print(tostring(MAP[1][12].entities[1].darkBat), 0, 30)
+    love.graphics.print(tostring(MAP[1][12].entities[1].blocked), 0, 40)
+    love.graphics.print(tostring(MAP[1][12].entities[1].stateName), 0, 50)
     --]]
 end
 

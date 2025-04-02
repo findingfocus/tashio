@@ -11,6 +11,7 @@ function WarpZone:init(x, y, playerX, playerY, warpRow, warpCol, disjoint, state
   self.warpCol = warpCol
   self.disjoint = disjoint or false
   self.stateChange = stateChange or nil
+  self.color = GREEN
 end
 
 function WarpZone:collides()
@@ -25,6 +26,6 @@ function WarpZone:collides()
 end
 
 function WarpZone:render(adjacentOffsetX, adjacentOffsetY)
-  love.graphics.setColor(GREEN)
+  love.graphics.setColor(self.color)
   love.graphics.rectangle('fill', self.x + adjacentOffsetX, self.y + adjacentOffsetY, self.width, self.height)
 end

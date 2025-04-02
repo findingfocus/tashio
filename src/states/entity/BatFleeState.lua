@@ -4,7 +4,7 @@ function BatFleeState:init(entity)
   self.entity = entity
   self.entity.dx = 0
   self.entity.dy = 0
-  self.stateName = 'flee'
+  self.entity.stateName = 'flee'
   sounds['cleanse']:play()
   self.entity.damageFlash = true
   self.entity.corrupted = false

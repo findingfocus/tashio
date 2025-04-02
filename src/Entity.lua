@@ -15,6 +15,7 @@ function Entity:init(def)
   self.enemy = def.enemy or false
   self.width = def.width
   self.height = def.height
+  self.darkBat = false or def.darkBat
   self.direction = def.direction or 'down'
   self.animations = self:createAnimations(def.animations)
   self.spawning = def.spawning or nil

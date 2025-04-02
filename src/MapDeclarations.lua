@@ -774,6 +774,86 @@ end
 
 --warpFromRow, warpFromCol, warpToRow, warpToCol, warpFromX, warpFromY, warpToX, warpToY)
 
+--DARK TEMPLE
+insertWarpZone(7, 1, 1, 12, 3, 6, 3, 8)
+MAP[7][1].warpZones[1].width, MAP[7][1].warpZones[1].height = 7, 5
+MAP[7][1].warpZones[1].color = TRANSPARENT
+MAP[1][12].warpZones[1].color = TRANSPARENT
+table.insert(MAP[1][12].collidableMapObjects, Pushable(9, 2, 'boulder'))
+
+
+table.insert(MAP[1][12].entities, Entity {
+  animations = ENTITY_DEFS['bat'].animations,
+  spawnColumn = 1,
+  spawnRow = 5,
+  darkBat = true,
+  width = 24,
+  height = 10,
+  health = 1,
+  spawning = true,
+  spawnTimer = 3,
+  type = 'bat',
+  corrupted = true,
+  enemy = true,
+  zigzagTime = 0,
+  walkSpeed = math.random(8, 14),
+  zigzagFrequency = math.random(1, 5),
+  zigzagAmplitude = math.random(1, 5) / 10,
+})
+
+table.insert(MAP[1][12].entities, Entity {
+  animations = ENTITY_DEFS['bat'].animations,
+  spawnColumn = 4,
+  spawnRow = 1,
+  darkBat = true,
+  width = 24,
+  height = 10,
+  health = 1,
+  spawning = true,
+  spawnTimer = 3,
+  type = 'bat',
+  corrupted = true,
+  enemy = true,
+  zigzagTime = 0,
+  walkSpeed = math.random(8, 14),
+  zigzagFrequency = math.random(1, 5),
+  zigzagAmplitude = math.random(1, 5) / 10,
+})
+
+table.insert(MAP[1][12].entities, Entity {
+  animations = ENTITY_DEFS['bat'].animations,
+  spawnColumn = 7,
+  spawnRow = 8,
+  darkBat = true,
+  width = 24,
+  height = 10,
+  health = 1,
+  spawning = true,
+  spawnTimer = 3,
+  type = 'bat',
+  corrupted = true,
+  enemy = true,
+  zigzagTime = 0,
+  walkSpeed = math.random(8, 14),
+  zigzagFrequency = math.random(1, 5),
+  zigzagAmplitude = math.random(1, 5) / 10,
+})
+
+for k, v in pairs(MAP[1][12].entities) do
+  MAP[1][12].entities[k].animations = MAP[1][12].entities[k]:createAnimations(ENTITY_DEFS['bat'].animations)
+  MAP[1][12].entities[k]:changeAnimation('pursue')
+  MAP[1][12].entities[k].stateMachine = StateMachine {
+    ['bat-spawn'] = function() return BatSpawnState(MAP[1][12].entities[k], MAP[1][12].entities[k].spawnRow, MAP[1][12].entities[k].spawnColumn) end,
+    ['bat-walk'] = function() return BatWalkState(MAP[1][12].entities[k]) end,
+    ['bat-attack'] = function() return BatAttackState(MAP[1][12].entities[k]) end,
+    ['bat-flee'] = function() return BatFleeState(MAP[1][12].entities[k]) end,
+    ['entity-idle'] = function() return EntityIdleState(MAP[1][12].entities[k]) end,
+  }
+  --.entities[i].originalState = 'bat-spawn'
+  MAP[1][12].entities[k]:changeState('bat-spawn')
+
+  MAP[1][12].entities[k].hit = false
+end
 
 --MAGE'S CASTLE
 insertWarpZone(9, 2, 10, 19, 5, 3, 5, 8)
@@ -929,10 +1009,6 @@ table.insert(MAP[3][13].collidableMapObjects, Pushable(7, 3, 'crate'))
 --table.insert(MAP[7][2].collidableMapObjects, Pushable(3, 4, 'crate'))
 --table.insert(MAP[7][2].collidableMapObjects, Pushable(3, 5, 'crate'))
 --
-
---REFACTOR DIALOGUE BOX OUT OF TREASURE CHEST
-table.insert(MAP[1][12].collidableMapObjects, TreasureChest(3, 2, Coin(), {DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'You found a strange coin! It emenates energy... ')}))
-
 
 --LUTE TREASURE CHEST
 table.insert(MAP[10][18].collidableMapObjects, TreasureChest(2, 4, 'lute', 1))
