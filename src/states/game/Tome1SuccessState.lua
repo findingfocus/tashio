@@ -15,6 +15,7 @@ function Tome1SuccessState:update(dt)
   if not self.waterCleased then
     self.waterAlpha = math.min(255, self.waterAlpha + dt * 80)
   end
+  self.animatables:update(dt)
   if not PAUSED then
     sceneView:update(dt)
   end
@@ -24,7 +25,6 @@ function Tome1SuccessState:update(dt)
       gStateMachine:change('pauseState')
     end
   end
-  self.animatables:update(dt)
 end
 
 function Tome1SuccessState:cleanseTheGlobalWater()
@@ -83,7 +83,6 @@ function Tome1SuccessState:render()
 
   love.graphics.setColor(WHITE)
   love.graphics.draw(hudOverlay, 0, VIRTUAL_HEIGHT - 16)
-  --]]
   if gItemInventory.itemSlot[1] ~= nil then
     love.graphics.setFont(pixelFont)
     gItemInventory.itemSlot[1]:render()
@@ -129,5 +128,4 @@ function Tome1SuccessState:render()
   end
   love.graphics.setColor(255/255, 255/255, 255/255, self.waterAlpha)
   self:insertCleansedWater()
-
 end

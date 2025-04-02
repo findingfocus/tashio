@@ -570,7 +570,7 @@ function Scene:render()
 
   --ENTITY RENDERS
   for k, entity in pairs(MAP[self.currentMap.row][self.currentMap.column].entities) do
-    if not entity.offscreen and not entity.spawning then
+    if not entity.offscreen and not entity.spawning and not entity.darkBat then
       entity:render(self.currentMap.adjacentOffsetX, self.currentMap.adjacentOffsetY)
     end
     --love.graphics.print(entity.stateMachine.current.stateName, 0, 0)

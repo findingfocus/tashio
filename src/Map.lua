@@ -462,7 +462,7 @@ function Map:render()
   --RENDER ABOVE GROUND TILES
   for y = 1, MAP_HEIGHT do
     for x = 1, MAP_WIDTH do
-      local tile = self.aboveGroundTiles[y][x]
+      tile = self.aboveGroundTiles[y][x]
       love.graphics.draw(tileSheet, quads[tile.id], (x - 1) * TILE_SIZE + self.adjacentOffsetX, (y - 1) * TILE_SIZE + self.adjacentOffsetY)
     end
   end
