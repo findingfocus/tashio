@@ -245,6 +245,7 @@ playerSpriteSheet = love.graphics.newImage('graphics/villager1Atlas.png')
 arrowKeyLogger = love.graphics.newImage('graphics/arrowKey.png')
 testSprites = love.graphics.newImage('graphics/testSprites.png')
 tileSheet = love.graphics.newImage('graphics/masterSheet.png')
+coin = love.graphics.newImage('graphics/coin.png')
 
 sounds = {
   ['beep'] = love.audio.newSource('music/beep.wav', 'static'),

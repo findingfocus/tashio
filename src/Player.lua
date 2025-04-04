@@ -355,7 +355,7 @@ function Player:render()
   if not self.graveyard then
     --RED BOX
     --DIALOGUE BOX DETECTION
-    --[[
+    ---[[
     love.graphics.setColor(1,0,0,0.7)
     love.graphics.rectangle('fill', self.dialogueBoxX + 1, self.dialogueBoxY + 1, self.dialogueBoxWidth - COLLISION_BUFFER, self.dialogueBoxHeight - COLLISION_BUFFER)
     --]]
