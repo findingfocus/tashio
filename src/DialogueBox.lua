@@ -43,6 +43,7 @@ function DialogueBox:init(x, y, text, option, npc, index)
   self.lastCharWasSpace = false
   self.aButtonCount = 0
   self.meditateOption = false
+  self.restOption = false
   self.finishedPrinting = false
   self.saveDataUtility = SaveData()
   --TODO
@@ -54,6 +55,7 @@ function DialogueBox:init(x, y, text, option, npc, index)
   self.textIndex = 0
   self.wordIndexGrabbed = false
   self.meditateYes = true
+  self.restYes = true
 
   self.wordCharacterIndex = 0
   self.wordCharCount = 0
@@ -309,6 +311,8 @@ function DialogueBox:update(dt)
       self:reinit('HELLO WORLD')
       self.aButtonCount = 2
       --]]
+  elseif self.option == 'rest' then
+    self.restOption = true
   end
   if self.textIndex > 1 then
     blinkTimer = blinkTimer - dt
@@ -372,15 +376,27 @@ function DialogueBox:update(dt)
     --]]
   end
 
-
-  ---[[
   if INPUT:pressed('action') then
     self.aButtonCount = self.aButtonCount + 1
     if self.aButtonCount > 1 then
       blinking = true
       blinkTimer = blinkReset
 
-      if self.currentPagePrintedCharCount >= self.pages[self.currentPage].pageCharCount then
+      if self.restOption then
+        if self.restYes then
+          self.aButtonCount = self.aButtonCount + 1
+          self:reinit('YOU TOOK A NAP')
+          self:flushText()
+          self.activated = true
+        else
+          self.aButtonCount = self.aButtonCount + 1
+          self:reinit('COME BACK WITH MONEY NEXT TIME ')
+          self:flushText()
+          self.activated = true
+        end
+      end
+
+      if self.currentPagePrintedCharCount >= self.pages[self.currentPage].pageCharCount and not self.restOption then
         --END OF PAGE
         if self.currentPage == self.pageLength then
           self.finishedPrinting = true
@@ -405,6 +421,21 @@ function DialogueBox:update(dt)
             else
               --RESET DEFAULT VALUE
               self.meditateYes = true
+            end
+          elseif self.restOption then
+            if self.restYes then
+              gPlayer.stateMachine:change('player-meditate')
+              gPlayer.flammeVibrancy = 0
+              --self.saveDataUtility:savePlayerData()
+              --[[
+              MAP[2][11].dialogueBox[2].aButtonCount = MAP[2][11].dialogueBox[2].aButtonCount + 1
+              MAP[2][11].dialogueBox[2]:reinit()
+              MAP[2][11].dialogueBox[2]:flushText()
+              MAP[2][11].dialogueBox[2].activated = true
+              --]]
+            else
+              --RESET DEFAULT VALUE
+              self.restYes = true
             end
           end
         else --MOVE TO NEXT PAGE
@@ -459,10 +490,37 @@ if self.textTimer > self.nextTextTrigger and self.textIndex <= MAX_TEXTBOX_CHAR_
       blinkTimer = blinkReset
     end
   end
+
+  if self.option == 'rest' then
+    if INPUT:pressed('up') or INPUT:pressed('down') then
+      self.restYes = not self.restYes
+      sounds['beep']:play()
+      blinking = false
+      blinkTimer = blinkReset
+    end
+  end
 end
 
 function DialogueBox:render()
   --if PAUSED then
+  if self.restOption then
+
+    local inventoryX = VIRTUAL_WIDTH - 28
+    local inventoryY = SCREEN_HEIGHT_LIMIT - 40 - 13
+    ---[[
+    love.graphics.setColor(1/255, 5/255, 10/255, 255/255)
+    love.graphics.rectangle('fill', inventoryX - 15, inventoryY + 1 , VIRTUAL_WIDTH, 40)
+    love.graphics.setColor(200/255, 200/255, 200/255, 255/255)
+    love.graphics.rectangle('fill', inventoryX - 14, inventoryY + 2, VIRTUAL_WIDTH - 1, 39)
+    --]]
+
+    love.graphics.setColor(WHITE)
+    love.graphics.draw(coin, inventoryX - 12, inventoryY + 3)
+    love.graphics.setColor(BLACK)
+    love.graphics.setFont(classicFont)
+    love.graphics.print(string.format("%03d", gPlayer.coinCount), inventoryX, inventoryY)
+  end
+
   --BOX COLOR
   love.graphics.setColor(1/255, 5/255, 10/255, 255/255)
   love.graphics.rectangle('fill', 0, SCREEN_HEIGHT_LIMIT - 40, VIRTUAL_WIDTH, 40)
@@ -474,7 +532,7 @@ function DialogueBox:render()
   love.graphics.print(tostring(self.line1Result), 5, SCREEN_HEIGHT_LIMIT - 38)
   love.graphics.print(tostring(self.line2Result), 5, SCREEN_HEIGHT_LIMIT - 26)
   love.graphics.print(tostring(self.line3Result), 5, SCREEN_HEIGHT_LIMIT - 14)
-  if self.meditateOption then
+  if self.meditateOption or self.restOption then
     love.graphics.print('Yes', VIRTUAL_WIDTH - 30, SCREEN_HEIGHT_LIMIT - 38)
     love.graphics.print('No', VIRTUAL_WIDTH - 30, SCREEN_HEIGHT_LIMIT - 14)
   end
@@ -483,15 +541,45 @@ function DialogueBox:render()
   else
     love.graphics.setColor(WHITE)
   end
+
+  --[[
   if not self.meditateOption then
     love.graphics.draw(textAdvance, VIRTUAL_WIDTH - 7, SCREEN_HEIGHT_LIMIT - 4)
-  else
+  elseif self.meditateOption then
     if self.meditateYes then
       love.graphics.draw(rightArrowSelector, VIRTUAL_WIDTH - 40, SCREEN_HEIGHT_LIMIT - 35)
     else
       love.graphics.draw(rightArrowSelector, VIRTUAL_WIDTH - 40, SCREEN_HEIGHT_LIMIT - 11)
     end
+  elseif self.restOption then
+    if self.restYes then
+      love.graphics.draw(rightArrowSelector, VIRTUAL_WIDTH - 40, SCREEN_HEIGHT_LIMIT - 35)
+    else
+      love.graphics.draw(rightArrowSelector, VIRTUAL_WIDTH - 40, SCREEN_HEIGHT_LIMIT - 11)
+    end
+
   end
+
+  --]]
+  if self.meditateOption then
+    if self.meditateYes then
+      love.graphics.draw(rightArrowSelector, VIRTUAL_WIDTH - 40, SCREEN_HEIGHT_LIMIT - 35)
+    else
+      love.graphics.draw(rightArrowSelector, VIRTUAL_WIDTH - 40, SCREEN_HEIGHT_LIMIT - 11)
+    end
+  elseif self.restOption then
+    if self.restYes then
+      love.graphics.draw(rightArrowSelector, VIRTUAL_WIDTH - 40, SCREEN_HEIGHT_LIMIT - 35)
+    else
+      love.graphics.draw(rightArrowSelector, VIRTUAL_WIDTH - 40, SCREEN_HEIGHT_LIMIT - 11)
+    end
+  else
+    love.graphics.draw(textAdvance, VIRTUAL_WIDTH - 7, SCREEN_HEIGHT_LIMIT - 4)
+  end
+  --
+  --
+  --
+  --
   --end
   --love.graphics.print('meditateYes: ' .. tostring(self.meditateYes), 0, 0)
   --love.graphics.print('meditateOption: ' .. tostring(self.meditateOption), 0, 10)
@@ -515,4 +603,5 @@ function DialogueBox:render()
   love.graphics.print('printedPCC: ' .. tostring(self.currentPagePrintedCharCount), 0, 30)
   --love.graphics.print('totalLine: ' .. tostring(self.totalLineCount), 0, 30)
   --]]
+  --love.graphics.print('Medoption: ' .. tostring(self.aButtonCount, 0, 0))
 end
