@@ -1052,7 +1052,7 @@ InsertBed(2, 11, 6, 2)
 InsertBed(2, 11, 3, 9)
 InsertBed(2, 11, 6, 9)
 
-table.insert(MAP[2][11].dialogueBox, DialogueBox(0, TILE_SIZE * 2, 'Rest?', 'rest', nil, 2))
+table.insert(MAP[2][11].dialogueBox, DialogueBox(0, TILE_SIZE * 2, 'Rest?  ', 'rest', nil, 2))
 
 
 
