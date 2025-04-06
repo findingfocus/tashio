@@ -648,6 +648,7 @@ function PlayState:render()
     love.graphics.print(tostring(MAP[1][12].entities[1].blocked), 0, 40)
     love.graphics.print(tostring(MAP[1][12].entities[1].stateName), 0, 50)
     --]]
+    love.graphics.print(tostring(MAP[2][11].dialogueBox[2].activated), 0, 20)
 end
 
 function displayFPS()

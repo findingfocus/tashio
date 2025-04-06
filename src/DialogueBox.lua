@@ -42,6 +42,7 @@ function DialogueBox:init(x, y, text, option, npc, index)
   self.activated = false
   self.lastCharWasSpace = false
   self.aButtonCount = 0
+  self.restButtonCount = 0
   self.meditateOption = false
   self.restOption = false
   self.finishedPrinting = false
@@ -382,21 +383,9 @@ function DialogueBox:update(dt)
       blinking = true
       blinkTimer = blinkReset
 
-      if self.restOption then
-        if self.restYes then
-          self.aButtonCount = self.aButtonCount + 1
-          self:reinit('YOU TOOK A NAP')
-          self:flushText()
-          self.activated = true
-        else
-          self.aButtonCount = self.aButtonCount + 1
-          self:reinit('COME BACK WITH MONEY NEXT TIME ')
-          self:flushText()
-          self.activated = true
-        end
-      end
 
-      if self.currentPagePrintedCharCount >= self.pages[self.currentPage].pageCharCount and not self.restOption then
+      if self.currentPagePrintedCharCount >= self.pages[self.currentPage].pageCharCount then
+
         --END OF PAGE
         if self.currentPage == self.pageLength then
           self.finishedPrinting = true
@@ -447,6 +436,21 @@ function DialogueBox:update(dt)
           self.line3Result = ''
           self.currentPagePrintedCharCount = 0
         end
+      end
+      ---[[
+      if self.restOption then
+        if self.restButtonCount < 1 then
+          if self.restYes then
+            self:reinit('TESTING YES')
+            self:flushText()
+            --self.activated = true
+          else
+            self:reinit('TESTING NO')
+            self:flushText()
+            --self.activated = true
+          end
+        end
+        self.restButtonCount = self.restButtonCount + 1
       end
     end
   end
