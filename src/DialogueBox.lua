@@ -431,38 +431,108 @@ function DialogueBox:update(dt)
 
   if INPUT:pressed('action') then
     self.aButtonCount = self.aButtonCount + 1
-    if self.restOption then
-      if self.restButtonCount > 1 then
-        self:reinit('Rest')
-        self:flushText()
-        self.restButtonCount = 0
-        self:clear()
-        goto earlybreak
-      end
-      if not self.restYes then
-        self:clear()
-        self:reinit('Rest')
-        self:flushText()
-        self.restButtonCount = 0
-        self:clearAButtonCount()
-        PAUSED = false
-        self.finishedPrinting = true
-        self:flushText()
-        sceneView.activeDialogueID = nil
-        goto earlybreak
-      end
-      self.restButtonCount = self.restButtonCount + 1
-    else
-      if self.aButtonCount > 1 then
-        blinking = true
-        blinkTimer = blinkReset
-        if self.currentPagePrintedCharCount >= self.pages[self.currentPage].pageCharCount then
+    if self.aButtonCount > 1 then
+      blinking = true
+      blinkTimer = blinkReset
+
+
+      if self.currentPagePrintedCharCount >= self.pages[self.currentPage].pageCharCount then
+
+        if self.restOption then --DIALOGUE BOX FOR REST QUERY
+          self.restButtonCount = self.restButtonCount + 1
+          if self.restYes then
+            self:reinit('YES')
+          else
+            self:reinit('NO')
+          end
+
+          if self.restButtonCount > 1 then
+            self:reinit('RESET')
+            self:flushText()
+            goto earlybreak
+          end
+
+          self:flushText()
+          self.aButtonCount = self.aButtonCount + 1
+          goto earlybreak
+
+          --END OF PAGE
           if self.currentPage == self.pageLength then
-            self:clear()
+            self.finishedPrinting = true
+            self.activated = false
+            self:clearAButtonCount()
+            treasureChestOption = false
+            for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+              if v.classType == 'treasureChest' then
+                v.showOffItem = false
+              end
+            end
+            PAUSED = false
+            self:flushText()
+            sceneView.activeDialogueID = nil
+            self.currentPage = 1
+            if self.meditateOption then
+              if self.meditateYes then
+                gPlayer.stateMachine:change('player-meditate')
+                gPlayer.flammeVibrancy = 0
+                --self.saveDataUtility:savePlayerData()
+              else
+                --RESET DEFAULT VALUE
+                self.meditateYes = true
+              end
+            end
+          else --MOVE TO NEXT PAGE
+            self.currentPage = self.currentPage + 1
+            self.lineCount = 1
+            self.textIndex = 1
+            self.line1Result = ''
+            self.line2Result = ''
+            self.line3Result = ''
+            self.currentPagePrintedCharCount = 0
+          end
+
+
+
+        else --DEFAULT DIALOGUE OPTION
+          --END OF PAGE
+          if self.currentPage == self.pageLength then
+            self.finishedPrinting = true
+            self.activated = false
+            self:clearAButtonCount()
+            treasureChestOption = false
+            for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+              if v.classType == 'treasureChest' then
+                v.showOffItem = false
+              end
+            end
+            PAUSED = false
+            self:flushText()
+            sceneView.activeDialogueID = nil
+            self.currentPage = 1
+            if self.meditateOption then
+              if self.meditateYes then
+                gPlayer.stateMachine:change('player-meditate')
+                gPlayer.flammeVibrancy = 0
+                --self.saveDataUtility:savePlayerData()
+              else
+                --RESET DEFAULT VALUE
+                self.meditateYes = true
+              end
+            end
+          else --MOVE TO NEXT PAGE
+            self.currentPage = self.currentPage + 1
+            self.lineCount = 1
+            self.textIndex = 1
+            self.line1Result = ''
+            self.line2Result = ''
+            self.line3Result = ''
+            self.currentPagePrintedCharCount = 0
           end
         end
       end
     end
+
+    ::earlybreak::
   end
   --]]
 
