@@ -648,10 +648,10 @@ function PlayState:render()
     love.graphics.print(tostring(MAP[1][12].entities[1].blocked), 0, 40)
     love.graphics.print(tostring(MAP[1][12].entities[1].stateName), 0, 50)
     --]]
-    love.graphics.print('abutton: ' .. tostring(MAP[2][11].dialogueBox[2].aButtonCount), 0, 20)
-    love.graphics.print('pageLenght: ' .. tostring(MAP[2][11].dialogueBox[2].pageLength), 0, 30)
-    love.graphics.print('restButton: ' .. tostring(MAP[2][11].dialogueBox[2].restButtonCount), 0, 40)
-    love.graphics.print('test: ' .. tostring(MAP[2][11].dialogueBox[2].test), 0, 50)
+    love.graphics.print('abutton: ' .. tostring(MAP[10][18].dialogueBox[2].aButtonCount), 0, 20)
+    love.graphics.print('pageLenght: ' .. tostring(MAP[10][18].dialogueBox[2].pageLength), 0, 30)
+    love.graphics.print('restButton: ' .. tostring(MAP[10][18].dialogueBox[2].restButtonCount), 0, 40)
+    love.graphics.print('test: ' .. tostring(MAP[10][18].dialogueBox[2].test), 0, 50)
 end
 
 function displayFPS()
