@@ -30,6 +30,7 @@ function DialogueBox:init(x, y, text, option, npc, index)
   self.currentWordLength = 0
   self.pageWeAreOn = 1
   self.lineWeAreOn = 1
+  self.test = 0
   self.pages[1] = {}
   self.pages[1][1] = {}
   self.pages[1][2] = {}
@@ -304,6 +305,57 @@ function DialogueBox:clearAButtonCount()
   end
 end
 
+function DialogueBox:clear()
+  --END OF PAGE
+    if self.restButtonCount == 2 then
+      if self.restYes then
+        self:reinit('Option1')
+        self:flushText()
+        self.text = self.test + 1
+      end
+    else 
+      self.activated = false
+      self:clearAButtonCount()
+      treasureChestOption = false
+      for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+        if v.classType == 'treasureChest' then
+          v.showOffItem = false
+        end
+      end
+      PAUSED = false
+      --MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided = {}
+      --self:reinit('Reset Value ')
+      self:flushText()
+      sceneView.activeDialogueID = nil
+      self.currentPage = 1
+      if self.meditateOption then
+        if self.meditateYes then
+          gPlayer.stateMachine:change('player-meditate')
+          gPlayer.flammeVibrancy = 0
+          --self.saveDataUtility:savePlayerData()
+        else
+          --RESET DEFAULT VALUE
+          self.meditateYes = true
+        end
+      elseif self.restOption then
+        if self.restYes then
+          gPlayer.stateMachine:change('player-meditate')
+          gPlayer.flammeVibrancy = 0
+          --self.saveDataUtility:savePlayerData()
+          --[[
+          MAP[2][11].dialogueBox[2].aButtonCount = MAP[2][11].dialogueBox[2].aButtonCount + 1
+          MAP[2][11].dialogueBox[2]:reinit()
+          MAP[2][11].dialogueBox[2]:flushText()
+          MAP[2][11].dialogueBox[2].activated = true
+          --]]
+        else
+          --RESET DEFAULT VALUE
+          self.restYes = true
+        end
+      end
+    end
+end
+
 function DialogueBox:update(dt)
   if self.option == 'idol' then
     self.meditateOption = true
@@ -379,78 +431,36 @@ function DialogueBox:update(dt)
 
   if INPUT:pressed('action') then
     self.aButtonCount = self.aButtonCount + 1
-    if self.aButtonCount > 1 then
-      blinking = true
-      blinkTimer = blinkReset
-
-
-      if self.currentPagePrintedCharCount >= self.pages[self.currentPage].pageCharCount then
-
-        --END OF PAGE
-        if self.currentPage == self.pageLength then
-          self.finishedPrinting = true
-          self.activated = false
-          self:clearAButtonCount()
-          treasureChestOption = false
-          for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
-            if v.classType == 'treasureChest' then
-              v.showOffItem = false
-            end
-          end
-          PAUSED = false
-          --MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided = {}
-          self:flushText()
-          sceneView.activeDialogueID = nil
-          self.currentPage = 1
-          if self.meditateOption then
-            if self.meditateYes then
-              gPlayer.stateMachine:change('player-meditate')
-              gPlayer.flammeVibrancy = 0
-              --self.saveDataUtility:savePlayerData()
-            else
-              --RESET DEFAULT VALUE
-              self.meditateYes = true
-            end
-          elseif self.restOption then
-            if self.restYes then
-              gPlayer.stateMachine:change('player-meditate')
-              gPlayer.flammeVibrancy = 0
-              --self.saveDataUtility:savePlayerData()
-              --[[
-              MAP[2][11].dialogueBox[2].aButtonCount = MAP[2][11].dialogueBox[2].aButtonCount + 1
-              MAP[2][11].dialogueBox[2]:reinit()
-              MAP[2][11].dialogueBox[2]:flushText()
-              MAP[2][11].dialogueBox[2].activated = true
-              --]]
-            else
-              --RESET DEFAULT VALUE
-              self.restYes = true
-            end
-          end
-        else --MOVE TO NEXT PAGE
-          self.currentPage = self.currentPage + 1
-          self.lineCount = 1
-          self.textIndex = 1
-          self.line1Result = ''
-          self.line2Result = ''
-          self.line3Result = ''
-          self.currentPagePrintedCharCount = 0
-        end
+    if self.restOption then
+      if self.restButtonCount > 1 then
+        self:reinit('Rest')
+        self:flushText()
+        self.restButtonCount = 0
+        self:clear()
+        goto earlybreak
       end
-      ---[[
-      if self.restOption then
-        if self.restButtonCount < 1 then
-          if self.restYes then
-            self:reinit('TESTING YES')
-            self:flushText()
-            --self.activated = true
-          else
-            self:reinit('TESTING NO')
-            self:flushText()
-            --self.activated = true
+      if not self.restYes then
+        self:clear()
+        self:reinit('Rest')
+        self:flushText()
+        self.restButtonCount = 0
+        self:clearAButtonCount()
+        PAUSED = false
+        self.finishedPrinting = true
+        self:flushText()
+        sceneView.activeDialogueID = nil
+        goto earlybreak
+      end
+      self.restButtonCount = self.restButtonCount + 1
+    else
+      if self.aButtonCount > 1 then
+        blinking = true
+        blinkTimer = blinkReset
+        if self.currentPagePrintedCharCount >= self.pages[self.currentPage].pageCharCount then
+          if self.currentPage == self.pageLength then
+            self:clear()
           end
         end
-        self.restButtonCount = self.restButtonCount + 1
       end
     end
   end
@@ -503,6 +513,7 @@ if self.textTimer > self.nextTextTrigger and self.textIndex <= MAX_TEXTBOX_CHAR_
       blinkTimer = blinkReset
     end
   end
+  ::earlybreak::
 end
 
 function DialogueBox:render()
