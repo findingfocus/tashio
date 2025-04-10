@@ -9,7 +9,7 @@ function Player:init(def)
   Entity.init(self, def)
   self.lastInput = nil
   self.inputsHeld = 0
-  self.health = 14
+  self.health = 2
   self.heartTimer = heartSpeed
   self.decrement = true
   self.dead = false
@@ -32,7 +32,7 @@ function Player:init(def)
   self.flammeUpgradeLevel = 1
   self.pushTimer = 0
   self.pushing = false
-  self.coinCount = 0
+  self.coinCount = 10
   self.rubyCount = 98
   self.sapphireCount = 0
   self.topazCount = 99

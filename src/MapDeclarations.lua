@@ -1040,6 +1040,8 @@ function InsertBed(mapRow, mapColumn, sceneRow, sceneColumn)
     table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow, sceneColumn, TILE_SIZE - 1, 4, 0, -6))
     table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow, sceneColumn - 1, TILE_SIZE + 1, TILE_SIZE))
     table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow, sceneColumn, TILE_SIZE -1, TILE_SIZE / 2 + 3, 0, TILE_SIZE - 6))
+    --table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow, sceneColumn, TILE_SIZE / 3 - 2, 8))
+
   elseif sceneColumn == 9 then
     table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow, sceneColumn, TILE_SIZE - 1, 4, 0, -6))
     table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow, sceneColumn + 1, TILE_SIZE + 1, TILE_SIZE, -1))

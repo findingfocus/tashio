@@ -309,7 +309,7 @@ function DialogueBox:clear()
   --END OF PAGE
     if self.restButtonCount == 2 then
       if self.restYes then
-        self:reinit('Option1')
+        self:reinit('Rest?')
         self:flushText()
         self.text = self.test + 1
       end
@@ -435,32 +435,41 @@ function DialogueBox:update(dt)
       blinking = true
       blinkTimer = blinkReset
 
-
       if self.currentPagePrintedCharCount >= self.pages[self.currentPage].pageCharCount then
 
         if self.restOption then --DIALOGUE BOX FOR REST QUERY
           self.restButtonCount = self.restButtonCount + 1
           if self.restButtonCount == 1 then
             if self.restYes then
-              self:reinit('YES')
-              self:flushText()
-              self.activated = true
-              --self.pageLength = 2
-              --self:clearAButtonCount()
-              --self.aButtonCount = self.aButtonCount + 1
-              --self.restButtonCount = 0
+              if gPlayer.coinCount < 5 then
+                self:reinit('You need 5 coin to rest at this inn... ')
+                self:flushText()
+                self.activated = true
+              else
+                gPlayer.coinCount = gPlayer.coinCount - INN_REST_COST
+                gPlayer.health = DEMO_MAX_HEALTH
+                gPlayer.direction = 'down'
+                gPlayer.stateMachine:change('player-meditate')
+                self:reinit('You took a nap and feel restored. ')
+                self:flushText()
+                self.activated = true
+              end
               goto earlybreak
             else
+              self.restButtonCount = 0
+              self:reinit('Rest?')
+              self:flushText()
+              self:clear()
+              --[[
               self:reinit('NO')
               self:flushText()
               self.activated = true
-              --self.restButtonCount = 0
-              --self.aButtonCount = self.aButtonCount + 1
+              --]]
               goto earlybreak
             end
           elseif self.restButtonCount == 2 then
             self.restButtonCount = 0
-            self:reinit('2test')
+            self:reinit('Rest?')
             self:flushText() 
           end
 
@@ -637,9 +646,15 @@ function DialogueBox:render()
   love.graphics.print(tostring(self.line1Result), 5, SCREEN_HEIGHT_LIMIT - 38)
   love.graphics.print(tostring(self.line2Result), 5, SCREEN_HEIGHT_LIMIT - 26)
   love.graphics.print(tostring(self.line3Result), 5, SCREEN_HEIGHT_LIMIT - 14)
-  if self.meditateOption or self.restOption then
+  if self.meditateOption then
     love.graphics.print('Yes', VIRTUAL_WIDTH - 30, SCREEN_HEIGHT_LIMIT - 38)
     love.graphics.print('No', VIRTUAL_WIDTH - 30, SCREEN_HEIGHT_LIMIT - 14)
+  end
+  if self.restOption then
+    if self.restButtonCount < 1 then
+      love.graphics.print('Yes', VIRTUAL_WIDTH - 30, SCREEN_HEIGHT_LIMIT - 38)
+      love.graphics.print('No', VIRTUAL_WIDTH - 30, SCREEN_HEIGHT_LIMIT - 14)
+    end
   end
   if blinking then
     love.graphics.setColor(1,1,1,0)
@@ -673,10 +688,12 @@ function DialogueBox:render()
       love.graphics.draw(rightArrowSelector, VIRTUAL_WIDTH - 40, SCREEN_HEIGHT_LIMIT - 11)
     end
   elseif self.restOption then
-    if self.restYes then
-      love.graphics.draw(rightArrowSelector, VIRTUAL_WIDTH - 40, SCREEN_HEIGHT_LIMIT - 35)
-    else
-      love.graphics.draw(rightArrowSelector, VIRTUAL_WIDTH - 40, SCREEN_HEIGHT_LIMIT - 11)
+    if self.restButtonCount < 1 then
+      if self.restYes then
+        love.graphics.draw(rightArrowSelector, VIRTUAL_WIDTH - 40, SCREEN_HEIGHT_LIMIT - 35)
+      else
+        love.graphics.draw(rightArrowSelector, VIRTUAL_WIDTH - 40, SCREEN_HEIGHT_LIMIT - 11)
+      end
     end
   else
     love.graphics.draw(textAdvance, VIRTUAL_WIDTH - 7, SCREEN_HEIGHT_LIMIT - 4)

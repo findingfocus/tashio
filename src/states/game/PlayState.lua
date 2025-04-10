@@ -49,8 +49,8 @@ local columns = 10
 local rows = 8
 cameraX = 0
 --STARTING SCENE gPlayer SPAWN
-sceneView = Scene(gPlayer, 10, 18)
---sceneView = Scene(gPlayer, 2, 11)
+--sceneView = Scene(gPlayer, 10, 18)
+sceneView = Scene(gPlayer, 2, 11)
 --sceneView = Scene(gPlayer, 7, 1)
 --sceneView = Scene(gPlayer, 1, 12)
 --sceneView = Scene(gPlayer, 1, 11)
@@ -284,12 +284,12 @@ function PlayState:update(dt)
     --DIALOGUE DETECTION
     for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do
       if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]) and not MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated then
-        PAUSED = true
-        MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]:flushText()
-        MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated = true
-        self.activeDialogueID = k
-        sceneView.activeDialogueID = self.activeDialogueID
-      end
+          PAUSED = true
+          MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]:flushText()
+          MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated = true
+          self.activeDialogueID = k
+          sceneView.activeDialogueID = self.activeDialogueID
+        end
     end
     for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
       if v.classType == 'treasureChest' then
@@ -648,13 +648,15 @@ function PlayState:render()
     love.graphics.print(tostring(MAP[1][12].entities[1].blocked), 0, 40)
     love.graphics.print(tostring(MAP[1][12].entities[1].stateName), 0, 50)
     --]]
+    --REST DEBUG
+    --[[
     love.graphics.print('abutton: ' .. tostring(MAP[10][18].dialogueBox[2].aButtonCount), 0, 20)
     love.graphics.print('pageLength: ' .. tostring(MAP[10][18].dialogueBox[2].pageLength), 0, 30)
     love.graphics.print('restButton: ' .. tostring(MAP[10][18].dialogueBox[2].restButtonCount), 0, 40)
     love.graphics.print('test: ' .. tostring(MAP[10][18].dialogueBox[2].test), 0, 50)
     love.graphics.print('cPage: ' .. tostring(MAP[10][18].dialogueBox[2].currentPage), 0, 60)
-
-    print(Inspect(MAP[10][18].dialogueBox[2]))
+    --print(Inspect(MAP[10][18].dialogueBox[2]))
+    --]]
 end
 
 function displayFPS()
