@@ -440,21 +440,41 @@ function DialogueBox:update(dt)
 
         if self.restOption then --DIALOGUE BOX FOR REST QUERY
           self.restButtonCount = self.restButtonCount + 1
-          if self.restYes then
-            self:reinit('YES')
-          else
-            self:reinit('NO')
+          if self.restButtonCount == 1 then
+            if self.restYes then
+              self:reinit('YES')
+              self:flushText()
+              self.activated = true
+              --self.pageLength = 2
+              --self:clearAButtonCount()
+              --self.aButtonCount = self.aButtonCount + 1
+              --self.restButtonCount = 0
+              goto earlybreak
+            else
+              self:reinit('NO')
+              self:flushText()
+              self.activated = true
+              --self.restButtonCount = 0
+              --self.aButtonCount = self.aButtonCount + 1
+              goto earlybreak
+            end
+          elseif self.restButtonCount == 2 then
+            self.restButtonCount = 0
+            self:reinit('2test')
+            self:flushText() 
           end
 
+          --[[
           if self.restButtonCount > 1 then
             self:reinit('RESET')
             self:flushText()
+            self.aButtonCount = self.aButtonCount + 1
+            --self.aButtonCount = 0
+            --self.restButtonCount = 0
             goto earlybreak
           end
+          --]]
 
-          self:flushText()
-          self.aButtonCount = self.aButtonCount + 1
-          goto earlybreak
 
           --END OF PAGE
           if self.currentPage == self.pageLength then
