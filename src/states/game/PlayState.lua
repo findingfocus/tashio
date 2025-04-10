@@ -649,9 +649,12 @@ function PlayState:render()
     love.graphics.print(tostring(MAP[1][12].entities[1].stateName), 0, 50)
     --]]
     love.graphics.print('abutton: ' .. tostring(MAP[10][18].dialogueBox[2].aButtonCount), 0, 20)
-    love.graphics.print('pageLenght: ' .. tostring(MAP[10][18].dialogueBox[2].pageLength), 0, 30)
+    love.graphics.print('pageLength: ' .. tostring(MAP[10][18].dialogueBox[2].pageLength), 0, 30)
     love.graphics.print('restButton: ' .. tostring(MAP[10][18].dialogueBox[2].restButtonCount), 0, 40)
     love.graphics.print('test: ' .. tostring(MAP[10][18].dialogueBox[2].test), 0, 50)
+    love.graphics.print('cPage: ' .. tostring(MAP[10][18].dialogueBox[2].currentPage), 0, 60)
+
+    print(Inspect(MAP[10][18].dialogueBox[2]))
 end
 
 function displayFPS()
