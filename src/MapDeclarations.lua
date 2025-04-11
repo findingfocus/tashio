@@ -1040,7 +1040,6 @@ function InsertBed(mapRow, mapColumn, sceneRow, sceneColumn)
     table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow, sceneColumn, TILE_SIZE - 1, 4, 0, -6))
     table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow, sceneColumn - 1, TILE_SIZE + 1, TILE_SIZE))
     table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow, sceneColumn, TILE_SIZE -1, TILE_SIZE / 2 + 3, 0, TILE_SIZE - 6))
-    --table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow, sceneColumn, TILE_SIZE / 3 - 2, 8))
 
   elseif sceneColumn == 9 then
     table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow, sceneColumn, TILE_SIZE - 1, 4, 0, -6))
@@ -1054,8 +1053,24 @@ InsertBed(2, 11, 6, 2)
 InsertBed(2, 11, 3, 9)
 InsertBed(2, 11, 6, 9)
 
-table.insert(MAP[2][11].dialogueBox, DialogueBox(0, TILE_SIZE * 2, 'Rest?', 'rest', nil, 2))
-table.insert(MAP[10][18].dialogueBox, DialogueBox(0, TILE_SIZE * 2, 'Rest?', 'rest', nil, 2))
+table.insert(MAP[2][11].dialogueBox, DialogueBox(0, TILE_SIZE * 2, 'Rest?', 'rest', nil, 2)) --LEFT FACING
+---[[
+table.insert(MAP[2][11].dialogueBox, DialogueBox(0, TILE_SIZE * 2, 'Rest?', 'rest', nil, 3)) -- DOWN FACING
+MAP[2][11].dialogueBox[3].width = 2
+MAP[2][11].dialogueBox[3].height = 2
+MAP[2][11].dialogueBox[3].x = MAP[2][11].dialogueBox[3].x + TILE_SIZE + 1
+MAP[2][11].dialogueBox[3].y = MAP[2][11].dialogueBox[3].y + TILE_SIZE - 2
+--]]
+--DOWNWARD BED REST
+--[[
+--LEFT BED
+table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow + 1, sceneColumn, 2, 2, 1, -2))
+
+
+--RIGHT BED
+table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow + 1, sceneColumn + 1, 2, 2, -3, -2))
+--]]
+table.insert(MAP[10][18].dialogueBox, DialogueBox(0, TILE_SIZE * 2, 'Rest?', 'rest', nil, 4))
 
 
 

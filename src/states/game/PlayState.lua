@@ -657,6 +657,11 @@ function PlayState:render()
     love.graphics.print('cPage: ' .. tostring(MAP[10][18].dialogueBox[2].currentPage), 0, 60)
     --print(Inspect(MAP[10][18].dialogueBox[2]))
     --]]
+    --
+    --DEBUG RENDER
+    for k, v in pairs(MAP[2][11].dialogueBox) do
+      --v:render()
+    end
 end
 
 function displayFPS()

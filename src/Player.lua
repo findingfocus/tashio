@@ -262,7 +262,7 @@ function Player:update(dt)
   elseif self.direction == 'down' then
     self.dialogueBoxX = self.x + DIALOGUE_TRIGGER_SHRINK / 2
     self.dialogueBoxY = self.y + TILE_SIZE
-    self.dialogueBoxWidth = TILE_SIZE - DIALOGUE_TRIGGER_SHRINK
+    self.dialogueBoxWidth = TILE_SIZE - DIALOGUE_TRIGGER_SHRINK + 1
     self.dialogueBoxHeight = TILE_SIZE / 2
   elseif self.direction == 'left' then
     self.dialogueBoxX = self.x - TILE_SIZE / 2 + 1
