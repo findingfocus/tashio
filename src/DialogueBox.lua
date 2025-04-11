@@ -706,7 +706,9 @@ function DialogueBox:render()
   --love.graphics.print('meditateYes: ' .. tostring(self.meditateYes), 0, 0)
   --love.graphics.print('meditateOption: ' .. tostring(self.meditateOption), 0, 10)
   ---[[
-  love.graphics.setColor(WHITE)
+  --DEBUG RENDER
+  love.graphics.setColor(BLUE)
+  love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
 
   --love.graphics.print('aButton: ' .. tostring(self.aButtonCount), 0, 40)
   --[[
