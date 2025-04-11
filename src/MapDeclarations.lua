@@ -1054,12 +1054,12 @@ InsertBed(2, 11, 3, 9)
 InsertBed(2, 11, 6, 9)
 
 table.insert(MAP[2][11].dialogueBox, DialogueBox(0, TILE_SIZE * 2, 'Rest?', 'rest', nil, 2)) --LEFT FACING
----[[
 table.insert(MAP[2][11].dialogueBox, DialogueBox(0, TILE_SIZE * 2, 'Rest?', 'rest', nil, 3)) -- DOWN FACING
 MAP[2][11].dialogueBox[3].width = 2
 MAP[2][11].dialogueBox[3].height = 2
 MAP[2][11].dialogueBox[3].x = MAP[2][11].dialogueBox[3].x + TILE_SIZE + 1
 MAP[2][11].dialogueBox[3].y = MAP[2][11].dialogueBox[3].y + TILE_SIZE - 2
+
 --]]
 --DOWNWARD BED REST
 --[[
@@ -1070,9 +1070,39 @@ table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(s
 --RIGHT BED
 table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow + 1, sceneColumn + 1, 2, 2, -3, -2))
 --]]
-table.insert(MAP[10][18].dialogueBox, DialogueBox(0, TILE_SIZE * 2, 'Rest?', 'rest', nil, 4))
+
+table.insert(MAP[2][11].dialogueBox, DialogueBox(0, TILE_SIZE * 5, 'Rest?', 'rest', nil, 4)) --LEFT FACING
+table.insert(MAP[2][11].dialogueBox, DialogueBox(0, TILE_SIZE * 5, 'Rest?', 'rest', nil, 5)) -- DOWN FACING
+MAP[2][11].dialogueBox[5].width = 2
+MAP[2][11].dialogueBox[5].height = 2
+MAP[2][11].dialogueBox[5].x = MAP[2][11].dialogueBox[5].x + TILE_SIZE + 1
+MAP[2][11].dialogueBox[5].y = MAP[2][11].dialogueBox[5].y + TILE_SIZE - 2
 
 
+--TOP RIGHT
+table.insert(MAP[2][11].dialogueBox, DialogueBox(9 * TILE_SIZE, TILE_SIZE * 2, 'Rest?', 'rest', nil, 6)) --LEFT FACING
+table.insert(MAP[2][11].dialogueBox, DialogueBox(9 * TILE_SIZE, TILE_SIZE * 2, 'Rest?', 'rest', nil, 7)) -- DOWN FACING
+--
+MAP[2][11].dialogueBox[6].width = 2
+MAP[2][11].dialogueBox[6].height = 2
+MAP[2][11].dialogueBox[6].x = MAP[2][11].dialogueBox[6].x - 4
+MAP[2][11].dialogueBox[6].y = MAP[2][11].dialogueBox[6].y + TILE_SIZE - 4
+
+
+--BOTTOM RIGHT
+table.insert(MAP[2][11].dialogueBox, DialogueBox(9 * TILE_SIZE, TILE_SIZE * 5, 'Rest?', 'rest', nil, 8)) --LEFT FACING
+table.insert(MAP[2][11].dialogueBox, DialogueBox(9 * TILE_SIZE, TILE_SIZE * 5, 'Rest?', 'rest', nil, 9)) -- DOWN FACING
+--
+MAP[2][11].dialogueBox[8].width = 2
+MAP[2][11].dialogueBox[8].height = 2
+MAP[2][11].dialogueBox[8].x = MAP[2][11].dialogueBox[8].x - 4
+MAP[2][11].dialogueBox[8].y = MAP[2][11].dialogueBox[8].y + TILE_SIZE - 4
+
+--table.insertVMAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow + 1, sceneColumn + 1, 2, 2, -3, -2))
+
+
+
+--table.insert(MAP[10][18].dialogueBox, DialogueBox(0, TILE_SIZE * 2, 'Rest?', 'rest', nil, 4))
 
 --TOP HEADBOARD
 --table.insert(MAP[2][11].collidableMapObjects, CollidableMapObjects(2, 11, TILE_SIZE, TILE_SIZE * 6 - TILE_SIZE - 6, TILE_SIZE, 4))

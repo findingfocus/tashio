@@ -153,8 +153,8 @@ function DialogueBox:init(x, y, text, option, npc, index)
 end
 
 function DialogueBox:reinit(text)
-  self.width = TILE_SIZE - 2
-  self.height = TILE_SIZE - 2
+  --self.width = TILE_SIZE - 2
+  --self.height = TILE_SIZE - 2
   self.text = text
   self.textTimer = 0
   self.textLength = #text
@@ -706,9 +706,10 @@ function DialogueBox:render()
   --love.graphics.print('meditateYes: ' .. tostring(self.meditateYes), 0, 0)
   --love.graphics.print('meditateOption: ' .. tostring(self.meditateOption), 0, 10)
   ---[[
-  --DEBUG RENDER
+  --[[
   love.graphics.setColor(BLUE)
   love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
+  --]]
 
   --love.graphics.print('aButton: ' .. tostring(self.aButtonCount), 0, 40)
   --[[
