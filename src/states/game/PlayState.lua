@@ -281,14 +281,16 @@ function PlayState:update(dt)
 
 
   if INPUT:pressed('action') then
-    --DIALOGUE DETECTION
+    --DIALOGUE DETECTION DIALOGUE COLLIDE
     for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do
       if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]) and not MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated then
-          PAUSED = true
-          MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]:flushText()
-          MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated = true
-          self.activeDialogueID = k
-          sceneView.activeDialogueID = self.activeDialogueID
+          if gPlayer.direction ~= 'up' then
+            PAUSED = true
+            MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]:flushText()
+            MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated = true
+            self.activeDialogueID = k
+            sceneView.activeDialogueID = self.activeDialogueID
+          end
         end
     end
     for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
