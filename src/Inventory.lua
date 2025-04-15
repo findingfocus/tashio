@@ -173,23 +173,32 @@ function Inventory:update(dt)
     end
 
     if INPUT:pressed('action') then
-      if self.selectedRow == 1 then
+      if self.selectedRow == 1 then --ELEMENT ROW
         if self.selectedCol == 1 then
           --TODO FIX SPELL NAMES
-          self.elementSlot = 'fireSpell'
-          self.elementColor = FLAMME_COLOR
+          if gPlayer.flammeUnlocked then
+            self.elementSlot = 'flammeSpell'
+            self.elementEquipped = 'flamme'
+            self.elementColor = FLAMME_COLOR
+          end
         elseif self.selectedCol == 2 then
-          self.elementSlot = 'sandSpell'
-          self.elementColor = AQUIS_COLOR
+          if gPlayer.aquisUnlocked then
+            self.elementSlot = 'aquisSpell'
+            self.elementColor = AQUIS_COLOR
+          end
         elseif self.selectedCol == 3 then
-          self.elementSlot = 'iceSpell'
-          self.elementColor = EKKO_COLOR
+          if gPlayer.ekkoUnlocked then
+            self.elementSlot = 'ekkoSpell'
+            self.elementColor = EKKO_COLOR
+          end
         elseif self.selectedCol == 4 then
-          self.elementSlot = 'waterSpell'
-          self.elementColor = LOX_COLOR
+          if gPlayer.loxUnlocked then
+            self.elementSlot = 'loxSpell'
+            self.elementColor = LOX_COLOR
+          end
         end
       end
-      if self.selectedRow == 2 then
+      if self.selectedRow == 2 then --TUNIC ROW
         if self.selectedCol == 1 then
           if gPlayer.greenTunicEquipped then
             gPlayer.greenTunicEquipped = false
@@ -260,6 +269,15 @@ function Inventory:render(cursorRender)
     end
   end
 
-  love.graphics.setColor(self.elementColor)
-  love.graphics.circle('fill', VIRTUAL_WIDTH - 86, VIRTUAL_HEIGHT - 8, 6)
+  if self.elementEquipped == 'flamme' then
+    love.graphics.setColor(WHITE)
+    love.graphics.draw(flamme2, VIRTUAL_WIDTH - 86 - 5, VIRTUAL_HEIGHT - 8 - 5)
+  else
+    love.graphics.setColor(self.elementColor)
+    love.graphics.circle('fill', VIRTUAL_WIDTH - 86, VIRTUAL_HEIGHT - 8, 6)
+  end
+
+
+  love.graphics.setColor(WHITE)
+  love.graphics.draw(flamme, KEYITEM_XOFFSET + 1, KEYITEM_YOFFSET + 1)
 end
