@@ -164,7 +164,7 @@ upPress = love.graphics.newImage('graphics/upPress.png')
 downPress = love.graphics.newImage('graphics/downPress.png')
 leftPress = love.graphics.newImage('graphics/leftPress.png')
 rightPress = love.graphics.newImage('graphics/rightPress.png')
-pauseMockup = love.graphics.newImage('graphics/pauseMockup.png')
+pauseMockup = love.graphics.newImage('graphics/pauseMockup2.png')
 tashioTester = love.graphics.newImage('graphics/tashioTester.png')
 titleScreenTemp = love.graphics.newImage('graphics/titleScreenTemp.png')
 
