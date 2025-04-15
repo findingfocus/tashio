@@ -69,6 +69,11 @@ function Player:init(def)
   self.unFocusGrowing = true
   self.manisTimer = 0
   self.magicHudOpacity = 0
+  self.flammeUnlocked = true
+  self.aquisUnlocked = false
+  self.ekkoUnlocked = false
+  self.loxUnlocked = false
+  self.elementEquipped = ''
 end
 
 function Player:saveDataTable()
