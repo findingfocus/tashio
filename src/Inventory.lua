@@ -177,23 +177,30 @@ function Inventory:update(dt)
         if self.selectedCol == 1 then
           --TODO FIX SPELL NAMES
           if gPlayer.flammeUnlocked then
-            self.elementSlot = 'flammeSpell'
-            self.elementEquipped = 'flamme'
+            --self.elementSlot = 'flammeSpell'
+            if gPlayer.elementEquipped == 'flamme' then
+              gPlayer.elementEquipped = ''
+            else
+              gPlayer.elementEquipped = 'flamme'
+            end
             self.elementColor = FLAMME_COLOR
           end
         elseif self.selectedCol == 2 then
           if gPlayer.aquisUnlocked then
             self.elementSlot = 'aquisSpell'
+            gPlayer.elementEquipped = 'aquis'
             self.elementColor = AQUIS_COLOR
           end
         elseif self.selectedCol == 3 then
           if gPlayer.ekkoUnlocked then
             self.elementSlot = 'ekkoSpell'
+            gPlayer.elementEquipped = 'ekko'
             self.elementColor = EKKO_COLOR
           end
         elseif self.selectedCol == 4 then
           if gPlayer.loxUnlocked then
             self.elementSlot = 'loxSpell'
+            gPlayer.elementEquipped = 'lox'
             self.elementColor = LOX_COLOR
           end
         end
@@ -269,12 +276,12 @@ function Inventory:render(cursorRender)
     end
   end
 
-  if self.elementEquipped == 'flamme' then
+  if gPlayer.elementEquipped == 'flamme' then
     love.graphics.setColor(WHITE)
     love.graphics.draw(flamme2, VIRTUAL_WIDTH - 86 - 5, VIRTUAL_HEIGHT - 8 - 5)
   else
-    love.graphics.setColor(self.elementColor)
-    love.graphics.circle('fill', VIRTUAL_WIDTH - 86, VIRTUAL_HEIGHT - 8, 6)
+    --love.graphics.setColor(self.elementColor)
+    --love.graphics.circle('fill', VIRTUAL_WIDTH - 86, VIRTUAL_HEIGHT - 8, 6)
   end
 
 

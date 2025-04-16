@@ -285,55 +285,58 @@ function Player:update(dt)
   if not sceneView.shifting then
     --FOCUS GAIN
     if (INPUT:down('action') and not luteState) or (buttons[1].fireSpellPressed and not luteState) then
-      --VIBRANCY DRAIN
-      gPlayer.flammeVibrancy = math.min(100, gPlayer.flammeVibrancy + dt * 2)
 
-      --UNFOCUS
-      if (self.unFocus < self.focusMax) and self.unFocusGrowing then
-        if self.manis > 0 then
-          self.unFocus = self.unFocus + FOCUS_GROW * dt
-        else
+      if gPlayer.elementEquipped == 'flamme' then
+        --VIBRANCY DRAIN
+        gPlayer.flammeVibrancy = math.min(100, gPlayer.flammeVibrancy + dt * 2)
+
+        --UNFOCUS
+        if (self.unFocus < self.focusMax) and self.unFocusGrowing then
+          if self.manis > 0 then
+            self.unFocus = self.unFocus + FOCUS_GROW * dt
+          else
+            self.unFocus = 0
+          end
+        end
+
+        --UNFOCUS SHRINK
+        if self.unFocus >= self.focusMax then
+          self.unFocus = self.focusMax
+          self.unFocusGrowing = false
+        end
+
+        --UNFOCUS DECREMENT
+        if (self.unFocus <= self.focusMax) and not self.unFocusGrowing then
+          self.unFocus = self.unFocus - FOCUS_GROW * dt
+        end
+
+        --UNFOCUS GROW
+        if self.unFocus <= 0 then
           self.unFocus = 0
+          self.unFocusGrowing = true
+        end
+
+
+        --APPLY UNFOCUS TO FOCUS INDICATOR
+        self.focusIndicatorX = math.max(self.focusIndicatorX - (self.manisDrain + self.unFocus) * dt, 0)
+
+        --CLAMP FOCUS INDICATOR TO 0 IF NO MANIS
+        if self.manis <= 0 then
+          self.focusIndicatorX = math.max(self.focusIndicatorX - (self.manisDrain - self.unFocus) * dt, 0)
+        end
+
+        --MANIS DRAIN
+        self.manis = math.max(self.manis - MANIS_DRAIN * dt, 0)
+        if self.manis > 0 then
+          self.manisTimer = self.manisTimer + dt
+        end
+
+        if self.manis > 0 then
+          --FOCUS INDICATOR RISING
+          self.focusIndicatorX = math.min(self.focusIndicatorX + (self.unFocus * UNFOCUS_SCALER) * dt, self.manisMax - 2)
         end
       end
-
-      --UNFOCUS SHRINK
-      if self.unFocus >= self.focusMax then
-        self.unFocus = self.focusMax
-        self.unFocusGrowing = false
-      end
-
-      --UNFOCUS DECREMENT
-      if (self.unFocus <= self.focusMax) and not self.unFocusGrowing then
-        self.unFocus = self.unFocus - FOCUS_GROW * dt
-      end
-
-      --UNFOCUS GROW
-      if self.unFocus <= 0 then
-        self.unFocus = 0
-        self.unFocusGrowing = true
-      end
-
-
-      --APPLY UNFOCUS TO FOCUS INDICATOR
-      self.focusIndicatorX = math.max(self.focusIndicatorX - (self.manisDrain + self.unFocus) * dt, 0)
-
-      --CLAMP FOCUS INDICATOR TO 0 IF NO MANIS
-      if self.manis <= 0 then
-        self.focusIndicatorX = math.max(self.focusIndicatorX - (self.manisDrain - self.unFocus) * dt, 0)
-      end
-
-      --MANIS DRAIN
-      self.manis = math.max(self.manis - MANIS_DRAIN * dt, 0)
-      if self.manis > 0 then
-        self.manisTimer = self.manisTimer + dt
-      end
-
-      if self.manis > 0 then
-        --FOCUS INDICATOR RISING
-        self.focusIndicatorX = math.min(self.focusIndicatorX + (self.unFocus * UNFOCUS_SCALER) * dt, self.manisMax - 2)
-      end
-    else
+    else --IF SPACE NOT PRESSED
       --MANIS REGEN
       self.manis = math.min(self.manis + MANIS_REGEN * dt, self.manisMax)
       --UNFOCUS DRAIN

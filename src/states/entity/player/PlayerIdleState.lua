@@ -53,7 +53,7 @@ function PlayerIdleState:render()
   elseif self.player.yellowTunicEquipped then
     love.graphics.draw(gTextures['character-yellowTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
   end
-  if self.player.fireSpellEquipped then
+  if self.player.elementEquipped == 'flamme' then
     love.graphics.setColor(gKeyItemInventory.elementColor)
     love.graphics.draw(gTextures['character-element'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
   end
