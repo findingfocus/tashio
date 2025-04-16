@@ -28,7 +28,6 @@ local rightFadeTransitionX = VIRTUAL_WIDTH
 local startingSceneTransitionFinished = false
 local transitionFadeAlpha = 0
 
-
 gPlayer = Player {
   animations = ENTITY_DEFS['player'].animations,
   walkSpeed = ENTITY_DEFS['player'].walkSpeed,
@@ -38,6 +37,7 @@ gPlayer = Player {
   width = TILE_SIZE,
   height = TILE_SIZE,
 }
+
 gPlayer.checkPointPositions.x = TILE_SIZE * 2
 gPlayer.checkPointPositions.y = TILE_SIZE * 6
 ninetyDegrees = math.rad(90)
@@ -284,13 +284,13 @@ function PlayState:update(dt)
     --DIALOGUE DETECTION DIALOGUE COLLIDE
     for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do
       if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]) and not MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated then
-          if gPlayer.direction ~= 'up' then
+          --if gPlayer.direction ~= 'up' then
             PAUSED = true
             MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]:flushText()
             MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated = true
             self.activeDialogueID = k
             sceneView.activeDialogueID = self.activeDialogueID
-          end
+          --end
         end
     end
     for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
@@ -531,17 +531,20 @@ function PlayState:render()
   heartRowQuad:setViewport(0, 0, HEART_CROP, 7, heartRow:getDimensions())
   love.graphics.draw(heartRow, heartRowQuad, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)
 
-  --VIBRANCY RENDER
-  --love.graphics.draw(flamme, VIRTUAL_WIDTH / 2 - 11, VIRTUAL_HEIGHT - 13)
-  --EMPTY VIBRANCY BAR
-  love.graphics.setColor(255/255, 30/255, 30/255, 255/255)
-  love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, 10)
-  --VIBRANCY BAR
-  love.graphics.setColor(30/255, 30/255, 30/255, 255/255)
-  love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, gPlayer.flammeVibrancy / 10)
-  --love.graphics.print('vibrancy: ' .. tostring(gPlayer.flammeVibrancy), 0, 0)
-  love.graphics.setColor(WHITE)
-  love.graphics.draw(flamme2, VIRTUAL_WIDTH / 2 - 11 , VIRTUAL_HEIGHT - 13)
+  if gPlayer.elementEquipped == 'flamme' then
+    --VIBRANCY RENDER
+    --love.graphics.draw(flamme, VIRTUAL_WIDTH / 2 - 11, VIRTUAL_HEIGHT - 13)
+    --EMPTY VIBRANCY BAR
+    love.graphics.setColor(255/255, 30/255, 30/255, 255/255)
+    love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, 10)
+    --VIBRANCY BAR
+    love.graphics.setColor(30/255, 30/255, 30/255, 255/255)
+    love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, gPlayer.flammeVibrancy / 10)
+    --love.graphics.print('vibrancy: ' .. tostring(gPlayer.flammeVibrancy), 0, 0)
+    --A SLOT SPELL SLOT
+    love.graphics.setColor(WHITE)
+    love.graphics.draw(flamme2, VIRTUAL_WIDTH / 2 - 11 , VIRTUAL_HEIGHT - 13)
+  end
 
   --MAGIC RENDER
   --MANIS BAR RENDER

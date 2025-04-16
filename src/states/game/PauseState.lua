@@ -8,6 +8,7 @@ end
 function PauseState:update(dt)
   if INPUT:pressed('start') then
     luteState = false
+    gPlayer.focusIndicatorX = 0
     gStateMachine:change('playState')
   end
   if INPUT:pressed('actionB') then
@@ -55,8 +56,10 @@ function PauseState:render()
   end
 
   --ELEMENT RENDER
-  love.graphics.setColor(gKeyItemInventory.elementColor)
-  love.graphics.draw(gTextures['character-element'], gFrames['character-element'][1], math.floor(INVENTORY_PLAYER_X), math.floor(INVENTORY_PLAYER_Y))
+  if gPlayer.elementEquipped == 'flamme' then
+    love.graphics.setColor(gKeyItemInventory.elementColor)
+    love.graphics.draw(gTextures['character-element'], gFrames['character-element'][1], math.floor(INVENTORY_PLAYER_X), math.floor(INVENTORY_PLAYER_Y))
+  end
 
   love.graphics.setColor(WHITE)
   love.graphics.draw(heartRowEmpty, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)

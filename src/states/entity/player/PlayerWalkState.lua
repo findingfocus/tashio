@@ -216,7 +216,7 @@ function PlayerWalkState:render()
     end
   end
 
-  if self.player.fireSpellEquipped then
+  if self.player.elementEquipped == 'flamme' then
     if not gPlayer.pushing then
       love.graphics.setColor(gKeyItemInventory.elementColor)
       love.graphics.draw(gTextures['character-element'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
