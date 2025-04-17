@@ -73,7 +73,12 @@ function Player:init(def)
   self.aquisUnlocked = false
   self.ekkoUnlocked = false
   self.loxUnlocked = false
+  self.greenTunicUnlocked = true
+  self.redTunicUnlocked = false
+  self.yellowTunicUnlocked = false
+  self.blueTunicUnlocked = false
   self.elementEquipped = ''
+  self.tunicEquipped = ''
 end
 
 function Player:saveDataTable()

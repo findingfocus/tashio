@@ -207,44 +207,40 @@ function Inventory:update(dt)
       end
       if self.selectedRow == 2 then --TUNIC ROW
         if self.selectedCol == 1 then
-          if gPlayer.greenTunicEquipped then
-            gPlayer.greenTunicEquipped = false
+          if gPlayer.tunicEquipped == 'greenTunic' then
+            gPlayer.tunicEquipped = ''
           else
-            gPlayer.greenTunicEquipped = true
+            if gPlayer.greenTunicUnlocked then
+              gPlayer.tunicEquipped = 'greenTunic'
+            end
           end
-          gPlayer.redTunicEquipped = false
-          gPlayer.yellowTunicEquipped = false
-          gPlayer.blueTunicEquipped = false
         end
         if self.selectedCol == 2 then
-          if gPlayer.blueTunicEquipped then
-            gPlayer.blueTunicEquipped = false
+          if gPlayer.tunicEquipped == 'blueTunic' then
+            gPlayer.tunicEquipped = ''
           else
-            gPlayer.blueTunicEquipped = true
+            if gPlayer.blueTunicUnlocked then
+              gPlayer.tunicEquipped = 'blueTunic'
+            end
           end
-          gPlayer.greenTunicEquipped = false
-          gPlayer.redTunicEquipped = false
-          gPlayer.yellowTunicEquipped = false
         end
         if self.selectedCol == 3 then
-          if gPlayer.redTunicEquipped then
-            gPlayer.redTunicEquipped = false
+          if gPlayer.tunicEquipped == 'redTunic' then
+            gPlayer.tunicEquipped = ''
           else
-            gPlayer.redTunicEquipped = true
+            if gPlayer.redTunicUnlocked then
+              gPlayer.tunicEquipped = 'redTunic'
+            end
           end
-          gPlayer.greenTunicEquipped = false
-          gPlayer.yellowTunicEquipped = false
-          gPlayer.blueTunicEquipped = false
         end
         if self.selectedCol == 4 then
-          if gPlayer.yellowTunicEquipped then
-            gPlayer.yellowTunicEquipped = false
+          if gPlayer.tunicEquipped == 'yellowTunic' then
+            gPlayer.tunicEquipped = ''
           else
-            gPlayer.yellowTunicEquipped = true
+            if gPlayer.yellowTunicUnlocked then
+              gPlayer.tunicEquipped = 'yellowTunic'
+            end
           end
-          gPlayer.greenTunicEquipped = false
-          gPlayer.redTunicEquipped = false
-          gPlayer.blueTunicEquipped = false
         end
       end
     end
@@ -284,7 +280,13 @@ function Inventory:render(cursorRender)
     --love.graphics.circle('fill', VIRTUAL_WIDTH - 86, VIRTUAL_HEIGHT - 8, 6)
   end
 
+  if gPlayer.flammeUnlocked then
+    love.graphics.setColor(WHITE)
+    love.graphics.draw(flamme, KEYITEM_XOFFSET + 1, KEYITEM_YOFFSET + 1)
+  end
 
-  love.graphics.setColor(WHITE)
-  love.graphics.draw(flamme, KEYITEM_XOFFSET + 1, KEYITEM_YOFFSET + 1)
+  if gPlayer.greenTunicUnlocked then
+    love.graphics.setColor(WHITE)
+    love.graphics.draw(greenTunicSolo, KEYITEM_XOFFSET, KEYITEM_YOFFSET + 17)
+  end
 end

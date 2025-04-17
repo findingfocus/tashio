@@ -16,13 +16,13 @@ function PlayerCinematicState:render()
   love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
 
   --PLAYER TUNIC
-  if self.player.blueTunicEquipped then
+  if self.player.tunicEquipped == 'blueTunic' then
     love.graphics.draw(gTextures['character-fall-blueTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-  elseif self.player.redTunicEquipped then
+  elseif self.player.tunicEquipped == 'redTunic' then
     love.graphics.draw(gTextures['character-fall-redTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-  elseif self.player.greenTunicEquipped then
+  elseif self.player.tunicEquipped == 'greenTunic' then
     love.graphics.draw(gTextures['character-fall-greenTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-  elseif self.player.yellowTunicEquipped then
+  elseif self.player.tunicEquipped == 'yellowTunic' then
     love.graphics.draw(gTextures['character-fall-yellowTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
   end
 end

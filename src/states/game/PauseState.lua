@@ -45,13 +45,13 @@ function PauseState:render()
   love.graphics.setColor(WHITE)
   --PLAYER
   love.graphics.draw(gTextures['character-walk'], gFrames['character-walk'][1], INVENTORY_PLAYER_X, INVENTORY_PLAYER_Y)
-  if gPlayer.blueTunicEquipped then
+  if gPlayer.tunicEquipped == 'blueTunic' then
     love.graphics.draw(gTextures['character-blueTunic'], gFrames['character-blueTunic'][1], math.floor(INVENTORY_PLAYER_X), math.floor(INVENTORY_PLAYER_Y))
-  elseif gPlayer.redTunicEquipped then
+  elseif gPlayer.tunicEquipped == 'redTunic' then
     love.graphics.draw(gTextures['character-redTunic'], gFrames['character-redTunic'][1], math.floor(INVENTORY_PLAYER_X), math.floor(INVENTORY_PLAYER_Y))
-  elseif gPlayer.greenTunicEquipped then
+  elseif gPlayer.tunicEquipped  == 'greenTunic' then
     love.graphics.draw(gTextures['character-greenTunic'], gFrames['character-greenTunic'][1], math.floor(INVENTORY_PLAYER_X), math.floor(INVENTORY_PLAYER_Y))
-  elseif gPlayer.yellowTunicEquipped then
+  elseif gPlayer.tunicEquipped == 'yellowTunic' then
     love.graphics.draw(gTextures['character-yellowTunic'], gFrames['character-yellowTunic'][1], math.floor(INVENTORY_PLAYER_X), math.floor(INVENTORY_PLAYER_Y))
   end
 
