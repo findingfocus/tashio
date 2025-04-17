@@ -85,6 +85,7 @@ function PlayerWalkState:update(dt)
   if not sceneView.shifting then
     for k, v in pairs(MAP[sceneView.mapRow][sceneView.mapColumn].collidableMapObjects) do
       --INITIALIZE COLLIDABLE CLASS TYPES
+      --PUSHING OBJECTS
       if v.classType == 'pushable' and not v.falling and not gPlayer.falling and not v.crateCompletelyBroken and v.active then
         if gPlayer:leftCollidesMapObject(v) or gPlayer:rightCollidesMapObject(v) or gPlayer:topCollidesMapObject(v) or gPlayer:bottomCollidesMapObject(v) then --gPlayer.pushing = true
           if #OUTPUT_LIST > 0 or #TOUCH_OUTPUT_LIST > 0 then
@@ -95,7 +96,9 @@ function PlayerWalkState:update(dt)
           if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
             gPlayer.pushTimer = 0
             if v:legalPush(v.tileY, v.tileX - 1) then
-              v:pushLeft()
+              if gPlayer.tunicEquipped == 'greenTunic' then
+                v:pushLeft()
+              end
             end
           end
 
@@ -109,7 +112,9 @@ function PlayerWalkState:update(dt)
           if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
             gPlayer.pushTimer = 0
             if v:legalPush(v.tileY, v.tileX + 1) then
-              v:pushRight()
+              if gPlayer.tunicEquipped == 'greenTunic' then
+                v:pushRight()
+              end
             end
           end
           if gPlayer.direction == 'right' then
@@ -122,7 +127,9 @@ function PlayerWalkState:update(dt)
           if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
             gPlayer.pushTimer = 0
             if v:legalPush(v.tileY - 1, v.tileX) then
-              v:pushUp()
+              if gPlayer.tunicEquipped == 'greenTunic' then
+                v:pushUp()
+              end
             end
           end
           topCollidesCount = topCollidesCount + 1
@@ -136,7 +143,9 @@ function PlayerWalkState:update(dt)
           if gPlayer.pushTimer > PUSH_TIMER_THRESHOLD then
             gPlayer.pushTimer = 0
             if v:legalPush(v.tileY + 1, v.tileX) then
-              v:pushDown()
+              if gPlayer.tunicEquipped == 'greenTunic' then
+                v:pushDown()
+              end
             end
           end
           if gPlayer.direction == 'down' then
@@ -177,13 +186,13 @@ function PlayerWalkState:render()
   --love.graphics.print('timer: ' .. tostring(self.player.animations['walk-down'].timer), 5, 55)
   if not self.player.falling then
     if self.player.currentAnimation == self.player.animations['walk-right'] or (self.player.currentAnimation == self.player.animations['walk-left']) or (self.player.currentAnimation == self.player.animations['walk-up']) or (self.player.currentAnimation == self.player.animations['walk-down']) then
-      if self.player.blueTunicEquipped then
+      if self.player.tunicEquipped == 'blueTunic' then
         love.graphics.draw(gTextures['character-blueTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-      elseif self.player.redTunicEquipped then
+      elseif self.player.tunicEquipped == 'redTunic' then
         love.graphics.draw(gTextures['character-redTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-      elseif self.player.greenTunicEquipped then
+      elseif self.player.tunicEquipped == 'greenTunic' then
         love.graphics.draw(gTextures['character-greenTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-      elseif self.player.yellowTunicEquipped then
+      elseif self.player.tunicEquipped == 'yellowTunic' then
         love.graphics.draw(gTextures['character-yellowTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
       end
     elseif self.player.currentAnimation == self.player.animations['push-right'] or self.player.animations['push-left'] or self.player.animations['push-up'] or self.player.animations['push-down'] then
@@ -191,13 +200,13 @@ function PlayerWalkState:render()
         if v.classType == 'pushable' then
           gPlayer.pushable = true
           if gPlayer:leftCollidesMapObject(v) or gPlayer:rightCollidesMapObject(v) or gPlayer:topCollidesMapObject(v) or gPlayer:bottomCollidesMapObject(v) then
-            if self.player.blueTunicEquipped then
+            if self.player.tunicEquipped == 'blueTunic' then
               love.graphics.draw(gTextures['character-push-blueTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-            elseif self.player.redTunicEquipped then
+            elseif self.player.tunicEquipped == 'redTunic' then
               love.graphics.draw(gTextures['character-push-redTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-            elseif self.player.greenTunicEquipped then
+            elseif self.player.tunicEquipped == 'greenTunic' then
               love.graphics.draw(gTextures['character-push-greenTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-            elseif self.player.yellowTunicEquipped then
+            elseif self.player.tunicEquipped == 'yellowTunic' then
               love.graphics.draw(gTextures['character-push-yellowTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
             end
           end
@@ -205,13 +214,13 @@ function PlayerWalkState:render()
       end
     end
   else --IF FALLING
-    if self.player.blueTunicEquipped then
+    if self.player.tunicEquipped == 'blueTunic' then
       love.graphics.draw(gTextures['character-fall-blueTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-    elseif self.player.redTunicEquipped then
+    elseif self.player.tunicEquipped == 'redTunic' then
       love.graphics.draw(gTextures['character-fall-redTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-    elseif self.player.greenTunicEquipped then
+    elseif self.player.tunicEquipped == 'greenTunic' then
       love.graphics.draw(gTextures['character-fall-greenTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-    elseif self.player.yellowTunicEquipped then
+    elseif self.player.tunicEquipped == 'yellowTunic' then
       love.graphics.draw(gTextures['character-fall-yellowTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
     end
   end
