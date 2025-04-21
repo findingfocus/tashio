@@ -186,10 +186,6 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
       end
       if MAP[i][j][k] == WATER_ANIM_STARTER then
         table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, WATER.frame) end)
-      elseif MAP[i][j][k] == FLOWER_ANIM_STARTER then
-        table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, FLOWERS.frame) end)
-      elseif MAP[i][j][k] == AUTUMN_FLOWER_ANIM_STARTER then
-        table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, AUTUMN_FLOWERS.frame) end)
       elseif MAP[i][j][k] == LAVA_LEFT_EDGE_ANIM_STARTER then
         table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, LAVA_LEFT_EDGE.frame) end)
       elseif MAP[i][j][k] == LAVA_RIGHT_EDGE_ANIM_STARTER then
@@ -200,6 +196,8 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
 
       if MAP[i][j].aboveGroundTileIds[k] == SCONCE_ANIM_STARTER then
         table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, SCONCE.frame, 'aboveGround') end)
+      elseif MAP[i][j].aboveGroundTileIds[k] == FLOWER_ANIM_STARTER then
+        table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, FLOWERS.frame, 'aboveGround') end)
       end
     end
   end
@@ -877,7 +875,6 @@ insertWarpZone(7, 4, 4, 11, 4, 4, 3, 8)
 insertWarpZone(8, 3, 2, 11, 3, 7, 6, 8)
 
 FLOWERS = AnimSpitter(FLOWER_ANIM_STARTER, 1015, 0.75)
-AUTUMN_FLOWERS = AnimSpitter(AUTUMN_FLOWER_ANIM_STARTER, 1011, 0.75)
 WATER = AnimSpitter(WATER_ANIM_STARTER, 105, .5)
 CLEANSED_WATER = AnimSpitter(CLEAN_WATER_ANIM_STARTER, CLEAN_WATER_ANIM_ENDER, .5)
 LAVA_LEFT_EDGE = AnimSpitter(LAVA_LEFT_EDGE_ANIM_STARTER, 1007, .35)

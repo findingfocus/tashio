@@ -7,7 +7,6 @@ end
 
 function InsertAnimation:update(dt)
   FLOWERS:update(dt)
-  AUTUMN_FLOWERS:update(dt)
   WATER:update(dt)
   CLEANSED_WATER:update(dt)
   LAVA_LEFT_EDGE:update(dt)
