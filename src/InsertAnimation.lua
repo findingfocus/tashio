@@ -13,14 +13,19 @@ function InsertAnimation:update(dt)
   LAVA_LEFT_EDGE:update(dt)
   LAVA_RIGHT_EDGE:update(dt)
   LAVA_FLOW:update(dt)
+  SCONCE:update(dt)
 
   for i = 1, #MAP[self.mapRow][self.mapColumn].animatables do
     MAP[self.mapRow][self.mapColumn].animatables[i]()
   end
 end
 
-function insertAnim(row, column, anim)
-  sceneView.currentMap.tiles[row][column].id = anim
+function insertAnim(row, column, anim, option)
+  if option == 'aboveGround' then
+    sceneView.currentMap.aboveGroundTiles[row][column].id = anim
+  else
+    sceneView.currentMap.tiles[row][column].id = anim
+  end
 end
 
 function InsertAnimation:render()
