@@ -45,16 +45,18 @@ function Tome1SuccessState:cleanseTheGlobalWater()
         if MAP[i][j][k] == WATER_ANIM_STARTER then
           MAP[i][j][k] = CLEAN_WATER_ANIM_STARTER
           table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, CLEANSED_WATER.frame) end)
-        elseif MAP[i][j][k] == FLOWER_ANIM_STARTER then
-          table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, FLOWERS.frame) end)
-        elseif MAP[i][j][k] == AUTUMN_FLOWER_ANIM_STARTER then
-          table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, AUTUMN_FLOWERS.frame) end)
         elseif MAP[i][j][k] == LAVA_LEFT_EDGE_ANIM_STARTER then
           table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, LAVA_LEFT_EDGE.frame) end)
         elseif MAP[i][j][k] == LAVA_RIGHT_EDGE_ANIM_STARTER then
           table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, LAVA_RIGHT_EDGE.frame) end)
         elseif MAP[i][j][k] == LAVA_FLOW_ANIM_STARTER then
           table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, LAVA_FLOW.frame) end)
+        end
+
+        if MAP[i][j].aboveGroundTileIds[k] == SCONCE_ANIM_STARTER then
+          table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, SCONCE.frame, 'aboveGround') end)
+        elseif MAP[i][j].aboveGroundTileIds[k] == FLOWER_ANIM_STARTER then
+          table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, FLOWERS.frame, 'aboveGround') end)
         end
       end
     end
