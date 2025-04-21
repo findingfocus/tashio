@@ -197,6 +197,10 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
       elseif MAP[i][j][k] == LAVA_FLOW_ANIM_STARTER then
         table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, LAVA_FLOW.frame) end)
       end
+
+      if MAP[i][j].aboveGroundTileIds[k] == SCONCE_ANIM_STARTER then
+        table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, SCONCE.frame, 'aboveGround') end)
+      end
     end
   end
 end
@@ -879,6 +883,7 @@ CLEANSED_WATER = AnimSpitter(CLEAN_WATER_ANIM_STARTER, CLEAN_WATER_ANIM_ENDER, .
 LAVA_LEFT_EDGE = AnimSpitter(LAVA_LEFT_EDGE_ANIM_STARTER, 1007, .35)
 LAVA_RIGHT_EDGE = AnimSpitter(LAVA_RIGHT_EDGE_ANIM_STARTER, 1002, .35)
 LAVA_FLOW = AnimSpitter(LAVA_FLOW_ANIM_STARTER, 121, .35)
+SCONCE = AnimSpitter(SCONCE_ANIM_STARTER, SCONCE_ANIM_ENDER, .15)
 
 --MAGE NPC
 --[[
