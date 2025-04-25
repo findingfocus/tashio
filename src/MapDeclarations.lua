@@ -860,7 +860,7 @@ for k, v in pairs(MAP[1][12].entities) do
 end
 
 --MAGE'S CASTLE
-insertWarpZone(9, 2, 10, 19, 5, 3, 5, 8)
+insertWarpZone(9, 2, 10, 19, 5, 2, 5, 8)
 
 --RENS REFINERY
 insertWarpZone(7, 2, 1, 11, 9, 3, 3, 8)
@@ -1027,6 +1027,9 @@ table.insert(MAP[10][18].collidableMapObjects, CollidableMapObjects(3, 2, TILE_S
 table.insert(MAP[10][18].collidableMapObjects, CollidableMapObjects(3, 2 - 1, TILE_SIZE + 1, TILE_SIZE))
 table.insert(MAP[10][18].collidableMapObjects, CollidableMapObjects(3, 2, TILE_SIZE, TILE_SIZE / 2, 0, TILE_SIZE - 6))
 
+--MAGES CASTLE SCONCES
+table.insert(MAP[9][2].collidableMapObjects, CollidableMapObjects(3, 4, TILE_SIZE - 2, 5, 1, 0))
+table.insert(MAP[9][2].collidableMapObjects, CollidableMapObjects(3, 6, TILE_SIZE - 2, 5, 1, 0))
 
 --INN
 --TOP LEFT BED
