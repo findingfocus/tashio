@@ -23,6 +23,8 @@ function Scene:init(player, mapRow, mapColumn)
   self.rainSystem = RainSystem()
   self.lavaSystem = LavaSystem()
   self.sandSystem = SandSystem()
+  self.particleSystem = {}
+
   self.cameraX = 0
   self.cameraY = 0
   self.shifting = false
@@ -130,9 +132,26 @@ function Scene:beginShifting(shiftX, shiftY)
       v:reset()
     end
   end
+
+  --WEATHER
+  if MAP[self.mapRow][self.mapColumn].weather[1] ~= nil then
+    table.insert(self.particleSystem, self.sandSystem)
+    if MAP[self.mapRow][self.mapColumn].weather[1] == 'LIGHT_SAND' then
+      self.particleSystem[1].psystems:setEmissionRate(self.particleSystem[1].initialLightEmissionRate)
+    elseif MAP[self.mapRow][self.mapColumn].weather[1] == 'HEAVY_SAND' then
+      self.particleSystem[1].psystems:setEmissionRate(self.particleSystem[1].initialHeavyEmissionRate)
+    end
+  else
+    self.particleSystem[1].psystems:setEmissionRate(0)
+  end
 end
 
 function Scene:finishShifting()
+  --WEATHER
+  if MAP[self.mapRow][self.mapColumn].weather[1] == nil then
+    self.particleSystem[1].psystems:setEmissionRate(0)
+  end
+
   self.shifting = false
   self.cameraX = 0
   self.cameraY = 0
@@ -179,6 +198,9 @@ function Scene:update(dt)
   --self.snowSystem:update(dt)
   --self.rainSystem:update(dt)
   --self.sandSystem:update(dt)
+  if self.particleSystem[1] ~= nil then
+    self.particleSystem[1]:update(dt)
+  end
   --self.lavaSystem:update(dt)
   self.currentMap:update(dt)
   if not self.shifting then
@@ -413,6 +435,7 @@ function Scene:update(dt)
         triggerStartingSceneTransition = true
         gPlayer.warping = true
         gPlayer.warpObject = v
+
         --RESET TREASURE CHEST TODO TURN OFF FOR DEMO
         for k, v in pairs(MAP[v.warpRow][v.warpCol].collidableMapObjects) do
           if v.classType == 'treasureChest' then
@@ -582,6 +605,9 @@ function Scene:render()
   --self.rainSystem:render()
   --self.lavaSystem:render()
   --self.sandSystem:render()
+  if self.particleSystem[1] ~= nil then
+    self.particleSystem[1]:render()
+  end
 
   --SET FADE FOR SPELLCAST
   --RENDER SPELLCAST

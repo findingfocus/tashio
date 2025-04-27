@@ -1,6 +1,5 @@
 SandSystem = Class{}
 
-local EMISSION_RATE = 8000
 local WIND_ANGLE = 0
 local MAX_ANGLE = 20
 local MIN_ANGLE = -20
@@ -11,6 +10,10 @@ local increase = false
 
 function SandSystem:init()
   self.psystems = love.graphics.newParticleSystem(particle, 8000)
+  self.initialEmissionRate = 8000
+  self.initialLightEmissionRate = 400
+  self.initialHeavyEmissionRate = 8000
+  self.psystems:setEmissionRate(self.initialEmissionRate)
 end
 
 function SandSystem:update(dt)
@@ -32,7 +35,6 @@ function SandSystem:update(dt)
   self.psystems:setEmissionArea('normal', 30, SCREEN_HEIGHT_LIMIT)
   self.psystems:setLinearAcceleration(-200, MIN_Y, -250, MAX_Y)
   self.psystems:setParticleLifetime(1, LIFESPAN)
-  self.psystems:setEmissionRate(EMISSION_RATE)
   self.psystems:setColors(235/255, 235/255, 0/255, 255/255, 250/255, 150/255, 20/255, 255/255)
   self.psystems:update(dt)
 end

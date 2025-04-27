@@ -53,10 +53,16 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
     MAP[i][j].coins = {}
     MAP[i][j].attacks = {}
     MAP[i][j].psystems = {}
+    MAP[i][j].weather = {}
     MAP[i][j].mineralDeposits = {}
     MAP[i][j].minerals = {}
   end
 end
+
+--WEATHER
+table.insert(MAP[8][2].weather, 'LIGHT_SAND')
+table.insert(MAP[7][2].weather, 'HEAVY_SAND')
+--table.insert(sceneView.particleSystem, sceneView.snowSystem)
 
 --MAGE WALL BARRIERS
 table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(1, 5, TILE_SIZE, TILE_SIZE))
