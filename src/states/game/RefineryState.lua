@@ -128,25 +128,30 @@ function RefineryState:render()
   end
 
 
+  --[[
   love.graphics.setColor(gKeyItemInventory.elementColor)
   love.graphics.circle('fill', VIRTUAL_WIDTH - 86, VIRTUAL_HEIGHT - 8, 6)
+  --]]
 
   love.graphics.setColor(WHITE)
   love.graphics.draw(heartRowEmpty, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)
   heartRowQuad:setViewport(0, 0, HEART_CROP, 7, heartRow:getDimensions())
   love.graphics.draw(heartRow, heartRowQuad, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)
 
-  --VIBRANCY RENDER
-  love.graphics.draw(flamme, VIRTUAL_WIDTH / 2 - 11, VIRTUAL_HEIGHT - 13)
-  --EMPTY VIBRANCY BAR
-  love.graphics.setColor(255/255, 30/255, 30/255, 255/255)
-  love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, 10)
-  --VIBRANCY BAR
-  love.graphics.setColor(30/255, 30/255, 30/255, 255/255)
-  love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, gPlayer.flammeVibrancy / 10)
-  --love.graphics.print('vibrancy: ' .. tostring(gPlayer.flammeVibrancy), 0, 0)
-  love.graphics.setColor(WHITE)
-  love.graphics.draw(flamme, VIRTUAL_WIDTH / 2 - 11, VIRTUAL_HEIGHT - 13)
+  if gPlayer.elementEquipped == 'flamme' then
+    --VIBRANCY RENDER
+    --EMPTY VIBRANCY BAR
+    love.graphics.setColor(255/255, 30/255, 30/255, 255/255)
+    love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, 10)
+    --VIBRANCY BAR
+    love.graphics.setColor(30/255, 30/255, 30/255, 255/255)
+    love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, gPlayer.flammeVibrancy / 10)
+    --love.graphics.print('vibrancy: ' .. tostring(gPlayer.flammeVibrancy), 0, 0)
+    --A SLOT SPELL SLOT
+    love.graphics.setColor(WHITE)
+    love.graphics.draw(flamme2, VIRTUAL_WIDTH / 2 - 11 , VIRTUAL_HEIGHT - 13)
+  end
+
 
   if sceneView.activeDialogueID ~= nil then
     MAP[self.row][self.column].dialogueBox[self.dialogueID]:render()

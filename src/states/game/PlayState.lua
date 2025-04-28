@@ -670,6 +670,12 @@ function PlayState:render()
     for k, v in pairs(MAP[2][11].dialogueBox) do
       --v:render()
     end
+
+    --[[
+    love.graphics.print('#: ' .. tostring(#sceneView.particleSystem), 0, 10)
+    love.graphics.print('mRow: ' .. tostring(sceneView.mapRow), 0, 20)
+    love.graphics.print('mCol: ' .. tostring(sceneView.mapColumn), 0, 30)
+    --]]
 end
 
 function displayFPS()
