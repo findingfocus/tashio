@@ -135,21 +135,27 @@ function Scene:beginShifting(shiftX, shiftY)
 
   --WEATHER
   if MAP[self.mapRow][self.mapColumn].weather[1] ~= nil then
-    table.insert(self.particleSystem, self.sandSystem)
     if MAP[self.mapRow][self.mapColumn].weather[1] == 'LIGHT_SAND' then
-      self.particleSystem[1].psystems:setEmissionRate(self.particleSystem[1].initialLightEmissionRate)
+      self.particleSystem = {}
+      table.insert(self.particleSystem, self.snowSystem)
+      --self.particleSystem[1].psystems:setEmissionRate(self.particleSystem[1].initialLightEmissionRate)
+      self.particleSystem[1].psystems:setEmissionRate(10)
     elseif MAP[self.mapRow][self.mapColumn].weather[1] == 'HEAVY_SAND' then
+      self.particleSystem = {}
+      table.insert(self.particleSystem, self.sandSystem)
       self.particleSystem[1].psystems:setEmissionRate(self.particleSystem[1].initialHeavyEmissionRate)
     end
   else
-    self.particleSystem[1].psystems:setEmissionRate(0)
+    if self.particleSystem[1] ~= nil then
+      self.particleSystem[1].psystems:setEmissionRate(0)
+    end
   end
 end
 
 function Scene:finishShifting()
   --WEATHER
   if MAP[self.mapRow][self.mapColumn].weather[1] == nil then
-    self.particleSystem[1].psystems:setEmissionRate(0)
+    --self.particleSystem[1].psystems:setEmissionRate(0)
   end
 
   self.shifting = false
@@ -423,8 +429,6 @@ function Scene:update(dt)
     v:update(dt)
   end
 
-
-
   --WARP ZONES
   if #MAP[sceneView.currentMap.row][sceneView.currentMap.column].warpZones > 0 then
     for k, v in pairs(sceneView.currentMap.warpZones) do
@@ -435,7 +439,6 @@ function Scene:update(dt)
         triggerStartingSceneTransition = true
         gPlayer.warping = true
         gPlayer.warpObject = v
-
         --RESET TREASURE CHEST TODO TURN OFF FOR DEMO
         for k, v in pairs(MAP[v.warpRow][v.warpCol].collidableMapObjects) do
           if v.classType == 'treasureChest' then
@@ -466,7 +469,22 @@ function Scene:update(dt)
       --TODO ALLOW SPECIFIC WARPZONE TO TRIGGER
       for k, v in pairs(sceneView.currentMap.warpZones) do
         if gPlayer.warping then
-          sceneView = Scene(gPlayer, sceneView.currentMap.warpZones[k].warpRow, sceneView.currentMap.warpZones[k].warpCol)
+          sceneView = Scene(gPlayer, sceneView.currentMap.warpZones[k].warpRow, sceneView.currentMap.warpZones[k].warpCol, 'psystem')
+          --WEATHER
+          if MAP[sceneView.mapRow][sceneView.mapColumn].weather[1] ~= nil then
+            if MAP[sceneView.mapRow][sceneView.mapColumn].weather[1] == 'LIGHT_SAND' then
+              table.insert(sceneView.particleSystem, sceneView.sandSystem)
+              sceneView.particleSystem[1].psystems:setEmissionRate(sceneView.particleSystem[1].initialLightEmissionRate)
+            elseif MAP[sceneView.mapRow][sceneView.mapColumn].weather[1] == 'HEAVY_SAND' then
+              table.insert(sceneView.particleSystem, sceneView.sandSystem)
+              sceneView.particleSystem[1].psystems:setEmissionRate(sceneView.particleSystem[1].initialHeavyEmissionRate)
+            end
+          else
+            if sceneView.particleSystem[1] ~= nil then
+              sceneView.particleSystem[1].psystems:setEmissionRate(0)
+            end
+          end
+
           WATER:update(dt)
           gStateMachine.current.animatables = InsertAnimation(sceneView.currentMap.row, sceneView.currentMap.column)
           gPlayer.x = v.playerX

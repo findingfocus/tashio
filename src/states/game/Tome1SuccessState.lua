@@ -64,13 +64,13 @@ function Tome1SuccessState:cleanseTheGlobalWater()
 end
 
 function Tome1SuccessState:insertCleansedWater()
-  for y = 2, 8 do
+  for y = 1, 8 do
     love.graphics.setColor(255/255, 255/255, 255/255, self.waterAlpha/255)
     love.graphics.draw(tileSheet, quads[CLEANSED_WATER.frame], 0, (y - 1) * TILE_SIZE)
     love.graphics.draw(tileSheet, quads[CLEANSED_WATER.frame], TILE_SIZE * 9, (y - 1) * TILE_SIZE)
   end
   for x = 1, 10 do
-    if x ~= 8 then
+    if x == 2 or x == 8 then
     love.graphics.setColor(255/255, 255/255, 255/255, self.waterAlpha/255)
     love.graphics.draw(tileSheet, quads[CLEANSED_WATER.frame], (x - 1) * TILE_SIZE, 0)
     end
