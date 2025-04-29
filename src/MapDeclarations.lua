@@ -60,8 +60,9 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
 end
 
 --WEATHER
-table.insert(MAP[8][2].weather, 'LIGHT_SAND')
-table.insert(MAP[7][2].weather, 'HEAVY_SAND')
+
+table.insert(MAP[7][6].weather, 'LIGHT_SAND')
+table.insert(MAP[7][7].weather, 'HEAVY_SAND')
 --table.insert(sceneView.particleSystem, sceneView.snowSystem)
 
 --MAGE WALL BARRIERS
@@ -233,6 +234,46 @@ for i = 1, entities do
     enemy = true,
   })
 end
+--]]
+
+
+--ONE WAY TOME SCREEN
+--[[
+table.insert(MAP[7][5].collidableMapObjects, Pushable(2,5, 'boulder'))
+table.insert(MAP[7][5].collidableMapObjects, Pushable(3,5, 'boulder'))
+--]]
+--[[
+table.insert(MAP[7][5].collidableMapObjects, Pushable(2,5, 'boulder'))
+table.insert(MAP[7][5].collidableMapObjects, Pushable(2,4, 'boulder'))
+table.insert(MAP[7][5].collidableMapObjects, Pushable(2,6, 'boulder'))
+table.insert(MAP[7][5].collidableMapObjects, Pushable(3,5, 'boulder'))
+--]]
+
+---[[
+table.insert(MAP[7][5].collidableMapObjects, Pushable(3,5, 'boulder'))
+table.insert(MAP[7][5].collidableMapObjects, Pushable(3,4, 'boulder'))
+table.insert(MAP[7][5].collidableMapObjects, Pushable(3,6, 'boulder'))
+table.insert(MAP[7][5].collidableMapObjects, Pushable(2,5, 'boulder'))
+table.insert(MAP[7][5].collidableMapObjects, Pushable(4,5, 'boulder'))
+--]]
+--[[
+table.insert(MAP[7][5].collidableMapObjects, Pushable(2,3, 'boulder'))
+table.insert(MAP[7][5].collidableMapObjects, Pushable(3,3, 'boulder'))
+table.insert(MAP[7][5].collidableMapObjects, Pushable(3,5, 'boulder'))
+table.insert(MAP[7][5].collidableMapObjects, Pushable(5,3, 'boulder'))
+--]]
+--[[
+table.insert(MAP[7][5].collidableMapObjects, Pushable(2,4, 'boulder'))
+table.insert(MAP[7][5].collidableMapObjects, Pushable(3,4, 'boulder'))
+table.insert(MAP[7][5].collidableMapObjects, Pushable(4,4, 'boulder'))
+table.insert(MAP[7][5].collidableMapObjects, Pushable(5,4, 'boulder'))
+table.insert(MAP[7][5].collidableMapObjects, Pushable(6,4, 'boulder'))
+table.insert(MAP[7][5].collidableMapObjects, Pushable(7,4, 'boulder'))
+--]]
+
+--[[
+table.insert(MAP[7][5].collidableMapObjects, Pushable(3,5, 'boulder'))
+table.insert(MAP[7][5].collidableMapObjects, Pushable(4,5, 'boulder'))
 --]]
 
 
@@ -783,6 +824,11 @@ end
 
 
 --warpFromRow, warpFromCol, warpToRow, warpToCol, warpFromX, warpFromY, warpToX, warpToY)
+--
+
+
+--DUNGEON 1 EXIT
+insertWarpZone(7, 6, 4, 13, 9, 5, 9, 8)
 
 --DARK TEMPLE
 insertWarpZone(7, 1, 1, 12, 3, 6, 3, 8)

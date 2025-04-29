@@ -162,6 +162,12 @@ function Pushable:legalPush(row, col)
   end
 
   for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+    --PUSH BOULDER OVER BROKEN CRATE
+    --[[
+    if v.classType == 'crate' and not v.active then
+      return true
+    end
+    --]]
     if v.tileX == col and v.tileY == row then
       return false
     end
