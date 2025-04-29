@@ -137,9 +137,8 @@ function Scene:beginShifting(shiftX, shiftY)
   if MAP[self.mapRow][self.mapColumn].weather[1] ~= nil then
     if MAP[self.mapRow][self.mapColumn].weather[1] == 'LIGHT_SAND' then
       self.particleSystem = {}
-      table.insert(self.particleSystem, self.snowSystem)
-      --self.particleSystem[1].psystems:setEmissionRate(self.particleSystem[1].initialLightEmissionRate)
-      self.particleSystem[1].psystems:setEmissionRate(10)
+      table.insert(self.particleSystem, self.sandSystem)
+      self.particleSystem[1].psystems:setEmissionRate(self.particleSystem[1].initialLightEmissionRate)
     elseif MAP[self.mapRow][self.mapColumn].weather[1] == 'HEAVY_SAND' then
       self.particleSystem = {}
       table.insert(self.particleSystem, self.sandSystem)

@@ -49,14 +49,20 @@ local columns = 10
 local rows = 8
 cameraX = 0
 --STARTING SCENE gPlayer SPAWN
+--sceneView = Scene(gPlayer, 4, 13)
 --sceneView = Scene(gPlayer, 10, 18)
 --sceneView = Scene(gPlayer, 2, 11)
-sceneView = Scene(gPlayer, 9, 2)
---sceneView = Scene(gPlayer, 7, 1)
+sceneView = Scene(gPlayer, 7, 5)
+gPlayer.tunicEquipped = 'greenTunic'
+gPlayer.elementEquipped = 'flamme'
 --sceneView = Scene(gPlayer, 1, 12)
 --sceneView = Scene(gPlayer, 1, 11)
+--[[
 gPlayer.y = TILE_SIZE * 3
 gPlayer.x = TILE_SIZE * 4
+--]]
+gPlayer.y = TILE_SIZE * 5
+gPlayer.x = TILE_SIZE * 8
 tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 --textures = love.graphics.newImage('graphics/textures.png')
 quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
