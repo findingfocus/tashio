@@ -682,6 +682,50 @@ function PlayState:render()
     love.graphics.print('mRow: ' .. tostring(sceneView.mapRow), 0, 20)
     love.graphics.print('mCol: ' .. tostring(sceneView.mapColumn), 0, 30)
     --]]
+    --love.graphics.print(sceneView.currentMap.column, 0, 0)
+    --
+
+    --TODO
+    --KEY ITEM PUZZLE STATE FOR SCENE 7, 5
+    --SHORTCUT 1
+    if sceneView.currentMap.row == 7 and sceneView.currentMap.column == 5 then
+      for k, v in pairs(MAP[7][5].collidableMapObjects) do
+        if v.type == 'boulder' then
+          if v.identifier == 'keyItem1' then
+            --COL 2, ROW 4 OR 6
+            if (v.x / TILE_SIZE) + 1 == 2 then
+              v.keyItem = true
+              if (v.y / TILE_SIZE) + 1 ~= 5 then
+                v.keyItem = true
+              else
+                v.keyItem = false
+              end
+            end
+          elseif v.identifier == 'keyItem2' then
+            --COL 1, ROW 3 or 4
+            if (v.x / TILE_SIZE) + 1 == 1 then
+              if (v.y / TILE_SIZE) + 1 == 4 or (v.y / TILE_SIZE) + 1 == 3 then
+                v.keyItem = true
+              else
+                v.keyItem = false
+              end
+            end
+          elseif v.identifier == 'keyItem3' then
+            --COL 3, ROW 4 OR 6
+            if (v.x / TILE_SIZE) + 1 == 3 then
+              v.keyItem = true
+              if (v.y / TILE_SIZE) + 1 == 4 or (v.y / TILE_SIZE) + 1 == 6 then
+                v.keyItem = true
+              else
+                v.keyItem = false
+              end
+            end
+
+          end
+        end
+      end
+    end
+
 end
 
 function displayFPS()

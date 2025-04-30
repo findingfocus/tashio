@@ -62,7 +62,35 @@ end
 --WEATHER
 
 table.insert(MAP[7][6].weather, 'LIGHT_SAND')
+table.insert(MAP[8][6].weather, 'LIGHT_SAND')
+table.insert(MAP[9][6].weather, 'LIGHT_SAND')
+table.insert(MAP[10][6].weather, 'LIGHT_SAND')
+
+table.insert(MAP[6][6].weather, 'LIGHT_SAND')
+table.insert(MAP[6][7].weather, 'LIGHT_SAND')
+table.insert(MAP[6][8].weather, 'LIGHT_SAND')
+table.insert(MAP[6][9].weather, 'LIGHT_SAND')
+table.insert(MAP[6][10].weather, 'LIGHT_SAND')
+
 table.insert(MAP[7][7].weather, 'HEAVY_SAND')
+table.insert(MAP[8][7].weather, 'HEAVY_SAND')
+table.insert(MAP[9][7].weather, 'HEAVY_SAND')
+table.insert(MAP[10][7].weather, 'HEAVY_SAND')
+
+table.insert(MAP[7][8].weather, 'HEAVY_SAND')
+table.insert(MAP[8][8].weather, 'HEAVY_SAND')
+table.insert(MAP[9][8].weather, 'HEAVY_SAND')
+table.insert(MAP[10][8].weather, 'HEAVY_SAND')
+
+table.insert(MAP[7][9].weather, 'HEAVY_SAND')
+table.insert(MAP[8][9].weather, 'HEAVY_SAND')
+table.insert(MAP[9][9].weather, 'HEAVY_SAND')
+table.insert(MAP[10][9].weather, 'HEAVY_SAND')
+
+table.insert(MAP[7][10].weather, 'HEAVY_SAND')
+table.insert(MAP[8][10].weather, 'HEAVY_SAND')
+table.insert(MAP[9][10].weather, 'HEAVY_SAND')
+table.insert(MAP[10][10].weather, 'HEAVY_SAND')
 --table.insert(sceneView.particleSystem, sceneView.snowSystem)
 
 --MAGE WALL BARRIERS
@@ -250,11 +278,15 @@ table.insert(MAP[7][5].collidableMapObjects, Pushable(3,5, 'boulder'))
 --]]
 
 ---[[
-table.insert(MAP[7][5].collidableMapObjects, Pushable(3,5, 'boulder'))
-table.insert(MAP[7][5].collidableMapObjects, Pushable(3,4, 'boulder'))
-table.insert(MAP[7][5].collidableMapObjects, Pushable(3,6, 'boulder'))
-table.insert(MAP[7][5].collidableMapObjects, Pushable(2,5, 'boulder'))
-table.insert(MAP[7][5].collidableMapObjects, Pushable(4,5, 'boulder'))
+table.insert(MAP[7][5].collidableMapObjects, Pushable(2,5, 'boulder', nil, 'keyItem1'))
+table.insert(MAP[7][5].collidableMapObjects, Pushable(3,5, 'boulder', nil, 'keyItem3'))
+table.insert(MAP[7][5].collidableMapObjects, Pushable(2,4, 'boulder', nil, 'keyItem2'))
+table.insert(MAP[7][5].collidableMapObjects, Pushable(3,3, 'boulder'))
+table.insert(MAP[7][5].collidableMapObjects, Pushable(4,4, 'boulder'))
+--table.insert(MAP[7][5].collidableMapObjects, Pushable(3,4, 'boulder'))
+--table.insert(MAP[7][5].collidableMapObjects, Pushable(3,5, 'boulder'))
+--table.insert(MAP[7][5].collidableMapObjects, Pushable(3,6, 'boulder'))
+--table.insert(MAP[7][5].collidableMapObjects, Pushable(3,5, 'boulder'))
 --]]
 --[[
 table.insert(MAP[7][5].collidableMapObjects, Pushable(2,3, 'boulder'))
@@ -828,7 +860,7 @@ end
 
 
 --DUNGEON 1 EXIT
-insertWarpZone(7, 6, 4, 13, 9, 5, 9, 8)
+insertWarpZone(7, 6, 4, 13, 9, 4, 9, 8)
 
 --DARK TEMPLE
 insertWarpZone(7, 1, 1, 12, 3, 6, 3, 8)
@@ -997,7 +1029,7 @@ table.insert(MAP[7][2].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 2, 'M
 table.insert(MAP[7][4].dialogueBox, DialogueBox(TILE_SIZE * 5, TILE_SIZE * 5, 'Meditate?', 'idol', nil, 1))
 
 --LIBRARY
-table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 1, TILE_SIZE * 1, 'Flamme is energy from Mount Kasan, it burns brightly. ', 'signpost', nil, 1 ))
+table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 1, TILE_SIZE * 1, 'Flamme is energy from Mount Kazan, it burns brightly. ', 'signpost', nil, 1 ))
 table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 3, TILE_SIZE * 1, 'Aquis contains lifeforce from the Azai Ocean, it flows with great energy. ', 'signpost', nil, 2 ))
 table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 1, 'Ekko is vibrant green and shimmers quite beautifully. ', 'signpost', nil, 3 ))
 table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 8, TILE_SIZE * 1, 'Lox shines as bright as the sun, focusing it\'s energy can be quite powerful. ', 'signpost', nil, 4 ))
