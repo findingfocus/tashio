@@ -1,10 +1,11 @@
 Pushable = Class{}
 
-function Pushable:init(x, y, type, keyItem)
+function Pushable:init(x, y, type, keyItem, identifier)
   self.tileX = x
   self.tileY = y
   self.originalTileX = x
   self.originalTileY = y
+  self.identifier = nil or identifier
   self.x = (x * TILE_SIZE) - TILE_SIZE
   self.y = (y * TILE_SIZE) - TILE_SIZE
   self.originalX = self.x
@@ -205,8 +206,6 @@ function Pushable:update(dt)
   end
   --]]
 
-
-
   if self.pushUpInitiated then
     local tileAbove = (self.tileY * TILE_SIZE) - TILE_SIZE * 2
     local tile = sceneView.currentMap.aboveGroundTiles[self.legalPushCheckRow][self.legalPushCheckColumn].id
@@ -303,4 +302,8 @@ function Pushable:render(adjacentOffsetX, adjacentOffsetY)
     end
   end
   self.x, self.y = self.x - (adjacentOffsetX or 0), self.y - (adjacentOffsetY or 0)
+  --love.graphics.print(tostring(self.keyItem), self.x, self.y)
+  if self.identifier ~= nil then
+    --love.graphics.print(self.identifier, self.x, self.y + 16)
+  end
 end

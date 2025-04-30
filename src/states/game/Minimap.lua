@@ -210,4 +210,5 @@ function Minimap:render()
   --love.graphics.print('row: ' .. tostring(self.row) .. 'col: ' .. tostring(self.column), 5, VIRTUAL_HEIGHT - 15)
 
   love.graphics.print(self.names[self.row][self.column].locationName, 5, VIRTUAL_HEIGHT - 15)
+  love.graphics.print('[' .. tostring(self.row) .. '][' .. tostring(self.column) .. ']', 0, 0)
 end
