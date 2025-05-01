@@ -3,6 +3,7 @@ PlayerMeditateState = Class{__includes = BaseState}
 function PlayerMeditateState:init(player)
   self.player = player
   self.image = love.graphics.newImage('graphics/tashioMeditate.png')
+  self.greenTunic = love.graphics.newImage('graphics/tashioMeditateGreen.png')
 end
 
 function PlayerMeditateState:update(dt)
@@ -13,4 +14,7 @@ end
 
 function PlayerMeditateState:render()
   love.graphics.draw(self.image, self.player.x, self.player.y)
+  if gPlayer.tunicEquipped == 'greenTunic' then
+    love.graphics.draw(self.greenTunic, self.player.x, self.player.y)
+  end
 end

@@ -23,6 +23,7 @@ function Scene:init(player, mapRow, mapColumn)
   self.rainSystem = RainSystem()
   self.lavaSystem = LavaSystem()
   self.sandSystem = SandSystem()
+  self.dialogueBoxActive = false
   self.particleSystem = {}
 
   self.cameraX = 0
@@ -643,6 +644,8 @@ function Scene:render()
   --]]
   --DIALOGUE RENDER
   if self.activeDialogueID ~= nil then
+    --DIALOGUE JUST CLOSED
+    self.dialogueBoxActive = true
     --MAP[10][19].dialogueBox[1]:render()
     MAP[self.mapRow][self.mapColumn].dialogueBox[self.activeDialogueID]:render()
   end

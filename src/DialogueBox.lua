@@ -728,5 +728,4 @@ function DialogueBox:render()
   love.graphics.print('printedPCC: ' .. tostring(self.currentPagePrintedCharCount), 0, 30)
   --love.graphics.print('totalLine: ' .. tostring(self.totalLineCount), 0, 30)
   --]]
-  --love.graphics.print('Medoption: ' .. tostring(self.aButtonCount, 0, 0))
 end
