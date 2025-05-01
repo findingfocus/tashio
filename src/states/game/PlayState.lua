@@ -199,70 +199,9 @@ function PlayState:update(dt)
     creditsY = creditsY - CREDITS_SPEED
   end
 
-  for k, v in pairs(touches) do
-    if buttons[1]:collides(touches[k]) and touches[k].wasTouched then
-      --DIALOGUE DETECTION
-      for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do
-        if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]) then
-          MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]:flushText()
-          --[[
-          MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].line1Result = ''
-          MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].line2Result = ''
-          MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].line3Result = ''
-          MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].lineCount = 1
-          MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].textIndex = 1
-          --]]
-          --IF COLLIDES WITH SIGNPOST
-          --table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k])
-          --PAUSED = true
-        end
-      end
-      for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
-        if v.classType == 'treasureChest' then
-          if not v.opened then
-            if gPlayer:dialogueCollides(v) then
-              v:openChest()
-              --self.dialogueID = k
-              --treasureChestOption = true
-              --v.dialogueBox[1]:flushText()
-              --[[
-              v.dialogueBox[1].line1Result = ''
-              v.dialogueBox[1].line2Result = ''
-              v.dialogueBox[1].line3Result = ''
-              v.dialogueBox[1].lineCount = 1
-              v.dialogueBox[1].textIndex = 1
-              --]]
-              --table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided, MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects[k].dialogueBox[1])
-              --PAUSED = true
-            end
-          end
-        end
-      end
-    end
-
-    if buttons[2]:collides(touches[k]) and gItemInventory.itemSlot[1] ~= nil then
-      if gItemInventory.itemSlot[1].type == 'lute' then
-        if not luteState then
-          gPlayer.direction = 'down'
-          gPlayer:changeAnimation('idle-down')
-          luteState = true
-        end
-      end
-    end
-
-    if buttons[3]:collides(touches[k]) and touches[k].wasTouched then
-      if luteState then
-        luteState = false
-      else
-        toggleHelp = toggleHelp == false and true or false
-      end
-    end
-  end
-
   if luteState then
     Lute:update(dt)
   end
-
 
   cameraX = cameraX + 1
 

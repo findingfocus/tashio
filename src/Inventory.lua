@@ -57,6 +57,7 @@ function Inventory:init(option)
     self.selectedRow = 2
     self.selectedCol = 1
     self.keyItemCursor = Cursor(self.selectedRow, self.selectedCol, 'keyItem')
+    self.tome1Equipped = false
 
     for i = 1, self.rowAmount do
       self.grid[i] =  {}
@@ -242,6 +243,12 @@ function Inventory:update(dt)
             end
           end
         end
+      elseif self.selectedRow == 3 then --TOME ROW
+        if self.selectedCol == 1 then
+          if gPlayer.tome1Unlocked then
+            self.tome1Equipped = not self.tome1Equipped
+          end
+        end
       end
     end
 
@@ -261,6 +268,12 @@ function Inventory:render(cursorRender)
   if self.itemSlot[1] ~= nil then
     self.itemSlot[1]:render()
   end
+
+  --TOME
+  if gPlayer.tome1Unlocked then
+    love.graphics.draw(tome1, KEYITEM_XOFFSET + 1, KEYITEM_YOFFSET + 32)
+  end
+
 
   if cursorRender == 'keyItem' then
     if self.option == 'keyItem' then
@@ -289,4 +302,9 @@ function Inventory:render(cursorRender)
     love.graphics.setColor(WHITE)
     love.graphics.draw(greenTunicSolo, KEYITEM_XOFFSET, KEYITEM_YOFFSET + 17)
   end
+
+  if self.tome1Equipped then
+    love.graphics.draw(tome1, VIRTUAL_WIDTH - 12 - TILE_SIZE * 3 + 5, 5)
+  end
+
 end

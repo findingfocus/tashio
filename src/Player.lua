@@ -73,6 +73,7 @@ function Player:init(def)
   self.aquisUnlocked = false
   self.ekkoUnlocked = false
   self.loxUnlocked = false
+  self.tome1Unlocked = false
   self.greenTunicUnlocked = true
   self.redTunicUnlocked = false
   self.yellowTunicUnlocked = false

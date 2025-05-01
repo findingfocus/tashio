@@ -129,7 +129,7 @@ function Scene:beginShifting(shiftX, shiftY)
   --RESET TREASURE CHEST TODO TURN OFF FOR DEMO
   for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
     if v.classType == 'treasureChest' then
-      v:reset()
+      --v:reset()
     end
   end
 

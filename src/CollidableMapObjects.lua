@@ -7,6 +7,7 @@ function CollidableMapObjects:init(row, column, width, height, xOffset, yOffset)
   self.height = height or TILE_SIZE
   self.xOffset = xOffset or nil
   self.yOffset = yOffset or nil
+  self.active = true
   if self.xOffset then
     self.x = self.x + self.xOffset
   end

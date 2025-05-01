@@ -10,6 +10,7 @@ function TreasureChest:init(tileX, tileY, contents, dialogueBoxID)
   self.height = TILE_SIZE
   self.opened = false
   self.image = treasureChestClosed
+  self.active = true
   --self.dialogueBox = dialogueBox or nil
   self.dialogueBoxID = dialogueBoxID
   self.contents = contents
@@ -17,6 +18,8 @@ function TreasureChest:init(tileX, tileY, contents, dialogueBoxID)
     self.treasureImage = love.graphics.newImage('graphics/coin.png')
   elseif self.contents == 'lute' then
     self.treasureImage = love.graphics.newImage('graphics/lute.png')
+  elseif self.contents == 'tome1' then
+    self.treasureImage = love.graphics.newImage('graphics/tome1.png')
   end
   self.treasureX = 0
   self.treasureY = 0
@@ -26,12 +29,19 @@ function TreasureChest:openChest()
   self.showOffItem = true
   self.opened = true
   self.image = treasureChestOpen
+  if self.contents == 'tome1' then
+    gPlayer.tome1Unlocked = true
+  end
+
   gPlayer:changeAnimation('showOff')
   self.treasureX = gPlayer.x + 4
   if self.contents == 'coin' then
     self.treasureY = gPlayer.y - 10
   elseif self.contents == 'lute' then
     self.treasureY = gPlayer.y - 14
+  elseif self.contents == 'tome1' then
+    self.treasureY = gPlayer.y - 14
+    self.treasureX = gPlayer.x + 3
   end
 
   sceneView.activeDialogueID = self.dialogueBoxID
