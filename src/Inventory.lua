@@ -58,6 +58,7 @@ function Inventory:init(option)
     self.selectedCol = 1
     self.keyItemCursor = Cursor(self.selectedRow, self.selectedCol, 'keyItem')
     self.tome1Equipped = false
+    self.tomeEquipped = ''
 
     for i = 1, self.rowAmount do
       self.grid[i] =  {}
@@ -247,6 +248,11 @@ function Inventory:update(dt)
         if self.selectedCol == 1 then
           if gPlayer.tome1Unlocked then
             self.tome1Equipped = not self.tome1Equipped
+            if self.tome1Equipped then
+              self.tomeEquipped = 'tome1'
+            else
+              self.tomeEquipped = ''
+            end
           end
         end
       end
@@ -306,5 +312,4 @@ function Inventory:render(cursorRender)
   if self.tome1Equipped then
     love.graphics.draw(tome1, VIRTUAL_WIDTH - 12 - TILE_SIZE * 3 + 5, 5)
   end
-
 end

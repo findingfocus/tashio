@@ -57,12 +57,22 @@ local bpm = 30
 local seconds_per_beat = 60 / bpm 
 local nextNoteTime = 0
 
+function Lute:init()
+  self.tomeEquipped = ''
+end
+
 function Lute:reset()
   activeNotes = {}
   songTimer = 0
   nextNoteTime = 0
+  --TOME EQUIPPED
+
+  if gKeyItemInventory.tomeEquipped ~= 'tome1' then
+    song1 = {}
+  else
+    song1 = {{Note(4,0,2)}, {Note(4,0,2)}}
+  end
   --TODO DEEP COPY
-  song1 = {{Note(4,0,2)}, {Note(4,0,2)}}
   correctCount = 0
   incorrectCount = 0
 end

@@ -43,16 +43,28 @@ function PlayerIdleState:render()
   local anim = self.player.currentAnimation
 
   love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
-  self.player.x, self.player.y)
+  math.floor(self.player.x), math.floor(self.player.y))
 
-  if self.player.tunicEquipped == 'blueTunic' then
-    love.graphics.draw(gTextures['character-blueTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-  elseif self.player.tunicEquipped == 'redTunic' then
-    love.graphics.draw(gTextures['character-redTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-  elseif self.player.tunicEquipped == 'greenTunic' then
-    love.graphics.draw(gTextures['character-greenTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-  elseif self.player.tunicEquipped == 'yellowTunic' then
-    love.graphics.draw(gTextures['character-yellowTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+  if not self.player.falling then
+    if self.player.tunicEquipped == 'blueTunic' then
+      love.graphics.draw(gTextures['character-blueTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+    elseif self.player.tunicEquipped == 'redTunic' then
+      love.graphics.draw(gTextures['character-redTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+    elseif self.player.tunicEquipped == 'greenTunic' then
+      love.graphics.draw(gTextures['character-greenTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+    elseif self.player.tunicEquipped == 'yellowTunic' then
+      love.graphics.draw(gTextures['character-yellowTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+    end
+  else --IF FALLING
+    if self.player.tunicEquipped == 'blueTunic' then
+      love.graphics.draw(gTextures['character-fall-blueTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+    elseif self.player.tunicEquipped == 'redTunic' then
+      love.graphics.draw(gTextures['character-fall-redTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+    elseif self.player.tunicEquipped == 'greenTunic' then
+      love.graphics.draw(gTextures['character-fall-greenTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+    elseif self.player.tunicEquipped == 'yellowTunic' then
+      love.graphics.draw(gTextures['character-fall-yellowTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+    end
   end
 
   if self.player.elementEquipped == 'flamme' then

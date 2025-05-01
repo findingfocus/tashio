@@ -163,11 +163,13 @@ function PlayState:update(dt)
   if INPUT:pressed('actionB') and gItemInventory.itemSlot[1] ~= nil then
     if gItemInventory.itemSlot[1].type == 'lute' then
       if not luteState then
-        gPlayer.direction = 'down'
-        gPlayer:changeAnimation('idle-down')
-        luteState = true
-        Lute:reset()
-        bassNotes1:reset()
+        if not sceneView.dialogueBoxActive then
+          gPlayer.direction = 'down'
+          gPlayer:changeAnimation('idle-down')
+          luteState = true
+          Lute:reset()
+          bassNotes1:reset()
+        end
       end
     end
   end
@@ -340,6 +342,10 @@ function PlayState:update(dt)
     WATER.frame = CLEAN_WATER_ANIM_STARTER
     WATER.endingQuad = CLEAN_WATER_ANIM_ENDER
     --]]
+  end
+
+  if sceneView.dialogueBoxActive then
+    sceneView.dialogueBoxActive = false
   end
 end
 
@@ -665,6 +671,13 @@ function PlayState:render()
       end
     end
 
+    love.graphics.setColor(WHITE)
+
+    --DEBUG
+    --[[
+    love.graphics.print('tome: ' .. gKeyItemInventory.tomeEquipped, 0, 0)
+    love.graphics.print('justClosed: ' .. tostring(sceneView.dialogueBoxJustClosed), 0, 10)
+    --]]
 end
 
 function displayFPS()
