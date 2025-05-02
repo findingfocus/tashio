@@ -44,12 +44,13 @@ sounds['1-G2']
 --song1 = {{Note(4,3,.5), Note(2,3,.25), Note(3,3,.25)}, {Note(3,4,.25)}, {Note(2,2,1)}, {Note(3,4,1), Note(4,4,1)}, {Note(2,2,1)}}
 --song1 = {{Note(3,1,1)}, {Note(2,0,0.5)}, {Note(2,2,1)}, {Note(3,0,2)}, {Note(3,2,0.5)}, {Note(2,2,1)}, {Note(2,2,2)}, {Note(2,1,0.5)}, {Note(2,2,2)}}
 --song1 = {{Note(1,1,2)}, {Note(2,2,2)}, {Note(3,1,2)}, {Note(4,1,2)}}
-song1 = {{Note(4,0,2)}, {Note(4,0,2)}}
+song1 = {{Note(4,0,2)}}
 originalSong = {{Note(4,0,2)}, {Note(4,0,2)}}
 for i, v in pairs(song1) do
   originalSong[i] = {v[1]}
 end
 
+--ARE THESE TUNED HALF STEP DOWN IN NEWAUDIOSOURCE?
 bassNotes1 = BassNotes({'5-D3', '4-C3', '3-Bb2', '2-A2'})
 local activeNotes = {}
 local songTimer = 0
@@ -70,7 +71,14 @@ function Lute:reset()
   if gKeyItemInventory.tomeEquipped ~= 'tome1' then
     song1 = {}
   else
-    song1 = {{Note(4,0,2)}, {Note(4,0,2)}}
+    --[[
+    song1 = {{Note(4,0,.5, 'first')}, {Note(2,0,1)}, {Note(2, 2, 1)}, {Note(3, 2, 1)}, {Note(2, 2, .5)}, {Note(2,2,1)}, {Note(2,1,1)}, {Note(2,2,1)}, {Note(2,0,1)},--[[END OF MEASURE 4]]
+   --         {Note(4,0,.5, 'first')}, {Note(2,0,.5)}, {Note(4, 1, .5)}, {Note(2, 0, .5)}, {Note(3, 2, 1)}
+  --}
+  --]]
+    song1 = {{Note(4,0,.5, 'first')}, {Note(2,0,.5)}, {Note(4, 1, 1)}, {Note(3, 2, 1)}, {Note(4,1,2)}, {Note(3,1,.5)}, {Note(4,0,1)}, {Note(3,1,.5)}, {Note(3,0,1)},
+    {Note(4,0,.5, 'first')}, {Note(2,0,.5)}, {Note(2,0,1.5)}, {Note(2,2,2)}, {Note(3,1,.5)}, {Note(3,1,1.5)}, {Note(3,2,2)}, {Note(2,0,.5)}, {Note(2,0,1.5)}, {Note(2,2,2)}, {Note(1,2,.5)}, {Note(1,1,.5)}, {Note(2,2,2)}
+  }
   end
   --TODO DEEP COPY
   correctCount = 0
@@ -80,28 +88,46 @@ end
 function validNoteChecker(string)
   if #activeNotes > 0 then
     for k, v in ipairs(activeNotes[1]) do
+      if v.first == 'first' then
+        break
+      end
+
       --CORRECT NOTE
-      if activeNotes[1][k].x < 12 and activeNotes[1][k].string == string and activeNotes[1][k].fret == fretsHeld[1] then
+      if activeNotes[1][k].x < 16 and activeNotes[1][k].string == string and activeNotes[1][k].fret == fretsHeld[1] then
         if not activeNotes[1][k].invalidTiming then
           if not activeNotes[1][k].checked then
             correctCount = correctCount + 1
             activeNotes[1][k].checked = true
+            activeNotes[1][k].validTiming = true
+          break
           end
-          activeNotes[1][k].validTiming = true
         end
-        --OPEN STRING CHECK
-      elseif activeNotes[1][k].x < 12 and fretsHeld[1] == nil then
-        if not activeNotes[1][k].checked then
-          correctCount = correctCount + 1
-          activeNotes[1][k].checked = true
-        end
-        activeNotes[1][k].validTiming = true
-        --MISSED NOTE
-      elseif activeNotes[1][k].string == string then
+      end
+
+      --WRONG STRING
+      if activeNotes[1][k].x < 16 and activeNotes[1][k].string ~= string then
         if not activeNotes[1][k].checked then
           incorrectCount = incorrectCount + 1
           activeNotes[1][k].checked = true
         end
+        activeNotes[1][k].invalidTiming = true
+        break
+      end
+
+      --OPEN STRING CHECK
+      if activeNotes[1][k].x < 16 and fretsHeld[1] == nil then
+        if not activeNotes[1][k].checked then
+          correctCount = correctCount + 1
+          activeNotes[1][k].checked = true
+          activeNotes[1][k].validTiming = true
+          break
+        end
+      end
+
+      --MISSED NOTE
+      if not activeNotes[1][k].checked then
+        incorrectCount = incorrectCount + 1
+        activeNotes[1][k].checked = true
         activeNotes[1][k].invalidTiming = true
       end
     end
@@ -109,7 +135,7 @@ function validNoteChecker(string)
 end
 
 function Lute:update(dt)
-  --bassNotes1:update(dt)
+  bassNotes1:update(dt)
   for k, v in pairs(touches) do
     --STRING 1 RIGHT
     if dpad[5]:collides(touches[k]) and touches[k].wasTouched then
@@ -293,13 +319,23 @@ function Lute:update(dt)
   end
 
   --DEINSTANTIATE NOTES WHEN OFFSCREEN
+  --REMOVE NOTES
   if #activeNotes > 0 then
     for key, value in ipairs(activeNotes) do --EVERY CHORD IN THE SONG
       for index, note in ipairs(value) do --EVERY NOTE IN THE CHORD
         note:update(dt)
       end
-      if activeNotes[1][1].x < - 12 then
-        table.remove(activeNotes, 1)
+      if activeNotes[1][1].first == 'first' then
+        if activeNotes[1][1].x < 0 then
+          table.remove(activeNotes, 1)
+        end
+      else --ALL REAL NOTES
+        if activeNotes[1][1].x < -8 then
+          if not activeNotes[1][1].checked then
+            incorrectCount = incorrectCount + 1
+          end
+          table.remove(activeNotes, 1)
+        end
       end
     end
   end
@@ -484,7 +520,9 @@ function Lute:render()
 
   for k, v in ipairs(activeNotes) do
     for index, note in ipairs(v) do
-      note:render()
+      if note.first ~= 'first' then
+        note:render()
+      end
     end
   end
 end
