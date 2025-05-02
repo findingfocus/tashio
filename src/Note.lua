@@ -1,6 +1,6 @@
 Note = Class{}
 
-function Note:init(string, fret, timer)
+function Note:init(string, fret, timer, first)
   self.x = SCREEN_WIDTH_LIMIT
   self.string = string
   self.fret = fret
@@ -9,6 +9,7 @@ function Note:init(string, fret, timer)
   self.validTiming = false
   self.invalidTiming = false
   self.checked = false
+  self.first = first or nil
 end
 
 function Note:update(dt)
