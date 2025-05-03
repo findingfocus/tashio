@@ -111,7 +111,7 @@ function validNoteChecker(string)
       end
 
       --OPEN STRING CHECK
-      if activeNotes[1][k].x < 16 and fretsHeld[1] == nil then
+      if activeNotes[1][k].x < 16 and fretsHeld[1] == nil and activeNotes[1][k].fret == 0 then
         if not activeNotes[1][k].checked then
           correctCount = correctCount + 1
           activeNotes[1][k].checked = true
