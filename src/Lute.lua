@@ -71,13 +71,9 @@ function Lute:reset()
   if gKeyItemInventory.tomeEquipped ~= 'tome1' then
     song1 = {}
   else
-    --[[
-    song1 = {{Note(4,0,.5, 'first')}, {Note(2,0,1)}, {Note(2, 2, 1)}, {Note(3, 2, 1)}, {Note(2, 2, .5)}, {Note(2,2,1)}, {Note(2,1,1)}, {Note(2,2,1)}, {Note(2,0,1)},--[[END OF MEASURE 4]]
-   --         {Note(4,0,.5, 'first')}, {Note(2,0,.5)}, {Note(4, 1, .5)}, {Note(2, 0, .5)}, {Note(3, 2, 1)}
-  --}
-  --]]
-    song1 = {{Note(4,0,.5, 'first')}, {Note(2,0,.5)}, {Note(4, 1, 1)}, {Note(3, 2, 1)}, {Note(4,1,2)}, {Note(3,1,.5)}, {Note(4,0,1)}, {Note(3,1,.5)}, {Note(3,0,1)},
-    {Note(4,0,.5, 'first')}, {Note(2,0,.5)}, {Note(2,0,1.5)}, {Note(2,2,2)}, {Note(3,1,.5)}, {Note(3,1,1.5)}, {Note(3,2,2)}, {Note(2,0,.5)}, {Note(2,0,1.5)}, {Note(2,2,2)}, {Note(1,2,.5)}, {Note(1,1,.5)}, {Note(2,2,2)}
+    song1 = {{Note(4,0,.5, 'first')}, {Note(2,0,1)}, {Note(2, 2, 1)}, {Note(3, 2, 1)}, {Note(2, 2, .5)}, {Note(2,2,1)}, {Note(2,1,1)}, {Note(2,2,1)}, {Note(2,0,1.5)},
+    {Note(2,0,.5)}, {Note(4, 1, 1)}, {Note(3, 2, 1)}, {Note(4,1,2)}, {Note(3,1,.5)}, {Note(4,0,1)}, {Note(3,1,.5)}, {Note(3,0,1.5)},
+    {Note(2,0,.5)}, {Note(2,0,1.5)}, {Note(2,2,2)}, {Note(3,1,.5)}, {Note(3,1,1.5)}, {Note(3,2,2)}, {Note(2,0,.5)}, {Note(2,0,1.5)}, {Note(2,2,2)}, {Note(1,2,.5)}, {Note(1,1,1)}, {Note(2,2,2)}
   }
   end
   --TODO DEEP COPY
@@ -330,7 +326,7 @@ function Lute:update(dt)
           table.remove(activeNotes, 1)
         end
       else --ALL REAL NOTES
-        if activeNotes[1][1].x < -8 then
+        if activeNotes[1][1].x < -6 then
           if not activeNotes[1][1].checked then
             incorrectCount = incorrectCount + 1
           end
