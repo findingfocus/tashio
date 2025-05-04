@@ -13,6 +13,11 @@ local fretsHeld = {}
 local song1 = {}
 local correctCount = 0
 local incorrectCount = 0
+local songFinishedTimer = 0
+local missedNoteCount = 0
+local MISSING_NOTES_BG_X = VIRTUAL_WIDTH / 2 - 32
+local MISSING_NOTES_BG_Y = VIRTUAL_HEIGHT / 2 - 8
+local MISSING_NOTES_XOFFSET = 13
 
 --[[
 Music = {}
@@ -66,6 +71,8 @@ function Lute:reset()
   activeNotes = {}
   songTimer = 0
   nextNoteTime = 0
+  songFinishedTimer = 0
+  missedNoteCount = 0
   --TOME EQUIPPED
 
   if gKeyItemInventory.tomeEquipped ~= 'tome1' then
@@ -131,7 +138,19 @@ function validNoteChecker(string)
 end
 
 function Lute:update(dt)
-  bassNotes1:update(dt)
+
+  if correctCount + incorrectCount >= 28 then
+    songFinishedTimer = songFinishedTimer + dt
+    if songFinishedTimer > 1 then
+      luteState = false
+    end
+  end
+
+
+  if gKeyItemInventory.tomeEquipped == 'tome1' then
+    bassNotes1:update(dt)
+  end
+
   for k, v in pairs(touches) do
     --STRING 1 RIGHT
     if dpad[5]:collides(touches[k]) and touches[k].wasTouched then
@@ -511,8 +530,11 @@ function Lute:render()
   love.graphics.rectangle('line', 1, LUTE_STRING_YOFFSET, 11, 47)
   love.graphics.setColor(WHITE)
   --love.graphics.print('fretsHeld: ' .. Inspect(fretsHeld), 0, 100)
-  love.graphics.print('correct: ' .. tostring(correctCount), 5, VIRTUAL_HEIGHT - 70)
-  love.graphics.print('incorrect: ' .. tostring(incorrectCount), 5, VIRTUAL_HEIGHT - 60)
+  --[[
+  love.graphics.print('correct: ' .. tostring(correctCount), 5, VIRTUAL_HEIGHT - 50)
+  love.graphics.print('incorrect: ' .. tostring(incorrectCount), 5, VIRTUAL_HEIGHT - 30)
+  love.graphics.print('finishedTimer: ' .. tostring(songFinishedTimer), 5, VIRTUAL_HEIGHT - 40)
+  --]]
 
   for k, v in ipairs(activeNotes) do
     for index, note in ipairs(v) do
@@ -520,5 +542,23 @@ function Lute:render()
         note:render()
       end
     end
+  end
+
+  love.graphics.setColor(WHITE)
+  love.graphics.draw(missingNotesBG, MISSING_NOTES_BG_X, MISSING_NOTES_BG_Y)
+
+  if incorrectCount >= 5 then
+    love.graphics.setColor(RED)
+  else
+    love.graphics.setColor(WHITE)
+  end
+
+  if songFinishedTimer > 0 then
+    if incorrectCount < 5 then
+      love.graphics.setColor(GREEN)
+    end
+  end
+  for i = 1, math.min(incorrectCount, 5) do
+    love.graphics.draw(wrongNoteX, MISSING_NOTES_BG_X + 1 + MISSING_NOTES_XOFFSET * (i - 1), MISSING_NOTES_BG_Y + 1)
   end
 end
