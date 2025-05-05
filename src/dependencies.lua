@@ -172,6 +172,7 @@ pauseMockup = love.graphics.newImage('graphics/pauseMockup2.png')
 tashioTester = love.graphics.newImage('graphics/tashioTester.png')
 titleScreenTemp = love.graphics.newImage('graphics/titleScreenTemp.png')
 greenTunicSolo = love.graphics.newImage('graphics/greenTunicSolo.png')
+showOffGreenTunic = love.graphics.newImage('graphics/showOff-greenTunic.png')
 
 gTextures = {
   ['character-walk'] = love.graphics.newImage('graphics/playerAtlas.png'),
