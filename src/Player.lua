@@ -13,6 +13,7 @@ function Player:init(def)
   self.heartTimer = heartSpeed
   self.decrement = true
   self.dead = false
+  self.showOff = false
   self.warpObject = nil
   self.checkPointPositions = {x = 0, y = 0}
   self.falling = false

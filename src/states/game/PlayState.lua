@@ -53,6 +53,7 @@ cameraX = 0
 --sceneView = Scene(gPlayer, 10, 18)
 --sceneView = Scene(gPlayer, 2, 11)
 sceneView = Scene(gPlayer, 7, 5)
+--sceneView = Scene(gPlayer, 4, 11)
 gPlayer.tunicEquipped = 'greenTunic'
 gPlayer.elementEquipped = 'flamme'
 --sceneView = Scene(gPlayer, 1, 12)

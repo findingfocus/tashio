@@ -1105,6 +1105,10 @@ table.insert(MAP[10][18].dialogueBox, DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'It\
 --TOME 1 TREASURE CHEST
 table.insert(MAP[7][5].collidableMapObjects, TreasureChest(6, 4, 'tome1', 1))
 table.insert(MAP[7][5].dialogueBox, DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'You found an ancient tome! It is engraved with elegant music from times of old.  It also bears a message.  \"The very first song to ever float, a sight fit for the eagles that roam free.\" ',  nil, 1))
+
+--GREEN TUNIC CHEST
+table.insert(MAP[4][11].collidableMapObjects, TreasureChest(8, 4, 'greenTunic', 1))
+table.insert(MAP[4][11].dialogueBox, DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'You found the tunic of strength!  Heavy objects now feel light when you push them. ',  nil, 1))
 --[[
 table.insert(MAP[10][18].collidableMapObjects, CollidableMapObjects(10, 18, TILE_SIZE, 26, TILE_SIZE, 4))
 table.insert(MAP[10][18].collidableMapObjects, CollidableMapObjects(10, 18, TILE_SIZE, TILE_SIZE * 3 - 6, TILE_SIZE, TILE_SIZE))

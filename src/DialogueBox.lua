@@ -403,6 +403,7 @@ function DialogueBox:update(dt)
   if INPUT:pressed('actionB') then
     self.activated = false
     self:clearAButtonCount()
+    gPlayer.showOff = false
     treasureChestOption = false
     for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
       if v.classType == 'treasureChest' then
@@ -528,6 +529,7 @@ function DialogueBox:update(dt)
             self.finishedPrinting = true
             self.activated = false
             self:clearAButtonCount()
+            gPlayer.showOff = false
             treasureChestOption = false
             for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
               if v.classType == 'treasureChest' then
