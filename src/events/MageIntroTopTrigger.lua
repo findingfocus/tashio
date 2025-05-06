@@ -22,13 +22,13 @@ function MageIntroTopTrigger:update(dt)
   if gPlayer.y < TILE_SIZE - 8 and (gPlayer.x > TILE_SIZE * 4 and gPlayer.x < TILE_SIZE * 6) then
     self.option = 1
     gPlayer:changeAnimation('walk-down')
-    table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(TILE_SIZE * 4, 0, TILE_SIZE, TILE_SIZE))
-    table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(TILE_SIZE * 5, 0, TILE_SIZE, TILE_SIZE))
+    table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(1, 5, TILE_SIZE, TILE_SIZE))
+    table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(1, 6, TILE_SIZE, TILE_SIZE))
     self.step = 1
-  elseif gPlayer.y > TILE_SIZE * 7 then
+  elseif gPlayer.y > TILE_SIZE * 6 + 8 then
     self.option = 2
-    table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(TILE_SIZE * 4, 0, TILE_SIZE, TILE_SIZE))
-    table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(TILE_SIZE * 5, 0, TILE_SIZE, TILE_SIZE))
+    table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(1, 5, TILE_SIZE, TILE_SIZE))
+    table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(1, 6, TILE_SIZE, TILE_SIZE))
     gPlayer:changeAnimation('walk-up')
     self.step = 1
   end
@@ -153,6 +153,7 @@ function MageIntroTopTrigger:update(dt)
   elseif self.step == 9 then
     --CHANGE TO PLAY STATE
     gPlayer:changeState('player-walk')
+    gStateMachine:change('playState')
   end
 end
 
@@ -161,10 +162,6 @@ function MageIntroTopTrigger:render()
   sceneView:render()
   love.graphics.pop()
   love.graphics.setFont(classicFont)
-
-  if self.step == 9 then
-    gStateMachine:change('playState')
-  end
 
   local anim = gPlayer.currentAnimation
   --HUD RENDER
@@ -207,4 +204,6 @@ function MageIntroTopTrigger:render()
   love.graphics.setColor(YELLOW)
   love.graphics.circle('fill', VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2, 64, 3)
   --]]
+  love.graphics.setColor(WHITE)
+  love.graphics.print(self.stateName, 0, 0)
 end
