@@ -531,6 +531,14 @@ function Scene:update(dt)
     end
     transitionFadeAlpha = math.max(transitionFadeAlpha - FADE_TO_BLACK_SPEED * dt, 0)
   end
+
+  if self.nextMap then
+    if MAP[self.nextMap.row][self.nextMap.column].psystems[1] ~= nil then
+      for k, v in pairs(MAP[self.nextMap.row][self.nextMap.column].psystems) do
+        v:update(dt)
+      end
+    end
+  end
 end
 
 function Scene:render()

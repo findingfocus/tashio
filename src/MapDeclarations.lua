@@ -94,9 +94,12 @@ table.insert(MAP[10][10].weather, 'HEAVY_SAND')
 --table.insert(sceneView.particleSystem, sceneView.snowSystem)
 
 --MAGE WALL BARRIERS
---[[
+--TOGGLE FOR DEPLOYMENT
+---[[
 table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(1, 5, TILE_SIZE, TILE_SIZE))
 table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(1, 6, TILE_SIZE, TILE_SIZE))
+table.insert(MAP[10][19].psystems, MageMagicWall())
+MAP[10][19].psystems[1].active = true
 --]]
 --
 --table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(5, 1, TILE_SIZE, TILE_SIZE))
@@ -1042,7 +1045,7 @@ table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 3, TILE_SIZE * 3, 
 table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 3, 'To use an Element, you need to equip it in your A Slot.  In order to successfully cast magic, you need to balance your focus using the A Button. ', 'signpost', nil, 7 ))
 table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 8, TILE_SIZE * 3, 'Once the lute is equipped Press B button to start playing music. The Directional Buttons play different strings, and the A/B Buttons play different frets.  The Start Button will exit music mode. ', 'signpost', nil, 8 ))
 
-table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 5, 'Meditation idols are used to save your game, as well as recharge your elements. ', 'signpost', nil, 9 ))
+table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 5, 'Zazen idols are used to save your game, as well as recharge your elements. ', 'signpost', nil, 9 ))
 table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 8, TILE_SIZE * 5, 'Once the lute is equipped, select the tome you want to play. Press B button to start playing music and Start Button to exit music mode. ', 'signpost', nil, 10 ))
 
 table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 2, 0, 'Magic is cast using an Element\'s vibrancy.  Vibrancy is the energy stored inside an Element and it depletes with use. If a mage rests at an idol, they can replenish their Element\'s vibrancy. ', 'signpost', nil, 11 ))

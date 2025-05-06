@@ -144,8 +144,11 @@ function MageIntroTopTrigger:update(dt)
       [mage] = {y = -TILE_SIZE},
     }):finish()
     if mage.y == -TILE_SIZE then
+      --TRIGGER MAGE WALL
       Timer.clear()
-      table.insert(MAP[10][19].psystems, MageMagicWall())
+      --table.insert(MAP[10][19].psystems, MageMagicWall())
+      MAP[10][19].psystems[1]:activate()
+      --MAP[10][19].psystems[1].active = true
       self.step = 9
       gPlayer:changeAnimation('idle-up')
       gPlayer.direction = 'up'
@@ -195,15 +198,7 @@ function MageIntroTopTrigger:render()
     love.graphics.draw(flamme, self.treasureX, self.treasureY)
   end
 
-
   if sceneView.activeDialogueID ~= nil then
     MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[sceneView.activeDialogueID]:render()
   end
-
-  --[[
-  love.graphics.setColor(YELLOW)
-  love.graphics.circle('fill', VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2, 64, 3)
-  --]]
-  love.graphics.setColor(WHITE)
-  love.graphics.print(self.stateName, 0, 0)
 end
