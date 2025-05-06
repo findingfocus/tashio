@@ -17,12 +17,28 @@ function PlayerCinematicState:render()
 
   --PLAYER TUNIC
   if self.player.tunicEquipped == 'blueTunic' then
-    love.graphics.draw(gTextures['character-fall-blueTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+    love.graphics.draw(gTextures['character-blueTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
   elseif self.player.tunicEquipped == 'redTunic' then
-    love.graphics.draw(gTextures['character-fall-redTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+    love.graphics.draw(gTextures['character-redTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
   elseif self.player.tunicEquipped == 'greenTunic' then
-    love.graphics.draw(gTextures['character-fall-greenTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+    love.graphics.draw(gTextures['character-greenTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
   elseif self.player.tunicEquipped == 'yellowTunic' then
-    love.graphics.draw(gTextures['character-fall-yellowTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+    love.graphics.draw(gTextures['character-yellowTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+  end
+
+  if gItemInventory.itemSlot[1] ~= nil then
+    if gItemInventory.itemSlot[1].type == 'lute' and not self.player.falling then
+      if not gPlayer.pushing then
+        love.graphics.setColor(WHITE)
+        love.graphics.draw(gTextures['lute-equip'], gFrames['lute-equip'][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+      end
+    end
+  end
+
+  if self.player.elementEquipped == 'flamme' then
+    if not gPlayer.pushing then
+      love.graphics.setColor(gKeyItemInventory.elementColor)
+      love.graphics.draw(gTextures['character-element'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+    end
   end
 end
