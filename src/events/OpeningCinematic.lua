@@ -189,7 +189,7 @@ function OpeningCinematic:update(dt)
  elseif self.step == 7 then
     if sceneView.cameraX > VIRTUAL_WIDTH - 5 then
       Event.dispatch('turnOffTutorialText', dt)
-      MAP[10][19].collidableMapObjects = {}
+      --MAP[10][19].collidableMapObjects = {}
       gStateMachine:change('mageIntroTopTrigger')
     end
   end
@@ -266,6 +266,7 @@ function OpeningCinematic:render()
   local anim = gPlayer.currentAnimation
 
   if not self.castleView then
+    love.graphics.setColor(WHITE)
     love.graphics.draw(self.psystem, 0, 0)
     love.graphics.draw(self.psystem2, 0, 0)
     self.lavaSystem:render()

@@ -21,7 +21,7 @@ function CollidableMapObjects:update(dt)
 end
 
 function CollidableMapObjects:render()
-  --[[
+  ---[[
   love.graphics.setColor(RED)
   love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
   --]]

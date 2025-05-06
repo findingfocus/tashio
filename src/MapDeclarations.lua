@@ -94,8 +94,11 @@ table.insert(MAP[10][10].weather, 'HEAVY_SAND')
 --table.insert(sceneView.particleSystem, sceneView.snowSystem)
 
 --MAGE WALL BARRIERS
+--[[
 table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(1, 5, TILE_SIZE, TILE_SIZE))
 table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(1, 6, TILE_SIZE, TILE_SIZE))
+--]]
+--
 --table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(5, 1, TILE_SIZE, TILE_SIZE))
 
 --MAP DOWNLOADER FROM TILED DATA DOWNLOADER
