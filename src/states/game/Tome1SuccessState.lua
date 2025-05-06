@@ -9,9 +9,17 @@ function Tome1SuccessState:init()
   self.animatables = InsertAnimation(sceneView.currentMap.row, sceneView.currentMap.column)
   self.waterAlpha = 0
   self.waterCleased = false
+  self.triggerCredits = false
+  self.demoScreenOpacity = 0
+  self.demoCreditsSequence = false
+  self.creditsY = VIRTUAL_HEIGHT
+  self.creditsTimer = 0
+  self.lavaSystem = LavaSystem()
+  self.lavaAlpha = 0
 end
 
 function Tome1SuccessState:update(dt)
+  self.lavaSystem:update(dt)
   if not self.waterCleased then
     self.waterAlpha = math.min(255, self.waterAlpha + dt * 80)
   end
@@ -24,6 +32,29 @@ function Tome1SuccessState:update(dt)
     if not PAUSED and not gPlayer.dead and not luteState then
       gStateMachine:change('pauseState')
     end
+  end
+
+  if self.waterAlpha >= 255 then
+    self.waterCleased = true
+    self:cleanseTheGlobalWater()
+    self.creditsTimer = self.creditsTimer + dt
+    self.demoCreditsSequence = true
+    self.lavaAlpha = math.min(255, self.lavaAlpha + dt * 70)
+  end
+
+  if self.creditsTimer > 1 then
+    self.triggerCredits = true
+  end
+
+  if self.triggerCredits then
+    self.demoScreenOpacity = math.min(170, self.demoScreenOpacity + dt * 80)
+    if self.demoScreenOpacity == 170 then
+      self.creditsY = self.creditsY - CREDITS_SPEED
+    end
+  end
+
+  if INPUT:down('action') then
+      self.creditsY = self.creditsY - CREDITS_SPEED * 10
   end
 end
 
@@ -98,17 +129,20 @@ function Tome1SuccessState:render()
   heartRowQuad:setViewport(0, 0, HEART_CROP, 7, heartRow:getDimensions())
   love.graphics.draw(heartRow, heartRowQuad, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)
 
-  --VIBRANCY RENDER
-  love.graphics.draw(flamme, VIRTUAL_WIDTH / 2 - 11, VIRTUAL_HEIGHT - 13)
-  --EMPTY VIBRANCY BAR
-  love.graphics.setColor(255/255, 30/255, 30/255, 255/255)
-  love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, 10)
-  --VIBRANCY BAR
-  love.graphics.setColor(30/255, 30/255, 30/255, 255/255)
-  love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, gPlayer.flammeVibrancy / 10)
-  --love.graphics.print('vibrancy: ' .. tostring(gPlayer.flammeVibrancy), 0, 0)
-  love.graphics.setColor(WHITE)
-  love.graphics.draw(flamme, VIRTUAL_WIDTH / 2 - 11, VIRTUAL_HEIGHT - 13)
+  if gPlayer.elementEquipped == 'flamme' then
+    --VIBRANCY RENDER
+    --love.graphics.draw(flamme, VIRTUAL_WIDTH / 2 - 11, VIRTUAL_HEIGHT - 13)
+    --EMPTY VIBRANCY BAR
+    love.graphics.setColor(255/255, 30/255, 30/255, 255/255)
+    love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, 10)
+    --VIBRANCY BAR
+    love.graphics.setColor(30/255, 30/255, 30/255, 255/255)
+    love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, gPlayer.flammeVibrancy / 10)
+    --love.graphics.print('vibrancy: ' .. tostring(gPlayer.flammeVibrancy), 0, 0)
+    --A SLOT SPELL SLOT
+    love.graphics.setColor(WHITE)
+    love.graphics.draw(flamme2, VIRTUAL_WIDTH / 2 - 11 , VIRTUAL_HEIGHT - 13)
+  end
 
   --[[
   love.graphics.setColor(BLUE)
@@ -123,11 +157,29 @@ function Tome1SuccessState:render()
     end
   end
   --]]
-  if self.waterAlpha == 255 then
-    self.waterCleased = true
-    self:cleanseTheGlobalWater()
-    gStateMachine:change('playState')
-  end
+
+
   love.graphics.setColor(255/255, 255/255, 255/255, self.waterAlpha)
   self:insertCleansedWater()
+
+  --CREDITED SUPPORTERS
+  if self.demoCreditsSequence then
+    love.graphics.setFont(classicFont)
+    love.graphics.setColor(0, 0, 0, self.demoScreenOpacity/255)
+    love.graphics.rectangle('fill',0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
+    love.graphics.setColor(WHITE)
+    --self.snowSystem:render()
+    --self.rainSystem:render()
+
+    love.graphics.printf('Thanks for playing!\n\n\nTashio Tempo will be released in Q1 2027\n\n\nView the source code:\ngithub.com/\nfindingfocus/\ntashio\n\n\nSUPPORTERS:\nsoup_or_king\nakabob56\njeanniegrey\nsaltomanga\nmeesegamez\nk_tronix\nhimeh3\nflatulenceknocker\nofficial_wutnot\nroughcookie\ntheshakycoder\ntjtheprogrammer\npunymagus\nprostokotylo\ntheveryrealrev\nsqwinge\nbrettdoestwitch\nbrightsidemovement\nlokitrixter', 0, self.creditsY, VIRTUAL_WIDTH, 'center')
+    if creditsDone then
+      --gPlayer:changeState('player-idle')
+      --gStateMachine:change('playState')
+    end
+  end
+
+  if self.demoCreditsSequence then
+    love.graphics.setColor(1, 1, 1, self.lavaAlpha/255)
+    self.lavaSystem:render()
+  end
 end

@@ -57,7 +57,7 @@ function LavaSystem:render()
     love.graphics.clear(1,1,1,255)
     love.graphics.print('LAVA: ' .. WIND_ANGLE, 0, 0)
   end
-  love.graphics.setColor(255,255,255,255)
+  --love.graphics.setColor(255,255,255,255)
   love.graphics.draw(self.soot,0,0)
   love.graphics.draw(self.lavaBubbles,0,0)
   --love.graphics.print('THIS IS WEATHER', 0, 0)

@@ -142,6 +142,14 @@ function Lute:update(dt)
   if correctCount + incorrectCount >= 28 then
     songFinishedTimer = songFinishedTimer + dt
     if songFinishedTimer > 1 then
+      --TOME 1 SUCCESS
+      if incorrectCount < 5 then
+        if sceneView.currentMap.row == 9 and sceneView.currentMap.column == 2 then
+          gPlayer:changeState('player-cinematic')
+          gStateMachine:change('Tome1SuccessState')
+          gStateMachine.current.animatables:update(dt)
+        end
+      end
       luteState = false
     end
   end
@@ -484,6 +492,7 @@ function Lute:update(dt)
   luteStringD1:update(dt)
   luteStringA1:update(dt)
   luteStringF2:update(dt)
+
 end
 
 function Lute:render()

@@ -200,6 +200,7 @@ function Scene:finishShifting()
 end
 
 function Scene:update(dt)
+  self.demoFinished = false
   x, y = love.mouse.getPosition()
   --self.snowSystem:update(dt)
   --self.rainSystem:update(dt)

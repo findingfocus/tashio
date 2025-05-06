@@ -52,7 +52,8 @@ cameraX = 0
 --sceneView = Scene(gPlayer, 4, 13)
 --sceneView = Scene(gPlayer, 10, 18)
 --sceneView = Scene(gPlayer, 2, 11)
-sceneView = Scene(gPlayer, 7, 5)
+--sceneView = Scene(gPlayer, 7, 5)
+sceneView = Scene(gPlayer, 9, 2)
 --sceneView = Scene(gPlayer, 4, 11)
 gPlayer.tunicEquipped = 'greenTunic'
 gPlayer.elementEquipped = 'flamme'
@@ -62,8 +63,8 @@ gPlayer.elementEquipped = 'flamme'
 gPlayer.y = TILE_SIZE * 3
 gPlayer.x = TILE_SIZE * 4
 --]]
-gPlayer.y = TILE_SIZE * 5
-gPlayer.x = TILE_SIZE * 8
+gPlayer.y = TILE_SIZE * 2
+gPlayer.x = TILE_SIZE * 7
 tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 --textures = love.graphics.newImage('graphics/textures.png')
 quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
@@ -335,15 +336,14 @@ function PlayState:update(dt)
       end
   end
 
+  --TOME 1 SUCCESS
+  ---[[
   if love.keyboard.wasPressed('n') then
+    gPlayer:changeState('player-cinematic')
     gStateMachine:change('Tome1SuccessState')
     gStateMachine.current.animatables:update(dt)
-    --[[
-    WATER.startingQuad = CLEAN_WATER_ANIM_STARTER
-    WATER.frame = CLEAN_WATER_ANIM_STARTER
-    WATER.endingQuad = CLEAN_WATER_ANIM_ENDER
-    --]]
   end
+  --]]
 
   if sceneView.dialogueBoxActive then
     sceneView.dialogueBoxActive = false
