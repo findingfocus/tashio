@@ -76,25 +76,26 @@ function UpgradeElement:setSelection()
 end
 
 function UpgradeElement:handleUpgrade(type)
-    if type == 'flamme' then
-      gPlayer.rubyCount = gPlayer.rubyCount - self.selectionCostTable[self.selection]
-      MAP[1][11].dialogueBox[2]:reinit(self.infoTable[self.selection])
-      gPlayer.spellcastCount = gPlayer.spellcastCount + 1
-      sceneView.count = gPlayer.spellcastCount
-      sceneView.step = math.pi * 2 / sceneView.count
-    elseif type == 'aquis' then
-      gPlayer.sapphireCount = gPlayer.sapphireCount - self.selectionCostTable[self.selection]
-      MAP[1][11].dialogueBox[3]:reinit(self.infoTable[self.selection])
-    elseif type == 'ekko' then
-      gPlayer.emeraldCount = gPlayer.emeraldCount - self.selectionCostTable[self.selection]
-      MAP[1][11].dialogueBox[4]:reinit(self.infoTable[self.selection])
-    elseif type == 'lox' then
-      gPlayer.topazCount = gPlayer.topazCount - self.selectionCostTable[self.selection]
-      MAP[1][11].dialogueBox[5]:reinit(self.infoTable[self.selection])
-    end
-    self.activeLevel = math.min(3, self.activeLevel + 1)
-    gPlayer.flammeUpgradeLevel = self.activeLevel
-    self:calculate()
+  sounds['coinPickup']:play()
+  if type == 'flamme' then
+    gPlayer.rubyCount = gPlayer.rubyCount - self.selectionCostTable[self.selection]
+    MAP[1][11].dialogueBox[2]:reinit(self.infoTable[self.selection])
+    gPlayer.spellcastCount = gPlayer.spellcastCount + 1
+    sceneView.count = gPlayer.spellcastCount
+    sceneView.step = math.pi * 2 / sceneView.count
+  elseif type == 'aquis' then
+    gPlayer.sapphireCount = gPlayer.sapphireCount - self.selectionCostTable[self.selection]
+    MAP[1][11].dialogueBox[3]:reinit(self.infoTable[self.selection])
+  elseif type == 'ekko' then
+    gPlayer.emeraldCount = gPlayer.emeraldCount - self.selectionCostTable[self.selection]
+    MAP[1][11].dialogueBox[4]:reinit(self.infoTable[self.selection])
+  elseif type == 'lox' then
+    gPlayer.topazCount = gPlayer.topazCount - self.selectionCostTable[self.selection]
+    MAP[1][11].dialogueBox[5]:reinit(self.infoTable[self.selection])
+  end
+  self.activeLevel = math.min(3, self.activeLevel + 1)
+  gPlayer.flammeUpgradeLevel = self.activeLevel
+  self:calculate()
 end
 
 function UpgradeElement:calculate()
