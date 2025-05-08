@@ -52,9 +52,9 @@ function love.load()
     ['Tome1SuccessState'] = function() return Tome1SuccessState() end
   }
 
-  --gStateMachine:change('titleState')
+  gStateMachine:change('titleState')
   --gStateMachine:change('refineryState')
-  gStateMachine:change('playState')
+  --gStateMachine:change('playState')
   --gStateMachine:change('minimap')
   --gStateMachine:change('chasmFallingState')
 

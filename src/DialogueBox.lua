@@ -447,6 +447,7 @@ function DialogueBox:update(dt)
                 self:flushText()
                 self.activated = true
               else
+                sounds['select']:play()
                 gPlayer.coinCount = gPlayer.coinCount - INN_REST_COST
                 gPlayer.health = DEMO_MAX_HEALTH
                 gPlayer.direction = 'down'
