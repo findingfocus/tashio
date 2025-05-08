@@ -16,13 +16,16 @@ function Tome1SuccessState:init()
   self.creditsTimer = 0
   self.lavaSystem = LavaSystem()
   self.lavaAlpha = 0
+  self.creditsFinishedScroll = false
+  self.step = 0
 end
 
 function Tome1SuccessState:update(dt)
   self.lavaSystem:update(dt)
-  if not self.waterCleased then
+  if self.step == 0 and not self.waterCleased then
     self.waterAlpha = math.min(255, self.waterAlpha + dt * 80)
   end
+
   self.animatables:update(dt)
   if not PAUSED then
     sceneView:update(dt)
@@ -34,27 +37,49 @@ function Tome1SuccessState:update(dt)
     end
   end
 
-  if self.waterAlpha >= 255 then
+  if self.waterAlpha >= 255 and self.step == 0 then
     self.waterCleased = true
     self:cleanseTheGlobalWater()
+    self.step = 1
+  end
+
+  if self.step == 1 then --CREDIT TIMER
     self.creditsTimer = self.creditsTimer + dt
-    self.demoCreditsSequence = true
-    self.lavaAlpha = math.min(255, self.lavaAlpha + dt * 70)
-  end
-
-  if self.creditsTimer > 1 then
-    self.triggerCredits = true
-  end
-
-  if self.triggerCredits then
-    self.demoScreenOpacity = math.min(170, self.demoScreenOpacity + dt * 80)
-    if self.demoScreenOpacity == 170 then
-      self.creditsY = self.creditsY - CREDITS_SPEED
+    --self.demoScreenOpacity = math.min(170, self.demoScreenOpacity + dt * 80)
+    self.lavaAlpha = math.min(255, self.lavaAlpha + dt * 90)
+    if self.creditsTimer > 1.5 then
+      self.step = 2
     end
   end
 
+  if self.step == 2 then
+    self.lavaAlpha = math.min(255, self.lavaAlpha + dt * 70)
+    self.demoScreenOpacity = math.min(170, self.demoScreenOpacity + dt * 80)
+  end
+
+  if self.demoScreenOpacity == 170 then
+    self.creditsY = self.creditsY - CREDITS_SPEED
+  end
+
+  if self.creditsY < -330 then
+    self.step = 3
+  end
+
+  if self.step == 3 then
+    self.demoScreenOpacity = math.max(0, self.demoScreenOpacity - dt * 80)
+    self.lavaAlpha = math.min(255, self.lavaAlpha + dt * 70)
+    if self.demoScreenOpacity == 0 then
+      self.step = 4
+    end
+  end
+
+  if self.step == 4 then
+    gPlayer:changeState('player-idle')
+    gStateMachine:change('playState')
+  end
+
   if INPUT:down('action') then
-      self.creditsY = self.creditsY - CREDITS_SPEED * 10
+    self.creditsY = self.creditsY - CREDITS_SPEED * 10
   end
 end
 
@@ -144,42 +169,19 @@ function Tome1SuccessState:render()
     love.graphics.draw(flamme2, VIRTUAL_WIDTH / 2 - 11 , VIRTUAL_HEIGHT - 13)
   end
 
-  --[[
-  love.graphics.setColor(BLUE)
-  love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, SCREEN_HEIGHT_LIMIT - 3)
-  --]]
-  --RENDER MAP DECLARATION TILES
-  --[[
-  for y = 1, MAP_HEIGHT do
-    for x = 1, MAP_WIDTH do
-      local tile = sceneView.currentMap.tiles[y][x]
-      love.graphics.draw(tileSheet, quads[CLEANSED_WATER.frame], (x - 1) * TILE_SIZE, (y - 1) * TILE_SIZE)
-    end
-  end
-  --]]
-
-
   love.graphics.setColor(255/255, 255/255, 255/255, self.waterAlpha)
   self:insertCleansedWater()
 
   --CREDITED SUPPORTERS
-  if self.demoCreditsSequence then
-    love.graphics.setFont(classicFont)
-    love.graphics.setColor(0, 0, 0, self.demoScreenOpacity/255)
-    love.graphics.rectangle('fill',0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
-    love.graphics.setColor(WHITE)
-    --self.snowSystem:render()
-    --self.rainSystem:render()
+  love.graphics.setFont(pixelFont)
+  love.graphics.setColor(0, 0, 0, self.demoScreenOpacity/255)
+  love.graphics.rectangle('fill',0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
+  love.graphics.setColor(WHITE)
 
-    love.graphics.printf('Thanks for playing!\n\n\nTashio Tempo will be released in Q1 2027\n\n\nView the source code:\ngithub.com/\nfindingfocus/\ntashio\n\n\nSUPPORTERS:\nsoup_or_king\nakabob56\njeanniegrey\nsaltomanga\nmeesegamez\nk_tronix\nhimeh3\nflatulenceknocker\nofficial_wutnot\nroughcookie\ntheshakycoder\ntjtheprogrammer\npunymagus\nprostokotylo\ntheveryrealrev\nsqwinge\nbrettdoestwitch\nbrightsidemovement\nlokitrixter', 0, self.creditsY, VIRTUAL_WIDTH, 'center')
-    if creditsDone then
-      --gPlayer:changeState('player-idle')
-      --gStateMachine:change('playState')
-    end
-  end
+  love.graphics.printf('Thanks for playing!\n\n\nTashio Tempo will release in 2027\n\n\nView the source code:\ngithub.com/findingfocus/tashio\n\n\nCreated by:\nPaul Thompson\nfindingfocus.dev\n\n\nSteam Art Assets made by:\nSam Dalton\nsaltomanga.com\n\n\nSupporters:\nakabob56\njeanniegrey\nsoup_or_king\nsaltomanga\nmeesegamez\nk_tronix\nhimeh3\nflatulenceknocker\nofficial_wutnot\nroughcookie\ntheshakycoder\ntjtheprogrammer\npunymagus\nprostokotylo\ntheveryrealrev\nsqwinge\nbrettdoestwitch\nbrightsidemovement\nlokitrixter', 0, self.creditsY, VIRTUAL_WIDTH, 'center')
 
-  if self.demoCreditsSequence then
-    love.graphics.setColor(1, 1, 1, self.lavaAlpha/255)
-    self.lavaSystem:render()
-  end
+  love.graphics.setColor(1, 1, 1, self.lavaAlpha/255)
+  self.lavaSystem:render()
+
+  love.graphics.print('creditsY: ' .. tostring(self.creditsY), 0, 10)
 end
