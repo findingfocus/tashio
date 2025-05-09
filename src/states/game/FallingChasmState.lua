@@ -86,6 +86,8 @@ function FallingChasmState:update(dt)
   if INPUT:pressed('start') or INPUT:pressed('action') then
     if self.optionSelector == 2 then
       gStateMachine:change('titleState')
+      gStateMachine.current.step = 3
+      gPlayer.health = 6
     elseif self.optionSelector == 1 then
       --CONTINUE GAME
       --LOAD LAST SAVE

@@ -19,9 +19,12 @@ function TitleScreenState:update(dt)
     self.logoAlpha = math.min(255, self.logoAlpha + dt * 150)
     if self.logoAlpha == 255 then
       self.logoTimer = self.logoTimer + dt
-      if self.logoTimer > 2 then
+      if self.logoTimer > 1.5 then
         self.step = 2
       end
+    end
+    if INPUT:pressed('action') then
+        self.step = 2
     end
   end
 
@@ -33,8 +36,8 @@ function TitleScreenState:update(dt)
     end
   end
 
-  if self.step == 3 then
-    self.titleAlpha = math.min(255, self.titleAlpha + dt * 150)
+  if self.step == 3 then --TASHIO TITLE FADE IN
+    self.titleAlpha = math.min(255, self.titleAlpha + dt * 100)
     self.lavaSystem:update(dt)
   end
 
@@ -43,12 +46,15 @@ function TitleScreenState:update(dt)
     self.playFlashing = not self.playFlashing
     self.flashTimer = 0
   end
-  if INPUT:pressed('start') or INPUT:pressed('action') then
-    --LOAD SAVE FILE
-    --self.saveDataUtility:loadPlayerData()
-    gStateMachine:change('playState')
-    gPlayer.stateMachine:change('player-meditate')
-    sounds['select']:play()
+
+  if self.step > 2 then
+    if INPUT:pressed('start') or INPUT:pressed('action') then
+      --LOAD SAVE FILE
+      --self.saveDataUtility:loadPlayerData()
+      gStateMachine:change('playState')
+      gPlayer.stateMachine:change('player-meditate')
+      sounds['select']:play()
+    end
   end
 end
 
@@ -66,7 +72,7 @@ function TitleScreenState:render()
 
   if self.step > 2 then
     love.graphics.setColor(1,1,1, self.titleAlpha/255)
-    love.graphics.draw(titleScreenTemp, 0, 0)
+    love.graphics.draw(titleScreen, 0, 0)
     if self.playFlashing then
       love.graphics.setColor(WHITE)
     else
@@ -76,5 +82,5 @@ function TitleScreenState:render()
     love.graphics.setColor(WHITE)
   end
 
-  love.graphics.print('lAlpha: ' .. tostring(self.logoAlpha),0, 10)
+  --love.graphics.print('lAlpha: ' .. tostring(self.logoAlpha),0, 10)
 end

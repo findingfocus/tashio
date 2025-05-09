@@ -390,6 +390,7 @@ function UpgradeElement:update(dt)
 end
 
 function UpgradeElement:render()
+    love.graphics.setFont(pixelFont2)
     --TAN BOX
     love.graphics.setColor(BLACK)
     love.graphics.rectangle('fill', 0, self.upgradeBoxY - 1, self.upgradeBoxWidth + 1, self.upgradeBoxHeight + 1)

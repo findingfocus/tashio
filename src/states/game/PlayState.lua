@@ -143,6 +143,7 @@ function PlayState:update(dt)
     end
   end
 
+  --NON CHASM GAME OVER
   if INPUT:pressed('start') or INPUT:pressed('action') then
     if self.gameOver then
       sceneView.player.deadTimer = 0
@@ -151,6 +152,8 @@ function PlayState:update(dt)
       MAP[sceneView.currentMap.row][sceneView.currentMap.column].attacks = {}
       if self.optionSelector == 2 then
         gStateMachine:change('titleState')
+        gStateMachine.current.step = 3
+        gPlayer.health = 6
       elseif self.optionSelector == 1 then
         --CONTINUE GAME
         --LOAD LAST SAVE
