@@ -171,6 +171,7 @@ rightPress = love.graphics.newImage('graphics/rightPress.png')
 pauseMockup = love.graphics.newImage('graphics/pauseMockup2.png')
 tashioTester = love.graphics.newImage('graphics/tashioTester.png')
 titleScreenTemp = love.graphics.newImage('graphics/titleScreenTemp.png')
+titleScreen = love.graphics.newImage('graphics/titleScreen.png')
 greenTunicSolo = love.graphics.newImage('graphics/greenTunicSolo.png')
 showOffGreenTunic = love.graphics.newImage('graphics/showOff-greenTunic.png')
 

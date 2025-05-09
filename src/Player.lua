@@ -9,7 +9,7 @@ function Player:init(def)
   Entity.init(self, def)
   self.lastInput = nil
   self.inputsHeld = 0
-  self.health = 8
+  self.health = 1
   self.heartTimer = heartSpeed
   self.decrement = true
   self.dead = false
@@ -17,6 +17,7 @@ function Player:init(def)
   self.warpObject = nil
   self.checkPointPositions = {x = 0, y = 0}
   self.falling = false
+  self.tome1Success = false
   self.fallTimer = 0
   self.graveyard = false
   self.tweenAllowed = true
