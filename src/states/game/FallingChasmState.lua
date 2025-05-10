@@ -114,6 +114,10 @@ function FallingChasmState:render()
   love.graphics.push()
   love.graphics.translate(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2)
   love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.playerX), math.floor(self.playerY))
+  --GREEN TUNIC
+  if gPlayer.tunicEquipped  == 'greenTunic' then
+    love.graphics.draw(gTextures['character-death-greenTunic'], gFrames['character-death-greenTunic'][anim:getCurrentFrame()], math.floor(self.playerX), math.floor(self.playerY))
+  end
   love.graphics.pop()
   --love.graphics.print(tostring(self.offset), 0, 0)
 

@@ -52,8 +52,8 @@ cameraX = 0
 --sceneView = Scene(gPlayer, 4, 13)
 --sceneView = Scene(gPlayer, 10, 18)
 --sceneView = Scene(gPlayer, 2, 11)
---sceneView = Scene(gPlayer, 7, 5)
-sceneView = Scene(gPlayer, 9, 2)
+sceneView = Scene(gPlayer, 7, 5)
+--sceneView = Scene(gPlayer, 9, 2)
 --sceneView = Scene(gPlayer, 4, 11)
 gPlayer.tunicEquipped = 'greenTunic'
 gPlayer.elementEquipped = 'flamme'
@@ -169,11 +169,13 @@ function PlayState:update(dt)
     if gItemInventory.itemSlot[1].type == 'lute' then
       if not luteState then
         if not sceneView.dialogueBoxActive then
-          gPlayer.direction = 'down'
-          gPlayer:changeAnimation('idle-down')
-          luteState = true
-          Lute:reset()
-          bassNotes1:reset()
+          if not gPlayer.dead then
+            gPlayer.direction = 'down'
+            gPlayer:changeAnimation('idle-down')
+            luteState = true
+            Lute:reset()
+            bassNotes1:reset()
+          end
         end
       end
     end
@@ -233,7 +235,7 @@ function PlayState:update(dt)
   end
 
 
-  if INPUT:pressed('action') then
+  if INPUT:pressed('action') and not gPlayer.meditate then
     --DIALOGUE DETECTION DIALOGUE COLLIDE
     for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do
       if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]) and not MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated then

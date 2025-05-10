@@ -14,7 +14,11 @@ end
 function PlayerDeathState:render()
   local anim = self.player.currentAnimation
 
-  --love.graphics.draw('HELOOO', 0, 0)
   --PLAYER BASE LAYER
   love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+
+  --GREEN TUNIC
+  if gPlayer.tunicEquipped  == 'greenTunic' then
+    love.graphics.draw(gTextures['character-death-greenTunic'], gFrames['character-death-greenTunic'][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+  end
 end
