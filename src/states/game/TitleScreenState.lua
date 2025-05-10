@@ -66,9 +66,6 @@ function TitleScreenState:render()
     love.graphics.draw(self.logo, 0, 0)
   end
 
-  if self.step > 1 then
-    self.lavaSystem:render()
-  end
 
   if self.step > 2 then
     love.graphics.setColor(1,1,1, self.titleAlpha/255)
@@ -80,6 +77,11 @@ function TitleScreenState:render()
     end
     love.graphics.printf('START', 0, VIRTUAL_HEIGHT - 24, VIRTUAL_WIDTH, 'center')
     love.graphics.setColor(WHITE)
+  end
+
+  if self.step > 1 then
+    love.graphics.setColor(WHITE)
+    self.lavaSystem:render()
   end
 
   --love.graphics.print('lAlpha: ' .. tostring(self.logoAlpha),0, 10)

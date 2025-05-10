@@ -8,6 +8,7 @@ function PlayerWalkState:init(player, scene)
 end
 
 function PlayerWalkState:update(dt)
+  self.player.meditate = false
   self.test = self.test + dt
   if not self.player.falling and not luteState then
     if #OUTPUT_LIST > 0 then
@@ -83,11 +84,13 @@ function PlayerWalkState:update(dt)
 
   --PLAYER TO PUSHABLES COLLISION
   if not sceneView.shifting then
+    local collideCount = 0
     for k, v in pairs(MAP[sceneView.mapRow][sceneView.mapColumn].collidableMapObjects) do
       --INITIALIZE COLLIDABLE CLASS TYPES
       --PUSHING OBJECTS
       if v.classType == 'pushable' and not v.falling and not gPlayer.falling and not v.crateCompletelyBroken and v.active then
         if gPlayer:leftCollidesMapObject(v) or gPlayer:rightCollidesMapObject(v) or gPlayer:topCollidesMapObject(v) or gPlayer:bottomCollidesMapObject(v) then --gPlayer.pushing = true
+          collideCount = collideCount + 1
           if #OUTPUT_LIST > 0 or #TOUCH_OUTPUT_LIST > 0 then
             gPlayer.pushTimer = gPlayer.pushTimer + dt
           end
@@ -155,6 +158,9 @@ function PlayerWalkState:update(dt)
           gPlayer.y = v.y - gPlayer.height
         end
       end
+    end
+    if collideCount == 0 then
+      gPlayer.pushing = false
     end
   end
   --PLAYER TO MAP OBJECT COLLISION DETECTION
