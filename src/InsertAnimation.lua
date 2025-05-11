@@ -13,6 +13,7 @@ function InsertAnimation:update(dt)
   LAVA_RIGHT_EDGE:update(dt)
   LAVA_FLOW:update(dt)
   SCONCE:update(dt)
+  FURNACE:update(dt)
 
   for i = 1, #MAP[self.mapRow][self.mapColumn].animatables do
     MAP[self.mapRow][self.mapColumn].animatables[i]()

@@ -16,9 +16,18 @@ function RefineryState:init()
   self.ekkoUpgrade = UpgradeElement('ekko')
   self.loxUpgrade = UpgradeElement('lox')
   self.activeUpgrade = nil
+  self.animatables = {}
+  self.animatables = InsertAnimation(sceneView.currentMap.row, sceneView.currentMap.column)
 end
 
 function RefineryState:update(dt)
+  self.animatables:update(dt)
+  if INPUT:pressed('start') then
+    if not PAUSED and not gPlayer.dead and not luteState then
+      gStateMachine:change('pauseState')
+    end
+  end
+
   if not PAUSED then
     sceneView:update(dt)
   end

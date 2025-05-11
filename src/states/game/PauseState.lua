@@ -9,7 +9,12 @@ function PauseState:update(dt)
   if INPUT:pressed('start') then
     luteState = false
     gPlayer.focusIndicatorX = 0
-    gStateMachine:change('playState')
+
+    if sceneView.currentMap.row == 1 and sceneView.currentMap.column == 11 then
+      gStateMachine:change('refineryState')
+    else
+      gStateMachine:change('playState')
+    end
   end
   if INPUT:pressed('actionB') then
     if self.inventoryType == 'keyItem' then
