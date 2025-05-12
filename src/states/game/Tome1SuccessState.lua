@@ -182,6 +182,4 @@ function Tome1SuccessState:render()
 
   love.graphics.setColor(1, 1, 1, self.lavaAlpha/255)
   self.lavaSystem:render()
-
-  love.graphics.print('creditsY: ' .. tostring(self.creditsY), 0, 10)
 end
