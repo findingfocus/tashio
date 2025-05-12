@@ -955,8 +955,8 @@ end
 insertWarpZone(9, 2, 10, 19, 5, 2, 5, 8)
 
 --RENS REFINERY
-insertWarpZone(7, 2, 1, 11, 9, 3, 3, 8)
-MAP[7][2].warpZones[1].warpToStateChange = 'refineryState'
+insertWarpZone(5, 2, 1, 11, 9, 3, 3, 8)
+MAP[5][2].warpZones[1].warpToStateChange = 'refineryState'
 MAP[1][11].warpZones[1].warpToStateChange = 'playState'
 
 --DUNGEON
@@ -964,7 +964,7 @@ MAP[1][11].warpZones[1].warpToStateChange = 'playState'
 insertWarpZone(7, 4, 4, 11, 4, 4, 3, 8)
 
 --INN
-insertWarpZone(8, 3, 2, 11, 3, 7, 6, 8)
+insertWarpZone(9, 3, 2, 11, 3, 4, 6, 8)
 
 FLOWERS = AnimSpitter(FLOWER_ANIM_STARTER, 1015, 0.75)
 WATER = AnimSpitter(WATER_ANIM_STARTER, 105, .5)
@@ -1088,11 +1088,12 @@ table.insert(MAP[7][3].dialogueBox, DialogueBox(TILE_SIZE * 7, 3 * TILE_SIZE, 'D
 
 table.insert(MAP[7][4].dialogueBox, DialogueBox(TILE_SIZE * 8, 0, 'Ice Mountain^^', 'signpost', nil, 2))
 
-table.insert(MAP[8][3].dialogueBox, DialogueBox(TILE_SIZE * 4, 6 * TILE_SIZE, 'Bed Inside^^', 'signpost', nil, 1))
+table.insert(MAP[9][3].dialogueBox, DialogueBox(TILE_SIZE * 4, TILE_SIZE * 3, '<-Fisher\'s Hut', 'signpost', nil, 1))
 
 table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, '<-Flowerbed', 'signpost', nil, 2))
 table.insert(MAP[7][2].dialogueBox, DialogueBox(5 * TILE_SIZE, 0, 'Ice Mountain^^', 'signpost', nil, 3))
-table.insert(MAP[7][2].dialogueBox, DialogueBox(7 * TILE_SIZE, 4 * TILE_SIZE, 'Ren\'s shop^^', 'signpost', nil, 4))
+
+table.insert(MAP[5][2].dialogueBox, DialogueBox(7 * TILE_SIZE, 4 * TILE_SIZE, 'Ren\'s shop^^', 'signpost', nil, 1))
 --table.insert(MAP[7][2].dialogueBox, DialogueBox(MAP[7][2].npc[mageIndex].x, MAP[7][2].npc[mageIndex].y, 'There\'s plenty of danger around, but treasure too...', 'npc', MAP[7][2].npc[mageIndex], 5))
 
 table.insert(MAP[7][2].collidableMapObjects, Pushable(2, 4, 'boulder'))
