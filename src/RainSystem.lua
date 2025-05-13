@@ -9,7 +9,8 @@ local MAX_Y = 250
 local increase = false
 
 function RainSystem:init()
-  self.psystems = love.graphics.newParticleSystem(particle, 600)
+  self.psystems = love.graphics.newParticleSystem(particle, 800)
+  self.psystems:setEmissionRate(EMISSION_RATE)
 end
 
 function RainSystem:update(dt)
@@ -31,7 +32,6 @@ function RainSystem:update(dt)
   --self.psystems:setEmissionArea('normal', SCREEN_WIDTH_LIMIT / 8, 1)
   self.psystems:setEmissionArea('normal', SCREEN_WIDTH_LIMIT, 0)
   self.psystems:setParticleLifetime(1, 5)
-  self.psystems:setEmissionRate(EMISSION_RATE)
   self.psystems:setLinearAcceleration(WIND_ANGLE, MIN_Y, WIND_ANGLE, MAX_Y)
   self.psystems:setColors(0, 8/255, 60/255, 255/255, 0, 130, 229, 255/255)
   self.psystems:update(dt)
