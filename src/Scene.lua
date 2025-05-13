@@ -144,6 +144,9 @@ function Scene:beginShifting(shiftX, shiftY)
       self.particleSystem = {}
       table.insert(self.particleSystem, self.sandSystem)
       self.particleSystem[1].psystems:setEmissionRate(self.particleSystem[1].initialHeavyEmissionRate)
+    elseif MAP[self.mapRow][self.mapColumn].weather[1] == 'LIGHT_RAIN' then
+      self.particleSystem = {}
+      table.insert(self.particleSystem, self.rainSystem)
     end
   else
     if self.particleSystem[1] ~= nil then
@@ -468,6 +471,7 @@ function Scene:update(dt)
       triggerStartingSceneTransition = false
       startingSceneTransitionFinished = true
       --TODO ALLOW SPECIFIC WARPZONE TO TRIGGER
+      --WEATHER WARPZONE
       for k, v in pairs(sceneView.currentMap.warpZones) do
         if gPlayer.warping then
           sceneView = Scene(gPlayer, sceneView.currentMap.warpZones[k].warpRow, sceneView.currentMap.warpZones[k].warpCol, 'psystem')
@@ -479,6 +483,8 @@ function Scene:update(dt)
             elseif MAP[sceneView.mapRow][sceneView.mapColumn].weather[1] == 'HEAVY_SAND' then
               table.insert(sceneView.particleSystem, sceneView.sandSystem)
               sceneView.particleSystem[1].psystems:setEmissionRate(sceneView.particleSystem[1].initialHeavyEmissionRate)
+            elseif MAP[self.mapRow][self.mapColumn].weather[1] == 'LIGHT_RAIN' then
+              table.insert(sceneView.particleSystem, sceneView.rainSystem)
             end
           else
             if sceneView.particleSystem[1] ~= nil then

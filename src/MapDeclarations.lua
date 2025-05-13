@@ -91,6 +91,12 @@ table.insert(MAP[7][10].weather, 'HEAVY_SAND')
 table.insert(MAP[8][10].weather, 'HEAVY_SAND')
 table.insert(MAP[9][10].weather, 'HEAVY_SAND')
 table.insert(MAP[10][10].weather, 'HEAVY_SAND')
+
+
+table.insert(MAP[5][4].weather, 'LIGHT_RAIN')
+table.insert(MAP[6][4].weather, 'LIGHT_RAIN')
+table.insert(MAP[6][3].weather, 'LIGHT_RAIN')
+table.insert(MAP[5][3].weather, 'LIGHT_RAIN')
 --table.insert(sceneView.particleSystem, sceneView.snowSystem)
 
 --MAGE WALL BARRIERS
