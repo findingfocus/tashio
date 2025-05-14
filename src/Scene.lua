@@ -147,6 +147,7 @@ function Scene:beginShifting(shiftX, shiftY)
     elseif MAP[self.mapRow][self.mapColumn].weather[1] == 'LIGHT_RAIN' then
       self.particleSystem = {}
       table.insert(self.particleSystem, self.rainSystem)
+      self.particleSystem[1].psystems:setEmissionRate(600)
     end
   else
     if self.particleSystem[1] ~= nil then
