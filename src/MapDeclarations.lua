@@ -871,6 +871,10 @@ end
 
 --warpFromRow, warpFromCol, warpToRow, warpToCol, warpFromX, warpFromY, warpToX, warpToY)
 --
+--DARK FOREST TO ICE MOUNTAIN DUNGEON ENTRANCE
+insertWarpZone(5, 4, 2, 13, 7, 6, 8, 8)
+MAP[5][4].warpZones[1].width, MAP[5][4].warpZones[1].height = 7, 5
+MAP[5][4].warpZones[1].color = TRANSPARENT
 
 
 --DUNGEON 1 EXIT
