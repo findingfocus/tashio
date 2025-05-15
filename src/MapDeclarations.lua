@@ -98,6 +98,8 @@ table.insert(MAP[6][4].weather, 'LIGHT_RAIN')
 table.insert(MAP[6][3].weather, 'LIGHT_RAIN')
 table.insert(MAP[5][3].weather, 'LIGHT_RAIN')
 --table.insert(sceneView.particleSystem, sceneView.snowSystem)
+--
+table.insert(MAP[3][5].weather, 'BLIZZARD')
 
 --MAGE WALL BARRIERS
 --TOGGLE FOR DEPLOYMENT
@@ -850,16 +852,22 @@ end
 --TAVERN
 --TODO IMAGINE WAY TO SWAP PLAYER FRAME TO DEFAULT FRAME UPON TRANSITION
 ---[[
-function insertWarpZone(warpFromRow, warpFromCol, warpToRow, warpToCol, warpFromX, warpFromY, warpToX, warpToY)
+function insertWarpZone(warpFromRow, warpFromCol, warpToRow, warpToCol, warpFromX, warpFromY, warpToX, warpToY, option)
   warpFromX = warpFromX * TILE_SIZE - TILE_SIZE + 3
   warpFromY = warpFromY * TILE_SIZE - TILE_SIZE - 15
   warpToX = warpToX * TILE_SIZE - TILE_SIZE + 3
   warpToY = warpToY * TILE_SIZE - TILE_SIZE + 14
-  local warpPlayerToX = warpToX - 3
 
+  local warpPlayerToX = warpToX - 3
   local warpPlayerToY = warpToY - 16 - 5
   local warpPlayerFromX = warpFromX - 3
   local warpPlayerFromY = warpFromY + 10
+  if option == 'side' then
+    warpPlayerToX = warpToX - 18
+    warpPlayerToY = warpToY + 2
+    warpPlayerFromX = warpFromX - 3
+    warpPlayerFromY = warpFromY + 10
+  end
 
   table.insert(MAP[warpFromRow][warpFromCol].warpZones, WarpZone(warpFromX, warpFromY, warpPlayerToX, warpPlayerToY, warpToRow, warpToCol))
   table.insert(MAP[warpToRow][warpToCol].warpZones, WarpZone(warpToX, warpToY, warpPlayerFromX, warpPlayerFromY, warpFromRow, warpFromCol))
@@ -873,9 +881,21 @@ end
 --
 --DARK FOREST TO ICE MOUNTAIN DUNGEON ENTRANCE
 insertWarpZone(5, 4, 2, 13, 7, 6, 8, 8)
-MAP[5][4].warpZones[1].width, MAP[5][4].warpZones[1].height = 7, 5
+MAP[5][4].warpZones[1].width, MAP[5][4].warpZones[1].height = 4, 4
+MAP[5][4].warpZones[1].x, MAP[5][4].warpZones[1].y = MAP[5][4].warpZones[1].x + 4, MAP[5][4].warpZones[1].y + 4
 MAP[5][4].warpZones[1].color = TRANSPARENT
 
+--DUNGEON TO ICE MOUNTAIN EXIT
+insertWarpZone(3, 5, 1, 13, 1, 2, 11, 1, 'side')
+MAP[1][13].warpZones[1].x = MAP[1][13].warpZones[1].x - 2
+MAP[1][13].warpZones[1].y = MAP[1][13].warpZones[1].y + 6
+MAP[3][5].warpZones[1].y = MAP[3][5].warpZones[1].y + 16
+MAP[3][5].warpZones[1].x = MAP[3][5].warpZones[1].x - 14
+
+--table.insert(MAP[3][5].collidableMapObjects, Pushable(10, 4, 'boulder'))
+--table.insert(MAP[3][5].collidableMapObjects, Pushable(9, 5, 'boulder'))
+
+table.insert(MAP[3][5].dialogueBox, DialogueBox(TILE_SIZE * 9 - TILE_SIZE, TILE_SIZE * 3 - TILE_SIZE, 'The Manis Mountain is off limits during blizzards. ', 'signpost', nil, 1 ))
 
 --DUNGEON 1 EXIT
 insertWarpZone(7, 6, 4, 13, 9, 4, 9, 8)

@@ -1,23 +1,24 @@
 SnowSystem = Class{}
 
-local EMISSION_RATE = 500
+local EMISSION_RATE = 800
 local WIND_ANGLE = 0
-local MAX_ANGLE = 20
-local MIN_ANGLE = -20
-local MIN_Y = 40
-local MAX_Y = 60
-local LIFESPAN = 20
+local MAX_ANGLE = 120
+local MIN_ANGLE = 40
+local MIN_Y = 30
+local MAX_Y = 80
+local LIFESPAN = 4
 local increase = false
 
 function SnowSystem:init()
   self.psystems = love.graphics.newParticleSystem(particle, 800)
+  self.psystems:setEmissionRate(EMISSION_RATE)
 end
 
 function SnowSystem:update(dt)
   if not increase then
     WIND_ANGLE = WIND_ANGLE + 1
   else
-    WIND_ANGLE = WIND_ANGLE - 1
+    WIND_ANGLE = WIND_ANGLE - 0.5
   end
   if WIND_ANGLE > MAX_ANGLE then
     increase = true
