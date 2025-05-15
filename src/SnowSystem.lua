@@ -11,7 +11,10 @@ local increase = false
 
 function SnowSystem:init()
   self.psystems = love.graphics.newParticleSystem(particle, 800)
-  self.psystems:setEmissionRate(EMISSION_RATE)
+  self.initialEmissionRate = 800
+  self.initialLightEmissionRate = 400
+  self.initialHeavyEmissionRate = 1200
+  self.psystems:setEmissionRate(self.initialEmissionRate)
 end
 
 function SnowSystem:update(dt)
@@ -30,10 +33,8 @@ function SnowSystem:update(dt)
   end
 
   self.psystems:moveTo(0, 0)
-  --self.psystems:setEmissionArea('normal', SCREEN_WIDTH_LIMIT / 8, 1)
   self.psystems:setEmissionArea('normal', SCREEN_WIDTH_LIMIT, 0)
   self.psystems:setParticleLifetime(1, LIFESPAN)
-  self.psystems:setEmissionRate(EMISSION_RATE)
   self.psystems:setLinearAcceleration(WIND_ANGLE, MIN_Y, WIND_ANGLE, MAX_Y)
   self.psystems:setColors(255/255, 255/255, 255/255, 255/255, 255/255, 255/255, 255/255, 255/255)
   self.psystems:update(dt)

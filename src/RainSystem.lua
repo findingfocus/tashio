@@ -10,7 +10,11 @@ local increase = false
 
 function RainSystem:init()
   self.psystems = love.graphics.newParticleSystem(particle, 800)
-  self.psystems:setEmissionRate(EMISSION_RATE)
+  --self.psystems:setEmissionRate(EMISSION_RATE)
+  self.initialEmissionRate = 600
+  self.initialLightEmissionRate = 200
+  self.initialHeavyEmissionRate = 600
+  self.psystems:setEmissionRate(self.initialEmissionRate)
 end
 
 function RainSystem:update(dt)
