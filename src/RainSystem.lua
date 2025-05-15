@@ -13,8 +13,8 @@ function RainSystem:init()
   --self.psystems:setEmissionRate(EMISSION_RATE)
   self.initialEmissionRate = 600
   self.initialLightEmissionRate = 200
-  self.initialHeavyEmissionRate = 600
-  self.psystems:setEmissionRate(self.initialEmissionRate)
+  self.initialHeavyEmissionRate = 800
+  self.psystems:setEmissionRate(self.initialHeavyEmissionRate)
 end
 
 function RainSystem:update(dt)
@@ -35,7 +35,7 @@ function RainSystem:update(dt)
   self.psystems:moveTo(0, -50)
   --self.psystems:setEmissionArea('normal', SCREEN_WIDTH_LIMIT / 8, 1)
   self.psystems:setEmissionArea('normal', SCREEN_WIDTH_LIMIT, 0)
-  self.psystems:setParticleLifetime(1, 5)
+  self.psystems:setParticleLifetime(1, 3)
   self.psystems:setLinearAcceleration(WIND_ANGLE, MIN_Y, WIND_ANGLE, MAX_Y)
   self.psystems:setColors(0, 8/255, 60/255, 255/255, 0, 130, 229, 255/255)
   self.psystems:update(dt)

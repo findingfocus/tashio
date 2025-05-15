@@ -154,7 +154,7 @@ function Scene:beginShifting(shiftX, shiftY)
     if MAP[self.mapRow][self.mapColumn].weather[1] == 'LIGHT_RAIN' then
       self.particleSystem = {}
       table.insert(self.particleSystem, self.rainSystem)
-      self.particleSystem[1].psystems:setEmissionRate(600)
+      self.particleSystem[1].psystems:setEmissionRate(self.particleSystem[1].initialHeavyEmissionRate)
     end
   else --IF NO WEATHER IN CURRENT SCENE
     if self.particleSystem[1] ~= nil then
@@ -500,8 +500,9 @@ function Scene:update(dt)
               table.insert(sceneView.particleSystem, sceneView.sandSystem)
               sceneView.particleSystem[1].psystems:setEmissionRate(sceneView.particleSystem[1].initialHeavyEmissionRate)
             end
-            if MAP[self.mapRow][self.mapColumn].weather[1] == 'LIGHT_RAIN' then
+            if MAP[sceneView.mapRow][sceneView.mapColumn].weather[1] == 'LIGHT_RAIN' then
               table.insert(sceneView.particleSystem, sceneView.rainSystem)
+              sceneView.particleSystem[1].psystems:setEmissionRate(sceneView.particleSystem[1].initialHeavyEmissionRate)
             end
           else
             if sceneView.particleSystem[1] ~= nil then
