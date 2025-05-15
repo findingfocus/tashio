@@ -148,8 +148,12 @@ function Scene:beginShifting(shiftX, shiftY)
       self.particleSystem = {}
       table.insert(self.particleSystem, self.rainSystem)
       self.particleSystem[1].psystems:setEmissionRate(600)
+    elseif MAP[self.mapRow][self.mapColumn].weather[1] == 'BLIZZARD' then
+      self.particleSystem = {}
+      table.insert(self.particleSystem, self.snowSystem)
+      self.particleSystem[1].psystems:setEmissionRate(800)
     end
-  else
+  else --IF NO WEATHER IN CURRENT SCENE
     if self.particleSystem[1] ~= nil then
       self.particleSystem[1].psystems:setEmissionRate(0)
     end
@@ -486,6 +490,9 @@ function Scene:update(dt)
               sceneView.particleSystem[1].psystems:setEmissionRate(sceneView.particleSystem[1].initialHeavyEmissionRate)
             elseif MAP[self.mapRow][self.mapColumn].weather[1] == 'LIGHT_RAIN' then
               table.insert(sceneView.particleSystem, sceneView.rainSystem)
+            elseif MAP[self.mapRow][self.mapColumn].weather[1] == 'BLIZZARD' then
+              --table.insert(sceneView.particleSystem, sceneView.snowSystem)
+              --sceneView.particleSystem[1].psystems:setEmissionRate(800)
             end
           else
             if sceneView.particleSystem[1] ~= nil then
@@ -495,6 +502,7 @@ function Scene:update(dt)
 
           WATER:update(dt)
           gStateMachine.current.animatables = InsertAnimation(sceneView.currentMap.row, sceneView.currentMap.column)
+          --WARP ZONE PLAYER PLACEMENT
           gPlayer.x = v.playerX
           gPlayer.y = v.playerY
         end

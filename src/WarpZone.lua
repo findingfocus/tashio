@@ -1,8 +1,9 @@
 WarpZone = Class{}
 
-function WarpZone:init(x, y, playerX, playerY, warpRow, warpCol, disjoint, stateChange)
+function WarpZone:init(x, y, playerX, playerY, warpRow, warpCol, disjoint, stateChange, option)
   self.x = x
   self.y = y
+  self.option = option or nil
   self.playerX = playerX
   self.playerY = playerY
   self.width = 10
