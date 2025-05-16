@@ -27,20 +27,28 @@ function Inventory:init(option)
       self.grid[i] =  {}
       for k = 1, self.columnAmount do
         self.grid[i][k] = {}
-        table.insert(self.grid[i][k], Item('bag', 9))
+        --table.insert(self.grid[i][k], Item('bag', 9))
       end
     end
-    table.remove(self.grid[1][2], 1)
-    table.remove(self.grid[1][3], 1)
-    table.remove(self.grid[2][2], 1)
-    table.remove(self.grid[4][3], 1)
-    table.remove(self.grid[4][2], 1)
-    self.grid[1][1][1].image = berry
-    self.grid[1][1][1].quantity = 20
+    --function Item:init(option, quantity, type)
+    table.insert(self.grid[1][1], Item('lute', nil))
+    table.insert(self.grid[1][2], Item('healthPotion', 10))
+  end
+--[[
+    self.grid[1][2][1].image = healthPotion
+    self.grid[1][2][1].quantity = 10
+    self.grid[1][2][1].type = 'healthPotion'
+    --]]
+    --
+    --[[
+    self.grid[1][2][1].image = berry
+    self.grid[1][2][1].quantity = 10
+    --]]
+    --[[
     self.grid[3][2][1].type = 'lute'
     self.grid[3][2][1].image = lute
     self.grid[3][2][1].quantity = nil
-  end
+    --]]
   if self.option == 'keyItem' then
     self.x = VIRTUAL_WIDTH - 40
     self.y = 40

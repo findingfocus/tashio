@@ -178,7 +178,7 @@ function Tome1SuccessState:render()
   love.graphics.rectangle('fill',0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
   love.graphics.setColor(WHITE)
 
-  love.graphics.printf('Thanks for playing!\n\n\nTashio Tempo will release in 2027\n\n\nView the source code:\ngithub.com/findingfocus/tashio\n\n\nCreated by:\nPaul Thompson\nfindingfocus.dev\n\n\nSteam Art Assets made by:\nSam Dalton\nsaltomanga.com\n\n\nSupporters:\nakabob56\njeanniegrey\nsoup_or_king\nsaltomanga\nmeesegamez\nk_tronix\nhimeh3\nflatulenceknocker\nofficial_wutnot\nroughcookie\ntheshakycoder\ntjtheprogrammer\npunymagus\nprostokotylo\ntheveryrealrev\nsqwinge\nbrettdoestwitch\nbrightsidemovement\nlokitrixter', 0, self.creditsY, VIRTUAL_WIDTH, 'center')
+  love.graphics.printf('Thanks for playing!\n\n\nTashio Tempo will release in 2027\n\n\nView the source code:\ngithub.com/findingfocus/tashio\n\n\nCreated by:\nPaul Thompson\nfindingfocus.dev\n\n\nSteam Art Assets made by:\nSam Dalton\nsaltomanga.com\n\n\nSupporters:\nakabob56\njeanniegrey\nsoup_or_king\nsaltomanga\nmeesegamez\nk_tronix\nhimeh3\nflatulenceknocker\nofficial_wutnot\nroughcookie\ntheshakycoder\ntjtheprogrammer\npunymagus\nprostokotylo\ntheveryrealrev\nsqwinge\nbrettdoestwitch\nbrightsidemovement\nlokitrixter\nkviktus', 0, self.creditsY, VIRTUAL_WIDTH, 'center')
 
   love.graphics.setColor(1, 1, 1, self.lavaAlpha/255)
   self.lavaSystem:render()
