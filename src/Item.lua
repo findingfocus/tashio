@@ -1,15 +1,19 @@
 Item = Class{}
 
-function Item:init(option, quantity, type)
+function Item:init(option, quantity)
   --self.gridRow = row
   --self.gridCol = col
-  self.type = type
+  self.type = option
   if option == 'bag' then
     self.image = bag
-  else
+  elseif option == 'berry' then
     self.image = berry
+  elseif option == 'healthPotion' then
+    self.image = healthPotion
+  elseif option == 'lute' then
+    self.image = lute
   end
-  self.quantity = quantity or 20
+  self.quantity = quantity
   self.x = 0
   self.y = 0
   self.equipped = false

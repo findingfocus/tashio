@@ -892,8 +892,8 @@ MAP[1][13].warpZones[1].y = MAP[1][13].warpZones[1].y + 6
 MAP[3][5].warpZones[1].y = MAP[3][5].warpZones[1].y + 16
 MAP[3][5].warpZones[1].x = MAP[3][5].warpZones[1].x - 14
 
---table.insert(MAP[3][5].collidableMapObjects, Pushable(10, 4, 'boulder'))
---table.insert(MAP[3][5].collidableMapObjects, Pushable(9, 5, 'boulder'))
+table.insert(MAP[3][5].collidableMapObjects, Pushable(10, 4, 'boulder'))
+table.insert(MAP[3][5].collidableMapObjects, Pushable(9, 5, 'boulder'))
 
 table.insert(MAP[3][5].dialogueBox, DialogueBox(TILE_SIZE * 9 - TILE_SIZE, TILE_SIZE * 3 - TILE_SIZE, 'The Manis Mountain is off limits during blizzards. ', 'signpost', nil, 1 ))
 
@@ -979,6 +979,59 @@ for k, v in pairs(MAP[1][12].entities) do
   MAP[1][12].entities[k]:changeState('bat-spawn')
 
   MAP[1][12].entities[k].hit = false
+end
+
+table.insert(MAP[2][13].entities, Entity {
+  animations = ENTITY_DEFS['bat'].animations,
+  spawnColumn = 6,
+  spawnRow = 1,
+  darkBat = true,
+  width = 24,
+  height = 10,
+  health = 1,
+  spawning = true,
+  spawnTimer = 3,
+  type = 'bat',
+  corrupted = true,
+  enemy = true,
+  zigzagTime = 0,
+  walkSpeed = math.random(8, 14),
+  zigzagFrequency = math.random(1, 5),
+  zigzagAmplitude = math.random(1, 5) / 10,
+})
+
+table.insert(MAP[2][13].entities, Entity {
+  animations = ENTITY_DEFS['bat'].animations,
+  spawnColumn = 6,
+  spawnRow = 8,
+  darkBat = true,
+  width = 24,
+  height = 10,
+  health = 1,
+  spawning = true,
+  spawnTimer = 3,
+  type = 'bat',
+  corrupted = true,
+  enemy = true,
+  zigzagTime = 0,
+  walkSpeed = math.random(8, 14),
+  zigzagFrequency = math.random(1, 5),
+  zigzagAmplitude = math.random(1, 5) / 10,
+})
+
+for k, v in pairs(MAP[2][13].entities) do
+  MAP[2][13].entities[k].animations = MAP[2][13].entities[k]:createAnimations(ENTITY_DEFS['bat'].animations)
+  MAP[2][13].entities[k]:changeAnimation('pursue')
+  MAP[2][13].entities[k].stateMachine = StateMachine {
+    ['bat-spawn'] = function() return BatSpawnState(MAP[2][13].entities[k], MAP[2][13].entities[k].spawnRow, MAP[2][13].entities[k].spawnColumn) end,
+    ['bat-walk'] = function() return BatWalkState(MAP[2][13].entities[k]) end,
+    ['bat-attack'] = function() return BatAttackState(MAP[2][13].entities[k]) end,
+    ['bat-flee'] = function() return BatFleeState(MAP[2][13].entities[k]) end,
+    ['entity-idle'] = function() return EntityIdleState(MAP[2][13].entities[k]) end,
+  }
+  MAP[2][13].entities[k]:changeState('bat-spawn')
+
+  MAP[2][13].entities[k].hit = false
 end
 
 --MAGE'S CASTLE
@@ -1295,3 +1348,7 @@ table.insert(MAP[4][12].mineralDeposits, MineralDeposit(3, 3, 'ruby'))
 table.insert(MAP[4][12].mineralDeposits, MineralDeposit(8, 2, 'ruby'))
 table.insert(MAP[4][12].mineralDeposits, MineralDeposit(7, 6, 'ruby'))
 table.insert(MAP[4][12].mineralDeposits, MineralDeposit(2, 7, 'ruby'))
+
+table.insert(MAP[2][13].mineralDeposits, MineralDeposit(8, 2, 'ruby'))
+table.insert(MAP[2][13].mineralDeposits, MineralDeposit(9, 2, 'ruby'))
+table.insert(MAP[2][13].mineralDeposits, MineralDeposit(9, 3, 'ruby'))

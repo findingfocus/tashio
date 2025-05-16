@@ -52,9 +52,9 @@ cameraX = 0
 --sceneView = Scene(gPlayer, 4, 13)
 --sceneView = Scene(gPlayer, 10, 18)
 --sceneView = Scene(gPlayer, 2, 11)
-sceneView = Scene(gPlayer, 5, 4)
+--sceneView = Scene(gPlayer, 5, 4)
 --sceneView = Scene(gPlayer, 1, 13)
---sceneView = Scene(gPlayer, 9, 3)
+sceneView = Scene(gPlayer, 9, 3)
 --sceneView = Scene(gPlayer, 9, 2)
 --sceneView = Scene(gPlayer, 4, 11)
 gPlayer.tunicEquipped = 'greenTunic'
@@ -65,8 +65,8 @@ gPlayer.elementEquipped = 'flamme'
 gPlayer.y = TILE_SIZE * 3
 gPlayer.x = TILE_SIZE * 4
 --]]
-gPlayer.y = TILE_SIZE * 2
-gPlayer.x = TILE_SIZE * 6
+gPlayer.y = TILE_SIZE * 8
+gPlayer.x = TILE_SIZE * 3
 tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 --textures = love.graphics.newImage('graphics/textures.png')
 quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
@@ -180,6 +180,12 @@ function PlayState:update(dt)
           end
         end
       end
+    elseif gItemInventory.itemSlot[1].type == 'healthPotion' and gPlayer.health < 14 then
+      --HEALTH POTION
+      love.graphics.setColor(WHITE)
+      love.graphics.print('POTION', 0,0)
+      gItemInventory.itemSlot[1].quantity = math.max(0, gItemInventory.itemSlot[1].quantity - 1)
+      gPlayer.health = 14
     end
   end
 
