@@ -22,6 +22,8 @@ function TreasureChest:init(tileX, tileY, contents, dialogueBoxID)
     self.treasureImage = love.graphics.newImage('graphics/tome1.png')
   elseif self.contents == 'greenTunic' then
     self.treasureImage = love.graphics.newImage('graphics/greenTunicSolo.png')
+  elseif self.contents == 'healthPotion' then
+    self.treasureImage = love.graphics.newImage('graphics/healthPotion.png')
   end
   self.treasureX = 0
   self.treasureY = 0
@@ -33,6 +35,9 @@ function TreasureChest:openChest()
   self.image = treasureChestOpen
   if self.contents == 'tome1' then
     gPlayer.tome1Unlocked = true
+  elseif self.contents == 'healthPotion' then
+    table.insert(gItemInventory.grid[1][2], Item('healthPotion', 10))
+    gItemInventory.grid[1][2][1]:update(1, 2)
   end
 
   self.treasureX = gPlayer.x + 4
@@ -45,6 +50,9 @@ function TreasureChest:openChest()
     self.treasureY = gPlayer.y - 14
   elseif self.contents == 'greenTunic' then
     self.treasureX = gPlayer.x + 1
+    self.treasureY = gPlayer.y - 12
+  elseif self.contents == 'healthPotion' then
+    self.treasureX = gPlayer.x + 2
     self.treasureY = gPlayer.y - 12
   end
 

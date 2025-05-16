@@ -54,6 +54,9 @@ end
 function BatFleeState:update(dt)
   if self.entity.x < -self.entity.width or self.entity.x > VIRTUAL_WIDTH then
     if self.entity.y + self.entity.height < 0 or self.entity.y > VIRTUAL_HEIGHT then
+      if #MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects == 0 then
+        self:resetOriginalPosition()
+      end
       for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
         if v.classType == 'pushable' then
           if self.entity.spawnRow == 1 then
@@ -100,6 +103,7 @@ function BatFleeState:render()
   local anim = self.entity.currentAnimation
   love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
   self.entity.x, self.entity.y)
+  --love.graphics.print(Inspect(#MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects == 0), 0, 0 )
   --love.graphics.print(tostring(self.entity.stateMachine.current.stateName), self.entity.x, self.entity.y)
 
   --[[

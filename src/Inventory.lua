@@ -27,12 +27,10 @@ function Inventory:init(option)
       self.grid[i] =  {}
       for k = 1, self.columnAmount do
         self.grid[i][k] = {}
-        --table.insert(self.grid[i][k], Item('bag', 9))
       end
     end
-    --function Item:init(option, quantity, type)
     table.insert(self.grid[1][1], Item('lute', nil))
-    table.insert(self.grid[1][2], Item('healthPotion', 10))
+    --table.insert(self.grid[1][2], Item('healthPotion', 10))
   end
 --[[
     self.grid[1][2][1].image = healthPotion

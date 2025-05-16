@@ -52,9 +52,12 @@ cameraX = 0
 --sceneView = Scene(gPlayer, 4, 13)
 --sceneView = Scene(gPlayer, 10, 18)
 --sceneView = Scene(gPlayer, 2, 11)
---sceneView = Scene(gPlayer, 5, 4)
+--ICE MOUNTAIN SHORTCUT
+--sceneView = Scene(gPlayer, 3, 5)
+--DARK FOREST
+sceneView = Scene(gPlayer, 6, 4)
 --sceneView = Scene(gPlayer, 1, 13)
-sceneView = Scene(gPlayer, 9, 3)
+--sceneView = Scene(gPlayer, 9, 3)
 --sceneView = Scene(gPlayer, 9, 2)
 --sceneView = Scene(gPlayer, 4, 11)
 gPlayer.tunicEquipped = 'greenTunic'
@@ -65,8 +68,8 @@ gPlayer.elementEquipped = 'flamme'
 gPlayer.y = TILE_SIZE * 3
 gPlayer.x = TILE_SIZE * 4
 --]]
-gPlayer.y = TILE_SIZE * 8
-gPlayer.x = TILE_SIZE * 3
+gPlayer.y = TILE_SIZE * 4
+gPlayer.x = TILE_SIZE * 4
 tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 --textures = love.graphics.newImage('graphics/textures.png')
 quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
@@ -180,7 +183,7 @@ function PlayState:update(dt)
           end
         end
       end
-    elseif gItemInventory.itemSlot[1].type == 'healthPotion' and gPlayer.health < 14 then
+    elseif gItemInventory.itemSlot[1].type == 'healthPotion' and gPlayer.health < 14 and gItemInventory.itemSlot[1].quantity > 0 then
       --HEALTH POTION
       love.graphics.setColor(WHITE)
       love.graphics.print('POTION', 0,0)
@@ -560,7 +563,7 @@ function PlayState:render()
     love.graphics.setColor(WHITE)
     --self.snowSystem:render()
     self.rainSystem:render()
-    love.graphics.printf('SUPPORTERS:\nsoup_or_king\nakabob56\njeanniegrey\nsaltomanga\nmeesegamez\nk_tronix\nhimeh3\nflatulenceknocker\nofficial_wutnot\nroughcookie\ntheshakycoder\ntjtheprogrammer\npunymagus\nprostokotylo\ntheveryrealrev\nsqwinge\nbrettdoestwitch\nbrightsidemovement\nlokitrixter', 0, creditsY, VIRTUAL_WIDTH, 'center')
+    love.graphics.printf('SUPPORTERS:\nsoup_or_king\nakabob56\njeanniegrey\nsaltomanga\nmeesegamez\nk_tronix\nhimeh3\nflatulenceknocker\nofficial_wutnot\nroughcookie\ntheshakycoder\ntjtheprogrammer\npunymagus\nprostokotylo\ntheveryrealrev\nsqwinge\nbrettdoestwitch\nbrightsidemovement\nlokitrixter\nkviktus', 0, creditsY, VIRTUAL_WIDTH, 'center')
   end
 
   --self.snowSystem:render()
