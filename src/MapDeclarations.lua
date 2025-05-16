@@ -892,10 +892,13 @@ MAP[1][13].warpZones[1].y = MAP[1][13].warpZones[1].y + 6
 MAP[3][5].warpZones[1].y = MAP[3][5].warpZones[1].y + 16
 MAP[3][5].warpZones[1].x = MAP[3][5].warpZones[1].x - 14
 
-table.insert(MAP[3][5].collidableMapObjects, Pushable(10, 4, 'boulder'))
-table.insert(MAP[3][5].collidableMapObjects, Pushable(9, 5, 'boulder'))
 
-table.insert(MAP[3][5].dialogueBox, DialogueBox(TILE_SIZE * 9 - TILE_SIZE, TILE_SIZE * 3 - TILE_SIZE, 'The Manis Mountain is off limits during blizzards. ', 'signpost', nil, 1 ))
+--HEALTH POTION CHEST
+table.insert(MAP[3][5].dialogueBox, DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'You found a magical health elixir! Use it wisely, or just drink it for the bubbles. ',  nil, 1))
+table.insert(MAP[3][5].collidableMapObjects, TreasureChest(9, 5, 'healthPotion', 1))
+table.insert(MAP[3][5].collidableMapObjects, Pushable(10, 4, 'boulder'))
+--ICE MOUNTAIN
+table.insert(MAP[3][5].dialogueBox, DialogueBox(TILE_SIZE * 9 - TILE_SIZE, TILE_SIZE * 3 - TILE_SIZE, 'Mount Wutai is off limits during blizzards. ', 'signpost', nil, 2 ))
 
 --DUNGEON 1 EXIT
 insertWarpZone(7, 6, 4, 13, 9, 4, 9, 8)
@@ -981,6 +984,7 @@ for k, v in pairs(MAP[1][12].entities) do
   MAP[1][12].entities[k].hit = false
 end
 
+--[[
 table.insert(MAP[2][13].entities, Entity {
   animations = ENTITY_DEFS['bat'].animations,
   spawnColumn = 6,
@@ -1033,6 +1037,7 @@ for k, v in pairs(MAP[2][13].entities) do
 
   MAP[2][13].entities[k].hit = false
 end
+--]]
 
 --MAGE'S CASTLE
 insertWarpZone(9, 2, 10, 19, 5, 2, 5, 8)
