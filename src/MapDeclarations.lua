@@ -41,6 +41,7 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
     MAP[i][j].entities = {}
     MAP[i][j].npc = {}
     MAP[i][j].chasms = {}
+    MAP[i][j].pits = {}
     MAP[i][j].topLevelTileIds = {}
     MAP[i][j].aboveGroundTileIds = {}
     MAP[i][j].dialogueBox = {}
@@ -218,6 +219,11 @@ for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEI
   --CHASMS
   if (aboveGroundTiledMap[tileId] >= CHASM_DEF_BEGIN and aboveGroundTiledMap[tileId] <= CHASM_DEF_END) then
     table.insert(MAP[mapRow][mapCol].chasms, Chasm(sceneRow, sceneCol))
+  end
+
+  --PITS
+  if (aboveGroundTiledMap[tileId] == 15 or aboveGroundTiledMap[tileId] == 16) then
+    table.insert(MAP[mapRow][mapCol].pits, Chasm(sceneRow, sceneCol))
   end
 
   table.insert(MAP[mapRow][mapCol].aboveGroundTileIds, aboveGroundTiledMap[tileId])
@@ -984,7 +990,7 @@ for k, v in pairs(MAP[1][12].entities) do
   MAP[1][12].entities[k].hit = false
 end
 
---[[
+---[[
 table.insert(MAP[2][13].entities, Entity {
   animations = ENTITY_DEFS['bat'].animations,
   spawnColumn = 6,

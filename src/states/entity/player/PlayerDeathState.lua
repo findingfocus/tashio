@@ -19,6 +19,10 @@ function PlayerDeathState:render()
 
   --GREEN TUNIC
   if gPlayer.tunicEquipped  == 'greenTunic' then
-    love.graphics.draw(gTextures['character-death-greenTunic'], gFrames['character-death-greenTunic'][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+    if gPlayer.falling then
+      love.graphics.draw(gTextures['character-fall-greenTunic'], gFrames['character-death-greenTunic'][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+    else
+      love.graphics.draw(gTextures['character-death-greenTunic'], gFrames['character-death-greenTunic'][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+    end
   end
 end
