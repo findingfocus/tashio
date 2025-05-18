@@ -695,6 +695,7 @@ function PlayState:render()
     love.graphics.print('tome: ' .. gKeyItemInventory.tomeEquipped, 0, 0)
     love.graphics.print('justClosed: ' .. tostring(sceneView.dialogueBoxJustClosed), 0, 10)
     --]]
+    --love.graphics.print('falling: ' .. tostring(gPlayer.falling), 0, 10)
 end
 
 function displayFPS()

@@ -206,6 +206,51 @@ function Map:update(dt)
           break
         end
       end
+
+      for k, v in pairs(MAP[self.row][self.column].pits) do
+        if sceneView.player:pitTopLeftCollide(v) then
+          if sceneView.player:pitTopRightCollide(v) then
+            sceneView.player.chasmCollided = v
+            sceneView.player.UpFall = true
+            break
+          elseif sceneView.player:pitBottomLeftCollide(v) then
+            sceneView.player.chasmCollided = v
+            sceneView.player.LeftFall = true
+            break
+          end
+          sceneView.player.chasmCollided = v
+          sceneView.player.UpLeftFall = true
+          break
+        end
+
+        if sceneView.player:pitTopRightCollide(v) then
+          if sceneView.player:pitBottomRightCollide(v) then
+            sceneView.player.chasmCollided = v
+            sceneView.player.RightFall = true
+            break
+          end
+          sceneView.player.chasmCollided = v
+          sceneView.player.UpRightFall = true
+          break
+        end
+
+        if sceneView.player:pitBottomRightCollide(v) then
+          if sceneView.player:pitBottomLeftCollide(v) then
+            sceneView.player.chasmCollided = v
+            sceneView.player.DownFall = true
+            break
+          end
+          sceneView.player.chasmCollided = v
+          sceneView.player.DownRightFall = true
+          break
+        end
+
+        if sceneView.player:pitBottomLeftCollide(v) then
+          sceneView.player.chasmCollided = v
+          sceneView.player.DownLeftFall = true
+          break
+        end
+      end
     end
 
     if sceneView.player.DownFall then
