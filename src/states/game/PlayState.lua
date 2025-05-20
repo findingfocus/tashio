@@ -55,7 +55,7 @@ cameraX = 0
 --ICE MOUNTAIN SHORTCUT
 --sceneView = Scene(gPlayer, 3, 5)
 --DARK FOREST
-sceneView = Scene(gPlayer, 6, 4)
+sceneView = Scene(gPlayer, 3, 5)
 --sceneView = Scene(gPlayer, 1, 13)
 --sceneView = Scene(gPlayer, 9, 3)
 --sceneView = Scene(gPlayer, 9, 2)
@@ -321,13 +321,15 @@ function PlayState:update(dt)
 
   --SAVE
   if love.keyboard.wasPressed('k') then
-    --self.saveUtility:savePlayerData()
+    self.saveUtility:savePlayerData()
   end
 
   --LOADING
   if love.keyboard.wasPressed('l') then
     gPlayer.stateMachine:change('player-meditate')
-    --self.saveUtility:loadPlayerData()
+    self.saveUtility:loadPlayerData()
+    local animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
+    gStateMachine.current.animatables = animatables
   end
 
   --GAME OVER OPTION SELECTOR
@@ -347,9 +349,14 @@ function PlayState:update(dt)
 
   --MINERAL UPDATE
   for k, v in pairs(MAP[4][12].mineralDeposits) do
-      if v.harvestTime < MINERAL_HARVEST_RESET then
-        v:update(dt)
-      end
+    if v.harvestTime < MINERAL_HARVEST_RESET then
+      v:update(dt)
+    end
+  end
+  for k, v in pairs(MAP[2][13].mineralDeposits) do
+    if v.harvestTime < MINERAL_HARVEST_RESET then
+      v:update(dt)
+    end
   end
 
   --TOME 1 SUCCESS
@@ -696,6 +703,7 @@ function PlayState:render()
     love.graphics.print('justClosed: ' .. tostring(sceneView.dialogueBoxJustClosed), 0, 10)
     --]]
     --love.graphics.print('falling: ' .. tostring(gPlayer.falling), 0, 10)
+    --love.graphics.print('frame: ' .. tostring(FLOWERS.frame, 0, 10))
 end
 
 function displayFPS()
