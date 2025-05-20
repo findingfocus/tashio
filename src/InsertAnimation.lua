@@ -17,6 +17,7 @@ function InsertAnimation:update(dt)
 
   for i = 1, #MAP[self.mapRow][self.mapColumn].animatables do
     MAP[self.mapRow][self.mapColumn].animatables[i]()
+    --THE ABOVE FUNCTION RUNS insertAnim() from down below
   end
 end
 

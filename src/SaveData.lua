@@ -1,5 +1,10 @@
 SaveData = Class{}
 
+function SaveData:init()
+  self.itemSlotType = ''
+  self.itemSlotQuantity = 0
+end
+
 function SaveData:savePlayerData()
   local saveData = {}
   saveData['health'] = gPlayer.health
@@ -10,6 +15,11 @@ function SaveData:savePlayerData()
   saveData['playerDirection'] = gPlayer.direction
   saveData['coinCount'] = gPlayer.coinCount
   saveData['rubyCount'] = gPlayer.rubyCount
+  saveData['healthPotionUnlocked'] = gPlayer.healthPotionUnlocked
+  if gItemInventory.itemSlot[1] ~= nil then
+    saveData['itemSlotType'] = gItemInventory.itemSlot[1].type
+    saveData['itemSlotQuantity'] = gItemInventory.itemSlot[1].quantity
+  end
 
   local file = io.open("saves/savePlayerData.bin", "wb")
   if file then
@@ -22,7 +32,7 @@ function SaveData:savePlayerData()
 end
 
 function SaveData:loadPlayerData()
-  gPlayer.currentAnimation:refresh()
+  --gPlayer.currentAnimation:refresh()
   local load = bitser.loadLoveFile("saves/savePlayerData.bin")
   --love.graphics.print(Inspect(fileLoad), 0, 0)
   for k, v in pairs(load) do
@@ -49,6 +59,20 @@ function SaveData:loadPlayerData()
     if k == 'rubyCount' then
       gPlayer.rubyCount = v
     end
+    if k == 'healthPotionUnlocked' then
+      gPlayer.healthPotionUnlocked = v
+    end
+    if gItemInventory.itemSlot[1] ~= nil then
+      if k == 'itemSlotType' then
+        gItemInventory.itemSlot[1].type = v
+        self.itemSlotType = v
+      end
+      if k == 'itemSlotQuantity' then
+        gItemInventory.itemSlot[1].quantity = v
+        self.itemSlotQuantity = v
+      end
+    end
+    print('loaded: ' .. k .. ' ' .. tostring(v))
   end
 
   gPlayer.dead = false

@@ -50,8 +50,10 @@ function TitleScreenState:update(dt)
   if self.step > 2 then
     if INPUT:pressed('start') or INPUT:pressed('action') then
       --LOAD SAVE FILE
-      --self.saveDataUtility:loadPlayerData()
       gStateMachine:change('playState')
+      self.saveDataUtility:loadPlayerData()
+      gItemInventory.itemSlot[1] = Item('healthPotion', self.saveDataUtility.itemSlotQuantity)
+      gItemInventory.itemSlot[1].quantity = self.saveDataUtility.itemSlotQuantity
       gPlayer.stateMachine:change('player-meditate')
       sounds['select']:play()
     end

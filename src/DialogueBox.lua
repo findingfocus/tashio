@@ -332,7 +332,7 @@ function DialogueBox:clear()
         if self.meditateYes then
           gPlayer.stateMachine:change('player-meditate')
           gPlayer.flammeVibrancy = 0
-          --self.saveDataUtility:savePlayerData()
+          self.saveDataUtility:savePlayerData()
         else
           --RESET DEFAULT VALUE
           self.meditateYes = true
@@ -341,7 +341,7 @@ function DialogueBox:clear()
         if self.restYes then
           gPlayer.stateMachine:change('player-meditate')
           gPlayer.flammeVibrancy = 0
-          --self.saveDataUtility:savePlayerData()
+          self.saveDataUtility:savePlayerData()
           --[[
           MAP[2][11].dialogueBox[2].aButtonCount = MAP[2][11].dialogueBox[2].aButtonCount + 1
           MAP[2][11].dialogueBox[2]:reinit()
@@ -506,7 +506,7 @@ function DialogueBox:update(dt)
               if self.meditateYes then
                 gPlayer.stateMachine:change('player-meditate')
                 gPlayer.flammeVibrancy = 0
-                --self.saveDataUtility:savePlayerData()
+                self.saveDataUtility:savePlayerData()
               else
                 --RESET DEFAULT VALUE
                 self.meditateYes = true
@@ -545,7 +545,7 @@ function DialogueBox:update(dt)
               if self.meditateYes then
                 gPlayer.stateMachine:change('player-meditate')
                 gPlayer.flammeVibrancy = 0
-                --self.saveDataUtility:savePlayerData()
+                self.saveDataUtility:savePlayerData()
               else
                 --RESET DEFAULT VALUE
                 self.meditateYes = true
