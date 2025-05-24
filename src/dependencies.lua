@@ -257,6 +257,14 @@ testSprites = love.graphics.newImage('graphics/testSprites.png')
 tileSheet = love.graphics.newImage('graphics/masterSheet.png')
 coin = love.graphics.newImage('graphics/coin.png')
 
+ost = {
+  ['titleTrack'] = love.audio.newSource('music/titleTrack.mp3', 'static'),
+  ['dungeonTrack'] = love.audio.newSource('music/dungeonTrack.mp3', 'static'),
+  ['exploreTrack'] = love.audio.newSource('music/exploreTrack.mp3', 'static'),
+}
+
+SOUNDTRACK = ''
+
 sounds = {
   ['beep'] = love.audio.newSource('music/beep.wav', 'static'),
   ['select'] = love.audio.newSource('music/select.wav', 'static'),

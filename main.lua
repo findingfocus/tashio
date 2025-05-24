@@ -138,6 +138,22 @@ function love.update(dt)
   for k, v in pairs(touches) do
     touches[k].wasTouched = false
   end
+
+  if SOUNDTRACK == 'titleTrack' then
+    if not ost['titleTrack']:isPlaying() then
+      ost['titleTrack']:play()
+    end
+  elseif SOUNDTRACK == 'exploreTrack' then
+      if not ost['exploreTrack']:isPlaying() then
+        ost['titleTrack']:stop()
+        ost['exploreTrack']:play()
+      end
+  elseif SOUNDTRACK == 'dungeonTrack' then
+    if not ost['dungeonTrack']:isPlaying() then
+      ost['exploreTrack']:stop()
+      ost['dungeonTrack']:play()
+    end
+  end
 end
 
 function love.draw()
@@ -159,6 +175,8 @@ function love.draw()
     button:render()
     --button.pressed = INPUT:down(button.direction)
   end
+  love.graphics.setColor(WHITE)
+  love.graphics.print(SOUNDTRACK, 0, 0)
   push:finish()
 end
 
