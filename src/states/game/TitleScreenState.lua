@@ -12,6 +12,7 @@ function TitleScreenState:init()
   self.logoAlpha = 0
   self.titleAlpha = 0
   self.logoTimer = 0
+  SOUNDTRACK = 'titleTrack'
 end
 
 function TitleScreenState:update(dt)
@@ -51,6 +52,7 @@ function TitleScreenState:update(dt)
     if INPUT:pressed('start') or INPUT:pressed('action') then
       --LOAD SAVE FILE
       gStateMachine:change('playState')
+      SOUNDTRACK = 'exploreTrack'
       self.saveDataUtility:loadPlayerData()
       gItemInventory.itemSlot[1] = Item('healthPotion', self.saveDataUtility.itemSlotQuantity)
       gItemInventory.itemSlot[1].quantity = self.saveDataUtility.itemSlotQuantity

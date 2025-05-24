@@ -449,8 +449,14 @@ function Scene:update(dt)
       if v:collides() and not gPlayer.warping then
         gPlayer:changeState('player-idle')
         --gPlayer:changeState('player-walk')
+        if v.dungeon then
+          SOUNDTRACK = 'dungeonTrack'
+        else
+          SOUNDTRACK = 'explore'
+        end
         gPlayer.currentAnimation:refresh()
         triggerStartingSceneTransition = true
+
         gPlayer.warping = true
         gPlayer.warpObject = v
         --RESET TREASURE CHEST TODO TURN OFF FOR DEMO

@@ -858,7 +858,7 @@ end
 --TAVERN
 --TODO IMAGINE WAY TO SWAP PLAYER FRAME TO DEFAULT FRAME UPON TRANSITION
 ---[[
-function insertWarpZone(warpFromRow, warpFromCol, warpToRow, warpToCol, warpFromX, warpFromY, warpToX, warpToY, option)
+function insertWarpZone(warpFromRow, warpFromCol, warpToRow, warpToCol, warpFromX, warpFromY, warpToX, warpToY, option, dungeon)
   warpFromX = warpFromX * TILE_SIZE - TILE_SIZE + 3
   warpFromY = warpFromY * TILE_SIZE - TILE_SIZE - 15
   warpToX = warpToX * TILE_SIZE - TILE_SIZE + 3
@@ -877,6 +877,9 @@ function insertWarpZone(warpFromRow, warpFromCol, warpToRow, warpToCol, warpFrom
 
   table.insert(MAP[warpFromRow][warpFromCol].warpZones, WarpZone(warpFromX, warpFromY, warpPlayerToX, warpPlayerToY, warpToRow, warpToCol))
   table.insert(MAP[warpToRow][warpToCol].warpZones, WarpZone(warpToX, warpToY, warpPlayerFromX, warpPlayerFromY, warpFromRow, warpFromCol))
+  if dungeon then
+
+  end
 end
 --]]
 
