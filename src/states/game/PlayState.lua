@@ -162,7 +162,8 @@ function PlayState:update(dt)
       elseif self.optionSelector == 1 then
         --CONTINUE GAME
         --LOAD LAST SAVE
-        --self.saveUtility:loadPlayerData()
+        self.saveUtility:loadPlayerData()
+        SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
         gStateMachine:change('playState')
         gPlayer.stateMachine:change('player-meditate')
       end

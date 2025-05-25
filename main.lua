@@ -102,9 +102,25 @@ function love.keyboard.wasReleased(key)
   end
 end
 
+function stopOST()
+  ost['titleTrack']:stop()
+  ost['exploreTrack']:stop()
+  ost['dungeonTrack']:stop()
+end
+
 function love.update(dt)
   if gameBroken then
     fixGame()
+  end
+
+  --TOGGLE SOUNDTRACK MUTE
+  if love.keyboard.wasPressed('m') then
+    if OST_VOLUME == 0 then
+      OST_VOLUME = OST_DEFAULT_VOLUME
+    else
+      OST_VOLUME = 0
+    end
+    ost[SOUNDTRACK]:setVolume(OST_VOLUME)
   end
 
   keyboardInput:update(dt)
@@ -141,16 +157,20 @@ function love.update(dt)
 
   if SOUNDTRACK == 'titleTrack' then
     if not ost['titleTrack']:isPlaying() then
+      stopOST()
+      ost['titleTrack']:setVolume(OST_VOLUME)
       ost['titleTrack']:play()
     end
   elseif SOUNDTRACK == 'exploreTrack' then
       if not ost['exploreTrack']:isPlaying() then
-        ost['titleTrack']:stop()
+        stopOST()
+        ost['exploreTrack']:setVolume(OST_VOLUME)
         ost['exploreTrack']:play()
       end
   elseif SOUNDTRACK == 'dungeonTrack' then
     if not ost['dungeonTrack']:isPlaying() then
-      ost['exploreTrack']:stop()
+      stopOST()
+      ost['dungeonTrack']:setVolume(OST_VOLUME)
       ost['dungeonTrack']:play()
     end
   end
