@@ -449,11 +449,8 @@ function Scene:update(dt)
       if v:collides() and not gPlayer.warping then
         gPlayer:changeState('player-idle')
         --gPlayer:changeState('player-walk')
-        if v.dungeon then
-          SOUNDTRACK = 'dungeonTrack'
-        else
-          SOUNDTRACK = 'explore'
-        end
+        stopOST()
+        SOUNDTRACK = MAP[v.warpRow][v.warpCol].ost
         gPlayer.currentAnimation:refresh()
         triggerStartingSceneTransition = true
 

@@ -57,8 +57,21 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
     MAP[i][j].weather = {}
     MAP[i][j].mineralDeposits = {}
     MAP[i][j].minerals = {}
+    MAP[i][j].ost = 'exploreTrack'
   end
 end
+
+--DUNGEON SHORTCUT TO ICE MOUNTAIN
+MAP[1][13].ost = 'dungeonTrack'
+MAP[2][13].ost = 'dungeonTrack'
+
+--GREEN TUNIC DUNGEON
+MAP[4][11].ost = 'dungeonTrack'
+MAP[3][11].ost = 'dungeonTrack'
+MAP[3][12].ost = 'dungeonTrack'
+MAP[4][12].ost = 'dungeonTrack'
+MAP[3][13].ost = 'dungeonTrack'
+MAP[4][13].ost = 'dungeonTrack'
 
 --WEATHER
 
