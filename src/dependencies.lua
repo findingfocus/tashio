@@ -261,6 +261,9 @@ ost = {
   ['titleTrack'] = love.audio.newSource('music/titleTrack.mp3', 'static'),
   ['dungeonTrack'] = love.audio.newSource('music/dungeonTrack.mp3', 'static'),
   ['exploreTrack'] = love.audio.newSource('music/exploreTrack.mp3', 'static'),
+  ['magesCastleTrack'] = love.audio.newSource('music/magesCastleTrack.mp3', 'static'),
+  ['villageTrack'] = love.audio.newSource('music/villageTrack.mp3', 'static'),
+  ['darkForestTrack'] = love.audio.newSource('music/darkForestTrack.mp3', 'static'),
 }
 
 SOUNDTRACK = ''

@@ -73,6 +73,29 @@ MAP[4][12].ost = 'dungeonTrack'
 MAP[3][13].ost = 'dungeonTrack'
 MAP[4][13].ost = 'dungeonTrack'
 
+--DARK TEMPLE
+MAP[1][12].ost = 'dungeonTrack'
+
+MAP[5][3].ost = 'darkForestTrack'
+MAP[5][4].ost = 'darkForestTrack'
+MAP[6][3].ost = 'darkForestTrack'
+MAP[6][4].ost = 'darkForestTrack'
+
+MAP[7][1].ost = 'villageTrack'
+MAP[8][1].ost = 'villageTrack'
+MAP[7][2].ost = 'villageTrack'
+MAP[6][1].ost = 'villageTrack'
+MAP[6][2].ost = 'villageTrack'
+MAP[5][1].ost = 'villageTrack'
+MAP[5][2].ost = 'villageTrack'
+MAP[4][2].ost = 'villageTrack'
+MAP[8][2].ost = 'villageTrack'
+MAP[9][2].ost = 'villageTrack'
+
+--MAGES CASTLE
+MAP[10][19].ost = 'magesCastleTrack'
+MAP[10][18].ost = 'magesCastleTrack'
+
 --WEATHER
 
 table.insert(MAP[7][6].weather, 'LIGHT_SAND')
