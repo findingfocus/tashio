@@ -103,9 +103,9 @@ function love.keyboard.wasReleased(key)
 end
 
 function stopOST()
-  ost['titleTrack']:stop()
-  ost['exploreTrack']:stop()
-  ost['dungeonTrack']:stop()
+  for track, tracks in pairs(ost) do
+    ost[track]:stop()
+  end
 end
 
 function love.update(dt)
@@ -155,6 +155,17 @@ function love.update(dt)
     touches[k].wasTouched = false
   end
 
+  for song, tracks in pairs(ost) do
+    if SOUNDTRACK == song then
+      if not ost[song]:isPlaying() then
+        stopOST()
+        ost[song]:setVolume(OST_VOLUME)
+        ost[song]:play()
+      end
+    end
+  end
+
+  --[[
   if SOUNDTRACK == 'titleTrack' then
     if not ost['titleTrack']:isPlaying() then
       stopOST()
@@ -173,7 +184,20 @@ function love.update(dt)
       ost['dungeonTrack']:setVolume(OST_VOLUME)
       ost['dungeonTrack']:play()
     end
+  elseif SOUNDTRACK == 'darkForestTrack' then
+    if not ost['darkForestTrack']:isPlaying() then
+      stopOST()
+      ost['darkForestTrack']:setVolume(OST_VOLUME)
+      ost['darkForestTrack']:play()
+    end
+  elseif SOUNDTRACK == 'villageTrack' then
+    if not ost['villageTrack']:isPlaying() then
+      stopOST()
+      ost['villageTrack']:setVolume(OST_VOLUME)
+      ost['villageTrack']:play()
+    end
   end
+  --]]
 end
 
 function love.draw()
@@ -196,7 +220,7 @@ function love.draw()
     --button.pressed = INPUT:down(button.direction)
   end
   love.graphics.setColor(WHITE)
-  love.graphics.print(SOUNDTRACK, 0, 0)
+  love.graphics.print(SOUNDTRACK, 0, 30)
   push:finish()
 end
 

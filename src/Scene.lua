@@ -193,6 +193,7 @@ function Scene:finishShifting()
   MAP[self.currentMap.row][self.currentMap.column].coins = {}
   --self.currentMap.row = sceneView.currentMap.row
   --self.currentMap.column = sceneView.currentMap.column
+  --
 
   --MINERAL RESET
   for k, v in pairs(MAP[4][12].mineralDeposits) do
@@ -203,6 +204,9 @@ function Scene:finishShifting()
 
   self.currentMap = self.nextMap
   gStateMachine.current.animatables = InsertAnimation(self.currentMap.row, self.currentMap.column)
+
+  --SOUNDTRACK
+  SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
 
   if MAP[self.currentMap.row][self.currentMap.column].disjointUp then
     gPlayer.extendDialogueBoxUpwards = true
