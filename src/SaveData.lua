@@ -33,6 +33,17 @@ end
 
 function SaveData:loadPlayerData()
   --gPlayer.currentAnimation:refresh()
+  local info = love.filesystem.getInfo("saves/savePlayerData.bin")
+
+  if info == nil then
+    print("File Does Not Exist")
+    sceneView.activeDialogueID = nil
+    gStateMachine:change('openingCinematic')
+    goto earlybreak
+  else
+    print(Inspect(info))
+  end
+
   local load = bitser.loadLoveFile("saves/savePlayerData.bin")
   --love.graphics.print(Inspect(fileLoad), 0, 0)
   for k, v in pairs(load) do
@@ -87,4 +98,6 @@ function SaveData:loadPlayerData()
       sceneView.currentMap = Map(sceneView.currentMap.row, sceneView.currentMap.column, 1)
     end
   end
+
+  ::earlybreak::
 end
