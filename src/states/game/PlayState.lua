@@ -19,6 +19,9 @@ gItemInventory = Inventory('item')
 gKeyItemInventory = Inventory('keyItem')
 gItems = {}
 
+    --LUTE OBTAIN
+    table.insert(gItemInventory.grid[1][1], Item('lute'))
+
 local vibrancy = 0
 local vibrancyGrow = true
 
@@ -201,8 +204,6 @@ function PlayState:update(dt)
   end
 
   if love.keyboard.wasPressed('e') then
-    --LUTE OBTAIN
-    --table.insert(gItemInventory.grid[1][1], Item('lute'))
     gItemInventory.grid[1][1] = {}
   end
 

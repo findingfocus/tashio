@@ -24,6 +24,17 @@ function PauseState:update(dt)
     end
   end
 
+  if INPUT:pressed('select') then
+    if gItemInventory.itemSlot[1] ~= nil then
+      if gItemInventory.grid[1][1][1] == nil then
+        table.insert(gItemInventory.grid[1][1], gItemInventory.itemSlot[1])
+      elseif gItemInventory.grid[1][2][1] == nil then
+        table.insert(gItemInventory.grid[1][2], gItemInventory.itemSlot[1])
+      end
+      gItemInventory.itemSlot[1] = nil
+    end
+  end
+
   for k, v in pairs(touches) do
     --INVENTORY SWAP
     if buttons[2]:collides(touches[k]) and touches[k].wasTouched then
