@@ -56,7 +56,7 @@ end
 
 function PauseState:render()
   love.graphics.draw(pauseMockup, 0, 0)
-  gItemInventory:render(self.inventoryType)
+  --gItemInventory:render(self.inventoryType)
   gKeyItemInventory:render(self.inventoryType)
   love.graphics.setColor(WHITE)
   --PLAYER

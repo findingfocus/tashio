@@ -280,7 +280,8 @@ function Inventory:render(cursorRender)
       end
     end
   end
-  if self.itemSlot[1] ~= nil then
+  --REMOVED itemSlot[1]
+  if self.itemSlot then
     self.itemSlot[1]:render()
   end
 
