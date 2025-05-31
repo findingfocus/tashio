@@ -189,7 +189,7 @@ function PlayState:update(dt)
       love.graphics.setColor(WHITE)
       love.graphics.print('POTION', 0,0)
       gItemInventory.itemSlot[1].quantity = math.max(0, gItemInventory.itemSlot[1].quantity - 1)
-      gPlayer.health = 14
+      gPlayer.health = 2
     end
   end
 
@@ -198,6 +198,12 @@ function PlayState:update(dt)
       Lute:reset()
       bassNotes1:reset()
     end
+  end
+
+  if love.keyboard.wasPressed('e') then
+    --LUTE OBTAIN
+    --table.insert(gItemInventory.grid[1][1], Item('lute'))
+    gItemInventory.grid[1][1] = {}
   end
 
   if INPUT:pressed('start') then

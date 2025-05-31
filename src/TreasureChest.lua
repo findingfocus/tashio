@@ -36,7 +36,8 @@ function TreasureChest:openChest()
   if self.contents == 'tome1' then
     gPlayer.tome1Unlocked = true
   elseif self.contents == 'healthPotion' then
-    table.insert(gItemInventory.grid[1][2], Item('healthPotion', 10))
+    table.insert(gItemInventory.grid[1][2], Item('healthPotion'))
+    gItemInventory.grid[1][2][1].quantity = 10
     gItemInventory.grid[1][2][1]:update(1, 2)
   end
 

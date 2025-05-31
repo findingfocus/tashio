@@ -220,7 +220,7 @@ function love.draw()
     --button.pressed = INPUT:down(button.direction)
   end
   love.graphics.setColor(WHITE)
-  love.graphics.print(SOUNDTRACK, 0, 30)
+  --love.graphics.print(SOUNDTRACK, 0, 30)
   push:finish()
 end
 
