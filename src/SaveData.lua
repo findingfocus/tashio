@@ -18,6 +18,10 @@ function SaveData:savePlayerData()
   if gItemInventory.itemSlot[1] ~= nil then
     saveData['itemSlotType'] = gItemInventory.itemSlot[1].type
     saveData['itemSlotQuantity'] = gItemInventory.itemSlot[1].quantity
+  else
+    --????
+    saveData['itemSlotType'] = {}
+    saveData['itemSlotQuantity'] = {}
   end
 
   if gItemInventory.grid[1][1][1] ~= nil then
