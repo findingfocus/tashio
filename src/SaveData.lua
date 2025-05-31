@@ -1,8 +1,7 @@
 SaveData = Class{}
 
 function SaveData:init()
-  self.itemSlotType = ''
-  self.itemSlotQuantity = 0
+
 end
 
 function SaveData:savePlayerData()
@@ -19,6 +18,15 @@ function SaveData:savePlayerData()
   if gItemInventory.itemSlot[1] ~= nil then
     saveData['itemSlotType'] = gItemInventory.itemSlot[1].type
     saveData['itemSlotQuantity'] = gItemInventory.itemSlot[1].quantity
+  end
+
+  if gItemInventory.grid[1][1][1] ~= nil then
+    saveData['inventoryGrid1-1Type'] = gItemInventory.grid[1][1][1].type
+    saveData['inventoryGrid1-1Quantity'] = gItemInventory.grid[1][1][1].quantity
+  end
+  if gItemInventory.grid[1][2][1] ~= nil then
+    saveData['inventoryGrid1-2Type'] = gItemInventory.grid[1][2][1].type
+    saveData['inventoryGrid1-2Quantity'] = gItemInventory.grid[1][2][1].quantity
   end
 
   local file = io.open("saves/savePlayerData.bin", "wb")
@@ -39,6 +47,7 @@ function SaveData:loadPlayerData()
     print("File Does Not Exist")
     sceneView.activeDialogueID = nil
     gStateMachine:change('openingCinematic')
+    SOUNDTRACK = 'magesCastleTrack'
     goto earlybreak
   else
     print(Inspect(info))
@@ -73,15 +82,20 @@ function SaveData:loadPlayerData()
     if k == 'healthPotionUnlocked' then
       gPlayer.healthPotionUnlocked = v
     end
-    if gItemInventory.itemSlot[1] ~= nil then
-      if k == 'itemSlotType' then
-        gItemInventory.itemSlot[1].type = v
-        self.itemSlotType = v
-      end
-      if k == 'itemSlotQuantity' then
-        gItemInventory.itemSlot[1].quantity = v
-        self.itemSlotQuantity = v
-      end
+    if k == 'itemSlotType' then
+      gItemInventory.itemSlot[1] = Item(v)
+      gItemInventory.itemSlot[1]:equip()
+    end
+    if k == 'itemSlotQuantity' then
+      gItemInventory.itemSlot[1].quantity = v
+    end
+    if k == 'inventoryGrid1-1Type' then
+      table.insert(gItemInventory.grid[1][1], Item(v))
+      gItemInventory.grid[1][1][1].quantity = load['inventoryGrid1-1Quantity']
+    end
+    if k == 'inventoryGrid1-2Type' then
+      table.insert(gItemInventory.grid[1][2], Item(v))
+      gItemInventory.grid[1][2][1].quantity = load['inventoryGrid1-2Quantity']
     end
     print('loaded: ' .. k .. ' ' .. tostring(v))
   end

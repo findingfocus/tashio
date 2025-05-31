@@ -29,7 +29,6 @@ function Inventory:init(option)
         self.grid[i][k] = {}
       end
     end
-    table.insert(self.grid[1][1], Item('lute', nil))
     --table.insert(self.grid[1][2], Item('healthPotion', 10))
   end
 --[[

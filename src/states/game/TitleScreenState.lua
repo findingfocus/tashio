@@ -56,8 +56,6 @@ function TitleScreenState:update(dt)
       stopOST()
       self.saveDataUtility:loadPlayerData()
       SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
-      gItemInventory.itemSlot[1] = Item('healthPotion', self.saveDataUtility.itemSlotQuantity)
-      gItemInventory.itemSlot[1].quantity = self.saveDataUtility.itemSlotQuantity
       gPlayer.stateMachine:change('player-meditate')
       sounds['select']:play()
     end

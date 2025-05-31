@@ -1,6 +1,6 @@
 Item = Class{}
 
-function Item:init(option, quantity)
+function Item:init(option)
   --self.gridRow = row
   --self.gridCol = col
   self.type = option
@@ -13,7 +13,7 @@ function Item:init(option, quantity)
   elseif option == 'lute' then
     self.image = lute
   end
-  self.quantity = quantity
+  self.quantity = nil
   self.x = 0
   self.y = 0
   self.equipped = false
