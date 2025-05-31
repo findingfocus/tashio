@@ -52,9 +52,9 @@ function love.load()
     ['Tome1SuccessState'] = function() return Tome1SuccessState() end
   }
 
-  gStateMachine:change('titleState')
+  --gStateMachine:change('titleState')
   --gStateMachine:change('refineryState')
-  --gStateMachine:change('playState')
+  gStateMachine:change('playState')
   --gStateMachine:change('minimap')
   --gStateMachine:change('chasmFallingState')
 
@@ -221,6 +221,7 @@ function love.draw()
   end
   love.graphics.setColor(WHITE)
   --love.graphics.print(SOUNDTRACK, 0, 30)
+  love.graphics.print('meditate: ' .. tostring(gPlayer.meditate), 0, 20)
   push:finish()
 end
 

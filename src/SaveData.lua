@@ -19,42 +19,51 @@ function SaveData:savePlayerData()
     saveData['itemSlotType'] = gItemInventory.itemSlot[1].type
     saveData['itemSlotQuantity'] = gItemInventory.itemSlot[1].quantity
   else
-    --????
-    saveData['itemSlotType'] = {}
-    saveData['itemSlotQuantity'] = {}
+    saveData['itemSlotType'] = nil
+    saveData['itemSlotQuantity'] = nil
   end
 
-  if gItemInventory.grid[1][1][1] ~= nil then
+  if gItemInventory.grid[1][1][1] then
     saveData['inventoryGrid1-1Type'] = gItemInventory.grid[1][1][1].type
     saveData['inventoryGrid1-1Quantity'] = gItemInventory.grid[1][1][1].quantity
+  else
+   saveData['inventoryGrid1-1Type'] = nil
+   saveData['inventoryGrid1-1Quantity'] = nil
   end
   if gItemInventory.grid[1][2][1] ~= nil then
     saveData['inventoryGrid1-2Type'] = gItemInventory.grid[1][2][1].type
     saveData['inventoryGrid1-2Quantity'] = gItemInventory.grid[1][2][1].quantity
+  else
+   saveData['inventoryGrid1-2Type'] = nil
+   saveData['inventoryGrid1-2Quantity'] = nil
   end
 
-  local file = io.open("saves/savePlayerData.bin", "wb")
-  if file then
-    local serialized = bitser.dumps(saveData)
-    file:write(serialized)
-    file:close()
+  local success, err = love.filesystem.write("saves/savePlayerData.bin", bitser.dumps(saveData))
+  if success then
+    print("Game saved successfully!")
   else
-    print("Error saving game!")
+    print("Error saving game: " .. (err or "Unknown error"))
   end
 end
 
 function SaveData:loadPlayerData()
   --gPlayer.currentAnimation:refresh()
-  local info = love.filesystem.getInfo("saves/savePlayerData.bin")
+  local success, err = love.filesystem.createDirectory("saves")
+  if not success then
+    print("Failed to create saves directory: " .. (err or "Unknown error"))
+    return
+  end
 
-  if info == nil then
-    print("File Does Not Exist")
+  local save = love.filesystem.getInfo("saves/savePlayerData.bin")
+
+  if save == nil then
+    print("No save data found, starting new game.")
     sceneView.activeDialogueID = nil
     gStateMachine:change('openingCinematic')
-    SOUNDTRACK = 'magesCastleTrack'
+    gPlayer:changeState('player-death')
     goto earlybreak
   else
-    print(Inspect(info))
+    print(Inspect(save))
   end
 
   local load = bitser.loadLoveFile("saves/savePlayerData.bin")
@@ -89,9 +98,8 @@ function SaveData:loadPlayerData()
     if k == 'itemSlotType' then
       gItemInventory.itemSlot[1] = Item(v)
       gItemInventory.itemSlot[1]:equip()
-    end
-    if k == 'itemSlotQuantity' then
-      gItemInventory.itemSlot[1].quantity = v
+      --HERE
+      gItemInventory.itemSlot[1].quantity = load['itemSlotQuantity']
     end
     if k == 'inventoryGrid1-1Type' then
       table.insert(gItemInventory.grid[1][1], Item(v))

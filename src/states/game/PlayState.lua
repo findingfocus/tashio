@@ -19,8 +19,9 @@ gItemInventory = Inventory('item')
 gKeyItemInventory = Inventory('keyItem')
 gItems = {}
 
-    --LUTE OBTAIN
-    table.insert(gItemInventory.grid[1][1], Item('lute'))
+--LUTE OBTAIN
+table.insert(gItemInventory.grid[1][1], Item('lute'))
+--table.insert(gItemInventory.grid[1][2], Item('healthPotion'))
 
 local vibrancy = 0
 local vibrancyGrow = true
@@ -500,10 +501,15 @@ function PlayState:render()
   love.graphics.setColor(WHITE)
   love.graphics.draw(hudOverlay, 0, VIRTUAL_HEIGHT - 16)
   --]]
+
+  --HERE
+  --[[
   if gItemInventory.itemSlot[1] ~= nil then
     love.graphics.setFont(pixelFont)
     gItemInventory.itemSlot[1]:render()
   end
+  --]]
+  
 
   --[[
   love.graphics.setColor(gKeyItemInventory.elementColor)
