@@ -281,7 +281,7 @@ function Inventory:render(cursorRender)
     end
   end
   --REMOVED itemSlot[1]
-  if self.itemSlot then
+  if self.itemSlot[1] then
     self.itemSlot[1]:render()
   end
 

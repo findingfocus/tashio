@@ -54,16 +54,16 @@ function SaveData:loadPlayerData()
     return
   end
 
-  local save = love.filesystem.getInfo("saves/savePlayerData.bin")
+  local saveDataExists = love.filesystem.getInfo("saves/savePlayerData.bin")
 
-  if save == nil then
-    print("No save data found, starting new game.")
+  if saveDataExists == nil then
+    print("No saveDataExists data found, starting new game.")
     sceneView.activeDialogueID = nil
     gStateMachine:change('openingCinematic')
     gPlayer:changeState('player-death')
     goto earlybreak
   else
-    print(Inspect(save))
+    print(Inspect(saveDataExists))
   end
 
   local load = bitser.loadLoveFile("saves/savePlayerData.bin")
@@ -111,6 +111,8 @@ function SaveData:loadPlayerData()
     end
     print('loaded: ' .. k .. ' ' .. tostring(v))
   end
+
+  print('GAME LOADED')
 
   gPlayer.dead = false
   gPlayer.deadTimer = 0
