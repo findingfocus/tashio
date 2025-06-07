@@ -221,7 +221,7 @@ function love.draw()
   end
   love.graphics.setColor(WHITE)
   --love.graphics.print(SOUNDTRACK, 0, 30)
-  love.graphics.print('meditate: ' .. tostring(gPlayer.meditate), 0, 20)
+  --love.graphics.print('meditate: ' .. tostring(gPlayer.meditate), 0, 20)
   push:finish()
   --[[
   local save = love.filesystem.getSaveDirectory()

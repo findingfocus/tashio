@@ -103,7 +103,15 @@ function PlayState:init()
   self.animatables = InsertAnimation(sceneView.currentMap.row, sceneView.currentMap.column)
 end
 
+
+local sfx_index = 1
 function PlayState:update(dt)
+
+  if love.keyboard.wasPressed('b') then
+    playThis[sfx_index]:play()
+    sfx_index = sfx_index + 1
+  end
+
   --[[
   if vibrancyGrow then
     vibrancy = math.min(vibrancy + dt, 10)
@@ -717,7 +725,7 @@ function PlayState:render()
     love.graphics.print('justClosed: ' .. tostring(sceneView.dialogueBoxJustClosed), 0, 10)
     --]]
     --love.graphics.print('falling: ' .. tostring(gPlayer.falling), 0, 10)
-    --love.graphics.print('frame: ' .. tostring(FLOWERS.frame, 0, 10))
+    --love.graphics.print('sfx_count: ' .. Inspect(sfx['tashio-falling']), 0, 10)
 end
 
 function displayFPS()

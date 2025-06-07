@@ -268,6 +268,45 @@ ost = {
 
 SOUNDTRACK = ''
 
+sfx = {
+  ['bat-damaged'] = love.audio.newSource('sounds/SFX/Bat_Damaged_v4.mp3', 'static'),
+  ['bat-spit'] = love.audio.newSource('sounds/SFX/Bat_Spit_v3.mp3', 'static'),
+  ['bat-flap'] = love.audio.newSource('sounds/SFX/Bat_Wing_Flap_v4.mp3', 'static'),
+  ['cleanse'] = love.audio.newSource('sounds/SFX/Cleanse_Corruption_v2.mp3', 'static'),
+  ['coin-pickup'] = love.audio.newSource('sounds/SFX/CoinPickup_v1.mp3', 'static'),
+  ['tashio-falling'] = love.audio.newSource('sounds/SFX/Falling_v1.mp3', 'static'),
+  ['game-over1'] = love.audio.newSource('sounds/SFX/GAME_OVER_V1.mp3', 'static'),
+  ['game-over2'] = love.audio.newSource('sounds/SFX/GAME_OVER_V2.mp3', 'static'),
+  ['game-over3'] = love.audio.newSource('sounds/SFX/GAME_OVER_V3.mp3', 'static'),
+  ['item-equip1'] = love.audio.newSource('sounds/SFX/Item_Equip_v1.mp3', 'static'),
+  ['item-equip2'] = love.audio.newSource('sounds/SFX/Item_Equip_v2.mp3', 'static'),
+  ['item-equip3'] = love.audio.newSource('sounds/SFX/Item_Equip_v3.mp3', 'static'),
+  ['item-pickup'] = love.audio.newSource('sounds/SFX/ITEM_PICKUP_V1.mp3', 'static'),
+  ['open-chest'] = love.audio.newSource('sounds/SFX/Open_Chest_v2.mp3', 'static'),
+  ['pause1'] = love.audio.newSource('sounds/SFX/Pause_v1.mp3', 'static'),
+  ['pause2'] = love.audio.newSource('sounds/SFX/Pause_v2.mp3', 'static'),
+  ['pause3'] = love.audio.newSource('sounds/SFX/Pause_v3.mp3', 'static'),
+  ['purchase1'] = love.audio.newSource('sounds/SFX/Purchase_v1.mp3', 'static'),
+  ['purchase2'] = love.audio.newSource('sounds/SFX/Purchase_v2.mp3', 'static'),
+  ['push-crate'] = love.audio.newSource('sounds/SFX/Push_Crate_v1.mp3', 'static'),
+  ['push-rock'] = love.audio.newSource('sounds/SFX/Push_Rock_v1.mp3', 'static'),
+  ['ruby-pickup'] = love.audio.newSource('sounds/SFX/Ruby_Pickup_v3.mp3', 'static'),
+  ['ruby-unsocket'] = love.audio.newSource('sounds/SFX/Ruby_Unsocket_v3.mp3', 'static'),
+  ['tashio-hurt1'] = love.audio.newSource('sounds/SFX/Tashio_Hurt_v2.mp3', 'static'),
+  ['tashio-hurt2'] = love.audio.newSource('sounds/SFX/Tashio_Hurt_v4.mp3', 'static'),
+  ['ui-scroll1'] = love.audio.newSource('sounds/SFX/UI_Scroll_v1.mp3', 'static'),
+  ['ui-scroll2'] = love.audio.newSource('sounds/SFX/UI_Scroll_v2.mp3', 'static'),
+  ['ui-select1'] = love.audio.newSource('sounds/SFX/UI_Select_v1.mp3', 'static'),
+  ['ui-select2'] = love.audio.newSource('sounds/SFX/UI_Select_v2.mp3', 'static'),
+  ['use-potion'] = love.audio.newSource('sounds/SFX/Use_Potion_v3.mp3', 'static'),
+  ['warp-zone'] = love.audio.newSource('sounds/SFX/Warp_Location_v4.mp3', 'static'),
+}
+
+playThis = {}
+for k, v in pairs(sfx) do
+  table.insert(playThis, v)
+end
+
 sounds = {
   ['beep'] = love.audio.newSource('music/beep.wav', 'static'),
   ['select'] = love.audio.newSource('music/select.wav', 'static'),
