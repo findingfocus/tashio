@@ -268,6 +268,7 @@ ost = {
 
 SOUNDTRACK = ''
 
+--SFX TABLE
 sfx = {
   ['bat-damaged'] = love.audio.newSource('sounds/SFX/Bat_Damaged_v4.mp3', 'static'),
   ['bat-spit'] = love.audio.newSource('sounds/SFX/Bat_Spit_v3.mp3', 'static'),
@@ -301,6 +302,8 @@ sfx = {
   ['use-potion'] = love.audio.newSource('sounds/SFX/Use_Potion_v3.mp3', 'static'),
   ['warp-zone'] = love.audio.newSource('sounds/SFX/Warp_Location_v4.mp3', 'static'),
 }
+
+sfx['bat-flap']:setVolume(0.2)
 
 playThis = {}
 for k, v in pairs(sfx) do

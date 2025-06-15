@@ -102,6 +102,7 @@ function BatSpawnState:processAI(params, dt, player)
 
   if self.entity.spawnTimer <= 0 and not self.entity.blocked then
     self.entity.spawning = true
+    self.entity.flapActive = true
     self.entity.pursueTimer = self.entity.pursueTimer + dt
   end
 

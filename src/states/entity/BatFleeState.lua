@@ -5,7 +5,7 @@ function BatFleeState:init(entity)
   self.entity.dx = 0
   self.entity.dy = 0
   self.entity.stateName = 'flee'
-  sounds['cleanse']:play()
+  sfx['cleanse']:play()
   self.entity.damageFlash = true
   self.entity.corrupted = false
   self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['bat'].animations)
@@ -35,12 +35,13 @@ function BatFleeState:resetOriginalPosition()
   self.entity.health = 1
   self.entity.spawning = true
   self.entity.corrupted = true
+  self.entity.flapActive = false
   self.entity.zigzagTime = 0
   self.entity.walkSpeed = self.entity.originalWalkSpeed
   self.entity.zigzagFrequency = math.random(1, 5)
   --self.entity.zigzagAmplitude = math.random(.3, .35)
   self.entity.zigzagAmplitude = math.random(1, 5) / 10
-  self.entity.spawnTimer = 2
+  self.entity.spawnTimer = math.random(2, 3)
   self.entity.setLocation = false
   self.entity.pursueTimer = 0
   self.entity:changeState('bat-spawn')
