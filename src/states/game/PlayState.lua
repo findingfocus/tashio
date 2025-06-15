@@ -59,7 +59,8 @@ cameraX = 0
 --ICE MOUNTAIN SHORTCUT
 --sceneView = Scene(gPlayer, 3, 5)
 --DARK FOREST
-sceneView = Scene(gPlayer, 3, 5)
+--sceneView = Scene(gPlayer, 3, 5)
+sceneView = Scene(gPlayer, 2, 13)
 --sceneView = Scene(gPlayer, 1, 13)
 --sceneView = Scene(gPlayer, 9, 3)
 --sceneView = Scene(gPlayer, 9, 2)

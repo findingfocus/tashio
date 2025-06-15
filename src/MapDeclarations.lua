@@ -1039,7 +1039,7 @@ table.insert(MAP[2][13].entities, Entity {
   height = 10,
   health = 1,
   spawning = true,
-  spawnTimer = 3,
+  spawnTimer = 2.5,
   type = 'bat',
   corrupted = true,
   enemy = true,

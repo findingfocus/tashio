@@ -9,7 +9,7 @@ function Spitball:init(entity)
   self.lifespan = 0.1
   self.remove = false
   self.spitball = true
-
+  sfx['bat-spit']:play()
   self.hitUp = false
   self.hitDown = false
   self.hitLeft = false
@@ -82,6 +82,6 @@ function Spitball:update(dt)
 end
 
 function Spitball:render()
-  love.graphics.setColor(WHITE)
+  love.graphics.setColor(1, 0, 1, 1)
   love.graphics.circle('fill', self.x, self.y, 2)
 end

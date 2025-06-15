@@ -20,6 +20,9 @@ function Entity:init(def)
   self.animations = self:createAnimations(def.animations)
   self.spawning = def.spawning or nil
   self.blocked = false
+  self.flapTimer = 0
+  self.flapThreshold = 0.5
+  self.flapActive = false
   --self:changeAnimation('idle-down')
   self.spawnRow = def.spawnRow or nil
   self.spawnColumn = def.spawnColumn or nil
@@ -81,6 +84,7 @@ function Entity:resetOriginalPosition()
     self.locationSet = false
     self.spawnTimer = self.originalSpawnTimer
     self.pursueTimer = 0
+    self.flapActive = false
     --self.pursueTrigger = 1.5 + self.spawnTimer
   end
   if self.type == 'gecko' or self.type == 'geckoC' then
@@ -170,6 +174,38 @@ function Entity:changeAnimation(name)
 end
 
 function Entity:update(dt)
+  --BAT FLAP
+  if self.type == 'bat' then
+    if self.flapActive then
+      self.flapTimer = self.flapTimer + dt
+    end
+    if self.flapTimer > self.flapThreshold then
+      self.flapTimer = 0
+      sfx['bat-flap']:play()
+    end
+  end
+  --[[
+  if self.flapTimer > self.flapThreshold then
+    self.flapTimer = 0
+    sfx['bat-flap']:play()
+  end
+  if self.type == 'bat' then
+    if self.stateName == 'spawn' then
+      if self.spawning then
+        if self.flapTimer > self.flapThreshold then
+          self.flapTimer = 0
+          sfx['bat-flap']:play()
+        end
+      end
+    elseif self.stateName == 'pursue' or self.stateName == 'flee' then
+      if self.flapTimer > self.flapThreshold then
+        self.flapTimer = 0
+        sfx['bat-flap']:play()
+      end
+    end
+  end
+  --]]
+
   if self.damageFlash then
     self.damageFlashTimer = self.damageFlashTimer - dt
     if self.damageFlashTimer <= 0 then
@@ -237,7 +273,7 @@ function Entity:update(dt)
       if self:fireSpellCollides(sceneView.spellcastEntities[i]) and not self.hit and self.corrupted and not self.spawning then
         self.damageFlash = true
         self.health = math.max(0, self.health - DAMAGE)
-        sounds['hurt']:play()
+        sfx['bat-damaged']:play()
         if self.x > spellX then
           self.dx = SPELL_KNOCKBACK
         else

@@ -67,9 +67,10 @@ function getDistanceToPlayer(player, entity)
 end
 
 function BatWalkState:update(dt)
+
   if self.entity.corrupted then
     if self.entity.health <= 0 then
-      sounds['cleanse']:play()
+      sfx['cleanse']:play()
       self.entity.damageFlash = false
       self.entity.flashing = false
       self.entity.corrupted = false

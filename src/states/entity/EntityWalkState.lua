@@ -27,6 +27,11 @@ function EntityWalkState:update(dt)
       local random = math.random(4)
       self.entity.direction = sceneView.possibleDirections[random]
       self.entity.corrupted = false
+      --[[
+      if self.entity.type == 'batC' then
+        sfx['cleanse'
+      end
+      --]]
     end
   end
 
