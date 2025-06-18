@@ -9,7 +9,7 @@ function Player:init(def)
   Entity.init(self, def)
   self.lastInput = nil
   self.inputsHeld = 0
-  self.health = 8
+  self.health = 2
   --self.health = 1
   self.heartTimer = heartSpeed
   self.decrement = true
@@ -272,10 +272,7 @@ function Player:update(dt)
   if self.health <= 0 and not self.dead then
     self.dead = true
     self:changeState('player-death')
-    if self.health == 0 then
-      sounds['death']:play()
-    end
-
+    sfx['game-over1']:play()
     --[[
     if self.chasmDeath then
       self.deadTimer = 0
