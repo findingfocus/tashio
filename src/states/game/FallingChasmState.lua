@@ -14,6 +14,8 @@ function FallingChasmState:init()
   self.playerX = -17
   self.playerY = -8
   self.zigzagTime = 0
+  sfx['game-over3']:play()
+  sfx['game-over1']:stop()
   self.optionSelector = 1
   self.saveUtility = SaveData()
   SOUNDTRACK = ''
@@ -21,6 +23,9 @@ function FallingChasmState:init()
 end
 
 function FallingChasmState:update(dt)
+  if sfx['game-over1']:isPlaying() then
+    sfx['game-over1']:stop()
+  end
   --[[
   gPlayer.dx = 0
   gPlayer.dy = 0
@@ -141,4 +146,5 @@ function FallingChasmState:render()
     love.graphics.setColor(DARK_CYAN)
     love.graphics.printf('QUIT', 0, VIRTUAL_HEIGHT - 16, VIRTUAL_WIDTH, 'center')
   end
+  love.graphics.print('falling: ' .. tostring(gPlayer.falling), 0, 10)
 end

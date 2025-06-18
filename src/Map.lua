@@ -298,6 +298,11 @@ function Map:update(dt)
     --CHASM FALL
     if sceneView.player.chasmFallTimer >= CHASM_FALL_ANIM_TIMER then
       sceneView.player:changeAnimation('falling')
+      if not sceneView.player.falling then
+        if not sfx['tashio-falling']:isPlaying() then
+          sfx['tashio-falling']:play()
+        end
+      end
       sceneView.player.falling = true
       sceneView.player.chasmFalling = false
     end
@@ -307,7 +312,7 @@ function Map:update(dt)
     if MAP[self.row][self.column].coins[1] ~= nil then
       for k, v in pairs(MAP[self.row][self.column].coins) do
         if sceneView.player:coinCollides(v) then
-          sounds['coinPickup']:play()
+          sfx['coin-pickup']:play()
           gPlayer.coinCount = gPlayer.coinCount + 1
           if gPlayer.coinCount > 999 then
             gPlayer.coinCount = 999
