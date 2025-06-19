@@ -397,6 +397,9 @@ function Map:update(dt)
       if sceneView.player.health <= 0 then
         MAP[sceneView.currentMap.row][sceneView.currentMap.column].attacks = {}
         gStateMachine:change('chasmFallingState')
+        --HERE
+        --gPlayer:change()
+        gPlayer:changeAnimation('chasm-fall')
       else
         sceneView.player.x = sceneView.player.checkPointPositions.x
         sceneView.player.y = sceneView.player.checkPointPositions.y

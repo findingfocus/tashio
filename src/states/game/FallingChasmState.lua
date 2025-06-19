@@ -146,5 +146,5 @@ function FallingChasmState:render()
     love.graphics.setColor(DARK_CYAN)
     love.graphics.printf('QUIT', 0, VIRTUAL_HEIGHT - 16, VIRTUAL_WIDTH, 'center')
   end
-  love.graphics.print('falling: ' .. tostring(gPlayer.falling), 0, 10)
+  --love.graphics.print('falling: ' .. tostring(gPlayer.falling), 0, 10)
 end

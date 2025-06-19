@@ -65,6 +65,8 @@ sceneView = Scene(gPlayer, 2, 13)
 --sceneView = Scene(gPlayer, 9, 3)
 --sceneView = Scene(gPlayer, 9, 2)
 --sceneView = Scene(gPlayer, 4, 11)
+
+--GREEN TUNIC EQUIP
 gPlayer.tunicEquipped = 'greenTunic'
 gPlayer.elementEquipped = 'flamme'
 --sceneView = Scene(gPlayer, 1, 12)
@@ -725,7 +727,8 @@ function PlayState:render()
     love.graphics.print('tome: ' .. gKeyItemInventory.tomeEquipped, 0, 0)
     love.graphics.print('justClosed: ' .. tostring(sceneView.dialogueBoxJustClosed), 0, 10)
     --]]
-    love.graphics.print('falling: ' .. tostring(gPlayer.falling), 0, 10)
+    --love.graphics.print('falling: ' .. tostring(gPlayer.falling), 0, 10)
+    --love.graphics.print('state: ' .. tostring(PLAYER_STATE), 0, 20)
     --love.graphics.print('sfx_count: ' .. Inspect(sfx['tashio-falling']), 0, 10)
 end
 
