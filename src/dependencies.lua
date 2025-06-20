@@ -304,6 +304,8 @@ sfx = {
 }
 
 sfx['bat-flap']:setVolume(0.2)
+sfx['item-equip1']:setVolume(0.6)
+sfx['item-equip3']:setVolume(0.6)
 
 playThis = {}
 for k, v in pairs(sfx) do
