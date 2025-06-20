@@ -21,7 +21,7 @@ gItems = {}
 
 --LUTE OBTAIN
 table.insert(gItemInventory.grid[1][1], Item('lute'))
-table.insert(gItemInventory.grid[1][2], Item('healthPotion'))
+table.insert(gItemInventory.grid[1][2], Item('healthPotion', 10))
 
 local vibrancy = 0
 local vibrancyGrow = true
@@ -200,11 +200,12 @@ function PlayState:update(dt)
         end
       end
     elseif gItemInventory.itemSlot[1].type == 'healthPotion' and gPlayer.health < 14 and gItemInventory.itemSlot[1].quantity > 0 then
-      --HEALTH POTION
+      --HEALTH POTION HEAL
       love.graphics.setColor(WHITE)
       love.graphics.print('POTION', 0,0)
       gItemInventory.itemSlot[1].quantity = math.max(0, gItemInventory.itemSlot[1].quantity - 1)
-      gPlayer.health = 2
+      gPlayer.health = 14
+      sfx['use-potion']:play()
     end
   end
 
@@ -514,7 +515,7 @@ function PlayState:render()
   --]]
 
   --HERE
-  --[[
+  ---[[
   if gItemInventory.itemSlot[1] ~= nil then
     love.graphics.setFont(pixelFont)
     gItemInventory.itemSlot[1]:render()

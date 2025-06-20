@@ -24,8 +24,10 @@ function PauseState:update(dt)
     end
   end
 
+  --UNEQUIP ITEM
   if INPUT:pressed('select') then
     if gItemInventory.itemSlot[1] ~= nil then
+      sfx['item-equip1']:play()
       if gItemInventory.grid[1][1][1] == nil then
         table.insert(gItemInventory.grid[1][1], gItemInventory.itemSlot[1])
       elseif gItemInventory.grid[1][2][1] == nil then
@@ -56,7 +58,7 @@ end
 
 function PauseState:render()
   love.graphics.draw(pauseMockup, 0, 0)
-  --gItemInventory:render(self.inventoryType)
+  gItemInventory:render(self.inventoryType)
   gKeyItemInventory:render(self.inventoryType)
   love.graphics.setColor(WHITE)
   --PLAYER
