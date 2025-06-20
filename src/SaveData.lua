@@ -15,6 +15,7 @@ function SaveData:savePlayerData()
   saveData['coinCount'] = gPlayer.coinCount
   saveData['rubyCount'] = gPlayer.rubyCount
   saveData['healthPotionUnlocked'] = gPlayer.healthPotionUnlocked
+  --[[
   if gItemInventory.itemSlot[1] ~= nil then
     saveData['itemSlotType'] = gItemInventory.itemSlot[1].type
     saveData['itemSlotQuantity'] = gItemInventory.itemSlot[1].quantity
@@ -37,6 +38,7 @@ function SaveData:savePlayerData()
    saveData['inventoryGrid1-2Type'] = nil
    saveData['inventoryGrid1-2Quantity'] = nil
   end
+  --]]
 
   local success, err = love.filesystem.write("saves/savePlayerData.bin", bitser.dumps(saveData))
   if success then
@@ -95,6 +97,7 @@ function SaveData:loadPlayerData()
     if k == 'healthPotionUnlocked' then
       gPlayer.healthPotionUnlocked = v
     end
+    --[[
     if k == 'itemSlotType' then
       gItemInventory.itemSlot[1] = Item(v)
       gItemInventory.itemSlot[1]:equip()
@@ -109,6 +112,7 @@ function SaveData:loadPlayerData()
       table.insert(gItemInventory.grid[1][2], Item(v))
       gItemInventory.grid[1][2][1].quantity = load['inventoryGrid1-2Quantity']
     end
+    --]]
     print('loaded: ' .. k .. ' ' .. tostring(v))
   end
 
