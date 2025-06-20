@@ -21,7 +21,7 @@ gItems = {}
 
 --LUTE OBTAIN
 table.insert(gItemInventory.grid[1][1], Item('lute'))
---table.insert(gItemInventory.grid[1][2], Item('healthPotion'))
+table.insert(gItemInventory.grid[1][2], Item('healthPotion'))
 
 local vibrancy = 0
 local vibrancyGrow = true
@@ -60,7 +60,7 @@ cameraX = 0
 --sceneView = Scene(gPlayer, 3, 5)
 --DARK FOREST
 --sceneView = Scene(gPlayer, 3, 5)
-sceneView = Scene(gPlayer, 2, 13)
+sceneView = Scene(gPlayer, 7, 4)
 --sceneView = Scene(gPlayer, 1, 13)
 --sceneView = Scene(gPlayer, 9, 3)
 --sceneView = Scene(gPlayer, 9, 2)
