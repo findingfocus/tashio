@@ -401,6 +401,8 @@ function DialogueBox:update(dt)
   end
 
   if INPUT:pressed('actionB') then
+    sfx['ui-scroll1']:stop()
+    sfx['pause1']:play()
     self.activated = false
     self:clearAButtonCount()
     gPlayer.showOff = false
@@ -437,7 +439,7 @@ function DialogueBox:update(dt)
       blinkTimer = blinkReset
 
       if self.currentPagePrintedCharCount >= self.pages[self.currentPage].pageCharCount then
-
+        sfx['ui-scroll1']:play()
         if self.restOption then --DIALOGUE BOX FOR REST QUERY
           self.restButtonCount = self.restButtonCount + 1
           if self.restButtonCount == 1 then
@@ -447,7 +449,7 @@ function DialogueBox:update(dt)
                 self:flushText()
                 self.activated = true
               else
-                sounds['select']:play()
+                sfx['purchase2']:play()
                 gPlayer.coinCount = gPlayer.coinCount - INN_REST_COST
                 gPlayer.health = DEMO_MAX_HEALTH
                 gPlayer.direction = 'down'
@@ -458,6 +460,8 @@ function DialogueBox:update(dt)
               end
               goto earlybreak
             else
+              sfx['ui-scroll1']:stop()
+              sfx['pause1']:play()
               self.restButtonCount = 0
               self:reinit('Rest?')
               self:flushText()
@@ -489,6 +493,8 @@ function DialogueBox:update(dt)
 
           --END OF PAGE
           if self.currentPage == self.pageLength then
+            sfx['ui-scroll1']:stop()
+            sfx['pause1']:play()
             self.finishedPrinting = true
             self.activated = false
             self:clearAButtonCount()
@@ -527,6 +533,8 @@ function DialogueBox:update(dt)
         else --DEFAULT DIALOGUE OPTION
           --END OF PAGE
           if self.currentPage == self.pageLength then
+            sfx['ui-scroll1']:stop()
+            sfx['pause1']:play()
             self.finishedPrinting = true
             self.activated = false
             self:clearAButtonCount()
@@ -600,8 +608,17 @@ if self.textTimer > self.nextTextTrigger and self.textIndex <= MAX_TEXTBOX_CHAR_
 
   if self.option == 'idol' then
     if INPUT:pressed('up') or INPUT:pressed('down') then
-      self.meditateYes = not self.meditateYes
-      sounds['beep']:play()
+      if INPUT:pressed('up') then
+        if not self.meditateYes then
+          sfx['ui-select2']:play()
+        end
+        self.meditateYes = true
+      else
+        if self.meditateYes then
+          sfx['ui-scroll2']:play()
+        end
+        self.meditateYes = false
+      end
       blinking = false
       blinkTimer = blinkReset
     end
@@ -609,8 +626,17 @@ if self.textTimer > self.nextTextTrigger and self.textIndex <= MAX_TEXTBOX_CHAR_
 
   if self.option == 'rest' then
     if INPUT:pressed('up') or INPUT:pressed('down') then
-      self.restYes = not self.restYes
-      sounds['beep']:play()
+      if INPUT:pressed('up') then
+        if not self.restYes then
+          sfx['ui-select2']:play()
+        end
+        self.restYes = true
+      else
+        if self.restYes then
+          sfx['ui-scroll2']:play()
+        end
+        self.restYes = false
+      end
       blinking = false
       blinkTimer = blinkReset
     end

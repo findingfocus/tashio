@@ -303,9 +303,15 @@ sfx = {
   ['warp-zone'] = love.audio.newSource('sounds/SFX/Warp_Location_v4.mp3', 'static'),
 }
 
+tashioHurt = {}
+table.insert(tashioHurt, sfx['tashio-hurt1'])
+table.insert(tashioHurt, sfx['tashio-hurt2'])
+
+
 sfx['bat-flap']:setVolume(0.2)
 sfx['item-equip1']:setVolume(0.6)
 sfx['item-equip3']:setVolume(0.6)
+sfx['push-rock']:setVolume(0.8)
 
 playThis = {}
 for k, v in pairs(sfx) do
