@@ -457,7 +457,7 @@ function Scene:update(dt)
         SOUNDTRACK = MAP[v.warpRow][v.warpCol].ost
         gPlayer.currentAnimation:refresh()
         triggerStartingSceneTransition = true
-
+        sfx['warp-zone']:play()
         gPlayer.warping = true
         gPlayer.warpObject = v
         --RESET TREASURE CHEST TODO TURN OFF FOR DEMO
