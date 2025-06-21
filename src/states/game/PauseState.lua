@@ -7,6 +7,7 @@ end
 
 function PauseState:update(dt)
   if INPUT:pressed('start') then
+    sfx['pause3']:play()
     luteState = false
     gPlayer.focusIndicatorX = 0
 

@@ -79,7 +79,16 @@ function Pushable:resetOriginalPosition()
   end
 end
 
+function Pushable:playSound(type)
+  if type == 'crate' then
+    sfx['push-crate']:play()
+  elseif type == 'boulder' then
+    sfx['push-rock']:play()
+  end
+end
+
 function Pushable:pushUp()
+  self:playSound(self.type)
   for k, v in pairs(OUTPUT_LIST) do
     if v == 'up' then
       self.pushUpInitiated = true
@@ -93,6 +102,7 @@ function Pushable:pushUp()
 end
 
 function Pushable:pushDown()
+  self:playSound(self.type)
   for k, v in pairs(OUTPUT_LIST) do
     if v == 'down' then
       self.pushDownInitiated = true
@@ -106,6 +116,7 @@ function Pushable:pushDown()
 end
 
 function Pushable:pushLeft()
+  self:playSound(self.type)
   for k, v in pairs(OUTPUT_LIST) do
     if v == 'left' then
       self.pushLeftInitiated = true
@@ -119,6 +130,7 @@ function Pushable:pushLeft()
 end
 
 function Pushable:pushRight()
+  self:playSound(self.type)
   for k, v in pairs(OUTPUT_LIST) do
     if v == 'right' then
       self.pushRightInitiated = true

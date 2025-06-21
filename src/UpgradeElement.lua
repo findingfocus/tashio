@@ -76,7 +76,7 @@ function UpgradeElement:setSelection()
 end
 
 function UpgradeElement:handleUpgrade(type)
-  sounds['coinPickup']:play()
+  sfx['purchase1']:play()
   if type == 'flamme' then
     gPlayer.rubyCount = gPlayer.rubyCount - self.selectionCostTable[self.selection]
     MAP[1][11].dialogueBox[2]:reinit(self.infoTable[self.selection])

@@ -67,6 +67,7 @@ function TreasureChest:openChest()
 
   gPlayer:changeAnimation('showOff')
   gPlayer.showOff = true
+  sfx['open-chest']:play()
 end
 
 function TreasureChest:reset()

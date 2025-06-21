@@ -123,7 +123,8 @@ function Map:update(dt)
           if sceneView.player:topCollidesMapObject(entity) then
             entity.y = sceneView.player.y - sceneView.player.height + 9
             if not sceneView.player.damageFlash then
-              sounds['hurt']:play()
+              local soundOption = math.random(2)
+              tashioHurt[soundOption]:play()
               sceneView.player.hit = true
               sceneView.player.dy = SPELL_KNOCKBACK
               sceneView.player.damageFlash = true
@@ -132,7 +133,8 @@ function Map:update(dt)
           elseif sceneView.player:rightCollidesMapObject(entity) then
             entity.x = sceneView.player.x + sceneView.player.width
             if not sceneView.player.damageFlash then
-              sounds['hurt']:play()
+              local soundOption = math.random(2)
+              tashioHurt[soundOption]:play()
               sceneView.player.damageFlash = true
               sceneView.player.health = sceneView.player.health - 1
               sceneView.player.dx = -SPELL_KNOCKBACK
@@ -141,7 +143,8 @@ function Map:update(dt)
           elseif sceneView.player:leftCollidesMapObject(entity) then
             entity.x = sceneView.player.x - sceneView.player.width
             if not sceneView.player.damageFlash then
-              sounds['hurt']:play()
+              local soundOption = math.random(2)
+              tashioHurt[soundOption]:play()
               sceneView.player.damageFlash = true
               sceneView.player.health = sceneView.player.health - 1
               sceneView.player.dx = SPELL_KNOCKBACK
@@ -150,7 +153,8 @@ function Map:update(dt)
           elseif sceneView.player:bottomCollidesMapObject(entity) then
             entity.y = sceneView.player.y + sceneView.player.height
             if not sceneView.player.damageFlash then
-              sounds['hurt']:play()
+              local soundOption = math.random(2)
+              tashioHurt[soundOption]:play()
               sceneView.player.damageFlash = true
               sceneView.player.health = sceneView.player.health - 1
               sceneView.player.dy = -SPELL_KNOCKBACK
@@ -443,7 +447,8 @@ function Map:update(dt)
         if mineralDeposit.mined then
           break
         else
-          if mineralDeposit:spellCollides(sceneView.spellcastEntities[1]) then
+          if mineralDeposit:spellCollides(sceneView.spellcastEntities[i]) then
+            sfx['ruby-unsocket']:play()
             table.insert(MAP[self.row][self.column].minerals, Mineral(mineralDeposit.x - 1, mineralDeposit.y, 'ruby'))
             mineralDeposit.mined = true
             mineralDeposit.image = minedRuby
@@ -464,7 +469,7 @@ function Map:update(dt)
         if v:mineralCollides(gPlayer) then
           --RUBY PICKUP
           gPlayer.rubyCount = gPlayer.rubyCount + 1
-          sounds['coinPickup']:play();
+          sfx['ruby-pickup']:play();
           table.remove(MAP[self.row][self.column].minerals, k)
         end
     end

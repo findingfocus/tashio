@@ -52,6 +52,18 @@ function Minimap:init()
   self.fastSelectTimer = .25
 end
 
+function Minimap:playSound(direction)
+  if direction == 'right' then
+    sfx['ui-scroll1']:play()
+  elseif direction == 'down' then
+    sfx['ui-scroll2']:play()
+  elseif direction == 'left' then
+    sfx['ui-select1']:play()
+  elseif direction == 'up' then
+    sfx['ui-select2']:play()
+  end
+end
+
 function Minimap:update(dt)
   self.blinkTimer = self.blinkTimer - dt
   if self.blinkTimer <= 0 then
@@ -59,6 +71,7 @@ function Minimap:update(dt)
     self.blinkTimer = .5
   end
   if INPUT:pressed('select') then
+    sfx['pause3']:play()
     gStateMachine:change('playState')
   end
 
@@ -108,6 +121,7 @@ function Minimap:update(dt)
 
     --JUST LEFT
     if INPUT:pressed('left') then
+      self:playSound('left')
       self.cursorX = math.max(self.cursorX - 16, 0)
       self.blink = false
       self.blinkTimer = .5
@@ -128,6 +142,7 @@ function Minimap:update(dt)
 
     --JUST RIGHT
     if INPUT:pressed('right') then
+      self:playSound('right')
       self.cursorX = math.min(self.cursorX + 16, 144)
       self.blink = false
       self.blinkTimer = .5
@@ -148,6 +163,7 @@ function Minimap:update(dt)
 
     --JUST UP
     if INPUT:pressed('up') then
+      self:playSound('up')
       self.cursorY = math.max(self.cursorY - 13, 0)
       self.blink = false
       self.blinkTimer = .5
@@ -168,6 +184,7 @@ function Minimap:update(dt)
 
     --JUST DOWN
     if INPUT:pressed('down') then
+      self:playSound('down')
       self.cursorY = math.min(self.cursorY + 13, 117)
       self.blink = false
       self.blinkTimer = .5

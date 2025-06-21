@@ -159,6 +159,7 @@ function PlayState:update(dt)
 
   if INPUT:pressed('start') then
     if not PAUSED and not gPlayer.dead and not luteState then
+      sfx['pause2']:play()
       gStateMachine:change('pauseState')
     end
   end
@@ -252,7 +253,9 @@ function PlayState:update(dt)
 
   --TODO MOVE FROM PLAYSTATE
 
+  --TOGGLE MINIMAP
   if INPUT:pressed('select') and not luteState then
+    sfx['pause2']:play()
     gStateMachine:change('minimap')
     gStateMachine.current.cursorX = sceneView.currentMap.column * 16 - 16
     gStateMachine.current.cursorY = sceneView.currentMap.row * 13 - 13
@@ -272,11 +275,12 @@ function PlayState:update(dt)
     for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do
       if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]) and not MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated then
           --if gPlayer.direction ~= 'up' then
-            PAUSED = true
-            MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]:flushText()
-            MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated = true
-            self.activeDialogueID = k
-            sceneView.activeDialogueID = self.activeDialogueID
+          sfx['ui-scroll1']:play()
+          PAUSED = true
+          MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]:flushText()
+          MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated = true
+          self.activeDialogueID = k
+          sceneView.activeDialogueID = self.activeDialogueID
           --end
         end
     end
