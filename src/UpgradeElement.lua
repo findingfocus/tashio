@@ -291,6 +291,7 @@ end
 
 function UpgradeElement:update(dt)
     if INPUT:pressed('down') then
+      sfx['ui-scroll2']:play()
       if self.selection < 3 then
         self.selection = self.selection + 1
       end
@@ -334,6 +335,7 @@ function UpgradeElement:update(dt)
     end
 
     if INPUT:pressed('up') then
+      sfx['ui-select2']:play()
       if self.selection > 1 then
         self.selection = self.selection - 1
       end
@@ -385,6 +387,8 @@ function UpgradeElement:update(dt)
     if INPUT:pressed('action') then
       if self.resultTable[self.selection] == 'purchasable' then
           self:handleUpgrade(self.type)
+      else
+        --BUZZER SOUND
       end
     end
 end

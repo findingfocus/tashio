@@ -42,6 +42,7 @@ function RefineryState:update(dt)
     --DIALOGUE DETECTION
     for k, v in pairs(MAP[self.row][self.column].dialogueBox) do
       if gPlayer:dialogueCollides(MAP[self.row][self.column].dialogueBox[k]) and not MAP[self.row][self.column].dialogueBox[k].activated then
+        sfx['ui-scroll1']:play()
         PAUSED = true
         MAP[self.row][self.column].dialogueBox[k]:flushText()
         MAP[self.row][self.column].dialogueBox[k].activated = true
