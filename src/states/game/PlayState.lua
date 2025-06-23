@@ -86,6 +86,8 @@ function PlayState:init()
   self.snowSystem = SnowSystem()
   self.rainSystem = RainSystem()
 
+  testCounter = 0
+
   gPlayer.stateMachine = StateMachine {
     ['player-walk'] = function() return PlayerWalkState(gPlayer, self.scene) end,
     ['player-idle'] = function() return PlayerIdleState(gPlayer) end,
@@ -109,6 +111,7 @@ end
 
 local sfx_index = 1
 function PlayState:update(dt)
+  testCounter = testCounter + 1
 
   if love.keyboard.wasPressed('b') then
     playThis[sfx_index]:play()
@@ -733,8 +736,13 @@ function PlayState:render()
     love.graphics.print('justClosed: ' .. tostring(sceneView.dialogueBoxJustClosed), 0, 10)
     --]]
     --love.graphics.print('falling: ' .. tostring(gPlayer.falling), 0, 10)
-    --love.graphics.print('state: ' .. tostring(PLAYER_STATE), 0, 20)
-    --love.graphics.print('sfx_count: ' .. Inspect(sfx['tashio-falling']), 0, 10)
+    love.graphics.print('testCounter: ' .. tostring(testCounter), 0, 10)
+    --love.graphics.print('g1-2: ' .. Inspect(gItemInventory.grid[1][2]), 0, 10)
+    if #gItemInventory.grid[1][2] == 0 then
+      love.graphics.print('1 2 is empty!', 0, 20)
+    else
+    --love.graphics.print('1 2 is: ' .. tostring(gItemInventory.grid[1][2][1].type), 0, 20)
+    end
 end
 
 function displayFPS()

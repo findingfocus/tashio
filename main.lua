@@ -52,9 +52,10 @@ function love.load()
     ['Tome1SuccessState'] = function() return Tome1SuccessState() end
   }
 
-  --gStateMachine:change('titleState')
+  --GAME START
+  gStateMachine:change('titleState')
   --gStateMachine:change('refineryState')
-  gStateMachine:change('playState')
+  --gStateMachine:change('playState')
   --gStateMachine:change('minimap')
   --gStateMachine:change('chasmFallingState')
 
@@ -227,5 +228,7 @@ function love.draw()
   local save = love.filesystem.getSaveDirectory()
   print("Save Location: " .. tostring(save))
   --]]
+
+  --print('ITEM DATA: ' ..
 end
 

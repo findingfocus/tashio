@@ -15,7 +15,7 @@ function SaveData:savePlayerData()
   saveData['coinCount'] = gPlayer.coinCount
   saveData['rubyCount'] = gPlayer.rubyCount
   saveData['healthPotionUnlocked'] = gPlayer.healthPotionUnlocked
-  --[[
+  ---[[
   if gItemInventory.itemSlot[1] ~= nil then
     saveData['itemSlotType'] = gItemInventory.itemSlot[1].type
     saveData['itemSlotQuantity'] = gItemInventory.itemSlot[1].quantity
@@ -24,17 +24,22 @@ function SaveData:savePlayerData()
     saveData['itemSlotQuantity'] = nil
   end
 
-  if gItemInventory.grid[1][1][1] then
+  --SAVE ITEM INVENTORY
+  ---[[
+  if #gItemInventory.grid[1][1] > 0 then
     saveData['inventoryGrid1-1Type'] = gItemInventory.grid[1][1][1].type
     saveData['inventoryGrid1-1Quantity'] = gItemInventory.grid[1][1][1].quantity
   else
-   saveData['inventoryGrid1-1Type'] = nil
-   saveData['inventoryGrid1-1Quantity'] = nil
+    saveData['inventoryGrid1-1Type'] = nil
+    saveData['inventoryGrid1-1Quantity'] = nil
   end
-  if gItemInventory.grid[1][2][1] ~= nil then
+
+  if #gItemInventory.grid[1][2] > 0 then
+    print('Grid 1 2 was not empty')
     saveData['inventoryGrid1-2Type'] = gItemInventory.grid[1][2][1].type
     saveData['inventoryGrid1-2Quantity'] = gItemInventory.grid[1][2][1].quantity
   else
+    print('Grid 1 2 was empty')
    saveData['inventoryGrid1-2Type'] = nil
    saveData['inventoryGrid1-2Quantity'] = nil
   end
@@ -65,12 +70,12 @@ function SaveData:loadPlayerData()
     gPlayer:changeState('player-death')
     goto earlybreak
   else
-    print(Inspect(saveDataExists))
+    --print(Inspect(saveDataExists))
   end
 
   local load = bitser.loadLoveFile("saves/savePlayerData.bin")
-  --love.graphics.print(Inspect(fileLoad), 0, 0)
   for k, v in pairs(load) do
+    --[[
     if k == 'health' then
       gPlayer.health = v
     end
@@ -97,11 +102,11 @@ function SaveData:loadPlayerData()
     if k == 'healthPotionUnlocked' then
       gPlayer.healthPotionUnlocked = v
     end
+    --]]
     --[[
     if k == 'itemSlotType' then
       gItemInventory.itemSlot[1] = Item(v)
       gItemInventory.itemSlot[1]:equip()
-      --HERE
       gItemInventory.itemSlot[1].quantity = load['itemSlotQuantity']
     end
     if k == 'inventoryGrid1-1Type' then
@@ -113,7 +118,7 @@ function SaveData:loadPlayerData()
       gItemInventory.grid[1][2][1].quantity = load['inventoryGrid1-2Quantity']
     end
     --]]
-    print('loaded: ' .. k .. ' ' .. tostring(v))
+    print('loaded: ' .. k .. ' as: ' .. tostring(v))
   end
 
   print('GAME LOADED')
