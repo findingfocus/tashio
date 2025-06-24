@@ -172,6 +172,7 @@ function love.update(dt)
       stopOST()
       ost['titleTrack']:setVolume(OST_VOLUME)
       ost['titleTrack']:play()
+        --self.saveUtility:loadPlayerData()
     end
   elseif SOUNDTRACK == 'exploreTrack' then
       if not ost['exploreTrack']:isPlaying() then

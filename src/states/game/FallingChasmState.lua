@@ -98,8 +98,9 @@ function FallingChasmState:update(dt)
     elseif self.optionSelector == 1 then
       --CONTINUE GAME
       --LOAD LAST SAVE
-      self.saveUtility:loadPlayerData()
+      --self.saveUtility:loadPlayerData()
       SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
+      SAVE_DATA_NEEDS_LOADING = true
       gStateMachine:change('playState')
       gPlayer.stateMachine:change('player-meditate')
     end
