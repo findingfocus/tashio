@@ -70,12 +70,11 @@ function SaveData:loadPlayerData()
     gPlayer:changeState('player-death')
     goto earlybreak
   else
-    --print(Inspect(saveDataExists))
+    --SAVE_DATA_NEEDS_LOADING = true
   end
 
   local load = bitser.loadLoveFile("saves/savePlayerData.bin")
   for k, v in pairs(load) do
-    --[[
     if k == 'health' then
       gPlayer.health = v
     end
@@ -103,7 +102,7 @@ function SaveData:loadPlayerData()
       gPlayer.healthPotionUnlocked = v
     end
     --]]
-    --[[
+    ---[[
     if k == 'itemSlotType' then
       gItemInventory.itemSlot[1] = Item(v)
       gItemInventory.itemSlot[1]:equip()

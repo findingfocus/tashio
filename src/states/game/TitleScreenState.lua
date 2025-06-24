@@ -52,9 +52,10 @@ function TitleScreenState:update(dt)
   if self.step > 2 then
     if INPUT:pressed('start') or INPUT:pressed('action') then
       --LOAD SAVE FILE
+      SAVE_DATA_NEEDS_LOADING = true
       gStateMachine:change('playState')
+      --self.saveDataUtility:loadPlayerData()
       stopOST()
-      self.saveDataUtility:loadPlayerData()
       SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
       gPlayer.stateMachine:change('player-meditate')
       sounds['select']:play()

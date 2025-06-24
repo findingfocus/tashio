@@ -20,8 +20,8 @@ gKeyItemInventory = Inventory('keyItem')
 gItems = {}
 
 --LUTE OBTAIN
-table.insert(gItemInventory.grid[1][1], Item('lute'))
-table.insert(gItemInventory.grid[1][2], Item('healthPotion', 10))
+--table.insert(gItemInventory.grid[1][1], Item('lute'))
+--table.insert(gItemInventory.grid[1][2], Item('healthPotion', 10))
 
 local vibrancy = 0
 local vibrancyGrow = true
@@ -86,8 +86,6 @@ function PlayState:init()
   self.snowSystem = SnowSystem()
   self.rainSystem = RainSystem()
 
-  testCounter = 0
-
   gPlayer.stateMachine = StateMachine {
     ['player-walk'] = function() return PlayerWalkState(gPlayer, self.scene) end,
     ['player-idle'] = function() return PlayerIdleState(gPlayer) end,
@@ -106,13 +104,16 @@ function PlayState:init()
   self.activeEvent = false
   self.activeDialogueID = nil
   self.animatables = InsertAnimation(sceneView.currentMap.row, sceneView.currentMap.column)
+
+  if SAVE_DATA_NEEDS_LOADING then
+    self.saveUtility:loadPlayerData()
+    SAVE_DATA_NEEDS_LOADING = false
+  end
 end
 
 
 local sfx_index = 1
 function PlayState:update(dt)
-  testCounter = testCounter + 1
-
   if love.keyboard.wasPressed('b') then
     playThis[sfx_index]:play()
     sfx_index = sfx_index + 1
@@ -181,9 +182,10 @@ function PlayState:update(dt)
       elseif self.optionSelector == 1 then
         --CONTINUE GAME
         --LOAD LAST SAVE
-        self.saveUtility:loadPlayerData()
         SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
+        SAVE_DATA_NEEDS_LOADING = true
         gStateMachine:change('playState')
+        --self.saveUtility:loadPlayerData()
         gPlayer.stateMachine:change('player-meditate')
       end
     end
@@ -355,7 +357,7 @@ function PlayState:update(dt)
   --LOADING
   if love.keyboard.wasPressed('l') then
     gPlayer.stateMachine:change('player-meditate')
-    self.saveUtility:loadPlayerData()
+    --self.saveUtility:loadPlayerData()
     local animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
     gStateMachine.current.animatables = animatables
   end
@@ -736,7 +738,6 @@ function PlayState:render()
     love.graphics.print('justClosed: ' .. tostring(sceneView.dialogueBoxJustClosed), 0, 10)
     --]]
     --love.graphics.print('falling: ' .. tostring(gPlayer.falling), 0, 10)
-    love.graphics.print('testCounter: ' .. tostring(testCounter), 0, 10)
     --love.graphics.print('g1-2: ' .. Inspect(gItemInventory.grid[1][2]), 0, 10)
     if #gItemInventory.grid[1][2] == 0 then
       love.graphics.print('1 2 is empty!', 0, 20)
