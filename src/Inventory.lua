@@ -62,12 +62,14 @@ function Inventory:init(option)
     self.selectedRow = 2
     self.selectedCol = 1
     self.keyItemCursor = Cursor(self.selectedRow, self.selectedCol, 'keyItem')
-    --[[
+    ---[[
     self.tome1Equipped = false
     self.tomeEquipped = ''
     --]]
+    --[[
     self.tome1Equipped = true
     self.tomeEquipped = 'tome1'
+    --]]
 
     for i = 1, self.rowAmount do
       self.grid[i] =  {}
@@ -321,6 +323,7 @@ function Inventory:render(cursorRender)
   end
 
   if self.tome1Equipped then
+    love.graphics.setColor(WHITE)
     love.graphics.draw(tome1, VIRTUAL_WIDTH - 12 - TILE_SIZE * 3 + 5, 5)
   end
 end

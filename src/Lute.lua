@@ -64,7 +64,7 @@ local seconds_per_beat = 60 / bpm
 local nextNoteTime = 0
 
 function Lute:init()
-  self.tomeEquipped = ''
+  --self.tomeEquipped = ''
 end
 
 function Lute:reset()

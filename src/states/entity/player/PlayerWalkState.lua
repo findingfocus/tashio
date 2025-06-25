@@ -244,7 +244,7 @@ function PlayerWalkState:render()
 
   if gItemInventory.itemSlot[1] ~= nil then
     if gItemInventory.itemSlot[1].type == 'lute' and not self.player.falling then
-      if not gPlayer.pushing then
+      if not gPlayer.pushing and not gPlayer.showOff then
         love.graphics.setColor(WHITE)
         love.graphics.draw(gTextures['lute-equip'], gFrames['lute-equip'][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
       end

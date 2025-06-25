@@ -19,7 +19,7 @@ gItemInventory = Inventory('item')
 gKeyItemInventory = Inventory('keyItem')
 gItems = {}
 
---LUTE OBTAIN
+--LUTE EQUIP OBTAIN
 --table.insert(gItemInventory.grid[1][1], Item('lute'))
 --table.insert(gItemInventory.grid[1][2], Item('healthPotion', 10))
 
@@ -60,15 +60,17 @@ cameraX = 0
 --sceneView = Scene(gPlayer, 3, 5)
 --DARK FOREST
 --sceneView = Scene(gPlayer, 3, 5)
-sceneView = Scene(gPlayer, 7, 4)
+sceneView = Scene(gPlayer, 7, 5)
 --sceneView = Scene(gPlayer, 1, 13)
 --sceneView = Scene(gPlayer, 9, 3)
 --sceneView = Scene(gPlayer, 9, 2)
 --sceneView = Scene(gPlayer, 4, 11)
 
 --GREEN TUNIC EQUIP
-gPlayer.tunicEquipped = 'greenTunic'
-gPlayer.elementEquipped = 'flamme'
+--PLAYER EQUIPS
+--gPlayer.tunicEquipped = 'greenTunic'
+--gPlayer.elementEquipped = 'flamme'
+
 --sceneView = Scene(gPlayer, 1, 12)
 --sceneView = Scene(gPlayer, 1, 11)
 --[[
@@ -117,6 +119,23 @@ function PlayState:update(dt)
   if love.keyboard.wasPressed('b') then
     playThis[sfx_index]:play()
     sfx_index = sfx_index + 1
+  end
+
+  if love.keyboard.wasPressed('f') then
+    ---[[
+    gPlayer.flammeUnlocked = true
+    gPlayer.elementEquipped = 'flamme'
+    gPlayer.greenTunicUnlocked = true
+    gPlayer.tunicEquipped = 'greenTunic'
+    --]]
+    --[[
+    gPlayer.greenTunicUnlocked = false
+    gPlayer.tunicEquipped = ''
+    sceneView = Scene(gPlayer, 7, 5)
+    gKeyItemInventory.tomeEquipped = 'tome1'
+    gKeyItemInventory.tome1Equipped = true
+    gPlayer.tome1Unlocked = true
+    --]]
   end
 
   --[[
