@@ -8,7 +8,8 @@ OVERWORLD_MAP_WIDTH = 20
 OVERWORLD_MAP_HEIGHT = 10
 MAP_WIDTH = 10
 MAP_HEIGHT = 8
-
+DEMO_WATER_CLEANSED = false
+DESERT_SHORTCUT_UNLOCKED = false
 
 --DECLARING EMPTY TABLES IN GLOBAL MAP
 for x = 1, OVERWORLD_MAP_HEIGHT do
@@ -335,6 +336,7 @@ table.insert(MAP[7][5].collidableMapObjects, Pushable(2,6, 'boulder'))
 table.insert(MAP[7][5].collidableMapObjects, Pushable(3,5, 'boulder'))
 --]]
 
+--DESERT SHORTCUT
 ---[[
 table.insert(MAP[7][5].collidableMapObjects, Pushable(2,5, 'boulder', nil, 'keyItem1'))
 table.insert(MAP[7][5].collidableMapObjects, Pushable(3,5, 'boulder', nil, 'keyItem3'))

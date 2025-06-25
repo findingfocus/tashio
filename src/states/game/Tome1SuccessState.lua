@@ -8,7 +8,7 @@ function Tome1SuccessState:init()
   self.animatables = {}
   self.animatables = InsertAnimation(sceneView.currentMap.row, sceneView.currentMap.column)
   self.waterAlpha = 0
-  self.waterCleased = false
+  self.waterCleansed = false
   self.triggerCredits = false
   self.demoScreenOpacity = 0
   self.demoCreditsSequence = false
@@ -22,7 +22,7 @@ end
 
 function Tome1SuccessState:update(dt)
   self.lavaSystem:update(dt)
-  if self.step == 0 and not self.waterCleased then
+  if self.step == 0 and not self.waterCleansed then
     self.waterAlpha = math.min(255, self.waterAlpha + dt * 80)
   end
 
@@ -37,9 +37,45 @@ function Tome1SuccessState:update(dt)
     end
   end
 
+  Event.on('cleanseDemoWater', function()
+    for i = 1, OVERWORLD_MAP_HEIGHT do
+      for j = 1, OVERWORLD_MAP_WIDTH do
+        MAP[i][j].animatables = {}
+      end
+    end
+
+    for i = 1, OVERWORLD_MAP_HEIGHT do
+      for j = 1, OVERWORLD_MAP_WIDTH do
+        for k = 1, MAP_HEIGHT * MAP_WIDTH do
+          local animRow = math.floor((k - 1) / 10) + 1
+          local animCol = (k % 10)
+          if animCol == 0 then
+            animCol = 10
+          end
+          if MAP[i][j][k] == WATER_ANIM_STARTER then
+            MAP[i][j][k] = CLEAN_WATER_ANIM_STARTER
+            table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, CLEANSED_WATER.frame) end)
+          elseif MAP[i][j][k] == LAVA_LEFT_EDGE_ANIM_STARTER then
+            table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, LAVA_LEFT_EDGE.frame) end)
+          elseif MAP[i][j][k] == LAVA_RIGHT_EDGE_ANIM_STARTER then
+            table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, LAVA_RIGHT_EDGE.frame) end)
+          elseif MAP[i][j][k] == LAVA_FLOW_ANIM_STARTER then
+            table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, LAVA_FLOW.frame) end)
+          end
+
+          if MAP[i][j].aboveGroundTileIds[k] == SCONCE_ANIM_STARTER then
+            table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, SCONCE.frame, 'aboveGround') end)
+          elseif MAP[i][j].aboveGroundTileIds[k] == FLOWER_ANIM_STARTER then
+            table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, FLOWERS.frame, 'aboveGround') end)
+          end
+        end
+      end
+    end
+    DEMO_WATER_CLEANSED = true
+  end)
+
   if self.waterAlpha >= 255 and self.step == 0 then
-    self.waterCleased = true
-    self:cleanseTheGlobalWater()
+    Event.dispatch('cleanseDemoWater')
     self.step = 1
   end
 
@@ -83,7 +119,7 @@ function Tome1SuccessState:update(dt)
   end
 end
 
-function Tome1SuccessState:cleanseTheGlobalWater()
+function cleanseTheGlobalWater()
   for i = 1, OVERWORLD_MAP_HEIGHT do
     for j = 1, OVERWORLD_MAP_WIDTH do
       MAP[i][j].animatables = {}
@@ -117,6 +153,7 @@ function Tome1SuccessState:cleanseTheGlobalWater()
       end
     end
   end
+
 end
 
 function Tome1SuccessState:insertCleansedWater()

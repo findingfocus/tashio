@@ -9,6 +9,56 @@ require 'lib/slam'
 require 'src/TouchDetection'
 require 'src/constants'
 
+Event.on('solveDesertShortcutBoulders', function()
+  for i = #MAP[7][5].collidableMapObjects, 1, -1 do
+    if MAP[7][5].collidableMapObjects[i].type == 'boulder' then
+        table.remove(MAP[7][5].collidableMapObjects, i)
+    end
+  end
+  table.insert(MAP[7][5].collidableMapObjects, Pushable(2,6, 'boulder', nil, 'keyItem1'))
+  table.insert(MAP[7][5].collidableMapObjects, Pushable(3,6, 'boulder', nil, 'keyItem3'))
+  table.insert(MAP[7][5].collidableMapObjects, Pushable(1,4, 'boulder', nil, 'keyItem2'))
+  table.insert(MAP[7][5].collidableMapObjects, Pushable(3,3, 'boulder'))
+  table.insert(MAP[7][5].collidableMapObjects, Pushable(4,4, 'boulder'))
+end)
+
+Event.on('cleanseDemoWater', function()
+  for i = 1, OVERWORLD_MAP_HEIGHT do
+    for j = 1, OVERWORLD_MAP_WIDTH do
+      MAP[i][j].animatables = {}
+    end
+  end
+
+  for i = 1, OVERWORLD_MAP_HEIGHT do
+    for j = 1, OVERWORLD_MAP_WIDTH do
+      for k = 1, MAP_HEIGHT * MAP_WIDTH do
+        local animRow = math.floor((k - 1) / 10) + 1
+        local animCol = (k % 10)
+        if animCol == 0 then
+          animCol = 10
+        end
+        if MAP[i][j][k] == WATER_ANIM_STARTER then
+          MAP[i][j][k] = CLEAN_WATER_ANIM_STARTER
+          table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, CLEANSED_WATER.frame) end)
+        elseif MAP[i][j][k] == LAVA_LEFT_EDGE_ANIM_STARTER then
+          table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, LAVA_LEFT_EDGE.frame) end)
+        elseif MAP[i][j][k] == LAVA_RIGHT_EDGE_ANIM_STARTER then
+          table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, LAVA_RIGHT_EDGE.frame) end)
+        elseif MAP[i][j][k] == LAVA_FLOW_ANIM_STARTER then
+          table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, LAVA_FLOW.frame) end)
+        end
+
+        if MAP[i][j].aboveGroundTileIds[k] == SCONCE_ANIM_STARTER then
+          table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, SCONCE.frame, 'aboveGround') end)
+        elseif MAP[i][j].aboveGroundTileIds[k] == FLOWER_ANIM_STARTER then
+          table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, FLOWERS.frame, 'aboveGround') end)
+        end
+      end
+    end
+  end
+  DEMO_WATER_CLEANSED = true
+end)
+
 gameBroken = false
 entireGame = {}
 

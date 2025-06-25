@@ -22,7 +22,8 @@ function SaveData:savePlayerData()
   saveData['playerTome1Unlocked'] = gPlayer.tome1Unlocked
   saveData['keyItemTomeEquipped'] = gKeyItemInventory.tomeEquipped
   saveData['keyItemTome1Equipped'] = gKeyItemInventory.tome1Equipped
-
+  saveData['demoWaterCleansed'] = DEMO_WATER_CLEANSED
+  saveData['desertShortcutUnlocked'] = DESERT_SHORTCUT_UNLOCKED
   if gPlayer.elementEquipped == 'flamme' then
     saveData['flammeEquipped'] = true
   end
@@ -139,6 +140,16 @@ function SaveData:loadPlayerData()
     if k == 'keyItemTome1Equipped' then
       gKeyItemInventory.tome1Equipped = v
     end
+    if k == 'demoWaterCleansed' then
+      if v == true then
+        Event.dispatch('cleanseDemoWater')
+      end
+    end
+    if k == 'desertShortcutUnlocked' then
+      if v == true then
+        Event.dispatch('solveDesertShortcutBoulders')
+      end
+    end
 
     --]]
     ---[[
@@ -173,6 +184,10 @@ function SaveData:loadPlayerData()
       sceneView.currentMap = Map(sceneView.currentMap.row, sceneView.currentMap.column, 1)
     end
   end
+
+  --Event.dispatch('cleanseDemoWater')
+  local animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
+  gStateMachine.current.animatables = animatables
 
   ::earlybreak::
 end
