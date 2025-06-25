@@ -35,10 +35,14 @@ function TreasureChest:openChest()
   self.image = treasureChestOpen
   if self.contents == 'tome1' then
     gPlayer.tome1Unlocked = true
+    --gKeyItemInventory.tomeEquipped = 'tome1'
+    --gKeyItemInventory.tome1Equipped = true
   elseif self.contents == 'healthPotion' then
     table.insert(gItemInventory.grid[1][2], Item('healthPotion'))
     gItemInventory.grid[1][2][1].quantity = 10
     gItemInventory.grid[1][2][1]:update(1, 2)
+  elseif self.contents == 'greenTunic' then
+    gPlayer.greenTunicUnlocked = true
   end
 
   self.treasureX = gPlayer.x + 4
@@ -67,6 +71,7 @@ function TreasureChest:openChest()
 
   gPlayer:changeAnimation('showOff')
   gPlayer.showOff = true
+  gPlayer.direction = 'down'
   sfx['open-chest']:play()
 end
 

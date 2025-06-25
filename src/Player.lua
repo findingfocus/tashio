@@ -73,12 +73,12 @@ function Player:init(def)
   self.unFocusGrowing = true
   self.manisTimer = 0
   self.magicHudOpacity = 0
-  self.flammeUnlocked = true
+  self.flammeUnlocked = false
   self.aquisUnlocked = false
   self.ekkoUnlocked = false
   self.loxUnlocked = false
   self.tome1Unlocked = false
-  self.greenTunicUnlocked = true
+  self.greenTunicUnlocked = false
   self.redTunicUnlocked = false
   self.yellowTunicUnlocked = false
   self.blueTunicUnlocked = false

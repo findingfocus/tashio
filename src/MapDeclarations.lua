@@ -1251,7 +1251,7 @@ table.insert(MAP[7][5].dialogueBox, DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'You f
 
 --GREEN TUNIC CHEST
 table.insert(MAP[4][11].collidableMapObjects, TreasureChest(8, 4, 'greenTunic', 1))
-table.insert(MAP[4][11].dialogueBox, DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'You found the tunic of strength!  Heavy objects now feel light when you push them. ',  nil, 1))
+table.insert(MAP[4][11].dialogueBox, DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'You found the tunic of strength!  Heavy objects now feel light when you wear this. ',  nil, 1))
 --[[
 table.insert(MAP[10][18].collidableMapObjects, CollidableMapObjects(10, 18, TILE_SIZE, 26, TILE_SIZE, 4))
 table.insert(MAP[10][18].collidableMapObjects, CollidableMapObjects(10, 18, TILE_SIZE, TILE_SIZE * 3 - 6, TILE_SIZE, TILE_SIZE))

@@ -15,6 +15,18 @@ function SaveData:savePlayerData()
   saveData['coinCount'] = gPlayer.coinCount
   saveData['rubyCount'] = gPlayer.rubyCount
   saveData['healthPotionUnlocked'] = gPlayer.healthPotionUnlocked
+  saveData['flammeUnlocked'] = gPlayer.flammeUnlocked
+  saveData['keyItemElementColor'] = gKeyItemInventory.elementColor
+  saveData['tunicEquipped'] = gPlayer.tunicEquipped
+  saveData['greenTunicUnlocked'] = gPlayer.greenTunicUnlocked
+  saveData['playerTome1Unlocked'] = gPlayer.tome1Unlocked
+  saveData['keyItemTomeEquipped'] = gKeyItemInventory.tomeEquipped
+  saveData['keyItemTome1Equipped'] = gKeyItemInventory.tome1Equipped
+
+  if gPlayer.elementEquipped == 'flamme' then
+    saveData['flammeEquipped'] = true
+  end
+
   ---[[
   if gItemInventory.itemSlot[1] ~= nil then
     saveData['itemSlotType'] = gItemInventory.itemSlot[1].type
@@ -101,6 +113,33 @@ function SaveData:loadPlayerData()
     if k == 'healthPotionUnlocked' then
       gPlayer.healthPotionUnlocked = v
     end
+    if k == 'flammeUnlocked' then
+      gPlayer.flammeUnlocked = v
+    end
+    if k == 'flammeEquipped' then
+      if v then
+        gPlayer.elementEquipped = 'flamme'
+      end
+    end
+    if k == 'keyItemElementColor' then
+      gKeyItemInventory.elementColor = v
+    end
+    if k == 'greenTunicUnlocked' then
+      gPlayer.greenTunicUnlocked = v
+    end
+    if k == 'tunicEquipped' then
+      gPlayer.tunicEquipped = v
+    end
+    if k == 'playerTome1Unlocked' then
+      gPlayer.tome1Unlocked = v
+    end
+    if k == 'keyItemTomeEquipped' then
+      gKeyItemInventory.tomeEquipped = v
+    end
+    if k == 'keyItemTome1Equipped' then
+      gKeyItemInventory.tome1Equipped = v
+    end
+
     --]]
     ---[[
     if k == 'itemSlotType' then
