@@ -110,6 +110,9 @@ function PlayState:init()
   if SAVE_DATA_NEEDS_LOADING then
     self.saveUtility:loadPlayerData()
     SAVE_DATA_NEEDS_LOADING = false
+    --REINIT ANIMATABLES
+    gStateMachine.current.animatables = self.animatables
+    local animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
   end
 end
 
@@ -127,11 +130,11 @@ function PlayState:update(dt)
     gPlayer.elementEquipped = 'flamme'
     gPlayer.greenTunicUnlocked = true
     gPlayer.tunicEquipped = 'greenTunic'
+    sceneView = Scene(gPlayer, 7, 5)
     --]]
     --[[
     gPlayer.greenTunicUnlocked = false
     gPlayer.tunicEquipped = ''
-    sceneView = Scene(gPlayer, 7, 5)
     gKeyItemInventory.tomeEquipped = 'tome1'
     gKeyItemInventory.tome1Equipped = true
     gPlayer.tome1Unlocked = true
@@ -375,8 +378,11 @@ function PlayState:update(dt)
 
   --LOADING
   if love.keyboard.wasPressed('l') then
-    gPlayer.stateMachine:change('player-meditate')
+    --gPlayer.stateMachine:change('player-meditate')
     --self.saveUtility:loadPlayerData()
+    --Event.dispatch('cleanseDemoWater')
+    Event.dispatch('solveDesertShortcutBoulders')
+    --REINIT ANIMATABLES
     local animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
     gStateMachine.current.animatables = animatables
   end
@@ -712,6 +718,12 @@ function PlayState:render()
     --KEY ITEM PUZZLE STATE FOR SCENE 7, 5
     --SHORTCUT 1
     if sceneView.currentMap.row == 7 and sceneView.currentMap.column == 5 then
+      DESERT_SHORTCUT_UNLOCKED = true
+      if MAP[7][5].collidableMapObjects[1].originalTileX == 2 and MAP[7][5].collidableMapObjects[1].originalTileY == 5 then
+        DESERT_SHORTCUT_UNLOCKED = false
+      end
+      --]]
+      --table.insert(MAP[7][5].collidableMapObjects, Pushable(2,5, 'boulder', nil, 'keyItem1'))
       for k, v in pairs(MAP[7][5].collidableMapObjects) do
         if v.type == 'boulder' then
           if v.identifier == 'keyItem1' then
@@ -743,7 +755,6 @@ function PlayState:render()
                 v.keyItem = false
               end
             end
-
           end
         end
       end
@@ -751,6 +762,9 @@ function PlayState:render()
 
     love.graphics.setColor(WHITE)
 
+      --table.insert(MAP[7][5].collidableMapObjects, Pushable(2,5, 'boulder', nil, 'keyItem1'))
+    --love.graphics.print(tostring(MAP[7][5].collidableMapObjects[1].originalTileX) .. tostring(MAP[7][5].collidableMapObjects[1].originalTileY), 0, 10)
+    --love.graphics.print(tostring(DESERT_SHORTCUT_UNLOCKED), 0, 10)
     --DEBUG
     --[[
     love.graphics.print('tome: ' .. gKeyItemInventory.tomeEquipped, 0, 0)

@@ -54,6 +54,9 @@ function TitleScreenState:update(dt)
       --LOAD SAVE FILE
       SAVE_DATA_NEEDS_LOADING = true
       gStateMachine:change('playState')
+      --REINIT ANIMATABLES
+      local animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
+      gStateMachine.current.animatables = animatables
       --self.saveDataUtility:loadPlayerData()
       stopOST()
       SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
