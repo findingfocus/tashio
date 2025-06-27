@@ -498,6 +498,7 @@ function Map:update(dt)
       if v.health == 0 then
         if not v.brokenCrate then
           v:breakCrate()
+          sfx['crate-break']:play()
         end
         --REMOVE CRATE
         if v.currentAnimation.timesPlayed == 1 then

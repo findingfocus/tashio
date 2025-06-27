@@ -227,6 +227,7 @@ function Pushable:update(dt)
       --CHASM DETECTION
       if tile >= CHASM_DEF_BEGIN + 2 and tile <= CHASM_DEF_END then
           self.falling = true
+          sfx['falling2']:play()
       end
       self.y = tileAbove
       self.pushUpInitiated = false
@@ -243,6 +244,7 @@ function Pushable:update(dt)
       --CHASM DETECTION
       if tile >= CHASM_DEF_BEGIN + 2 and tile <= CHASM_DEF_END then
           self.falling = true
+          sfx['falling2']:play()
       end
       self.y = tileBelow
       self.pushDownInitiated = false
@@ -259,6 +261,7 @@ function Pushable:update(dt)
       --CHASM DETECTION
       if tile >= CHASM_DEF_BEGIN + 2 and tile <= CHASM_DEF_END then
           self.falling = true
+          sfx['falling2']:play()
       end
       self.x = tileLeft
       self.pushLeftInitiated = false
@@ -275,6 +278,7 @@ function Pushable:update(dt)
       --CHASM DETECTION
       if tile >= CHASM_DEF_BEGIN + 2 and tile <= CHASM_DEF_END then
           self.falling = true
+          sfx['falling2']:play()
       end
       self.x = tileRight
       self.pushRightInitiated = false

@@ -326,6 +326,7 @@ sfx = {
   ['cleanse'] = love.audio.newSource('sounds/SFX/Cleanse_Corruption_v2.mp3', 'static'),
   ['coin-pickup'] = love.audio.newSource('sounds/SFX/CoinPickup_v1.mp3', 'static'),
   ['tashio-falling'] = love.audio.newSource('sounds/SFX/Falling_v1.mp3', 'static'),
+  ['falling2'] = love.audio.newSource('sounds/SFX/Falling_v2.mp3', 'static'),
   ['game-over1'] = love.audio.newSource('sounds/SFX/GAME_OVER_V1.mp3', 'static'),
   ['game-over2'] = love.audio.newSource('sounds/SFX/GAME_OVER_V2.mp3', 'static'),
   ['game-over3'] = love.audio.newSource('sounds/SFX/GAME_OVER_V3.mp3', 'static'),
@@ -351,6 +352,10 @@ sfx = {
   ['ui-select2'] = love.audio.newSource('sounds/SFX/UI_Select_v2.mp3', 'static'),
   ['use-potion'] = love.audio.newSource('sounds/SFX/Use_Potion_v3.mp3', 'static'),
   ['warp-zone'] = love.audio.newSource('sounds/SFX/Warp_Location_v4.mp3', 'static'),
+  ['crate-break'] = love.audio.newSource('sounds/SFX/Crate_Break_v2.mp3', 'static'),
+  ['idol-heal1'] = love.audio.newSource('sounds/SFX/Idol_v1.mp3', 'static'),
+  ['idol-heal2'] = love.audio.newSource('sounds/SFX/Idol_v7.mp3', 'static'),
+  ['idol-gong1'] = love.audio.newSource('sounds/SFX/IdolGong_v1.mp3', 'static'),
 }
 
 tashioHurt = {}
@@ -363,6 +368,9 @@ sfx['item-equip1']:setVolume(0.6)
 sfx['item-equip3']:setVolume(0.6)
 sfx['push-rock']:setVolume(0.8)
 sfx['warp-zone']:setVolume(0.5)
+sfx['crate-break']:setVolume(0.5)
+sfx['idol-heal2']:setVolume(0.7)
+sfx['idol-gong1']:setVolume(0.7)
 
 playThis = {}
 for k, v in pairs(sfx) do
