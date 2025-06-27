@@ -551,7 +551,10 @@ function DialogueBox:update(dt)
             self.currentPage = 1
             if self.meditateOption then
               if self.meditateYes then
+                --MEDITATE GONG
                 gPlayer.stateMachine:change('player-meditate')
+                sfx['idol-gong1']:play()
+                --sfx['idol-heal2']:play()
                 gPlayer.flammeVibrancy = 0
                 self.saveDataUtility:savePlayerData()
               else
