@@ -60,7 +60,8 @@ cameraX = 0
 --sceneView = Scene(gPlayer, 3, 5)
 --DARK FOREST
 --sceneView = Scene(gPlayer, 3, 5)
-sceneView = Scene(gPlayer, 7, 5)
+--sceneView = Scene(gPlayer, 7, 5)
+sceneView = Scene(gPlayer, 5, 2)
 --sceneView = Scene(gPlayer, 1, 13)
 --sceneView = Scene(gPlayer, 9, 3)
 --sceneView = Scene(gPlayer, 9, 2)
@@ -105,14 +106,17 @@ function PlayState:init()
   self.gameOver = false
   self.activeEvent = false
   self.activeDialogueID = nil
-  self.animatables = InsertAnimation(sceneView.currentMap.row, sceneView.currentMap.column)
+  --self.animatables = InsertAnimation(sceneView.currentMap.row, sceneView.currentMap.column)
+  self.animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
 
   if SAVE_DATA_NEEDS_LOADING then
     self.saveUtility:loadPlayerData()
     SAVE_DATA_NEEDS_LOADING = false
     --REINIT ANIMATABLES
-    gStateMachine.current.animatables = self.animatables
+    ---[[
     local animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
+    gStateMachine.current.animatables = animatables
+    --]]
   end
 end
 
@@ -125,20 +129,20 @@ function PlayState:update(dt)
   end
 
   if love.keyboard.wasPressed('f') then
-    ---[[
     gPlayer.flammeUnlocked = true
     gPlayer.elementEquipped = 'flamme'
     gPlayer.greenTunicUnlocked = true
     gPlayer.tunicEquipped = 'greenTunic'
-    sceneView = Scene(gPlayer, 7, 5)
-    --]]
-    --[[
-    gPlayer.greenTunicUnlocked = false
-    gPlayer.tunicEquipped = ''
+
+    table.insert(gItemInventory.grid[1][1], Item('lute'))
+    table.insert(gItemInventory.grid[1][2], Item('healthPotion', 10))
+    --CHEAT WARP
+    --sceneView = Scene(gPlayer, 7, 5)
+
+    gPlayer.greenTunicUnlocked = true
+    gPlayer.tome1Unlocked = true
     gKeyItemInventory.tomeEquipped = 'tome1'
     gKeyItemInventory.tome1Equipped = true
-    gPlayer.tome1Unlocked = true
-    --]]
   end
 
   --[[
@@ -371,20 +375,15 @@ function PlayState:update(dt)
   love.window.setPosition(400, 60)
 
 
-  --SAVE
+  --SAVING SAVE GAME
   if love.keyboard.wasPressed('k') then
     self.saveUtility:savePlayerData()
   end
 
-  --LOADING
+  --LOADING LOAD GAME
   if love.keyboard.wasPressed('l') then
-    --gPlayer.stateMachine:change('player-meditate')
-    --self.saveUtility:loadPlayerData()
-    --Event.dispatch('cleanseDemoWater')
-    Event.dispatch('solveDesertShortcutBoulders')
-    --REINIT ANIMATABLES
-    local animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
-    gStateMachine.current.animatables = animatables
+    gPlayer.stateMachine:change('player-meditate')
+    self.saveUtility:loadPlayerData()
   end
 
   --GAME OVER OPTION SELECTOR

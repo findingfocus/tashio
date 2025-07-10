@@ -16,9 +16,11 @@ function InsertAnimation:update(dt)
   FURNACE:update(dt)
 
   for i = 1, #MAP[self.mapRow][self.mapColumn].animatables do
+    --print(#MAP[self.mapRow][self.mapColumn].animatables .. tostring(' animatables'), 0, 0)
     MAP[self.mapRow][self.mapColumn].animatables[i]()
     --THE ABOVE FUNCTION RUNS insertAnim() from down below
   end
+
 end
 
 function insertAnim(row, column, anim, option)
@@ -30,5 +32,4 @@ function insertAnim(row, column, anim, option)
 end
 
 function InsertAnimation:render()
-
 end
