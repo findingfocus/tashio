@@ -74,8 +74,11 @@ function Tome1SuccessState:update(dt)
     DEMO_WATER_CLEANSED = true
   end)
 
+
   if self.waterAlpha >= 255 and self.step == 0 then
-    Event.dispatch('cleanseDemoWater')
+    self.waterCleansed = true
+    cleanseTheGlobalWater()
+    DEMO_WATER_CLEANSED = true
     self.step = 1
   end
 
