@@ -16,12 +16,18 @@ function RefineryState:init()
   self.ekkoUpgrade = UpgradeElement('ekko')
   self.loxUpgrade = UpgradeElement('lox')
   self.activeUpgrade = nil
+  --ANIMATABLES RESET?
+ --[[
+  self.animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
+  gStateMachine.current.animatables = self.animatables
+  --]]
   self.animatables = {}
   self.animatables = InsertAnimation(sceneView.currentMap.row, sceneView.currentMap.column)
 end
 
 function RefineryState:update(dt)
   self.animatables:update(dt)
+  --gStateMachine.current.animatables:update(dt)
   if INPUT:pressed('start') then
     if not PAUSED and not gPlayer.dead and not luteState then
       gStateMachine:change('pauseState')
@@ -166,6 +172,8 @@ function RefineryState:render()
   if sceneView.activeDialogueID ~= nil then
     MAP[self.row][self.column].dialogueBox[self.dialogueID]:render()
   end
+
+  --love.graphics.print('furnace: ' .. tostring(FURNACE.frame), 0, 0)
 
   --[[
   love.graphics.setColor(GREEN)

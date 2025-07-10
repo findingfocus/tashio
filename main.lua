@@ -53,9 +53,9 @@ function love.load()
   }
 
   --GAME START
-  gStateMachine:change('titleState')
+  --gStateMachine:change('titleState')
   --gStateMachine:change('refineryState')
-  --gStateMachine:change('playState')
+  gStateMachine:change('playState')
   --gStateMachine:change('minimap')
   --gStateMachine:change('chasmFallingState')
 
