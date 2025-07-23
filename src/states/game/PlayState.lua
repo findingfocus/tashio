@@ -137,7 +137,7 @@ function PlayState:update(dt)
     table.insert(gItemInventory.grid[1][1], Item('lute'))
     table.insert(gItemInventory.grid[1][2], Item('healthPotion', 10))
     --CHEAT WARP
-    --sceneView = Scene(gPlayer, 7, 5)
+   sceneView = Scene(gPlayer, 7, 5)
 
     gPlayer.greenTunicUnlocked = true
     gPlayer.tome1Unlocked = true
@@ -425,6 +425,7 @@ function PlayState:update(dt)
   if sceneView.dialogueBoxActive then
     sceneView.dialogueBoxActive = false
   end
+
 end
 
 function PlayState:render()
@@ -717,9 +718,10 @@ function PlayState:render()
     --KEY ITEM PUZZLE STATE FOR SCENE 7, 5
     --SHORTCUT 1
     if sceneView.currentMap.row == 7 and sceneView.currentMap.column == 5 then
-      DESERT_SHORTCUT_UNLOCKED = true
-      if MAP[7][5].collidableMapObjects[1].originalTileX == 2 and MAP[7][5].collidableMapObjects[1].originalTileY == 5 then
+      if MAP[7][5].collidableMapObjects[1].x == TILE_SIZE and MAP[7][5].collidableMapObjects[1].y == 4 * TILE_SIZE then
         DESERT_SHORTCUT_UNLOCKED = false
+      else
+        DESERT_SHORTCUT_UNLOCKED = true
       end
       --]]
       --table.insert(MAP[7][5].collidableMapObjects, Pushable(2,5, 'boulder', nil, 'keyItem1'))
@@ -771,8 +773,9 @@ function PlayState:render()
     --]]
     --love.graphics.print('falling: ' .. tostring(gPlayer.falling), 0, 10)
     --love.graphics.print('g1-2: ' .. Inspect(gItemInventory.grid[1][2]), 0, 10)
+    --love.graphics.print('x: ' .. MAP[7][5].collidableMapObjects[1].x .. ' y: ' .. MAP[7][5].collidableMapObjects[1].y, 0, 10)
     if #gItemInventory.grid[1][2] == 0 then
-      love.graphics.print('1 2 is empty!', 0, 20)
+      --love.graphics.print('1 2 is empty!', 0, 20)
     else
     --love.graphics.print('1 2 is: ' .. tostring(gItemInventory.grid[1][2][1].type), 0, 20)
     end

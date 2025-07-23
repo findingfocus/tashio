@@ -356,6 +356,9 @@ sfx = {
   ['idol-heal1'] = love.audio.newSource('sounds/SFX/Idol_v1.mp3', 'static'),
   ['idol-heal2'] = love.audio.newSource('sounds/SFX/Idol_v7.mp3', 'static'),
   ['idol-gong1'] = love.audio.newSource('sounds/SFX/IdolGong_v1.mp3', 'static'),
+  ['fire-blast2'] = love.audio.newSource('sounds/SFX/Fire_Blast_v2.mp3', 'static'),
+  ['fire-blast-spinning2'] = love.audio.newSource('sounds/SFX/Fire_Blast_Spinning_v2_loop.mp3', 'static'),
+  ['dialogue1'] = love.audio.newSource('sounds/SFX/Dialogue_01_Short.mp3', 'static'),
 }
 
 tashioHurt = {}
@@ -371,6 +374,7 @@ sfx['warp-zone']:setVolume(0.5)
 sfx['crate-break']:setVolume(0.5)
 sfx['idol-heal2']:setVolume(0.7)
 sfx['idol-gong1']:setVolume(0.7)
+sfx['dialogue1']:setVolume(0.4)
 
 playThis = {}
 for k, v in pairs(sfx) do
