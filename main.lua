@@ -53,9 +53,9 @@ function love.load()
   }
 
   --GAME START
-  gStateMachine:change('titleState')
+  --gStateMachine:change('titleState')
   --gStateMachine:change('refineryState')
-  --gStateMachine:change('playState')
+  gStateMachine:change('playState')
   --gStateMachine:change('minimap')
   --gStateMachine:change('chasmFallingState')
 
@@ -223,7 +223,7 @@ function love.draw()
   end
   love.graphics.setColor(WHITE)
   --love.graphics.print(SOUNDTRACK, 0, 30)
-  love.graphics.print('cleansed: ' .. tostring(DEMO_WATER_CLEANSED), 0, 40)
+  --love.graphics.print('SHORTCUT ' .. tostring(DESERT_SHORTCUT_UNLOCKED), 0, 40)
   push:finish()
   --[[
   local save = love.filesystem.getSaveDirectory()

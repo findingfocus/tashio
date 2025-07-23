@@ -4,6 +4,8 @@ local spaceCount = 0
 local blinking = true
 local blinkTimer = .5
 local blinkReset = .5
+local randomTime = 1
+local randomPitch = 1
 
 function DialogueBox:init(x, y, text, option, npc, index)
   self.dialogueID = index or 1
@@ -580,8 +582,20 @@ function DialogueBox:update(dt)
   --]]
 
   self.textTimer = self.textTimer + dt
+
 if self.textTimer > self.nextTextTrigger and self.textIndex <= MAX_TEXTBOX_CHAR_LENGTH then
     if self.lineCount == 1 then
+
+      ---[[
+      local lastChar = self.pages[self.currentPage][1].string:sub(self.textIndex, self.textIndex)
+
+      if lastChar == 'a' or lastChar == 'e' or lastChar == 'i' or lastChar == 'o' or lastChar == 'y' or lastChar == 'u' or lastChar == 'A' or lastChar == 'E' or lastChar == 'I' or lastChar == 'O' or lastChar == 'Y' or lastChar == 'U' then
+        sfx['dialogue1']:setPitch(TEXT_PITCH)
+        sfx['dialogue1']:play()
+      end
+      --]]
+
+
       self.line1Result = self.line1Result .. self.pages[self.currentPage][1].string:sub(self.textIndex, self.textIndex)
       self.textIndex = self.textIndex + 1
       self.currentPagePrintedCharCount = self.currentPagePrintedCharCount + 1
@@ -592,7 +606,16 @@ if self.textTimer > self.nextTextTrigger and self.textIndex <= MAX_TEXTBOX_CHAR_
       end
     end
     if self.lineCount == 2 then
+
       self.line2Result = self.line2Result .. self.pages[self.currentPage][2].string:sub(self.textIndex, self.textIndex)
+      ---[[
+      local lastChar = self.pages[self.currentPage][2].string:sub(self.textIndex, self.textIndex)
+
+      if lastChar == 'a' or lastChar == 'e' or lastChar == 'i' or lastChar == 'o' or lastChar == 'y' or lastChar == 'u' or lastChar == 'A' or lastChar == 'E' or lastChar == 'I' or lastChar == 'O' or lastChar == 'Y' or lastChar == 'U' then
+        sfx['dialogue1']:setPitch(TEXT_PITCH)
+        sfx['dialogue1']:play()
+      end
+      --]]
       self.textIndex = self.textIndex + 1
       self.currentPagePrintedCharCount = self.currentPagePrintedCharCount + 1
       self.textTimer = 0
@@ -602,11 +625,20 @@ if self.textTimer > self.nextTextTrigger and self.textIndex <= MAX_TEXTBOX_CHAR_
       end
     end
     if self.lineCount == 3 then
+      ---[[
+      local lastChar = self.pages[self.currentPage][3].string:sub(self.textIndex, self.textIndex)
+
+      if lastChar == 'a' or lastChar == 'e' or lastChar == 'i' or lastChar == 'o' or lastChar == 'y' or lastChar == 'u' or lastChar == 'A' or lastChar == 'E' or lastChar == 'I' or lastChar == 'O' or lastChar == 'Y' or lastChar == 'U' then
+        sfx['dialogue1']:setPitch(TEXT_PITCH)
+        sfx['dialogue1']:play()
+      end
+      --]]
       self.line3Result = self.line3Result .. self.pages[self.currentPage][3].string:sub(self.textIndex, self.textIndex)
       self.textIndex = self.textIndex + 1
       self.currentPagePrintedCharCount = self.currentPagePrintedCharCount + 1
       self.textTimer = 0
     end
+
   end
 
   if self.option == 'idol' then
