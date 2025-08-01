@@ -375,6 +375,8 @@ sfx['crate-break']:setVolume(0.5)
 sfx['idol-heal2']:setVolume(0.7)
 sfx['idol-gong1']:setVolume(0.7)
 sfx['dialogue1']:setVolume(0.4)
+sfx['fire-blast-spinning2']:setVolume(0.5)
+sfx['fire-blast2']:setVolume(0.5)
 
 playThis = {}
 for k, v in pairs(sfx) do
