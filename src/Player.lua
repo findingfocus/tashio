@@ -72,6 +72,7 @@ function Player:init(def)
   self.unFocus = 0
   self.unFocusGrowing = true
   self.manisTimer = 0
+  self.fireSpellVolume = 0
   self.magicHudOpacity = 0
   self.flammeUnlocked = false
   self.aquisUnlocked = false
@@ -416,12 +417,19 @@ function Player:update(dt)
     end
   end
 
+
+  sfx['fire-blast-spinning2']:setVolume(self.fireSpellVolume)
   if self.focusIndicatorX >= 65 and self.focusIndicatorX <= 85 then
     successfulCast = true
-    --sounds['spellcast']:play()
+    self.fireSpellVolume = math.min(self.fireSpellVolume + dt, 0.5)
+    if not sfx['fire-blast-spinning2']:isPlaying() then
+      sfx['fire-blast-spinning2']:play()
+    end
   else
+    self.fireSpellVolume = math.max(0, self.fireSpellVolume - dt / 2)
     successfulCast = false
   end
+  print('volume: ' .. tostring(self.fireSpellVolume))
 
   if self.focusIndicatorX > 0 then
     self.magicHudOpacity = math.min(255, self.magicHudOpacity + dt * 900)

@@ -251,6 +251,7 @@ function Entity:update(dt)
         self.damageFlash = true
         self.health = math.max(0, self.health - DAMAGE)
         sounds['hurt']:play()
+        sfx['fire-blast2']:play()
         if self.x > spellX then
           self.dx = SPELL_KNOCKBACK
         else
@@ -274,6 +275,7 @@ function Entity:update(dt)
         self.damageFlash = true
         self.health = math.max(0, self.health - DAMAGE)
         sfx['bat-damaged']:play()
+        sfx['fire-blast2']:play()
         if self.x > spellX then
           self.dx = SPELL_KNOCKBACK
         else
