@@ -30,6 +30,16 @@ function TreasureChest:init(tileX, tileY, contents, dialogueBoxID)
 end
 
 function TreasureChest:openChest()
+  if sceneView.currentMap.row == 4 and sceneView.currentMap.column == 11 then
+    GREEN_TUNIC_CHEST_OPENED = true
+  end
+  if sceneView.currentMap.row == 3 and sceneView.currentMap.column == 5 then
+    MAGIC_POTION_CHEST_OPENED = true
+  end
+  if sceneView.currentMap.row == 7 and sceneView.currentMap.column == 5 then
+    TOME1_CHEST_OPENED = true
+  end
+
   self.showOffItem = true
   self.opened = true
   self.image = treasureChestOpen
@@ -78,6 +88,11 @@ end
 function TreasureChest:reset()
   self.opened = false
   self.image = treasureChestClosed
+end
+
+function TreasureChest:loadOpenedChest()
+  self.opened = true
+  self.image = treasureChestOpen
 end
 
 function TreasureChest:update(dt)

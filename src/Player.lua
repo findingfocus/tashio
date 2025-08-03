@@ -429,7 +429,6 @@ function Player:update(dt)
     self.fireSpellVolume = math.max(0, self.fireSpellVolume - dt / 2)
     successfulCast = false
   end
-  print('volume: ' .. tostring(self.fireSpellVolume))
 
   if self.focusIndicatorX > 0 then
     self.magicHudOpacity = math.min(255, self.magicHudOpacity + dt * 900)

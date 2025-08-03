@@ -22,6 +22,23 @@ function SaveData:savePlayerData()
   saveData['playerTome1Unlocked'] = gPlayer.tome1Unlocked
   saveData['keyItemTomeEquipped'] = gKeyItemInventory.tomeEquipped
   saveData['keyItemTome1Equipped'] = gKeyItemInventory.tome1Equipped
+
+  if GREEN_TUNIC_CHEST_OPENED then
+    saveData['greenTunicChestOpened'] = true
+  else
+    saveData['greenTunicChestOpened'] = false
+  end
+  if MAGIC_POTION_CHEST_OPENED then
+    saveData['magicPotionChestOpened'] = true
+  else
+    saveData['magicPotionChestOpened'] = false
+  end
+  if TOME1_CHEST_OPENED then
+    saveData['tome1ChestOpened'] = true
+  else
+    saveData['tome1ChestOpened'] = false
+  end
+
   saveData['demoWaterCleansed'] = DEMO_WATER_CLEANSED
   saveData['desertShortcutUnlocked'] = DESERT_SHORTCUT_UNLOCKED
   if gPlayer.elementEquipped == 'flamme' then
@@ -148,6 +165,36 @@ function SaveData:loadPlayerData()
     if k == 'desertShortcutUnlocked' then
       if v == true then
         Event.dispatch('solveDesertShortcutBoulders')
+      end
+    end
+    if k == 'greenTunicChestOpened' then
+      if v == true then
+        for k, v in pairs(MAP[4][11].collidableMapObjects) do
+          if v.classType == 'treasureChest' then
+            v:loadOpenedChest()
+            GREEN_TUNIC_CHEST_OPENED = true
+          end
+        end
+      end
+    end
+    if k == 'magicPotionChestOpened' then
+      if v == true then
+        for k, v in pairs(MAP[3][5].collidableMapObjects) do
+          if v.classType == 'treasureChest' then
+            v:loadOpenedChest()
+            MAGIC_POTION_CHEST_OPENED = true
+          end
+        end
+      end
+    end
+    if k == 'tome1ChestOpened' then
+      if v == true then
+        for k, v in pairs(MAP[7][5].collidableMapObjects) do
+          if v.classType == 'treasureChest' then
+            v:loadOpenedChest()
+            TOME1_CHEST_OPENED = true
+          end
+        end
       end
     end
 
