@@ -71,6 +71,7 @@ __Circle radius for player to trigger attack states
 CREDITED SUPPORTERS
 X_K_Tronix at 7:23PM 8/17/2024**
 X_soup_or_king at 8:02PM 4/09/2025**
+X_roughcookie at 11:47PM 8/2/2025**
 __Add flower anim to be transparent
 __Tweak falling trigger upon pit collision
 
