@@ -84,6 +84,11 @@ function Map:init(row, column, spellcastEntities)
       if tile.id >= 97 and tile.id <= 256 then
         table.insert(self.collidableMapObjects, CollidableMapObjects(i, j))
       end
+
+
+      if tile.id >= 641 and tile.id <= 736 then
+        table.insert(self.collidableMapObjects, CollidableMapObjects(i, j))
+      end
     end
   end
   --]]
