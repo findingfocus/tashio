@@ -97,6 +97,7 @@ function SaveData:loadPlayerData()
     print("No saveDataExists data found, starting new game.")
     sceneView.activeDialogueID = nil
     gStateMachine:change('openingCinematic')
+    gPlayer.meditate = false
     gPlayer:changeState('player-death')
     goto earlybreak
   else
@@ -216,6 +217,11 @@ function SaveData:loadPlayerData()
     --]]
     print('loaded: ' .. k .. ' as: ' .. tostring(v))
   end
+
+  MAP[10][19].psystems[1]:activate()
+  MAP[10][19].psystems[1].active = true
+  table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(1, 5, TILE_SIZE, TILE_SIZE))
+  table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(1, 6, TILE_SIZE, TILE_SIZE))
 
   print('GAME LOADED')
 

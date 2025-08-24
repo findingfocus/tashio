@@ -146,9 +146,12 @@ function MageIntroTopTrigger:update(dt)
     if mage.y == -TILE_SIZE then
       --TRIGGER MAGE WALL
       Timer.clear()
-      --table.insert(MAP[10][19].psystems, MageMagicWall())
+      --MAGE WALL BARRIER
+      --TOGGLE FOR DEPLOYMENT
+      ---[[
       MAP[10][19].psystems[1]:activate()
-      --MAP[10][19].psystems[1].active = true
+      MAP[10][19].psystems[1].active = true
+      --]]
       self.step = 9
       gPlayer:changeAnimation('idle-up')
       gPlayer.direction = 'up'

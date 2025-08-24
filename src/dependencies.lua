@@ -374,7 +374,7 @@ sfx['warp-zone']:setVolume(0.5)
 sfx['crate-break']:setVolume(0.5)
 sfx['idol-heal2']:setVolume(0.7)
 sfx['idol-gong1']:setVolume(0.7)
-sfx['dialogue1']:setVolume(0.4)
+sfx['dialogue1']:setVolume(0.2)
 sfx['fire-blast-spinning2']:setVolume(0.5)
 sfx['fire-blast2']:setVolume(0.5)
 

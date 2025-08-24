@@ -19,7 +19,7 @@ gItemInventory = Inventory('item')
 gKeyItemInventory = Inventory('keyItem')
 gItems = {}
 
---LUTE EQUIP OBTAIN
+--LUTE EQUIP
 --table.insert(gItemInventory.grid[1][1], Item('lute'))
 --table.insert(gItemInventory.grid[1][2], Item('healthPotion', 10))
 
