@@ -22,7 +22,6 @@ function OpeningCinematic:init()
   gPlayer.animations['death'].currentFrame = 9
   --table.insert(MAP[10][19].dialogueBoxCollided, MAP[10][19].dialogueBox[1])
   self.lavaSystem = LavaSystem()
-  self.mageStep1 = false
   self.step = 1
   self.turnTimer = 0.8
   self.turnCount = 0
@@ -31,10 +30,6 @@ function OpeningCinematic:init()
   self.step = 3
   gPlayer.x = -32
   --]]
-  self.mageStep1 = true
-  self.mageStep2 = false
-  self.mageStep3 = false
-  self.mageStep4 = false
   self.tashioStep1 = false
   self.tashioStep2 = false
   self.castleStep1 = false
@@ -227,6 +222,8 @@ function OpeningCinematic:update(dt)
           if gPlayer:dialogueCollides(v) then
             v:openChest()
             treasureChestOption = true
+            gItemInventory.grid[1][1] = {}
+            table.insert(gItemInventory.grid[1][1], Item('lute'))
           end
         end
       end

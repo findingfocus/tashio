@@ -141,14 +141,12 @@ table.insert(MAP[3][5].weather, 'BLIZZARD')
 
 --MAGE WALL BARRIERS
 --TOGGLE FOR DEPLOYMENT
----[[
+--[[
 table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(1, 5, TILE_SIZE, TILE_SIZE))
 table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(1, 6, TILE_SIZE, TILE_SIZE))
-table.insert(MAP[10][19].psystems, MageMagicWall())
-MAP[10][19].psystems[1].active = true
+MAP[10][19].psystems[1].active = false
 --]]
---
---table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(5, 1, TILE_SIZE, TILE_SIZE))
+table.insert(MAP[10][19].psystems, MageMagicWall())
 
 --MAP DOWNLOADER FROM TILED DATA DOWNLOADER
 local mapRow = 1
