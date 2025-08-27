@@ -135,6 +135,8 @@ table.insert(MAP[5][4].weather, 'LIGHT_RAIN')
 table.insert(MAP[6][4].weather, 'LIGHT_RAIN')
 table.insert(MAP[6][3].weather, 'LIGHT_RAIN')
 table.insert(MAP[5][3].weather, 'LIGHT_RAIN')
+table.insert(MAP[6][5].weather, 'LIGHT_RAIN')
+table.insert(MAP[5][5].weather, 'LIGHT_RAIN')
 --table.insert(sceneView.particleSystem, sceneView.snowSystem)
 --
 table.insert(MAP[3][5].weather, 'BLIZZARD')
