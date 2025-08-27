@@ -87,7 +87,7 @@ gKeyItemInventory.tome1Equipped = true
 gPlayer.y = TILE_SIZE * 3
 gPlayer.x = TILE_SIZE * 4
 --]]
-gPlayer.y = TILE_SIZE * 4
+gPlayer.y = TILE_SIZE * 5
 gPlayer.x = TILE_SIZE * 4
 tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 --textures = love.graphics.newImage('graphics/textures.png')
@@ -216,14 +216,20 @@ function PlayState:update(dt)
         gStateMachine:change('titleState')
         gStateMachine.current.step = 3
         gPlayer.health = 6
+        gPlayer.x = 60
+        gPlayer.y = 80
       elseif self.optionSelector == 1 then
-        --CONTINUE GAME
+        --CONTINUE GAME FROM NON CHASM DEATH
         --LOAD LAST SAVE
-        SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
-        SAVE_DATA_NEEDS_LOADING = true
         gStateMachine:change('playState')
-        --self.saveUtility:loadPlayerData()
         gPlayer.stateMachine:change('player-meditate')
+        gPlayer.health = 6
+        gPlayer.x = 60
+        gPlayer.y = 80
+        sceneView = Scene(gPlayer, 7, 4)
+        SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
+        sceneView.player.deadTimer = 0
+        sceneView.player.dead = false
       end
     end
   end
@@ -237,6 +243,7 @@ function PlayState:update(dt)
             gPlayer.direction = 'down'
             gPlayer:changeAnimation('idle-down')
             luteState = true
+            stopOST()
             Lute:reset()
             bassNotes1:reset()
           end
@@ -401,7 +408,7 @@ function PlayState:update(dt)
   end
   --]]
 
-  --GAME OVER OPTION SELECTOR
+  --GAME OVER OPTION SELECTOR SOUND 
   if self.gameOver then
     if INPUT:pressed('down') then
       if self.optionSelector ~= 2 then

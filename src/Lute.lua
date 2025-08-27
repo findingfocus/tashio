@@ -138,7 +138,7 @@ function validNoteChecker(string)
 end
 
 function Lute:update(dt)
-
+  SOUNDTRACK = ''
   if correctCount + incorrectCount >= 28 then
     songFinishedTimer = songFinishedTimer + dt
     if songFinishedTimer > 1 then

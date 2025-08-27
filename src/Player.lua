@@ -10,7 +10,7 @@ function Player:init(def)
   self.lastInput = nil
   self.inputsHeld = 0
   self.meditate = false
-  self.health = 2
+  self.health = 6
   --self.health = 1
   self.heartTimer = heartSpeed
   self.decrement = true
