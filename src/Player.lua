@@ -37,8 +37,8 @@ function Player:init(def)
   self.flammeUpgradeLevel = 1
   self.pushTimer = 0
   self.pushing = false
-  self.coinCount = 10
-  self.rubyCount = 98
+  self.coinCount = 0
+  self.rubyCount = 0
   self.sapphireCount = 0
   self.topazCount = 99
   self.emeraldCount = 0
