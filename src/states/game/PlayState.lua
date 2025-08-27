@@ -20,8 +20,8 @@ gKeyItemInventory = Inventory('keyItem')
 gItems = {}
 
 --LUTE EQUIP
---table.insert(gItemInventory.grid[1][1], Item('lute'))
---table.insert(gItemInventory.grid[1][2], Item('healthPotion', 10))
+table.insert(gItemInventory.grid[1][1], Item('lute'))
+table.insert(gItemInventory.grid[1][2], Item('healthPotion', 3))
 
 local vibrancy = 0
 local vibrancyGrow = true
@@ -60,17 +60,26 @@ cameraX = 0
 --sceneView = Scene(gPlayer, 3, 5)
 --DARK FOREST
 --sceneView = Scene(gPlayer, 3, 5)
---sceneView = Scene(gPlayer, 7, 5)
-sceneView = Scene(gPlayer, 5, 2)
+sceneView = Scene(gPlayer, 7, 4)
+--sceneView = Scene(gPlayer, 5, 2)
 --sceneView = Scene(gPlayer, 1, 13)
 --sceneView = Scene(gPlayer, 9, 3)
 --sceneView = Scene(gPlayer, 9, 2)
 --sceneView = Scene(gPlayer, 4, 11)
 
 --GREEN TUNIC EQUIP
---PLAYER EQUIPS
+--DEMO PLAYER EQUIPS
+---[[
 --gPlayer.tunicEquipped = 'greenTunic'
---gPlayer.elementEquipped = 'flamme'
+--gPlayer.greenTunicUnlocked = true
+--gPlayer.tunicEquipped = 'greenTunic'
+gPlayer.elementEquipped = 'flamme'
+gPlayer.flammeUnlocked = true
+gPlayer.elementEquipped = 'flamme'
+gPlayer.tome1Unlocked = true
+gKeyItemInventory.tomeEquipped = 'tome1'
+gKeyItemInventory.tome1Equipped = true
+--]]
 
 --sceneView = Scene(gPlayer, 1, 12)
 --sceneView = Scene(gPlayer, 1, 11)
@@ -110,7 +119,7 @@ function PlayState:init()
   self.animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
 
   if SAVE_DATA_NEEDS_LOADING then
-    self.saveUtility:loadPlayerData()
+    --self.saveUtility:loadPlayerData()
     SAVE_DATA_NEEDS_LOADING = false
     --REINIT ANIMATABLES
     ---[[
@@ -171,6 +180,7 @@ function PlayState:update(dt)
   if self.stateTimer >= 1 then
     --gStateMachine:change('chasmFallingState')
   end
+  --[[
   if love.keyboard.wasPressed('g') then
     if WINDOW_HEIGHT == 144 * SCALE_FACTOR * 2 then
       SCALE_FACTOR = 4
@@ -186,6 +196,7 @@ function PlayState:update(dt)
 
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT_GB, WINDOW_WIDTH, WINDOW_HEIGHT)
   end
+  --]]
 
   if INPUT:pressed('start') then
     if not PAUSED and not gPlayer.dead and not luteState then
@@ -376,15 +387,19 @@ function PlayState:update(dt)
 
 
   --SAVING SAVE GAME
+  --[[
   if love.keyboard.wasPressed('k') then
     self.saveUtility:savePlayerData()
   end
+  --]]
 
   --LOADING LOAD GAME
+  --[[
   if love.keyboard.wasPressed('l') then
     gPlayer.stateMachine:change('player-meditate')
     self.saveUtility:loadPlayerData()
   end
+  --]]
 
   --GAME OVER OPTION SELECTOR
   if self.gameOver then
@@ -414,7 +429,7 @@ function PlayState:update(dt)
   end
 
   --TOME 1 SUCCESS
-  ---[[
+  --[[
   if love.keyboard.wasPressed('n') then
     gPlayer:changeState('player-cinematic')
     gStateMachine:change('Tome1SuccessState')

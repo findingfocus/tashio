@@ -11,13 +11,13 @@ SCALE_FACTOR_RESET = 2
 --]]
 
 --DEVELOPMENT
----[[
+--[[
 SCALE_FACTOR = 6
 SCALE_FACTOR_RESET = 6
 --]]
 
 --WEB
---[[
+---[[
 SCALE_FACTOR = 2
 SCALE_FACTOR_RESET = 2
 --]]

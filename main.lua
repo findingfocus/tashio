@@ -222,7 +222,7 @@ function love.draw()
     --button.pressed = INPUT:down(button.direction)
   end
   love.graphics.setColor(WHITE)
-  love.graphics.print(tostring(gStateMachine.current.stateName), 0, 30)
+  --love.graphics.print(tostring(gStateMachine.current.stateName), 0, 30)
   push:finish()
   --[[
   local save = love.filesystem.getSaveDirectory()

@@ -99,7 +99,6 @@ function SaveData:loadPlayerData()
     gStateMachine:change('openingCinematic')
     gPlayer.meditate = false
     gPlayer:changeState('player-death')
-    goto earlybreak
   else
     --SAVE_DATA_NEEDS_LOADING = true
   end
@@ -241,6 +240,4 @@ function SaveData:loadPlayerData()
   --Event.dispatch('cleanseDemoWater')
   local animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
   gStateMachine.current.animatables = animatables
-
-  ::earlybreak::
 end
