@@ -90,6 +90,7 @@ function Entity:resetOriginalPosition()
   if self.type == 'gecko' or self.type == 'geckoC' then
     self.direction = self.originalDirection
     self:changeState('entity-idle')
+    self:changeAnimation('idle-right')
   end
   self.type = self.originalType
   self.offscreen = false
