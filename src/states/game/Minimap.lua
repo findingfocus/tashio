@@ -38,11 +38,12 @@ function Minimap:init()
 
   self.names[7][1].locationName = 'Dark Temple'
   self.names[7][2].locationName = 'Village'
-  self.names[7][3].locationName = 'Gecko Road'
+  self.names[7][3].locationName = 'Campgrounds'
+  self.names[8][3].locationName = 'Gecko Road'
   self.names[7][4].locationName = 'Dungeon Entrance'
-  self.names[8][3].locationName = 'Inn'
-  self.names[9][3].locationName = 'Test of Strength'
-  self.names[10][3].locationName = 'Test of Strength'
+  self.names[9][3].locationName = 'Fisherman\'s Hut'
+  self.names[9][4].locationName = 'River Jai'
+  self.names[10][3].locationName = 'Fisher Port'
   self.names[10][2].locationName = 'Test of Strength'
   self.names[10][1].locationName = 'Test of Strength'
   self.names[9][1].locationName = 'Test of Strength'
@@ -50,6 +51,13 @@ function Minimap:init()
   self.names[8][2].locationName = 'Rickety Bridge'
   self.names[9][2].locationName = 'Mage\'s Castle'
   self.fastSelectTimer = .25
+  self.names[6][1].locationName = 'Emishi Village'
+  self.names[6][2].locationName = 'Emishi Village'
+  self.names[5][2].locationName = 'Emishi Village'
+  self.names[5][1].locationName = 'Emishi Village'
+  self.names[5][2].locationName = 'Ren\'s Refinery'
+  self.names[4][2].locationName = 'Lake Raju'
+  self.names[7][2].locationName = 'Torii'
 end
 
 function Minimap:playSound(direction)
