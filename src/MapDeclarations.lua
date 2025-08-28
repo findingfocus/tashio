@@ -102,8 +102,6 @@ MAP[5][5].ost = 'darkForestTrack'
 MAP[7][1].ost = 'villageTrack'
 MAP[8][1].ost = 'villageTrack'
 MAP[7][2].ost = 'villageTrack'
-MAP[7][3].ost = 'villageTrack'
-MAP[7][4].ost = 'villageTrack'
 MAP[6][1].ost = 'villageTrack'
 MAP[6][2].ost = 'villageTrack'
 MAP[5][1].ost = 'villageTrack'
@@ -117,7 +115,6 @@ MAP[10][19].ost = 'magesCastleTrack'
 MAP[10][18].ost = 'magesCastleTrack'
 
 --WEATHER
-
 table.insert(MAP[7][6].weather, 'LIGHT_SAND')
 table.insert(MAP[8][6].weather, 'LIGHT_SAND')
 table.insert(MAP[9][6].weather, 'LIGHT_SAND')
