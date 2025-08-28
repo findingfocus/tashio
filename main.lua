@@ -157,6 +157,7 @@ function love.update(dt)
     touches[k].wasTouched = false
   end
 
+  --[[
   for song, tracks in pairs(ost) do
     if SOUNDTRACK == song then
       if not ost[song]:isPlaying() then
@@ -166,8 +167,9 @@ function love.update(dt)
       end
     end
   end
+  --]]
 
-  --[[
+  ---[[
   if SOUNDTRACK == 'titleTrack' then
     if not ost['titleTrack']:isPlaying() then
       stopOST()

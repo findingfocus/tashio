@@ -17,7 +17,8 @@ function MageMagicWall:update(dt)
   self.psystem:setParticleLifetime(2, 4)
   self.psystem:setEmissionArea('borderrectangle', TILE_SIZE, 0)
   self.psystem:setLinearAcceleration(0, math.random(-2, -20))
-  self.psystem:setEmissionRate(800)
+  --MOBILE
+  self.psystem:setEmissionRate(180)
   self.psystem:setColors(80/255, 40/255, 255/255, 255/255, 80/255, 120/255, 255/255, 150/255)
   self.psystem:update(dt)
 
