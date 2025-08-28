@@ -957,13 +957,43 @@ end
 table.insert(MAP[8][3].entities, Entity {
   animations = ENTITY_DEFS['geckoC'].animations,
   x = TILE_SIZE * 5,
-  y = TILE_SIZE * 4,
+  y = TILE_SIZE * 6,
+  width = TILE_SIZE,
+  height = TILE_SIZE,
+  health = 2,
+  direction = 'up',
+  type = 'gecko',
+  walkSpeed = 20,
+  aiPath = math.random(1, 2),
+  corrupted = true,
+  enemy = true,
+})
+
+table.insert(MAP[8][3].entities, Entity {
+  animations = ENTITY_DEFS['geckoC'].animations,
+  x = TILE_SIZE * 2,
+  y = TILE_SIZE * 3,
+  width = TILE_SIZE,
+  height = TILE_SIZE,
+  health = 2,
+  direction = 'up',
+  type = 'gecko',
+  walkSpeed = 20,
+  aiPath = math.random(1, 2),
+  corrupted = true,
+  enemy = true,
+})
+
+table.insert(MAP[8][3].entities, Entity {
+  animations = ENTITY_DEFS['geckoC'].animations,
+  x = TILE_SIZE * 8,
+  y = TILE_SIZE * 2,
   width = TILE_SIZE,
   height = TILE_SIZE,
   health = 2,
   direction = 'left',
   type = 'gecko',
-  walkSpeed = 45,
+  walkSpeed = 20,
   aiPath = math.random(1, 2),
   corrupted = true,
   enemy = true,
@@ -973,7 +1003,7 @@ local entityCount = #MAP[8][3].entities
 for i = 1, entityCount do
   if MAP[8][3].entities[i].corrupted and MAP[8][3].entities[i].type == 'gecko' then
     MAP[8][3].entities[i].animations = MAP[8][3].entities[i]:createAnimations(ENTITY_DEFS['geckoC'].animations)
-    MAP[8][3].entities[i]:changeAnimation('idle-down')
+    MAP[8][3].entities[i]:changeAnimation('idle-up')
     MAP[8][3].entities[i].stateMachine = StateMachine {
       ['gecko-walk'] = function() return GeckoWalkState(MAP[8][3].entities[i]) end,
       ['entity-idle'] = function() return EntityIdleState(MAP[8][3].entities[i]) end,
