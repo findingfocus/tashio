@@ -77,6 +77,18 @@ MAP[4][13].ost = 'dungeonTrack'
 --DARK TEMPLE
 MAP[1][12].ost = 'dungeonTrack'
 
+--INN
+MAP[2][11].ost = 'magesCastleTrack'
+
+--MART
+MAP[1][14].ost = 'magesCastleTrack'
+
+--GYM
+MAP[1][15].ost = 'magesCastleTrack'
+
+--FISHERMANS HUT
+MAP[1][16].ost = 'magesCastleTrack'
+
 MAP[5][3].ost = 'darkForestTrack'
 MAP[5][4].ost = 'darkForestTrack'
 MAP[6][3].ost = 'darkForestTrack'
@@ -990,6 +1002,22 @@ table.insert(MAP[3][5].dialogueBox, DialogueBox(TILE_SIZE * 9 - TILE_SIZE, TILE_
 --DUNGEON 1 EXIT
 insertWarpZone(7, 6, 4, 13, 9, 4, 9, 8)
 
+
+
+--POKEMART
+insertWarpZone(6,2, 1, 14, 3, 4, 6, 8)
+
+--INN
+insertWarpZone(6, 2, 2, 11, 8, 5, 6, 8)
+
+--GYM
+insertWarpZone(6, 1, 1, 15, 6, 2, 6, 8)
+
+--FISHERMAN HUT
+insertWarpZone(9,3, 1, 16, 3, 4, 6, 8)
+
+
+
 --DARK TEMPLE
 insertWarpZone(7, 1, 1, 12, 3, 6, 3, 8)
 MAP[7][1].warpZones[1].width, MAP[7][1].warpZones[1].height = 7, 5
@@ -1138,8 +1166,6 @@ MAP[1][11].warpZones[1].warpToStateChange = 'playState'
 --insertWarpZone(7, 4, 1, 12, 4, 4, 3, 8)
 insertWarpZone(7, 4, 4, 11, 4, 4, 3, 8)
 
---INN
-insertWarpZone(9, 3, 2, 11, 3, 4, 6, 8)
 
 FLOWERS = AnimSpitter(FLOWER_ANIM_STARTER, 1015, 0.75)
 WATER = AnimSpitter(WATER_ANIM_STARTER, 105, .5)
