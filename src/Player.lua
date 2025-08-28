@@ -299,7 +299,7 @@ function Player:update(dt)
   HEART_CROP = math.max(56 - (4 * healthDifference), 0)
 
   --TRANSITION EVENT TRIGGERS
-  if not sceneView.shifting and not sceneView.player.falling and not sceneView.player.graveyard then
+  if not sceneView.shifting and not sceneView.player.falling and not sceneView.player.graveyard and not gStateMachine.current.gameOver then
     --if #OUTPUT_LIST > 0 then
     for k, v in ipairs(OUTPUT_LIST) do
       if v == 'right' then

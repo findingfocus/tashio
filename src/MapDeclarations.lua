@@ -865,7 +865,92 @@ table.insert(MAP[1][12].entities, Entity {
   zigzagAmplitude = math.random(.5, .75),
 })
 --]]
+--
+--GECKO FOREST BY RUINS
+table.insert(MAP[5][5].entities, Entity {
+  animations = ENTITY_DEFS['geckoC'].animations,
+  x = TILE_SIZE * 5,
+  y = TILE_SIZE * 3,
+  width = TILE_SIZE,
+  height = TILE_SIZE,
+  health = 2,
+  direction = 'left',
+  type = 'gecko',
+  walkSpeed = 45,
+  aiPath = math.random(1, 2),
+  corrupted = true,
+  enemy = true,
+})
 
+local entityCount = #MAP[5][5].entities
+for i = 1, entityCount do
+  if MAP[5][5].entities[i].corrupted and MAP[5][5].entities[i].type == 'gecko' then
+    MAP[5][5].entities[i].animations = MAP[5][5].entities[i]:createAnimations(ENTITY_DEFS['geckoC'].animations)
+    MAP[5][5].entities[i]:changeAnimation('idle-down')
+    MAP[5][5].entities[i].stateMachine = StateMachine {
+      ['gecko-walk'] = function() return GeckoWalkState(MAP[5][5].entities[i]) end,
+      ['entity-idle'] = function() return EntityIdleState(MAP[5][5].entities[i]) end,
+    }
+    MAP[5][5].entities[i]:changeState('entity-idle')
+  end
+end
+--GECKO FOREST BY REFINERY
+table.insert(MAP[5][3].entities, Entity {
+  animations = ENTITY_DEFS['geckoC'].animations,
+  x = TILE_SIZE * 6,
+  y = TILE_SIZE * 2,
+  width = TILE_SIZE,
+  height = TILE_SIZE,
+  health = 2,
+  direction = 'left',
+  type = 'gecko',
+  walkSpeed = 45,
+  aiPath = math.random(1, 2),
+  corrupted = true,
+  enemy = true,
+})
+
+local entityCount = #MAP[5][3].entities
+for i = 1, entityCount do
+  if MAP[5][3].entities[i].corrupted and MAP[5][3].entities[i].type == 'gecko' then
+    MAP[5][3].entities[i].animations = MAP[5][3].entities[i]:createAnimations(ENTITY_DEFS['geckoC'].animations)
+    MAP[5][3].entities[i]:changeAnimation('idle-down')
+    MAP[5][3].entities[i].stateMachine = StateMachine {
+      ['gecko-walk'] = function() return GeckoWalkState(MAP[5][3].entities[i]) end,
+      ['entity-idle'] = function() return EntityIdleState(MAP[5][3].entities[i]) end,
+    }
+    MAP[5][3].entities[i]:changeState('entity-idle')
+  end
+end
+
+--GECKO FOREST
+table.insert(MAP[6][3].entities, Entity {
+  animations = ENTITY_DEFS['geckoC'].animations,
+  x = TILE_SIZE * 3,
+  y = TILE_SIZE * 5,
+  width = TILE_SIZE,
+  height = TILE_SIZE,
+  health = 2,
+  direction = 'left',
+  type = 'gecko',
+  walkSpeed = 45,
+  aiPath = math.random(1, 2),
+  corrupted = true,
+  enemy = true,
+})
+
+local entityCount = #MAP[6][3].entities
+for i = 1, entityCount do
+  if MAP[6][3].entities[i].corrupted and MAP[6][3].entities[i].type == 'gecko' then
+    MAP[6][3].entities[i].animations = MAP[6][3].entities[i]:createAnimations(ENTITY_DEFS['geckoC'].animations)
+    MAP[6][3].entities[i]:changeAnimation('idle-down')
+    MAP[6][3].entities[i].stateMachine = StateMachine {
+      ['gecko-walk'] = function() return GeckoWalkState(MAP[6][3].entities[i]) end,
+      ['entity-idle'] = function() return EntityIdleState(MAP[6][3].entities[i]) end,
+    }
+    MAP[6][3].entities[i]:changeState('entity-idle')
+  end
+end
 
 
 --GECKO ROAD
