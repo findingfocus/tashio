@@ -1395,7 +1395,7 @@ MAP[2][11].npc[villager2Index].stateMachine = StateMachine {
 }
 MAP[2][11].npc[villager2Index]:changeState('npc-walk')
 MAP[2][11].npc[villager2Index].stateMachine.current.option = 'square'
-table.insert(MAP[2][11].dialogueBox, DialogueBox(MAP[2][11].npc[villager2Index].x, MAP[2][11].npc[villager2Index].y, 'A bed costs 5 gems a night', 'npc', MAP[2][11].npc[villager2Index], 1))
+table.insert(MAP[2][11].dialogueBox, DialogueBox(MAP[2][11].npc[villager2Index].x, MAP[2][11].npc[villager2Index].y, 'A bed costs 5 coin a night', 'npc', MAP[2][11].npc[villager2Index], 1))
 --]]
 --19 CHAR PER LINE = 57 CHARS for 3 lines
 table.insert(MAP[7][1].dialogueBox, DialogueBox(TILE_SIZE, 4 * TILE_SIZE, 'You cannot enter without light...', 'signpost', nil, 1))
