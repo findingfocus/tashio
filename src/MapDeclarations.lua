@@ -159,12 +159,12 @@ table.insert(MAP[3][5].weather, 'BLIZZARD')
 
 --MAGE WALL BARRIERS
 --TOGGLE FOR DEPLOYMENT
---[[
+---[[
 table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(1, 5, TILE_SIZE, TILE_SIZE))
 table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(1, 6, TILE_SIZE, TILE_SIZE))
-MAP[10][19].psystems[1].active = false
 --]]
 table.insert(MAP[10][19].psystems, MageMagicWall())
+MAP[10][19].psystems[1].active = true
 
 --MAP DOWNLOADER FROM TILED DATA DOWNLOADER
 local mapRow = 1
@@ -1331,8 +1331,8 @@ table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 3, TILE_SIZE * 1, 
 table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 1, 'Ekko is vibrant green and shimmers quite beautifully. ', 'signpost', nil, 3 ))
 table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 8, TILE_SIZE * 1, 'Lox shines as bright as the sun, focusing it\'s energy can be quite powerful. ', 'signpost', nil, 4 ))
 
-table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 1, TILE_SIZE * 3, 'WASD keys are directional buttons.  Spacebar is the A Button.  Shift is the B Button.  Tab is the Start Button.  The A Button will interact with objects, or use the item in the A Slot. ', 'signpost', nil, 5 ))
-table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 3, TILE_SIZE * 3, 'Press Start Button to open inventory.  B button will swap inventory selection.  A button will equip selected item.  Start Button while in inventory will resume the game. ', 'signpost', nil, 6 ))
+table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 1, TILE_SIZE * 3, 'WASD keys are directional buttons.  Spacebar is the A Button.  Shift is the B Button.  Tab is the Start Button.  ` is the Select Button.  The A Button will interact with objects, or use the element in the A Slot. ', 'signpost', nil, 5 ))
+table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 3, TILE_SIZE * 3, 'Press Start Button to open inventory.  B button will swap inventory selection.  A button will equip selected item.  Start Button while in inventory will resume the game. Select Button toggles minimap. ', 'signpost', nil, 6 ))
 table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 3, 'To use an Element, you need to equip it in your A Slot.  In order to successfully cast magic, you need to balance your focus using the A Button. ', 'signpost', nil, 7 ))
 table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 8, TILE_SIZE * 3, 'Once the lute is equipped Press B button to start playing music. The Directional Buttons play different strings, and the A/B Buttons play different frets.  The Start Button will exit music mode. ', 'signpost', nil, 8 ))
 

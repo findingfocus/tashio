@@ -653,7 +653,7 @@ function PlayState:render()
     love.graphics.setColor(WHITE)
     --self.snowSystem:render()
     self.rainSystem:render()
-    love.graphics.printf('SUPPORTERS:\nsoup_or_king\nakabob56\njeanniegrey\nsaltomanga\nmeesegamez\nk_tronix\nhimeh3\nflatulenceknocker\nofficial_wutnot\nroughcookie\ntheshakycoder\ntjtheprogrammer\npunymagus\nprostokotylo\ntheveryrealrev\nsqwinge\nbrettdoestwitch\nbrightsidemovement\nlokitrixter\nkviktus\ncainedeegan', 0, creditsY, VIRTUAL_WIDTH, 'center')
+    love.graphics.printf('SUPPORTERS:\nsoup_or_king\nakabob56\njeanniegrey\nsaltomanga\nmeesegamez\nk_tronix\nhimeh3\nflatulenceknocker\nofficial_wutnot\nroughcookie\ntheshakycoder\ntjtheprogrammer\npunymagus\nprostokotylo\ntheveryrealrev\nsqwinge\nbrettdoestwitch\nbrightsidemovement\nlokitrixter\nkviktus\ncainedeegan\ndukeofgod', 0, creditsY, VIRTUAL_WIDTH, 'center')
   end
 
   --self.snowSystem:render()
@@ -807,6 +807,6 @@ end
 function displayFPS()
   love.graphics.setFont(classicFont)
   love.graphics.setColor(WHITE)
-  love.graphics.print(tostring(love.timer.getFPS()), SCREEN_WIDTH_LIMIT - 27, VIRTUAL_HEIGHT - 12)
+  --love.graphics.print('FPS:' .. tostring(love.timer.getFPS()), SCREEN_WIDTH_LIMIT - 52, VIRTUAL_HEIGHT - 12)
 end
 
