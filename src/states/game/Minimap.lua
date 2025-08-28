@@ -23,7 +23,7 @@ function Minimap:init()
 
   for i = 1, 4 do
     for j = 3, 6 do
-      self.names[i][j].locationName = 'Ice Mountain'
+      self.names[i][j].locationName = 'Mount Wutai'
     end
     for j = 7, 10 do
       self.names[i][j].locationName = 'Mount Kazan'
