@@ -89,14 +89,21 @@ MAP[1][15].ost = 'magesCastleTrack'
 --FISHERMANS HUT
 MAP[1][16].ost = 'magesCastleTrack'
 
+--REFINERY
+MAP[1][11].ost = 'magesCastleTrack'
+
 MAP[5][3].ost = 'darkForestTrack'
 MAP[5][4].ost = 'darkForestTrack'
 MAP[6][3].ost = 'darkForestTrack'
 MAP[6][4].ost = 'darkForestTrack'
+MAP[6][5].ost = 'darkForestTrack'
+MAP[5][5].ost = 'darkForestTrack'
 
 MAP[7][1].ost = 'villageTrack'
 MAP[8][1].ost = 'villageTrack'
 MAP[7][2].ost = 'villageTrack'
+MAP[7][3].ost = 'villageTrack'
+MAP[7][4].ost = 'villageTrack'
 MAP[6][1].ost = 'villageTrack'
 MAP[6][2].ost = 'villageTrack'
 MAP[5][1].ost = 'villageTrack'
