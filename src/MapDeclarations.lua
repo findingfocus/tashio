@@ -850,6 +850,46 @@ table.insert(MAP[1][12].entities, Entity {
 })
 --]]
 
+
+
+--GECKO ROAD
+local entities = 4
+for i = 1, entities do
+  local random = math.random(25, 35)
+  random = (random / 100) * 60
+  table.insert(MAP[8][3].entities, Entity {
+    animations = ENTITY_DEFS['geckoC'].animations,
+    x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
+    y = math.random(10, SCREEN_HEIGHT_LIMIT),
+    width = TILE_SIZE,
+    height = TILE_SIZE,
+    health = 3,
+    direction = 'left',
+    type = 'gecko',
+    walkSpeed = random,
+    aiPath = math.random(1, 2),
+    corrupted = true,
+    enemy = true,
+  })
+end
+
+local entityCount = #MAP[8][3].entities
+for i = 1, entityCount do
+  if MAP[8][3].entities[i].corrupted and MAP[8][3].entities[i].type == 'gecko' then
+    MAP[8][3].entities[i].animations = MAP[8][3].entities[i]:createAnimations(ENTITY_DEFS['geckoC'].animations)
+    MAP[8][3].entities[i]:changeAnimation('idle-down')
+    MAP[8][3].entities[i].stateMachine = StateMachine {
+      ['gecko-walk'] = function() return GeckoWalkState(MAP[8][3].entities[i]) end,
+      ['entity-idle'] = function() return EntityIdleState(MAP[8][3].entities[i]) end,
+    }
+    MAP[8][3].entities[i]:changeState('entity-idle')
+  end
+end
+
+
+
+
+
 local entityCount = #MAP[1][12].entities
 for i = 1, entityCount do
 
