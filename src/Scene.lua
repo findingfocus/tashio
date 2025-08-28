@@ -448,34 +448,32 @@ function Scene:update(dt)
   end
 
   --WARP ZONES
-  if #MAP[sceneView.currentMap.row][sceneView.currentMap.column].warpZones > 0 then
-    for k, v in pairs(sceneView.currentMap.warpZones) do
-      if v:collides() and not gPlayer.warping then
-        gPlayer:changeState('player-idle')
-        --gPlayer:changeState('player-walk')
-        stopOST()
-        SOUNDTRACK = MAP[v.warpRow][v.warpCol].ost
-        gPlayer.currentAnimation:refresh()
-        triggerStartingSceneTransition = true
-        sfx['warp-zone']:play()
-        gPlayer.warping = true
-        gPlayer.warpObject = v
-        --RESET TREASURE CHEST TODO TURN OFF FOR DEMO
-        for k, v in pairs(MAP[v.warpRow][v.warpCol].collidableMapObjects) do
-          if v.classType == 'treasureChest' then
-            --v:reset()
-          end
-          if v.classType == 'pushable' then
-            v:resetOriginalPosition()
-          end
+  for k, v in ipairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].warpZones) do
+    if v:collides() and not gPlayer.warping then
+      gPlayer:changeState('player-idle')
+      --gPlayer:changeState('player-walk')
+      stopOST()
+      SOUNDTRACK = MAP[v.warpRow][v.warpCol].ost
+      gPlayer.currentAnimation:refresh()
+      triggerStartingSceneTransition = true
+      sfx['warp-zone']:play()
+      gPlayer.warping = true
+      gPlayer.warpObject = v
+      --RESET TREASURE CHEST TODO TURN OFF FOR DEMO
+      for k, v in pairs(MAP[v.warpRow][v.warpCol].collidableMapObjects) do
+        if v.classType == 'treasureChest' then
+          --v:reset()
         end
-        MAP[v.warpRow][v.warpCol].coins = {}
-        --DISJOINTED DIALOGUE BOX
-        if MAP[v.warpRow][v.warpCol].disjointUp then
-          gPlayer.extendDialogueBoxUpwards = true
-        else
-          gPlayer.extendDialogueBoxUpwards = false
+        if v.classType == 'pushable' then
+          v:resetOriginalPosition()
         end
+      end
+      MAP[v.warpRow][v.warpCol].coins = {}
+      --DISJOINTED DIALOGUE BOX
+      if MAP[v.warpRow][v.warpCol].disjointUp then
+        gPlayer.extendDialogueBoxUpwards = true
+      else
+        gPlayer.extendDialogueBoxUpwards = false
       end
     end
   end
@@ -489,10 +487,10 @@ function Scene:update(dt)
       startingSceneTransitionFinished = true
       --TODO ALLOW SPECIFIC WARPZONE TO TRIGGER
       
-      --WEATHER WARPZONE
-      for k, v in pairs(sceneView.currentMap.warpZones) do
-        if gPlayer.warping then
-          sceneView = Scene(gPlayer, sceneView.currentMap.warpZones[k].warpRow, sceneView.currentMap.warpZones[k].warpCol, 'psystem')
+      --WARPZONE TELEPORT
+      for k, v in ipairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].warpZones) do
+        if v:collides() and gPlayer.warping then
+          sceneView = Scene(gPlayer, sceneView.currentMap.warpZones[k].warpRow, sceneView.currentMap.warpZones[k].warpCol)
           --WEATHER WARPZONE TRIGGER
           if MAP[sceneView.mapRow][sceneView.mapColumn].weather[1] ~= nil then
             if MAP[sceneView.mapRow][sceneView.mapColumn].weather[1] == 'BLIZZARD' then
