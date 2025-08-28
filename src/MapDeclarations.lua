@@ -869,25 +869,20 @@ table.insert(MAP[1][12].entities, Entity {
 
 
 --GECKO ROAD
-local entities = 4
-for i = 1, entities do
-  local random = math.random(25, 35)
-  random = (random / 100) * 60
-  table.insert(MAP[8][3].entities, Entity {
-    animations = ENTITY_DEFS['geckoC'].animations,
-    x = math.random(80, VIRTUAL_WIDTH - TILE_SIZE * 2),
-    y = math.random(10, SCREEN_HEIGHT_LIMIT),
-    width = TILE_SIZE,
-    height = TILE_SIZE,
-    health = 3,
-    direction = 'left',
-    type = 'gecko',
-    walkSpeed = random,
-    aiPath = math.random(1, 2),
-    corrupted = true,
-    enemy = true,
-  })
-end
+table.insert(MAP[8][3].entities, Entity {
+  animations = ENTITY_DEFS['geckoC'].animations,
+  x = TILE_SIZE * 2,
+  y = TILE_SIZE * 2,
+  width = TILE_SIZE,
+  height = TILE_SIZE,
+  health = 2,
+  direction = 'left',
+  type = 'gecko',
+  walkSpeed = random,
+  aiPath = math.random(1, 2),
+  corrupted = true,
+  enemy = true,
+})
 
 local entityCount = #MAP[8][3].entities
 for i = 1, entityCount do
@@ -987,6 +982,9 @@ insertWarpZone(5, 4, 2, 13, 7, 6, 8, 8)
 MAP[5][4].warpZones[1].width, MAP[5][4].warpZones[1].height = 4, 4
 MAP[5][4].warpZones[1].x, MAP[5][4].warpZones[1].y = MAP[5][4].warpZones[1].x + 4, MAP[5][4].warpZones[1].y + 4
 MAP[5][4].warpZones[1].color = TRANSPARENT
+
+--SHORTCUT TO ICE MOUNTAIN
+table.insert(MAP[5][4].collidableMapObjects, Pushable(7,5, 'boulder', nil, 'keyItem1'))
 
 --DUNGEON TO ICE MOUNTAIN EXIT
 insertWarpZone(3, 5, 1, 13, 1, 2, 11, 1, 'side')
