@@ -1448,6 +1448,19 @@ InsertBed(2, 11, 6, 2)
 InsertBed(2, 11, 3, 9)
 InsertBed(2, 11, 6, 9)
 
+InsertBed(1, 14, 3, 2)
+InsertBed(1, 15, 6, 2)
+InsertBed(1, 16, 3, 9)
+--
+--MART
+MAP[1][14].ost = 'magesCastleTrack'
+
+--GYM
+MAP[1][15].ost = 'magesCastleTrack'
+
+--FISHERMANS HUT
+MAP[1][16].ost = 'magesCastleTrack'
+
 table.insert(MAP[2][11].dialogueBox, DialogueBox(0, TILE_SIZE * 2, 'Rest?', 'rest', nil, 2)) --LEFT FACING
 table.insert(MAP[2][11].dialogueBox, DialogueBox(0, TILE_SIZE * 2, 'Rest?', 'rest', nil, 3)) -- DOWN FACING
 MAP[2][11].dialogueBox[3].width = 2
