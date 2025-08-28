@@ -871,14 +871,14 @@ table.insert(MAP[1][12].entities, Entity {
 --GECKO ROAD
 table.insert(MAP[8][3].entities, Entity {
   animations = ENTITY_DEFS['geckoC'].animations,
-  x = TILE_SIZE * 2,
-  y = TILE_SIZE * 2,
+  x = TILE_SIZE * 5,
+  y = TILE_SIZE * 4,
   width = TILE_SIZE,
   height = TILE_SIZE,
   health = 2,
   direction = 'left',
   type = 'gecko',
-  walkSpeed = random,
+  walkSpeed = 45,
   aiPath = math.random(1, 2),
   corrupted = true,
   enemy = true,
