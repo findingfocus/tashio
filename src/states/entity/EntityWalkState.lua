@@ -8,7 +8,6 @@ function EntityWalkState:init(entity, scene)
     self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['gecko'].animations)
   end
   self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
-  --self.entity.walkSpeed = .5
   self.scene = scene
 
   self.moveDuration = 0
