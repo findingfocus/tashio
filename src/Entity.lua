@@ -91,6 +91,8 @@ function Entity:resetOriginalPosition()
     self.direction = self.originalDirection
     self:changeState('entity-idle')
     self:changeAnimation('idle-right')
+    --HERE
+    self.animations = self:createAnimations(ENTITY_DEFS['geckoC'].animations)
   end
   self.type = self.originalType
   self.offscreen = false
@@ -383,5 +385,7 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
 
   self.x, self.y = self.x + (adjacentOffsetX or 0), self.y + (adjacentOffsetY or 0)
   self.stateMachine:render()
+  --GECKO DEBUG
+  love.graphics.print(tostring(self.walkSpeed), self.x + 12, self.y)
   self.x, self.y = self.x - (adjacentOffsetX or 0), self.y - (adjacentOffsetY or 0)
 end

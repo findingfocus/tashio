@@ -6,6 +6,9 @@ function EntityIdleState:init(entity)
   self.waitDuration = 0
   self.waitTimer = 0
   self.activated = false
+  if self.entity.corrupted and self.entity.type == 'gecko' then
+    self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['geckoC'].animations)
+  end
 end
 
 function EntityIdleState:processAI(params, dt, player)
