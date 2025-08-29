@@ -11,7 +11,7 @@ function MageIntroTopTrigger:init()
   self.showOff = false
   self.treasureX = -TILE_SIZE
   self.treasureY = -TILE_SIZE
-  self.psystem = love.graphics.newParticleSystem(particle, 500)
+  self.psystem = love.graphics.newParticleSystem(particle, 400)
   self.option = nil
 end
 

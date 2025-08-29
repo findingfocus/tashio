@@ -164,7 +164,7 @@ table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(1, 5, TILE_S
 table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(1, 6, TILE_SIZE, TILE_SIZE))
 --]]
 table.insert(MAP[10][19].psystems, MageMagicWall())
-MAP[10][19].psystems[1].active = true
+MAP[10][19].psystems[1]:activate()
 
 --MAP DOWNLOADER FROM TILED DATA DOWNLOADER
 local mapRow = 1

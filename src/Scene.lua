@@ -442,6 +442,7 @@ function Scene:update(dt)
   end
   --]]
 
+  --PARTICLE SYSTEM UPDATE
   for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].psystems) do
     v:update(dt)
   end
