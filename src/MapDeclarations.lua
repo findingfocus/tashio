@@ -876,7 +876,7 @@ table.insert(MAP[5][5].entities, Entity {
   health = 2,
   direction = 'left',
   type = 'gecko',
-  walkSpeed = 45,
+  walkSpeed = 40,
   aiPath = math.random(1, 2),
   corrupted = true,
   enemy = true,
@@ -890,6 +890,7 @@ for i = 1, entityCount do
     MAP[5][5].entities[i].stateMachine = StateMachine {
       ['gecko-walk'] = function() return GeckoWalkState(MAP[5][5].entities[i]) end,
       ['entity-idle'] = function() return EntityIdleState(MAP[5][5].entities[i]) end,
+      ['gecko-flee'] = function() return GeckoFleeState(MAP[5][5].entities[i]) end,
     }
     MAP[5][5].entities[i]:changeState('entity-idle')
   end
@@ -904,7 +905,7 @@ table.insert(MAP[5][3].entities, Entity {
   health = 2,
   direction = 'left',
   type = 'gecko',
-  walkSpeed = 45,
+  walkSpeed = 40,
   aiPath = math.random(1, 2),
   corrupted = true,
   enemy = true,
@@ -918,6 +919,7 @@ for i = 1, entityCount do
     MAP[5][3].entities[i].stateMachine = StateMachine {
       ['gecko-walk'] = function() return GeckoWalkState(MAP[5][3].entities[i]) end,
       ['entity-idle'] = function() return EntityIdleState(MAP[5][3].entities[i]) end,
+      ['gecko-flee'] = function() return GeckoFleeState(MAP[5][3].entities[i]) end,
     }
     MAP[5][3].entities[i]:changeState('entity-idle')
   end
@@ -933,7 +935,7 @@ table.insert(MAP[6][3].entities, Entity {
   health = 2,
   direction = 'left',
   type = 'gecko',
-  walkSpeed = 45,
+  walkSpeed = 44,
   aiPath = math.random(1, 2),
   corrupted = true,
   enemy = true,
@@ -947,6 +949,7 @@ for i = 1, entityCount do
     MAP[6][3].entities[i].stateMachine = StateMachine {
       ['gecko-walk'] = function() return GeckoWalkState(MAP[6][3].entities[i]) end,
       ['entity-idle'] = function() return EntityIdleState(MAP[6][3].entities[i]) end,
+      ['gecko-flee'] = function() return GeckoFleeState(MAP[6][3].entities[i]) end,
     }
     MAP[6][3].entities[i]:changeState('entity-idle')
   end
@@ -963,7 +966,7 @@ table.insert(MAP[8][3].entities, Entity {
   health = 2,
   direction = 'up',
   type = 'gecko',
-  walkSpeed = 18,
+  walkSpeed = 9,
   aiPath = math.random(1, 2),
   corrupted = true,
   enemy = true,
@@ -978,7 +981,7 @@ table.insert(MAP[8][3].entities, Entity {
   health = 2,
   direction = 'up',
   type = 'gecko',
-  walkSpeed = 15,
+  walkSpeed = 11,
   aiPath = math.random(1, 2),
   corrupted = true,
   enemy = true,
@@ -993,7 +996,7 @@ table.insert(MAP[8][3].entities, Entity {
   health = 2,
   direction = 'left',
   type = 'gecko',
-  walkSpeed = 18,
+  walkSpeed = 9,
   aiPath = math.random(1, 2),
   corrupted = true,
   enemy = true,
@@ -1007,6 +1010,7 @@ for i = 1, entityCount do
     MAP[8][3].entities[i].stateMachine = StateMachine {
       ['gecko-walk'] = function() return GeckoWalkState(MAP[8][3].entities[i]) end,
       ['entity-idle'] = function() return EntityIdleState(MAP[8][3].entities[i]) end,
+      ['gecko-flee'] = function() return GeckoFleeState(MAP[8][3].entities[i]) end,
     }
     MAP[8][3].entities[i]:changeState('entity-idle')
   end
@@ -1039,6 +1043,7 @@ for i = 1, entityCount do
     MAP[1][12].entities[i].stateMachine = StateMachine {
       ['gecko-walk'] = function() return GeckoWalkState(MAP[1][12].entities[i]) end,
       ['entity-idle'] = function() return EntityIdleState(MAP[1][12].entities[i]) end,
+      ['gecko-flee'] = function() return GeckoFleeState(MAP[1][12].entities[i]) end,
     }
     MAP[1][12].entities[i]:changeState('entity-idle')
   end
