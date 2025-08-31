@@ -316,6 +316,7 @@ function Entity:update(dt)
 
   --self.x = self.x + self.dx * dt
   --self.y = self.y + self.dy * dt
+  --
   self.x = self.x + self.dx * dt
   self.y = self.y + self.dy * dt
 
@@ -325,7 +326,6 @@ function Entity:update(dt)
 
   self.dialogueBox.x = self.x
   self.dialogueBox.y = self.y
-
   ---[[
 
 
@@ -352,7 +352,6 @@ function Entity:update(dt)
       self.x = -SIDE_EDGE_BUFFER_PLAYER
     end
   end
-
 
 
   --[[
@@ -386,6 +385,7 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
   self.x, self.y = self.x + (adjacentOffsetX or 0), self.y + (adjacentOffsetY or 0)
   self.stateMachine:render()
   --GECKO DEBUG
-  love.graphics.print(tostring(self.walkSpeed), self.x + 12, self.y)
+  --love.graphics.print(tostring(self.hit), self.x + 12, self.y)
+  --love.graphics.print(tostring(self.dy), self.x + 12, self.y + 10)
   self.x, self.y = self.x - (adjacentOffsetX or 0), self.y - (adjacentOffsetY or 0)
 end
