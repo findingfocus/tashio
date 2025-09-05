@@ -61,7 +61,7 @@ cameraX = 0
 --DARK FOREST
 --sceneView = Scene(gPlayer, 3, 5)
 --sceneView = Scene(gPlayer, 7, 4)
-sceneView = Scene(gPlayer, 6, 2)
+sceneView = Scene(gPlayer, 5, 1)
 --sceneView = Scene(gPlayer, 5, 2)
 --sceneView = Scene(gPlayer, 1, 13)
 --sceneView = Scene(gPlayer, 9, 3)
