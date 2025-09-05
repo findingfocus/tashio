@@ -282,6 +282,61 @@ ENTITY_DEFS = {
       },
     }
   },
+  ['villagerKid'] = {
+    walkSpeed = PLAYER_WALK_SPEED / 2,
+    height = 16,
+    width = 16,
+    animations = {
+      ['walk-left'] = {
+        frames = {6, 5},
+        interval = 0.3,
+        texture = 'villagerKid-walk',
+        looping = true
+      },
+      ['walk-right'] = {
+        frames = {7, 8},
+        interval = 0.3,
+        texture = 'villagerKid-walk',
+        looping = true
+      },
+      ['walk-up'] = {
+        frames = {3, 4},
+        interval = 0.3,
+        texture = 'villagerKid-walk',
+        looping = true
+      },
+      ['walk-down'] = {
+        frames = {1, 2},
+        interval = 0.3,
+        texture = 'villagerKid-walk',
+        looping = true
+      },
+      ['idle-left'] = {
+        frames = {5},
+        interval = 0.3,
+        texture = 'villagerKid-walk',
+        looping = true
+      },
+      ['idle-right'] = {
+        frames = {8},
+        interval = 0.3,
+        texture = 'villagerKid-walk',
+        looping = true
+      },
+      ['idle-up'] = {
+        frames = {4},
+        interval = 0.3,
+        texture = 'villagerKid-walk',
+        looping = true
+      },
+      ['idle-down'] = {
+        frames = {2},
+        interval = 0.3,
+        texture = 'villagerKid-walk',
+        looping = true
+      },
+    }
+  },
   ['mage'] = {
     walkSpeed = PLAYER_WALK_SPEED / 2,
     height = 16,
