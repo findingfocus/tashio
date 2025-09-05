@@ -1337,6 +1337,29 @@ table.insert(MAP[1][11].npc, Entity {
   type = 'villager1',
 })
 --]]
+--BLONDIE
+table.insert(MAP[5][1].npc, Entity {
+  animations = ENTITY_DEFS['villager2'].animations,
+  walkSpeed = ENTITY_DEFS['villager2'].walkSpeed,
+  height = ENTITY_DEFS['villager2'].height,
+  width = ENTITY_DEFS['villager2'].width,
+  x = TILE_SIZE * 5,
+  y = TILE_SIZE * 2 + 8,
+  dialogueBox = {},
+  direction = 'down',
+  corrupted = false,
+  type = 'villager1',
+})
+
+local villager1Index = 1
+MAP[5][1].npc[villager1Index].stateMachine = StateMachine {
+  ['npc-idle'] = function() return NPCIdleState(MAP[5][1].npc[villager1Index]) end,
+  ['npc-walk'] = function() return NPCWalkState(MAP[5][1].npc[villager1Index]) end,
+}
+MAP[5][1].npc[villager1Index]:changeState('npc-walk')
+MAP[5][1].npc[villager1Index].stateMachine.current.option = 'horizontal'
+table.insert(MAP[5][1].dialogueBox, DialogueBox(MAP[5][1].npc[villager1Index].x, MAP[5][1].npc[villager1Index].y, 'I can\'t seem to grow anything with this corrupted water. ', 'npc', MAP[5][1].npc[villager1Index], 1))
+
 
 ---[[
 local villagerIndex = 1
@@ -1379,7 +1402,7 @@ table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 7, 0, 'In order to
 
 --table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 3, TILE_SIZE * 2, 'Meditation idols are used to save your game, as well as recharge your elements. ', 'signpost', nil, 1 ))
 
---VILLAGER 2
+--VILLAGER 1
 table.insert(MAP[2][11].npc, Entity {
   animations = ENTITY_DEFS['villager1'].animations,
   walkSpeed = ENTITY_DEFS['villager1'].walkSpeed,
