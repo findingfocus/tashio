@@ -1358,7 +1358,7 @@ MAP[5][1].npc[villager1Index].stateMachine = StateMachine {
 }
 MAP[5][1].npc[villager1Index]:changeState('npc-walk')
 MAP[5][1].npc[villager1Index].stateMachine.current.option = 'horizontal'
-table.insert(MAP[5][1].dialogueBox, DialogueBox(MAP[5][1].npc[villager1Index].x, MAP[5][1].npc[villager1Index].y, 'I can\'t seem to grow anything with this corrupted water. ', 'npc', MAP[5][1].npc[villager1Index], 1))
+table.insert(MAP[5][1].dialogueBox, DialogueBox(MAP[5][1].npc[villager1Index].x, MAP[5][1].npc[villager1Index].y, 'Ever since Mount Wutai erupted the water has been purple like this. I wouldn\'t drink it. ', 'npc', MAP[5][1].npc[villager1Index], 1))
 
 
 ---[[
@@ -1370,6 +1370,32 @@ MAP[1][11].npc[villagerIndex].stateMachine = StateMachine {
 MAP[1][11].npc[villagerIndex]:changeState('npc-walk')
 MAP[1][11].npc[villagerIndex].stateMachine.current.option = 'horizontal'
 MAP[1][11].disjointUp = true
+
+--VILLAGER KID
+---[[
+table.insert(MAP[5][2].npc, Entity {
+  animations = ENTITY_DEFS['villagerKid'].animations,
+  walkSpeed = ENTITY_DEFS['villagerKid'].walkSpeed,
+  height = ENTITY_DEFS['villagerKid'].height,
+  width = ENTITY_DEFS['villagerKid'].width,
+  x = TILE_SIZE * 5,
+  y = TILE_SIZE * 2 + 8,
+  dialogueBox = {},
+  direction = 'down',
+  corrupted = false,
+  type = 'villagerKid',
+})
+
+local villager1Index = 1
+MAP[5][2].npc[villager1Index].stateMachine = StateMachine {
+  ['npc-idle'] = function() return NPCIdleState(MAP[5][2].npc[villager1Index]) end,
+  ['npc-walk'] = function() return NPCWalkState(MAP[5][2].npc[villager1Index]) end,
+}
+MAP[5][2].npc[villager1Index]:changeState('npc-walk')
+MAP[5][2].npc[villager1Index].stateMachine.current.option = 'square'
+table.insert(MAP[5][2].dialogueBox, DialogueBox(MAP[5][2].npc[villager1Index].x, MAP[5][2].npc[villager1Index].y, 'Like, no, like I was playing near the big castle on the hill, and suddenly thunder struck! I wouldn\'t go near there.', 'npc', MAP[5][2].npc[villager1Index], 1))
+
+--]]
 
 --RENS SHOP
 table.insert(MAP[1][11].dialogueBox, DialogueBox(MAP[1][11].npc[villagerIndex].x, MAP[1][11].npc[villagerIndex].y, 'Bring me minerals so I can upgrade your elements! ', 'npc', MAP[1][11].npc[villagerIndex], 1))
