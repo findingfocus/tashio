@@ -100,7 +100,8 @@ function Tome1SuccessState:update(dt)
     self.creditsY = self.creditsY - CREDITS_SPEED
   end
 
-  if self.creditsY < -330 then
+  --CREDIT SCROLL LIMIT --THIS DECREASES AS SUPPORTERS INCREASE
+  if self.creditsY < -400 then
     self.step = 3
   end
 
@@ -117,9 +118,12 @@ function Tome1SuccessState:update(dt)
     gStateMachine:change('playState')
   end
 
+  --TOGGLE FOR DEMO
+  --[[
   if INPUT:down('action') then
     self.creditsY = self.creditsY - CREDITS_SPEED * 10
   end
+  --]]
 end
 
 function cleanseTheGlobalWater()
