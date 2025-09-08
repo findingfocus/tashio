@@ -1393,8 +1393,6 @@ MAP[5][2].npc[villager1Index].stateMachine = StateMachine {
 }
 MAP[5][2].npc[villager1Index]:changeState('npc-walk')
 MAP[5][2].npc[villager1Index].stateMachine.current.option = 'square'
-table.insert(MAP[5][2].dialogueBox, DialogueBox(MAP[5][2].npc[villager1Index].x, MAP[5][2].npc[villager1Index].y, 'Like, no, like I was playing near the big castle on the hill, and suddenly thunder struck! I wouldn\'t go near there.', 'npc', MAP[5][2].npc[villager1Index], 1))
-
 --]]
 
 --RENS SHOP
@@ -1464,6 +1462,8 @@ table.insert(MAP[9][3].dialogueBox, DialogueBox(TILE_SIZE * 4, TILE_SIZE * 3, '<
 table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, '<-Flowerbed', 'signpost', nil, 1))
 
 table.insert(MAP[5][2].dialogueBox, DialogueBox(7 * TILE_SIZE, 4 * TILE_SIZE, 'Ren\'s shop^^', 'signpost', nil, 1))
+table.insert(MAP[5][2].dialogueBox, DialogueBox(7 * TILE_SIZE, 4 * TILE_SIZE, 'Like, no, like I was playing near the big castle on the hill, and suddenly thunder struck! I wouldn\'t go near there.', 'npc', MAP[5][2].npc[villager1Index], 2))
+
 --table.insert(MAP[7][2].dialogueBox, DialogueBox(MAP[7][2].npc[mageIndex].x, MAP[7][2].npc[mageIndex].y, 'There\'s plenty of danger around, but treasure too...', 'npc', MAP[7][2].npc[mageIndex], 5))
 
 table.insert(MAP[7][2].collidableMapObjects, Pushable(2, 4, 'boulder'))
@@ -1507,6 +1507,17 @@ table.insert(MAP[9][2].collidableMapObjects, CollidableMapObjects(3, 6, TILE_SIZ
 table.insert(MAP[10][3].collidableMapObjects, CollidableMapObjects(5, 3, TILE_SIZE, TILE_SIZE, 1, 0))
 
 table.insert(MAP[10][3].dialogueBox, DialogueBox(TILE_SIZE * 2, TILE_SIZE * 4, 'Everyone is going on about the evil mage that cursed the water, but I think I know what really happened. ', 'signpost', nil, 1 ))
+
+--RORY
+table.insert(MAP[4][2].collidableMapObjects, CollidableMapObjects(3, 6, TILE_SIZE, TILE_SIZE, 1, 0))
+table.insert(MAP[4][2].dialogueBox, DialogueBox(TILE_SIZE * 5, TILE_SIZE * 2, 'I haven\'t seen my son since the eruption, but he has black hair and he is young like you. Could you please keep an eye out for him? I fear he may need help. ', 'signpost', nil, 1 ))
+--young mage like you dont always think of the repurcussions of his behavior, but trust me, your choices catch up to you
+--
+
+--A young mage like you once came to me for advice, and he never listened.
+
+
+
 
 --INN
 --TOP LEFT BED
