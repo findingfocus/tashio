@@ -955,6 +955,36 @@ for i = 1, entityCount do
   end
 end
 
+--GECKO TOWN MIDWAY
+table.insert(MAP[7][3].entities, Entity {
+  animations = ENTITY_DEFS['geckoC'].animations,
+  x = TILE_SIZE * 3,
+  y = TILE_SIZE * 5,
+  width = TILE_SIZE,
+  height = TILE_SIZE,
+  health = 2,
+  direction = 'left',
+  type = 'gecko',
+  walkSpeed = 9,
+  aiPath = math.random(1, 2),
+  corrupted = true,
+  enemy = true,
+})
+
+local entityCount = #MAP[7][3].entities
+for i = 1, entityCount do
+  if MAP[7][3].entities[i].corrupted and MAP[7][3].entities[i].type == 'gecko' then
+    MAP[7][3].entities[i].animations = MAP[7][3].entities[i]:createAnimations(ENTITY_DEFS['geckoC'].animations)
+    MAP[7][3].entities[i]:changeAnimation('idle-down')
+    MAP[7][3].entities[i].stateMachine = StateMachine {
+      ['gecko-walk'] = function() return GeckoWalkState(MAP[7][3].entities[i]) end,
+      ['entity-idle'] = function() return EntityIdleState(MAP[7][3].entities[i]) end,
+      ['gecko-flee'] = function() return GeckoFleeState(MAP[7][3].entities[i]) end,
+    }
+    MAP[7][3].entities[i]:changeState('entity-idle')
+  end
+end
+
 
 --GECKO ROAD
 table.insert(MAP[8][3].entities, Entity {
@@ -1378,7 +1408,7 @@ table.insert(MAP[5][2].npc, Entity {
   walkSpeed = ENTITY_DEFS['villagerKid'].walkSpeed,
   height = ENTITY_DEFS['villagerKid'].height,
   width = ENTITY_DEFS['villagerKid'].width,
-  x = TILE_SIZE * 5,
+  x = TILE_SIZE * 4,
   y = TILE_SIZE * 2 + 8,
   dialogueBox = {},
   direction = 'down',
@@ -1476,6 +1506,11 @@ table.insert(MAP[3][13].collidableMapObjects, Pushable(7, 3, 'crate'))
 --table.insert(MAP[7][2].collidableMapObjects, Pushable(3, 4, 'crate'))
 --table.insert(MAP[7][2].collidableMapObjects, Pushable(3, 5, 'crate'))
 --
+--ICE MOUNTAIN SHORTCUT DARK FOREST CRATE
+table.insert(MAP[5][5].collidableMapObjects, Pushable(7,5, 'crate'))
+
+--RIVER JAI BOULDER
+table.insert(MAP[9][4].collidableMapObjects, Pushable(4, 2, 'boulder'))
 
 --LUTE TREASURE CHEST
 --MAGES CASTLE
