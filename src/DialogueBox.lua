@@ -309,53 +309,53 @@ end
 
 function DialogueBox:clear()
   --END OF PAGE
-    if self.restButtonCount == 2 then
-      if self.restYes then
-        self:reinit('Rest?')
-        self:flushText()
-        self.text = self.test + 1
-      end
-    else 
-      self.activated = false
-      self:clearAButtonCount()
-      treasureChestOption = false
-      for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
-        if v.classType == 'treasureChest' then
-          v.showOffItem = false
-        end
-      end
-      PAUSED = false
-      --MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided = {}
-      --self:reinit('Reset Value ')
+  if self.restButtonCount == 2 then
+    if self.restYes then
+      self:reinit('Rest?')
       self:flushText()
-      sceneView.activeDialogueID = nil
-      self.currentPage = 1
-      if self.meditateOption then
-        if self.meditateYes then
-          gPlayer.stateMachine:change('player-meditate')
-          gPlayer.flammeVibrancy = 0
-          --self.saveDataUtility:savePlayerData()
-        else
-          --RESET DEFAULT VALUE
-          self.meditateYes = true
-        end
-      elseif self.restOption then
-        if self.restYes then
-          gPlayer.stateMachine:change('player-meditate')
-          gPlayer.flammeVibrancy = 0
-          --self.saveDataUtility:savePlayerData()
-          --[[
-          MAP[2][11].dialogueBox[2].aButtonCount = MAP[2][11].dialogueBox[2].aButtonCount + 1
-          MAP[2][11].dialogueBox[2]:reinit()
-          MAP[2][11].dialogueBox[2]:flushText()
-          MAP[2][11].dialogueBox[2].activated = true
-          --]]
-        else
-          --RESET DEFAULT VALUE
-          self.restYes = true
-        end
+      self.text = self.test + 1
+    end
+  else
+    self.activated = false
+    self:clearAButtonCount()
+    treasureChestOption = false
+    for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+      if v.classType == 'treasureChest' then
+        v.showOffItem = false
       end
     end
+    PAUSED = false
+    --MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided = {}
+    --self:reinit('Reset Value ')
+    self:flushText()
+    sceneView.activeDialogueID = nil
+    self.currentPage = 1
+    if self.meditateOption then
+      if self.meditateYes then
+        gPlayer.stateMachine:change('player-meditate')
+        gPlayer.flammeVibrancy = 0
+        --self.saveDataUtility:savePlayerData()
+      else
+        --RESET DEFAULT VALUE
+        self.meditateYes = true
+      end
+    elseif self.restOption then
+      if self.restYes then
+        gPlayer.stateMachine:change('player-meditate')
+        gPlayer.flammeVibrancy = 0
+        --self.saveDataUtility:savePlayerData()
+        --[[
+        MAP[2][11].dialogueBox[2].aButtonCount = MAP[2][11].dialogueBox[2].aButtonCount + 1
+        MAP[2][11].dialogueBox[2]:reinit()
+        MAP[2][11].dialogueBox[2]:flushText()
+        MAP[2][11].dialogueBox[2].activated = true
+        --]]
+      else
+        --RESET DEFAULT VALUE
+        self.restYes = true
+      end
+    end
+  end
 end
 
 function DialogueBox:update(dt)
@@ -363,9 +363,9 @@ function DialogueBox:update(dt)
     self.meditateOption = true
   elseif self.option == 'upgrade' then
     --[[
-      self:reinit('HELLO WORLD')
-      self.aButtonCount = 2
-      --]]
+    self:reinit('HELLO WORLD')
+    self.aButtonCount = 2
+    --]]
   elseif self.option == 'rest' then
     self.restOption = true
   end
@@ -434,102 +434,102 @@ function DialogueBox:update(dt)
     --]]
   end
 
-if INPUT:pressed('action') then
+  if INPUT:pressed('action') then
     self.aButtonCount = self.aButtonCount + 1
     if self.aButtonCount > 1 then
-        blinking = true
-        blinkTimer = blinkReset
+      blinking = true
+      blinkTimer = blinkReset
 
-        if self.currentPagePrintedCharCount >= self.pages[self.currentPage].pageCharCount then
-            sfx['ui-scroll1']:play()
+      if self.currentPagePrintedCharCount >= self.pages[self.currentPage].pageCharCount then
+        sfx['ui-scroll1']:play()
 
-            -- Function to handle end-of-page or next-page logic
-            local function handlePageEndOrNext()
-                if self.currentPage == self.pageLength then
-                    sfx['ui-scroll1']:stop()
-                    sfx['pause1']:play()
-                    self.finishedPrinting = true
-                    self.activated = false
-                    self:clearAButtonCount()
-                    treasureChestOption = false
-                    for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
-                        if v.classType == 'treasureChest' then
-                            v.showOffItem = false
-                        end
-                    end
-                    PAUSED = false
-                    self:flushText()
-                    sceneView.activeDialogueID = nil
-                    self.currentPage = 1
-                    if self.meditateOption then
-                        if self.meditateYes then
-                            gPlayer.stateMachine:change('player-meditate')
-                            gPlayer.flammeVibrancy = 0
-                            if not self.restOption then -- Play gong only for non-rest meditation
-                                sfx['idol-gong1']:play()
-                            end
-                            --self.saveDataUtility:savePlayerData()
-                        else
-                            self.meditateYes = true -- Reset default value
-                        end
-                    end
-                else -- Move to next page
-                    self.currentPage = self.currentPage + 1
-                    self.lineCount = 1
-                    self.textIndex = 1
-                    self.line1Result = ''
-                    self.line2Result = ''
-                    self.line3Result = ''
-                    self.currentPagePrintedCharCount = 0
-                end
+        -- Function to handle end-of-page or next-page logic
+        local function handlePageEndOrNext()
+          if self.currentPage == self.pageLength then
+            gPlayer.showOff = false
+            sfx['ui-scroll1']:stop()
+            sfx['pause1']:play()
+            self.finishedPrinting = true
+            self.activated = false
+            self:clearAButtonCount()
+            treasureChestOption = false
+            for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+              if v.classType == 'treasureChest' then
+                v.showOffItem = false
+              end
             end
-
-            if self.restOption then -- Dialogue box for rest query
-                self.restButtonCount = self.restButtonCount + 1
-                if self.restButtonCount == 1 then
-                    if self.restYes then
-                        if gPlayer.coinCount < 5 then
-                            self:reinit('You need 5 coin to rest at this inn... ')
-                            self:flushText()
-                            self.activated = true
-                            return -- Exit early
-                        else
-                            sfx['purchase2']:play()
-                            gPlayer.coinCount = gPlayer.coinCount - INN_REST_COST
-                            gPlayer.health = DEMO_MAX_HEALTH
-                            gPlayer.direction = 'down'
-                            gPlayer.stateMachine:change('player-meditate')
-                            self:reinit('You took a nap and feel restored. ')
-                            self:flushText()
-                            self.activated = true
-                            return -- Exit early
-                        end
-                    else
-                        sfx['ui-scroll1']:stop()
-                        sfx['pause1']:play()
-                        self.restButtonCount = 0
-                        self:reinit('Rest?')
-                        self:flushText()
-                        self:clear()
-                        return -- Exit early
-                    end
-                elseif self.restButtonCount == 2 then
-                    self.restButtonCount = 0
-                    self:reinit('Rest?')
-                    self:flushText()
+            PAUSED = false
+            self:flushText()
+            sceneView.activeDialogueID = nil
+            self.currentPage = 1
+            if self.meditateOption then
+              if self.meditateYes then
+                gPlayer.stateMachine:change('player-meditate')
+                gPlayer.flammeVibrancy = 0
+                if not self.restOption then -- Play gong only for non-rest meditation
+                  sfx['idol-gong1']:play()
                 end
-                handlePageEndOrNext() -- Handle page end or next page
-            else -- Default dialogue option
-                gPlayer.showOff = false
-                handlePageEndOrNext() -- Handle page end or next page
+                --self.saveDataUtility:savePlayerData()
+              else
+                self.meditateYes = true -- Reset default value
+              end
             end
+          else -- Move to next page
+            self.currentPage = self.currentPage + 1
+            self.lineCount = 1
+            self.textIndex = 1
+            self.line1Result = ''
+            self.line2Result = ''
+            self.line3Result = ''
+            self.currentPagePrintedCharCount = 0
+          end
         end
+
+        if self.restOption then -- Dialogue box for rest query
+          self.restButtonCount = self.restButtonCount + 1
+          if self.restButtonCount == 1 then
+            if self.restYes then
+              if gPlayer.coinCount < 5 then
+                self:reinit('You need 5 coin to rest at this inn... ')
+                self:flushText()
+                self.activated = true
+                return -- Exit early
+              else
+                sfx['purchase2']:play()
+                gPlayer.coinCount = gPlayer.coinCount - INN_REST_COST
+                gPlayer.health = DEMO_MAX_HEALTH
+                gPlayer.direction = 'down'
+                gPlayer.stateMachine:change('player-meditate')
+                self:reinit('You took a nap and feel restored. ')
+                self:flushText()
+                self.activated = true
+                return -- Exit early
+              end
+            else
+              sfx['ui-scroll1']:stop()
+              sfx['pause1']:play()
+              self.restButtonCount = 0
+              self:reinit('Rest?')
+              self:flushText()
+              self:clear()
+              return -- Exit early
+            end
+          elseif self.restButtonCount == 2 then
+            self.restButtonCount = 0
+            self:reinit('Rest?')
+            self:flushText()
+          end
+          handlePageEndOrNext() -- Handle page end or next page
+        else -- Default dialogue option
+          handlePageEndOrNext() -- Handle page end or next page
+        end
+      end
     end
-end
+  end
 
   self.textTimer = self.textTimer + dt
 
-if self.textTimer > self.nextTextTrigger and self.textIndex <= MAX_TEXTBOX_CHAR_LENGTH then
+  if self.textTimer > self.nextTextTrigger and self.textIndex <= MAX_TEXTBOX_CHAR_LENGTH then
     if self.lineCount == 1 then
 
       local lastChar = self.pages[self.currentPage][1].string:sub(self.textIndex, self.textIndex)

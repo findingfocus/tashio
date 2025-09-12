@@ -1403,13 +1403,13 @@ MAP[1][11].disjointUp = true
 
 --VILLAGER KID
 ---[[
-table.insert(MAP[5][2].npc, Entity {
+table.insert(MAP[7][2].npc, Entity {
   animations = ENTITY_DEFS['villagerKid'].animations,
   walkSpeed = ENTITY_DEFS['villagerKid'].walkSpeed,
   height = ENTITY_DEFS['villagerKid'].height,
   width = ENTITY_DEFS['villagerKid'].width,
-  x = TILE_SIZE * 4,
-  y = TILE_SIZE * 2 + 8,
+  x = TILE_SIZE * 7 - 8,
+  y = TILE_SIZE * 2 - 4,
   dialogueBox = {},
   direction = 'down',
   corrupted = false,
@@ -1417,13 +1417,15 @@ table.insert(MAP[5][2].npc, Entity {
 })
 
 local villager1Index = 1
-MAP[5][2].npc[villager1Index].stateMachine = StateMachine {
-  ['npc-idle'] = function() return NPCIdleState(MAP[5][2].npc[villager1Index]) end,
-  ['npc-walk'] = function() return NPCWalkState(MAP[5][2].npc[villager1Index]) end,
+MAP[7][2].npc[villager1Index].stateMachine = StateMachine {
+  ['npc-idle'] = function() return NPCIdleState(MAP[7][2].npc[villager1Index]) end,
+  ['npc-walk'] = function() return NPCWalkState(MAP[7][2].npc[villager1Index]) end,
 }
-MAP[5][2].npc[villager1Index]:changeState('npc-walk')
-MAP[5][2].npc[villager1Index].stateMachine.current.option = 'square'
+MAP[7][2].npc[villager1Index]:changeState('npc-walk')
+MAP[7][2].npc[villager1Index].stateMachine.current.option = 'square'
 --]]
+--VILLAGER KID
+table.insert(MAP[7][2].dialogueBox, DialogueBox(7 * TILE_SIZE, 4 * TILE_SIZE, 'Like, no, like I was playing near the big castle on the hill, and suddenly thunder struck! I wouldn\'t go near there.', 'npc', MAP[7][2].npc[villager1Index], 1))
 
 --RENS SHOP
 table.insert(MAP[1][11].dialogueBox, DialogueBox(MAP[1][11].npc[villagerIndex].x, MAP[1][11].npc[villagerIndex].y, 'Bring me minerals so I can upgrade your elements! ', 'npc', MAP[1][11].npc[villagerIndex], 1))
@@ -1489,10 +1491,10 @@ table.insert(MAP[7][4].dialogueBox, DialogueBox(TILE_SIZE * 8, 0, 'Ice Mountain^
 
 table.insert(MAP[9][3].dialogueBox, DialogueBox(TILE_SIZE * 4, TILE_SIZE * 3, '<-Fisher\'s Hut', 'signpost', nil, 1))
 
-table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, '<-Flowerbed', 'signpost', nil, 1))
+table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, '<-Flowerbed', 'signpost', nil, 2))
 
 table.insert(MAP[5][2].dialogueBox, DialogueBox(7 * TILE_SIZE, 4 * TILE_SIZE, 'Ren\'s shop^^', 'signpost', nil, 1))
-table.insert(MAP[5][2].dialogueBox, DialogueBox(7 * TILE_SIZE, 4 * TILE_SIZE, 'Like, no, like I was playing near the big castle on the hill, and suddenly thunder struck! I wouldn\'t go near there.', 'npc', MAP[5][2].npc[villager1Index], 2))
+
 
 --table.insert(MAP[7][2].dialogueBox, DialogueBox(MAP[7][2].npc[mageIndex].x, MAP[7][2].npc[mageIndex].y, 'There\'s plenty of danger around, but treasure too...', 'npc', MAP[7][2].npc[mageIndex], 5))
 
@@ -1502,6 +1504,10 @@ table.insert(MAP[3][13].collidableMapObjects, Pushable(3, 7, 'crate'))
 table.insert(MAP[3][13].collidableMapObjects, Pushable(3, 4, 'crate'))
 table.insert(MAP[3][13].collidableMapObjects, Pushable(6, 6, 'crate'))
 table.insert(MAP[3][13].collidableMapObjects, Pushable(7, 3, 'crate'))
+
+--DARK FOREST CRATES
+table.insert(MAP[5][3].collidableMapObjects, Pushable(8, 3, 'crate'))
+table.insert(MAP[6][3].collidableMapObjects, Pushable(3, 7, 'crate'))
 --table.insert(MAP[7][2].collidableMapObjects, Pushable(4, 4, 'crate'))
 --table.insert(MAP[7][2].collidableMapObjects, Pushable(3, 4, 'crate'))
 --table.insert(MAP[7][2].collidableMapObjects, Pushable(3, 5, 'crate'))
