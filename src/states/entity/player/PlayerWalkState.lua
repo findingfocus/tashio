@@ -251,6 +251,7 @@ function PlayerWalkState:render()
     end
   end
 
+  --SHOW OFF
   if self.player.showOff then
     if self.player.tunicEquipped == 'greenTunic' then
       love.graphics.setColor(WHITE)
