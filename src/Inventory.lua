@@ -4,7 +4,9 @@ renderCircle = false
 function Inventory:init(option)
   self.option = option
   self.elementSlot = {}
-  self.elementColor = TRANSPARENT
+  --DEMO SET DEFAULT FLAMME
+  self.elementColor = FLAMME_COLOR
+  --self.elementColor = TRANSPARENT
 
   if self.option == 'item' then
     self.x = 5
