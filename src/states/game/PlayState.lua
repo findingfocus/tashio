@@ -169,7 +169,8 @@ function PlayState:update(dt)
       vibrancyGrow = true
     end
  end
- --]]
+  --]]
+  --[[
   if love.keyboard.wasPressed('y') then
     sceneView.activeDialogueID = nil
     gStateMachine:change('openingCinematic')
@@ -179,10 +180,15 @@ function PlayState:update(dt)
     MAP[10][19].collidableMapObjects = {}
     gStateMachine:change('mageIntroTopTrigger')
   end
+  --]]
+
+  -- TEST STATES
+  --[[
   self.stateTimer = self.stateTimer + dt
   if self.stateTimer >= 1 then
     --gStateMachine:change('chasmFallingState')
   end
+  --]]
   --[[
   if love.keyboard.wasPressed('g') then
     if WINDOW_HEIGHT == 144 * SCALE_FACTOR * 2 then
@@ -306,7 +312,7 @@ function PlayState:update(dt)
   --TODO MOVE FROM PLAYSTATE
 
   --TOGGLE MINIMAP
-  if INPUT:pressed('select') and not luteState then
+  if INPUT:pressed('select') and not luteState and not PAUSED then
     sfx['pause2']:play()
     gStateMachine:change('minimap')
     gStateMachine.current.cursorX = sceneView.currentMap.column * 16 - 16
