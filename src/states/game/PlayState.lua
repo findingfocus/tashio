@@ -15,6 +15,7 @@ Lute = Lute()
 leftCount = 0
 luteState = false
 toggleHelp = false
+minimapCooldown = MINIMAP_COOLDOWN
 gItemInventory = Inventory('item')
 gKeyItemInventory = Inventory('keyItem')
 gItems = {}
@@ -71,7 +72,7 @@ sceneView = Scene(gPlayer, 4, 2)
 
 --GREEN TUNIC EQUIP
 --DEMO PLAYER EQUIPS
---[[
+---[[
 gPlayer.tunicEquipped = 'greenTunic'
 gPlayer.greenTunicUnlocked = true
 gPlayer.tunicEquipped = 'greenTunic'
@@ -133,7 +134,10 @@ function PlayState:init()
 end
 
 function PlayState:update(dt)
-  --FLAMME CHEAT
+  if minimapCooldown > 0 then
+    minimapCooldown = minimapCooldown - dt
+  end
+  
   --[[
   if love.keyboard.wasPressed('f') then
     gPlayer.flammeUnlocked = true
@@ -283,7 +287,7 @@ function PlayState:update(dt)
     end
   end
 
-  if love.keyboard.wasPressed('c') then
+  if love.keyboard.wasPressed('c') and not self.gameOver then
     creditSequence = creditSequence == false and true or false
   end
 
@@ -308,7 +312,7 @@ function PlayState:update(dt)
   --TODO MOVE FROM PLAYSTATE
 
   --TOGGLE MINIMAP
-  if INPUT:pressed('select') and not luteState and not PAUSED then
+  if INPUT:pressed('select') and not luteState and not PAUSED and not self.gameOver and minimapCooldown < 0 then
     sfx['pause2']:play()
     gStateMachine:change('minimap')
     gStateMachine.current.cursorX = sceneView.currentMap.column * 16 - 16
@@ -319,6 +323,7 @@ function PlayState:update(dt)
     gStateMachine.current.tashioColumn = sceneView.currentMap.column
     gStateMachine.current.tashioX = gPlayer.x / 16
     gStateMachine.current.tashioY = gPlayer.y / 13
+    minimapCooldown = MINIMAP_COOLDOWN
     --MINIMAP_ROW = sceneView.currentMap.row
     --MINIMAP_COLUMN = sceneView.currentMap.column
   end
@@ -327,7 +332,7 @@ function PlayState:update(dt)
   if INPUT:pressed('action') and not gPlayer.meditate then
     --DIALOGUE DETECTION DIALOGUE COLLIDE
     for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do
-      if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]) and not MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated then
+      if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]) and not MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated and minimapCooldown < 0 then
           --if gPlayer.direction ~= 'up' then
           sfx['ui-scroll1']:play()
           PAUSED = true
@@ -806,8 +811,7 @@ function PlayState:render()
     else
     --love.graphics.print('1 2 is: ' .. tostring(gItemInventory.grid[1][2][1].type), 0, 20)
     end
-    love.graphics.setColor(WHITE)
-    love.graphics.print('test: ' .. Inspect(gItemInventory.elementColor), 0, 0)
+    --DEBUG
 end
 
 function displayFPS()

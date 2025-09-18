@@ -358,7 +358,7 @@ function Player:update(dt)
   if not sceneView.shifting then
     --FOCUS GAIN
     if (INPUT:down('action') and not luteState) or (buttons[1].fireSpellPressed and not luteState) then
-
+      self.timeAtZeroFocus = 0
       if gPlayer.elementEquipped == 'flamme' then
         --VIBRANCY DRAIN
         gPlayer.flammeVibrancy = math.min(100, gPlayer.flammeVibrancy + dt * 2)
@@ -432,9 +432,14 @@ function Player:update(dt)
   end
 
   if self.focusIndicatorX > 0 then
+    self.timeAtZeroFocus = 0
     self.magicHudOpacity = math.min(255, self.magicHudOpacity + dt * 900)
-  elseif self.focusIndicatorX <= 0 then
+  elseif self.timeAtZeroFocus > 2 then
     self.magicHudOpacity = math.max(0, self.magicHudOpacity - dt * 400)
+  end
+
+  if self.focusIndicatorX == 0 then
+    self.timeAtZeroFocus = self.timeAtZeroFocus + dt
   end
 end
 

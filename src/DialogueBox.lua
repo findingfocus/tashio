@@ -405,6 +405,7 @@ function DialogueBox:update(dt)
   if INPUT:pressed('actionB') then
     sfx['ui-scroll1']:stop()
     sfx['pause1']:play()
+    minimapCooldown = MINIMAP_COOLDOWN
     self.activated = false
     self:clearAButtonCount()
     gPlayer.showOff = false
@@ -484,6 +485,7 @@ function DialogueBox:update(dt)
             self.line3Result = ''
             self.currentPagePrintedCharCount = 0
           end
+          minimapCooldown = MINIMAP_COOLDOWN
         end
 
         if self.restOption then
@@ -732,4 +734,5 @@ function DialogueBox:render()
   love.graphics.print('printedPCC: ' .. tostring(self.currentPagePrintedCharCount), 0, 30)
   --love.graphics.print('totalLine: ' .. tostring(self.totalLineCount), 0, 30)
   --]]
+  --
 end

@@ -5,6 +5,7 @@ function PlayerMeditateState:init(player)
   self.image = love.graphics.newImage('graphics/tashioMeditate.png')
   self.greenTunic = love.graphics.newImage('graphics/tashioMeditateGreen.png')
   self.player.meditate = true
+  self.player.direction = 'down'
 end
 
 function PlayerMeditateState:update(dt)
