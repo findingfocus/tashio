@@ -43,10 +43,9 @@ function RefineryState:update(dt)
     self.activeUpgrade:update(dt)
   end
 
-
   if INPUT:pressed('action') then
     --DIALOGUE DETECTION
-    for k, v in pairs(MAP[self.row][self.column].dialogueBox) and minimapCooldown < 0 do
+    for k, v in pairs(MAP[self.row][self.column].dialogueBox) do
       if gPlayer:dialogueCollides(MAP[self.row][self.column].dialogueBox[k]) and not MAP[self.row][self.column].dialogueBox[k].activated then
         sfx['ui-scroll1']:play()
         PAUSED = true

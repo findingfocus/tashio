@@ -1540,7 +1540,7 @@ table.insert(MAP[1][11].dialogueBox, DialogueBox(MAP[1][11].npc[villagerIndex].x
 
   --TOME 1 TREASURE CHEST
   table.insert(MAP[7][5].collidableMapObjects, TreasureChest(6, 4, 'tome1', 1))
-  table.insert(MAP[7][5].dialogueBox, DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'You found an ancient tome! It is engraved with elegant music from times of old.  It also bears a message.  \"Played at corruption\'s source, music can heal the water. \" ',  nil, 1))
+  table.insert(MAP[7][5].dialogueBox, DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'You found an ancient tome! It is engraved with elegant music from times of old.  It also bears a message.  \"Played at corruption\'s source, music can heal the water.\" ',  nil, 1))
 
   --GREEN TUNIC CHEST
   table.insert(MAP[4][11].collidableMapObjects, TreasureChest(8, 4, 'greenTunic', 1))
