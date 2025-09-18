@@ -36,7 +36,7 @@ function Minimap:init()
     end
   end
 
-  self.names[7][1].locationName = 'Dark Temple'
+  self.names[7][1].locationName = 'Light Temple'
   self.names[7][2].locationName = 'Village'
   self.names[7][3].locationName = 'Campgrounds'
   self.names[8][3].locationName = 'Gecko Road'

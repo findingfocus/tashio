@@ -1408,7 +1408,7 @@ table.insert(MAP[7][2].npc, Entity {
   walkSpeed = ENTITY_DEFS['villagerKid'].walkSpeed,
   height = ENTITY_DEFS['villagerKid'].height,
   width = ENTITY_DEFS['villagerKid'].width,
-  x = TILE_SIZE * 7 - 8,
+  x = TILE_SIZE * 6,
   y = TILE_SIZE * 2 - 4,
   dialogueBox = {},
   direction = 'down',
@@ -1431,282 +1431,297 @@ table.insert(MAP[7][2].dialogueBox, DialogueBox(7 * TILE_SIZE, 4 * TILE_SIZE, 'L
 table.insert(MAP[1][11].dialogueBox, DialogueBox(MAP[1][11].npc[villagerIndex].x, MAP[1][11].npc[villagerIndex].y, 'Bring me minerals so I can upgrade your elements! ', 'npc', MAP[1][11].npc[villagerIndex], 1))
 
 --function DialogueBox:init(x, y, text, option, npc, index)
-table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 5, TILE_SIZE, 'FLAMME', 'upgrade', nil, 2))
-table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE, 'AQUIS', 'upgrade', nil, 3))
-table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 7, TILE_SIZE, 'Ekko', 'upgrade', nil, 4))
-table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 8, TILE_SIZE, 'Lox', 'upgrade', nil, 5))
---]]
-table.insert(MAP[7][4].dialogueBox, DialogueBox(TILE_SIZE * 5, TILE_SIZE * 5, 'Meditate?', 'idol', nil, 1))
+  table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 5, TILE_SIZE, 'FLAMME', 'upgrade', nil, 2))
+  table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE, 'AQUIS', 'upgrade', nil, 3))
+  table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 7, TILE_SIZE, 'Ekko', 'upgrade', nil, 4))
+  table.insert(MAP[1][11].dialogueBox, DialogueBox(TILE_SIZE * 8, TILE_SIZE, 'Lox', 'upgrade', nil, 5))
+  --]]
+  table.insert(MAP[7][4].dialogueBox, DialogueBox(TILE_SIZE * 5, TILE_SIZE * 5, 'Meditate?', 'idol', nil, 1))
 
---LIBRARY
-table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 1, TILE_SIZE * 1, 'Flamme is energy from Mount Kazan, it burns brightly. ', 'signpost', nil, 1 ))
-table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 3, TILE_SIZE * 1, 'Aquis contains lifeforce from the Azai Ocean, it flows with great energy. ', 'signpost', nil, 2 ))
-table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 1, 'Ekko is vibrant green and shimmers quite beautifully. ', 'signpost', nil, 3 ))
-table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 8, TILE_SIZE * 1, 'Lox shines as bright as the sun, focusing it\'s energy can be quite powerful. ', 'signpost', nil, 4 ))
+  --
+  table.insert(MAP[1][14].dialogueBox, DialogueBox(TILE_SIZE * 1, 0, 'Vati is showing fast progress in his martial arts training. He will soon surpass my skills. ', 'signpost', nil, 1 ))
 
-table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 1, TILE_SIZE * 3, 'WASD keys are directional buttons.  Spacebar is the A Button.  Shift is the B Button.  Tab is the Start Button.  ` is the Select Button.  The A Button will interact with objects, or use the element in the A Slot. ', 'signpost', nil, 5 ))
-table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 3, TILE_SIZE * 3, 'Press Start Button to open inventory.  B button will swap inventory selection.  A button will equip selected item.  Start Button while in inventory will resume the game. Select Button toggles minimap. ', 'signpost', nil, 6 ))
-table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 3, 'To use an Element, you need to equip it in your A Slot.  In order to successfully cast magic, you need to balance your focus using the A Button. ', 'signpost', nil, 7 ))
-table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 8, TILE_SIZE * 3, 'Once the lute is equipped Press B button to start playing music. The Directional Buttons play different strings, and the A/B Buttons play different frets.  The Start Button will exit music mode. ', 'signpost', nil, 8 ))
+  table.insert(MAP[1][14].dialogueBox, DialogueBox(TILE_SIZE * 2, 0, 'My son has mastered all four Tai Chi forms. Training is important, but nothing beats talent when talent works hard like he does. ', 'signpost', nil, 2 ))
 
-table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 5, 'Zazen idols are used to save your game, as well as recharge your elements. ', 'signpost', nil, 9 ))
-table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 8, TILE_SIZE * 5, 'Once the lute is equipped, select the tome you want to play. Press B button to start playing music and Start Button to exit music mode. ', 'signpost', nil, 10 ))
+  table.insert(MAP[1][14].dialogueBox, DialogueBox(TILE_SIZE * 3, 0, 'Vati loves to focus on his studies of philosophy and meditation. He has taught me how to be more forgiving. ', 'signpost', nil, 3 ))
 
-table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 2, 0, 'Magic is cast using an Element\'s vibrancy.  Vibrancy is the energy stored inside an Element and it depletes with use. If a mage rests at an idol, they can replenish their Element\'s vibrancy. ', 'signpost', nil, 11 ))
-table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 7, 0, 'In order to cast magic, a mage needs to exert their focus also known as Manis. The result of their focus isn\'t stable, so they need to strive to balance their focus to reach the desired output. Manis is the red bar. Focus output is the white square.  A successful cast is when the focus output resides in the green range of a selected element. ', 'signpost', nil, 12 ))
+  table.insert(MAP[1][14].dialogueBox, DialogueBox(TILE_SIZE * 4, 0, 'The elder mage saw Vati training at the docks and offered to be his mentor in the art of magic. ', 'signpost', nil, 4 ))
 
---table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 3, TILE_SIZE * 2, 'Meditation idols are used to save your game, as well as recharge your elements. ', 'signpost', nil, 1 ))
+  table.insert(MAP[1][14].dialogueBox, DialogueBox(TILE_SIZE * 5, 0, 'Tai Chi training emphasizes coordination and focus. End every session with a seated meditation to align the body and spirit. ', 'signpost', nil, 5 ))
 
---VILLAGER 1
-table.insert(MAP[2][11].npc, Entity {
-  animations = ENTITY_DEFS['villager1'].animations,
-  walkSpeed = ENTITY_DEFS['villager1'].walkSpeed,
-  height = ENTITY_DEFS['villager1'].height,
-  width = ENTITY_DEFS['villager1'].width,
-  x = TILE_SIZE * 5,
-  y = TILE_SIZE * 3,
-  dialogueBox = {},
-  direction = 'down',
-  corrupted = false,
-  type = 'villager1',
-})
+  table.insert(MAP[1][14].dialogueBox, DialogueBox(TILE_SIZE * 6, 0, 'I train alone at the docks now. I know Vati is on his own path and learning a lot. ', 'signpost', nil, 6 ))
 
-local villager2Index = 1
-MAP[2][11].npc[villager2Index].stateMachine = StateMachine {
-  ['npc-idle'] = function() return NPCIdleState(MAP[2][11].npc[villager2Index]) end,
-  ['npc-walk'] = function() return NPCWalkState(MAP[2][11].npc[villager2Index]) end,
-}
-MAP[2][11].npc[villager2Index]:changeState('npc-walk')
-MAP[2][11].npc[villager2Index].stateMachine.current.option = 'square'
-table.insert(MAP[2][11].dialogueBox, DialogueBox(MAP[2][11].npc[villager2Index].x, MAP[2][11].npc[villager2Index].y, 'A bed costs 5 coin a night', 'npc', MAP[2][11].npc[villager2Index], 1))
---]]
---19 CHAR PER LINE = 57 CHARS for 3 lines
-table.insert(MAP[7][1].dialogueBox, DialogueBox(TILE_SIZE, 4 * TILE_SIZE, 'You cannot enter without light...', 'signpost', nil, 1))
+  table.insert(MAP[1][14].dialogueBox, DialogueBox(TILE_SIZE * 8, 0, 'These journals are empty. ', 'signpost', nil, 7 ))
 
-table.insert(MAP[8][1].dialogueBox, DialogueBox(TILE_SIZE * 8, 2 * TILE_SIZE, 'Under Construction', 'signpost', nil, 1))
+  --LIBRARY
+  table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 1, TILE_SIZE * 1, 'Flamme is energy from Mount Kazan, it burns brightly. ', 'signpost', nil, 1 ))
+  table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 3, TILE_SIZE * 1, 'Aquis contains lifeforce from the Azai Ocean, it flows with great energy. ', 'signpost', nil, 2 ))
+  table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 1, 'Ekko is vibrant green and shimmers quite beautifully. ', 'signpost', nil, 3 ))
+  table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 8, TILE_SIZE * 1, 'Lox shines as bright as the sun, focusing it\'s energy can be quite powerful. ', 'signpost', nil, 4 ))
 
-table.insert(MAP[7][3].dialogueBox, DialogueBox(TILE_SIZE * 7, 3 * TILE_SIZE, 'DANGER-->', 'signpost', nil, 1))
+  table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 1, TILE_SIZE * 3, 'WASD keys are directional buttons.  Spacebar is the A Button.  Shift is the B Button.  Tab is the Start Button.  ` is the Select Button.  The A Button will interact with objects, or use the element in the A Slot. ', 'signpost', nil, 5 ))
+  table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 3, TILE_SIZE * 3, 'Press Start Button to open inventory.  B button will swap inventory selection.  A button will equip selected item.  Start Button while in inventory will resume the game. Select Button toggles minimap. ', 'signpost', nil, 6 ))
+  table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 3, 'To use an Element, you need to equip it in your A Slot.  In order to successfully cast magic, you need to balance your focus using the A Button. ', 'signpost', nil, 7 ))
+  table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 8, TILE_SIZE * 3, 'Once the lute is equipped Press B button to start playing music. The Directional Buttons play different strings, and the A/B Buttons play different frets.  The Start Button will exit music mode. ', 'signpost', nil, 8 ))
 
-table.insert(MAP[7][4].dialogueBox, DialogueBox(TILE_SIZE * 8, 0, 'Ice Mountain^^', 'signpost', nil, 2))
+  table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 6, TILE_SIZE * 5, 'Zazen idols are used to save your game, as well as recharge your elements. ', 'signpost', nil, 9 ))
+  table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 8, TILE_SIZE * 5, 'Once the lute is equipped, select the tome you want to play. Press B button to start playing music and Start Button to exit music mode. ', 'signpost', nil, 10 ))
 
-table.insert(MAP[9][3].dialogueBox, DialogueBox(TILE_SIZE * 4, TILE_SIZE * 3, '<-Fisher\'s Hut', 'signpost', nil, 1))
+  table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 2, 0, 'Magic is cast using an Element\'s vibrancy.  Vibrancy is the energy stored inside an Element and it depletes with use. If a mage rests at an idol, they can replenish their Element\'s vibrancy. ', 'signpost', nil, 11 ))
+  table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 7, 0, 'In order to cast magic, a mage needs to exert their focus also known as Manis. The result of their focus isn\'t stable, so they need to strive to balance their focus to reach the desired output. Manis is the red bar. Focus output is the white square.  A successful cast is when the focus output resides in the green range of a selected element. ', 'signpost', nil, 12 ))
 
-table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, '<-Flowerbed', 'signpost', nil, 2))
+  --table.insert(MAP[10][19].dialogueBox, DialogueBox(TILE_SIZE * 3, TILE_SIZE * 2, 'Meditation idols are used to save your game, as well as recharge your elements. ', 'signpost', nil, 1 ))
 
-table.insert(MAP[5][2].dialogueBox, DialogueBox(7 * TILE_SIZE, 4 * TILE_SIZE, 'Ren\'s shop^^', 'signpost', nil, 1))
+  --VILLAGER 1
+  table.insert(MAP[2][11].npc, Entity {
+    animations = ENTITY_DEFS['villager1'].animations,
+    walkSpeed = ENTITY_DEFS['villager1'].walkSpeed,
+    height = ENTITY_DEFS['villager1'].height,
+    width = ENTITY_DEFS['villager1'].width,
+    x = TILE_SIZE * 5,
+    y = TILE_SIZE * 3,
+    dialogueBox = {},
+    direction = 'down',
+    corrupted = false,
+    type = 'villager1',
+  })
 
+  local villager2Index = 1
+  MAP[2][11].npc[villager2Index].stateMachine = StateMachine {
+    ['npc-idle'] = function() return NPCIdleState(MAP[2][11].npc[villager2Index]) end,
+    ['npc-walk'] = function() return NPCWalkState(MAP[2][11].npc[villager2Index]) end,
+  }
+  MAP[2][11].npc[villager2Index]:changeState('npc-walk')
+  MAP[2][11].npc[villager2Index].stateMachine.current.option = 'square'
+  table.insert(MAP[2][11].dialogueBox, DialogueBox(MAP[2][11].npc[villager2Index].x, MAP[2][11].npc[villager2Index].y, 'A bed costs 5 coin a night', 'npc', MAP[2][11].npc[villager2Index], 1))
+  --]]
+  --19 CHAR PER LINE = 57 CHARS for 3 lines
+  table.insert(MAP[7][1].dialogueBox, DialogueBox(TILE_SIZE, 4 * TILE_SIZE, 'You cannot enter without light...', 'signpost', nil, 1))
 
---table.insert(MAP[7][2].dialogueBox, DialogueBox(MAP[7][2].npc[mageIndex].x, MAP[7][2].npc[mageIndex].y, 'There\'s plenty of danger around, but treasure too...', 'npc', MAP[7][2].npc[mageIndex], 5))
+  table.insert(MAP[8][1].dialogueBox, DialogueBox(TILE_SIZE * 8, 2 * TILE_SIZE, 'Under Construction', 'signpost', nil, 1))
 
-table.insert(MAP[7][2].collidableMapObjects, Pushable(2, 4, 'boulder'))
-table.insert(MAP[3][12].collidableMapObjects, Pushable(4, 3, 'boulder'))
-table.insert(MAP[3][13].collidableMapObjects, Pushable(3, 7, 'crate'))
-table.insert(MAP[3][13].collidableMapObjects, Pushable(3, 4, 'crate'))
-table.insert(MAP[3][13].collidableMapObjects, Pushable(6, 6, 'crate'))
-table.insert(MAP[3][13].collidableMapObjects, Pushable(7, 3, 'crate'))
+  table.insert(MAP[7][3].dialogueBox, DialogueBox(TILE_SIZE * 7, 3 * TILE_SIZE, 'DANGER-->', 'signpost', nil, 1))
 
---DARK FOREST CRATES
-table.insert(MAP[5][3].collidableMapObjects, Pushable(8, 3, 'crate'))
-table.insert(MAP[6][3].collidableMapObjects, Pushable(3, 7, 'crate'))
---table.insert(MAP[7][2].collidableMapObjects, Pushable(4, 4, 'crate'))
---table.insert(MAP[7][2].collidableMapObjects, Pushable(3, 4, 'crate'))
---table.insert(MAP[7][2].collidableMapObjects, Pushable(3, 5, 'crate'))
---
---ICE MOUNTAIN SHORTCUT DARK FOREST CRATE
-table.insert(MAP[5][5].collidableMapObjects, Pushable(7,5, 'crate'))
+  table.insert(MAP[7][4].dialogueBox, DialogueBox(TILE_SIZE * 8, 0, 'Ice Mountain^^', 'signpost', nil, 2))
 
---RIVER JAI BOULDER
-table.insert(MAP[9][4].collidableMapObjects, Pushable(4, 2, 'boulder'))
+  table.insert(MAP[9][3].dialogueBox, DialogueBox(TILE_SIZE * 4, TILE_SIZE * 3, '<-Fisher\'s Hut', 'signpost', nil, 1))
 
---LUTE TREASURE CHEST
---MAGES CASTLE
-table.insert(MAP[10][18].collidableMapObjects, TreasureChest(2, 4, 'lute', 1))
-table.insert(MAP[10][18].dialogueBox, DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'It\'s your ancient lute! It possesses a calming power. ',  nil, 1))
+  table.insert(MAP[7][2].dialogueBox, DialogueBox(2 * TILE_SIZE, 5 * TILE_SIZE, '<-Light Temple', 'signpost', nil, 2))
 
---TOME 1 TREASURE CHEST
-table.insert(MAP[7][5].collidableMapObjects, TreasureChest(6, 4, 'tome1', 1))
-table.insert(MAP[7][5].dialogueBox, DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'You found an ancient tome! It is engraved with elegant music from times of old.  It also bears a message.  \"The very first song to ever float, a sight fit for the eagles that roam free.\" ',  nil, 1))
-
---GREEN TUNIC CHEST
-table.insert(MAP[4][11].collidableMapObjects, TreasureChest(8, 4, 'greenTunic', 1))
-table.insert(MAP[4][11].dialogueBox, DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'You found the tunic of strength!  Heavy objects now feel light when you wear this. ',  nil, 1))
---[[
-table.insert(MAP[10][18].collidableMapObjects, CollidableMapObjects(10, 18, TILE_SIZE, 26, TILE_SIZE, 4))
-table.insert(MAP[10][18].collidableMapObjects, CollidableMapObjects(10, 18, TILE_SIZE, TILE_SIZE * 3 - 6, TILE_SIZE, TILE_SIZE))
-table.insert(MAP[10][18].collidableMapObjects, CollidableMapObjects(10, 18, 0, 26, TILE_SIZE + 1, TILE_SIZE))
---]]
-
-table.insert(MAP[10][18].collidableMapObjects, CollidableMapObjects(3, 2, TILE_SIZE, 4, 0, -6))
-table.insert(MAP[10][18].collidableMapObjects, CollidableMapObjects(3, 2 - 1, TILE_SIZE + 1, TILE_SIZE))
-table.insert(MAP[10][18].collidableMapObjects, CollidableMapObjects(3, 2, TILE_SIZE, TILE_SIZE / 2, 0, TILE_SIZE - 6))
-
---MAGES CASTLE SCONCES
-table.insert(MAP[9][2].collidableMapObjects, CollidableMapObjects(3, 4, TILE_SIZE - 2, 5, 1, 0))
-table.insert(MAP[9][2].collidableMapObjects, CollidableMapObjects(3, 6, TILE_SIZE - 2, 5, 1, 0))
-
---FISHER
-table.insert(MAP[10][3].collidableMapObjects, CollidableMapObjects(5, 3, TILE_SIZE, TILE_SIZE, 1, 0))
-
-table.insert(MAP[10][3].dialogueBox, DialogueBox(TILE_SIZE * 2, TILE_SIZE * 4, 'Everyone is going on about the evil mage that cursed the water, but I think I know what really happened. ', 'signpost', nil, 1 ))
-
---RORY
-table.insert(MAP[4][2].collidableMapObjects, CollidableMapObjects(3, 6, TILE_SIZE, TILE_SIZE, 1, 0))
-table.insert(MAP[4][2].dialogueBox, DialogueBox(TILE_SIZE * 5, TILE_SIZE * 2, 'I haven\'t seen my son since the eruption, but he has black hair and he is young like you. Could you please keep an eye out for him? I fear he may need help. ', 'signpost', nil, 1 ))
---young mage like you dont always think of the repurcussions of his behavior, but trust me, your choices catch up to you
---
-
---A young mage like you once came to me for advice, and he never listened.
+  table.insert(MAP[5][2].dialogueBox, DialogueBox(7 * TILE_SIZE, 4 * TILE_SIZE, 'Ren\'s Refinery^^', 'signpost', nil, 1))
 
 
+  --table.insert(MAP[7][2].dialogueBox, DialogueBox(MAP[7][2].npc[mageIndex].x, MAP[7][2].npc[mageIndex].y, 'There\'s plenty of danger around, but treasure too...', 'npc', MAP[7][2].npc[mageIndex], 5))
+
+  table.insert(MAP[7][2].collidableMapObjects, Pushable(2, 4, 'boulder'))
+  table.insert(MAP[3][12].collidableMapObjects, Pushable(4, 3, 'boulder'))
+  table.insert(MAP[3][13].collidableMapObjects, Pushable(3, 7, 'crate'))
+  table.insert(MAP[3][13].collidableMapObjects, Pushable(3, 4, 'crate'))
+  table.insert(MAP[3][13].collidableMapObjects, Pushable(6, 6, 'crate'))
+  table.insert(MAP[3][13].collidableMapObjects, Pushable(7, 3, 'crate'))
+
+  --DARK FOREST CRATES
+  table.insert(MAP[5][3].collidableMapObjects, Pushable(8, 3, 'crate'))
+  table.insert(MAP[6][3].collidableMapObjects, Pushable(3, 7, 'crate'))
+  --table.insert(MAP[7][2].collidableMapObjects, Pushable(4, 4, 'crate'))
+  --table.insert(MAP[7][2].collidableMapObjects, Pushable(3, 4, 'crate'))
+  --table.insert(MAP[7][2].collidableMapObjects, Pushable(3, 5, 'crate'))
+  --
+  --ICE MOUNTAIN SHORTCUT DARK FOREST CRATE
+  table.insert(MAP[5][5].collidableMapObjects, Pushable(7,5, 'crate'))
+
+  --RIVER JAI BOULDER
+  table.insert(MAP[9][4].collidableMapObjects, Pushable(4, 2, 'boulder'))
+
+  --LUTE TREASURE CHEST
+  --MAGES CASTLE
+  table.insert(MAP[10][18].collidableMapObjects, TreasureChest(2, 4, 'lute', 1))
+  table.insert(MAP[10][18].dialogueBox, DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'It\'s your ancient lute! It possesses a calming power. ',  nil, 1))
+
+  --TOME 1 TREASURE CHEST
+  table.insert(MAP[7][5].collidableMapObjects, TreasureChest(6, 4, 'tome1', 1))
+  table.insert(MAP[7][5].dialogueBox, DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'You found an ancient tome! It is engraved with elegant music from times of old.  It also bears a message.  \"The very first song to ever float, a sight fit for the eagles that roam free.\" ',  nil, 1))
+
+  --GREEN TUNIC CHEST
+  table.insert(MAP[4][11].collidableMapObjects, TreasureChest(8, 4, 'greenTunic', 1))
+  table.insert(MAP[4][11].dialogueBox, DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'You found the tunic of strength!  Heavy objects now feel light when you wear this. ',  nil, 1))
+  --[[
+  table.insert(MAP[10][18].collidableMapObjects, CollidableMapObjects(10, 18, TILE_SIZE, 26, TILE_SIZE, 4))
+  table.insert(MAP[10][18].collidableMapObjects, CollidableMapObjects(10, 18, TILE_SIZE, TILE_SIZE * 3 - 6, TILE_SIZE, TILE_SIZE))
+  table.insert(MAP[10][18].collidableMapObjects, CollidableMapObjects(10, 18, 0, 26, TILE_SIZE + 1, TILE_SIZE))
+  --]]
+
+  table.insert(MAP[10][18].collidableMapObjects, CollidableMapObjects(3, 2, TILE_SIZE, 4, 0, -6))
+  table.insert(MAP[10][18].collidableMapObjects, CollidableMapObjects(3, 2 - 1, TILE_SIZE + 1, TILE_SIZE))
+  table.insert(MAP[10][18].collidableMapObjects, CollidableMapObjects(3, 2, TILE_SIZE, TILE_SIZE / 2, 0, TILE_SIZE - 6))
+
+  --MAGES CASTLE SCONCES
+  table.insert(MAP[9][2].collidableMapObjects, CollidableMapObjects(3, 4, TILE_SIZE - 2, 5, 1, 0))
+  table.insert(MAP[9][2].collidableMapObjects, CollidableMapObjects(3, 6, TILE_SIZE - 2, 5, 1, 0))
+
+  --FISHER
+  table.insert(MAP[10][3].collidableMapObjects, CollidableMapObjects(5, 3, TILE_SIZE, TILE_SIZE, 1, 0))
+
+  table.insert(MAP[10][3].dialogueBox, DialogueBox(TILE_SIZE * 2, TILE_SIZE * 4, 'Everyone is going on about the evil mage that cursed the water, but I think I know what really happened. ', 'signpost', nil, 1 ))
+
+  --RORY
+  table.insert(MAP[4][2].collidableMapObjects, CollidableMapObjects(3, 6, TILE_SIZE, TILE_SIZE, 1, 0))
+  table.insert(MAP[4][2].dialogueBox, DialogueBox(TILE_SIZE * 5, TILE_SIZE * 2, 'I haven\'t seen my son since the eruption, but he has black hair and he is young like you. Could you please keep an eye out for him? I fear he may need help. ', 'signpost', nil, 1 ))
+  --young mage like you dont always think of the repurcussions of his behavior, but trust me, your choices catch up to you
+  --
+
+  --A young mage like you once came to me for advice, and he never listened.
 
 
---INN
---TOP LEFT BED
---
---[[
-table.insert(MAP[2][11].collidableMapObjects, CollidableMapObjects(3, 2, TILE_SIZE - 1, 4, 0, -6))
-table.insert(MAP[2][11].collidableMapObjects, CollidableMapObjects(3, 2 - 1, TILE_SIZE + 1, TILE_SIZE))
-table.insert(MAP[2][11].collidableMapObjects, CollidableMapObjects(3, 2, TILE_SIZE - 1, TILE_SIZE / 2 + 3, 0, TILE_SIZE - 6))
---]]
 
-function InsertBed(mapRow, mapColumn, sceneRow, sceneColumn)
-  if sceneColumn == 2 then
-    table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow, sceneColumn, TILE_SIZE - 1, 4, 0, -6))
-    table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow, sceneColumn - 1, TILE_SIZE + 1, TILE_SIZE))
-    table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow, sceneColumn, TILE_SIZE -1, TILE_SIZE / 2 + 3, 0, TILE_SIZE - 6))
 
-  elseif sceneColumn == 9 then
-    table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow, sceneColumn, TILE_SIZE - 1, 4, 0, -6))
-    table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow, sceneColumn + 1, TILE_SIZE + 1, TILE_SIZE, -1))
-    table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow, sceneColumn, TILE_SIZE -1, TILE_SIZE / 2 + 3, 0, TILE_SIZE - 6))
+  --INN
+  --TOP LEFT BED
+  --
+  --[[
+  table.insert(MAP[2][11].collidableMapObjects, CollidableMapObjects(3, 2, TILE_SIZE - 1, 4, 0, -6))
+  table.insert(MAP[2][11].collidableMapObjects, CollidableMapObjects(3, 2 - 1, TILE_SIZE + 1, TILE_SIZE))
+  table.insert(MAP[2][11].collidableMapObjects, CollidableMapObjects(3, 2, TILE_SIZE - 1, TILE_SIZE / 2 + 3, 0, TILE_SIZE - 6))
+  --]]
+
+  function InsertBed(mapRow, mapColumn, sceneRow, sceneColumn)
+    if sceneColumn == 2 then
+      table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow, sceneColumn, TILE_SIZE - 1, 4, 0, -6))
+      table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow, sceneColumn - 1, TILE_SIZE + 1, TILE_SIZE))
+      table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow, sceneColumn, TILE_SIZE -1, TILE_SIZE / 2 + 3, 0, TILE_SIZE - 6))
+
+    elseif sceneColumn == 9 then
+      table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow, sceneColumn, TILE_SIZE - 1, 4, 0, -6))
+      table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow, sceneColumn + 1, TILE_SIZE + 1, TILE_SIZE, -1))
+      table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow, sceneColumn, TILE_SIZE -1, TILE_SIZE / 2 + 3, 0, TILE_SIZE - 6))
+    end
   end
-end
 
-InsertBed(2, 11, 3, 2)
-InsertBed(2, 11, 6, 2)
-InsertBed(2, 11, 3, 9)
-InsertBed(2, 11, 6, 9)
-
-
-InsertBed(1, 14, 3, 2)
-InsertBed(1, 15, 6, 2)
-InsertBed(1, 16, 3, 9)
---
---MART
-MAP[1][14].ost = 'magesCastleTrack'
-
---GYM
-MAP[1][15].ost = 'magesCastleTrack'
-
---FISHERMANS HUT
-MAP[1][16].ost = 'magesCastleTrack'
-
-table.insert(MAP[2][11].dialogueBox, DialogueBox(0, TILE_SIZE * 2, 'Rest?', 'rest', nil, 2)) --LEFT FACING
-table.insert(MAP[2][11].dialogueBox, DialogueBox(0, TILE_SIZE * 2, 'Rest?', 'rest', nil, 3)) -- DOWN FACING
-MAP[2][11].dialogueBox[3].width = 2
-MAP[2][11].dialogueBox[3].height = 2
-MAP[2][11].dialogueBox[3].x = MAP[2][11].dialogueBox[3].x + TILE_SIZE + 1
-MAP[2][11].dialogueBox[3].y = MAP[2][11].dialogueBox[3].y + TILE_SIZE - 2
-
---]]
---DOWNWARD BED REST
---[[
---LEFT BED
-table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow + 1, sceneColumn, 2, 2, 1, -2))
+  InsertBed(2, 11, 3, 2)
+  InsertBed(2, 11, 6, 2)
+  InsertBed(2, 11, 3, 9)
+  InsertBed(2, 11, 6, 9)
 
 
---RIGHT BED
-table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow + 1, sceneColumn + 1, 2, 2, -3, -2))
---]]
+  InsertBed(1, 14, 3, 2)
+  InsertBed(1, 15, 6, 2)
+  InsertBed(1, 16, 3, 9)
+  --
+  --MART
+  MAP[1][14].ost = 'magesCastleTrack'
 
-table.insert(MAP[2][11].dialogueBox, DialogueBox(0, TILE_SIZE * 5, 'Rest?', 'rest', nil, 4)) --LEFT FACING
-table.insert(MAP[2][11].dialogueBox, DialogueBox(0, TILE_SIZE * 5, 'Rest?', 'rest', nil, 5)) -- DOWN FACING
-MAP[2][11].dialogueBox[5].width = 2
-MAP[2][11].dialogueBox[5].height = 2
-MAP[2][11].dialogueBox[5].x = MAP[2][11].dialogueBox[5].x + TILE_SIZE + 1
-MAP[2][11].dialogueBox[5].y = MAP[2][11].dialogueBox[5].y + TILE_SIZE - 2
+  --GYM
+  MAP[1][15].ost = 'magesCastleTrack'
 
+  --FISHERMANS HUT
+  MAP[1][16].ost = 'magesCastleTrack'
 
---TOP RIGHT
-table.insert(MAP[2][11].dialogueBox, DialogueBox(9 * TILE_SIZE, TILE_SIZE * 2, 'Rest?', 'rest', nil, 6)) --LEFT FACING
-table.insert(MAP[2][11].dialogueBox, DialogueBox(9 * TILE_SIZE, TILE_SIZE * 2, 'Rest?', 'rest', nil, 7)) -- DOWN FACING
---
-MAP[2][11].dialogueBox[6].width = 2
-MAP[2][11].dialogueBox[6].height = 2
-MAP[2][11].dialogueBox[6].x = MAP[2][11].dialogueBox[6].x - 4
-MAP[2][11].dialogueBox[6].y = MAP[2][11].dialogueBox[6].y + TILE_SIZE - 4
+  table.insert(MAP[2][11].dialogueBox, DialogueBox(0, TILE_SIZE * 2, 'Rest?', 'rest', nil, 2)) --LEFT FACING
+  table.insert(MAP[2][11].dialogueBox, DialogueBox(0, TILE_SIZE * 2, 'Rest?', 'rest', nil, 3)) -- DOWN FACING
+  MAP[2][11].dialogueBox[3].width = 2
+  MAP[2][11].dialogueBox[3].height = 2
+  MAP[2][11].dialogueBox[3].x = MAP[2][11].dialogueBox[3].x + TILE_SIZE + 1
+  MAP[2][11].dialogueBox[3].y = MAP[2][11].dialogueBox[3].y + TILE_SIZE - 2
 
-
---BOTTOM RIGHT
-table.insert(MAP[2][11].dialogueBox, DialogueBox(9 * TILE_SIZE, TILE_SIZE * 5, 'Rest?', 'rest', nil, 8)) --LEFT FACING
-table.insert(MAP[2][11].dialogueBox, DialogueBox(9 * TILE_SIZE, TILE_SIZE * 5, 'Rest?', 'rest', nil, 9)) -- DOWN FACING
---
-MAP[2][11].dialogueBox[8].width = 2
-MAP[2][11].dialogueBox[8].height = 2
-MAP[2][11].dialogueBox[8].x = MAP[2][11].dialogueBox[8].x - 4
-MAP[2][11].dialogueBox[8].y = MAP[2][11].dialogueBox[8].y + TILE_SIZE - 4
-
---table.insertVMAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow + 1, sceneColumn + 1, 2, 2, -3, -2))
+  --]]
+  --DOWNWARD BED REST
+  --[[
+  --LEFT BED
+  table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow + 1, sceneColumn, 2, 2, 1, -2))
 
 
+  --RIGHT BED
+  table.insert(MAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow + 1, sceneColumn + 1, 2, 2, -3, -2))
+  --]]
 
---table.insert(MAP[10][18].dialogueBox, DialogueBox(0, TILE_SIZE * 2, 'Rest?', 'rest', nil, 4))
-
---TOP HEADBOARD
---table.insert(MAP[2][11].collidableMapObjects, CollidableMapObjects(2, 11, TILE_SIZE, TILE_SIZE * 6 - TILE_SIZE - 6, TILE_SIZE, 4))
-
---SCRIPTED EVENTS
---MAGE NPC
-table.insert(MAP[10][20].npc, Entity {
-  animations = ENTITY_DEFS['mage'].animations,
-  walkSpeed = ENTITY_DEFS['mage'].walkSpeed,
-  height = ENTITY_DEFS['mage'].height,
-  width = ENTITY_DEFS['mage'].width,
-  x = -TILE_SIZE * 2,
-  y = TILE_SIZE * 4,
-  dialogueBox = {},
-  direction = 'down',
-  corrupted = false,
-  type = 'mage',
-})
-
-table.insert(MAP[10][19].npc, Entity {
-  animations = ENTITY_DEFS['mage'].animations,
-  walkSpeed = ENTITY_DEFS['mage'].walkSpeed,
-  height = ENTITY_DEFS['mage'].height,
-  width = ENTITY_DEFS['mage'].width,
-  x = TILE_SIZE * 4 + TILE_SIZE / 2,
-  y = -TILE_SIZE,
-  dialogueBox = {},
-  direction = 'down',
-  corrupted = false,
-  type = 'mage',
-})
-
-local mageIndex = 1
-MAP[10][20].npc[mageIndex].stateMachine = StateMachine {
-  ['npc-idle'] = function() return NPCIdleState(MAP[10][20].npc[mageIndex]) end,
-  ['npc-walk'] = function() return NPCWalkState(MAP[10][20].npc[mageIndex]) end,
-}
-MAP[10][20].npc[mageIndex]:changeState('npc-walk')
---MAP[10][20].npc[mageIndex].stateMachine.current.option = 'horizontal'
+  table.insert(MAP[2][11].dialogueBox, DialogueBox(0, TILE_SIZE * 5, 'Rest?', 'rest', nil, 4)) --LEFT FACING
+  table.insert(MAP[2][11].dialogueBox, DialogueBox(0, TILE_SIZE * 5, 'Rest?', 'rest', nil, 5)) -- DOWN FACING
+  MAP[2][11].dialogueBox[5].width = 2
+  MAP[2][11].dialogueBox[5].height = 2
+  MAP[2][11].dialogueBox[5].x = MAP[2][11].dialogueBox[5].x + TILE_SIZE + 1
+  MAP[2][11].dialogueBox[5].y = MAP[2][11].dialogueBox[5].y + TILE_SIZE - 2
 
 
-MAP[10][19].npc[mageIndex].stateMachine = StateMachine {
-  ['npc-idle'] = function() return NPCIdleState(MAP[10][19].npc[mageIndex]) end,
-  ['npc-walk'] = function() return NPCWalkState(MAP[10][19].npc[mageIndex]) end,
-}
+  --TOP RIGHT
+  table.insert(MAP[2][11].dialogueBox, DialogueBox(9 * TILE_SIZE, TILE_SIZE * 2, 'Rest?', 'rest', nil, 6)) --LEFT FACING
+  table.insert(MAP[2][11].dialogueBox, DialogueBox(9 * TILE_SIZE, TILE_SIZE * 2, 'Rest?', 'rest', nil, 7)) -- DOWN FACING
+  --
+  MAP[2][11].dialogueBox[6].width = 2
+  MAP[2][11].dialogueBox[6].height = 2
+  MAP[2][11].dialogueBox[6].x = MAP[2][11].dialogueBox[6].x - 4
+  MAP[2][11].dialogueBox[6].y = MAP[2][11].dialogueBox[6].y + TILE_SIZE - 4
 
-MAP[10][19].npc[mageIndex]:changeState('npc-walk')
-table.insert(MAP[10][19].dialogueBox, DialogueBox(0, 0, 'You\'re finally awake... How are you feeling?  ...  You don\'t remember anything?  ...  There\'s much to relearn, but take it slow.', 'signpost', nil, 13))
-table.insert(MAP[10][19].dialogueBox, DialogueBox(0, 0, 'This can be dangerous if you\'re careless. But you\'ll need it for your journey.  You got the flamme element!  I have important work to finish, I\'ll find you when you\'re ready for your next lesson. ', 'signpost', nil, 14))
---table.insert(MAP[10][19].dialogueBox, DialogueBox(0, 0, 'Are you ok? ...', 'signpost', nil, 1))
---
-table.insert(MAP[4][12].mineralDeposits, MineralDeposit(3, 3, 'ruby'))
-table.insert(MAP[4][12].mineralDeposits, MineralDeposit(8, 2, 'ruby'))
-table.insert(MAP[4][12].mineralDeposits, MineralDeposit(7, 6, 'ruby'))
-table.insert(MAP[4][12].mineralDeposits, MineralDeposit(2, 7, 'ruby'))
 
-table.insert(MAP[2][13].mineralDeposits, MineralDeposit(8, 2, 'ruby'))
-table.insert(MAP[2][13].mineralDeposits, MineralDeposit(9, 2, 'ruby'))
-table.insert(MAP[2][13].mineralDeposits, MineralDeposit(9, 3, 'ruby'))
+  --BOTTOM RIGHT
+  table.insert(MAP[2][11].dialogueBox, DialogueBox(9 * TILE_SIZE, TILE_SIZE * 5, 'Rest?', 'rest', nil, 8)) --LEFT FACING
+  table.insert(MAP[2][11].dialogueBox, DialogueBox(9 * TILE_SIZE, TILE_SIZE * 5, 'Rest?', 'rest', nil, 9)) -- DOWN FACING
+  --
+  MAP[2][11].dialogueBox[8].width = 2
+  MAP[2][11].dialogueBox[8].height = 2
+  MAP[2][11].dialogueBox[8].x = MAP[2][11].dialogueBox[8].x - 4
+  MAP[2][11].dialogueBox[8].y = MAP[2][11].dialogueBox[8].y + TILE_SIZE - 4
+
+  --table.insertVMAP[mapRow][mapColumn].collidableMapObjects, CollidableMapObjects(sceneRow + 1, sceneColumn + 1, 2, 2, -3, -2))
+
+
+
+  --table.insert(MAP[10][18].dialogueBox, DialogueBox(0, TILE_SIZE * 2, 'Rest?', 'rest', nil, 4))
+
+  --TOP HEADBOARD
+  --table.insert(MAP[2][11].collidableMapObjects, CollidableMapObjects(2, 11, TILE_SIZE, TILE_SIZE * 6 - TILE_SIZE - 6, TILE_SIZE, 4))
+
+  --SCRIPTED EVENTS
+  --MAGE NPC
+  table.insert(MAP[10][20].npc, Entity {
+    animations = ENTITY_DEFS['mage'].animations,
+    walkSpeed = ENTITY_DEFS['mage'].walkSpeed,
+    height = ENTITY_DEFS['mage'].height,
+    width = ENTITY_DEFS['mage'].width,
+    x = -TILE_SIZE * 2,
+    y = TILE_SIZE * 4,
+    dialogueBox = {},
+    direction = 'down',
+    corrupted = false,
+    type = 'mage',
+  })
+
+  table.insert(MAP[10][19].npc, Entity {
+    animations = ENTITY_DEFS['mage'].animations,
+    walkSpeed = ENTITY_DEFS['mage'].walkSpeed,
+    height = ENTITY_DEFS['mage'].height,
+    width = ENTITY_DEFS['mage'].width,
+    x = TILE_SIZE * 4 + TILE_SIZE / 2,
+    y = -TILE_SIZE,
+    dialogueBox = {},
+    direction = 'down',
+    corrupted = false,
+    type = 'mage',
+  })
+
+  local mageIndex = 1
+  MAP[10][20].npc[mageIndex].stateMachine = StateMachine {
+    ['npc-idle'] = function() return NPCIdleState(MAP[10][20].npc[mageIndex]) end,
+    ['npc-walk'] = function() return NPCWalkState(MAP[10][20].npc[mageIndex]) end,
+  }
+  MAP[10][20].npc[mageIndex]:changeState('npc-walk')
+  --MAP[10][20].npc[mageIndex].stateMachine.current.option = 'horizontal'
+
+
+  MAP[10][19].npc[mageIndex].stateMachine = StateMachine {
+    ['npc-idle'] = function() return NPCIdleState(MAP[10][19].npc[mageIndex]) end,
+    ['npc-walk'] = function() return NPCWalkState(MAP[10][19].npc[mageIndex]) end,
+  }
+
+  MAP[10][19].npc[mageIndex]:changeState('npc-walk')
+  table.insert(MAP[10][19].dialogueBox, DialogueBox(0, 0, 'You\'re finally awake... How are you feeling?  ...  You don\'t remember anything?  ...  There\'s much to relearn, but take it slow.', 'signpost', nil, 13))
+  table.insert(MAP[10][19].dialogueBox, DialogueBox(0, 0, 'This can be dangerous if you\'re careless. But you\'ll need it for your journey.  You got the flamme element!  I have important work to finish, I\'ll find you when you\'re ready for your next lesson. ', 'signpost', nil, 14))
+  --table.insert(MAP[10][19].dialogueBox, DialogueBox(0, 0, 'Are you ok? ...', 'signpost', nil, 1))
+  --
+  table.insert(MAP[4][12].mineralDeposits, MineralDeposit(3, 3, 'ruby'))
+  table.insert(MAP[4][12].mineralDeposits, MineralDeposit(8, 2, 'ruby'))
+  table.insert(MAP[4][12].mineralDeposits, MineralDeposit(7, 6, 'ruby'))
+  table.insert(MAP[4][12].mineralDeposits, MineralDeposit(2, 7, 'ruby'))
+
+  table.insert(MAP[2][13].mineralDeposits, MineralDeposit(8, 2, 'ruby'))
+  table.insert(MAP[2][13].mineralDeposits, MineralDeposit(9, 2, 'ruby'))
+  table.insert(MAP[2][13].mineralDeposits, MineralDeposit(9, 3, 'ruby'))

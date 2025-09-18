@@ -71,7 +71,7 @@ sceneView = Scene(gPlayer, 4, 2)
 
 --GREEN TUNIC EQUIP
 --DEMO PLAYER EQUIPS
----[[
+--[[
 gPlayer.tunicEquipped = 'greenTunic'
 gPlayer.greenTunicUnlocked = true
 gPlayer.tunicEquipped = 'greenTunic'
