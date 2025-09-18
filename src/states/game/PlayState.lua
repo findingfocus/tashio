@@ -76,9 +76,9 @@ gPlayer.tunicEquipped = 'greenTunic'
 gPlayer.greenTunicUnlocked = true
 gPlayer.tunicEquipped = 'greenTunic'
 --]]
-gPlayer.elementEquipped = 'flamme'
 gPlayer.flammeUnlocked = true
 gPlayer.elementEquipped = 'flamme'
+--[[
 gPlayer.tome1Unlocked = true
 gKeyItemInventory.tomeEquipped = 'tome1'
 gKeyItemInventory.tome1Equipped = true
@@ -132,14 +132,9 @@ function PlayState:init()
   end
 end
 
-
-local sfx_index = 1
 function PlayState:update(dt)
-  if love.keyboard.wasPressed('b') then
-    playThis[sfx_index]:play()
-    sfx_index = sfx_index + 1
-  end
-
+  --FLAMME CHEAT
+  --[[
   if love.keyboard.wasPressed('f') then
     gPlayer.flammeUnlocked = true
     gPlayer.elementEquipped = 'flamme'
@@ -156,6 +151,7 @@ function PlayState:update(dt)
     gKeyItemInventory.tomeEquipped = 'tome1'
     gKeyItemInventory.tome1Equipped = true
   end
+  --]]
 
   --[[
   if vibrancyGrow then
@@ -810,6 +806,8 @@ function PlayState:render()
     else
     --love.graphics.print('1 2 is: ' .. tostring(gItemInventory.grid[1][2][1].type), 0, 20)
     end
+    love.graphics.setColor(WHITE)
+    love.graphics.print('test: ' .. Inspect(gItemInventory.elementColor), 0, 0)
 end
 
 function displayFPS()
