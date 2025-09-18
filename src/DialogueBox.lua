@@ -443,7 +443,6 @@ function DialogueBox:update(dt)
       if self.currentPagePrintedCharCount >= self.pages[self.currentPage].pageCharCount then
         sfx['ui-scroll1']:play()
 
-        -- Function to handle end-of-page or next-page logic
         local function handlePageEndOrNext()
           if self.currentPage == self.pageLength then
             gPlayer.showOff = false
@@ -458,23 +457,25 @@ function DialogueBox:update(dt)
                 v.showOffItem = false
               end
             end
+
             PAUSED = false
             self:flushText()
             sceneView.activeDialogueID = nil
             self.currentPage = 1
+
             if self.meditateOption then
               if self.meditateYes then
                 gPlayer.stateMachine:change('player-meditate')
                 gPlayer.flammeVibrancy = 0
-                if not self.restOption then -- Play gong only for non-rest meditation
+                if not self.restOption then
                   sfx['idol-gong1']:play()
                 end
                 --self.saveDataUtility:savePlayerData()
               else
-                self.meditateYes = true -- Reset default value
+                self.meditateYes = true -- RESET DEFAULT VALUE
               end
             end
-          else -- Move to next page
+          else -- MOVE TO NEXT PAGE
             self.currentPage = self.currentPage + 1
             self.lineCount = 1
             self.textIndex = 1
@@ -485,7 +486,7 @@ function DialogueBox:update(dt)
           end
         end
 
-        if self.restOption then -- Dialogue box for rest query
+        if self.restOption then
           self.restButtonCount = self.restButtonCount + 1
           if self.restButtonCount == 1 then
             if self.restYes then
@@ -493,7 +494,7 @@ function DialogueBox:update(dt)
                 self:reinit('You need 5 coin to rest at this inn... ')
                 self:flushText()
                 self.activated = true
-                return -- Exit early
+                return
               else
                 sfx['purchase2']:play()
                 gPlayer.coinCount = gPlayer.coinCount - INN_REST_COST
@@ -503,7 +504,7 @@ function DialogueBox:update(dt)
                 self:reinit('You took a nap and feel restored. ')
                 self:flushText()
                 self.activated = true
-                return -- Exit early
+                return
               end
             else
               sfx['ui-scroll1']:stop()
@@ -512,15 +513,15 @@ function DialogueBox:update(dt)
               self:reinit('Rest?')
               self:flushText()
               self:clear()
-              return -- Exit early
+              return
             end
           elseif self.restButtonCount == 2 then
             self.restButtonCount = 0
             self:reinit('Rest?')
             self:flushText()
           end
-          handlePageEndOrNext() -- Handle page end or next page
-        else -- Default dialogue option
+          handlePageEndOrNext()
+        else --DEFAULT DIALOGUE BOX
           handlePageEndOrNext() -- Handle page end or next page
         end
       end
@@ -539,7 +540,6 @@ function DialogueBox:update(dt)
         sfx['dialogue1']:play()
       end
       --]]
-
 
       self.line1Result = self.line1Result .. self.pages[self.currentPage][1].string:sub(self.textIndex, self.textIndex)
       self.textIndex = self.textIndex + 1
