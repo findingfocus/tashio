@@ -359,6 +359,10 @@ function DialogueBox:clear()
 end
 
 function DialogueBox:update(dt)
+  if self.activated then
+    dialogueBoxJustClosed = true
+  end
+
   if self.option == 'idol' then
     self.meditateOption = true
   elseif self.option == 'upgrade' then
@@ -405,7 +409,6 @@ function DialogueBox:update(dt)
   if INPUT:pressed('actionB') then
     sfx['ui-scroll1']:stop()
     sfx['pause1']:play()
-    minimapCooldown = MINIMAP_COOLDOWN
     self.activated = false
     self:clearAButtonCount()
     gPlayer.showOff = false

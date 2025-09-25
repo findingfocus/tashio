@@ -201,6 +201,12 @@ function love.update(dt)
       ost['villageTrack']:setVolume(OST_VOLUME)
       ost['villageTrack']:play()
     end
+  elseif SOUNDTRACK == 'magesCastleTrack' then
+    if not ost['magesCastleTrack']:isPlaying() then
+      stopOST()
+      ost['magesCastleTrack']:setVolume(OST_VOLUME)
+      ost['magesCastleTrack']:play()
+    end
   end
   --]]
 end

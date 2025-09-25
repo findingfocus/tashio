@@ -96,6 +96,8 @@ gPlayer.x = TILE_SIZE * 4
 tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 --textures = love.graphics.newImage('graphics/textures.png')
 quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
+dialogueBoxJustClosed = false
+dialogueBoxJustClosedTimer = 1
 
 function PlayState:init()
   self.stateName = 'PlayState'
@@ -134,10 +136,18 @@ function PlayState:init()
 end
 
 function PlayState:update(dt)
+  if dialogueBoxJustClosed then
+    if self.activeDialogueID == nil then
+      dialogueBoxJustClosedTimer = dialogueBoxJustClosedTimer - dt
+    end 
+  end
+  if dialogueBoxJustClosedTimer <= 0 then
+    dialogueBoxJustClosedTimer = 1
+    dialogueBoxJustClosed = false
+  end
   if minimapCooldown > 0 then
     minimapCooldown = minimapCooldown - dt
   end
-  
   --[[
   if love.keyboard.wasPressed('f') then
     gPlayer.flammeUnlocked = true
@@ -258,7 +268,7 @@ function PlayState:update(dt)
           end
         end
       end
-    elseif gItemInventory.itemSlot[1].type == 'healthPotion' and gPlayer.health < 14 and gItemInventory.itemSlot[1].quantity > 0 then
+    elseif gItemInventory.itemSlot[1].type == 'healthPotion' and gPlayer.health < 14 and gItemInventory.itemSlot[1].quantity > 0 and not dialogueBoxJustClosed then
       --HEALTH POTION HEAL
       love.graphics.setColor(WHITE)
       love.graphics.print('POTION', 0,0)
@@ -275,9 +285,11 @@ function PlayState:update(dt)
     end
   end
 
+  --[[
   if love.keyboard.wasPressed('e') then
     gItemInventory.grid[1][1] = {}
   end
+  --]]
 
   if INPUT:pressed('start') then
     if luteState then
@@ -812,6 +824,8 @@ function PlayState:render()
     --love.graphics.print('1 2 is: ' .. tostring(gItemInventory.grid[1][2][1].type), 0, 20)
     end
     --DEBUG
+    --love.graphics.print(tostring(dialogueBoxJustClosedTimer), 0, 0)
+    --love.graphics.print(tostring(dialogueBoxJustClosed), 0, 10)
 end
 
 function displayFPS()
