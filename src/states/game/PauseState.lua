@@ -6,6 +6,25 @@ function PauseState:init()
 end
 
 function PauseState:update(dt)
+  if INPUT:pressed('left') then
+    sfx['ui-select1']:play()
+  end
+  if INPUT:pressed('right') then
+    sfx['ui-scroll1']:play()
+  end
+  if INPUT:pressed('up') then
+    sfx['ui-select2']:play()
+  end
+  if INPUT:pressed('down') then
+    sfx['ui-scroll2']:play()
+  end
+  if INPUT:pressed('actionB') then
+    sfx['pause3']:play()
+  end
+  if INPUT:pressed('action') then
+    sfx['pause3']:play()
+  end
+
   if INPUT:pressed('start') then
     sfx['pause3']:play()
     luteState = false

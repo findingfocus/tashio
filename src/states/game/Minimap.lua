@@ -57,7 +57,7 @@ function Minimap:init()
   self.names[5][1].locationName = 'Emishi Village'
   self.names[5][2].locationName = 'Ren\'s Refinery'
   self.names[4][2].locationName = 'Lake Raju'
-  self.names[7][2].locationName = 'Torii'
+  self.names[7][2].locationName = 'Tower Gate'
 end
 
 function Minimap:playSound(direction)
@@ -231,9 +231,10 @@ function Minimap:render()
   love.graphics.draw(tashioMini, self.tashioColumn * 16 - 16 + self.tashioX, self.tashioRow * 13 - 13 + self.tashioY)
 
   love.graphics.setColor(BLACK)
-  --love.graphics.print('Valley of death', 5, VIRTUAL_HEIGHT - 15)
-  --love.graphics.print('row: ' .. tostring(self.row) .. 'col: ' .. tostring(self.column), 5, VIRTUAL_HEIGHT - 15)
-
+  love.graphics.setFont(classicFont)
   love.graphics.print(self.names[self.row][self.column].locationName, 5, VIRTUAL_HEIGHT - 15)
-  love.graphics.print('[' .. tostring(self.row) .. '][' .. tostring(self.column) .. ']', 0, 0)
+
+  love.graphics.setColor(WHITE)
+  love.graphics.setFont(pixelFont)
+  love.graphics.print('[' .. tostring(self.row) .. '][' .. tostring(self.column) .. ']', 1, 1)
 end

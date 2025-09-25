@@ -41,7 +41,7 @@ function Player:init(def)
   self.coinCount = 0
   self.rubyCount = 0
   self.sapphireCount = 0
-  self.topazCount = 99
+  self.topazCount = 0
   self.emeraldCount = 0
   self.flammeVibrancy = 0
   self.type = 'player'
@@ -300,7 +300,7 @@ function Player:update(dt)
   HEART_CROP = math.max(56 - (4 * healthDifference), 0)
 
   --TRANSITION EVENT TRIGGERS
-  if not sceneView.shifting and not sceneView.player.falling and not sceneView.player.graveyard and not gStateMachine.current.gameOver then
+  if not sceneView.shifting and not sceneView.player.falling and not sceneView.player.graveyard and not gPlayer.dead then
     --if #OUTPUT_LIST > 0 then
     for k, v in ipairs(OUTPUT_LIST) do
       if v == 'right' then
