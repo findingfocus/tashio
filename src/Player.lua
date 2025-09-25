@@ -26,6 +26,7 @@ function Player:init(def)
   self.healthPotionUnlocked = false
   self.prevX = 0
   self.prevY = 0
+  self.timeAtZeroFocus = 0
   self.dialogueBoxX = self.x
   self.dialogueBoxY = self.y - TILE_SIZE
   self.dialogueBoxWidth = TILE_SIZE

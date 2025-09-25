@@ -1425,7 +1425,7 @@ MAP[7][2].npc[villager1Index]:changeState('npc-walk')
 MAP[7][2].npc[villager1Index].stateMachine.current.option = 'square'
 --]]
 --VILLAGER KID
-table.insert(MAP[7][2].dialogueBox, DialogueBox(7 * TILE_SIZE, 4 * TILE_SIZE, 'Like, no, like I was playing near the big castle on the hill, and suddenly thunder struck! I wouldn\'t go near there.', 'npc', MAP[7][2].npc[villager1Index], 1))
+table.insert(MAP[7][2].dialogueBox, DialogueBox(7 * TILE_SIZE, 4 * TILE_SIZE, 'So I was playing near the big castle on the hill, and suddenly thunder struck! I wouldn\'t go near there.', 'npc', MAP[7][2].npc[villager1Index], 1))
 
 --RENS SHOP
 table.insert(MAP[1][11].dialogueBox, DialogueBox(MAP[1][11].npc[villagerIndex].x, MAP[1][11].npc[villagerIndex].y, 'Bring me minerals so I can upgrade your elements! ', 'npc', MAP[1][11].npc[villagerIndex], 1))
