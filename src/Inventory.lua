@@ -128,6 +128,7 @@ end
 
 function handleAInput(self)
   if self.grid[self.selectedRow][self.selectedCol][1] ~= nil then
+    --EQUIP SOUND
     sfx['item-equip3']:play()
     self.grid[self.selectedRow][self.selectedCol][1]:equip() --MOVES SELECTED ITEM TO PROPER LOCATION
     local itemCopy = nil   --COPY ITEM THAT IS EQUIPPED
@@ -142,6 +143,7 @@ function handleAInput(self)
     end
   end
 end
+
 
 function Inventory:update(dt)
   if self.option == 'item' then
@@ -193,6 +195,8 @@ function Inventory:update(dt)
         if self.selectedCol == 1 then
           --TODO FIX SPELL NAMES
           if gPlayer.flammeUnlocked then
+            --EQUIP SOUND
+            sfx['item-equip3']:play()
             --self.elementSlot = 'flammeSpell'
             if gPlayer.elementEquipped == 'flamme' then
               gPlayer.elementEquipped = ''

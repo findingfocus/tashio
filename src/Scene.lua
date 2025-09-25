@@ -449,7 +449,7 @@ function Scene:update(dt)
 
   --WARP ZONES
   for k, v in ipairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].warpZones) do
-    if v:collides() and not gPlayer.warping then
+    if v:collides() and not gPlayer.warping and not gPlayer.dead then
       gPlayer:changeState('player-idle')
       --gPlayer:changeState('player-walk')
       stopOST()

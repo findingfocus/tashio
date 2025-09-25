@@ -12,9 +12,11 @@ function RefineryState:init()
   self.flammeUpgrade = UpgradeElement('flamme')
   --self.flammeUpgrade.activeLevel = 3
   self.aquisUpgrade = UpgradeElement('aquis')
-  --self.aquisUpgrade.activeLevel = 3
+  self.aquisUpgrade.activeLevel = 0
   self.ekkoUpgrade = UpgradeElement('ekko')
+  self.ekkoUpgrade.activeLevel = 0
   self.loxUpgrade = UpgradeElement('lox')
+  self.loxUpgrade.activeLevel = 0
   self.activeUpgrade = nil
   --ANIMATABLES RESET?
  --[[
