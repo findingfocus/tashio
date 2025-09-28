@@ -55,10 +55,10 @@ function TitleScreenState:update(dt)
       gStateMachine:change('playState')
       gPlayer.stateMachine:change('player-meditate')
       gPlayer.health = 6
-      sceneView = Scene(gPlayer, 7, 4)
+      --sceneView = Scene(gPlayer, 7, 4)
       local animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
       gStateMachine.current.animatables = animatables
-      --self.saveDataUtility:loadPlayerData()
+      self.saveDataUtility:loadPlayerData()
       stopOST()
       SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
       sceneView.player.deadTimer = 0

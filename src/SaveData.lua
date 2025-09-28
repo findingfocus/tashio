@@ -99,8 +99,10 @@ function SaveData:loadPlayerData()
     gStateMachine:change('openingCinematic')
     gPlayer.meditate = false
     gPlayer:changeState('player-death')
+    stopOST()
+    return
   else
-    --SAVE_DATA_NEEDS_LOADING = true
+    SAVE_DATA_NEEDS_LOADING = true
   end
 
   local load = bitser.loadLoveFile("saves/savePlayerData.bin")
@@ -217,10 +219,11 @@ function SaveData:loadPlayerData()
     print('loaded: ' .. k .. ' as: ' .. tostring(v))
   end
 
-  MAP[10][19].psystems[1]:activate()
-  MAP[10][19].psystems[1].active = true
   table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(1, 5, TILE_SIZE, TILE_SIZE))
   table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(1, 6, TILE_SIZE, TILE_SIZE))
+  table.insert(MAP[10][19].psystems, MageMagicWall())
+  MAP[10][19].psystems[1]:activate()
+  MAP[10][19].psystems[1].active = true
 
   print('GAME LOADED')
 

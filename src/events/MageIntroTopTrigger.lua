@@ -18,6 +18,28 @@ end
 function MageIntroTopTrigger:update(dt)
   if not PAUSED then
     sceneView:update(dt)
+  if INPUT:pressed('start') then
+    if not luteState then
+      sfx['pause1']:play()
+      gStateMachine:change('pauseState')
+    end
+  end
+  if INPUT:pressed('select') then
+    sfx['pause2']:play()
+    gStateMachine:change('minimap')
+    gStateMachine.current.cursorX = sceneView.currentMap.column * 16 - 16
+    gStateMachine.current.cursorY = sceneView.currentMap.row * 13 - 13
+    gStateMachine.current.row = sceneView.currentMap.row
+    gStateMachine.current.column = sceneView.currentMap.column
+    gStateMachine.current.tashioRow = sceneView.currentMap.row
+    gStateMachine.current.tashioColumn = sceneView.currentMap.column
+    gStateMachine.current.tashioX = gPlayer.x / 16
+    gStateMachine.current.tashioY = gPlayer.y / 13
+    minimapCooldown = MINIMAP_COOLDOWN
+    --MINIMAP_ROW = sceneView.currentMap.row
+    --MINIMAP_COLUMN = sceneView.currentMap.column
+  end
+
   end
   if gPlayer.y < TILE_SIZE - 8 and (gPlayer.x > TILE_SIZE * 4 and gPlayer.x < TILE_SIZE * 6) then
     self.option = 1
@@ -149,6 +171,9 @@ function MageIntroTopTrigger:update(dt)
       --MAGE WALL BARRIER
       --TOGGLE FOR DEPLOYMENT
       ---[[
+      table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(1, 5, TILE_SIZE, TILE_SIZE))
+      table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(1, 6, TILE_SIZE, TILE_SIZE))
+      table.insert(MAP[10][19].psystems, MageMagicWall())
       MAP[10][19].psystems[1]:activate()
       MAP[10][19].psystems[1].active = true
       --]]
