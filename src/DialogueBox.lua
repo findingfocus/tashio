@@ -334,7 +334,7 @@ function DialogueBox:clear()
       if self.meditateYes then
         gPlayer.stateMachine:change('player-meditate')
         gPlayer.flammeVibrancy = 0
-        --self.saveDataUtility:savePlayerData()
+        self.saveDataUtility:savePlayerData()
       else
         --RESET DEFAULT VALUE
         self.meditateYes = true
@@ -343,7 +343,7 @@ function DialogueBox:clear()
       if self.restYes then
         gPlayer.stateMachine:change('player-meditate')
         gPlayer.flammeVibrancy = 0
-        --self.saveDataUtility:savePlayerData()
+        self.saveDataUtility:savePlayerData()
         --[[
         MAP[2][11].dialogueBox[2].aButtonCount = MAP[2][11].dialogueBox[2].aButtonCount + 1
         MAP[2][11].dialogueBox[2]:reinit()
@@ -423,19 +423,6 @@ function DialogueBox:update(dt)
     --MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided = {}
     self:flushText()
     sceneView.activeDialogueID = nil
-    --I THINK THIS IS JUNK TODO CHECK MULTIPAGE DIALOGUE BOXES UP EXITING IF THE RESET CURRENT PAGE
-    --[[
-    self.currentPage = 1
-    if self.meditateOption then
-      if self.meditateYes then
-        gPlayer.stateMachine:change('player-meditate')
-        self.saveDataUtility:savePlayerData()
-      else
-        --RESET DEFAULT VALUE
-        self.meditateYes = true
-      end
-    end
-    --]]
   end
 
   if INPUT:pressed('action') then
@@ -474,7 +461,7 @@ function DialogueBox:update(dt)
                 if not self.restOption then
                   sfx['idol-gong1']:play()
                 end
-                --self.saveDataUtility:savePlayerData()
+                self.saveDataUtility:savePlayerData()
               else
                 self.meditateYes = true -- RESET DEFAULT VALUE
               end

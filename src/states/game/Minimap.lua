@@ -1,9 +1,9 @@
 Minimap = Class{__includes = BaseState}
 
 function Minimap:init()
-  love.window.setPosition(400, 60)
-  self.cursorX = 0
-  self.cursorY = 0
+  --love.window.setPosition(400, 60)
+  self.cursorX = 1
+  self.cursorY = 1
   self.blink = false
   self.blinkTimer = .5
   self.row = 0

@@ -76,9 +76,12 @@ sceneView = Scene(gPlayer, 4, 2)
 gPlayer.tunicEquipped = 'greenTunic'
 gPlayer.greenTunicUnlocked = true
 gPlayer.tunicEquipped = 'greenTunic'
---]]
+
+--[[
 gPlayer.flammeUnlocked = true
 gPlayer.elementEquipped = 'flamme'
+---]]
+
 --[[
 gPlayer.tome1Unlocked = true
 gKeyItemInventory.tomeEquipped = 'tome1'
@@ -125,7 +128,7 @@ function PlayState:init()
   self.animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
 
   if SAVE_DATA_NEEDS_LOADING then
-    --self.saveUtility:loadPlayerData()
+    self.saveUtility:loadPlayerData()
     SAVE_DATA_NEEDS_LOADING = false
     --REINIT ANIMATABLES
     ---[[
