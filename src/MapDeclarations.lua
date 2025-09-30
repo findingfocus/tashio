@@ -1714,7 +1714,10 @@ table.insert(MAP[1][11].dialogueBox, DialogueBox(MAP[1][11].npc[villagerIndex].x
   }
 
   MAP[10][19].npc[mageIndex]:changeState('npc-walk')
+
   table.insert(MAP[10][19].dialogueBox, DialogueBox(0, 0, 'You\'re finally awake... How are you feeling?  ...  You don\'t remember anything?  ...  There\'s much to relearn, but take it slow.', 'signpost', nil, 13))
+  MAP[10][19].dialogueBox[13].skippable = false
+
   table.insert(MAP[10][19].dialogueBox, DialogueBox(0, 0, 'This can be dangerous if you\'re careless. But you\'ll need it for your journey.  You got the flamme element!  I have important work to finish, I\'ll find you when you\'re ready for your next lesson. ', 'signpost', nil, 14))
   --table.insert(MAP[10][19].dialogueBox, DialogueBox(0, 0, 'Are you ok? ...', 'signpost', nil, 1))
   --

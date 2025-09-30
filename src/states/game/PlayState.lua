@@ -330,6 +330,11 @@ function PlayState:update(dt)
   if INPUT:pressed('select') and not luteState and not PAUSED and not self.gameOver and minimapCooldown < 0 then
     sfx['pause2']:play()
     gStateMachine:change('minimap')
+    if sceneView.currentMap.row <= 10 and sceneView.currentMap.column <= 10 then
+      gStateMachine.current.overworld = true
+    else
+      gStateMachine.current.overworld = false
+    end
     gStateMachine.current.cursorX = sceneView.currentMap.column * 16 - 16
     gStateMachine.current.cursorY = sceneView.currentMap.row * 13 - 13
     gStateMachine.current.row = sceneView.currentMap.row
