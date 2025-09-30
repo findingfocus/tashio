@@ -87,7 +87,7 @@ function Minimap:update(dt)
     end
   end
 
-  if #INPUT_LIST < 3 then
+  if #INPUT_LIST < 3 and self.overworld then
     --DIAGONAL MOVEMENT
     if INPUT:down('up') and INPUT:down('left') then
       self.fastSelectTimer = self.fastSelectTimer - dt
@@ -224,21 +224,26 @@ end
 function Minimap:render()
   love.graphics.clear(181/255, 172/255, 138/255, 255/255)
   love.graphics.draw(minimap, 0, 0)
-  if self.blink then
-    love.graphics.setColor(TRANSPARENT)
-  else
+  if self.overworld then
+    if self.blink then
+      love.graphics.setColor(TRANSPARENT)
+    else
+      love.graphics.setColor(WHITE)
+    end
+    love.graphics.draw(minimapCursor, self.cursorX, self.cursorY)
+
     love.graphics.setColor(WHITE)
+    love.graphics.draw(tashioMini, self.tashioColumn * 16 - 16 + self.tashioX, self.tashioRow * 13 - 13 + self.tashioY)
+
+    love.graphics.setColor(BLACK)
+    love.graphics.setFont(classicFont)
+    love.graphics.print(self.names[self.row][self.column].locationName, 5, VIRTUAL_HEIGHT - 15)
+
+    love.graphics.setColor(WHITE)
+    love.graphics.setFont(pixelFont)
+    love.graphics.print('[' .. tostring(self.row) .. '][' .. tostring(self.column) .. ']', 1, 1)
+  else
+    love.graphics.setColor(BLACK)
+    love.graphics.print('???', 5, VIRTUAL_HEIGHT - 15)
   end
-  love.graphics.draw(minimapCursor, self.cursorX, self.cursorY)
-
-  love.graphics.setColor(WHITE)
-  love.graphics.draw(tashioMini, self.tashioColumn * 16 - 16 + self.tashioX, self.tashioRow * 13 - 13 + self.tashioY)
-
-  love.graphics.setColor(BLACK)
-  love.graphics.setFont(classicFont)
-  love.graphics.print(self.names[self.row][self.column].locationName, 5, VIRTUAL_HEIGHT - 15)
-
-  love.graphics.setColor(WHITE)
-  love.graphics.setFont(pixelFont)
-  love.graphics.print('[' .. tostring(self.row) .. '][' .. tostring(self.column) .. ']', 1, 1)
 end

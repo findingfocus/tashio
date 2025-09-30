@@ -65,6 +65,7 @@ function DialogueBox:init(x, y, text, option, npc, index)
   self.wordCharCount = 0
   self.lineCharCount = 0
   self.pageLength = 1
+  self.skippable = true
 
   while self.charactersToCheck do
     self.textIndex = self.textIndex + 1
@@ -406,7 +407,7 @@ function DialogueBox:update(dt)
     end
   end
 
-  if INPUT:pressed('actionB') then
+  if INPUT:pressed('actionB') and self.skippable then
     sfx['ui-scroll1']:stop()
     sfx['pause1']:play()
     self.activated = false
