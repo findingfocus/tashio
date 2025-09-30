@@ -230,6 +230,7 @@ function love.draw()
     button:render()
     --button.pressed = INPUT:down(button.direction)
   end
+  --love.graphics.print(tostring(gStateMachine.current.stateName), 0, 0)
   push:finish()
   --[[
   local save = love.filesystem.getSaveDirectory()
