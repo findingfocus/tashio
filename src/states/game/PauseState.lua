@@ -30,10 +30,14 @@ function PauseState:update(dt)
     luteState = false
     gPlayer.focusIndicatorX = 0
 
-    if sceneView.currentMap.row == 1 and sceneView.currentMap.column == 11 then
-      gStateMachine:change('refineryState')
+    if TUTORIAL_COMPLETED then
+      if sceneView.currentMap.row == 1 and sceneView.currentMap.column == 11 then
+        gStateMachine:change('refineryState')
+      else
+        gStateMachine:change('playState')
+      end
     else
-      gStateMachine:change('playState')
+      gStateMachine:change('mageIntroTopTrigger')
     end
   end
   if INPUT:pressed('actionB') then

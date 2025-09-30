@@ -13,6 +13,7 @@ function MageIntroTopTrigger:init()
   self.treasureY = -TILE_SIZE
   self.psystem = love.graphics.newParticleSystem(particle, 400)
   self.option = nil
+  gKeyItemInventory.elementColor = TRANSPARENT
 end
 
 function MageIntroTopTrigger:update(dt)
@@ -126,7 +127,7 @@ function MageIntroTopTrigger:update(dt)
       self.step = 5
     end
     if sceneView.activeDialogueID ~= nil then
-      MAP[10][19].dialogueBox[sceneView.activeDialogueID]:update(dt)
+      --MAP[10][19].dialogueBox[sceneView.activeDialogueID]:update(dt)
     end
   elseif self.step == 5 then
     Timer.tween(1, {
@@ -151,7 +152,9 @@ function MageIntroTopTrigger:update(dt)
         self.treasureY = gPlayer.y - 10
         self.showOff = true
         gPlayer:changeAnimation('showOff')
+        gPlayer.flammeUnlocked = true
         mage:changeAnimation('idle-down')
+        TUTORIAL_COMPLETED = true
       end
       if MAP[10][19].dialogueBox[14].currentPage == 4 then
         self.showOff = false
@@ -159,7 +162,7 @@ function MageIntroTopTrigger:update(dt)
         mage:changeAnimation('walk-down')
       end
     if sceneView.activeDialogueID ~= nil then
-      MAP[10][19].dialogueBox[sceneView.activeDialogueID]:update(dt)
+      --MAP[10][19].dialogueBox[sceneView.activeDialogueID]:update(dt)
     end
   elseif self.step == 8 then
     Timer.tween(2, {
@@ -205,8 +208,8 @@ function MageIntroTopTrigger:render()
     gItemInventory.itemSlot[1]:render()
   end
 
-  love.graphics.setColor(gKeyItemInventory.elementColor)
-  love.graphics.circle('fill', VIRTUAL_WIDTH - 86, VIRTUAL_HEIGHT - 8, 6)
+  --love.graphics.setColor(gKeyItemInventory.elementColor)
+  --love.graphics.circle('fill', VIRTUAL_WIDTH - 86, VIRTUAL_HEIGHT - 8, 6)
 
   love.graphics.setColor(WHITE)
   love.graphics.draw(heartRowEmpty, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)

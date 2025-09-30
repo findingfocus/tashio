@@ -207,6 +207,7 @@ function OpeningCinematic:update(dt)
 
   if INPUT:pressed('action') then
     --DIALOGUE DETECTION
+    --[[
     for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do
       if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]) and not MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated then
         PAUSED = true
@@ -216,14 +217,17 @@ function OpeningCinematic:update(dt)
         sceneView.activeDialogueID = v.dialogueID
       end
     end
+    --]]
     for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
       if v.classType == 'treasureChest' then
         if not v.opened then
           if gPlayer:dialogueCollides(v) then
-            v:openChest()
-            treasureChestOption = true
-            gItemInventory.grid[1][1] = {}
-            table.insert(gItemInventory.grid[1][1], Item('lute'))
+            if gPlayer.direction ~= 'down' then
+              v:openChest()
+              treasureChestOption = true
+              gItemInventory.grid[1][1] = {}
+              table.insert(gItemInventory.grid[1][1], Item('lute'))
+            end
           end
         end
       end
@@ -278,8 +282,10 @@ function OpeningCinematic:render()
     gItemInventory.itemSlot[1]:render()
   end
 
+  --[[
   love.graphics.setColor(gKeyItemInventory.elementColor)
   love.graphics.circle('fill', VIRTUAL_WIDTH - 86, VIRTUAL_HEIGHT - 8, 6)
+  --]]
 
   love.graphics.setColor(WHITE)
   love.graphics.draw(heartRowEmpty, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)

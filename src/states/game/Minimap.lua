@@ -80,7 +80,11 @@ function Minimap:update(dt)
   end
   if INPUT:pressed('select') then
     sfx['pause3']:play()
-    gStateMachine:change('playState')
+    if TUTORIAL_COMPLETED then
+      gStateMachine:change('playState')
+    else
+      gStateMachine:change('mageIntroTopTrigger')
+    end
   end
 
   if #INPUT_LIST < 3 then

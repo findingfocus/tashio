@@ -103,6 +103,7 @@ function SaveData:loadPlayerData()
     return
   else
     SAVE_DATA_NEEDS_LOADING = true
+    TUTORIAL_COMPLETED = true
   end
 
   local load = bitser.loadLoveFile("saves/savePlayerData.bin")
