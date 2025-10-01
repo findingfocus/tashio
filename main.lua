@@ -236,7 +236,6 @@ function love.draw()
   local save = love.filesystem.getSaveDirectory()
   print("Save Location: " .. tostring(save))
   --]]
-
-  --print('ITEM DATA: ' ..
+  --love.graphics.print(tostring(sceneView.currentMap.row) .. ' ' .. tostring(sceneView.currentMap.column), 0, 0)
 end
 
