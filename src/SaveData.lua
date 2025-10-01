@@ -102,7 +102,6 @@ function SaveData:loadPlayerData()
     stopOST()
     return
   else
-    SAVE_DATA_NEEDS_LOADING = true
     TUTORIAL_COMPLETED = true
   end
 
