@@ -153,11 +153,13 @@ function MageIntroTopTrigger:update(dt)
         self.showOff = true
         gPlayer:changeAnimation('showOff')
         gPlayer.flammeUnlocked = true
+        gPlayer.showOff = true
         mage:changeAnimation('idle-down')
         TUTORIAL_COMPLETED = true
       end
       if MAP[10][19].dialogueBox[14].currentPage == 4 then
         self.showOff = false
+        gPlayer.showOff = false
         gPlayer:changeAnimation('idle-up')
         mage:changeAnimation('walk-down')
       end
