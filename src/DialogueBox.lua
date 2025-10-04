@@ -423,6 +423,7 @@ function DialogueBox:update(dt)
     self.finishedPrinting = true
     --MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided = {}
     self:flushText()
+    self:clear()
     sceneView.activeDialogueID = nil
   end
 
