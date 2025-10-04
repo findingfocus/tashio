@@ -231,6 +231,9 @@ function PlayState:update(dt)
   --NON CHASM GAME OVER
   if INPUT:pressed('start') or INPUT:pressed('action') then
     if self.gameOver then
+      for i = 1, #MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities do
+        MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities[i]:resetOriginalPosition()
+      end
       sceneView.player.deadTimer = 0
       sceneView.player.dead = false
       self.gameOver = false
