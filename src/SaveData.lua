@@ -22,6 +22,7 @@ function SaveData:savePlayerData()
   saveData['playerTome1Unlocked'] = gPlayer.tome1Unlocked
   saveData['keyItemTomeEquipped'] = gKeyItemInventory.tomeEquipped
   saveData['keyItemTome1Equipped'] = gKeyItemInventory.tome1Equipped
+  saveData['flammeUpgradeLevel'] = gPlayer.flammeUpgradeLevel
 
   if GREEN_TUNIC_CHEST_OPENED then
     saveData['greenTunicChestOpened'] = true
@@ -199,7 +200,9 @@ function SaveData:loadPlayerData()
         end
       end
     end
-
+    if k == 'flammeUpgradeLevel' then
+      gPlayer.flammeUpgradeLevel = v
+    end
     --]]
     ---[[
     if k == 'itemSlotType' then

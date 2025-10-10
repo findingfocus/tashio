@@ -48,7 +48,6 @@ function UpgradeElement:init(type)
   self.mineralInventoryWidth = 28
   self.mineralInventoryHeight = 12
   self.calculatedResult = ''
-
   --[[
 
   resultString = nonSelectable
