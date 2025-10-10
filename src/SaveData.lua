@@ -102,7 +102,6 @@ function SaveData:loadPlayerData()
     stopOST()
     return
   else
-    SAVE_DATA_NEEDS_LOADING = true
     TUTORIAL_COMPLETED = true
   end
 
@@ -209,10 +208,12 @@ function SaveData:loadPlayerData()
       gItemInventory.itemSlot[1].quantity = load['itemSlotQuantity']
     end
     if k == 'inventoryGrid1-1Type' then
+      gItemInventory.grid[1][1] = {}
       table.insert(gItemInventory.grid[1][1], Item(v))
       gItemInventory.grid[1][1][1].quantity = load['inventoryGrid1-1Quantity']
     end
     if k == 'inventoryGrid1-2Type' then
+      gItemInventory.grid[1][2] = {}
       table.insert(gItemInventory.grid[1][2], Item(v))
       gItemInventory.grid[1][2][1].quantity = load['inventoryGrid1-2Quantity']
     end

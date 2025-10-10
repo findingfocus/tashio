@@ -11,6 +11,7 @@ function TreasureChest:init(tileX, tileY, contents, dialogueBoxID)
   self.opened = false
   self.image = treasureChestClosed
   self.active = true
+  self.saveUtility = SaveData()
   --self.dialogueBox = dialogueBox or nil
   self.dialogueBoxID = dialogueBoxID
   self.contents = contents
@@ -57,6 +58,7 @@ function TreasureChest:openChest()
     gItemInventory.grid[1][2][1]:update(1, 2)
   elseif self.contents == 'greenTunic' then
     gPlayer.greenTunicUnlocked = true
+    self.saveUtility:savePlayerData() 
   end
 
   self.treasureX = gPlayer.x + 4

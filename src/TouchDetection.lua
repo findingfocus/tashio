@@ -30,6 +30,7 @@ function TouchDetection:collides(touch)
 end
 
 function TouchDetection:render()
+  --[[
   --RENDER BUTTON PRESS
   for _, input in pairs(OUTPUT_LIST) do
     if self.direction == input then
@@ -67,4 +68,5 @@ function TouchDetection:render()
       end
     end
   end
+  --]]
 end

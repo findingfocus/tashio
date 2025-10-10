@@ -36,7 +36,7 @@ function love.load()
 
   push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT_GB, WINDOW_WIDTH, WINDOW_HEIGHT, {
     vsync = true,
-    fullscreen = false,
+    fullscreen = true,
     resizable = false
   })
 
@@ -236,7 +236,7 @@ function love.draw()
   local save = love.filesystem.getSaveDirectory()
   print("Save Location: " .. tostring(save))
   --]]
-
-  --print('ITEM DATA: ' ..
+  --love.graphics.print(tostring(sceneView.currentMap.row) .. ' ' .. tostring(sceneView.currentMap.column), 0, 0)
+  --love.graphics.print(tostring(gStateMachine.current.stateName), 0, 0)
 end
 

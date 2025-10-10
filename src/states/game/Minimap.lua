@@ -2,6 +2,7 @@ Minimap = Class{__includes = BaseState}
 
 function Minimap:init()
   --love.window.setPosition(400, 60)
+  self.stateName = 'Minimap'
   self.cursorX = 1
   self.cursorY = 1
   self.blink = false
@@ -79,6 +80,7 @@ function Minimap:update(dt)
     self.blinkTimer = .5
   end
   if INPUT:pressed('select') then
+    debug(true)
     sfx['pause3']:play()
     if TUTORIAL_COMPLETED then
       gStateMachine:change('playState')
