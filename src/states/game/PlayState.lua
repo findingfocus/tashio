@@ -20,9 +20,10 @@ gItemInventory = Inventory('item')
 gKeyItemInventory = Inventory('keyItem')
 gItems = {}
 
+--TOGGLE DEMO
 --LUTE EQUIP
-table.insert(gItemInventory.grid[1][1], Item('lute'))
-table.insert(gItemInventory.grid[1][2], Item('healthPotion', 3))
+--table.insert(gItemInventory.grid[1][1], Item('lute'))
+--table.insert(gItemInventory.grid[1][2], Item('healthPotion', 3))
 
 local vibrancy = 0
 local vibrancyGrow = true
