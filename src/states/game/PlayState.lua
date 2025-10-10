@@ -573,7 +573,7 @@ function PlayState:render()
   if love.keyboard.isDown('9') then
     love.graphics.setColor(WHITE)
     love.graphics.print('flammeLvl: ' .. tostring(gPlayer.flammeUpgradeLevel), 0, 0)
-    gPlayer.rubyCount = 100
+    --gPlayer.rubyCount = 100
   end
 
   --love.graphics.print('luteState' .. tostring(luteState), 0, VIRTUAL_HEIGHT - 50)

@@ -11,6 +11,8 @@ function Player:init(def)
   self.inputsHeld = 0
   self.meditate = false
   self.health = 6
+  self.gameJustStarted = true
+  self.gameTime = 0
   --self.health = 1
   self.heartTimer = heartSpeed
   self.decrement = true
@@ -360,7 +362,7 @@ function Player:update(dt)
     --FOCUS GAIN
     if (INPUT:down('action') and not luteState) or (buttons[1].fireSpellPressed and not luteState) then
       self.timeAtZeroFocus = 0
-      if gPlayer.elementEquipped == 'flamme' then
+      if gPlayer.elementEquipped == 'flamme' and not gPlayer.gameJustStarted then
         --VIBRANCY DRAIN
         gPlayer.flammeVibrancy = math.min(100, gPlayer.flammeVibrancy + dt * 2)
 
@@ -440,7 +442,16 @@ function Player:update(dt)
   end
 
   if self.focusIndicatorX == 0 then
+    if self.magicHudOpacity < 240 then
+    self.magicHudOpacity = math.max(0, self.magicHudOpacity - dt * 400)
+    end
     self.timeAtZeroFocus = self.timeAtZeroFocus + dt
+  end
+
+  self.gameTime = self.gameTime + dt
+
+  if self.gameTime > .5 then
+    self.gameJustStarted = false
   end
 end
 

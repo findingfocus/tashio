@@ -237,6 +237,6 @@ function love.draw()
   print("Save Location: " .. tostring(save))
   --]]
   --love.graphics.print(tostring(sceneView.currentMap.row) .. ' ' .. tostring(sceneView.currentMap.column), 0, 0)
-  --love.graphics.print(tostring(gStateMachine.current.stateName), 0, 0)
+  --love.graphics.print(tostring(gStateMachine.current.gameJustStarted), 0, 0)
 end
 
