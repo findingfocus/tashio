@@ -85,7 +85,8 @@ function TitleScreenState:render()
     else
       love.graphics.setColor(0,0,0,0)
     end
-    love.graphics.printf('START', 0, VIRTUAL_HEIGHT - 24, VIRTUAL_WIDTH, 'center')
+    love.graphics.setFont(pixelFont)
+    love.graphics.printf('START GAME', 0, VIRTUAL_HEIGHT - 24, VIRTUAL_WIDTH, 'center')
     love.graphics.setColor(WHITE)
   end
 
