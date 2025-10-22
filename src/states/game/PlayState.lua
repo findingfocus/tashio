@@ -132,6 +132,7 @@ function PlayState:init()
   if SAVE_DATA_NEEDS_LOADING then
     self.saveUtility:loadPlayerData()
     SAVE_DATA_NEEDS_LOADING = false
+    sceneView = Scene(gPlayer, sceneView.currentMap.row, sceneView.currentMap.column)
     --REINIT ANIMATABLES
     ---[[
     local animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
