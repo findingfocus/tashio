@@ -202,6 +202,7 @@ function SaveData:loadPlayerData()
     end
     if k == 'flammeUpgradeLevel' then
       gPlayer.flammeUpgradeLevel = v
+      gPlayer.spellcastCount = v
     end
     --]]
     ---[[
