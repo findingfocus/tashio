@@ -195,6 +195,7 @@ require 'src/states/game/Tome1SuccessState'
 
 pixelFont = love.graphics.newFont('fonts/Pixel.ttf', 8)
 pixelFont2 = love.graphics.newFont('fonts/712_serif.ttf', 16)
+hugePixelFont = love.graphics.newFont('fonts/712_serif.ttf', 128)
 classicFont = love.graphics.newFont('fonts/classic.ttf', 8)
 smallFont = love.graphics.newFont('fonts/classic.ttf', 4)
 particle = love.graphics.newImage('graphics/particle.png')
