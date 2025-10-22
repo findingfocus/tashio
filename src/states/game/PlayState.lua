@@ -844,7 +844,6 @@ function PlayState:render()
     end
     --DEBUG
     --love.graphics.print(tostring(dialogueBoxJustClosedTimer), 0, 0)
-    love.graphics.print(tostring(gStateMachine.current.stateName), 0, 10)
 end
 
 function displayFPS()
