@@ -40,9 +40,12 @@ function TreasureChest:openChest()
   if sceneView.currentMap.row == 7 and sceneView.currentMap.column == 5 then
     TOME1_CHEST_OPENED = true
   end
+  --LUTE TREASURE
   if self.contents == 'lute' then
     gItemInventory.grid[1][1] = {}
     table.insert(gItemInventory.grid[1][1], Item('lute'))
+    LUTE_CHEST_OPENED = true
+    self.saveUtility:savePlayerData()
   end
 
   self.showOffItem = true

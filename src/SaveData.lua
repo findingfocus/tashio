@@ -15,6 +15,7 @@ function SaveData:savePlayerData()
   saveData['coinCount'] = gPlayer.coinCount
   saveData['rubyCount'] = gPlayer.rubyCount
   saveData['healthPotionUnlocked'] = gPlayer.healthPotionUnlocked
+  saveData['luteUnlocked'] = LUTE_CHEST_OPENED
   saveData['flammeUnlocked'] = gPlayer.flammeUnlocked
   saveData['keyItemElementColor'] = gKeyItemInventory.elementColor
   saveData['tunicEquipped'] = gPlayer.tunicEquipped
@@ -168,6 +169,16 @@ function SaveData:loadPlayerData()
     if k == 'desertShortcutUnlocked' then
       if v == true then
         Event.dispatch('solveDesertShortcutBoulders')
+      end
+    end
+    if k == 'luteUnlocked' then
+      if v == true then
+        for k, v in pairs(MAP[10][18].collidableMapObjects) do
+          if v.classType == 'treasureChest' then
+            v:loadOpenedChest()
+            LUTE_CHEST_OPENED = true
+          end
+        end
       end
     end
     if k == 'greenTunicChestOpened' then
