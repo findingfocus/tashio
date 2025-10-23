@@ -13,6 +13,7 @@ function FallingChasmState:init()
   self.psystem2Trigger = false
   self.playerX = -17
   self.playerY = -8
+  self.dt = 0
   self.zigzagTime = 0
   sfx['game-over3']:play()
   sfx['game-over1']:stop()
@@ -23,6 +24,7 @@ function FallingChasmState:init()
 end
 
 function FallingChasmState:update(dt)
+  self.dt = dt
   if sfx['game-over1']:isPlaying() then
     sfx['game-over1']:stop()
   end
@@ -95,8 +97,9 @@ function FallingChasmState:update(dt)
       gStateMachine:change('titleState')
       gStateMachine.current.step = 3
       gPlayer.health = 6
-      gPlayer.x = 60
-      gPlayer.y = 80
+      --gPlayer.x = 60
+      --gPlayer.y = 80
+      self.saveUtility.loadPlayerData()
     elseif self.optionSelector == 1 then
       --CONTINUE GAME
       --LOAD LAST SAVE
@@ -110,6 +113,7 @@ function FallingChasmState:update(dt)
       self.saveUtility:loadPlayerData()
     end
   end
+  love.graphics.print('dt: ' .. tostring(dt), SCREEN_WIDTH_LIMIT - 52, VIRTUAL_HEIGHT - 12)
 end
 
 function FallingChasmState:render()
@@ -153,4 +157,8 @@ function FallingChasmState:render()
     love.graphics.printf('QUIT', 0, VIRTUAL_HEIGHT - 16, VIRTUAL_WIDTH, 'center')
   end
   --love.graphics.print('falling: ' .. tostring(gPlayer.falling), 0, 10)
+  love.graphics.print('dt: ' .. tostring(self.dt), SCREEN_WIDTH_LIMIT - 52, VIRTUAL_HEIGHT - 32)
+  love.graphics.print('oX: ' .. tostring(self.offsetX), SCREEN_WIDTH_LIMIT - 52, VIRTUAL_HEIGHT - 22)
+  love.graphics.print('oY: ' .. tostring(self.offsetY), SCREEN_WIDTH_LIMIT - 52, VIRTUAL_HEIGHT - 12)
+  displayFPS()
 end
