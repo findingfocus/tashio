@@ -435,18 +435,20 @@ function Player:update(dt)
     successfulCast = false
   end
 
-  if self.focusIndicatorX > 0 then
-    self.timeAtZeroFocus = 0
-    self.magicHudOpacity = math.min(255, self.magicHudOpacity + dt * 900)
-  elseif self.timeAtZeroFocus > 2 then
-    self.magicHudOpacity = math.max(0, self.magicHudOpacity - dt * 400)
-  end
-
-  if self.focusIndicatorX == 0 then
-    if self.magicHudOpacity < 240 then
-    self.magicHudOpacity = math.max(0, self.magicHudOpacity - dt * 400)
+  if not self.gameJustStarted then
+    if self.focusIndicatorX > 0 then
+      self.timeAtZeroFocus = 0
+      self.magicHudOpacity = math.min(255, self.magicHudOpacity + dt * 900)
+    elseif self.timeAtZeroFocus > 2 then
+      self.magicHudOpacity = math.max(0, self.magicHudOpacity - dt * 400)
     end
-    self.timeAtZeroFocus = self.timeAtZeroFocus + dt
+
+    if self.focusIndicatorX == 0 then
+      if self.magicHudOpacity < 240 then
+        self.magicHudOpacity = math.max(0, self.magicHudOpacity - dt * 400)
+      end
+      self.timeAtZeroFocus = self.timeAtZeroFocus + dt
+    end
   end
 
   self.gameTime = self.gameTime + dt

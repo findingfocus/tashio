@@ -242,7 +242,11 @@ function SaveData:loadPlayerData()
   table.insert(MAP[10][19].psystems, MageMagicWall())
   MAP[10][19].psystems[1]:activate()
   MAP[10][19].psystems[1].active = true
-
+  gPlayer.manis = 100
+  gPlayer.magicHudOpacity = 0
+  gPlayer.gameJustStarted = true
+  gPlayer.focusIndicatorX = 0
+  gPlayer.gameTime = 0
   print('GAME LOADED')
 
   gPlayer.dead = false
