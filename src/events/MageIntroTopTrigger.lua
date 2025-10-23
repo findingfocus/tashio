@@ -21,24 +21,30 @@ function MageIntroTopTrigger:update(dt)
     sceneView:update(dt)
   if INPUT:pressed('start') then
     if not luteState then
-      sfx['pause1']:play()
-      gStateMachine:change('pauseState')
+      if self.step == 0 or self.step == 9 then
+        sfx['pause1']:play()
+        gStateMachine:change('pauseState')
+      end
     end
   end
   if INPUT:pressed('select') then
-    sfx['pause2']:play()
-    gStateMachine:change('minimap')
-    gStateMachine.current.cursorX = sceneView.currentMap.column * 16 - 16
-    gStateMachine.current.cursorY = sceneView.currentMap.row * 13 - 13
-    gStateMachine.current.row = sceneView.currentMap.row
-    gStateMachine.current.column = sceneView.currentMap.column
-    gStateMachine.current.tashioRow = sceneView.currentMap.row
-    gStateMachine.current.tashioColumn = sceneView.currentMap.column
-    gStateMachine.current.tashioX = gPlayer.x / 16
-    gStateMachine.current.tashioY = gPlayer.y / 13
-    minimapCooldown = MINIMAP_COOLDOWN
-    --MINIMAP_ROW = sceneView.currentMap.row
-    --MINIMAP_COLUMN = sceneView.currentMap.column
+    if not luteState then
+      if self.step == 0 or self.step == 9 then
+        sfx['pause2']:play()
+        gStateMachine:change('minimap')
+        gStateMachine.current.cursorX = sceneView.currentMap.column * 16 - 16
+        gStateMachine.current.cursorY = sceneView.currentMap.row * 13 - 13
+        gStateMachine.current.row = sceneView.currentMap.row
+        gStateMachine.current.column = sceneView.currentMap.column
+        gStateMachine.current.tashioRow = sceneView.currentMap.row
+        gStateMachine.current.tashioColumn = sceneView.currentMap.column
+        gStateMachine.current.tashioX = gPlayer.x / 16
+        gStateMachine.current.tashioY = gPlayer.y / 13
+        minimapCooldown = MINIMAP_COOLDOWN
+        --MINIMAP_ROW = sceneView.currentMap.row
+        --MINIMAP_COLUMN = sceneView.currentMap.column
+      end
+    end
   end
 
   end
