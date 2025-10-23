@@ -242,6 +242,7 @@ function PlayState:update(dt)
       MAP[sceneView.currentMap.row][sceneView.currentMap.column].attacks = {}
       if self.optionSelector == 2 then
         gStateMachine:change('titleState')
+        sounds['select']:play()
         gStateMachine.current.step = 3
         gPlayer.health = 6
         gPlayer.x = 60
@@ -250,6 +251,7 @@ function PlayState:update(dt)
         --CONTINUE GAME FROM NON CHASM DEATH
         --LOAD LAST SAVE
         gStateMachine:change('playState')
+        sounds['select']:play()
         gPlayer.stateMachine:change('player-meditate')
         gPlayer.health = 6
         SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
@@ -571,8 +573,9 @@ function PlayState:render()
   --CHEATER TOGGLE
   if love.keyboard.isDown('9') then
     love.graphics.setColor(WHITE)
-    love.graphics.print('flammeLvl: ' .. tostring(gPlayer.flammeUpgradeLevel), 0, 0)
+    --love.graphics.print('flammeLvl: ' .. tostring(gPlayer.flammeUpgradeLevel), 0, 0)
     --gPlayer.rubyCount = 100
+    gPlayer.coinCount = 15
   end
 
   --love.graphics.print('luteState' .. tostring(luteState), 0, VIRTUAL_HEIGHT - 50)
