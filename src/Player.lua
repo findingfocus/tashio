@@ -34,6 +34,7 @@ function Player:init(def)
   self.dialogueBoxWidth = TILE_SIZE
   self.dialogueBoxHeight = TILE_SIZE
   self.fireSpellEquipped = true
+  self.luteUnlocked = LUTE_CHEST_OPENED
   self.luteEquipped = false
   self.warping = false
   self.extendDialogueBoxUpwards = false
