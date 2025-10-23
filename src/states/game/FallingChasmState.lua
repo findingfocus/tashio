@@ -35,10 +35,10 @@ function FallingChasmState:update(dt)
   gPlayer.deadTimer = 0
   --]]
   self.zigzagTime = self.zigzagTime + dt
-  self.offsetX = math.sin(self.zigzagTime) / 6
-  self.offsetY = math.cos(self.zigzagTime) / 6
-  self.playerX = self.playerX + self.offsetX
-  self.playerY = self.playerY + self.offsetY
+  self.offsetX = math.sin(self.zigzagTime) * 10
+  self.offsetY = math.cos(self.zigzagTime) * 10
+  self.playerX = self.playerX + self.offsetX * dt
+  self.playerY = self.playerY + self.offsetY * dt
 
   self.emissionArea = self.emissionArea + dt * 40
   --self.emissionArea = self.emissionArea + dt * 40
@@ -157,8 +157,10 @@ function FallingChasmState:render()
     love.graphics.printf('QUIT', 0, VIRTUAL_HEIGHT - 16, VIRTUAL_WIDTH, 'center')
   end
   --love.graphics.print('falling: ' .. tostring(gPlayer.falling), 0, 10)
+  --[[
   love.graphics.print('dt: ' .. tostring(self.dt), SCREEN_WIDTH_LIMIT - 52, VIRTUAL_HEIGHT - 32)
   love.graphics.print('oX: ' .. tostring(self.offsetX), SCREEN_WIDTH_LIMIT - 52, VIRTUAL_HEIGHT - 22)
   love.graphics.print('oY: ' .. tostring(self.offsetY), SCREEN_WIDTH_LIMIT - 52, VIRTUAL_HEIGHT - 12)
   displayFPS()
+  --]]
 end
