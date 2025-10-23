@@ -45,7 +45,7 @@ function TreasureChest:openChest()
     gItemInventory.grid[1][1] = {}
     table.insert(gItemInventory.grid[1][1], Item('lute'))
     LUTE_CHEST_OPENED = true
-    self.saveUtility:savePlayerData()
+    --self.saveUtility:savePlayerData()
   end
 
   self.showOffItem = true
