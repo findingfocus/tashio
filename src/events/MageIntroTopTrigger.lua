@@ -13,6 +13,7 @@ function MageIntroTopTrigger:init()
   self.treasureY = -TILE_SIZE
   self.psystem = love.graphics.newParticleSystem(particle, 400)
   self.option = nil
+  self.saveDataUtility = SaveData()
   gKeyItemInventory.elementColor = TRANSPARENT
 end
 
@@ -159,6 +160,7 @@ function MageIntroTopTrigger:update(dt)
         self.showOff = true
         gPlayer:changeAnimation('showOff')
         gPlayer.flammeUnlocked = true
+        self.saveDataUtility:savePlayerData()
         gPlayer.showOff = true
         mage:changeAnimation('idle-down')
         TUTORIAL_COMPLETED = true

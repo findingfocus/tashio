@@ -236,6 +236,7 @@ function SaveData:loadPlayerData()
     print('loaded: ' .. k .. ' as: ' .. tostring(v))
   end
 
+  SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
   table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(1, 5, TILE_SIZE, TILE_SIZE))
   table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(1, 6, TILE_SIZE, TILE_SIZE))
   table.insert(MAP[10][19].psystems, MageMagicWall())
