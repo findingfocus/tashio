@@ -252,12 +252,10 @@ function PlayState:update(dt)
         gStateMachine:change('playState')
         gPlayer.stateMachine:change('player-meditate')
         gPlayer.health = 6
-        gPlayer.x = 60
-        gPlayer.y = 80
-        sceneView = Scene(gPlayer, 7, 4)
         SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
         sceneView.player.deadTimer = 0
         sceneView.player.dead = false
+        self.saveUtility:loadPlayerData()
       end
     end
   end
@@ -435,7 +433,7 @@ function PlayState:update(dt)
   --]]
 
   --LOADING LOAD GAME
-  --[[
+  ---[[
   if love.keyboard.wasPressed('l') then
     gPlayer.stateMachine:change('player-meditate')
     self.saveUtility:loadPlayerData()

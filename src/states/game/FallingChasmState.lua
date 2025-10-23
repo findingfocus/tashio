@@ -104,12 +104,10 @@ function FallingChasmState:update(dt)
       gStateMachine:change('playState')
       gPlayer.stateMachine:change('player-meditate')
       gPlayer.health = 6
-      sceneView = Scene(gPlayer, 7, 4)
       SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
       sceneView.player.deadTimer = 0
       sceneView.player.dead = false
-      gPlayer.x = 60
-      gPlayer.y = 80
+      self.saveUtility:loadPlayerData()
     end
   end
 end
