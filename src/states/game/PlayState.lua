@@ -303,6 +303,7 @@ function PlayState:update(dt)
   if INPUT:pressed('start') then
     if luteState then
       luteState = false
+      SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
     else
       --toggleHelp = toggleHelp == false and true or false
     end
