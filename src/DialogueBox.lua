@@ -495,6 +495,7 @@ function DialogueBox:update(dt)
                 gPlayer.health = DEMO_MAX_HEALTH
                 gPlayer.direction = 'down'
                 gPlayer.stateMachine:change('player-meditate')
+                self.saveDataUtility:savePlayerData()
                 self:reinit('You took a nap and feel restored. ')
                 self:flushText()
                 self.activated = true
