@@ -42,10 +42,12 @@ function RainSystem:update(dt)
 end
 
 function RainSystem:render()
+  --[[
   if love.keyboard.isDown('5') then
     love.graphics.clear(0,0,0,255)
     love.graphics.print('WIND: ' .. WIND_ANGLE, 0, 0)
   end
+  --]]
   love.graphics.setColor(255,255,255,255)
   love.graphics.draw(self.psystems,10, 10)
   --love.graphics.print('THIS IS WEATHER', 0, 0)

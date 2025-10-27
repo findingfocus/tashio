@@ -436,7 +436,7 @@ function PlayState:update(dt)
   --]]
 
   --LOADING LOAD GAME
-  ---[[
+  --[[
   if love.keyboard.wasPressed('l') then
     gPlayer.stateMachine:change('player-meditate')
     self.saveUtility:loadPlayerData()
@@ -539,6 +539,7 @@ function PlayState:render()
   --]]
 
   --DEBUG PRINT
+  --[[
   if love.keyboard.isDown('5') then
     love.graphics.setColor(DEBUG_BG)
     love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
@@ -570,14 +571,17 @@ function PlayState:render()
     --print(inspect(sceneView.player.animations['falling']))
 
   end
+  --]]
 
   --CHEATER TOGGLE
+  --[[
   if love.keyboard.isDown('9') then
     love.graphics.setColor(WHITE)
     --love.graphics.print('flammeLvl: ' .. tostring(gPlayer.flammeUpgradeLevel), 0, 0)
     --gPlayer.rubyCount = 100
     gPlayer.coinCount = 15
   end
+  --]]
 
   --love.graphics.print('luteState' .. tostring(luteState), 0, VIRTUAL_HEIGHT - 50)
   love.graphics.setFont(pixelFont)
