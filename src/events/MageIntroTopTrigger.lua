@@ -160,9 +160,11 @@ function MageIntroTopTrigger:update(dt)
         self.showOff = true
         gPlayer:changeAnimation('showOff')
         gPlayer.flammeUnlocked = true
-        self.saveDataUtility:savePlayerData()
         gPlayer.showOff = true
         mage:changeAnimation('idle-down')
+        if not TUTORIAL_COMPLETED then
+          self.saveDataUtility:savePlayerData()
+        end
         TUTORIAL_COMPLETED = true
       end
       if MAP[10][19].dialogueBox[14].currentPage == 4 then
