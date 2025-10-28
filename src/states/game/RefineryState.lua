@@ -45,6 +45,17 @@ function RefineryState:update(dt)
     self.activeUpgrade:update(dt)
   end
 
+  --TRIGGER LUTE STATE
+  if INPUT:pressed('actionB') and gItemInventory.itemSlot[1] ~= nil then
+    if gItemInventory.itemSlot[1].type == 'healthPotion' and gPlayer.health < 14 and gItemInventory.itemSlot[1].quantity > 0 and not dialogueBoxJustClosed then
+      --HEALTH POTION HEAL
+      love.graphics.setColor(WHITE)
+      love.graphics.print('POTION', 0,0)
+      gItemInventory.itemSlot[1].quantity = math.max(0, gItemInventory.itemSlot[1].quantity - 1)
+      gPlayer.health = 14
+      sfx['use-potion']:play()
+    end
+  end
   if INPUT:pressed('action') then
     --DIALOGUE DETECTION
     for k, v in pairs(MAP[self.row][self.column].dialogueBox) do
