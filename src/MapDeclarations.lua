@@ -1146,7 +1146,7 @@ MAP[3][5].warpZones[1].x = MAP[3][5].warpZones[1].x - 14
 
 
 --HEALTH POTION CHEST
-table.insert(MAP[3][5].dialogueBox, DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'You found a magical health elixir! Use it wisely, or just drink it for the bubbles. ',  nil, 1))
+table.insert(MAP[3][5].dialogueBox, DialogueBox(-2 * TILE_SIZE, -TILE_SIZE, 'You found a magical health elixir! Use it wisely, or just drink it for the bubbles. ',  nil, 1))
 table.insert(MAP[3][5].collidableMapObjects, TreasureChest(9, 5, 'healthPotion', 1))
 table.insert(MAP[3][5].collidableMapObjects, Pushable(10, 4, 'boulder'))
 --ICE MOUNTAIN
@@ -1537,15 +1537,15 @@ table.insert(MAP[1][11].dialogueBox, DialogueBox(MAP[1][11].npc[villagerIndex].x
   --LUTE TREASURE CHEST
   --MAGES CASTLE
   table.insert(MAP[10][18].collidableMapObjects, TreasureChest(2, 4, 'lute', 1))
-  table.insert(MAP[10][18].dialogueBox, DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'It\'s your ancient lute! It possesses a calming power. ',  nil, 1))
+  table.insert(MAP[10][18].dialogueBox, DialogueBox(-2 * TILE_SIZE, -TILE_SIZE, 'It\'s your ancient lute! It possesses a calming power. ',  nil, 1))
 
   --TOME 1 TREASURE CHEST
   table.insert(MAP[7][5].collidableMapObjects, TreasureChest(6, 4, 'tome1', 1))
-  table.insert(MAP[7][5].dialogueBox, DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'You found an ancient tome! It is engraved with elegant music from times of old.  It also bears a message.  \"Played at corruption\'s source, music can heal the water.\" ',  nil, 1))
+  table.insert(MAP[7][5].dialogueBox, DialogueBox(-2 * TILE_SIZE, -TILE_SIZE, 'You found an ancient tome! It is engraved with elegant music from times of old.  It also bears a message.  \"Played at corruption\'s source, music can heal the water.\" ',  nil, 1))
 
   --GREEN TUNIC CHEST
   table.insert(MAP[4][11].collidableMapObjects, TreasureChest(8, 4, 'greenTunic', 1))
-  table.insert(MAP[4][11].dialogueBox, DialogueBox(2 * TILE_SIZE, TILE_SIZE, 'You found the tunic of strength!  Heavy objects now feel light when you wear this. ',  nil, 1))
+  table.insert(MAP[4][11].dialogueBox, DialogueBox(-2 * TILE_SIZE, - TILE_SIZE, 'You found the tunic of strength!  Heavy objects now feel light when you wear this. ',  nil, 1))
   --[[
   table.insert(MAP[10][18].collidableMapObjects, CollidableMapObjects(10, 18, TILE_SIZE, 26, TILE_SIZE, 4))
   table.insert(MAP[10][18].collidableMapObjects, CollidableMapObjects(10, 18, TILE_SIZE, TILE_SIZE * 3 - 6, TILE_SIZE, TILE_SIZE))

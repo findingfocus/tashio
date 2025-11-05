@@ -34,6 +34,7 @@ function TreasureChest:openChest()
   if sceneView.currentMap.row == 4 and sceneView.currentMap.column == 11 then
     GREEN_TUNIC_CHEST_OPENED = true
   end
+
   if sceneView.currentMap.row == 3 and sceneView.currentMap.column == 5 then
     MAGIC_POTION_CHEST_OPENED = true
   end
