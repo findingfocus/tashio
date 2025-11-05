@@ -254,6 +254,7 @@ function PlayState:update(dt)
         sounds['select']:play()
         gPlayer.stateMachine:change('player-meditate')
         gPlayer.health = 6
+        gItemInventory.itemSlot[1] = nil
         SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
         sceneView.player.deadTimer = 0
         sceneView.player.dead = false
@@ -620,7 +621,6 @@ function PlayState:render()
   --HERE
   ---[[
   if gItemInventory.itemSlot[1] ~= nil then
-    love.graphics.setFont(pixelFont)
     gItemInventory.itemSlot[1]:render()
   end
   --]]
