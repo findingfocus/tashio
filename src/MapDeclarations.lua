@@ -340,7 +340,6 @@ for i = 1, entities do
 end
 --]]
 
-
 --ONE WAY TOME SCREEN
 --[[
 table.insert(MAP[7][5].collidableMapObjects, Pushable(2,5, 'boulder'))
