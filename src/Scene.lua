@@ -201,6 +201,11 @@ function Scene:finishShifting()
     end
   end
 
+  --DESERT SHORTCUT
+  if DESERT_SHORTCUT_UNLOCKED then
+    Event.dispatch('solveDesertShortcutBoulders')
+  end
+
   self.currentMap = self.nextMap
   gStateMachine.current.animatables = InsertAnimation(self.currentMap.row, self.currentMap.column)
 
