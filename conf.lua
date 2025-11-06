@@ -10,6 +10,7 @@ function love.conf(data)
 
   --DESKTOP
   data.window.vsync = 1
+
   --WEB
   --data.window.vsync = 1
 end
