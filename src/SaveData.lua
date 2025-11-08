@@ -163,7 +163,9 @@ function SaveData:loadPlayerData()
     end
     if k == 'demoWaterCleansed' then
       if v == true then
-        Event.dispatch('cleanseDemoWater')
+        DEMO_WATER_CLEANSED = true
+        MAP[5][1].dialogueBox = {}
+        table.insert(MAP[5][1].dialogueBox, DialogueBox(MAP[5][1].npc[1].x, MAP[5][1].npc[1].y, 'Wow, the water is crystal clear!  So pretty... ', 'npc', MAP[5][1].npc[1], 1))
       end
     end
     if k == 'desertShortcutUnlocked' then
@@ -262,7 +264,6 @@ function SaveData:loadPlayerData()
     end
   end
 
-  --Event.dispatch('cleanseDemoWater')
   local animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
   gStateMachine.current.animatables = animatables
 end
