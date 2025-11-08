@@ -132,6 +132,9 @@ function PlayState:init()
   if SAVE_DATA_NEEDS_LOADING then
     self.saveUtility:loadPlayerData()
     SAVE_DATA_NEEDS_LOADING = false
+    if DEMO_WATER_CLEANSED then
+      Event.dispatch('cleanseDemoWater')
+    end
     sceneView = Scene(gPlayer, sceneView.currentMap.row, sceneView.currentMap.column)
     --REINIT ANIMATABLES
     ---[[
@@ -437,10 +440,10 @@ function PlayState:update(dt)
   --]]
 
   --LOADING LOAD GAME
-  --[[
+  ---[[
   if love.keyboard.wasPressed('l') then
-    gPlayer.stateMachine:change('player-meditate')
-    self.saveUtility:loadPlayerData()
+    --gPlayer.stateMachine:change('player-meditate')
+    --self.saveUtility:loadPlayerData()
   end
   --]]
 
@@ -849,7 +852,7 @@ function PlayState:render()
     --love.graphics.print('1 2 is: ' .. tostring(gItemInventory.grid[1][2][1].type), 0, 20)
     end
     --DEBUG
-    --love.graphics.print(tostring(DESERT_SHORTCUT_UNLOCKED), 0, 0)
+    --love.graphics.print(tostring(#MAP[sceneView.currentMap.row][sceneView.currentMap.column].animatables), 0, 0)
 end
 
 function displayFPS()
