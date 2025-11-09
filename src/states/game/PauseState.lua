@@ -27,6 +27,7 @@ function PauseState:update(dt)
 
   if INPUT:pressed('start') then
     sfx['pause3']:play()
+    gItemInventory.itemCursor:blinkReset()
     luteState = false
     gPlayer.focusIndicatorX = 0
 
