@@ -183,6 +183,21 @@ function RefineryState:render()
 
   if sceneView.activeDialogueID ~= nil then
     MAP[self.row][self.column].dialogueBox[self.dialogueID]:render()
+  elseif self.activeDialogueID == nil then
+    love.graphics.setColor(255/255, 0/255, 0/255, gPlayer.magicHudOpacity/255)
+    love.graphics.rectangle('fill', 0, SCREEN_HEIGHT_LIMIT - 4, gPlayer.manis, 2)
+
+    --CAST BAR RENDER
+    love.graphics.setColor(0,0,0, gPlayer.magicHudOpacity/255)
+    love.graphics.rectangle('fill', 0, SCREEN_HEIGHT_LIMIT + 2 - 4, 100, 2)
+
+    --SUCCESSFUL CAST RANGE
+    love.graphics.setColor(0,1,0, gPlayer.magicHudOpacity/255)
+    love.graphics.rectangle('fill', 65, SCREEN_HEIGHT_LIMIT + 2 - 4, 20, 2)
+
+    --FOCUS INDICATOR
+    love.graphics.setColor(1,1,1, gPlayer.magicHudOpacity/255)
+    love.graphics.rectangle('fill', gPlayer.focusIndicatorX, SCREEN_HEIGHT_LIMIT + 2 - 4, 2, 2)
   end
 
   --love.graphics.print('furnace: ' .. tostring(FURNACE.frame), 0, 0)
