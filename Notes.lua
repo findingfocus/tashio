@@ -39,8 +39,9 @@ __Sweat when pushing without tunic of strength
 
 
 Next Episode
-__Add better Mage text for open
-__Factor out distanceToPlayer into entity class
+__Cursor blink reset when item inventory up
+__Proper tome 1 enscription
+
 __BUGFIX bats flying after chestOpen
 __Improve distanceToPlayer in Bat Entity
 __Add entity to collidable map objects collision
