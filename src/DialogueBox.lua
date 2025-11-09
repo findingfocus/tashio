@@ -308,7 +308,22 @@ function DialogueBox:clearAButtonCount()
   end
 end
 
-function DialogueBox:clear()
+function DialogueBox:handleNo()
+    self.activated = false
+    self:clearAButtonCount()
+    treasureChestOption = false
+    for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+      if v.classType == 'treasureChest' then
+        v.showOffItem = false
+      end
+    end
+    PAUSED = false
+    self:flushText()
+    sceneView.activeDialogueID = nil
+    self.currentPage = 1
+end
+
+function DialogueBox:handleYes()
   --END OF PAGE
   if self.restButtonCount == 2 then
     if self.restYes then
@@ -331,6 +346,7 @@ function DialogueBox:clear()
     self:flushText()
     sceneView.activeDialogueID = nil
     self.currentPage = 1
+
     if self.meditateOption then
       if self.meditateYes then
         gPlayer.stateMachine:change('player-meditate')
@@ -339,11 +355,12 @@ function DialogueBox:clear()
       else
         --RESET DEFAULT VALUE
         self.meditateYes = true
+        gPlayer.stateMachine:change('player-idle')
       end
     elseif self.restOption then
       if self.restYes then
-        gPlayer.stateMachine:change('player-meditate')
         gPlayer.flammeVibrancy = 0
+        gPlayer.stateMachine:change('player-meditate')
         self.saveDataUtility:savePlayerData()
         --[[
         MAP[2][11].dialogueBox[2].aButtonCount = MAP[2][11].dialogueBox[2].aButtonCount + 1
@@ -353,6 +370,7 @@ function DialogueBox:clear()
         --]]
       else
         --RESET DEFAULT VALUE
+        gPlayer.stateMachine:change('player-idle')
         self.restYes = true
       end
     end
@@ -423,7 +441,7 @@ function DialogueBox:update(dt)
     self.finishedPrinting = true
     --MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided = {}
     self:flushText()
-    self:clear()
+    self:handleNo()
     sceneView.activeDialogueID = nil
   end
 
@@ -507,7 +525,7 @@ function DialogueBox:update(dt)
               self.restButtonCount = 0
               self:reinit('Rest?')
               self:flushText()
-              self:clear()
+              self:handleYes()
               return
             end
           elseif self.restButtonCount == 2 then
