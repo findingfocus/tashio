@@ -69,7 +69,7 @@ function PlayerIdleState:render()
     end
   end
 
-  if self.player.elementEquipped == 'flamme' then
+  if self.player.elementEquipped == 'flamme' and not self.player.showOff then
     love.graphics.setColor(gKeyItemInventory.elementColor)
     love.graphics.draw(gTextures['character-element'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
   end
