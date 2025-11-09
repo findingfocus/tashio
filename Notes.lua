@@ -39,8 +39,9 @@ __Sweat when pushing without tunic of strength
 
 
 Next Episode
-__Cursor blink reset when item inventory up
+X__Cursor blink reset when item inventory up
 __Proper tome 1 enscription
+__Element Showoff Red
 
 __BUGFIX bats flying after chestOpen
 __Improve distanceToPlayer in Bat Entity
