@@ -363,7 +363,7 @@ function Player:update(dt)
     --FOCUS GAIN
     if (INPUT:down('action') and not luteState) or (buttons[1].fireSpellPressed and not luteState) then
       self.timeAtZeroFocus = 0
-      if gPlayer.elementEquipped == 'flamme' and not gPlayer.gameJustStarted then
+      if gPlayer.elementEquipped == 'flamme' and not gPlayer.gameJustStarted and not gPlayer.dead then
         --VIBRANCY DRAIN
         gPlayer.flammeVibrancy = math.min(100, gPlayer.flammeVibrancy + dt * 2)
 
@@ -420,6 +420,13 @@ function Player:update(dt)
       self.unFocus = 0
       self.focusIndicatorX = math.max(self.focusIndicatorX - FOCUS_DRAIN * dt, 0)
     end
+  end
+
+  if gPlayer.dead then
+      self.manis = math.min(self.manis + MANIS_REGEN * dt, self.manisMax)
+      --UNFOCUS DRAIN
+      self.unFocus = 0
+      self.focusIndicatorX = math.max(self.focusIndicatorX - FOCUS_DRAIN * dt, 0)
   end
 
 
