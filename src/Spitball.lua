@@ -79,6 +79,9 @@ function Spitball:update(dt)
     end
     self.remove = true
   end
+  if #MAP[sceneView.currentMap.row][sceneView.currentMap.column].attacks > 10 then
+    self.remove = true
+  end
 end
 
 function Spitball:render()
