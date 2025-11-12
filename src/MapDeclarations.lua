@@ -1151,6 +1151,10 @@ table.insert(MAP[3][5].collidableMapObjects, Pushable(10, 4, 'boulder'))
 --ICE MOUNTAIN
 table.insert(MAP[3][5].dialogueBox, DialogueBox(TILE_SIZE * 9 - TILE_SIZE, TILE_SIZE * 3 - TILE_SIZE, 'Mount Wutai is off limits during blizzards. ', 'signpost', nil, 2 ))
 
+
+--TOME 1
+table.insert(MAP[9][2].dialogueBox, DialogueBox(TILE_SIZE * 8 - TILE_SIZE, TILE_SIZE * 2 - TILE_SIZE, 'The inscription has faded, yet there is a symbol etched in the bottom corner. ', 'signpost', nil, 1 ))
+
 --DUNGEON 1 EXIT
 insertWarpZone(7, 6, 4, 13, 9, 4, 9, 8)
 
