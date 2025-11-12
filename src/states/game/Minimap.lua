@@ -246,6 +246,7 @@ function Minimap:render()
     love.graphics.print('[' .. tostring(self.row) .. '][' .. tostring(self.column) .. ']', 1, 1)
   else
     love.graphics.setColor(BLACK)
+    love.graphics.setFont(classicFont)
     love.graphics.print('???', 5, VIRTUAL_HEIGHT - 15)
   end
 end

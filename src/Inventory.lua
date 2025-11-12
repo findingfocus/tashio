@@ -308,14 +308,6 @@ function Inventory:render(cursorRender)
     end
   end
 
-  if gPlayer.elementEquipped == 'flamme' then
-    love.graphics.setColor(WHITE)
-    love.graphics.draw(flamme2, VIRTUAL_WIDTH - 86 - 5, VIRTUAL_HEIGHT - 8 - 5)
-  else
-    --love.graphics.setColor(self.elementColor)
-    --love.graphics.circle('fill', VIRTUAL_WIDTH - 86, VIRTUAL_HEIGHT - 8, 6)
-  end
-
   if gPlayer.flammeUnlocked then
     love.graphics.setColor(WHITE)
     love.graphics.draw(flamme, KEYITEM_XOFFSET + 1, KEYITEM_YOFFSET + 1)
@@ -329,5 +321,18 @@ function Inventory:render(cursorRender)
   if self.tome1Equipped then
     love.graphics.setColor(WHITE)
     love.graphics.draw(tome1, VIRTUAL_WIDTH - 12 - TILE_SIZE * 3 + 5, 5)
+  end
+
+  if gPlayer.elementEquipped == 'flamme' then
+    --EMPTY VIBRANCY BAR
+    love.graphics.setColor(255/255, 30/255, 30/255, 255/255)
+    love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, 10)
+    --VIBRANCY BAR
+    love.graphics.setColor(30/255, 30/255, 30/255, 255/255)
+    love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, gPlayer.flammeVibrancy / 10)
+    --love.graphics.print('vibrancy: ' .. tostring(gPlayer.flammeVibrancy), 0, 0)
+    --A SLOT SPELL SLOT
+    love.graphics.setColor(WHITE)
+    love.graphics.draw(flamme2, VIRTUAL_WIDTH / 2 - 11 , VIRTUAL_HEIGHT - 13)
   end
 end
