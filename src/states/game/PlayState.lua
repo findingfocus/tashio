@@ -444,7 +444,7 @@ function PlayState:update(dt)
   if love.keyboard.wasPressed('l') then
     --gPlayer.stateMachine:change('player-meditate')
     --self.saveUtility:loadPlayerData()
-    gPlayer.coinCount = 200
+    --gPlayer.coinCount = 200
   end
   --]]
 
