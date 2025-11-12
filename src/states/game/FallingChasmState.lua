@@ -110,6 +110,9 @@ function FallingChasmState:update(dt)
       SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
       sceneView.player.deadTimer = 0
       sceneView.player.dead = false
+      sceneView.player.hit = false
+      sceneView.player.dy = 0
+      sceneView.player.dx = 0
       self.saveUtility:loadPlayerData()
     end
   end
