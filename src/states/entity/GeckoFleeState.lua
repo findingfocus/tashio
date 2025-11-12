@@ -3,6 +3,7 @@ GeckoFleeState = Class{__includes = BaseState}
 function GeckoFleeState:init(entity, scene)
   self.entity = entity
   self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['gecko'].animations)
+  --self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['geckoC'].animations)
   self.stateName = 'flee'
   self.direction = ''
   self.entity:changeAnimation('walk-right')

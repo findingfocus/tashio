@@ -716,6 +716,23 @@ function PlayState:render()
     gPlayer.dx = 0
     gPlayer.dy = 0
     gPlayer:changeAnimation('death')
+
+    --ENTITY FLEE
+    ---[[
+    for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
+      local entityType = v.type
+      if not self.gameOver then
+        if v.type == 'gecko' then
+          v:changeState(tostring(entityType) .. '-flee')
+          if v.corrupted then
+            v.animations = v:createAnimations(ENTITY_DEFS[tostring(entityType) .. 'C'].animations)
+          else
+            v.animations = v:createAnimations(ENTITY_DEFS[tostring(entityType)].animations)
+          end
+        end
+      end
+    end
+      --]]
     self.gameOver = true
   end
   if self.gameOver then
@@ -857,7 +874,7 @@ function PlayState:render()
     --love.graphics.print('1 2 is: ' .. tostring(gItemInventory.grid[1][2][1].type), 0, 20)
     end
     --DEBUG
-    --love.graphics.print(tostring(#MAP[sceneView.currentMap.row][sceneView.currentMap.column].animatables), 0, 0)
+    love.graphics.print(tostring(#MAP[sceneView.currentMap.row][sceneView.currentMap.column].attacks), 0, 0)
 end
 
 function displayFPS()

@@ -91,7 +91,6 @@ function Entity:resetOriginalPosition()
     self.direction = self.originalDirection
     self:changeState('entity-idle')
     self:changeAnimation('idle-right')
-    --HERE
     self.animations = self:createAnimations(ENTITY_DEFS['geckoC'].animations)
   end
   self.type = self.originalType
@@ -379,6 +378,11 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
   end
 
   if self.type == 'gecko' then --IF TYPE HAS PARTICLE SYSTEM TODO
+    if self.stateMachine.current.stateName == 'flee' then
+      love.graphics.setColor(1,1,1,self.stateMachine.current.alpha/255)
+    else
+      love.graphics.setColor(WHITE)
+    end
     love.graphics.draw(self.psystem, math.floor(adjacentOffsetX), math.floor(adjacentOffsetY))
   end
 
