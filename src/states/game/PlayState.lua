@@ -874,7 +874,7 @@ function PlayState:render()
     --love.graphics.print('1 2 is: ' .. tostring(gItemInventory.grid[1][2][1].type), 0, 20)
     end
     --DEBUG
-    love.graphics.print(tostring(#MAP[sceneView.currentMap.row][sceneView.currentMap.column].attacks), 0, 0)
+    --love.graphics.print(tostring(#MAP[sceneView.currentMap.row][sceneView.currentMap.column].attacks), 0, 0)
 end
 
 function displayFPS()

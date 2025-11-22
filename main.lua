@@ -116,14 +116,16 @@ function love.update(dt)
   end
 
   --TOGGLE SOUNDTRACK MUTE
-  --[[
+  ---[[
   if love.keyboard.wasPressed('m') then
     if OST_VOLUME == 0 then
       OST_VOLUME = OST_DEFAULT_VOLUME
     else
       OST_VOLUME = 0
     end
-    ost[SOUNDTRACK]:setVolume(OST_VOLUME)
+    if SOUNDTRACK ~= '' then
+      ost[SOUNDTRACK]:setVolume(OST_VOLUME)
+    end
   end
   --]]
 

@@ -262,6 +262,7 @@ function Scene:update(dt)
       --COLLIDABLE MAP OBJECT COLLISION
       for k, v in pairs(sceneView.currentMap.collidableMapObjects) do
         local object = v
+
         if not v.falling then
           if self.player:leftCollidesMapObject(object) then
             self.player.x = object.x + object.width - AABB_SIDE_COLLISION_BUFFER
@@ -281,6 +282,7 @@ function Scene:update(dt)
       end
 
       for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+
         local object = v
         if not v.falling and v.active then
           if self.player:leftCollidesMapObject(object) then
@@ -406,6 +408,27 @@ function Scene:update(dt)
     end
   end
 
+  --ENTITY TO COLLIDABLE
+  --
+  for k, v in pairs(sceneView.currentMap.collidableMapObjects) do
+    local object = v
+    if not gPlayer.dead then
+      for index, entity in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
+        if entity.type == 'gecko' then
+          if entity:leftCollidesMapObject(object) then
+            entity.x = object.x + entity.width - AABB_SIDE_COLLISION_BUFFER
+          elseif entity:rightCollidesMapObject(object) then
+            entity.x = object.x - entity.width + AABB_SIDE_COLLISION_BUFFER
+          end
+          if entity:topCollidesMapObject(object) then
+            entity.y = object.y + entity.height - AABB_TOP_COLLISION_BUFFER
+          elseif entity:bottomCollidesMapObject(object) then
+            entity.y = object.y - entity.height
+          end
+        end
+      end
+    end
+  end
   --OLD PLAYER TO MAP OBJECT COLLISION DETECTION
   --[[
   for k, v in pairs(sceneView.currentMap.collidableMapObjects) do
