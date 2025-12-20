@@ -40,6 +40,9 @@ __Sweat when pushing without tunic of strength
 
 Next Episode
 X__Cursor blink reset when item inventory up
+__Weather system flush upon death
+__Fullscreen hyprland fix
+__Window in the castle
 __Proper tome 1 enscription
 __Element Showoff Red
 

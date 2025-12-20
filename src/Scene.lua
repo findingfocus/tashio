@@ -134,6 +134,10 @@ function Scene:beginShifting(shiftX, shiftY)
     end
   end
 
+  self:reinitWeather()
+end
+
+function Scene:reinitWeather()
   --WEATHER IN SCENE TRANSITION
   if MAP[self.mapRow][self.mapColumn].weather[1] ~= nil then
     if MAP[self.mapRow][self.mapColumn].weather[1] == 'BLIZZARD' then
@@ -159,6 +163,7 @@ function Scene:beginShifting(shiftX, shiftY)
   else --IF NO WEATHER IN CURRENT SCENE
     if self.particleSystem[1] ~= nil then
       self.particleSystem[1].psystems:setEmissionRate(0)
+      self.particleSystem[1].psystems:reset()
     end
   end
 end
@@ -408,23 +413,39 @@ function Scene:update(dt)
     end
   end
 
-  --ENTITY TO COLLIDABLE
+  --ENTITY TO COLLIDABLE  GECKO TO COLLIDABLE
   --
-  for k, v in pairs(sceneView.currentMap.collidableMapObjects) do
-    local object = v
+  for k, object in pairs(sceneView.currentMap.collidableMapObjects) do
     if not gPlayer.dead then
       for index, entity in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
         if entity.type == 'gecko' then
           if entity:leftCollidesMapObject(object) then
             entity.x = object.x + entity.width - AABB_SIDE_COLLISION_BUFFER
+            entity.geckoCollideCount = entity.geckoCollideCount + 1
           elseif entity:rightCollidesMapObject(object) then
             entity.x = object.x - entity.width + AABB_SIDE_COLLISION_BUFFER
+            entity.geckoCollideCount = entity.geckoCollideCount + 1
           end
           if entity:topCollidesMapObject(object) then
             entity.y = object.y + entity.height - AABB_TOP_COLLISION_BUFFER
+            entity.geckoCollideCount = entity.geckoCollideCount + 1
           elseif entity:bottomCollidesMapObject(object) then
             entity.y = object.y - entity.height
+            entity.geckoCollideCount = entity.geckoCollideCount + 1
           end
+        end
+      end
+    end
+  end
+
+  for k, gecko in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
+    if gecko.type == 'gecko' then
+      if gecko.geckoCollideCount > 60 then
+        gecko.geckoCollideCount = 0
+        if gecko.aiPath == 1 then
+          gecko.aiPath = 2
+        else
+          gecko.aiPath = 1
         end
       end
     end
