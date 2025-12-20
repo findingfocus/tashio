@@ -47,6 +47,7 @@ function Entity:init(def)
   self.walkSpeed = def.walkSpeed
   self.originalWalkSpeed = def.walkSpeed
   self.aiPath = def.aiPath
+  self.geckoCollideCount = 0
   --self.walkSpeed = math.random
   self.offscreen = false
   self.psystem = love.graphics.newParticleSystem(particle, 400)

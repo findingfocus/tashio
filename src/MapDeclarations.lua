@@ -965,7 +965,7 @@ table.insert(MAP[7][3].entities, Entity {
   health = 2,
   direction = 'left',
   type = 'gecko',
-  walkSpeed = 9,
+  walkSpeed = 14,
   aiPath = math.random(1, 2),
   corrupted = true,
   enemy = true,

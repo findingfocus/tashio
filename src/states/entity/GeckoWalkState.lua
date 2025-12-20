@@ -119,11 +119,12 @@ function GeckoWalkState:render()
   --HEALTH BARS
   ---[[
   if self.entity.type == 'gecko' then
-    --[[
-    love.graphics.setColor(1,0,0,1)
-    love.graphics.rectangle('fill', self.entity.x, self.entity.y - 1, self.entity.health * 5.3, 1)
-    love.graphics.setColor(WHITE)
-    love.graphics.print(self.entity.health, self.entity.x, self.entity.y - 5)
+    ---[[
+    --love.graphics.setColor(1,0,0,1)
+    --love.graphics.rectangle('fill', self.entity.x, self.entity.y - 1, self.entity.health * 5.3, 1)
+    -- love.graphics.setColor(WHITE)
+    -- love.graphics.print(self.entity.geckoCollideCount, self.entity.x, self.entity.y - 5)
+    -- love.graphics.print(self.entity.aiPath, self.entity.x, self.entity.y + 5)
     --]]
 
     --[[
