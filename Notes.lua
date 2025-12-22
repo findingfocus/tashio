@@ -39,13 +39,13 @@ __Sweat when pushing without tunic of strength
 
 
 Next Episode
-X__Cursor blink reset when item inventory up
-__Weather system flush upon death
-__Fullscreen hyprland fix
 __Window in the castle
-__Proper tome 1 enscription
-__Element Showoff Red
+__Gecko pushed by tashio out of bounds against tree
 
+X__Cursor blink reset when item inventory up
+X_Weather system flush upon death
+X_Fullscreen hyprland fix
+X_Proper tome 1 enscription
 __BUGFIX bats flying after chestOpen
 __Improve distanceToPlayer in Bat Entity
 __Add entity to collidable map objects collision
