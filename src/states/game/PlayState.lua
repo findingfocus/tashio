@@ -548,7 +548,7 @@ function PlayState:render()
   --]]
 
   --DEBUG PRINT
-  --[[
+  ---[[
   if love.keyboard.isDown('5') then
     love.graphics.setColor(DEBUG_BG)
     love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)

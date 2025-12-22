@@ -5,6 +5,7 @@ local counter = 0
 local safeCounter = 0
 local pitCount = 0
 
+
 function Player:init(def)
   Entity.init(self, def)
   self.lastInput = nil
@@ -90,6 +91,25 @@ function Player:init(def)
   self.blueTunicUnlocked = false
   self.elementEquipped = ''
   self.tunicEquipped = ''
+  CHASM_TL_COLLIDE_X = self.x + 6
+  CHASM_TL_COLLIDE_Y = self.y + 10
+  CHASM_TL_COLLIDE_WIDTH = 2
+  CHASM_TL_COLLIDE_HEIGHT = 2
+
+  CHASM_TR_COLLIDE_X = self.x + self.width - 8
+  CHASM_TR_COLLIDE_Y = self.y + 10
+  CHASM_TR_COLLIDE_WIDTH = 2
+  CHASM_TR_COLLIDE_HEIGHT = 2
+
+  CHASM_BL_COLLIDE_X = self.x + 6
+  CHASM_BL_COLLIDE_Y = self.y + self.height - 2
+  CHASM_BL_COLLIDE_WIDTH = 2
+  CHASM_BL_COLLIDE_HEIGHT = 2
+
+  CHASM_BR_COLLIDE_X = self.x + self.width - 8
+  CHASM_BR_COLLIDE_Y = self.y + self.height - 2
+  CHASM_BR_COLLIDE_WIDTH = 2
+  CHASM_BR_COLLIDE_HEIGHT = 2
 end
 
 function Player:saveDataTable()
@@ -245,25 +265,6 @@ end
 function Player:update(dt)
   self.prevX = self.x
   self.prevY = self.y
-  CHASM_TL_COLLIDE_X = self.x + 6
-  CHASM_TL_COLLIDE_Y = self.y + 10
-  CHASM_TL_COLLIDE_WIDTH = 2
-  CHASM_TL_COLLIDE_HEIGHT = 2
-
-  CHASM_TR_COLLIDE_X = self.x + self.width - 8
-  CHASM_TR_COLLIDE_Y = self.y + 10
-  CHASM_TR_COLLIDE_WIDTH = 2
-  CHASM_TR_COLLIDE_HEIGHT = 2
-
-  CHASM_BL_COLLIDE_X = self.x + 6
-  CHASM_BL_COLLIDE_Y = self.y + self.height - 2
-  CHASM_BL_COLLIDE_WIDTH = 2
-  CHASM_BL_COLLIDE_HEIGHT = 2
-
-  CHASM_BR_COLLIDE_X = self.x + self.width - 8
-  CHASM_BR_COLLIDE_Y = self.y + self.height - 2
-  CHASM_BR_COLLIDE_WIDTH = 2
-  CHASM_BR_COLLIDE_HEIGHT = 2
 
   if not self.graveyard and not self.falling and not self.chasmFalling then
     self.checkPointTick = self.checkPointTick + dt
