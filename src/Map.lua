@@ -126,7 +126,7 @@ function Map:update(dt)
         local entity = MAP[self.row][self.column].entities[i]
         if MAP[self.row][self.column].entities[i].corrupted then
           if sceneView.player:topCollidesMapObject(entity) then
-            entity.y = sceneView.player.y - sceneView.player.height + 9
+            --entity.y = sceneView.player.y - sceneView.player.height + 9
             if not sceneView.player.damageFlash then
               local soundOption = math.random(2)
               tashioHurt[soundOption]:play()
@@ -136,7 +136,7 @@ function Map:update(dt)
               sceneView.player.health = sceneView.player.health - 1
             end
           elseif sceneView.player:rightCollidesMapObject(entity) then
-            entity.x = sceneView.player.x + sceneView.player.width
+            --entity.x = sceneView.player.x + sceneView.player.width
             if not sceneView.player.damageFlash then
               local soundOption = math.random(2)
               tashioHurt[soundOption]:play()
@@ -146,7 +146,7 @@ function Map:update(dt)
               sceneView.player.hit = true
             end
           elseif sceneView.player:leftCollidesMapObject(entity) then
-            entity.x = sceneView.player.x - sceneView.player.width
+            --entity.x = sceneView.player.x - sceneView.player.width
             if not sceneView.player.damageFlash then
               local soundOption = math.random(2)
               tashioHurt[soundOption]:play()
@@ -156,7 +156,7 @@ function Map:update(dt)
               sceneView.player.hit = true
             end
           elseif sceneView.player:bottomCollidesMapObject(entity) then
-            entity.y = sceneView.player.y + sceneView.player.height
+            --entity.y = sceneView.player.y + sceneView.player.height
             if not sceneView.player.damageFlash then
               local soundOption = math.random(2)
               tashioHurt[soundOption]:play()
