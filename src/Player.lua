@@ -464,6 +464,12 @@ function Player:update(dt)
   if self.gameTime > .5 then
     self.gameJustStarted = false
   end
+
+  --BOUNDARY CLAMP
+  self.y = math.min(VIRTUAL_HEIGHT - 16 - 8, self.y)
+  self.y = math.max(-8, self.y)
+  self.x = math.min(VIRTUAL_HEIGHT + 8, self.x)
+  self.x = math.max(-8, self.x)
 end
 
 function Player:render()
