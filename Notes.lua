@@ -40,7 +40,7 @@ __Sweat when pushing without tunic of strength
 
 Next Episode
 __Window in the castle
-__Gecko pushed by tashio out of bounds against tree
+X_Gecko pushed by tashio out of bounds against tree
 
 X__Cursor blink reset when item inventory up
 X_Weather system flush upon death
