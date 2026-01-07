@@ -40,12 +40,6 @@ __Sweat when pushing without tunic of strength
 
 Next Episode
 __Window in the castle
-X_Gecko pushed by tashio out of bounds against tree
-
-X__Cursor blink reset when item inventory up
-X_Weather system flush upon death
-X_Fullscreen hyprland fix
-X_Proper tome 1 enscription
 __BUGFIX bats flying after chestOpen
 __Improve distanceToPlayer in Bat Entity
 __Add entity to collidable map objects collision
@@ -82,6 +76,11 @@ __Add flower anim to be transparent
 __Tweak falling trigger upon pit collision
 
 COMPLETED
+X_Gecko pushed by tashio out of bounds against tree
+X__Cursor blink reset when item inventory up
+X_Weather system flush upon death
+X_Fullscreen hyprland fix
+X_Proper tome 1 enscription
 X_Add timer for spitball spitting
 X_Prevent bat entity from moving upon player
 X_Normalize outputs based on both keyboard and touch
