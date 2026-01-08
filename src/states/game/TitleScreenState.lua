@@ -52,10 +52,13 @@ function TitleScreenState:update(dt)
   if self.step > 2 then
     if INPUT:pressed('start') or INPUT:pressed('action') then
       SAVE_DATA_NEEDS_LOADING = true
+      --gStateMachine:change('saveSelectState')
+      --OLD SINGLE STATE
+      ---[[
       gStateMachine:change('playState')
       gPlayer.stateMachine:change('player-meditate')
       gPlayer.health = 6
-      --sceneView = Scene(gPlayer, 7, 4)
+
       local animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
       gStateMachine.current.animatables = animatables
       self.saveDataUtility:loadPlayerData()
@@ -64,6 +67,8 @@ function TitleScreenState:update(dt)
       sceneView.player.deadTimer = 0
       sceneView.player.dead = false
       sounds['select']:play()
+      --]]
+      --sceneView = Scene(gPlayer, 7, 4)
     end
   end
 end
