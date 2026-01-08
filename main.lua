@@ -51,7 +51,8 @@ function love.load()
     ['refineryState'] = function() return RefineryState() end,
     ['mageIntroTopTrigger'] = function() return MageIntroTopTrigger() end,
     ['minimap'] = function() return Minimap() end,
-    ['Tome1SuccessState'] = function() return Tome1SuccessState() end
+    ['Tome1SuccessState'] = function() return Tome1SuccessState() end,
+    ['saveSelectState'] = function() return SaveSelectState() end,
   }
 
   --GAME START
