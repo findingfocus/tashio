@@ -77,7 +77,7 @@ function SaveData:savePlayerData()
   end
   --]]
 
-  local success, err = love.filesystem.write("saves/savePlayerData.bin", bitser.dumps(saveData))
+  local success, err = love.filesystem.write("saves/savePlayerData" .. SAVEFILE_SELECT .. ".bin", bitser.dumps(saveData))
   if success then
     print("Game saved successfully!")
   else
@@ -93,7 +93,7 @@ function SaveData:loadPlayerData()
     return
   end
 
-  local saveDataExists = love.filesystem.getInfo("saves/savePlayerData.bin")
+  local saveDataExists = love.filesystem.getInfo("saves/savePlayerData" .. SAVEFILE_SELECT .. ".bin")
 
   if saveDataExists == nil then
     print("No saveDataExists data found, starting new game.")
@@ -107,7 +107,7 @@ function SaveData:loadPlayerData()
     TUTORIAL_COMPLETED = true
   end
 
-  local load = bitser.loadLoveFile("saves/savePlayerData.bin")
+  local load = bitser.loadLoveFile("saves/savePlayerData" .. SAVEFILE_SELECT .. ".bin")
   for k, v in pairs(load) do
     if k == 'health' then
       gPlayer.health = v
