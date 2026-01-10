@@ -106,7 +106,6 @@ function PlayerWalkState:update(dt)
           end
 
           if gPlayer.direction == 'left' then
-            gPlayer.pushing = true
             gPlayer:changeAnimation('push-left')
           end
           gPlayer.x = v.x + v.width - AABB_SIDE_COLLISION_BUFFER
@@ -121,7 +120,6 @@ function PlayerWalkState:update(dt)
             end
           end
           if gPlayer.direction == 'right' then
-            gPlayer.pushing = true
             gPlayer:changeAnimation('push-right')
           end
           gPlayer.x = v.x - gPlayer.width + 1
@@ -137,7 +135,6 @@ function PlayerWalkState:update(dt)
           end
           topCollidesCount = topCollidesCount + 1
           if gPlayer.direction == 'up' then
-            gPlayer.pushing = true
             gPlayer:changeAnimation('push-up')
           end
           gPlayer.y = v.y + v.height - AABB_TOP_COLLISION_BUFFER
@@ -152,16 +149,13 @@ function PlayerWalkState:update(dt)
             end
           end
           if gPlayer.direction == 'down' then
-            gPlayer.pushing = true
             gPlayer:changeAnimation('push-down')
           end
           gPlayer.y = v.y - gPlayer.height
         end
       end
     end
-    if collideCount == 0 then
-      gPlayer.pushing = false
-    end
+
   end
   --PLAYER TO MAP OBJECT COLLISION DETECTION
   ---[[
@@ -184,6 +178,14 @@ function PlayerWalkState:update(dt)
     end
   end
   --]]
+  if self.player.currentAnimation == self.player.animations['push-right'] or
+    self.player.currentAnimation == self.player.animations['push-left'] or
+    self.player.currentAnimation == self.player.animations['push-up'] or
+    self.player.currentAnimation == self.player.animations['push-down'] then
+    gPlayer.pushing = true
+  else
+    gPlayer.pushing = false
+  end
 end
 
 function PlayerWalkState:render()
@@ -193,8 +195,18 @@ function PlayerWalkState:render()
   love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
   --love.graphics.print('timer: ' .. tostring(self.player.animations['walk-down'].timer), 5, 55)
   if not self.player.falling then
-    if self.player.currentAnimation == self.player.animations['walk-right'] or (self.player.currentAnimation == self.player.animations['walk-left']) or (self.player.currentAnimation == self.player.animations['walk-up']) or (self.player.currentAnimation == self.player.animations['walk-down']) then
-      if not self.player.showOff then
+    if not self.player.showOff then
+      if gPlayer.pushing then
+        if self.player.tunicEquipped == 'blueTunic' then
+          love.graphics.draw(gTextures['character-push-blueTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+        elseif self.player.tunicEquipped == 'redTunic' then
+          love.graphics.draw(gTextures['character-push-redTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+        elseif self.player.tunicEquipped == 'greenTunic' then
+          love.graphics.draw(gTextures['character-push-greenTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+        elseif self.player.tunicEquipped == 'yellowTunic' then
+          love.graphics.draw(gTextures['character-push-yellowTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+        end
+      else
         if self.player.tunicEquipped == 'blueTunic' then
           love.graphics.draw(gTextures['character-blueTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
         elseif self.player.tunicEquipped == 'redTunic' then
@@ -203,23 +215,6 @@ function PlayerWalkState:render()
           love.graphics.draw(gTextures['character-greenTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
         elseif self.player.tunicEquipped == 'yellowTunic' then
           love.graphics.draw(gTextures['character-yellowTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-        end
-      end
-    elseif self.player.currentAnimation == self.player.animations['push-right'] or self.player.animations['push-left'] or self.player.animations['push-up'] or self.player.animations['push-down'] then
-      for k, v in ipairs(MAP[sceneView.mapRow][sceneView.mapColumn].collidableMapObjects) do
-        if v.classType == 'pushable' then
-          gPlayer.pushable = true
-          if gPlayer:leftCollidesMapObject(v) or gPlayer:rightCollidesMapObject(v) or gPlayer:topCollidesMapObject(v) or gPlayer:bottomCollidesMapObject(v) then
-            if self.player.tunicEquipped == 'blueTunic' then
-              love.graphics.draw(gTextures['character-push-blueTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-            elseif self.player.tunicEquipped == 'redTunic' then
-              love.graphics.draw(gTextures['character-push-redTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-            elseif self.player.tunicEquipped == 'greenTunic' then
-              love.graphics.draw(gTextures['character-push-greenTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-            elseif self.player.tunicEquipped == 'yellowTunic' then
-              love.graphics.draw(gTextures['character-push-yellowTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-            end
-          end
         end
       end
     end
@@ -234,6 +229,13 @@ function PlayerWalkState:render()
       love.graphics.draw(gTextures['character-fall-yellowTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
     end
   end
+
+  --[[
+    if self.player.currentAnimation == self.player.animations['push-right'] or
+      self.player.currentAnimation == self.player.animations['push-left'] or
+      self.player.currentAnimation == self.player.animations['push-up'] or
+      self.player.currentAnimation == self.player.animations['push-down'] then
+    --]]
 
   --ELEMENT IN HAND
   if self.player.elementEquipped == 'flamme' then
