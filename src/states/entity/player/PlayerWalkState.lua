@@ -205,7 +205,10 @@ function PlayerWalkState:render()
           love.graphics.draw(gTextures['character-yellowTunic'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
         end
       end
-    elseif self.player.currentAnimation == self.player.animations['push-right'] or self.player.animations['push-left'] or self.player.animations['push-up'] or self.player.animations['push-down'] then
+    elseif self.player.currentAnimation == self.player.animations['push-right'] or
+      self.player.currentAnimation == self.player.animations['push-left'] or
+      self.player.currentAnimtation == self.player.animations['push-up'] or
+      self.player.currentAnimation == self.player.animations['push-down'] then
       for k, v in ipairs(MAP[sceneView.mapRow][sceneView.mapColumn].collidableMapObjects) do
         if v.classType == 'pushable' then
           gPlayer.pushable = true
