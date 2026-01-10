@@ -14,10 +14,12 @@ function Player:init(def)
   self.health = 6
   self.gameJustStarted = true
   self.gameTime = 0
+  self.timeSinceLastRest = 0
   --self.health = 1
   self.heartTimer = heartSpeed
   self.decrement = true
   self.dead = false
+  self.justRested = false
   self.showOff = false
   self.warpObject = nil
   self.checkPointPositions = {x = 0, y = 0}
@@ -300,6 +302,9 @@ function Player:update(dt)
     self.deadTimer = self.deadTimer + dt
   end
 
+  --REST TIME
+  self.timeSinceLastRest = self.timeSinceLastRest + dt
+
   healthDifference = totalHealth - self.health
   HEART_CROP = math.max(56 - (4 * healthDifference), 0)
 
@@ -366,7 +371,7 @@ function Player:update(dt)
       self.timeAtZeroFocus = 0
       if gPlayer.elementEquipped == 'flamme' and not gPlayer.gameJustStarted and not gPlayer.dead then
         --VIBRANCY DRAIN
-        gPlayer.flammeVibrancy = math.min(100, gPlayer.flammeVibrancy + dt * 2)
+        gPlayer.flammeVibrancy = math.min(VIBRANCY_MAX, gPlayer.flammeVibrancy + dt * 2)
 
         --UNFOCUS
         if (self.unFocus < self.focusMax) and self.unFocusGrowing then
@@ -430,13 +435,17 @@ function Player:update(dt)
       self.focusIndicatorX = math.max(self.focusIndicatorX - FOCUS_DRAIN * dt, 0)
   end
 
-
   sfx['fire-blast-spinning2']:setVolume(self.fireSpellVolume)
+
+  --SUCCESSFUL CAST
   if self.focusIndicatorX >= 65 and self.focusIndicatorX <= 85 then
-    successfulCast = true
-    self.fireSpellVolume = math.min(self.fireSpellVolume + dt, 0.5)
-    if not sfx['fire-blast-spinning2']:isPlaying() then
-      sfx['fire-blast-spinning2']:play()
+    --VIBRANCY CHECK
+    if gPlayer.flammeVibrancy < VIBRANCY_MAX then
+      successfulCast = true
+      self.fireSpellVolume = math.min(self.fireSpellVolume + dt, 0.5)
+      if not sfx['fire-blast-spinning2']:isPlaying() then
+        sfx['fire-blast-spinning2']:play()
+      end
     end
   else
     self.fireSpellVolume = math.max(0, self.fireSpellVolume - dt / 2)
@@ -457,6 +466,10 @@ function Player:update(dt)
       end
       self.timeAtZeroFocus = self.timeAtZeroFocus + dt
     end
+  end
+
+  if gPlayer.timeSinceLastRest < 1 then
+    self.magicHudOpacity = 0
   end
 
   self.gameTime = self.gameTime + dt

@@ -474,10 +474,14 @@ function DialogueBox:update(dt)
             sceneView.activeDialogueID = nil
             self.currentPage = 1
 
+            --MEDITATE
             if self.meditateOption then
               if self.meditateYes then
                 gPlayer.stateMachine:change('player-meditate')
                 gPlayer.flammeVibrancy = 0
+                gPlayer.manis = gPlayer.manisMax
+                gPlayer.timeSinceLastRest = 0
+                gPlayer.focusIndicatorX = 0
                 if not self.restOption then
                   sfx['idol-gong1']:play()
                 end
