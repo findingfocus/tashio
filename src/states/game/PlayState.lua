@@ -244,15 +244,23 @@ function PlayState:update(dt)
       self.gameOver = false
       MAP[sceneView.currentMap.row][sceneView.currentMap.column].attacks = {}
       if self.optionSelector == 2 then
+        --QUIT GAME
+        love.event.quit()
+        ---[[
         gStateMachine:change('titleState')
         sounds['select']:play()
         gStateMachine.current.step = 3
         gPlayer.health = 6
-        gPlayer.x = 60
-        gPlayer.y = 80
+        --gPlayer.x = 60
+        --gPlayer.y = 80
+        --]]
       elseif self.optionSelector == 1 then
         --CONTINUE GAME FROM NON CHASM DEATH
         --LOAD LAST SAVE
+        gPlayer.invulnerable = true
+        for i = 1, #MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities do
+          MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities[i]:resetOriginalPosition()
+        end
         gStateMachine:change('playState')
         sounds['select']:play()
         gPlayer.stateMachine:change('player-meditate')

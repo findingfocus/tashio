@@ -94,6 +94,8 @@ function FallingChasmState:update(dt)
 
   if INPUT:pressed('start') or INPUT:pressed('action') then
     if self.optionSelector == 2 then
+      --QUIT GAME FOR RELEASE
+      love.event.quit()
       gStateMachine:change('titleState')
       gStateMachine.current.step = 3
       gPlayer.health = 6
@@ -103,6 +105,10 @@ function FallingChasmState:update(dt)
     elseif self.optionSelector == 1 then
       --CONTINUE GAME
       --LOAD LAST SAVE
+      gPlayer.invulnerable = true
+      for i = 1, #MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities do
+        MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities[i]:resetOriginalPosition()
+      end
       SAVE_DATA_NEEDS_LOADING = true
       gStateMachine:change('playState')
       gPlayer.stateMachine:change('player-meditate')

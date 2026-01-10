@@ -413,7 +413,7 @@ function Scene:update(dt)
     end
   end
 
-  --ENTITY TO COLLIDABLE  GECKO TO COLLIDABLE
+  --ENTITY TO COLLIDABLE  GECKO TO COLLIDABLE GECKO COLLIDE
   --
   for k, object in pairs(sceneView.currentMap.collidableMapObjects) do
     if not gPlayer.dead then

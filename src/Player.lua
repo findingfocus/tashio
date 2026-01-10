@@ -15,6 +15,8 @@ function Player:init(def)
   self.gameJustStarted = true
   self.gameTime = 0
   self.timeSinceLastRest = 0
+  self.invulnerableTime = 0
+  self.invulnerable = true
   --self.health = 1
   self.heartTimer = heartSpeed
   self.decrement = true
@@ -304,6 +306,10 @@ function Player:update(dt)
 
   --REST TIME
   self.timeSinceLastRest = self.timeSinceLastRest + dt
+  self.invulnerableTime = self.invulnerableTime + dt
+  if self.invulnerableTime > 1 then
+    self.invulnerable = false
+  end
 
   healthDifference = totalHealth - self.health
   HEART_CROP = math.max(56 - (4 * healthDifference), 0)

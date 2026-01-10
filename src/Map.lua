@@ -127,7 +127,7 @@ function Map:update(dt)
         if MAP[self.row][self.column].entities[i].corrupted then
           if sceneView.player:topCollidesMapObject(entity) then
             --entity.y = sceneView.player.y - sceneView.player.height + 9
-            if not sceneView.player.damageFlash then
+            if not sceneView.player.damageFlash and not sceneView.player.invulnerable then
               local soundOption = math.random(2)
               tashioHurt[soundOption]:play()
               sceneView.player.hit = true
