@@ -325,9 +325,11 @@ function PlayState:update(dt)
     end
   end
 
+  --[[
   if love.keyboard.wasPressed('c') and not self.gameOver then
     creditSequence = creditSequence == false and true or false
   end
+  --]]
 
   --self.rainSystem:update(dt)
   --self.snowSystem:update(dt)
