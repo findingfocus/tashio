@@ -79,6 +79,11 @@ function SaveData:savePlayerData()
 
   local success, err = love.filesystem.write("saves/savePlayerData.bin", bitser.dumps(saveData))
   if success then
+    SERIALIZED_DATA = bitser.dumps(gItemInventory.itemSlot[1]:serialize())
+    local deserializedTable = bitser.loads(SERIALIZED_DATA)
+    NEW_DATA = gItemInventory.itemSlot[1].deserialize(deserializedTable)
+    --local newItem = gItemInventory.itemSlot[1].
+    --print("DATA IS: " .. Inspect(serializedData))
     print("Game saved successfully!")
   else
     print("Error saving game: " .. (err or "Unknown error"))

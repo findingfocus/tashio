@@ -31,6 +31,20 @@ function Item:init(option, quantity)
   --]]
 end
 
+function Item.serialize(self)
+  return {
+    type = self.type,
+    equipped = self.equipped,
+  }
+end
+
+function Item.deserialize(data)
+  local item = setmetatable({}, Item)
+  item.type = data.type
+  item.equipped = data.equipped
+  return item
+end
+
 function Item:equip()
   self.x = 13
   self.y = VIRTUAL_HEIGHT - 20

@@ -883,7 +883,9 @@ function PlayState:render()
     else
     --love.graphics.print('1 2 is: ' .. tostring(gItemInventory.grid[1][2][1].type), 0, 20)
     end
-    --DEBUG
+  if NEW_DATA ~= nil then
+   love.graphics.print(Inspect(NEW_DATA), 0, 0)
+  end
 end
 
 function displayFPS()
