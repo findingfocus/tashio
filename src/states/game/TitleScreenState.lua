@@ -8,7 +8,7 @@ function TitleScreenState:init()
   self.lavaSystem = LavaSystem()
   self.saveDataUtility = SaveData()
   self.logo = love.graphics.newImage('graphics/FindingFocus.png')
-  self.step = 1
+  self.step = 3
   self.logoAlpha = 0
   self.titleAlpha = 0
   self.logoTimer = 0

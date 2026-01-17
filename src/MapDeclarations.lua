@@ -33,8 +33,6 @@ for k, v in pairs(globalMap.layers[3].data) do
   topLevelTiledMap[k] = v
 end
 
-
-
 --tiledMapCount = #tiledMap
 for i = 1, OVERWORLD_MAP_HEIGHT do
   for j = 1, OVERWORLD_MAP_WIDTH do

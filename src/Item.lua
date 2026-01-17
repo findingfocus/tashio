@@ -31,17 +31,26 @@ function Item:init(option, quantity)
   --]]
 end
 
-function Item.serialize(self)
+function Item:serialize()
   return {
     type = self.type,
+    quantity = self.quantity,
     equipped = self.equipped,
+    id = self.id
   }
 end
 
 function Item.deserialize(data)
-  local item = setmetatable({}, Item)
-  item.type = data.type
-  item.equipped = data.equipped
+  if not data or not data.type then return nil end
+ 
+  local item = Item(data.type)
+
+  if item then
+    item.quantity = data.quantity
+    item.equipped = data.equipped or false
+    item.id = data.id
+  end
+
   return item
 end
 

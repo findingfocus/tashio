@@ -23,8 +23,12 @@ gItems = {}
 --TOGGLE DEMO
 --DEMO EQUIP
 --LUTE EQUIP
---table.insert(gItemInventory.grid[1][1], Item('lute'))
---table.insert(gItemInventory.grid[1][2], Item('healthPotion', 3))
+--[[
+table.insert(gItemInventory.grid[1][1], Item('lute', nil, 20))
+table.insert(gItemInventory.grid[1][2], Item('healthPotion', 21))
+table.insert(gItemInventory.grid[1][3], Item('berry', 20))
+table.insert(gItemInventory.grid[2][1], Item('berry', 21))
+--]]
 
 local vibrancy = 0
 local vibrancyGrow = true
@@ -593,12 +597,16 @@ function PlayState:render()
   --]]
 
   --CHEATER TOGGLE
-  --[[
+  ---[[
   if love.keyboard.isDown('9') then
     love.graphics.setColor(WHITE)
     --love.graphics.print('flammeLvl: ' .. tostring(gPlayer.flammeUpgradeLevel), 0, 0)
     --gPlayer.rubyCount = 100
-    gPlayer.coinCount = 15
+    --gPlayer.coinCount = 15
+    table.insert(gItemInventory.grid[1][1], Item('lute', nil, 20))
+    table.insert(gItemInventory.grid[1][2], Item('healthPotion', 21))
+    table.insert(gItemInventory.grid[1][3], Item('berry', 20))
+    table.insert(gItemInventory.grid[2][1], Item('berry', 21))
   end
   --]]
 

@@ -1,0 +1,183 @@
+[1mdiff --git i/main.lua w/main.lua[m
+[1mindex 4ce379e..694efda 100644[m
+[1m--- i/main.lua[m
+[1m+++ w/main.lua[m
+[36m@@ -118,7 +118,7 @@[m [mfunction love.update(dt)[m
+   end[m
+ [m
+   --TOGGLE SOUNDTRACK MUTE[m
+[1;35m-  --[[[m
+[1;36m+[m[1;36m  ---[[[m
+   if love.keyboard.wasPressed('m') then[m
+     if OST_VOLUME == 0 then[m
+       OST_VOLUME = OST_DEFAULT_VOLUME[m
+[1mdiff --git i/src/Item.lua w/src/Item.lua[m
+[1mindex 1dc14b9..6fe1afa 100644[m
+[1m--- i/src/Item.lua[m
+[1m+++ w/src/Item.lua[m
+[36m@@ -31,17 +31,26 @@[m [mfunction Item:init(option, quantity)[m
+   --]][m
+ end[m
+ [m
+[31m-function Item.serialize(self)[m
+[32m+[m[32mfunction Item:serialize()[m
+   return {[m
+     type = self.type,[m
+[32m+[m[32m    quantity = self.quantity,[m
+     equipped = self.equipped,[m
+[32m+[m[32m    id = self.id[m
+   }[m
+ end[m
+ [m
+ function Item.deserialize(data)[m
+[31m-  local item = setmetatable({}, Item)[m
+[31m-  item.type = data.type[m
+[31m-  item.equipped = data.equipped[m
+[32m+[m[32m  if not data or not data.type then return nil end[m
+[32m+[m[41m [m
+[32m+[m[32m  local item = Item(data.type)[m
+[1;36m+[m
+[32m+[m[32m  if item then[m
+[32m+[m[32m    item.quantity = data.quantity[m
+[32m+[m[32m    item.equipped = data.equipped or false[m
+[32m+[m[32m    item.id = data.id[m
+[32m+[m[32m  end[m
+[1;36m+[m
+   return item[m
+ end[m
+ [m
+[1mdiff --git i/src/MapDeclarations.lua w/src/MapDeclarations.lua[m
+[1mindex edbc9d5..c00cb0d 100644[m
+[1m--- i/src/MapDeclarations.lua[m
+[1m+++ w/src/MapDeclarations.lua[m
+[36m@@ -33,8 +33,6 @@[m [mfor k, v in pairs(globalMap.layers[3].data) do[m
+   topLevelTiledMap[k] = v[m
+ end[m
+ [m
+[1;35m-[m
+[1;35m-[m
+ --tiledMapCount = #tiledMap[m
+ for i = 1, OVERWORLD_MAP_HEIGHT do[m
+   for j = 1, OVERWORLD_MAP_WIDTH do[m
+[1mdiff --git i/src/SaveData.lua w/src/SaveData.lua[m
+[1mindex 4746e9d..3047070 100644[m
+[1m--- i/src/SaveData.lua[m
+[1m+++ w/src/SaveData.lua[m
+[36m@@ -56,8 +56,28 @@[m [mfunction SaveData:savePlayerData()[m
+     saveData['itemSlotQuantity'] = nil[m
+   end[m
+ [m
+[32m+[m[32m  saveData['inventoryGrid'] = {}[m
+[32m+[m[32m  local itemIndex = 0[m
+[32m+[m[32m  for i = 1, 4 do[m
+[32m+[m[32m    saveData['inventoryGrid'][i] = {}[m
+[32m+[m[32m    for j = 1, 3 do[m
+[32m+[m[32m      itemIndex = itemIndex + 1[m
+[32m+[m[32m      saveData['inventoryGrid'][i][j] = {}[m
+[32m+[m[32m      for k, item in ipairs(gItemInventory.grid[i][j]) do[m
+[32m+[m[32m        if item then[m
+[32m+[m[32m          item.id = itemIndex[m
+[32m+[m[32m          local itemData = item:serialize()[m
+[32m+[m[32m          table.insert(saveData['inventoryGrid'][i][j], itemData)[m
+[32m+[m[32m          print("Saved item: " .. (item.type) .. " at grid ID# " .. (item.id) .. " with quantity " .. (item.quantity))[m
+[32m+[m[32m        end[m
+[32m+[m[32m      end[m
+[32m+[m[32m    end[m
+[32m+[m[32m  end[m
+[1;36m+[m
+[32m+[m[32m  --table.insert(saveData['inventoryGrid'][1][1], gItemInventory.grid[1][1][1]:serialize())[m
+[1;36m+[m
+   --SAVE ITEM INVENTORY[m
+[1;35m-  ---[[[m
+[1;36m+[m[1;36m  --[[[m
+   if #gItemInventory.grid[1][1] > 0 then[m
+     saveData['inventoryGrid1-1Type'] = gItemInventory.grid[1][1][1].type[m
+     saveData['inventoryGrid1-1Quantity'] = gItemInventory.grid[1][1][1].quantity[m
+[36m@@ -79,11 +99,6 @@[m [mfunction SaveData:savePlayerData()[m
+ [m
+   local success, err = love.filesystem.write("saves/savePlayerData.bin", bitser.dumps(saveData))[m
+   if success then[m
+[31m-    SERIALIZED_DATA = bitser.dumps(gItemInventory.itemSlot[1]:serialize())[m
+[31m-    local deserializedTable = bitser.loads(SERIALIZED_DATA)[m
+[31m-    NEW_DATA = gItemInventory.itemSlot[1].deserialize(deserializedTable)[m
+[31m-    --local newItem = gItemInventory.itemSlot[1].[m
+[31m-    --print("DATA IS: " .. Inspect(serializedData))[m
+     print("Game saved successfully!")[m
+   else[m
+     print("Error saving game: " .. (err or "Unknown error"))[m
+[36m@@ -239,8 +254,23 @@[m [mfunction SaveData:loadPlayerData()[m
+       table.insert(gItemInventory.grid[1][2], Item(v))[m
+       gItemInventory.grid[1][2][1].quantity = load['inventoryGrid1-2Quantity'][m
+     end[m
+[32m+[m[32m    if k == 'inventoryGrid' then[m
+[32m+[m[32m      for i = 1, 4 do[m
+[32m+[m[32m        for j = 1, 3 do[m
+[32m+[m[32m          gItemInventory.grid[i][j] = {}[m
+[32m+[m[32m          if load['inventoryGrid'][i] and load['inventoryGrid'][i][j] then[m
+[32m+[m[32m            for k, itemData in ipairs(load['inventoryGrid'][i][j]) do[m
+[32m+[m[32m              local item = Item.deserialize(itemData)[m
+[32m+[m[32m              if item then[m
+[32m+[m[32m                table.insert(gItemInventory.grid[i][j], item)[m
+[32m+[m[32m                print('loaded: ' .. k .. ' as: ' .. Inspect(item))[m
+[32m+[m[32m              end[m
+[32m+[m[32m            end[m
+[32m+[m[32m          end[m
+[32m+[m[32m        end[m
+[32m+[m[32m      end[m
+[32m+[m[32m    end[m
+     --]][m
+[31m-    print('loaded: ' .. k .. ' as: ' .. tostring(v))[m
+   end[m
+ [m
+   SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost[m
+[1mdiff --git i/src/states/game/PlayState.lua w/src/states/game/PlayState.lua[m
+[1mindex b7fcc97..41da22d 100755[m
+[1m--- i/src/states/game/PlayState.lua[m
+[1m+++ w/src/states/game/PlayState.lua[m
+[36m@@ -23,8 +23,12 @@[m [mgItems = {}[m
+ --TOGGLE DEMO[m
+ --DEMO EQUIP[m
+ --LUTE EQUIP[m
+[31m---table.insert(gItemInventory.grid[1][1], Item('lute'))[m
+[31m---table.insert(gItemInventory.grid[1][2], Item('healthPotion', 3))[m
+[32m+[m[32m--[[[m
+[32m+[m[32mtable.insert(gItemInventory.grid[1][1], Item('lute', nil, 20))[m
+[32m+[m[32mtable.insert(gItemInventory.grid[1][2], Item('healthPotion', 21))[m
+[32m+[m[32mtable.insert(gItemInventory.grid[1][3], Item('berry', 20))[m
+[32m+[m[32mtable.insert(gItemInventory.grid[2][1], Item('berry', 21))[m
+[32m+[m[32m--]][m
+ [m
+ local vibrancy = 0[m
+ local vibrancyGrow = true[m
+[36m@@ -593,12 +597,16 @@[m [mfunction PlayState:render()[m
+   --]][m
+ [m
+   --CHEATER TOGGLE[m
+[1;35m-  --[[[m
+[1;36m+[m[1;36m  ---[[[m
+   if love.keyboard.isDown('9') then[m
+     love.graphics.setColor(WHITE)[m
+     --love.graphics.print('flammeLvl: ' .. tostring(gPlayer.flammeUpgradeLevel), 0, 0)[m
+     --gPlayer.rubyCount = 100[m
+[31m-    gPlayer.coinCount = 15[m
+[32m+[m[32m    --gPlayer.coinCount = 15[m
+[32m+[m[32m    table.insert(gItemInventory.grid[1][1], Item('lute', nil, 20))[m
+[32m+[m[32m    table.insert(gItemInventory.grid[1][2], Item('healthPotion', 21))[m
+[32m+[m[32m    table.insert(gItemInventory.grid[1][3], Item('berry', 20))[m
+[32m+[m[32m    table.insert(gItemInventory.grid[2][1], Item('berry', 21))[m
+   end[m
+   --]][m
+ [m
+[1mdiff --git i/src/states/game/TitleScreenState.lua w/src/states/game/TitleScreenState.lua[m
+[1mindex 5aab86d..5f1d21a 100755[m
+[1m--- i/src/states/game/TitleScreenState.lua[m
+[1m+++ w/src/states/game/TitleScreenState.lua[m
+[36m@@ -8,7 +8,7 @@[m [mfunction TitleScreenState:init()[m
+   self.lavaSystem = LavaSystem()[m
+   self.saveDataUtility = SaveData()[m
+   self.logo = love.graphics.newImage('graphics/FindingFocus.png')[m
+[31m-  self.step = 1[m
+[32m+[m[32m  self.step = 3[m
+   self.logoAlpha = 0[m
+   self.titleAlpha = 0[m
+   self.logoTimer = 0[m
