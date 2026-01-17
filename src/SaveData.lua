@@ -56,8 +56,28 @@ function SaveData:savePlayerData()
     saveData['itemSlotQuantity'] = nil
   end
 
+  saveData['inventoryGrid'] = {}
+  local itemIndex = 0
+  for i = 1, 4 do
+    saveData['inventoryGrid'][i] = {}
+    for j = 1, 3 do
+      itemIndex = itemIndex + 1
+      saveData['inventoryGrid'][i][j] = {}
+      for k, item in ipairs(gItemInventory.grid[i][j]) do
+        if item then
+          item.id = itemIndex
+          local itemData = item:serialize()
+          table.insert(saveData['inventoryGrid'][i][j], itemData)
+          print("Saved item: " .. (item.type) .. " at grid ID# " .. (item.id) .. " with quantity " .. (item.quantity))
+        end
+      end
+    end
+  end
+
+  --table.insert(saveData['inventoryGrid'][1][1], gItemInventory.grid[1][1][1]:serialize())
+
   --SAVE ITEM INVENTORY
-  ---[[
+  --[[
   if #gItemInventory.grid[1][1] > 0 then
     saveData['inventoryGrid1-1Type'] = gItemInventory.grid[1][1][1].type
     saveData['inventoryGrid1-1Quantity'] = gItemInventory.grid[1][1][1].quantity
@@ -79,11 +99,6 @@ function SaveData:savePlayerData()
 
   local success, err = love.filesystem.write("saves/savePlayerData.bin", bitser.dumps(saveData))
   if success then
-    SERIALIZED_DATA = bitser.dumps(gItemInventory.itemSlot[1]:serialize())
-    local deserializedTable = bitser.loads(SERIALIZED_DATA)
-    NEW_DATA = gItemInventory.itemSlot[1].deserialize(deserializedTable)
-    --local newItem = gItemInventory.itemSlot[1].
-    --print("DATA IS: " .. Inspect(serializedData))
     print("Game saved successfully!")
   else
     print("Error saving game: " .. (err or "Unknown error"))
@@ -239,7 +254,23 @@ function SaveData:loadPlayerData()
       table.insert(gItemInventory.grid[1][2], Item(v))
       gItemInventory.grid[1][2][1].quantity = load['inventoryGrid1-2Quantity']
     end
-    --]]
+    if k == 'inventoryGrid' then
+      for i = 1, 4 do
+        for j = 1, 3 do
+          gItemInventory.grid[i][j] = {}
+          if load['inventoryGrid'][i] and load['inventoryGrid'][i][j] then
+            for k, itemData in ipairs(load['inventoryGrid'][i][j]) do
+              local item = Item.deserialize(itemData)
+              if item then
+                table.insert(gItemInventory.grid[i][j], item)
+                print('loaded: ' .. k .. ' as: ' .. Inspect(item))
+              end
+            end
+          end
+        end
+      end
+    end
+   --]]
     print('loaded: ' .. k .. ' as: ' .. tostring(v))
   end
 
