@@ -151,8 +151,8 @@ end
 function Pushable:breakCrate()
   self.brokenCrate = true
   --TODO ADD POTENTIAL OTHER ITEMS
-  local luck = math.random(2)
-  if luck == 1 then
+  local luck = math.random(4)
+  if luck > 1 then
     table.insert(MAP[sceneView.currentMap.row][sceneView.currentMap.column].coins, Coin())
     local index = #MAP[sceneView.currentMap.row][sceneView.currentMap.column].coins
     MAP[sceneView.currentMap.row][sceneView.currentMap.column].coins[index].x = self.x + 5

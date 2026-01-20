@@ -283,7 +283,7 @@ function PlayState:update(dt)
   end
 
   --TRIGGER LUTE STATE
-  if INPUT:pressed('actionB') and gItemInventory.itemSlot[1] ~= nil then
+  if INPUT:pressed('actionB') and gItemInventory.itemSlot[1] ~= nil and not gPlayer.warping then
     if gItemInventory.itemSlot[1].type == 'lute' then
       if not luteState then
         if not sceneView.dialogueBoxActive then
@@ -307,6 +307,7 @@ function PlayState:update(dt)
     end
   end
 
+  --EXIT LUTE STATE
   if luteState then
     if INPUT:pressed('select') then
       Lute:reset()
