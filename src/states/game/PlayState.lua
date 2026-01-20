@@ -603,10 +603,17 @@ function PlayState:render()
     --love.graphics.print('flammeLvl: ' .. tostring(gPlayer.flammeUpgradeLevel), 0, 0)
     --gPlayer.rubyCount = 100
     --gPlayer.coinCount = 15
-    table.insert(gItemInventory.grid[1][1], Item('lute', nil, 20))
+    for i = 1, 2 do
+      for j = 1, 3 do
+        gItemInventory.grid[i][j] = {}
+      end
+    end
+    table.insert(gItemInventory.grid[1][1], Item('lute', nil))
     table.insert(gItemInventory.grid[1][2], Item('healthPotion', 21))
     table.insert(gItemInventory.grid[1][3], Item('berry', 20))
     table.insert(gItemInventory.grid[2][1], Item('berry', 21))
+    table.insert(gItemInventory.grid[2][2], Item('berry', 18))
+    table.insert(gItemInventory.grid[2][3], Item('berry', 17))
   end
   --]]
 

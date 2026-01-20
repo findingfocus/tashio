@@ -52,13 +52,11 @@ function PauseState:update(dt)
   --UNEQUIP ITEM
   if INPUT:pressed('select') then
     if gItemInventory.itemSlot[1] ~= nil then
-      sfx['item-equip1']:play()
-      if gItemInventory.grid[1][1][1] == nil then
-        table.insert(gItemInventory.grid[1][1], gItemInventory.itemSlot[1])
-      elseif gItemInventory.grid[1][2][1] == nil then
-        table.insert(gItemInventory.grid[1][2], gItemInventory.itemSlot[1])
+      if #gItemInventory.grid[gItemInventory.selectedRow][gItemInventory.selectedCol] == 0 then
+        table.insert(gItemInventory.grid[gItemInventory.selectedRow][gItemInventory.selectedCol], gItemInventory.itemSlot[1])
+        sfx['item-equip1']:play()
+        gItemInventory.itemSlot[1] = nil
       end
-      gItemInventory.itemSlot[1] = nil
     end
   end
 
