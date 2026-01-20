@@ -68,7 +68,7 @@ function SaveData:savePlayerData()
           item.id = itemIndex
           local itemData = item:serialize()
           table.insert(saveData['inventoryGrid'][i][j], itemData)
-          print("Saved item: " .. (item.type) .. " at grid ID# " .. (item.id) .. " with quantity " .. (item.quantity))
+          print("Saved item: " .. (item.type) .. " at grid ID# " .. (item.id) .. " with quantity " .. (item.quantity or "NIL"))
         end
       end
     end
