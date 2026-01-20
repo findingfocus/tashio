@@ -46,8 +46,21 @@ function RefineryState:update(dt)
   end
 
   --TRIGGER LUTE STATE
-  if INPUT:pressed('actionB') and gItemInventory.itemSlot[1] ~= nil then
-    if gItemInventory.itemSlot[1].type == 'healthPotion' and gPlayer.health < 14 and gItemInventory.itemSlot[1].quantity > 0 and not dialogueBoxJustClosed then
+  if INPUT:pressed('actionB') and gItemInventory.itemSlot[1] ~= nil and not gPlayer.warping then
+    if gItemInventory.itemSlot[1].type == 'lute' then
+      if not luteState then
+        if not sceneView.dialogueBoxActive then
+          if not gPlayer.dead then
+            gPlayer.direction = 'down'
+            gPlayer:changeAnimation('idle-down')
+            luteState = true
+            stopOST()
+            Lute:reset()
+            bassNotes1:reset()
+          end
+        end
+      end
+    elseif gItemInventory.itemSlot[1].type == 'healthPotion' and gPlayer.health < 14 and gItemInventory.itemSlot[1].quantity > 0 and not dialogueBoxJustClosed then
       --HEALTH POTION HEAL
       love.graphics.setColor(WHITE)
       love.graphics.print('POTION', 0,0)
@@ -56,6 +69,23 @@ function RefineryState:update(dt)
       sfx['use-potion']:play()
     end
   end
+
+  if luteState then
+    Lute:update(dt)
+    if INPUT:pressed('select') then
+      Lute:reset()
+      bassNotes1:reset()
+    end
+    if INPUT:pressed('start') then
+      sfx['pause3']:play()
+      gItemInventory.itemCursor:blinkReset()
+      luteState = false
+      gPlayer.focusIndicatorX = 0
+    end
+  end
+
+
+
   if INPUT:pressed('action') then
     --DIALOGUE DETECTION
     for k, v in pairs(MAP[self.row][self.column].dialogueBox) do
@@ -125,7 +155,6 @@ function RefineryState:update(dt)
     --]]
   end
 
-
   --DIALOGUE BOX UPDATES FOR NPCS
   for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do
     if v.option == 'npc' then
@@ -133,6 +162,7 @@ function RefineryState:update(dt)
       v.y = v.npc.y
     end
   end
+
 end
 
 function RefineryState:render()
@@ -149,12 +179,10 @@ function RefineryState:render()
     gItemInventory.itemSlot[1]:render()
   end
 
-
 ----RENDER ACTIVE UPGRADE
   if self.activeUpgrade ~= nil then
     self.activeUpgrade:render()
   end
-
 
   --[[
   love.graphics.setColor(gKeyItemInventory.elementColor)
@@ -180,7 +208,6 @@ function RefineryState:render()
     love.graphics.draw(flamme2, VIRTUAL_WIDTH / 2 - 11 , VIRTUAL_HEIGHT - 13)
   end
 
-
   if sceneView.activeDialogueID ~= nil then
     MAP[self.row][self.column].dialogueBox[self.dialogueID]:render()
   elseif self.activeDialogueID == nil then
@@ -198,6 +225,10 @@ function RefineryState:render()
     --FOCUS INDICATOR
     love.graphics.setColor(1,1,1, gPlayer.magicHudOpacity/255)
     love.graphics.rectangle('fill', gPlayer.focusIndicatorX, SCREEN_HEIGHT_LIMIT + 2 - 4, 2, 2)
+  end
+  --LUTE RENDER
+  if luteState then
+    Lute:render()
   end
 
   --love.graphics.print('furnace: ' .. tostring(FURNACE.frame), 0, 0)

@@ -6,7 +6,7 @@ end
 
 function SaveData:savePlayerData()
   local saveData = {}
-  saveData['health'] = gPlayer.health
+  saveData['health'] = math.max(gPlayer.health, 6)
   saveData['currentMapRow'] = sceneView.currentMap.row
   saveData['currentMapColumn'] = sceneView.currentMap.column
   saveData['currentMap'] = 40
