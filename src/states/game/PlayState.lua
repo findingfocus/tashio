@@ -1,4 +1,5 @@
 PlayState = Class{__includes = BaseState}
+
 successfulCast = false
 HEART_CROP = 56
 local STRING_WIDTH = 2

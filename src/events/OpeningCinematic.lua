@@ -2,24 +2,25 @@ OpeningCinematic = Class{__includes = BaseState}
 
 local mage = MAP[10][20].npc[1]
 local castleMage = MAP[10][19].npc[1]
+local minimapCooldown = MINIMAP_COOLDOWN
 
 function OpeningCinematic:init()
+  gPlayer:changeState('player-death')
+  gPlayer:changeAnimation('death')
   self.stateName = 'openingCinematic'
   self.testX = 0
   self.originalPlayerX, self.originalPlayerY = gPlayer.x, gPlayer.y
   self.animatables = {}
-  --self.originalSceneRow, self.originalSceneColumn = sceneView.currentMap.row, sceneView.currentMap.column
-  gPlayer.x = TILE_SIZE * 8
-  gPlayer.y = TILE_SIZE * 3
   sceneView.currentMap = Map(10,20, gPlayer.spellcastCount)
   sceneView.mapRow = 10
   sceneView.mapColumn = 20
   sceneView.activeDialogueID = nil
+  gPlayer.x = TILE_SIZE * 8
+  gPlayer.y = TILE_SIZE * 3
+  gPlayer.animations['death'].currentFrame = 9
+  --self.originalSceneRow, self.originalSceneColumn = sceneView.currentMap.row, sceneView.currentMap.column
   --gStateMachine.current.animatables = {}
   self.animatables = InsertAnimation(sceneView.currentMap.row, sceneView.currentMap.column)
-  gPlayer:changeState('player-death')
-  gPlayer:changeAnimation('death')
-  gPlayer.animations['death'].currentFrame = 9
   --table.insert(MAP[10][19].dialogueBoxCollided, MAP[10][19].dialogueBox[1])
   self.lavaSystem = LavaSystem()
   self.step = 1
@@ -70,6 +71,38 @@ Event.on('fadeInTutorialText', function(dt)
 end)
 
 function OpeningCinematic:update(dt)
+  if minimapCooldown > 0 then
+    minimapCooldown = minimapCooldown - dt
+  end
+  if self.step > 5 then
+    if INPUT:pressed('start') then
+      if not PAUSED and not gPlayer.dead and not luteState then
+        gStateMachine:change('pauseState')
+      end
+    end
+    --TOGGLE MINIMAP
+    if INPUT:pressed('select') and not luteState and not PAUSED and not self.gameOver and minimapCooldown < 0 then
+      sfx['pause2']:play()
+      gStateMachine:change('minimap')
+      if sceneView.currentMap.row <= 10 and sceneView.currentMap.column <= 10 then
+        gStateMachine.current.overworld = true
+      else
+        gStateMachine.current.overworld = false
+      end
+      gStateMachine.current.cursorX = sceneView.currentMap.column * 16 - 16
+      gStateMachine.current.cursorY = sceneView.currentMap.row * 13 - 13
+      gStateMachine.current.row = sceneView.currentMap.row
+      gStateMachine.current.column = sceneView.currentMap.column
+      gStateMachine.current.tashioRow = sceneView.currentMap.row
+      gStateMachine.current.tashioColumn = sceneView.currentMap.column
+      gStateMachine.current.tashioX = gPlayer.x / 16
+      gStateMachine.current.tashioY = gPlayer.y / 13
+      minimapCooldown = MINIMAP_COOLDOWN
+      --MINIMAP_ROW = sceneView.currentMap.row
+      --MINIMAP_COLUMN = sceneView.currentMap.column
+    end
+  end
+
   if not PAUSED and self.castleView then
     sceneView:update(dt)
   end
@@ -234,6 +267,45 @@ function OpeningCinematic:update(dt)
     end
   end
 
+  --LUTE NOT CURRENTLY WORKING IN OPENING CINEMATIC
+  if INPUT:pressed('actionB') and gItemInventory.itemSlot[1] ~= nil and not gPlayer.warping then
+    if gItemInventory.itemSlot[1].type == 'lute' then
+      if not luteState then
+        if not sceneView.dialogueBoxActive then
+          if not gPlayer.dead then
+            gPlayer.direction = 'down'
+            gPlayer:changeAnimation('idle-down')
+            luteState = true
+            stopOST()
+            Lute:reset()
+            bassNotes1:reset()
+          end
+        end
+      end
+    elseif gItemInventory.itemSlot[1].type == 'healthPotion' and gPlayer.health < 14 and gItemInventory.itemSlot[1].quantity > 0 and not dialogueBoxJustClosed then
+      --HEALTH POTION HEAL
+      love.graphics.setColor(WHITE)
+      love.graphics.print('POTION', 0,0)
+      gItemInventory.itemSlot[1].quantity = math.max(0, gItemInventory.itemSlot[1].quantity - 1)
+      gPlayer.health = 14
+      sfx['use-potion']:play()
+    end
+  end
+
+  if luteState then
+    Lute:update(dt)
+    if INPUT:pressed('select') then
+      Lute:reset()
+      bassNotes1:reset()
+    end
+    if INPUT:pressed('start') then
+      sfx['pause3']:play()
+      gItemInventory.itemCursor:blinkReset()
+      luteState = false
+      gPlayer.focusIndicatorX = 0
+    end
+  end
+
   if sceneView.activeDialogueID ~= nil then
       MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[sceneView.activeDialogueID]:update(dt)
   end
@@ -331,6 +403,11 @@ function OpeningCinematic:render()
   if self.fadeToBlack or self.fadeFromBlack then
     love.graphics.setColor(0/255, 0/255, 0/255, self.blackOpacity/255)
     love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
+  end
+
+  --LUTE RENDER
+  if luteState then
+    Lute:render()
   end
 
 
