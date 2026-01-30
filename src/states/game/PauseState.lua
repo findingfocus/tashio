@@ -38,12 +38,7 @@ function PauseState:update(dt)
         gStateMachine:change('playState')
       end
     else
-      if sceneView.currentMap.row == 10 and sceneView.currentMap.column == 18 then
-        gStateMachine:change('openingCinematic')
-        gStateMachine.current.step = 5
-      else
-        gStateMachine:change('mageIntroTopTrigger')
-      end
+      gStateMachine:change('mageIntroTopTrigger')
     end
   end
   if INPUT:pressed('actionB') then
