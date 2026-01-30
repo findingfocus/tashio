@@ -417,8 +417,8 @@ function Map:update(dt)
   end
 
   if sceneView.player.graveyard then
-    sceneView.player.x = SCREEN_WIDTH_LIMIT + TILE_SIZE * 2
-    sceneView.player.y = TILE_SIZE * - 2
+    sceneView.player.x = SCREEN_WIDTH_LIMIT + TILE_SIZE * 6
+    sceneView.player.y = TILE_SIZE * -4
     graveyardTimer = graveyardTimer + dt
     if graveyardTimer > .5 then
       sceneView.player.graveyard = false
