@@ -1,6 +1,7 @@
 MageIntroTopTrigger = Class{__includes = BaseState}
 
 local mage = MAP[10][19].npc[1]
+luteState = false
 
 function MageIntroTopTrigger:init()
   self.stateName = 'mageIntroTopTrigger'
@@ -20,14 +21,33 @@ end
 function MageIntroTopTrigger:update(dt)
   if not PAUSED then
     sceneView:update(dt)
+  end
+
   if INPUT:pressed('start') then
-    if not luteState then
-      if self.step == 0 or self.step == 9 then
-        sfx['pause1']:play()
-        gStateMachine:change('pauseState')
+    if not luteState and self.step == 0 then
+      sfx['pause1']:play()
+      gStateMachine:change('pauseState')
+    end
+  end
+
+  ---[[
+  --TRIGGER LUTE STATE
+  if INPUT:pressed('actionB') and gItemInventory.itemSlot[1] ~= nil and not gPlayer.warping then
+    if gItemInventory.itemSlot[1].type == 'lute' then
+      if not luteState and not sceneView.dialogueBoxActive then
+        if self.step == 0 then
+          gPlayer.direction = 'down'
+          gPlayer:changeAnimation('idle-down')
+          luteState = true
+          stopOST()
+          Lute:reset()
+          bassNotes1:reset()
+        end
       end
     end
   end
+  --]]
+
   if INPUT:pressed('select') then
     if not luteState then
       if self.step == 0 or self.step == 9 then
@@ -48,7 +68,20 @@ function MageIntroTopTrigger:update(dt)
     end
   end
 
+  if luteState then
+    Lute:update(dt)
   end
+
+  --TOGGLE LUTE OFF
+  if INPUT:pressed('start') then
+    if luteState then
+      luteState = false
+      SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
+      Lute:reset()
+      bassNotes1:reset()
+    end
+  end
+
   if gPlayer.y < TILE_SIZE - 8 and (gPlayer.x > TILE_SIZE * 4 and gPlayer.x < TILE_SIZE * 6) then
     self.option = 1
     gPlayer:changeAnimation('walk-down')
@@ -61,6 +94,10 @@ function MageIntroTopTrigger:update(dt)
     table.insert(MAP[10][19].collidableMapObjects, CollidableMapObjects(1, 6, TILE_SIZE, TILE_SIZE))
     gPlayer:changeAnimation('walk-up')
     self.step = 1
+  end
+
+  if sceneView.cameraX > VIRTUAL_WIDTH - 5 then
+    Event.dispatch('turnOffTutorialText', dt)
   end
 
   if INPUT:pressed('action') then
@@ -88,7 +125,7 @@ function MageIntroTopTrigger:update(dt)
 
   --DIALOGUE UPDATE
   if sceneView.activeDialogueID ~= nil then
-      MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[sceneView.activeDialogueID]:update(dt)
+    MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[sceneView.activeDialogueID]:update(dt)
   end
 
   if self.step == 1 then
@@ -154,25 +191,26 @@ function MageIntroTopTrigger:update(dt)
       self.step = 8
       mage:changeAnimation('walk-up')
     end
-      if MAP[10][19].dialogueBox[14].currentPage == 3 then
-        self.treasureX = gPlayer.x + 3
-        self.treasureY = gPlayer.y - 10
-        self.showOff = true
-        gPlayer:changeAnimation('showOff')
-        gPlayer.flammeUnlocked = true
-        gPlayer.showOff = true
-        mage:changeAnimation('idle-down')
-        if not TUTORIAL_COMPLETED then
-          self.saveDataUtility:savePlayerData()
-        end
-        TUTORIAL_COMPLETED = true
+    if MAP[10][19].dialogueBox[14].currentPage == 3 then
+      self.treasureX = gPlayer.x + 3
+      self.treasureY = gPlayer.y - 10
+      self.showOff = true
+      gPlayer:changeAnimation('showOff')
+      gPlayer.flammeUnlocked = true
+      gPlayer.showOff = true
+      mage:changeAnimation('idle-down')
+      if not TUTORIAL_COMPLETED then
+        self.saveDataUtility:savePlayerData()
+        sfx['open-chest']:play()
       end
-      if MAP[10][19].dialogueBox[14].currentPage == 4 then
-        self.showOff = false
-        gPlayer.showOff = false
-        gPlayer:changeAnimation('idle-up')
-        mage:changeAnimation('walk-down')
-      end
+      TUTORIAL_COMPLETED = true
+    end
+    if MAP[10][19].dialogueBox[14].currentPage == 4 then
+      self.showOff = false
+      gPlayer.showOff = false
+      gPlayer:changeAnimation('idle-up')
+      mage:changeAnimation('walk-down')
+    end
     if sceneView.activeDialogueID ~= nil then
       --MAP[10][19].dialogueBox[sceneView.activeDialogueID]:update(dt)
     end
@@ -200,6 +238,10 @@ function MageIntroTopTrigger:update(dt)
     --CHANGE TO PLAY STATE
     gPlayer:changeState('player-walk')
     gStateMachine:change('playState')
+  end
+
+  if sceneView.dialogueBoxActive then
+    sceneView.dialogueBoxActive = false
   end
 end
 
@@ -244,4 +286,16 @@ function MageIntroTopTrigger:render()
   if sceneView.activeDialogueID ~= nil then
     MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[sceneView.activeDialogueID]:render()
   end
+
+  --LUTE RENDER
+  if luteState then
+    Lute:render()
+  end
+
+  --[[
+  love.graphics.setColor(BLACK)
+  love.graphics.print('luteState: ' .. tostring(luteState), 0, 14)
+  love.graphics.print('boxActive: ' .. tostring(sceneView.dialogueBoxActive), 0, 24)
+  love.graphics.print('boxActive: ' .. tostring(sceneView.activeDialogueID), 0, 34)
+  --]]
 end

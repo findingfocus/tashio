@@ -4,26 +4,25 @@ local mage = MAP[10][20].npc[1]
 local castleMage = MAP[10][19].npc[1]
 local minimapCooldown = MINIMAP_COOLDOWN
 
+gPlayer.x = TILE_SIZE * 8
+gPlayer.y = TILE_SIZE * 3
+
 function OpeningCinematic:init()
-  gPlayer:changeState('player-death')
-  gPlayer:changeAnimation('death')
   self.stateName = 'openingCinematic'
   self.testX = 0
   self.originalPlayerX, self.originalPlayerY = gPlayer.x, gPlayer.y
   self.animatables = {}
+  self.step = 1
   sceneView.currentMap = Map(10,20, gPlayer.spellcastCount)
   sceneView.mapRow = 10
   sceneView.mapColumn = 20
   sceneView.activeDialogueID = nil
-  gPlayer.x = TILE_SIZE * 8
-  gPlayer.y = TILE_SIZE * 3
   gPlayer.animations['death'].currentFrame = 9
   --self.originalSceneRow, self.originalSceneColumn = sceneView.currentMap.row, sceneView.currentMap.column
   --gStateMachine.current.animatables = {}
   self.animatables = InsertAnimation(sceneView.currentMap.row, sceneView.currentMap.column)
   --table.insert(MAP[10][19].dialogueBoxCollided, MAP[10][19].dialogueBox[1])
   self.lavaSystem = LavaSystem()
-  self.step = 1
   self.turnTimer = 0.8
   self.turnCount = 0
   self.sleepTimer = 0

@@ -73,6 +73,10 @@ function Lute:reset()
   nextNoteTime = 0
   songFinishedTimer = 0
   missedNoteCount = 0
+  luteStringF2 = LuteString(1)
+  luteStringD1 = LuteString(2)
+  luteStringA1 = LuteString(3)
+  luteStringF1 = LuteString(4)
   --TOME EQUIPPED
 
   if gKeyItemInventory.tomeEquipped ~= 'tome1' then

@@ -47,19 +47,8 @@ function StateMachine:init(states)
 end
 
 function StateMachine:change(stateName, enterParams)
-	assert(self.states[stateName]) -- state must exist!
 	self.current:exit()
-
-  local newState
-  if self.initializedStates[stateName] then
-    newState = self.initializedStates[stateName]
-  else
-    newState = self.states[stateName]()
-    self.initializedStates[stateName] = newState
-  end
-
-	self.current = newState
-  --self.current = self.states[stateName]()
+  self.current = self.states[stateName]()
 	self.current:enter(enterParams)
 end
 
