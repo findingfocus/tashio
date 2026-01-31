@@ -240,7 +240,7 @@ function Entity:update(dt)
       self.psystem:setColors(67/255, 25/255, 36/255, 255/255, 25/255, 0/255, 51/255, 0/255)
       self.psystem:update(dt)
     else
-      self.psystem:reset()
+      self.psystem:update(dt)
     end
   end
 

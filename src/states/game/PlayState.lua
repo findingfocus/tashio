@@ -136,6 +136,9 @@ function PlayState:init()
 
   if SAVE_DATA_NEEDS_LOADING then
     self.saveUtility:loadPlayerData()
+    if gPlayer.health < 6 then
+      gPlayer.health = 6
+    end
     SAVE_DATA_NEEDS_LOADING = false
     if DEMO_WATER_CLEANSED then
       Event.dispatch('cleanseDemoWater')
@@ -734,7 +737,7 @@ function PlayState:render()
     love.graphics.setColor(WHITE)
     --self.snowSystem:render()
     self.rainSystem:render()
-    love.graphics.printf('SUPPORTERS:\nsoup_or_king\nakabob56\njeanniegrey\nsaltomanga\nmeesegamez\nk_tronix\nhimeh3\nflatulenceknocker\nofficial_wutnot\nroughcookie\ntheshakycoder\ntjtheprogrammer\npunymagus\nprostokotylo\ntheveryrealrev\nsqwinge\nbrettdoestwitch\nbrightsidemovement\nlokitrixter\nkviktus\ncainedeegan\ndukeofgod', 0, creditsY, VIRTUAL_WIDTH, 'center')
+    love.graphics.printf('SUPPORTERS:\nsoup_or_king\nakabob56\njeanniegrey\nsaltomanga\nmeesegamez\nk_tronix\nhimeh3\nflatulenceknocker\nofficial_wutnot\nroughcookie\ntheshakycoder\ntjtheprogrammer\npunymagus\nprostokotylo\ntheveryrealrev\nsqwinge\nbrettdoestwitch\nbrightsidemovement\nlokitrixter\nkviktus\ncainedeegan\ndukeofgod\nsalsa247365', 0, creditsY, VIRTUAL_WIDTH, 'center')
   end
 
   --self.snowSystem:render()

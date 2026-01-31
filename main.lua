@@ -238,7 +238,7 @@ function love.draw()
     button:render()
     --button.pressed = INPUT:down(button.direction)
   end
-  love.graphics.print(tostring(gStateMachine.current.stateName), 0, 0)
+  --love.graphics.print(tostring(gStateMachine.current.stateName), 0, 0)
 
   --love.graphics.print(tostring(sceneView.currentMap.row) .. ' - ' .. tostring(sceneView.currentMap.column), 0, 10)
   push:finish()
