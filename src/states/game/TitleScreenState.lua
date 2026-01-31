@@ -57,10 +57,8 @@ function TitleScreenState:update(dt)
       --sceneView = Scene(gPlayer, 7, 4)
       local animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
       gStateMachine.current.animatables = animatables
+      --WHY THIS LINE TOGGLED OFF BREAK OPENING CINEMATIC
       self.saveDataUtility:loadPlayerData()
-      if gPlayer.health < 6 then
-        gPlayer.health = 6
-      end
       stopOST()
       SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
       sceneView.player.deadTimer = 0
