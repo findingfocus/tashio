@@ -121,6 +121,7 @@ function SaveData:loadPlayerData()
     gStateMachine:change('openingCinematic')
     gPlayer.meditate = false
     gPlayer:changeState('player-death')
+    gPlayer:changeAnimation('death')
     stopOST()
     return
   else
