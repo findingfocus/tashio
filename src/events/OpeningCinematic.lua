@@ -76,6 +76,7 @@ function OpeningCinematic:update(dt)
   if self.step > 5 then
     if INPUT:pressed('start') then
       if not PAUSED and not gPlayer.dead and not luteState then
+        sfx['pause1']:play()
         gStateMachine:change('pauseState')
       end
     end

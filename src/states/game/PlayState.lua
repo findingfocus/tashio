@@ -281,7 +281,9 @@ function PlayState:update(dt)
         sceneView.player.dy = 0
         sceneView.player.dx = 0
         sceneView.player.damageFlash = true
+        local coins = gPlayer.coinCount
         self.saveUtility:loadPlayerData()
+        gPlayer.coinCount = coins
       end
     end
   end
@@ -463,7 +465,7 @@ function PlayState:update(dt)
   --]]
 
   --LOADING LOAD GAME
-  ---[[
+  --[[
   if love.keyboard.wasPressed('l') then
     --gPlayer.stateMachine:change('player-meditate')
     --self.saveUtility:loadPlayerData()
@@ -602,7 +604,7 @@ function PlayState:render()
   --]]
 
   --CHEATER TOGGLE
-  ---[[
+  --[[
   if love.keyboard.isDown('9') then
     love.graphics.setColor(WHITE)
     --love.graphics.print('flammeLvl: ' .. tostring(gPlayer.flammeUpgradeLevel), 0, 0)
