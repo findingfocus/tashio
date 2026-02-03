@@ -398,19 +398,43 @@ sounds = {
   ['spellcast'] = love.audio.newSource('sounds/spellcast.ogg', 'static'),
   ['cleanse'] = love.audio.newSource('sounds/cleanse.ogg', 'static'),
   ['coinPickup'] = love.audio.newSource('sounds/coinPickup.ogg', 'static'),
-  ['1-G2'] = love.audio.newSource('sounds/lute/1-G2.ogg', 'static'),
-  ['2-A2'] = love.audio.newSource('sounds/lute/2-A2.ogg', 'static'),
-  ['3-Bb2'] = love.audio.newSource('sounds/lute/3-Bb2.ogg', 'static'),
-  ['4-C3'] = love.audio.newSource('sounds/lute/4-C3.ogg', 'static'),
-  ['5-D3'] = love.audio.newSource('sounds/lute/5-D3.ogg', 'static'),
-  ['6-E3'] = love.audio.newSource('sounds/lute/6-E3.ogg', 'static'),
-  ['7-F3'] = love.audio.newSource('sounds/lute/7-F3.ogg', 'static'),
-  ['8-G3'] = love.audio.newSource('sounds/lute/8-G3.ogg', 'static'),
-  ['9-A3'] = love.audio.newSource('sounds/lute/9-A3.ogg', 'static'),
-  ['10-Bb3'] = love.audio.newSource('sounds/lute/10-Bb3.ogg', 'static'),
-  ['11-C4'] = love.audio.newSource('sounds/lute/11-C4.ogg', 'static'),
-  ['12-D4'] = love.audio.newSource('sounds/lute/12-D4.ogg', 'static'),
 }
 
 sounds['select']:setVolume(0.5)
 sounds['cleanse']:setVolume(.2)
+
+sounds['1-G2']  = love.audio.newSource('sounds/lute/1-G2.ogg',  'static')
+sounds['1-G2']:setVolume(LUTE_STRING_VOLUME)
+
+sounds['2-A2']  = love.audio.newSource('sounds/lute/2-A2.ogg',  'static')
+sounds['2-A2']:setVolume(LUTE_STRING_VOLUME)
+
+sounds['3-Bb2'] = love.audio.newSource('sounds/lute/3-Bb2.ogg', 'static')
+sounds['3-Bb2']:setVolume(LUTE_STRING_VOLUME)
+
+sounds['4-C3']  = love.audio.newSource('sounds/lute/4-C3.ogg',  'static')
+sounds['4-C3']:setVolume(LUTE_STRING_VOLUME)
+
+sounds['5-D3']  = love.audio.newSource('sounds/lute/5-D3.ogg',  'static')
+sounds['5-D3']:setVolume(LUTE_STRING_VOLUME)
+
+sounds['6-E3']  = love.audio.newSource('sounds/lute/6-E3.ogg',  'static')
+sounds['6-E3']:setVolume(LUTE_STRING_VOLUME)
+
+sounds['7-F3']  = love.audio.newSource('sounds/lute/7-F3.ogg',  'static')
+sounds['7-F3']:setVolume(LUTE_STRING_VOLUME)
+
+sounds['8-G3']  = love.audio.newSource('sounds/lute/8-G3.ogg',  'static')
+sounds['8-G3']:setVolume(LUTE_STRING_VOLUME)
+
+sounds['9-A3']  = love.audio.newSource('sounds/lute/9-A3.ogg',  'static')
+sounds['9-A3']:setVolume(LUTE_STRING_VOLUME)
+
+sounds['10-Bb3'] = love.audio.newSource('sounds/lute/10-Bb3.ogg', 'static')
+sounds['10-Bb3']:setVolume(LUTE_STRING_VOLUME)
+
+sounds['11-C4'] = love.audio.newSource('sounds/lute/11-C4.ogg', 'static')
+sounds['11-C4']:setVolume(LUTE_STRING_VOLUME)
+
+sounds['12-D4'] = love.audio.newSource('sounds/lute/12-D4.ogg', 'static')
+sounds['12-D4']:setVolume(LUTE_STRING_VOLUME)
