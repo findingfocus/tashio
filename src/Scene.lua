@@ -205,6 +205,11 @@ function Scene:finishShifting()
       v:resetMineral()
     end
   end
+  for k, v in pairs(MAP[2][13].mineralDeposits) do
+    if v.harvestTime > MINERAL_HARVEST_RESET then
+      v:resetMineral()
+    end
+  end
 
   --DESERT SHORTCUT
   if DESERT_SHORTCUT_UNLOCKED then
@@ -646,11 +651,15 @@ function Scene:render()
     love.graphics.print('Shift is \'B\'', xPosition, yStarting + yOffset * 4)
     love.graphics.print('Tab is \'START\'', xPosition, yStarting + yOffset * 6)
     love.graphics.print('Ctrl is \'SELECT\'', xPosition, yStarting + yOffset * 8)
+    --RENDER COLLIDABLE MAP OBJECTS
+    if MAP[self.currentMap.row][self.currentMap.column].collidableMapObjects[1] ~= nil then
+      for k, v in pairs(MAP[self.currentMap.row][self.currentMap.column].collidableMapObjects) do
+        v:render(self.adjacentOffsetX, self.adjacentOffsetY)
+      end
+    end
     love.graphics.setColor(WHITE)
   end
-
   love.graphics.pop()
-
 
   --CHASM FALL TODO MOVE INTO OWN STATE
   --[[
