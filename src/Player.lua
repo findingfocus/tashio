@@ -371,7 +371,7 @@ function Player:update(dt)
   end
 
   --SPELLCASTING
-  if not sceneView.shifting then
+  if not sceneView.shifting and not CREDITS_ROLLING then
     --FOCUS GAIN
     if (INPUT:down('action') and not luteState) or (buttons[1].fireSpellPressed and not luteState) then
       self.timeAtZeroFocus = 0
@@ -485,10 +485,12 @@ function Player:update(dt)
   end
 
   --BOUNDARY CLAMP
-  self.y = math.min(VIRTUAL_HEIGHT - 16 - 8, self.y)
-  self.y = math.max(-8, self.y)
-  self.x = math.min(VIRTUAL_HEIGHT + 8, self.x)
-  self.x = math.max(-8, self.x)
+  if not self.graveyard then
+    self.y = math.min(VIRTUAL_HEIGHT - 16 - 8, self.y)
+    self.y = math.max(-8, self.y)
+    self.x = math.min(VIRTUAL_HEIGHT + 8, self.x)
+    self.x = math.max(-8, self.x)
+  end
 end
 
 function Player:render()

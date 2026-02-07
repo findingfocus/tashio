@@ -18,6 +18,7 @@ function Tome1SuccessState:init()
   self.lavaAlpha = 0
   self.creditsFinishedScroll = false
   self.step = 0
+  CREDITS_ROLLING = true
 end
 
 function Tome1SuccessState:update(dt)
@@ -110,6 +111,7 @@ function Tome1SuccessState:update(dt)
     self.lavaAlpha = math.min(255, self.lavaAlpha + dt * 70)
     if self.demoScreenOpacity == 0 then
       self.step = 4
+      CREDITS_ROLLING = false
     end
   end
 

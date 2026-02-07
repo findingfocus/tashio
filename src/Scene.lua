@@ -199,18 +199,6 @@ function Scene:finishShifting()
   --self.currentMap.row = sceneView.currentMap.row
   --self.currentMap.column = sceneView.currentMap.column
 
-  --MINERAL RESET
-  for k, v in pairs(MAP[4][12].mineralDeposits) do
-    if v.harvestTime > MINERAL_HARVEST_RESET then
-      v:resetMineral()
-    end
-  end
-  for k, v in pairs(MAP[2][13].mineralDeposits) do
-    if v.harvestTime > MINERAL_HARVEST_RESET then
-      v:resetMineral()
-    end
-  end
-
   --DESERT SHORTCUT
   if DESERT_SHORTCUT_UNLOCKED then
     Event.dispatch('solveDesertShortcutBoulders')
@@ -624,6 +612,22 @@ function Scene:update(dt)
       end
     end
   end
+
+  --MINERAL RESET
+  if not (self.currentMap.row == 4 and self.currentMap.column == 12) then
+    for k, v in pairs(MAP[4][12].mineralDeposits) do
+      if v.harvestTime > MINERAL_HARVEST_RESET then
+        v:resetMineral()
+      end
+    end
+  end
+  if not (self.currentMap.row == 2 and self.currentMap.column == 13) then
+    for k, v in pairs(MAP[2][13].mineralDeposits) do
+      if v.harvestTime > MINERAL_HARVEST_RESET then
+        v:resetMineral()
+      end
+    end
+  end
 end
 
 function Scene:render()
@@ -728,7 +732,9 @@ function Scene:render()
   --RENDER SPELLCAST
   love.graphics.setColor(255/255, 255/255, 255/255, SPELLCAST_FADE/225)
   for i = 1, gPlayer.spellcastCount do
-    self.spellcastEntities[i]:render()
+    if not gPlayer.graveyard then
+      self.spellcastEntities[i]:render()
+    end
   end
 
   love.graphics.setColor(WHITE)
