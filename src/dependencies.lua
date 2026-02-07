@@ -52,6 +52,8 @@ Event.on('cleanseDemoWater', function()
           table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, SCONCE.frame, 'aboveGround') end)
         elseif MAP[i][j].aboveGroundTileIds[k] == FLOWER_ANIM_STARTER then
           table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, FLOWERS.frame, 'aboveGround') end)
+        elseif MAP[i][j].aboveGroundTileIds[k] == FLOWER_DARK_ANIM_STARTER then
+          table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, FLOWERS_DARK.frame, 'aboveGround') end)
         end
       end
     end
