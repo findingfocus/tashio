@@ -293,7 +293,7 @@ function PlayState:update(dt)
     if gItemInventory.itemSlot[1].type == 'lute' then
       if not luteState then
         if not sceneView.dialogueBoxActive then
-          if not gPlayer.dead then
+          if not gPlayer.dead and not gPlayer.falling then
             gPlayer.direction = 'down'
             gPlayer:changeAnimation('idle-down')
             luteState = true

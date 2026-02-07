@@ -340,7 +340,7 @@ function Lute:render()
 
   love.graphics.setColor(55/255, 0/255, 255/255, 255/255)
   love.graphics.setLineWidth(1)
-  love.graphics.rectangle('line', 1, LUTE_STRING_YOFFSET, 11, 47)
+  love.graphics.rectangle('line', 1, LUTE_STRING_YOFFSET, 10, 46)
   love.graphics.setColor(DEBUG_BG2)
   love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
 
@@ -372,7 +372,7 @@ function Lute:render()
   love.graphics.setLineStyle("rough")
   love.graphics.setColor(55/255, 0/255, 255/255, 255/255)
   love.graphics.setLineWidth(1)
-  love.graphics.rectangle('line', 1, LUTE_STRING_YOFFSET, 11, 47)
+  love.graphics.rectangle('line', 1, LUTE_STRING_YOFFSET, 10, 46)
   love.graphics.setColor(WHITE)
   --love.graphics.print('fretsHeld: ' .. Inspect(fretsHeld), 0, 100)
   --[[

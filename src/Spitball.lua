@@ -56,6 +56,9 @@ function Spitball:update(dt)
     sceneView.player.damageFlash = true
     sceneView.player.hit = true
     sceneView.player.health = sceneView.player.health - 1
+    luteState = false
+    Lute:reset()
+    bassNotes1:reset()
     if self.hitLeft then
       sceneView.player.dx = -SPELL_KNOCKBACK
     elseif self.hitRight then
