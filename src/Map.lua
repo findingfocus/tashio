@@ -134,6 +134,9 @@ function Map:update(dt)
               sceneView.player.dy = SPELL_KNOCKBACK
               sceneView.player.damageFlash = true
               sceneView.player.health = sceneView.player.health - 1
+              luteState = false
+              Lute:reset()
+              bassNotes1:reset()
             end
           elseif sceneView.player:rightCollidesMapObject(entity) then
             --entity.x = sceneView.player.x + sceneView.player.width
@@ -144,6 +147,9 @@ function Map:update(dt)
               sceneView.player.health = sceneView.player.health - 1
               sceneView.player.dx = -SPELL_KNOCKBACK
               sceneView.player.hit = true
+              luteState = false
+              Lute:reset()
+              bassNotes1:reset()
             end
           elseif sceneView.player:leftCollidesMapObject(entity) then
             --entity.x = sceneView.player.x - sceneView.player.width
@@ -154,6 +160,9 @@ function Map:update(dt)
               sceneView.player.health = sceneView.player.health - 1
               sceneView.player.dx = SPELL_KNOCKBACK
               sceneView.player.hit = true
+              luteState = false
+              Lute:reset()
+              bassNotes1:reset()
             end
           elseif sceneView.player:bottomCollidesMapObject(entity) then
             --entity.y = sceneView.player.y + sceneView.player.height
@@ -164,6 +173,9 @@ function Map:update(dt)
               sceneView.player.health = sceneView.player.health - 1
               sceneView.player.dy = -SPELL_KNOCKBACK
               sceneView.player.hit = true
+              luteState = false
+              Lute:reset()
+              bassNotes1:reset()
             end
           end
         end
@@ -377,6 +389,9 @@ function Map:update(dt)
 
   --GRAVEYARD TRIGGER
   if sceneView.player.falling then
+    luteState = false
+    Lute:reset()
+    bassNotes1:reset()
     if sceneView.player.animations['falling'].timesPlayed >= 1 then
       Timer.clear()
       sceneView.player.chasmFallTimer = 0
