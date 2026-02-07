@@ -1562,7 +1562,7 @@ table.insert(MAP[1][11].dialogueBox, DialogueBox(MAP[1][11].npc[villagerIndex].x
   --FISHER
   table.insert(MAP[10][3].collidableMapObjects, CollidableMapObjects(5, 3, TILE_SIZE, TILE_SIZE, 1, 0))
 
-  table.insert(MAP[10][3].dialogueBox, DialogueBox(TILE_SIZE * 2, TILE_SIZE * 4, 'Everyone is going on about the evil mage that cursed the water, but I think I know what really happened. ', 'signpost', nil, 1 ))
+  table.insert(MAP[10][3].dialogueBox, DialogueBox(TILE_SIZE * 2, TILE_SIZE * 4, 'Everyone is talking about the evil mage that lives in the tower. If you know him, you best be careful. ', 'signpost', nil, 1 ))
 
   --RORY
   table.insert(MAP[4][2].collidableMapObjects, CollidableMapObjects(3, 6, TILE_SIZE, TILE_SIZE, 1, 0))
