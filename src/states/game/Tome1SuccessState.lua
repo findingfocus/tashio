@@ -32,12 +32,6 @@ function Tome1SuccessState:update(dt)
     sceneView:update(dt)
   end
 
-  if INPUT:pressed('start') then
-    if not PAUSED and not gPlayer.dead and not luteState then
-      gStateMachine:change('pauseState')
-    end
-  end
-
   Event.on('cleanseDemoWater', function()
     for i = 1, OVERWORLD_MAP_HEIGHT do
       for j = 1, OVERWORLD_MAP_WIDTH do
