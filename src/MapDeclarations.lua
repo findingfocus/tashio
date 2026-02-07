@@ -307,6 +307,8 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
         table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, SCONCE.frame, 'aboveGround') end)
       elseif MAP[i][j].aboveGroundTileIds[k] == FLOWER_ANIM_STARTER then
         table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, FLOWERS.frame, 'aboveGround') end)
+      elseif MAP[i][j].aboveGroundTileIds[k] == FLOWER_DARK_ANIM_STARTER then
+        table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, FLOWERS_DARK.frame, 'aboveGround') end)
       end
     end
   end
@@ -1317,6 +1319,7 @@ insertWarpZone(7, 4, 4, 11, 4, 4, 3, 8)
 
 
 FLOWERS = AnimSpitter(FLOWER_ANIM_STARTER, 1015, 0.75)
+FLOWERS_DARK = AnimSpitter(FLOWER_DARK_ANIM_STARTER, 973, 0.75)
 WATER = AnimSpitter(WATER_ANIM_STARTER, 105, .5)
 CLEANSED_WATER = AnimSpitter(CLEAN_WATER_ANIM_STARTER, CLEAN_WATER_ANIM_ENDER, .5)
 LAVA_LEFT_EDGE = AnimSpitter(LAVA_LEFT_EDGE_ANIM_STARTER, 1007, .35)
