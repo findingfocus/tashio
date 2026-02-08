@@ -116,6 +116,20 @@ function Tome1SuccessState:update(dt)
   if self.step == 4 then
     gPlayer:changeState('player-idle')
     gStateMachine:change('playState')
+    for i = 1, OVERWORLD_MAP_HEIGHT do
+      for j = 1, OVERWORLD_MAP_WIDTH do
+        for k = 1, MAP_HEIGHT * MAP_WIDTH do
+          local animRow = math.floor((k - 1) / 10) + 1
+          local animCol = (k % 10)
+          if animCol == 0 then
+            animCol = 10
+          end
+          if MAP[i][j].aboveGroundTileIds[k] == FURNACE_ANIM_STARTER then
+            table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, FURNACE.frame, 'aboveGround') end)
+          end
+        end
+      end
+    end
   end
 
   --TOGGLE FOR DEMO
