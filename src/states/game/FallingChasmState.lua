@@ -101,7 +101,11 @@ function FallingChasmState:update(dt)
       gPlayer.health = 6
       --gPlayer.x = 60
       --gPlayer.y = 80
-      self.saveUtility.loadPlayerData()
+      local coins = gPlayer.coinCount
+      local rubies = gPlayer.rubyCount
+      self.saveUtility:loadPlayerData()
+      gPlayer.coinCount = coins
+      gPlayer.rubyCount = rubies
     elseif self.optionSelector == 1 then
       --CONTINUE GAME
       --LOAD LAST SAVE

@@ -282,8 +282,10 @@ function PlayState:update(dt)
         sceneView.player.dx = 0
         sceneView.player.damageFlash = true
         local coins = gPlayer.coinCount
+        local rubies = gPlayer.rubyCount
         self.saveUtility:loadPlayerData()
         gPlayer.coinCount = coins
+        gPlayer.rubyCount = rubies
       end
     end
   end
