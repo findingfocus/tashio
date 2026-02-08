@@ -12,4 +12,4 @@ Demo Web build deployed at [tashio.dev](https://tashio.dev)
 
 OR
 
-If you just want the executables, follow the [release build](https://github.com/findingfocus/tashio/releases/tag/v2.1) instructions.
+If you just want the executables, follow the [release build](https://github.com/findingfocus/tashio/releases/tag/v2.1.2) instructions.
