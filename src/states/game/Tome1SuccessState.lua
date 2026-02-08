@@ -188,8 +188,8 @@ function Tome1SuccessState:render()
     gItemInventory.itemSlot[1]:render()
   end
 
-  love.graphics.setColor(gKeyItemInventory.elementColor)
-  love.graphics.circle('fill', VIRTUAL_WIDTH - 86, VIRTUAL_HEIGHT - 8, 6)
+  --love.graphics.setColor(gKeyItemInventory.elementColor)
+  --love.graphics.circle('fill', VIRTUAL_WIDTH - 86, VIRTUAL_HEIGHT - 8, 6)
 
   love.graphics.setColor(WHITE)
   love.graphics.draw(heartRowEmpty, VIRTUAL_WIDTH / 2 + 23, SCREEN_HEIGHT_LIMIT + 1)
