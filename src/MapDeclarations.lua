@@ -299,12 +299,12 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
         table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, LAVA_RIGHT_EDGE.frame) end)
       elseif MAP[i][j][k] == LAVA_FLOW_ANIM_STARTER then
         table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, LAVA_FLOW.frame) end)
-      elseif MAP[i][j][k] == FURNACE_ANIM_STARTER then
-        table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, FURNACE.frame) end)
       end
 
       if MAP[i][j].aboveGroundTileIds[k] == SCONCE_ANIM_STARTER then
         table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, SCONCE.frame, 'aboveGround') end)
+      elseif MAP[i][j].aboveGroundTileIds[k] == FURNACE_ANIM_STARTER then
+        table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, FURNACE.frame, 'aboveGround') end)
       elseif MAP[i][j].aboveGroundTileIds[k] == FLOWER_ANIM_STARTER then
         table.insert(MAP[i][j].animatables, function() insertAnim(animRow, animCol, FLOWERS.frame, 'aboveGround') end)
       elseif MAP[i][j].aboveGroundTileIds[k] == FLOWER_DARK_ANIM_STARTER then
