@@ -34,7 +34,8 @@ function love.load()
     debug_on(v ~= false)
   end
 
-  --local WINDOW_WIDTH, WINDOW_HEIGHT = love.window.getDesktopDimensions()
+  --DEPLOY
+  local WINDOW_WIDTH, WINDOW_HEIGHT = love.window.getDesktopDimensions()
 
   push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT_GB, WINDOW_WIDTH, WINDOW_HEIGHT, {
     vsync = true,
