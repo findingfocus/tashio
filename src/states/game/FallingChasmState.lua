@@ -113,6 +113,12 @@ function FallingChasmState:update(dt)
       for i = 1, #MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities do
         MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities[i]:resetOriginalPosition()
       end
+      --RESET PUSHABLES
+      for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+        if v.classType == 'pushable' then
+          v:resetOriginalPosition()
+        end
+      end
       SAVE_DATA_NEEDS_LOADING = true
       gStateMachine:change('playState')
       gPlayer.stateMachine:change('player-meditate')
