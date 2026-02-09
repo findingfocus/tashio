@@ -420,6 +420,7 @@ function Map:update(dt)
       sceneView.player:changeAnimation('walk-down')
       if sceneView.player.health <= 0 then
         MAP[sceneView.currentMap.row][sceneView.currentMap.column].attacks = {}
+        MAP[sceneView.currentMap.row][sceneView.currentMap.column].coins = {}
         gStateMachine:change('chasmFallingState')
         --HERE
         --gPlayer:change()
