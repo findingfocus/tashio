@@ -275,6 +275,7 @@ function PlayState:update(dt)
         gPlayer.health = 6
         gItemInventory.itemSlot[1] = nil
         SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
+        MAP[sceneView.currentMap.row][sceneView.currentMap.column].coins = {}
         sceneView.player.deadTimer = 0
         sceneView.player.dead = false
         sceneView.player.hit = false
@@ -766,7 +767,7 @@ function PlayState:render()
         end
       end
     end
-      --]]
+    --]]
     self.gameOver = true
   end
   if self.gameOver then
