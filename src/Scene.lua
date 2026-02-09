@@ -190,6 +190,7 @@ function Scene:finishShifting()
   for i = 1, #MAP[self.currentMap.row][self.currentMap.column].entities do
     MAP[self.currentMap.row][self.currentMap.column].entities[i]:resetOriginalPosition()
   end
+  --RESET PUSHABLES
   for k, v in pairs(MAP[self.currentMap.row][self.currentMap.column].collidableMapObjects) do
     if v.classType == 'pushable' then
       v:resetOriginalPosition()
@@ -199,7 +200,6 @@ function Scene:finishShifting()
   --self.currentMap.row = sceneView.currentMap.row
   --self.currentMap.column = sceneView.currentMap.column
 
-  --DESERT SHORTCUT
   if DESERT_SHORTCUT_UNLOCKED then
     Event.dispatch('solveDesertShortcutBoulders')
   end
@@ -207,7 +207,6 @@ function Scene:finishShifting()
   self.currentMap = self.nextMap
   gStateMachine.current.animatables = InsertAnimation(self.currentMap.row, self.currentMap.column)
 
-  --SOUNDTRACK
   SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
 
   if MAP[self.currentMap.row][self.currentMap.column].disjointUp then
