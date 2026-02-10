@@ -103,7 +103,7 @@ function FallingChasmState:update(dt)
       --gPlayer.y = 80
       local coins = gPlayer.coinCount
       local rubies = gPlayer.rubyCount
-      self.saveUtility:loadPlayerData()
+      --self.saveUtility:loadPlayerData()
       gPlayer.coinCount = coins
       gPlayer.rubyCount = rubies
     elseif self.optionSelector == 1 then
@@ -130,7 +130,7 @@ function FallingChasmState:update(dt)
       sceneView.player.hit = false
       sceneView.player.dy = 0
       sceneView.player.dx = 0
-      self.saveUtility:loadPlayerData()
+      --self.saveUtility:loadPlayerData()
     end
   end
   love.graphics.print('dt: ' .. tostring(dt), SCREEN_WIDTH_LIMIT - 52, VIRTUAL_HEIGHT - 12)

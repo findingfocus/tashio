@@ -62,7 +62,7 @@ function TreasureChest:openChest()
     gItemInventory.grid[1][2][1]:update(1, 2)
   elseif self.contents == 'greenTunic' then
     gPlayer.greenTunicUnlocked = true
-    self.saveUtility:savePlayerData() 
+    --self.saveUtility:savePlayerData() 
   end
 
   self.treasureX = gPlayer.x + 4

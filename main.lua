@@ -35,11 +35,11 @@ function love.load()
   end
 
   --DEPLOY
-  local WINDOW_WIDTH, WINDOW_HEIGHT = love.window.getDesktopDimensions()
+  --local WINDOW_WIDTH, WINDOW_HEIGHT = love.window.getDesktopDimensions()
 
   push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT_GB, WINDOW_WIDTH, WINDOW_HEIGHT, {
     vsync = true,
-    fullscreen = true,
+    fullscreen = false,
     resizable = false
   })
 
