@@ -54,11 +54,11 @@ function TitleScreenState:update(dt)
       SAVE_DATA_NEEDS_LOADING = true
       gStateMachine:change('playState')
       gPlayer.stateMachine:change('player-meditate')
-      --sceneView = Scene(gPlayer, 7, 4)
+      sceneView = Scene(gPlayer, 7, 4)
       local animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
       gStateMachine.current.animatables = animatables
       --WHY THIS LINE TOGGLED OFF BREAK OPENING CINEMATIC
-      self.saveDataUtility:loadPlayerData()
+      --self.saveDataUtility:loadPlayerData()
       stopOST()
       SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
       sceneView.player.deadTimer = 0

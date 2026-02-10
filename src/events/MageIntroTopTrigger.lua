@@ -200,7 +200,7 @@ function MageIntroTopTrigger:update(dt)
       gPlayer.showOff = true
       mage:changeAnimation('idle-down')
       if not TUTORIAL_COMPLETED then
-        self.saveDataUtility:savePlayerData()
+        --self.saveDataUtility:savePlayerData()
         sfx['open-chest']:play()
       end
       TUTORIAL_COMPLETED = true

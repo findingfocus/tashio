@@ -43,8 +43,8 @@ local transitionFadeAlpha = 0
 gPlayer = Player {
   animations = ENTITY_DEFS['player'].animations,
   walkSpeed = ENTITY_DEFS['player'].walkSpeed,
-  x = TILE_SIZE * 2,
-  y = TILE_SIZE * 6,
+  x = TILE_SIZE * 1,
+  y = TILE_SIZE * 4,
   --y = 30,
   width = TILE_SIZE,
   height = TILE_SIZE,
@@ -70,12 +70,12 @@ cameraX = 0
 --DARK FOREST
 --sceneView = Scene(gPlayer, 3, 5)
 --sceneView = Scene(gPlayer, 7, 4)
-sceneView = Scene(gPlayer, 4, 2)
+--sceneView = Scene(gPlayer, 4, 2)
 --sceneView = Scene(gPlayer, 5, 1)
 --sceneView = Scene(gPlayer, 5, 2)
 --sceneView = Scene(gPlayer, 1, 13)
 --sceneView = Scene(gPlayer, 9, 3)
---sceneView = Scene(gPlayer, 9, 2)
+sceneView = Scene(gPlayer, 7, 4)
 --sceneView = Scene(gPlayer, 4, 11)
 
 --GREEN TUNIC EQUIP
@@ -102,8 +102,8 @@ gKeyItemInventory.tome1Equipped = true
 gPlayer.y = TILE_SIZE * 3
 gPlayer.x = TILE_SIZE * 4
 --]]
-gPlayer.y = TILE_SIZE * 5
-gPlayer.x = TILE_SIZE * 4
+gPlayer.y = TILE_SIZE * 7
+gPlayer.x = TILE_SIZE * 3
 tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 --textures = love.graphics.newImage('graphics/textures.png')
 quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
@@ -136,7 +136,7 @@ function PlayState:init()
   self.animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
 
   if SAVE_DATA_NEEDS_LOADING then
-    self.saveUtility:loadPlayerData()
+    --self.saveUtility:loadPlayerData()
     if gPlayer.health < 6 then
       gPlayer.health = 6
     end
@@ -291,7 +291,7 @@ function PlayState:update(dt)
         sceneView.player.damageFlash = true
         local coins = gPlayer.coinCount
         local rubies = gPlayer.rubyCount
-        self.saveUtility:loadPlayerData()
+        --self.saveUtility:loadPlayerData()
         gPlayer.coinCount = coins
         gPlayer.rubyCount = rubies
       end
