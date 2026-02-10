@@ -2,7 +2,7 @@ FallingChasmState = Class{__includes = BaseState}
 
 function FallingChasmState:init()
   --SCREEN LOCK POSITION
-  love.window.setPosition(400, 60)
+  --love.window.setPosition(400, 60)
   self.init = false
   self.psystems = {}
   self.psystems[1] = love.graphics.newParticleSystem(particle, 4000)
@@ -107,33 +107,46 @@ function FallingChasmState:update(dt)
       gPlayer.coinCount = coins
       gPlayer.rubyCount = rubies
     elseif self.optionSelector == 1 then
-      --CONTINUE GAME
-      --LOAD LAST SAVE
-      gPlayer.invulnerable = true
-      for i = 1, #MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities do
-        MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities[i]:resetOriginalPosition()
-      end
-      --RESET PUSHABLES
-      for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
-        if v.classType == 'pushable' then
-          v:resetOriginalPosition()
+        gPlayer.invulnerable = true
+        for i = 1, #MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities do
+          MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities[i]:resetOriginalPosition()
         end
-      end
-      SAVE_DATA_NEEDS_LOADING = true
-      gStateMachine:change('playState')
-      gPlayer.stateMachine:change('player-meditate')
-      gPlayer.health = 6
-      SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
-      MAP[sceneView.currentMap.row][sceneView.currentMap.column].coins = {}
-      sceneView.player.deadTimer = 0
-      sceneView.player.dead = false
-      sceneView.player.hit = false
-      sceneView.player.dy = 0
-      sceneView.player.dx = 0
-      --self.saveUtility:loadPlayerData()
+        --RESET PUSHABLES
+        for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+          if v.classType == 'pushable' then
+            v:resetOriginalPosition()
+          end
+        end
+        gStateMachine:change('playState')
+        sounds['select']:play()
+        gPlayer.stateMachine:change('player-meditate')
+        gPlayer.health = 6
+        --gItemInventory.itemSlot[1] = nil
+        SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
+        MAP[sceneView.currentMap.row][sceneView.currentMap.column].coins = {}
+        sceneView.player.deadTimer = 0
+        sceneView.player.dead = false
+        sceneView.player.hit = false
+        sceneView.player.dy = 0
+        sceneView.player.dx = 0
+        sceneView.player.damageFlash = false
+        sceneView.player.graveyard = false
+        local coins = gPlayer.coinCount
+        local rubies = gPlayer.rubyCount
+        --DEMO SPAWN
+        sceneView = Scene(gPlayer, 7, 4)
+        sceneView.currentMap.row = 7
+        sceneView.currentMap.col = 4
+        gPlayer.x = TILE_SIZE * 6
+        gPlayer.y = TILE_SIZE * 5
+        gPlayer.damageFlash = false
+        --self.saveUtility:loadPlayerData()
+        gPlayer.coinCount = coins
+        gPlayer.rubyCount = rubies
+        gPlayer.timeSinceLastRest = 0
     end
   end
-  love.graphics.print('dt: ' .. tostring(dt), SCREEN_WIDTH_LIMIT - 52, VIRTUAL_HEIGHT - 12)
+  --love.graphics.print('dt: ' .. tostring(dt), SCREEN_WIDTH_LIMIT - 52, VIRTUAL_HEIGHT - 12)
 end
 
 function FallingChasmState:render()
@@ -151,8 +164,7 @@ function FallingChasmState:render()
   --love.graphics.translate(VIRTUAL_WIDTH / 2 - 8 - 10, VIRTUAL_HEIGHT / 2 - 8 -2)
   love.graphics.push()
   love.graphics.translate(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2)
-  love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.playerX), math.floor(self.playerY))
-  --GREEN TUNIC
+  love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.playerX), math.floor(self.playerY)) --GREEN TUNIC
   if gPlayer.tunicEquipped  == 'greenTunic' then
     love.graphics.draw(gTextures['character-death-greenTunic'], gFrames['character-death-greenTunic'][anim:getCurrentFrame()], math.floor(self.playerX), math.floor(self.playerY))
   end

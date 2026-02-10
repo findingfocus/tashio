@@ -24,11 +24,11 @@ gItems = {}
 --TOGGLE DEMO
 --DEMO EQUIP
 --LUTE EQUIP
---[[
-table.insert(gItemInventory.grid[1][1], Item('lute', nil, 20))
-table.insert(gItemInventory.grid[1][2], Item('healthPotion', 21))
-table.insert(gItemInventory.grid[1][3], Item('berry', 20))
-table.insert(gItemInventory.grid[2][1], Item('berry', 21))
+---[[
+table.insert(gItemInventory.grid[1][1], Item('lute', nil, 1))
+table.insert(gItemInventory.grid[1][2], Item('healthPotion', 5))
+--table.insert(gItemInventory.grid[1][3], Item('berry', 20))
+--table.insert(gItemInventory.grid[2][1], Item('berry', 21))
 --]]
 
 local vibrancy = 0
@@ -84,13 +84,14 @@ sceneView = Scene(gPlayer, 7, 4)
 gPlayer.tunicEquipped = 'greenTunic'
 gPlayer.greenTunicUnlocked = true
 gPlayer.tunicEquipped = 'greenTunic'
+--]]
 
---[[
+---[[
 gPlayer.flammeUnlocked = true
 gPlayer.elementEquipped = 'flamme'
----]]
+--]]
 
---[[
+---[[
 gPlayer.tome1Unlocked = true
 gKeyItemInventory.tomeEquipped = 'tome1'
 gKeyItemInventory.tome1Equipped = true
@@ -102,8 +103,6 @@ gKeyItemInventory.tome1Equipped = true
 gPlayer.y = TILE_SIZE * 3
 gPlayer.x = TILE_SIZE * 4
 --]]
-gPlayer.y = TILE_SIZE * 7
-gPlayer.x = TILE_SIZE * 3
 tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 --textures = love.graphics.newImage('graphics/textures.png')
 quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
@@ -151,6 +150,14 @@ function PlayState:init()
     gStateMachine.current.animatables = animatables
     --]]
   end
+  --DEMO RESET
+  --[[
+  sceneView = Scene(gPlayer, 7, 4)
+  gPlayer.x = TILE_SIZE * 6
+  gPlayer.y = TILE_SIZE * 5
+  gPlayer.damageFlash = false
+  gPlayer.timeSinceLastRest = 0
+  --]]
 end
 
 function PlayState:update(dt)
@@ -280,7 +287,7 @@ function PlayState:update(dt)
         sounds['select']:play()
         gPlayer.stateMachine:change('player-meditate')
         gPlayer.health = 6
-        gItemInventory.itemSlot[1] = nil
+        --gItemInventory.itemSlot[1] = nil
         SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
         MAP[sceneView.currentMap.row][sceneView.currentMap.column].coins = {}
         sceneView.player.deadTimer = 0
@@ -288,12 +295,18 @@ function PlayState:update(dt)
         sceneView.player.hit = false
         sceneView.player.dy = 0
         sceneView.player.dx = 0
-        sceneView.player.damageFlash = true
+        sceneView.player.damageFlash = false
         local coins = gPlayer.coinCount
         local rubies = gPlayer.rubyCount
+        --DEMO SPAWN
+        sceneView = Scene(gPlayer, 7, 4)
+        gPlayer.x = TILE_SIZE * 6
+        gPlayer.y = TILE_SIZE * 5
+        gPlayer.damageFlash = false
         --self.saveUtility:loadPlayerData()
         gPlayer.coinCount = coins
         gPlayer.rubyCount = rubies
+        gPlayer.timeSinceLastRest = 0
       end
     end
   end
@@ -910,6 +923,7 @@ function PlayState:render()
     --love.graphics.print('falling: ' .. tostring(gPlayer.falling), 0, 10)
     --love.graphics.print('g1-2: ' .. Inspect(gItemInventory.grid[1][2]), 0, 10)
     --love.graphics.print('x: ' .. MAP[7][5].collidableMapObjects[1].x .. ' y: ' .. MAP[7][5].collidableMapObjects[1].y, 0, 10)
+    --love.graphics.print('state: ' .. gStateMachine.current.stateName, 0, 0)
     if #gItemInventory.grid[1][2] == 0 then
       --love.graphics.print('1 2 is empty!', 0, 20)
     else
