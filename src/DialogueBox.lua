@@ -485,7 +485,7 @@ function DialogueBox:update(dt)
                 if not self.restOption then
                   sfx['idol-gong1']:play()
                 end
-                self.saveDataUtility:savePlayerData()
+                --self.saveDataUtility:savePlayerData()
               else
                 self.meditateYes = true -- RESET DEFAULT VALUE
               end

@@ -51,10 +51,14 @@ function TitleScreenState:update(dt)
 
   if self.step > 2 then
     if INPUT:pressed('start') or INPUT:pressed('action') then
-      SAVE_DATA_NEEDS_LOADING = true
+      --SAVE_DATA_NEEDS_LOADING = true
       gStateMachine:change('playState')
       gPlayer.stateMachine:change('player-meditate')
+      --DEMO SPAWN
+      TUTORIAL_COMPLETED = true
       sceneView = Scene(gPlayer, 7, 4)
+      gPlayer.x = TILE_SIZE * 6
+      gPlayer.y = TILE_SIZE * 5
       local animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
       gStateMachine.current.animatables = animatables
       --WHY THIS LINE TOGGLED OFF BREAK OPENING CINEMATIC
