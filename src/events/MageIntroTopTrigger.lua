@@ -120,12 +120,10 @@ function MageIntroTopTrigger:update(dt)
                 goto done
               else
                 v:openChest()
-                v:setPositions()
                 treasureChestOption = true
               end
             else
               v:openChest()
-              v:setPositions()
               treasureChestOption = true
             end
           end
