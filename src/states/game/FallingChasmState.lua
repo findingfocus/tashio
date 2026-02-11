@@ -144,6 +144,8 @@ function FallingChasmState:update(dt)
         gPlayer.coinCount = coins
         gPlayer.rubyCount = rubies
         gPlayer.timeSinceLastRest = 0
+        local animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
+        gStateMachine.current.animatables = animatables
     end
   end
   --love.graphics.print('dt: ' .. tostring(dt), SCREEN_WIDTH_LIMIT - 52, VIRTUAL_HEIGHT - 12)
