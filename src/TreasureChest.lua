@@ -43,10 +43,18 @@ function TreasureChest:openChest()
   end
   --LUTE TREASURE
   if self.contents == 'lute' then
-    gItemInventory.grid[1][1] = {}
-    table.insert(gItemInventory.grid[1][1], Item('lute'))
-    LUTE_CHEST_OPENED = true
-    --self.saveUtility:savePlayerData()
+    for row = 1, 4 do
+      for col = 1, 3 do
+        if #gItemInventory.grid[row][col] == 0 then
+          table.insert(gItemInventory.grid[row][col], Item('lute'))
+          gItemInventory.grid[row][col][1].quantity = nil
+          gItemInventory.grid[row][col][1]:update(row, col)
+          LUTE_CHEST_OPENED = true
+          goto done
+        end
+      end
+    end
+    ::done::
   end
 
   self.showOffItem = true
@@ -57,9 +65,17 @@ function TreasureChest:openChest()
     --gKeyItemInventory.tomeEquipped = 'tome1'
     --gKeyItemInventory.tome1Equipped = true
   elseif self.contents == 'healthPotion' then
-    table.insert(gItemInventory.grid[1][2], Item('healthPotion'))
-    gItemInventory.grid[1][2][1].quantity = 10
-    gItemInventory.grid[1][2][1]:update(1, 2)
+    for row = 1, 4 do
+      for col = 1, 3 do
+        if #gItemInventory.grid[row][col] == 0 then
+          table.insert(gItemInventory.grid[row][col], Item('healthPotion'))
+          gItemInventory.grid[row][col][1].quantity = 10
+          gItemInventory.grid[row][col][1]:update(row, col)
+          goto done
+        end
+      end
+    end
+    ::done::
   elseif self.contents == 'greenTunic' then
     gPlayer.greenTunicUnlocked = true
     self.saveUtility:savePlayerData() 

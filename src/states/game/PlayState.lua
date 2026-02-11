@@ -616,6 +616,22 @@ function PlayState:render()
   --CHEATER TOGGLE
   --[[
   if love.keyboard.isDown('9') then
+    for row = 1, 4 do
+      for col = 1, 3 do
+        if #gItemInventory.grid[row][col] == 0 then
+          table.insert(gItemInventory.grid[row][col], Item('lute'))
+          gItemInventory.grid[row][col][1].quantity = nil
+          gItemInventory.grid[row][col][1]:update(row, col)
+          LUTE_CHEST_OPENED = true
+          goto done
+        end
+      end
+    end
+    ::done::
+  end
+  --]]
+  --[[
+  if love.keyboard.isDown('9') then
     love.graphics.setColor(WHITE)
     --love.graphics.print('flammeLvl: ' .. tostring(gPlayer.flammeUpgradeLevel), 0, 0)
     --gPlayer.rubyCount = 100
