@@ -398,7 +398,7 @@ function PlayState:update(dt)
   if INPUT:pressed('action') and not gPlayer.meditate then
     --DIALOGUE DETECTION DIALOGUE COLLIDE
     for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do
-      if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]) and not MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated and minimapCooldown < 0 then
+      if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]) and not MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated and minimapCooldown < 0 and not luteState then
           sfx['ui-scroll1']:play()
           PAUSED = true
           MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]:flushText()
