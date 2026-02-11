@@ -307,6 +307,8 @@ function PlayState:update(dt)
         gPlayer.coinCount = coins
         gPlayer.rubyCount = rubies
         gPlayer.timeSinceLastRest = 0
+        local animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
+        gStateMachine.current.animatables = animatables
       end
     end
   end
