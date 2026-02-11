@@ -115,12 +115,24 @@ function MageIntroTopTrigger:update(dt)
       if v.classType == 'treasureChest' then
         if not v.opened then
           if gPlayer:dialogueCollides(v) then
-            v:openChest()
-            treasureChestOption = true
+            if v.contents == 'lute' then
+              if gPlayer.direction == 'down' then
+                goto done
+              else
+                v:openChest()
+                v:setPositions()
+                treasureChestOption = true
+              end
+            else
+              v:openChest()
+              v:setPositions()
+              treasureChestOption = true
+            end
           end
         end
       end
     end
+    ::done::
   end
 
   --DIALOGUE UPDATE
