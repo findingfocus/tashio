@@ -406,18 +406,28 @@ function PlayState:update(dt)
           self.activeDialogueID = k
           sceneView.activeDialogueID = self.activeDialogueID
         end
-    end
-    for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
-      if v.classType == 'treasureChest' then
-        if not v.opened then
-          if gPlayer:dialogueCollides(v) then
-            v:openChest()
-            treasureChestOption = true
+      end
+      for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+        if v.classType == 'treasureChest' then
+          if not v.opened then
+            if gPlayer:dialogueCollides(v) then
+              if v.contents == 'lute' then
+                if gPlayer.direction == 'down' then
+                  goto done
+                else
+                  v:openChest()
+                  treasureChestOption = true
+                end
+              else
+                v:openChest()
+                treasureChestOption = true
+              end
+            end
           end
         end
       end
+      ::done::
     end
-  end
 
   if not PAUSED then
     sceneView:update(dt)

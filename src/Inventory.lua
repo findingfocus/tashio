@@ -23,7 +23,7 @@ function Inventory:init(option)
     self.itemSlot = {}
     self.selectedRow = 1
     self.selectedCol = 1
-    self.itemCursor = Cursor(self.selectedRow, self.selectedCol, 'item')
+    self.itemCursor = Cursor(GRID_XOFFSET, GRID_YOFFSET, 'item')
 
     for i = 1, self.rowAmount do
       self.grid[i] =  {}
