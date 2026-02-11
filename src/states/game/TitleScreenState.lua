@@ -56,6 +56,12 @@ function TitleScreenState:update(dt)
       gPlayer.stateMachine:change('player-meditate')
       --DEMO SPAWN
       TUTORIAL_COMPLETED = true
+      --LOAD LUTE CHEST OPEN
+      for k, v in pairs(MAP[10][18].collidableMapObjects) do
+        if v.classType == 'treasureChest' then
+          v:loadOpenedChest()
+        end
+      end
       sceneView = Scene(gPlayer, 7, 4)
       gPlayer.x = TILE_SIZE * 6
       gPlayer.y = TILE_SIZE * 5
