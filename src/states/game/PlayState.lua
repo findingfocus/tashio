@@ -26,7 +26,7 @@ gItems = {}
 --LUTE EQUIP
 ---[[
 table.insert(gItemInventory.grid[1][1], Item('lute', nil, 1))
-table.insert(gItemInventory.grid[1][2], Item('healthPotion', 5))
+table.insert(gItemInventory.grid[1][2], Item('healthPotion', 3))
 --table.insert(gItemInventory.grid[1][3], Item('berry', 20))
 --table.insert(gItemInventory.grid[2][1], Item('berry', 21))
 --]]
@@ -627,6 +627,22 @@ function PlayState:render()
   --]]
 
   --CHEATER TOGGLE
+  --[[
+  if love.keyboard.isDown('9') then
+    --if gItemInventory.itemSlot[1].type == 'healthPotion' then
+      --gItemInventory.itemSlot[1].quantity = gItemInventory.itemSlot[1].quantity + 5
+      for row = 1, 4 do
+        for col = 1, 3 do
+          if #gItemInventory.grid[row][col] ~= 0 then
+            if gItemInventory.grid[row][col][1].type == 'healthPotion' then
+              gItemInventory.grid[row][col][1].quantity = gItemInventory.grid[row][col][1].quantity + 5
+            end
+          end
+        end
+      end
+  end
+  --]]
+
   --[[
   if love.keyboard.isDown('9') then
     love.graphics.setColor(WHITE)
