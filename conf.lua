@@ -1,5 +1,5 @@
 function love.conf(data)
-  data.version = "11.5"
+  data.version = "11.4"
   --CONSOLE DEBUGGING
   data.console = false
   --data.console = true
