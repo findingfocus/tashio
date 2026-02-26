@@ -589,12 +589,13 @@ function PlayState:render()
   --]]
 
   --DEBUG PRINT
-  --[[
-  if love.keyboard.isDown('5') then
+  ---[[
+  if love.keyboard.isDown('1') then
     love.graphics.setColor(DEBUG_BG)
     love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
     love.graphics.setColor(WHITE)
     love.graphics.setFont(pixelFont)
+    love.graphics.print('checkpoint: ' .. inspect(gPlayer.checkPointPositions), 105, 5)
     love.graphics.print('MAP[' .. tostring(sceneView.currentMap.row) .. '][' .. tostring(sceneView.currentMap.column) .. ']', 5, 15)
     love.graphics.print('player.x: ' .. string.format("%.1f", gPlayer.x), 5, 25)
     love.graphics.print('player.y: ' .. string.format("%.1f", gPlayer.y), 5, 35)
@@ -614,12 +615,11 @@ function PlayState:render()
     love.graphics.setColor(DEBUG_BG)
     love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
     love.graphics.setColor(WHITE)
-    --love.graphics.print('graveyard: ' .. inspect(sceneView.player.graveyard), 5, 25)
+    love.graphics.print('graveyard: ' .. inspect(sceneView.player.graveyard), 5, 25)
     love.graphics.print('checkpoint: ' .. inspect(gPlayer.checkPointPositions), 5, 35)
     --love.graphics.print('testNumber' .. inspect(testNumber), 5, 35)
     --print('leftCount: ' .. inspect(leftCount), 5, 15)
     --print(inspect(sceneView.player.animations['falling']))
-
   end
   --]]
 

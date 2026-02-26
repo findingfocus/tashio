@@ -185,6 +185,7 @@ require 'src/TreasureChest'
 require 'src/CollidableMapObjects'
 require 'src/MapDeclarations'
 require 'src/InsertAnimation'
+require 'src/SaveSelect'
 require 'src/util'
 
 require 'src/states/game/TitleScreenState'
@@ -195,6 +196,7 @@ require 'src/events/OpeningCinematic'
 require 'src/events/MageIntroTopTrigger'
 require 'src/states/game/RefineryState'
 require 'src/states/game/Tome1SuccessState'
+require 'src/states/game/SaveSelectState'
 
 
 pixelFont = love.graphics.newFont('fonts/Pixel.ttf', 8)
