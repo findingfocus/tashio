@@ -5,8 +5,8 @@ function Inventory:init(option)
   self.option = option
   self.elementSlot = {}
   --DEMO SET DEFAULT FLAMME
-  self.elementColor = FLAMME_COLOR
-  --self.elementColor = TRANSPARENT
+  --self.elementColor = FLAMME_COLOR
+  self.elementColor = TRANSPARENT
 
   if self.option == 'item' then
     self.x = 5
@@ -205,9 +205,13 @@ function Inventory:update(dt)
           end
         elseif self.selectedCol == 2 then
           if gPlayer.aquisUnlocked then
-            self.elementSlot = 'aquisSpell'
-            gPlayer.elementEquipped = 'aquis'
-            self.elementColor = AQUIS_COLOR
+            if gPlayer.elementEquipped == 'aquis' then
+              gPlayer.elementEquipped = ''
+            else
+              gPlayer.elementEquipped = 'aquis'
+              self.elementSlot = 'aquisSpell'
+              self.elementColor = AQUIS_COLOR
+            end
           end
         elseif self.selectedCol == 3 then
           if gPlayer.ekkoUnlocked then
@@ -313,6 +317,11 @@ function Inventory:render(cursorRender)
     love.graphics.draw(flamme, KEYITEM_XOFFSET + 1, KEYITEM_YOFFSET + 1)
   end
 
+  if gPlayer.aquisUnlocked then
+    love.graphics.setColor(WHITE)
+    love.graphics.draw(aquis, KEYITEM_XOFFSET + 1 + 13, KEYITEM_YOFFSET + 1)
+  end
+
   if gPlayer.greenTunicUnlocked then
     love.graphics.setColor(WHITE)
     love.graphics.draw(greenTunicSolo, KEYITEM_XOFFSET, KEYITEM_YOFFSET + 17)
@@ -334,5 +343,10 @@ function Inventory:render(cursorRender)
     --A SLOT SPELL SLOT
     love.graphics.setColor(WHITE)
     love.graphics.draw(flamme2, VIRTUAL_WIDTH / 2 - 11 , VIRTUAL_HEIGHT - 13)
+  end
+
+  if gPlayer.elementEquipped == 'aquis' then
+    love.graphics.setColor(WHITE)
+    love.graphics.draw(aquis2, VIRTUAL_WIDTH / 2 - 11 , VIRTUAL_HEIGHT - 13)
   end
 end
