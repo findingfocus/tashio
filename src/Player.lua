@@ -85,7 +85,7 @@ function Player:init(def)
   self.fireSpellVolume = 0
   self.magicHudOpacity = 0
   self.flammeUnlocked = false
-  self.aquisUnlocked = false
+  self.aquisUnlocked = true
   self.ekkoUnlocked = false
   self.loxUnlocked = false
   self.tome1Unlocked = false

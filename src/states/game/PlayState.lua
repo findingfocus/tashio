@@ -640,12 +640,14 @@ function PlayState:render()
     ::done::
   end
   --]]
-  --[[
+  ---[[
   if love.keyboard.isDown('9') then
     love.graphics.setColor(WHITE)
+    gPlayer.aquisUnlocked = true
     --love.graphics.print('flammeLvl: ' .. tostring(gPlayer.flammeUpgradeLevel), 0, 0)
     --gPlayer.rubyCount = 100
     --gPlayer.coinCount = 15
+    --[[
     for i = 1, 2 do
       for j = 1, 3 do
         gItemInventory.grid[i][j] = {}
@@ -657,6 +659,7 @@ function PlayState:render()
     table.insert(gItemInventory.grid[2][1], Item('berry', 21))
     table.insert(gItemInventory.grid[2][2], Item('berry', 18))
     table.insert(gItemInventory.grid[2][3], Item('berry', 17))
+    --]]
   end
   --]]
 
@@ -725,6 +728,18 @@ function PlayState:render()
     --A SLOT SPELL SLOT
     love.graphics.setColor(WHITE)
     love.graphics.draw(flamme2, VIRTUAL_WIDTH / 2 - 11 , VIRTUAL_HEIGHT - 13)
+  end
+
+  if gPlayer.elementEquipped == 'aquis' then
+    --EMPTY VIBRANCY BAR
+    love.graphics.setColor(100/255, 140/255, 255/255, 255/255)
+    love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, 10)
+    --VIBRANCY BAR
+    love.graphics.setColor(30/255, 30/255, 30/255, 255/255)
+    love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, gPlayer.flammeVibrancy / 10)
+
+    love.graphics.setColor(WHITE)
+    love.graphics.draw(aquis2, VIRTUAL_WIDTH / 2 - 11 , VIRTUAL_HEIGHT - 13)
   end
 
   --MAGIC RENDER
