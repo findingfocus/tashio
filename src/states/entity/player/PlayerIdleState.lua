@@ -69,9 +69,10 @@ function PlayerIdleState:render()
     end
   end
 
-  if self.player.elementEquipped == 'flamme' and not self.player.showOff then
-    love.graphics.setColor(gKeyItemInventory.elementColor)
-    love.graphics.draw(gTextures['character-element'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
+  --ELEMENT IN HAND IDLE
+  if self.player.elementEquipped ~= '' and not gPlayer.showOff then
+      love.graphics.setColor(gKeyItemInventory.elementColor)
+      love.graphics.draw(gTextures['character-element'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
   end
   --LUTE RENDER EQUIPPED
   if gItemInventory.itemSlot[1] ~= nil then

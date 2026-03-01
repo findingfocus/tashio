@@ -100,6 +100,9 @@ function PauseState:render()
   if gPlayer.elementEquipped == 'flamme' then
     love.graphics.setColor(gKeyItemInventory.elementColor)
     love.graphics.draw(gTextures['character-element'], gFrames['character-element'][1], math.floor(INVENTORY_PLAYER_X), math.floor(INVENTORY_PLAYER_Y))
+  elseif gPlayer.elementEquipped == 'aquis' then
+    love.graphics.setColor(gKeyItemInventory.elementColor)
+    love.graphics.draw(gTextures['character-element'], gFrames['character-element'][1], math.floor(INVENTORY_PLAYER_X), math.floor(INVENTORY_PLAYER_Y))
   end
 
   love.graphics.setColor(WHITE)
