@@ -258,11 +258,9 @@ function PlayerWalkState:render()
     --]]
 
   --ELEMENT IN HAND
-  if self.player.elementEquipped == 'flamme' then
-    if not gPlayer.pushing and not gPlayer.showOff then
+  if self.player.elementEquipped ~= '' and not gPlayer.showOff then
       love.graphics.setColor(gKeyItemInventory.elementColor)
       love.graphics.draw(gTextures['character-element'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
-    end
   end
 
   if gItemInventory.itemSlot[1] ~= nil then

@@ -346,6 +346,13 @@ function Inventory:render(cursorRender)
   end
 
   if gPlayer.elementEquipped == 'aquis' then
+    --EMPTY VIBRANCY BAR
+    love.graphics.setColor(100/255, 140/255, 255/255, 255/255)
+    love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, 10)
+    --VIBRANCY BAR
+    love.graphics.setColor(30/255, 30/255, 30/255, 255/255)
+    love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, gPlayer.flammeVibrancy / 10)
+
     love.graphics.setColor(WHITE)
     love.graphics.draw(aquis2, VIRTUAL_WIDTH / 2 - 11 , VIRTUAL_HEIGHT - 13)
   end
