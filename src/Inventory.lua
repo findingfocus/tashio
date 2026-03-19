@@ -351,7 +351,7 @@ function Inventory:render(cursorRender)
     love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, 10)
     --VIBRANCY BAR
     love.graphics.setColor(30/255, 30/255, 30/255, 255/255)
-    love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, gPlayer.flammeVibrancy / 10)
+    love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, gPlayer.aquisVibrancy / 10)
 
     love.graphics.setColor(WHITE)
     love.graphics.draw(aquis2, VIRTUAL_WIDTH / 2 - 11 , VIRTUAL_HEIGHT - 13)

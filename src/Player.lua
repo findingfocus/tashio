@@ -17,6 +17,7 @@ function Player:init(def)
   self.timeSinceLastRest = 0
   self.invulnerableTime = 0
   self.invulnerable = true
+  self.aquisSuccessTimer = 0
   --self.health = 1
   self.heartTimer = heartSpeed
   self.decrement = true
@@ -52,6 +53,7 @@ function Player:init(def)
   self.topazCount = 0
   self.emeraldCount = 0
   self.flammeVibrancy = 0
+  self.aquisVibrancy = 0
   self.type = 'player'
   self.TLCollide = 0
   self.TRCollide = 0
@@ -426,7 +428,7 @@ function Player:update(dt)
         end
       elseif gPlayer.elementEquipped == 'aquis' and not gPlayer.gameJustStarted and not gPlayer.dead then
         --VIBRANCY DRAIN
-        gPlayer.flammeVibrancy = math.min(VIBRANCY_MAX, gPlayer.flammeVibrancy + dt * 2)
+        gPlayer.aquisVibrancy = math.min(VIBRANCY_MAX, gPlayer.aquisVibrancy + dt)
 
         --UNFOCUS
         if (self.unFocus < self.focusMax) and self.unFocusGrowing then
@@ -454,13 +456,9 @@ function Player:update(dt)
           self.unFocusGrowing = true
         end
 
-
-        --APPLY UNFOCUS TO FOCUS INDICATOR
-        self.focusIndicatorX = math.max(self.focusIndicatorX - (self.manisDrain + self.unFocus) * dt, 0)
-
         --CLAMP FOCUS INDICATOR TO 0 IF NO MANIS
         if self.manis <= 0 then
-          self.focusIndicatorX = math.max(self.focusIndicatorX - (self.manisDrain - self.unFocus) * dt, 0)
+          self.focusIndicatorX = math.max(self.focusIndicatorX - (self.manisDrain) * dt, 0)
         end
 
         --MANIS DRAIN
@@ -471,8 +469,10 @@ function Player:update(dt)
 
         if self.manis > 0 then
           --FOCUS INDICATOR RISING
-          self.focusIndicatorX = math.min(self.focusIndicatorX + (self.unFocus * UNFOCUS_SCALER * 0.7) * dt, self.manisMax - 2)
+          self.unFocus = AQUIS_FOCUS_GROW
+          self.focusIndicatorX = math.min(self.focusIndicatorX + (self.unFocus * UNFOCUS_SCALER) * dt, self.manisMax - 2)
         end
+
       end
     else --IF SPACE NOT PRESSED
       --MANIS REGEN
@@ -490,21 +490,39 @@ function Player:update(dt)
       self.focusIndicatorX = math.max(self.focusIndicatorX - FOCUS_DRAIN * dt, 0)
   end
 
+  --FLAMME SOUND
   sfx['fire-blast-spinning2']:setVolume(self.fireSpellVolume)
 
   --SUCCESSFUL CAST
-  if self.focusIndicatorX >= 65 and self.focusIndicatorX <= 85 then
-    --VIBRANCY CHECK
-    if gPlayer.flammeVibrancy < VIBRANCY_MAX then
-      successfulCast = true
-      self.fireSpellVolume = math.min(self.fireSpellVolume + dt, 0.5)
-      if not sfx['fire-blast-spinning2']:isPlaying() then
-        sfx['fire-blast-spinning2']:play()
+  --FLAMME SOUND
+  if gPlayer.elementEquipped == 'flamme' and not gPlayer.gameJustStarted and not gPlayer.dead then
+    if self.focusIndicatorX >= 65 and self.focusIndicatorX <= 85 then
+      --VIBRANCY CHECK
+      if gPlayer.flammeVibrancy < VIBRANCY_MAX then
+        successfulCast = true
+        self.fireSpellVolume = math.min(self.fireSpellVolume + dt, 0.5)
+        if not sfx['fire-blast-spinning2']:isPlaying() then
+          sfx['fire-blast-spinning2']:play()
+        end
       end
+    else
+      self.fireSpellVolume = math.max(0, self.fireSpellVolume - dt / 2)
+      successfulCast = false
     end
-  else
-    self.fireSpellVolume = math.max(0, self.fireSpellVolume - dt / 2)
-    successfulCast = false
+  end
+
+  --AQUIS SOUND
+  if gPlayer.elementEquipped == 'aquis' and not gPlayer.gameJustStarted and not gPlayer.dead then
+    if self.focusIndicatorX >= 65 and self.focusIndicatorX <= 85 then
+      self.aquisSuccessTimer = math.min(self.aquisSuccessTimer + dt, 1)
+      if self.aquisSuccessTimer >= 1 then
+        if not sfx['fire-blast2']:isPlaying() then
+          sfx['fire-blast2']:play()
+        end
+      end
+    else
+      self.aquisSuccessTimer = math.max(self.aquisSuccessTimer - dt, 0)
+    end
   end
 
   if not self.gameJustStarted then

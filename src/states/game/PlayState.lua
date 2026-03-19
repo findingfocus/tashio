@@ -624,6 +624,9 @@ function PlayState:render()
   --]]
 
   --CHEATER TOGGLE
+  if love.keyboard.isDown('9') then
+    --sfx['fire-blast2']:play()
+  end
   --[[
   if love.keyboard.isDown('9') then
     for row = 1, 4 do
@@ -736,7 +739,7 @@ function PlayState:render()
     love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, 10)
     --VIBRANCY BAR
     love.graphics.setColor(30/255, 30/255, 30/255, 255/255)
-    love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, gPlayer.flammeVibrancy / 10)
+    love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 + 2, VIRTUAL_HEIGHT - 13, 2, gPlayer.aquisVibrancy / 10)
 
     love.graphics.setColor(WHITE)
     love.graphics.draw(aquis2, VIRTUAL_WIDTH / 2 - 11 , VIRTUAL_HEIGHT - 13)
@@ -943,6 +946,7 @@ function PlayState:render()
       --table.insert(MAP[7][5].collidableMapObjects, Pushable(2,5, 'boulder', nil, 'keyItem1'))
     --love.graphics.print(tostring(MAP[7][5].collidableMapObjects[1].originalTileX) .. tostring(MAP[7][5].collidableMapObjects[1].originalTileY), 0, 10)
     --love.graphics.print(tostring(DESERT_SHORTCUT_UNLOCKED), 0, 10)
+    love.graphics.print('aquisTimer: ' .. tostring(gPlayer.aquisSuccessTimer), 0, 10)
     --DEBUG
     --[[
     love.graphics.print('tome: ' .. gKeyItemInventory.tomeEquipped, 0, 0)
