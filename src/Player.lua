@@ -18,6 +18,7 @@ function Player:init(def)
   self.invulnerableTime = 0
   self.invulnerable = true
   self.aquisSuccessTimer = 0
+  self.aquisProjectile = AquisProjectile()
   --self.health = 1
   self.heartTimer = heartSpeed
   self.decrement = true
@@ -513,6 +514,7 @@ function Player:update(dt)
 
   --AQUIS SOUND
   if gPlayer.elementEquipped == 'aquis' and not gPlayer.gameJustStarted and not gPlayer.dead then
+
     if self.focusIndicatorX >= 65 and self.focusIndicatorX <= 85 then
       self.aquisSuccessTimer = math.min(self.aquisSuccessTimer + dt, 1)
       if self.aquisSuccessTimer >= 1 then
@@ -558,6 +560,7 @@ function Player:update(dt)
     self.x = math.min(VIRTUAL_HEIGHT + 8, self.x)
     self.x = math.max(-8, self.x)
   end
+  self.aquisProjectile:update(dt)
 end
 
 function Player:render()
@@ -569,6 +572,7 @@ function Player:render()
     love.graphics.rectangle('fill', self.dialogueBoxX + 1, self.dialogueBoxY + 1, self.dialogueBoxWidth - COLLISION_BUFFER, self.dialogueBoxHeight - COLLISION_BUFFER)
     --]]
     Entity.render(self)
+    self.aquisProjectile:render()
     --[[
     love.graphics.setColor(RED)
     love.graphics.rectangle('fill', CHASM_TOP_COLLIDE_X, CHASM_TOP_COLLIDE_Y, CHASM_TOP_COLLIDE_WIDTH, CHASM_TOP_COLLIDE_HEIGHT)
