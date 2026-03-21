@@ -203,8 +203,7 @@ for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEI
   sceneCol = sceneCol + 1
 end
 
-
-
+--DATA DOWNLOADER
 --TOP LEVEL TILE DOWNLOADER
 local mapRow = 1
 local mapCol = 1
