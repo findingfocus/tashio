@@ -26,6 +26,41 @@ function AquisProjectile:update(dt)
     self.xOffset = TILE_SIZE * 2
     self.yOffset = 0
   end
+
+  for k, v in pairs(sceneView.currentMap.collidableMapObjects) do
+    --LAND SPOT DEFAULTS TO TWO TILES AWAY
+    if v.x == self.nearestTileColumn + self.xOffset and v.y == self.nearestTileRow + self.yOffset then
+      if gPlayer.direction == 'right' then
+        self.xOffset = TILE_SIZE
+        for k, v in pairs(sceneView.currentMap.collidableMapObjects) do
+          if v.x == self.nearestTileColumn + self.xOffset and v.y == self.nearestTileRow + self.yOffset then
+            self.xOffset = 0
+          end
+        end
+      elseif gPlayer.direction == 'left' then
+        self.xOffset = -TILE_SIZE
+        for k, v in pairs(sceneView.currentMap.collidableMapObjects) do
+          if v.x == self.nearestTileColumn + self.xOffset and v.y == self.nearestTileRow + self.yOffset then
+            self.xOffset = 0
+          end
+        end
+      elseif gPlayer.direction == 'up' then
+        self.yOffset = -TILE_SIZE
+        for k, v in pairs(sceneView.currentMap.collidableMapObjects) do
+          if v.x == self.nearestTileColumn + self.xOffset and v.y == self.nearestTileRow + self.yOffset then
+            self.yOffset = 0
+          end
+        end
+      elseif gPlayer.direction == 'down' then
+        self.yOffset = TILE_SIZE
+        for k, v in pairs(sceneView.currentMap.collidableMapObjects) do
+          if v.x == self.nearestTileColumn + self.xOffset and v.y == self.nearestTileRow + self.yOffset then
+            self.yOffset = 0
+          end
+        end
+      end
+    end
+  end
 end
 
 function AquisProjectile:render()
@@ -36,14 +71,16 @@ function AquisProjectile:render()
 
   for k, v in pairs(sceneView.currentMap.collidableMapObjects) do
     love.graphics.setColor(RED)
-    love.graphics.rectangle('fill', v.x, v.y, TILE_SIZE, TILE_SIZE)
+    --love.graphics.rectangle('fill', v.x, v.y, TILE_SIZE, TILE_SIZE)
   end
-  --NEAREST TILE
+  --NEAREST TILE TO PLAYER
+  love.graphics.setColor(100,100,200,1)
+  --love.graphics.rectangle('fill', self.nearestTileColumn, self.nearestTileRow, TILE_SIZE, TILE_SIZE)
+  --BLUE SQUARE MAGIC LAND
   love.graphics.setColor(0,0,255/255,1)
   love.graphics.rectangle('fill', self.nearestTileColumn + self.xOffset, self.nearestTileRow + self.yOffset, TILE_SIZE, TILE_SIZE)
 
   --SPELL PROJECTILE
   love.graphics.setColor(GREEN)
-  --love.graphics.rectangle('fill', gPlayer.x + self.xOffset, gPlayer.y + self.yOffset, TILE_SIZE, TILE_SIZE)
-  love.graphics.circle('fill', gPlayer.x + (TILE_SIZE / 2) + self.xOffset, gPlayer.y + (TILE_SIZE / 2) + self.yOffset, TILE_SIZE / 2)
+  --love.graphics.circle('fill', gPlayer.x + (TILE_SIZE / 2) + self.xOffset, gPlayer.y + (TILE_SIZE / 2) + self.yOffset, TILE_SIZE / 2)
 end
