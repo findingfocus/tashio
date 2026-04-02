@@ -5,6 +5,8 @@ function AquisProjectile:init()
   self.yOffset = 0
   self.nearestTileRow = 0
   self.nearestTileColumn = 0
+  self.x = TILE_SIZE
+  self.y = TILE_SIZE
 end
 
 function AquisProjectile:update(dt)
@@ -61,26 +63,52 @@ function AquisProjectile:update(dt)
       end
     end
   end
+
+  if not gPlayer.aquisCasting then
+    self.x = gPlayer.x + TILE_SIZE / 2
+    self.y = gPlayer.y + TILE_SIZE / 2
+  end
+
+  if gPlayer.aquisSuccessTimer == 0.5 then
+    if not gPlayer.aquisCasting then
+      gPlayer.aquisCasting = true
+    end
+  end
+
+  if gPlayer.aquisSuccessTimer < 0.05 then
+    gPlayer.aquisCasting = false
+  end
+
+  if gPlayer.aquisCasting then
+    Timer.tween(0.25, {
+      [self] = {x = self.nearestTileColumn + self.xOffset + 8, y = self.nearestTileRow + self.yOffset + 8}
+    })
+  end
 end
 
 function AquisProjectile:render()
+  --[[
   love.graphics.setColor(WHITE)
   love.graphics.print('nearestRow: ' .. self.nearestTileRow, 0, 0)
   love.graphics.print('nearestCol: ' .. self.nearestTileColumn, 0, 10)
   love.graphics.print(Inspect(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects), 0, 20)
+  --]]
 
   for k, v in pairs(sceneView.currentMap.collidableMapObjects) do
-    love.graphics.setColor(RED)
+    --love.graphics.setColor(RED)
     --love.graphics.rectangle('fill', v.x, v.y, TILE_SIZE, TILE_SIZE)
   end
   --NEAREST TILE TO PLAYER
   love.graphics.setColor(100,100,200,1)
   --love.graphics.rectangle('fill', self.nearestTileColumn, self.nearestTileRow, TILE_SIZE, TILE_SIZE)
   --BLUE SQUARE MAGIC LAND
-  love.graphics.setColor(0,0,255/255,1)
+  love.graphics.setColor(0,1,0,1)
   love.graphics.rectangle('fill', self.nearestTileColumn + self.xOffset, self.nearestTileRow + self.yOffset, TILE_SIZE, TILE_SIZE)
 
   --SPELL PROJECTILE
-  love.graphics.setColor(GREEN)
-  --love.graphics.circle('fill', gPlayer.x + (TILE_SIZE / 2) + self.xOffset, gPlayer.y + (TILE_SIZE / 2) + self.yOffset, TILE_SIZE / 2)
+  if gPlayer.aquisCasting then
+    love.graphics.setColor(0,0,1,1)
+    love.graphics.circle('fill', self.x, self.y, TILE_SIZE / 2)
+    --love.graphics.circle('fill', gPlayer.x + (TILE_SIZE / 2) + self.xOffset, gPlayer.y + (TILE_SIZE / 2) + self.yOffset, TILE_SIZE / 2)
+  end
 end

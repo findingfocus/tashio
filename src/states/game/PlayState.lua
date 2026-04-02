@@ -946,7 +946,7 @@ function PlayState:render()
       --table.insert(MAP[7][5].collidableMapObjects, Pushable(2,5, 'boulder', nil, 'keyItem1'))
     --love.graphics.print(tostring(MAP[7][5].collidableMapObjects[1].originalTileX) .. tostring(MAP[7][5].collidableMapObjects[1].originalTileY), 0, 10)
     --love.graphics.print(tostring(DESERT_SHORTCUT_UNLOCKED), 0, 10)
-    --love.graphics.print('aquisTimer: ' .. tostring(gPlayer.aquisSuccessTimer), 0, 10)
+    love.graphics.print('aquisTimer: ' .. tostring(gPlayer.aquisSuccessTimer), 0, 10)
     --DEBUG
     --[[
     love.graphics.print('tome: ' .. gKeyItemInventory.tomeEquipped, 0, 0)
