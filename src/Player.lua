@@ -18,6 +18,7 @@ function Player:init(def)
   self.invulnerableTime = 0
   self.invulnerable = true
   self.aquisSuccessTimer = 0
+  self.aquisCasting = false
   self.aquisProjectile = AquisProjectile()
   --self.health = 1
   self.heartTimer = heartSpeed
@@ -516,8 +517,8 @@ function Player:update(dt)
   if gPlayer.elementEquipped == 'aquis' and not gPlayer.gameJustStarted and not gPlayer.dead then
 
     if self.focusIndicatorX >= 65 and self.focusIndicatorX <= 85 then
-      self.aquisSuccessTimer = math.min(self.aquisSuccessTimer + dt, 1)
-      if self.aquisSuccessTimer >= 1 then
+      self.aquisSuccessTimer = math.min(self.aquisSuccessTimer + dt, 0.5)
+      if self.aquisSuccessTimer >= 0.5 then
         if not sfx['fire-blast2']:isPlaying() then
           sfx['fire-blast2']:play()
         end
