@@ -20,6 +20,9 @@ function Player:init(def)
   self.aquisSuccessTimer = 0
   self.aquisCasting = false
   self.aquisProjectile = AquisProjectile()
+  self.aquisCastLanded = false
+  self.aquisCastLandedTimer = 0
+  self.aquisCastingTimer = 0
   --self.health = 1
   self.heartTimer = heartSpeed
   self.decrement = true
@@ -519,7 +522,7 @@ function Player:update(dt)
     if self.focusIndicatorX >= 65 and self.focusIndicatorX <= 85 then
       self.aquisSuccessTimer = math.min(self.aquisSuccessTimer + dt, 0.5)
       if self.aquisSuccessTimer >= 0.5 then
-        if not sfx['fire-blast2']:isPlaying() then
+        if not sfx['fire-blast2']:isPlaying() and gPlayer.aquisCastLandedTimer == 0 then
           sfx['fire-blast2']:play()
         end
       end
