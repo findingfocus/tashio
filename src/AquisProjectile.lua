@@ -5,6 +5,8 @@ function AquisProjectile:init()
   self.yOffset = 0
   self.nearestTileRow = 0
   self.nearestTileColumn = 0
+  self.landingSpotX = 0
+  self.landingSpotY = 0
   self.x = TILE_SIZE
   self.y = TILE_SIZE
 end
@@ -64,25 +66,37 @@ function AquisProjectile:update(dt)
     end
   end
 
-  if not gPlayer.aquisCasting then
-    self.x = gPlayer.x + TILE_SIZE / 2
-    self.y = gPlayer.y + TILE_SIZE / 2
-  end
-
   if gPlayer.aquisSuccessTimer == 0.5 then
     if not gPlayer.aquisCasting then
       gPlayer.aquisCasting = true
+      self.x = gPlayer.x + TILE_SIZE / 2
+      self.y = gPlayer.y + TILE_SIZE / 2
+      self.landingSpotX = self.nearestTileColumn + self.xOffset + 8
+      self.landingSpotY = self.nearestTileRow + self.yOffset + 8
     end
   end
 
-  if gPlayer.aquisSuccessTimer < 0.05 then
-    gPlayer.aquisCasting = false
+  if gPlayer.aquisCasting and not gPlayer.aquisCastLanded then
+    Timer.tween(0.25, {
+      [self] = {x = self.landingSpotX, y = self.landingSpotY}
+    })
+
+    gPlayer.aquisCastingTimer = gPlayer.aquisCastingTimer + dt
+
+    if gPlayer.aquisCastingTimer >= 0.25 then
+      gPlayer.aquisCastLanded = true
+      gPlayer.aquisCastingTimer = 0
+      gPlayer.aquisCastLandedTimer = 0
+    end
   end
 
-  if gPlayer.aquisCasting then
-    Timer.tween(0.25, {
-      [self] = {x = self.nearestTileColumn + self.xOffset + 8, y = self.nearestTileRow + self.yOffset + 8}
-    })
+  if gPlayer.aquisCastLanded then
+    gPlayer.aquisCastLandedTimer = gPlayer.aquisCastLandedTimer + dt
+    if gPlayer.aquisCastLandedTimer > 1 then
+      gPlayer.aquisCasting = false
+      gPlayer.aquisCastLanded = false
+      gPlayer.aquisCastLandedTimer = 0
+    end
   end
 end
 
@@ -106,7 +120,7 @@ function AquisProjectile:render()
   love.graphics.rectangle('fill', self.nearestTileColumn + self.xOffset, self.nearestTileRow + self.yOffset, TILE_SIZE, TILE_SIZE)
 
   --SPELL PROJECTILE
-  if gPlayer.aquisCasting then
+  if gPlayer.aquisCasting or gPlayer.aquisCastLanded then
     love.graphics.setColor(0,0,1,1)
     love.graphics.circle('fill', self.x, self.y, TILE_SIZE / 2)
     --love.graphics.circle('fill', gPlayer.x + (TILE_SIZE / 2) + self.xOffset, gPlayer.y + (TILE_SIZE / 2) + self.yOffset, TILE_SIZE / 2)
