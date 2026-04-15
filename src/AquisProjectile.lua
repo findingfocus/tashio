@@ -9,9 +9,33 @@ function AquisProjectile:init()
   self.landingSpotY = 0
   self.x = TILE_SIZE
   self.y = TILE_SIZE
+  self.animations = self:createAnimations(ENTITY_DEFS['aquis'].animations)
+  self:changeAnimation('spellcast')
+end
+
+function AquisProjectile:createAnimations(animations)
+  local animationsReturned = {}
+
+  for k, animationsDef in pairs(animations) do
+    animationsReturned[k] = Animation {
+      texture = animationsDef.texture or 'entities',
+      frames = animationsDef.frames,
+      interval = animationsDef.interval,
+      looping = animationsDef.looping
+    }
+  end
+  return animationsReturned
+end
+
+function AquisProjectile:changeAnimation(name)
+  self.currentAnimation = self.animations[name]
 end
 
 function AquisProjectile:update(dt)
+  if gPlayer.aquisCasting or gPlayer.aquisCastLanded then
+    self.currentAnimation:update(dt)
+  end
+
   self.nearestTileColumn = math.floor((gPlayer.x + 8) / TILE_SIZE)
   self.nearestTileRow = math.floor((gPlayer.y + 8) / TILE_SIZE)
   self.nearestTileRow = self.nearestTileRow * TILE_SIZE
@@ -96,6 +120,8 @@ function AquisProjectile:update(dt)
       gPlayer.aquisCasting = false
       gPlayer.aquisCastLanded = false
       gPlayer.aquisCastLandedTimer = 0
+      --RESET SPELLCAST ANIMATION
+      self.currentAnimation:refresh()
     end
   end
 end
@@ -115,14 +141,18 @@ function AquisProjectile:render()
   --NEAREST TILE TO PLAYER
   love.graphics.setColor(100,100,200,1)
   --love.graphics.rectangle('fill', self.nearestTileColumn, self.nearestTileRow, TILE_SIZE, TILE_SIZE)
-  --BLUE SQUARE MAGIC LAND
-  love.graphics.setColor(0,1,0,1)
-  love.graphics.rectangle('fill', self.nearestTileColumn + self.xOffset, self.nearestTileRow + self.yOffset, TILE_SIZE, TILE_SIZE)
+ 
+  --SQUARE MAGIC LAND
+  --love.graphics.setColor(0,1,0,1)
+  --love.graphics.rectangle('fill', self.nearestTileColumn + self.xOffset, self.nearestTileRow + self.yOffset, TILE_SIZE, TILE_SIZE)
 
   --SPELL PROJECTILE
   if gPlayer.aquisCasting or gPlayer.aquisCastLanded then
-    love.graphics.setColor(0,0,1,1)
-    love.graphics.circle('fill', self.x, self.y, TILE_SIZE / 2)
+    --love.graphics.setColor(0,0,1,1)
+    --love.graphics.circle('fill', self.x, self.y, TILE_SIZE / 2)
     --love.graphics.circle('fill', gPlayer.x + (TILE_SIZE / 2) + self.xOffset, gPlayer.y + (TILE_SIZE / 2) + self.yOffset, TILE_SIZE / 2)
+    love.graphics.setColor(WHITE)
+    local anim = self.currentAnimation
+    love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()], self.x - TILE_SIZE / 2, self.y - TILE_SIZE / 2)
   end
 end

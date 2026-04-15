@@ -145,6 +145,7 @@ require 'src/DialogueBox'
 require 'src/Item'
 require 'src/Inventory'
 require 'src/Pushable'
+require 'src/AquisProjectile'
 require 'src/Spitball'
 require 'src/SaveData'
 
@@ -183,7 +184,6 @@ require 'src/MageMagicWall'
 require 'src/AnimSpitter'
 require 'src/TreasureChest'
 require 'src/CollidableMapObjects'
-require 'src/AquisProjectile'
 require 'src/MapDeclarations'
 require 'src/InsertAnimation'
 require 'src/SaveSelect'
@@ -271,6 +271,7 @@ gTextures = {
   ['crate'] = love.graphics.newImage('graphics/crate-break.png'),
   ['orb'] = love.graphics.newImage('graphics/orb.png'),
   ['luteString'] = love.graphics.newImage('graphics/string-sheet.png'),
+  ['aquisSpellcast'] = love.graphics.newImage('graphics/aquisAnimation.png'),
 }
 
 gFrames = {
@@ -307,6 +308,7 @@ gFrames = {
   ['bat'] = GenerateQuads(gTextures['bat'], 24, 10),
   ['flame'] = GenerateQuads(gTextures['flame'], TILE_SIZE, TILE_SIZE),
   ['luteString'] = GenerateQuads(gTextures['luteString'], TILE_SIZE * 10, 13),
+  ['aquisSpellcast'] = GenerateQuads(gTextures['aquisSpellcast'], TILE_SIZE, TILE_SIZE),
 }
 heart = love.graphics.newImage('graphics/heart.png')
 heartRow = love.graphics.newImage('graphics/heartRow.png')
