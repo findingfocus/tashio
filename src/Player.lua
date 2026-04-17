@@ -576,7 +576,6 @@ function Player:render()
     love.graphics.rectangle('fill', self.dialogueBoxX + 1, self.dialogueBoxY + 1, self.dialogueBoxWidth - COLLISION_BUFFER, self.dialogueBoxHeight - COLLISION_BUFFER)
     --]]
     Entity.render(self)
-    self.aquisProjectile:render()
     --[[
     love.graphics.setColor(RED)
     love.graphics.rectangle('fill', CHASM_TOP_COLLIDE_X, CHASM_TOP_COLLIDE_Y, CHASM_TOP_COLLIDE_WIDTH, CHASM_TOP_COLLIDE_HEIGHT)
@@ -593,4 +592,8 @@ function Player:render()
     love.graphics.rectangle('fill', CHASM_BR_COLLIDE_X, CHASM_BR_COLLIDE_Y, CHASM_BR_COLLIDE_WIDTH, CHASM_BR_COLLIDE_HEIGHT)
     --]]
   end
+end
+
+function Player:renderAquis()
+  self.aquisProjectile:render()
 end
