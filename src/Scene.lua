@@ -215,6 +215,13 @@ function Scene:finishShifting()
     gPlayer.extendDialogueBoxUpwards = false
   end
   self.nextMap = nil
+  --AQUIS SCENE TRANSITION RESET
+  gPlayer.aquisProjectile = AquisProjectile()
+  gPlayer.aquisCasting = false
+  gPlayer.aquisCastLanded = false
+  gPlayer.aquisCastingTimer = 0
+  gPlayer.aquisCastLandedTimer = 0
+  gPlayer.aquisSuccessTimer = 0
 end
 
 function Scene:update(dt)
@@ -717,6 +724,7 @@ function Scene:render()
     --love.graphics.print(entity.stateMachine.current.stateName, 0, 0)
   end
   love.graphics.pop()
+
 
   --WEATHER PARTICLE SYSTEM
   --self.snowSystem:render()
