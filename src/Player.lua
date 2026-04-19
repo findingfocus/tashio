@@ -575,7 +575,14 @@ function Player:render()
     love.graphics.setColor(1,0,0,0.7)
     love.graphics.rectangle('fill', self.dialogueBoxX + 1, self.dialogueBoxY + 1, self.dialogueBoxWidth - COLLISION_BUFFER, self.dialogueBoxHeight - COLLISION_BUFFER)
     --]]
-    Entity.render(self)
+    --AQUIS RENDER
+    if self.direction == 'up' then
+      sceneView.player:renderAquis()
+      Entity.render(self)
+    else
+      Entity.render(self)
+      sceneView.player:renderAquis()
+    end
     --[[
     love.graphics.setColor(RED)
     love.graphics.rectangle('fill', CHASM_TOP_COLLIDE_X, CHASM_TOP_COLLIDE_Y, CHASM_TOP_COLLIDE_WIDTH, CHASM_TOP_COLLIDE_HEIGHT)

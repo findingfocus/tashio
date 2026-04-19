@@ -42,16 +42,40 @@ function AquisProjectile:update(dt)
   self.nearestTileColumn = self.nearestTileColumn * TILE_SIZE
 
   if gPlayer.direction == 'down' then
-    self.yOffset = TILE_SIZE * 2
+    if self.nearestTileRow == 96 then
+      self.yOffset = TILE_SIZE
+    elseif self.nearestTileRow == 112 then
+        self.yOffset = 0
+    else
+      self.yOffset = TILE_SIZE * 2
+    end
     self.xOffset = 0
   elseif gPlayer.direction == 'up' then
-    self.yOffset = -TILE_SIZE * 2
+    if self.nearestTileRow == 16 then
+      self.yOffset = -TILE_SIZE
+    elseif self.nearestTileRow == 0 then
+      self.yOffset = 0
+    else
+      self.yOffset = -TILE_SIZE * 2
+    end
     self.xOffset = 0
   elseif gPlayer.direction == 'left' then
-    self.xOffset = -TILE_SIZE * 2
+    if self.nearestTileColumn == 16 then
+      self.xOffset = -TILE_SIZE
+    elseif self.nearestTileColumn == 0 then
+      self.xOffset = 0
+    else
+      self.xOffset = -TILE_SIZE * 2
+    end
     self.yOffset = 0
   elseif gPlayer.direction == 'right' then
-    self.xOffset = TILE_SIZE * 2
+    if self.nearestTileColumn == 128 then
+      self.xOffset = TILE_SIZE
+    elseif self.nearestTileColumn == 144 then
+       self.xOffset = 0
+    else
+      self.xOffset = TILE_SIZE * 2
+    end
     self.yOffset = 0
   end
 
@@ -139,7 +163,7 @@ function AquisProjectile:render()
     --love.graphics.rectangle('fill', v.x, v.y, TILE_SIZE, TILE_SIZE)
   end
   --NEAREST TILE TO PLAYER
-  love.graphics.setColor(100,100,200,1)
+  --love.graphics.setColor(100,100,200,1)
   --love.graphics.rectangle('fill', self.nearestTileColumn, self.nearestTileRow, TILE_SIZE, TILE_SIZE)
  
   --SQUARE MAGIC LAND
