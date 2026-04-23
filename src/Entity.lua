@@ -48,6 +48,7 @@ function Entity:init(def)
   self.originalWalkSpeed = def.walkSpeed
   self.aiPath = def.aiPath
   self.geckoCollideCount = 0
+  self.splashed = false
   --self.walkSpeed = math.random
   self.offscreen = false
   self.psystem = love.graphics.newParticleSystem(particle, 400)
@@ -93,6 +94,7 @@ function Entity:resetOriginalPosition()
     self:changeState('entity-idle')
     self:changeAnimation('idle-right')
     self.animations = self:createAnimations(ENTITY_DEFS['geckoC'].animations)
+    self.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
   end
   self.type = self.originalType
   self.offscreen = false
@@ -237,7 +239,11 @@ function Entity:update(dt)
       self.psystem:setEmissionArea('borderellipse', 2, 2)
       self.psystem:setEmissionRate(40)
       self.psystem:setTangentialAcceleration(0, 4)
-      self.psystem:setColors(67/255, 25/255, 36/255, 255/255, 25/255, 0/255, 51/255, 0/255)
+      if self.splashed then
+        self.psystem:setColors(GECKO_SPLASH_PARTICLE)
+      else
+        self.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
+      end
       self.psystem:update(dt)
     else
       self.psystem:update(dt)
