@@ -14,9 +14,28 @@ function GeckoWalkState:init(entity, scene)
 
   self.collided = false
   self.stateName = 'walk'
+  self.flashing = false
+  self.flashTimer = 0
+  self.entity.splashed = false
+  self.splashTimer = 0
 end
 
 function GeckoWalkState:update(dt)
+  self.splashTimer = self.splashTimer + dt
+
+  if self.splashTimer > 3 then
+    self.entity.splashed = true
+    self.entity.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
+  end
+
+  if self.entity.splashed then
+    self.flashTimer = self.flashTimer + dt
+  end
+  local flashSpeed = .2
+  if self.flashTimer > flashSpeed then
+    self.flashing = not self.flashing
+    self.flashTimer = 0
+  end
   if self.entity.corrupted then
     if self.entity.health <= 0 then
       sfx['cleanse']:play()
@@ -107,6 +126,11 @@ end
 
 function GeckoWalkState:render()
   local anim = self.entity.currentAnimation
+  if self.flashing then
+    love.graphics.setColor(45/255,45/255,255/255,1)
+  else
+    love.graphics.setColor(WHITE)
+  end
   love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
   self.entity.x, self.entity.y)
   --DIALOGUE HITBOX RENDERS
