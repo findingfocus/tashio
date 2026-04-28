@@ -18,18 +18,20 @@ function GeckoWalkState:init(entity, scene)
   self.flashTimer = 0
   self.entity.splashed = false
   self.splashTimer = 0
+  --self.entity.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
 end
 
 function GeckoWalkState:update(dt)
   self.splashTimer = self.splashTimer + dt
 
   if self.splashTimer > 3 then
-    self.entity.splashed = true
-    self.entity.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
+    -- self.entity.splashed = true
+    -- self.entity.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
   end
 
   if self.entity.splashed then
     self.flashTimer = self.flashTimer + dt
+    self.entity.walkSpeed = 5
   end
   local flashSpeed = .2
   if self.flashTimer > flashSpeed then
