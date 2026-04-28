@@ -179,6 +179,13 @@ function Entity:changeAnimation(name)
 end
 
 function Entity:update(dt)
+  --MOVE SPLASH INTO ENTITY NOT GECKO WALK
+  if gPlayer.aquisProjectile[1] ~= nil then
+    if self:collides(gPlayer.aquisProjectile) then
+      self.splashed = true
+      self.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
+    end
+  end
   --BAT FLAP
   if self.type == 'bat' then
     if self.flapActive then
