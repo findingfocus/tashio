@@ -627,6 +627,7 @@ function Map:render()
   ---[[
   love.graphics.setColor(WHITE)
 
+  sceneView.player:renderAquis()
   --MAP DEBUG
   --[[
   love.graphics.print('player.falling: ' .. tostring(gPlayer.falling), 0, 0)

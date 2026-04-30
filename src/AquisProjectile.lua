@@ -172,9 +172,9 @@ function AquisProjectile:render()
   --love.graphics.setColor(100,100,200,1)
   --love.graphics.rectangle('fill', self.nearestTileColumn, self.nearestTileRow, TILE_SIZE, TILE_SIZE)
  
-  --SQUARE MAGIC LAND
+  --GREEN SQUARE MAGIC LAND
   love.graphics.setColor(0,1,0,1)
-  love.graphics.rectangle('fill', self.nearestTileColumn + self.xOffset, self.nearestTileRow + self.yOffset, TILE_SIZE, TILE_SIZE)
+  --love.graphics.rectangle('fill', self.nearestTileColumn + self.xOffset, self.nearestTileRow + self.yOffset, TILE_SIZE, TILE_SIZE)
 
   --SPELL PROJECTILE
   if gPlayer.aquisCasting or gPlayer.aquisCastLanded then
