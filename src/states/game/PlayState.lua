@@ -961,6 +961,9 @@ function PlayState:render()
     else
     --love.graphics.print('1 2 is: ' .. tostring(gItemInventory.grid[1][2][1].type), 0, 20)
     end
+    --DEBUG
+    --love.graphics.print('FADE: ' .. tostring(SPELLCAST_FADE), 0, 10)
+    --love.graphics.print('successfulCast: ' .. tostring(successfulCast), 0, 20)
   if NEW_DATA ~= nil then
    love.graphics.print(Inspect(NEW_DATA), 0, 0)
   end
