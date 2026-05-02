@@ -40,6 +40,7 @@ local rightFadeTransitionX = VIRTUAL_WIDTH
 local startingSceneTransitionFinished = false
 local transitionFadeAlpha = 0
 
+--TASHIO INIT
 gPlayer = Player {
   animations = ENTITY_DEFS['player'].animations,
   walkSpeed = ENTITY_DEFS['player'].walkSpeed,
@@ -48,7 +49,7 @@ gPlayer = Player {
   --y = 30,
   width = TILE_SIZE,
   height = TILE_SIZE,
-
+  type = 'player'
 }
 
 gPlayer.checkPointPositions.x = TILE_SIZE * 2
