@@ -211,6 +211,8 @@ function Inventory:update(dt)
               gPlayer.elementEquipped = 'aquis'
               self.elementSlot = 'aquisSpell'
               self.elementColor = AQUIS_COLOR
+              SPELLCAST_FADE = 0
+              successfulCast = false
             end
           end
         elseif self.selectedCol == 3 then
