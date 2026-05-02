@@ -67,6 +67,10 @@ function Entity:init(def)
   self.originalY = def.y
   self.originalDirection = def.direction
   self.originalType = def.type
+  self.splashed = false
+  self.splashTimer = 0
+  self.blueFlashing = false
+  self.blueFlashTimer = 0
 end
 
 function Entity:resetOriginalPosition()
@@ -179,7 +183,23 @@ function Entity:changeAnimation(name)
 end
 
 function Entity:update(dt)
-  --MOVE SPLASH INTO ENTITY NOT GECKO WALK
+  self.splashTimer = self.splashTimer + dt
+
+  if self.splashTimer > 3 then
+     self.splashed = true
+     self.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
+  end
+
+  if self.splashed then
+    self.blueFlashTimer = self.blueFlashTimer + dt
+    self.walkSpeed = 5
+  end
+  local flashSpeed = .2
+  if self.blueFlashTimer > flashSpeed then
+    self.blueFlashing = not self.blueFlashing
+    self.blueFlashTimer = 0
+  end
+
   if gPlayer.aquisProjectile[1] ~= nil then
     if self:collides(gPlayer.aquisProjectile) then
       self.splashed = true
@@ -248,6 +268,7 @@ function Entity:update(dt)
       self.psystem:setTangentialAcceleration(0, 4)
       if self.splashed then
         self.psystem:setColors(GECKO_SPLASH_PARTICLE)
+        self.psystem:setTangentialAcceleration(10, 2)
       else
         self.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
       end
@@ -401,6 +422,15 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
   end
 
   self.x, self.y = self.x + (adjacentOffsetX or 0), self.y + (adjacentOffsetY or 0)
+  --BLUE FLASHING
+  if self.type ~= 'spellcast' then
+    if self.blueFlashing then
+      love.graphics.setColor(45/255,45/255,255/255,1)
+      if self.type == 'player' then
+        love.graphics.setColor(WHITE)
+      end
+    end
+  end
   self.stateMachine:render()
   --GECKO DEBUG
   --love.graphics.print(tostring(self.hit), self.x + 12, self.y)
