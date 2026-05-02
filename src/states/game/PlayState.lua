@@ -548,6 +548,7 @@ function PlayState:render()
 
 
   --DEBUG MANIS SPELLCASTING
+  love.graphics.print(': ' .. tostring(gPlayer.aquisSuccessTimer), 5, SCREEN_HEIGHT_LIMIT - 15)
   --[[
   love.graphics.print('unFocus: ' .. tostring(self.unFocus), 5, SCREEN_HEIGHT_LIMIT - 15)
   love.graphics.print('unFocusGrowing: ' .. tostring(self.unFocusGrowing), 5, SCREEN_HEIGHT_LIMIT - 25)

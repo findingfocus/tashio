@@ -200,6 +200,8 @@ function Inventory:update(dt)
               gPlayer.elementEquipped = ''
             else
               gPlayer.elementEquipped = 'flamme'
+              gPlayer.aquisSuccessTimer = 0
+              gPlayer.aquisCasting = false
             end
             self.elementColor = FLAMME_COLOR
           end
