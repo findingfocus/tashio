@@ -717,9 +717,10 @@ function Scene:render()
   end
 
   --ENTITY RENDERS
+  --TURNED THIS OFF FOR AQUIS ORDER
   for k, entity in pairs(MAP[self.currentMap.row][self.currentMap.column].entities) do
     if not entity.offscreen and not entity.spawning then
-      entity:render(self.currentMap.adjacentOffsetX, self.currentMap.adjacentOffsetY)
+      --entity:render(self.currentMap.adjacentOffsetX, self.currentMap.adjacentOffsetY)
     end
     --love.graphics.print(entity.stateMachine.current.stateName, 0, 0)
   end
