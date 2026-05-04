@@ -71,6 +71,8 @@ function Entity:init(def)
   self.splashTimer = 0
   self.blueFlashing = false
   self.blueFlashTimer = 0
+
+  self.aquisCollides = false
 end
 
 function Entity:resetOriginalPosition()
@@ -84,6 +86,12 @@ function Entity:resetOriginalPosition()
   self.walkSpeed = self.originalWalkSpeed
   self.dx = 0
   self.dy = 0
+  self.splashed = false
+  self.splashTimer = 0
+  self.blueFlashing = false
+  self.blueFlashTimer = 0
+
+  self.aquisCollides = false
   if self.type == 'bat' then
     self:changeAnimation('pursue')
     self:changeState('bat-spawn')
@@ -182,13 +190,44 @@ function Entity:changeAnimation(name)
   self.currentAnimation = self.animations[name]
 end
 
-function Entity:update(dt)
-  self.splashTimer = self.splashTimer + dt
-
-  if self.splashTimer > 3 then
-     self.splashed = true
-     self.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
+function Entity:circleCollides(target)
+  local castRadius = TILE_SIZE / 2
+  local sideA = math.abs(self.x - target.x)
+  local sideB = math.abs(self.y - target.y)
+  local sideCSquared = (sideA * sideA) + (sideB * sideB)
+  local sideC = math.sqrt(sideCSquared)
+  if sideC <= castRadius * 2 then
+    --COLLIDE
+    love.graphics.setColor(1,0,0,1)
+    return true
+  else
+    --NOT COLLIDE
+    love.graphics.setColor(0,0,1,1)
+    return false
   end
+end
+
+function Entity:update(dt)
+  if gPlayer.aquisCasting then
+    self.aquisCollides = self:circleCollides(gPlayer.aquisProjectile)
+  end
+  if self.aquisCollides and self.type ~= 'player' then
+    self.hit = true
+    self.dy = SPELL_KNOCKBACK / 3
+    self.splashed = true
+    self.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
+    self.aquisCollides = false
+  end
+
+  --UNSPLASH
+  -- if self.splashTimer > splashMax then
+  --   self.splashTimer = 0
+  --   self.splashed = false
+  --   self.blueFlashing = false
+  --   self.psystem:setParticleLifetime(1, 4)
+  --   self.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
+  --   self.walkSpeed = self.originalWalkSpeed
+  -- end
 
   if self.splashed then
     self.blueFlashTimer = self.blueFlashTimer + dt
@@ -268,9 +307,12 @@ function Entity:update(dt)
       self.psystem:setTangentialAcceleration(0, 4)
       if self.splashed then
         self.psystem:setColors(GECKO_SPLASH_PARTICLE)
-        self.psystem:setTangentialAcceleration(10, 2)
+        --self.psystem:setLinearAcceleration(-3, -1, 3, 4)
+        self.psystem:setTangentialAcceleration(0, 3)
+        self.psystem:setParticleLifetime(1, 3)
       else
         self.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
+        self.psystem:setTangentialAcceleration(2, 6)
       end
       self.psystem:update(dt)
     else
@@ -436,4 +478,17 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
   --love.graphics.print(tostring(self.hit), self.x + 12, self.y)
   --love.graphics.print(tostring(self.dy), self.x + 12, self.y + 10)
   self.x, self.y = self.x - (adjacentOffsetX or 0), self.y - (adjacentOffsetY or 0)
+
+  --CIRCLE COLLISION
+  --
+  -- --love.graphics.setColor(0,1,0,1)
+  -- --love.graphics.circle('fill', self.x + 8, self.y + 8, TILE_SIZE / 2)
+  -- if gPlayer.aquisCasting then
+  --   local aquisCollides = self:circleCollides(gPlayer.aquisProjectile)
+  --   if aquisCollides then
+  --     love.graphics.setColor(1,0,0,1)
+  --   else
+  --     love.graphics.setColor(0,0,1,1)
+  --   end
+  -- end
 end

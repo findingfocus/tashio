@@ -605,6 +605,7 @@ function Map:render()
   end
 
   --ENTITY RENDER ENTITY
+  --TODO TURNING OFF STILL SHOWS ENTITIES
   for k, entity in pairs(MAP[self.row][self.column].entities) do
     if not entity.offscreen --[[and entity.spawning--]] then
       entity:render(self.adjacentOffsetX, self.adjacentOffsetY)

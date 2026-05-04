@@ -37,19 +37,19 @@ function GeckoWalkState:update(dt)
   if self.entity.type == 'gecko' then
     if self.entity.direction == 'down' then
       self.entity.y = self.entity.y + self.entity.walkSpeed * dt
-      self.entity.dx = 0
+      --self.entity.dx = 0
       self.entity:changeAnimation('walk-down')
     elseif self.entity.direction == 'up' then
       self.entity.y = self.entity.y - self.entity.walkSpeed * dt
-      self.entity.dx = 0
+      --self.entity.dx = 0
       self.entity:changeAnimation('walk-up')
     elseif self.entity.direction == 'left' then
       self.entity.x = self.entity.x - self.entity.walkSpeed * dt
-      self.entity.dy = 0
+      --self.entity.dy = 0
       self.entity:changeAnimation('walk-left')
     elseif self.entity.direction == 'right' then
       self.entity.x = self.entity.x + self.entity.walkSpeed * dt
-      self.entity.dy = 0
+      --self.entity.dy = 0
       self.entity:changeAnimation('walk-right')
     end
   end

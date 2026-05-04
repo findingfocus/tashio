@@ -548,7 +548,7 @@ function PlayState:render()
 
 
   --DEBUG MANIS SPELLCASTING
-  love.graphics.print(': ' .. tostring(gPlayer.aquisSuccessTimer), 5, SCREEN_HEIGHT_LIMIT - 15)
+
   --[[
   love.graphics.print('unFocus: ' .. tostring(self.unFocus), 5, SCREEN_HEIGHT_LIMIT - 15)
   love.graphics.print('unFocusGrowing: ' .. tostring(self.unFocusGrowing), 5, SCREEN_HEIGHT_LIMIT - 25)
@@ -969,6 +969,29 @@ function PlayState:render()
   if NEW_DATA ~= nil then
    love.graphics.print(Inspect(NEW_DATA), 0, 0)
   end
+
+  --CIRCLE COLLISION TEST
+  -- local x, y = love.mouse.getPosition()
+  -- love.graphics.print('mouseX: ' .. tostring(x), 5, SCREEN_HEIGHT_LIMIT - 15)
+  --
+  -- local castRadius = TILE_SIZE / 2
+  -- --BLUE CIRCLE MOUSE POSITION
+  -- --GET DISTANCE FROM TWO POINTS
+  -- --X DIFFERENCE
+  -- local sideA = math.abs(x - TILE_SIZE)
+  -- local sideB = math.abs(y - TILE_SIZE)
+  -- local sideCSquared = (sideA * sideA) + (sideB * sideB)
+  -- local sideC = math.sqrt(sideCSquared)
+  -- if sideC <= castRadius * 2 then
+  --   love.graphics.setColor(1,0,0,1)
+  -- else
+  --   love.graphics.setColor(0,0,1,1)
+  -- end
+  -- love.graphics.circle('fill', x, y, castRadius)
+  --
+  -- --GREEN CIRCLE TARGET POSITION
+  -- love.graphics.setColor(0,1,0,1)
+  -- love.graphics.circle('fill', TILE_SIZE, TILE_SIZE, castRadius)
 end
 
 function displayFPS()
