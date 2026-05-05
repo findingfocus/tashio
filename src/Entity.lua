@@ -211,9 +211,18 @@ function Entity:update(dt)
   if gPlayer.aquisCasting then
     self.aquisCollides = self:circleCollides(gPlayer.aquisProjectile)
   end
+  local knockbackSpeed = SPELL_KNOCKBACK / 4
   if self.aquisCollides and self.type ~= 'player' then
     self.hit = true
-    self.dy = SPELL_KNOCKBACK / 3
+    if gPlayer.aquisProjectile.direction == 'down' then
+      self.dy = knockbackSpeed
+    elseif gPlayer.aquisProjectile.direction == 'up' then
+      self.dy = -knockbackSpeed
+    elseif gPlayer.aquisProjectile.direction == 'left' then
+      self.dx = -knockbackSpeed
+    elseif gPlayer.aquisProjectile.direction == 'right' then
+      self.dx = knockbackSpeed
+    end
     self.splashed = true
     self.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
     self.aquisCollides = false
@@ -239,12 +248,6 @@ function Entity:update(dt)
     self.blueFlashTimer = 0
   end
 
-  if gPlayer.aquisProjectile[1] ~= nil then
-    if self:collides(gPlayer.aquisProjectile) then
-      self.splashed = true
-      self.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
-    end
-  end
   --BAT FLAP
   if self.type == 'bat' then
     if self.flapActive then
@@ -387,7 +390,7 @@ function Entity:update(dt)
     if self.dy < 0 then
       self.dy = math.min(0, self.dy + SLOW_TO_STOP * dt)
     end
-  end
+    end
   --]]
 
   --self.x = self.x + self.dx * dt
