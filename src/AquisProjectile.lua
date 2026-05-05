@@ -17,6 +17,7 @@ function AquisProjectile:init()
   --self.spellLevel = TILE_SIZE / 2
   --LEVEL 3
   --self.spellLevel = TILE_SIZE
+  self.direction = ''
 end
 
 function AquisProjectile:createAnimations(animations)
@@ -120,6 +121,7 @@ function AquisProjectile:update(dt)
     end
   end
 
+  --AQUIS CASTING
   if gPlayer.aquisSuccessTimer == 0.5 then
     if not gPlayer.aquisCasting then
       gPlayer.aquisCasting = true
@@ -127,6 +129,7 @@ function AquisProjectile:update(dt)
       self.y = gPlayer.y + TILE_SIZE / 2
       self.landingSpotX = self.nearestTileColumn + self.xOffset + 8
       self.landingSpotY = self.nearestTileRow + self.yOffset + 8
+      self.direction = gPlayer.direction
     end
   end
 
