@@ -181,11 +181,13 @@ function AquisProjectile:render()
 
   --SPELL PROJECTILE
   if gPlayer.aquisCasting or gPlayer.aquisCastLanded then
-    --love.graphics.setColor(0,0,1,1)
-    --love.graphics.circle('fill', self.x, self.y, self.spellLevel)
-    --love.graphics.circle('fill', gPlayer.x + (TILE_SIZE / 2) + self.xOffset, gPlayer.y + (TILE_SIZE / 2) + self.yOffset, TILE_SIZE / 2)
     love.graphics.setColor(WHITE)
     local anim = self.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()], self.x - TILE_SIZE / 2, self.y - TILE_SIZE / 2)
+
+    love.graphics.setColor(0,0,1,1)
+    love.graphics.circle('line', self.x, self.y, self.spellLevel)
+    --love.graphics.circle('line', self.x + 8, self.y + 8, TILE_SIZE / 2)
+    --love.graphics.circle('fill', gPlayer.x + (TILE_SIZE / 2) + self.xOffset, gPlayer.y + (TILE_SIZE / 2) + self.yOffset, TILE_SIZE / 2)
   end
 end
