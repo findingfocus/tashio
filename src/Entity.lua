@@ -191,12 +191,16 @@ function Entity:changeAnimation(name)
 end
 
 function Entity:circleCollides(target)
-  local castRadius = TILE_SIZE / 2
-  local sideA = math.abs(self.x - target.x)
-  local sideB = math.abs(self.y - target.y)
+  local castRadius = gPlayer.aquisProjectile.spellLevel
+  local biggerX = math.max(self.x + 8, target.x)
+  local smallerX = math.min(self.x + 8, target.x)
+  local biggerY = math.max(self.y + 8, target.y)
+  local smallerY = math.min(self.y + 8, target.y)
+  local sideA = biggerX - smallerX
+  local sideB = biggerY - smallerY
   local sideCSquared = (sideA * sideA) + (sideB * sideB)
   local sideC = math.sqrt(sideCSquared)
-  if sideC <= castRadius * 2 then
+  if sideC <= castRadius + TILE_SIZE / 2 then
     --COLLIDE
     love.graphics.setColor(1,0,0,1)
     return true
@@ -482,10 +486,12 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
   --love.graphics.print(tostring(self.dy), self.x + 12, self.y + 10)
   self.x, self.y = self.x - (adjacentOffsetX or 0), self.y - (adjacentOffsetY or 0)
 
+  love.graphics.setColor(0,1,0,1)
+  love.graphics.circle('line', self.x + 8, self.y + 8, TILE_SIZE / 2)
+
+  --love.graphics.circle('line', self.x, self.y, TILE_SIZE / 2)
   --CIRCLE COLLISION
   --
-  -- --love.graphics.setColor(0,1,0,1)
-  -- --love.graphics.circle('fill', self.x + 8, self.y + 8, TILE_SIZE / 2)
   -- if gPlayer.aquisCasting then
   --   local aquisCollides = self:circleCollides(gPlayer.aquisProjectile)
   --   if aquisCollides then
