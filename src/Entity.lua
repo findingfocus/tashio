@@ -461,15 +461,6 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
     end
   end
 
-  if self.type == 'gecko' then --IF TYPE HAS PARTICLE SYSTEM TODO
-    if self.stateMachine.current.stateName == 'flee' then
-      love.graphics.setColor(1,1,1,self.stateMachine.current.alpha/255)
-    else
-      love.graphics.setColor(WHITE)
-    end
-    love.graphics.draw(self.psystem, math.floor(adjacentOffsetX), math.floor(adjacentOffsetY))
-  end
-
   self.x, self.y = self.x + (adjacentOffsetX or 0), self.y + (adjacentOffsetY or 0)
   --BLUE FLASHING
   if self.type ~= 'spellcast' then
@@ -480,14 +471,31 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
       end
     end
   end
+  --love.graphics.setColor(230/255,20/255,20/255,1)
+  if self.type == 'gecko' then --IF TYPE HAS PARTICLE SYSTEM TODO
+     --love.graphics.setColor(WHITE)
+     love.graphics.draw(self.psystem, math.floor(adjacentOffsetX), math.floor(adjacentOffsetY))
+    if self.stateMachine.current.stateName == 'flee' then
+      love.graphics.setColor(1,1,1,self.stateMachine.current.alpha/255)
+    else
+      --CORRUPT
+      love.graphics.setColor(CORRUPT_GECKO_COLOR)
+      --CLEANSED
+      love.graphics.setColor(SPLASHED_GECKO_COLOR)
+      --SPLASHED
+      love.graphics.setColor(SPLASHED_GECKO_COLOR)
+      --DAMAGE
+      love.graphics.setColor(DAMAGED_GECKO_COLOR)
+    end
+  end
   self.stateMachine:render()
   --GECKO DEBUG
   --love.graphics.print(tostring(self.hit), self.x + 12, self.y)
   --love.graphics.print(tostring(self.dy), self.x + 12, self.y + 10)
   self.x, self.y = self.x - (adjacentOffsetX or 0), self.y - (adjacentOffsetY or 0)
 
-  love.graphics.setColor(0,1,0,1)
-  love.graphics.circle('line', self.x + 8, self.y + 8, TILE_SIZE / 2)
+  --love.graphics.setColor(0,1,0,1)
+  --love.graphics.circle('line', self.x + 8, self.y + 8, TILE_SIZE / 2)
 
   --love.graphics.circle('line', self.x, self.y, TILE_SIZE / 2)
   --CIRCLE COLLISION
