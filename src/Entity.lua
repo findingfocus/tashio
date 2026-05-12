@@ -60,6 +60,9 @@ function Entity:init(def)
   if self.type == 'bat' then
     self.attackSpeed = def.attackSpeed or BAT_ATTACK_SPEED
   end
+  if self.type == 'gecko' or self.type == 'geckoC' then
+    self.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
+  end
 
   --ORIGINAL POSITION RESETS
   self.originalAnimations = self:createAnimations(def.animations)
@@ -228,7 +231,6 @@ function Entity:update(dt)
       self.dx = knockbackSpeed
     end
     self.splashed = true
-    self.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
     self.aquisCollides = false
   end
 
@@ -305,6 +307,7 @@ function Entity:update(dt)
   end
 
   --GECKO PARTICLE SYSTEM
+  --GECKO SPLASH
   if self.type == 'gecko' then
     if self.corrupted then
       self.psystem:moveTo(self.x + 8, self.y + 8)
@@ -313,8 +316,6 @@ function Entity:update(dt)
       self.psystem:setEmissionRate(40)
       self.psystem:setTangentialAcceleration(0, 4)
       if self.splashed then
-        self.psystem:setColors(GECKO_SPLASH_PARTICLE)
-        --self.psystem:setLinearAcceleration(-3, -1, 3, 4)
         self.psystem:setTangentialAcceleration(0, 3)
         self.psystem:setParticleLifetime(1, 3)
       else
@@ -472,23 +473,31 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
     end
   end
   --love.graphics.setColor(230/255,20/255,20/255,1)
+  if self.type == 'gecko' then
+    love.graphics.setColor(WHITE)
+    if self.stateMachine.current.stateName == 'flee' then
+      love.graphics.setColor(1,1,1,self.stateMachine.current.alpha/255)
+    end
+    self.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
+    love.graphics.draw(self.psystem, math.floor(adjacentOffsetX), math.floor(adjacentOffsetY))
+  end
   if self.type == 'gecko' then --IF TYPE HAS PARTICLE SYSTEM TODO
-     --love.graphics.setColor(WHITE)
-     love.graphics.draw(self.psystem, math.floor(adjacentOffsetX), math.floor(adjacentOffsetY))
     if self.stateMachine.current.stateName == 'flee' then
       love.graphics.setColor(1,1,1,self.stateMachine.current.alpha/255)
     else
       --CORRUPT
       love.graphics.setColor(CORRUPT_GECKO_COLOR)
       --CLEANSED
-      love.graphics.setColor(SPLASHED_GECKO_COLOR)
+      --love.graphics.setColor(CLEANSED_GECKO_COLOR)
       --SPLASHED
-      love.graphics.setColor(SPLASHED_GECKO_COLOR)
+      --love.graphics.setColor(SPLASHED_GECKO_COLOR)
       --DAMAGE
-      love.graphics.setColor(DAMAGED_GECKO_COLOR)
+      --love.graphics.setColor(DAMAGED_GECKO_COLOR)
     end
   end
+
   self.stateMachine:render()
+
   --GECKO DEBUG
   --love.graphics.print(tostring(self.hit), self.x + 12, self.y)
   --love.graphics.print(tostring(self.dy), self.x + 12, self.y + 10)
