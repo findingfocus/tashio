@@ -1,8 +1,8 @@
 Entity = Class{}
 
 particle = love.graphics.newImage('graphics/particle.png')
-local FLASH_FREQUENCY = 0.08
-local FLASH_DURATION = 0.85
+local FLASH_FREQUENCY = 0.12
+local FLASH_DURATION = 0.4
 local DAMAGE = 1
 
 function Entity:init(def)
@@ -63,6 +63,8 @@ function Entity:init(def)
   if self.type == 'gecko' or self.type == 'geckoC' then
     self.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
   end
+
+  self.colorOption = 'corrupted'
 
   --ORIGINAL POSITION RESETS
   self.originalAnimations = self:createAnimations(def.animations)
@@ -232,19 +234,22 @@ function Entity:update(dt)
     end
     self.splashed = true
     self.aquisCollides = false
+    self.damageFlash = true
   end
 
   --UNSPLASH
-  -- if self.splashTimer > splashMax then
-  --   self.splashTimer = 0
-  --   self.splashed = false
-  --   self.blueFlashing = false
-  --   self.psystem:setParticleLifetime(1, 4)
-  --   self.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
-  --   self.walkSpeed = self.originalWalkSpeed
-  -- end
+  local splashMax = 10
+  if self.splashTimer > splashMax then
+    self.splashTimer = 0
+    self.splashed = false
+    self.blueFlashing = false
+    self.psystem:setParticleLifetime(1, 4)
+    self.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
+    self.walkSpeed = self.originalWalkSpeed
+  end
 
   if self.splashed then
+    self.splashTimer = self.splashTimer + dt
     self.blueFlashTimer = self.blueFlashTimer + dt
     self.walkSpeed = 5
   end
@@ -484,16 +489,37 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
   if self.type == 'gecko' then --IF TYPE HAS PARTICLE SYSTEM TODO
     if self.stateMachine.current.stateName == 'flee' then
       love.graphics.setColor(1,1,1,self.stateMachine.current.alpha/255)
-    else
-      --CORRUPT
+    end
+  end
+
+  if self.type == 'gecko' then
+    --CORRUPT
+    if self.colorOption == 'corrupted' then
       love.graphics.setColor(CORRUPT_GECKO_COLOR)
+    end
+    if self.colorOption == 'cleansed' then
       --CLEANSED
-      --love.graphics.setColor(CLEANSED_GECKO_COLOR)
+      love.graphics.setColor(CLEANSED_GECKO_COLOR)
+    end
+
+
+    if self.splashed then
+        love.graphics.setColor(SPLASHED_GECKO_COLOR)
+    elseif not self.damageFlash then
+      love.graphics.setColor(CORRUPT_GECKO_COLOR)
+    end
+
+    if self.damageFlash then
+      if self.flashing then
+        love.graphics.setColor(DAMAGED_GECKO_COLOR)
+      else
+        love.graphics.setColor(SPLASHED_GECKO_COLOR)
+      end
+    end
       --SPLASHED
       --love.graphics.setColor(SPLASHED_GECKO_COLOR)
       --DAMAGE
       --love.graphics.setColor(DAMAGED_GECKO_COLOR)
-    end
   end
 
   self.stateMachine:render()
