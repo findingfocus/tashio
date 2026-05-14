@@ -221,6 +221,7 @@ function Entity:update(dt)
     self.aquisCollides = self:circleCollides(gPlayer.aquisProjectile)
   end
   local knockbackSpeed = SPELL_KNOCKBACK / 4
+  --AQUIS TO PLAYER COLLISION
   if self.aquisCollides and self.type ~= 'player' then
     self.hit = true
     if gPlayer.aquisProjectile.direction == 'down' then
@@ -235,6 +236,8 @@ function Entity:update(dt)
     self.splashed = true
     self.aquisCollides = false
     self.damageFlash = true
+    self.splashTimer = 0
+    --ADD SPLASH SOUND
   end
 
   --UNSPLASH
