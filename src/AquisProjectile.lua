@@ -147,9 +147,10 @@ function AquisProjectile:update(dt)
     end
   end
 
+  local CAST_TIMER_LIMIT = 0.6
   if gPlayer.aquisCastLanded then
     gPlayer.aquisCastLandedTimer = gPlayer.aquisCastLandedTimer + dt
-    if gPlayer.aquisCastLandedTimer > 1 then
+    if gPlayer.aquisCastLandedTimer > CAST_TIMER_LIMIT then
       gPlayer.aquisCasting = false
       gPlayer.aquisCastLanded = false
       gPlayer.aquisCastLandedTimer = 0
