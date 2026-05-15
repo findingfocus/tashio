@@ -812,11 +812,11 @@ function PlayState:render()
       if not self.gameOver then
         if v.type == 'gecko' then
           v:changeState(tostring(entityType) .. '-flee')
-          if v.corrupted then
-            v.animations = v:createAnimations(ENTITY_DEFS[tostring(entityType) .. 'C'].animations)
-          else
-            v.animations = v:createAnimations(ENTITY_DEFS[tostring(entityType)].animations)
-          end
+          -- if v.corrupted then
+          --   v.animations = v:createAnimations(ENTITY_DEFS[tostring(entityType) .. 'C'].animations)
+          -- else
+          --   v.animations = v:createAnimations(ENTITY_DEFS[tostring(entityType)].animations)
+          -- end
         end
       end
     end
@@ -992,6 +992,8 @@ function PlayState:render()
   -- --GREEN CIRCLE TARGET POSITION
   -- love.graphics.setColor(0,1,0,1)
   -- love.graphics.circle('fill', TILE_SIZE, TILE_SIZE, castRadius)
+  --
+  love.graphics.print(tostring(MAP[7][3].entities[1].stateMachine.current.stateName), 0, 0)
 end
 
 function displayFPS()

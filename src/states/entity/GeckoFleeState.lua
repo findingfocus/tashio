@@ -2,7 +2,7 @@ GeckoFleeState = Class{__includes = BaseState}
 
 function GeckoFleeState:init(entity, scene)
   self.entity = entity
-  self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['gecko'].animations)
+  self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['geckoC'].animations)
   --self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['geckoC'].animations)
   self.stateName = 'flee'
   self.direction = ''
@@ -58,7 +58,8 @@ function GeckoFleeState:update(dt)
 end
 
 function GeckoFleeState:render()
-  love.graphics.setColor(1,1,1,self.alpha/255)
+  --love.graphics.setColor(1,1,1,self.alpha/255)
+  love.graphics.setColor(163/255,40/255,226/255,self.alpha/255)
   local anim = self.entity.currentAnimation
   love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
   self.entity.x, self.entity.y)
