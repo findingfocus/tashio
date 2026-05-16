@@ -9,6 +9,7 @@ function EntityIdleState:init(entity)
   if self.entity.corrupted and self.entity.type == 'gecko' then
     self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['geckoC'].animations)
   end
+  self.alpha = 255
 end
 
 function EntityIdleState:processAI(params, dt, player)

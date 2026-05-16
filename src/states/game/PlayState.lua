@@ -800,6 +800,8 @@ function PlayState:render()
 
   --self.snowSystem:render()
   --self.rainSystem:render()
+  
+  --GAME OVER FLEE
   if sceneView.player.deadTimer > 2 then
     gPlayer.dx = 0
     gPlayer.dy = 0
@@ -812,6 +814,9 @@ function PlayState:render()
       if not self.gameOver then
         if v.type == 'gecko' then
           v:changeState(tostring(entityType) .. '-flee')
+          --WHY NO WORKY
+          v.walkSpeed = v.originalWalkSpeed
+          --v.colorOption = 'cleansed'
           -- if v.corrupted then
           --   v.animations = v:createAnimations(ENTITY_DEFS[tostring(entityType) .. 'C'].animations)
           -- else
@@ -994,6 +999,8 @@ function PlayState:render()
   -- love.graphics.circle('fill', TILE_SIZE, TILE_SIZE, castRadius)
   --
   love.graphics.print(tostring(MAP[7][3].entities[1].stateMachine.current.stateName), 0, 0)
+  love.graphics.print(tostring(MAP[7][3].entities[1].colorOption), 0, 10)
+  love.graphics.print(tostring(MAP[7][3].entities[1].stateMachine.current.alpha), 0, 20)
 end
 
 function displayFPS()

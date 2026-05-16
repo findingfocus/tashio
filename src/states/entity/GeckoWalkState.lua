@@ -14,6 +14,7 @@ function GeckoWalkState:init(entity, scene)
 
   self.collided = false
   self.stateName = 'walk'
+  self.alpha = 255
   --self.entity.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
 end
 
@@ -28,6 +29,8 @@ function GeckoWalkState:update(dt)
       self.entity.direction = sceneView.possibleDirections[random]
       self.entity.corrupted = false
       self.entity:changeState('gecko-flee')
+      self.entity.colorOption = 'cleansed'
+      self.entity.splashed = false
     end
   end
 
