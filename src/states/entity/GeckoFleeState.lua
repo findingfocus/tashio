@@ -59,7 +59,7 @@ end
 
 function GeckoFleeState:render()
   --love.graphics.setColor(1,1,1,self.alpha/255)
-  love.graphics.setColor(163/255,40/255,226/255,self.alpha/255)
+  --love.graphics.setColor(163/255,40/255,226/255,self.alpha/255)
   local anim = self.entity.currentAnimation
   love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
   self.entity.x, self.entity.y)

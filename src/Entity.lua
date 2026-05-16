@@ -95,6 +95,8 @@ function Entity:resetOriginalPosition()
   self.splashTimer = 0
   self.blueFlashing = false
   self.blueFlashTimer = 0
+  self.colorOption = 'corrupted'
+  self.splashed = false
 
   self.aquisCollides = false
   if self.type == 'bat' then
@@ -498,31 +500,39 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
   if self.type == 'gecko' then
     --CORRUPT
     if self.colorOption == 'corrupted' then
-      love.graphics.setColor(CORRUPT_GECKO_COLOR)
+      local color = CORRUPT_GECKO_COLOR
+      table.insert(color, 4, self.stateMachine.current.alpha/255)
+      love.graphics.setColor(color)
     end
     if self.colorOption == 'cleansed' then
       --CLEANSED
-      love.graphics.setColor(CLEANSED_GECKO_COLOR)
+      local color = CLEANSED_GECKO_COLOR
+      table.insert(color, 4, self.stateMachine.current.alpha/255)
+      love.graphics.setColor(color)
     end
 
 
     if self.splashed then
-        love.graphics.setColor(SPLASHED_GECKO_COLOR)
-    elseif not self.damageFlash then
-      love.graphics.setColor(CORRUPT_GECKO_COLOR)
+      local color = SPLASHED_GECKO_COLOR
+      table.insert(color, 4, self.stateMachine.current.alpha/255)
+      love.graphics.setColor(color)
+    elseif not self.damageFlash and not self.colorOption == 'cleansed' then
+      local color = CORRUPTED_GECKO_COLOR
+      table.insert(color, 4, self.stateMachine.current.alpha/255)
+      love.graphics.setColor(color)
     end
 
     if self.damageFlash then
       if self.flashing then
-        love.graphics.setColor(DAMAGED_GECKO_COLOR)
+      local color = DAMAGED_GECKO_COLOR
+      table.insert(color, 4, self.stateMachine.current.alpha/255)
+      love.graphics.setColor(color)
       else
-        love.graphics.setColor(SPLASHED_GECKO_COLOR)
+      local color = SPLASHED_GECKO_COLOR
+      table.insert(color, 4, self.stateMachine.current.alpha/255)
+      love.graphics.setColor(color)
       end
     end
-      --SPLASHED
-      --love.graphics.setColor(SPLASHED_GECKO_COLOR)
-      --DAMAGE
-      --love.graphics.setColor(DAMAGED_GECKO_COLOR)
   end
 
   self.stateMachine:render()
