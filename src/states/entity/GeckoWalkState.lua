@@ -31,6 +31,7 @@ function GeckoWalkState:update(dt)
       self.entity:changeState('gecko-flee')
       self.entity.colorOption = 'cleansed'
       self.entity.splashed = false
+      self.entity.walkSpeed = self.entity.originalWalkSpeed
     end
   end
 

@@ -773,4 +773,5 @@ function Scene:render()
   --TRANSITION BLACK FADE
   love.graphics.setColor(0/255, 0/255, 0/255, transitionFadeAlpha/255)
   love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
+
 end

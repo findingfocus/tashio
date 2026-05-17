@@ -1001,6 +1001,9 @@ function PlayState:render()
   love.graphics.print(tostring(MAP[7][3].entities[1].stateMachine.current.stateName), 0, 0)
   love.graphics.print(tostring(MAP[7][3].entities[1].colorOption), 0, 10)
   love.graphics.print(tostring(MAP[7][3].entities[1].stateMachine.current.alpha), 0, 20)
+  love.graphics.print(tostring(MAP[7][3].entities[1].walkSpeed), 0, 30)
+  local x, y = love.mouse.getPosition()
+  love.graphics.print('X: ' .. tostring(x), 0, 50)
 end
 
 function displayFPS()
