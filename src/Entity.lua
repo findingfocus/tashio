@@ -74,10 +74,9 @@ function Entity:init(def)
   self.originalType = def.type
   self.splashed = false
   self.splashTimer = 0
-  self.blueFlashing = false
-  self.blueFlashTimer = 0
 
   self.aquisCollides = false
+  self.entitySelector = false
 end
 
 function Entity:resetOriginalPosition()
@@ -93,8 +92,6 @@ function Entity:resetOriginalPosition()
   self.dy = 0
   self.splashed = false
   self.splashTimer = 0
-  self.blueFlashing = false
-  self.blueFlashTimer = 0
   self.colorOption = 'corrupted'
   self.splashed = false
 
@@ -222,6 +219,16 @@ function Entity:update(dt)
   if gPlayer.aquisCasting then
     self.aquisCollides = self:circleCollides(gPlayer.aquisProjectile)
   end
+
+  if love.mouse.isDown(1) then
+    if gameX > self.x and gameX < self.x + self.width and gameY > self.y and gameY < self.y + self.height then
+      self.entitySelector = true
+    else
+      self.entitySelector = false
+    end
+  end
+
+
   local knockbackSpeed = SPELL_KNOCKBACK / 4
   --AQUIS TO PLAYER COLLISION
   if self.aquisCollides and self.type ~= 'player' then
@@ -247,7 +254,6 @@ function Entity:update(dt)
   if self.splashTimer > splashMax then
     self.splashTimer = 0
     self.splashed = false
-    self.blueFlashing = false
     self.psystem:setParticleLifetime(1, 4)
     self.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
     self.walkSpeed = self.originalWalkSpeed
@@ -255,14 +261,9 @@ function Entity:update(dt)
 
   if self.splashed then
     self.splashTimer = self.splashTimer + dt
-    self.blueFlashTimer = self.blueFlashTimer + dt
     self.walkSpeed = 5
   end
   local flashSpeed = .2
-  if self.blueFlashTimer > flashSpeed then
-    self.blueFlashing = not self.blueFlashing
-    self.blueFlashTimer = 0
-  end
 
   --BAT FLAP
   if self.type == 'bat' then
@@ -473,15 +474,7 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
   end
 
   self.x, self.y = self.x + (adjacentOffsetX or 0), self.y + (adjacentOffsetY or 0)
-  --BLUE FLASHING
-  if self.type ~= 'spellcast' then
-    if self.blueFlashing then
-      love.graphics.setColor(45/255,45/255,255/255,1)
-      if self.type == 'player' then
-        love.graphics.setColor(WHITE)
-      end
-    end
-  end
+
   --love.graphics.setColor(230/255,20/255,20/255,1)
   if self.type == 'gecko' then
     love.graphics.setColor(WHITE)
@@ -537,6 +530,14 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
 
   self.stateMachine:render()
 
+  --ENTITY SELECTOR
+  if self.entitySelector then
+    love.graphics.setColor(WHITE)
+    love.graphics.rectangle('line', math.floor(self.x), math.floor(self.y), self.width, self.height)
+    love.graphics.print('damageFlash: ' .. tostring(self.damageFlash), 4, 4)
+    love.graphics.print('splash: ' .. tostring(self.splashed), 4, 4 + 10)
+    love.graphics.print('walkSpeed: ' .. tostring(self.walkSpeed), 4, 4 + 20)
+  end
   --GECKO DEBUG
   --love.graphics.print(tostring(self.hit), self.x + 12, self.y)
   --love.graphics.print(tostring(self.dy), self.x + 12, self.y + 10)
