@@ -155,6 +155,7 @@ function PlayState:init()
 end
 
 function PlayState:update(dt)
+  gameX, gameY = push:toGame(love.mouse.getPosition())
   if dialogueBoxJustClosed then
     if self.activeDialogueID == nil then
       dialogueBoxJustClosedTimer = dialogueBoxJustClosedTimer - dt
@@ -998,12 +999,11 @@ function PlayState:render()
   -- love.graphics.setColor(0,1,0,1)
   -- love.graphics.circle('fill', TILE_SIZE, TILE_SIZE, castRadius)
   --
-  love.graphics.print(tostring(MAP[7][3].entities[1].stateMachine.current.stateName), 0, 0)
-  love.graphics.print(tostring(MAP[7][3].entities[1].colorOption), 0, 10)
-  love.graphics.print(tostring(MAP[7][3].entities[1].stateMachine.current.alpha), 0, 20)
-  love.graphics.print(tostring(MAP[7][3].entities[1].walkSpeed), 0, 30)
-  local x, y = love.mouse.getPosition()
-  love.graphics.print('X: ' .. tostring(x), 0, 50)
+  --DEBUG
+  -- love.graphics.print(tostring(MAP[7][3].entities[1].stateMachine.current.stateName), 0, 0)
+  -- love.graphics.print(tostring(MAP[7][3].entities[1].colorOption), 0, 10)
+  -- love.graphics.print(tostring(MAP[7][3].entities[1].stateMachine.current.alpha), 0, 20)
+  -- love.graphics.print(tostring(MAP[7][3].entities[1].walkSpeed), 0, 30)
 end
 
 function displayFPS()
