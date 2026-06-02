@@ -603,5 +603,15 @@ ENTITY_DEFS = {
       },
     },
   },
+  ['boar'] = {
+    animations = {
+      ['idle-up'] = {
+        frames = {1, 2},
+        interval = 0.17,
+        texture = 'boar',
+        looping = true
+      },
+    },
+  },
 }
 
