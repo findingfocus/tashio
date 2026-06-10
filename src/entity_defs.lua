@@ -606,7 +606,49 @@ ENTITY_DEFS = {
   ['boar'] = {
     animations = {
       ['idle-up'] = {
-        frames = {1, 2},
+        frames = {1},
+        interval = 0.5,
+        texture = 'boar',
+        looping = true
+      },
+      ['walk-up'] = {
+        frames = {1, 2, 3, 4},
+        interval = 0.17,
+        texture = 'boar',
+        looping = true
+      },
+      ['idle-left'] = {
+        frames = {8},
+        interval = 0.5,
+        texture = 'boar',
+        looping = true
+      },
+      ['walk-left'] = {
+        frames = {8, 9, 10, 11},
+        interval = 0.17,
+        texture = 'boar',
+        looping = true
+      },
+      ['idle-down'] = {
+        frames = {15},
+        interval = 0.5,
+        texture = 'boar',
+        looping = true
+      },
+      ['walk-down'] = {
+        frames = {15, 16, 17, 18},
+        interval = 0.17,
+        texture = 'boar',
+        looping = true
+      },
+      ['idle-right'] = {
+        frames = {22},
+        interval = 0.5,
+        texture = 'boar',
+        looping = true
+      },
+      ['walk-right'] = {
+        frames = {22, 23, 24, 25},
         interval = 0.17,
         texture = 'boar',
         looping = true
