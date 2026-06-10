@@ -970,6 +970,21 @@ table.insert(MAP[7][3].entities, Entity {
   enemy = true,
 })
 
+table.insert(MAP[7][3].entities, Entity {
+  animations = ENTITY_DEFS['boar'].animations,
+  x = TILE_SIZE * 5,
+  y = TILE_SIZE * 2,
+  width = TILE_SIZE,
+  height = TILE_SIZE,
+  health = 1,
+  direction = 'left',
+  type = 'gecko',
+  walkSpeed = 14,
+  aiPath = math.random(1, 2),
+  corrupted = true,
+  enemy = true,
+})
+
 local entityCount = #MAP[7][3].entities
 for i = 1, entityCount do
   if MAP[7][3].entities[i].corrupted and MAP[7][3].entities[i].type == 'gecko' then
