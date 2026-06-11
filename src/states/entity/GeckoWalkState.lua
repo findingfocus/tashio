@@ -38,7 +38,7 @@ function GeckoWalkState:update(dt)
   self.collided = false
 
   ---[[
-  if self.entity.type == 'gecko' then
+  if self.entity.type == 'gecko' or self.entity.type == 'boar' then
     if self.entity.direction == 'down' then
       self.entity.y = self.entity.y + self.entity.walkSpeed * dt
       --self.entity.dx = 0
@@ -77,7 +77,6 @@ function GeckoWalkState:update(dt)
   if self.entity.y > SCREEN_HEIGHT_LIMIT then
     self.entity.offscreen = true
   end
-
 end
 
 function GeckoWalkState:processAI(params, dt, player)

@@ -970,6 +970,7 @@ table.insert(MAP[7][3].entities, Entity {
   enemy = true,
 })
 
+--BOAR
 table.insert(MAP[7][3].entities, Entity {
   animations = ENTITY_DEFS['boar'].animations,
   x = TILE_SIZE * 5,
@@ -977,8 +978,8 @@ table.insert(MAP[7][3].entities, Entity {
   width = TILE_SIZE,
   height = TILE_SIZE,
   health = 1,
-  direction = 'left',
-  type = 'gecko',
+  direction = 'down',
+  type = 'boar',
   walkSpeed = 14,
   aiPath = math.random(1, 2),
   corrupted = true,
@@ -994,6 +995,16 @@ for i = 1, entityCount do
       ['gecko-walk'] = function() return GeckoWalkState(MAP[7][3].entities[i]) end,
       ['entity-idle'] = function() return EntityIdleState(MAP[7][3].entities[i]) end,
       ['gecko-flee'] = function() return GeckoFleeState(MAP[7][3].entities[i]) end,
+    }
+    MAP[7][3].entities[i]:changeState('entity-idle')
+  end
+  if MAP[7][3].entities[i].corrupted and MAP[7][3].entities[i].type == 'boar' then
+    MAP[7][3].entities[i].animations = MAP[7][3].entities[i]:createAnimations(ENTITY_DEFS['boar'].animations)
+    MAP[7][3].entities[i]:changeAnimation('idle-down')
+    MAP[7][3].entities[i].stateMachine = StateMachine {
+      ['boar-walk'] = function() return BoarWalkState(MAP[7][3].entities[i]) end,
+      ['entity-idle'] = function() return EntityIdleState(MAP[7][3].entities[i]) end,
+      ['boar-flee'] = function() return BoarFleeState(MAP[7][3].entities[i]) end,
     }
     MAP[7][3].entities[i]:changeState('entity-idle')
   end
