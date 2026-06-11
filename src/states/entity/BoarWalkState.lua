@@ -1,9 +1,9 @@
-GeckoWalkState = Class{__includes = BaseState}
+BoarWalkState = Class{__includes = BaseState}
 
-function GeckoWalkState:init(entity, scene)
+function BoarWalkState:init(entity, scene)
   self.entity = entity
-  if self.entity.corrupted and self.entity.type == 'gecko' then
-    self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['geckoC'].animations)
+  if self.entity.corrupted and self.entity.type == 'boar' then
+    self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['boar'].animations)
   end
   self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
   --self.entity.walkSpeed = .5
@@ -15,30 +15,10 @@ function GeckoWalkState:init(entity, scene)
   self.collided = false
   self.stateName = 'walk'
   self.alpha = 255
-  --self.entity.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
 end
 
-function GeckoWalkState:update(dt)
-  if self.entity.corrupted then
-    if self.entity.health <= 0 then
-      sfx['cleanse']:play()
-      self.entity.damageFlash = false
-      self.entity.flashing = false
-      self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['gecko'].animations)
-      local random = math.random(4)
-      self.entity.direction = sceneView.possibleDirections[random]
-      self.entity.corrupted = false
-      self.entity:changeState('gecko-flee')
-      self.entity.colorOption = 'cleansed'
-      self.entity.splashed = false
-      self.entity.walkSpeed = self.entity.originalWalkSpeed
-    end
-  end
-
-  self.collided = false
-
-  ---[[
-  if self.entity.type == 'gecko' or self.entity.type == 'boar' then
+function BoarWalkState:update(dt)
+  if self.entity.type == 'boar' then
     if self.entity.direction == 'down' then
       self.entity.y = self.entity.y + self.entity.walkSpeed * dt
       --self.entity.dx = 0
@@ -57,18 +37,6 @@ function GeckoWalkState:update(dt)
       self.entity:changeAnimation('walk-right')
     end
   end
-  --]]
-
-  --self.entity.x = self.entity.x + self.entity.dx * dt
-  --self.entity.y = self.entity.y + self.entity.dy * dt
-
-  --[[
-  if self.entity.type == 'batC' then
-    self.entity.dx = -self.entity.walkSpeed
-    self.entity:changeAnimation('fly')
-  end
-  --]]
-
   --TRIGGER OFFSCREEN
   if self.entity.x + self.entity.width < -TILE_SIZE or self.entity.x > VIRTUAL_WIDTH + TILE_SIZE or self.entity.y + self.entity.height < -TILE_SIZE then
     --ADD IN BOTTOM RULE AS WELL
@@ -79,7 +47,7 @@ function GeckoWalkState:update(dt)
   end
 end
 
-function GeckoWalkState:processAI(params, dt, player)
+function BoarWalkState:processAI(params, dt, player)
   local tashio = player
   local velocity = .5
   if self.entity.corrupted then
@@ -109,33 +77,8 @@ function GeckoWalkState:processAI(params, dt, player)
   end
 end
 
-function GeckoWalkState:render()
+function BoarWalkState:render()
   local anim = self.entity.currentAnimation
   love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
   self.entity.x, self.entity.y)
-  --DIALOGUE HITBOX RENDERS
-  --[[
-  love.graphics.setColor(RED)
-  love.graphics.rectangle('fill', VIRTUAL_WIDTH - 8, 32, 16, 16)
-  love.graphics.setColor(WHITE)
-  --]]
-
-  --HEALTH BARS
-  ---[[
-  if self.entity.type == 'gecko' then
-    ---[[
-    --love.graphics.setColor(1,0,0,1)
-    --love.graphics.rectangle('fill', self.entity.x, self.entity.y - 1, self.entity.health * 5.3, 1)
-    -- love.graphics.setColor(WHITE)
-    -- love.graphics.print(self.entity.geckoCollideCount, self.entity.x, self.entity.y - 5)
-    -- love.graphics.print(self.entity.aiPath, self.entity.x, self.entity.y + 5)
-    --]]
-
-    --[[
-    love.graphics.setColor(WHITE)
-    love.graphics.print('dx: ' .. self.entity.dx, self.entity.x, self.entity.y - 5)
-    love.graphics.print('dy: ' .. self.entity.dy, self.entity.x, self.entity.y - 10)
-    --]]
-  end
-  --]]
 end
