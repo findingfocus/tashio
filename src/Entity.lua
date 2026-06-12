@@ -339,8 +339,8 @@ function Entity:update(dt)
     end
   end
 
-  --SPELLCAST TO GECKO COLLISION
-  if self.type == 'gecko' and successfulCast then
+  --SPELLCAST TO ENTITY COLLISION
+  if self.enemy and successfulCast then
     for i = 1, sceneView.spellcastEntityCount do
       local spellX = sceneView.spellcastEntities[i].x
       local spellY = sceneView.spellcastEntities[i].y
@@ -387,8 +387,6 @@ function Entity:update(dt)
         self.hit = true
       end
     end
-
-
   end
 
   --SHOULD NEST IN SELF.HIT? WAS CAUSING BUGS
