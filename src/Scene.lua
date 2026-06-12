@@ -412,12 +412,11 @@ function Scene:update(dt)
     end
   end
 
-  --ENTITY TO COLLIDABLE  GECKO TO COLLIDABLE GECKO COLLIDE
-  --
+  --ENTITY TO COLLIDABLE ENEMY COLLISION
   for k, object in pairs(sceneView.currentMap.collidableMapObjects) do
     if not gPlayer.dead then
       for index, entity in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
-        if entity.type == 'gecko' then
+        if entity.enemy then
           if entity:leftCollidesMapObject(object) then
             entity.x = object.x + entity.width - AABB_SIDE_COLLISION_BUFFER
             entity.geckoCollideCount = entity.geckoCollideCount + 1
@@ -438,7 +437,7 @@ function Scene:update(dt)
   end
 
   for k, gecko in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
-    if gecko.type == 'gecko' then
+    if gecko.type == 'gecko' or gecko.type == 'boar' then
       if gecko.geckoCollideCount > 60 then
         gecko.geckoCollideCount = 0
         if gecko.aiPath == 1 then
