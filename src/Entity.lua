@@ -77,6 +77,7 @@ function Entity:init(def)
 
   self.aquisCollides = false
   self.entitySelector = false
+  self.axisAligned = false
 end
 
 function Entity:resetOriginalPosition()
@@ -532,9 +533,12 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
   if self.entitySelector then
     love.graphics.setColor(WHITE)
     love.graphics.rectangle('line', math.floor(self.x), math.floor(self.y), self.width, self.height)
-    love.graphics.print('damageFlash: ' .. tostring(self.damageFlash), 4, 4)
-    love.graphics.print('splash: ' .. tostring(self.splashed), 4, 4 + 10)
+    love.graphics.print('axisAligned: ' .. tostring(self.axisAligned), 4, 4)
+    love.graphics.print('aiPath: ' .. tostring(self.aiPath), 4, 14)
     love.graphics.print('walkSpeed: ' .. tostring(self.walkSpeed), 4, 4 + 20)
+    --love.graphics.print('damageFlash: ' .. tostring(self.damageFlash), 4, 4)
+    --love.graphics.print('splash: ' .. tostring(self.splashed), 4, 4 + 10)
+    --love.graphics.print('walkSpeed: ' .. tostring(self.walkSpeed), 4, 4 + 20)
   end
   --GECKO DEBUG
   --love.graphics.print(tostring(self.hit), self.x + 12, self.y)
