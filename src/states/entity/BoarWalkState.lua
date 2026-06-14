@@ -62,7 +62,8 @@ function BoarWalkState:processAI(params, dt, player)
       elseif self.entity.y < tashio.y then
         self.entity.direction = 'down'
       end
-      --TRACK PLAYERS Y POSITION
+
+    --TRACK PLAYERS Y POSITION
     elseif self.entity.aiPath == 2 then
       if self.entity.y > tashio.y + 2 then
         self.entity.direction = 'up'
@@ -74,6 +75,20 @@ function BoarWalkState:processAI(params, dt, player)
         self.entity.direction = 'right'
       end
     end
+  end
+
+  if self.entity.x > tashio.x - 2 and self.entity.x + self.entity.width < tashio.x + tashio.width + 2 then
+    self.entity.axisAligned = true
+  elseif self.entity.y > tashio.y - 2 and self.entity.y + self.entity.height < tashio.y + tashio.height + 2 then
+    self.entity.axisAligned = true
+  else
+    self.entity.axisAligned = false
+  end
+
+  if self.entity.axisAligned then
+    self.entity.walkSpeed = 50
+  else
+    self.entity.walkSpeed = self.entity.originalWalkSpeed
   end
 end
 
