@@ -15,6 +15,7 @@ TODO
 __Add Elder Gecko NPC for item harvesting proficency
 
 NEXT EPISODE
+__Add Collidable Layer to tiled
 
 RESEARCH
 __Potential mechanic to lessen enemy spawn
