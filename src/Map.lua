@@ -18,6 +18,7 @@ function Map:init(row, column, spellcastEntities)
   self.tiles = {}
   self.topLevelTiles = {}
   self.aboveGroundTiles = {}
+  self.collidableTiles = {}
   self.row = row
   self.column = column
   self.spellcastEntityCount = spellcastEntities
@@ -67,35 +68,35 @@ function Map:init(row, column, spellcastEntities)
       count = count + 1
     end
   end
-  ---[[
+
+  --COLLIDABLE TILE INSERTION
+  local count = 1
+  for y = 1, MAP_HEIGHT do
+    table.insert(self.collidableTiles, {})
+    for x = 1, MAP_WIDTH do
+      table.insert(self.collidableTiles[y], {
+        id = MAP[row][column].collidableTileIds[count]
+      })
+      count = count + 1
+    end
+  end
+
   --COLLIDABLE MAP OBJECTS COLLISION
   self.collidableMapObjects = {}
   self.collidableWallObjects = {}
+
+  local count = 1
   for i = 1, MAP_HEIGHT do
     for j = 1, MAP_WIDTH do
-      local tile = self.tiles[i][j]
-      if tile.id >= 97 and tile.id <= 256 then
-        table.insert(self.collidableMapObjects, CollidableMapObjects(i, j))
+      local tile = self.collidableTiles[i][j]
+      if tile.id == COLLIDABLE_TILE_ID then
+       table.insert(self.collidableMapObjects, CollidableMapObjects(i, j))
       end
-      if tile.id >= 897 and tile.id <= 928 then
-        table.insert(self.collidableWallObjects, CollidableMapObjects(i, j))
-      end
-      local tile = self.aboveGroundTiles[i][j]
-      if tile.id >= 97 and tile.id <= 256 then
-        table.insert(self.collidableMapObjects, CollidableMapObjects(i, j))
-      end
-
-
-      if tile.id >= 641 and tile.id <= 736 then
-        table.insert(self.collidableMapObjects, CollidableMapObjects(i, j))
-      end
+      count = count + 1
     end
   end
-  --]]
   self.testTimer = 0
 end
-
-
 
 function Map:update(dt)
   --self.rainSystem:update(dt)
