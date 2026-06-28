@@ -92,6 +92,10 @@ function Map:init(row, column, spellcastEntities)
       if tile.id == COLLIDABLE_TILE_ID then
        table.insert(self.collidableMapObjects, CollidableMapObjects(i, j))
       end
+      local tile = self.tiles[i][j]
+      if tile.id >= 897 and tile.id <= 928 then
+        table.insert(self.collidableWallObjects, CollidableMapObjects(i, j))
+      end
       count = count + 1
     end
   end

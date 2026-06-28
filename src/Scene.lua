@@ -412,11 +412,11 @@ function Scene:update(dt)
     end
   end
 
-  --ENTITY TO COLLIDABLE ENEMY COLLISION
+  --ENTITY TO COLLIDABLE OBJECT COLLISION
   for k, object in pairs(sceneView.currentMap.collidableMapObjects) do
     if not gPlayer.dead then
       for index, entity in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
-        if entity.enemy then
+        if entity.enemy and entity.type ~= 'bat' then
           if entity:leftCollidesMapObject(object) then
             entity.x = object.x + entity.width - AABB_SIDE_COLLISION_BUFFER
             entity.geckoCollideCount = entity.geckoCollideCount + 1
