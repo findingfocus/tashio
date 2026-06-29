@@ -81,6 +81,43 @@ function Map:init(row, column, spellcastEntities)
     end
   end
 
+  self.jumperMap = {}
+
+  local tileIndex = 1
+  for i = 1, 8 do
+    self.jumperMap[i] = {}
+    for j = 1, 10 do
+      if MAP[row][column].collidableTileIds[tileIndex] == 0 then
+        table.insert(self.jumperMap[i], 0)
+      elseif MAP[row][column].collidableTileIds[tileIndex] == 180 then
+        table.insert(self.jumperMap[i], 1)
+      end
+      tileIndex = tileIndex + 1
+    end
+  end
+
+  local walkable = 0
+
+  local Grid = require('lib/jumper.grid')
+  local Pathfinder = require('lib/jumper.pathfinder')
+ 
+  local grid = Grid(self.jumperMap)
+
+  local myFinder = Pathfinder(grid, 'DIJKSTRA', walkable)
+
+  myFinder:setHeuristic('MANHATTAN')
+
+  local startx, starty = 2, 1
+  local endx, endy = 2, 5
+  
+  local path = myFinder:getPath(startx, starty, endx, endy)
+  if path then
+    print(('Path found! Length: %.2f'):format(path:getLength()))
+    for node, count in path:nodes() do
+      print(('Step: %d - x: %d - y: %d'):format(count, node:getX(), node:getY()))
+    end
+  end
+
   --COLLIDABLE MAP OBJECTS COLLISION
   self.collidableMapObjects = {}
   self.collidableWallObjects = {}
