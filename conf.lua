@@ -1,8 +1,8 @@
 function love.conf(data)
   data.version = "11.5"
   --CONSOLE DEBUGGING
-  data.console = false
-  --data.console = true
+  --data.console = false
+  data.console = true
   --TOGGLE WINDOW DISPLAY
   data.window.display = 1
   --TOGGLE FOR SECOND WINDOW LOADING **MAC
