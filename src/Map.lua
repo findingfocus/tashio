@@ -96,28 +96,6 @@ function Map:init(row, column, spellcastEntities)
     end
   end
 
-  local walkable = 0
-
-  local Grid = require('lib/jumper.grid')
-  local Pathfinder = require('lib/jumper.pathfinder')
- 
-  local grid = Grid(self.jumperMap)
-
-  local myFinder = Pathfinder(grid, 'DIJKSTRA', walkable)
-
-  myFinder:setHeuristic('MANHATTAN')
-
-  local startx, starty = 2, 1
-  local endx, endy = 2, 5
-  
-  local path = myFinder:getPath(startx, starty, endx, endy)
-  if path then
-    print(('Path found! Length: %.2f'):format(path:getLength()))
-    for node, count in path:nodes() do
-      print(('Step: %d - x: %d - y: %d'):format(count, node:getX(), node:getY()))
-    end
-  end
-
   --COLLIDABLE MAP OBJECTS COLLISION
   self.collidableMapObjects = {}
   self.collidableWallObjects = {}
