@@ -78,6 +78,39 @@ function Entity:init(def)
   self.aquisCollides = false
   self.entitySelector = false
   self.axisAligned = false
+
+  self.nearestTileRow = 0
+  self.nearestTileColumn = 0
+  self.pathFindingInitialized = false
+  self.pathRefreshTimer = 0
+  self.pathRefreshThreshold = .5
+end
+
+function Entity:initPathFinding()
+  local walkable = 0
+
+  local Grid = require('lib/jumper.grid')
+  local Pathfinder = require('lib/jumper.pathfinder')
+ 
+  local grid = Grid(sceneView.currentMap.jumperMap)
+
+  self.myFinder = Pathfinder(grid, 'ASTAR', walkable)
+
+  self.myFinder:setHeuristic('MANHATTAN')
+  self.myFinder:setMode('ORTHOGONAL')
+end
+
+function Entity:updatePath()
+  local startx, starty = math.min(10, self.nearestTileColumn), math.min(8, self.nearestTileRow)
+  local endx, endy = math.min(10, gPlayer.nearestTileColumn), math.min(8, gPlayer.nearestTileRow)
+
+  local path = self.myFinder:getPath(startx, starty, endx, endy)
+  if path then
+    print(('Path found! Length: %.2f'):format(path:getLength()))
+    for node, count in path:nodes() do
+      print(('Step: %d - x: %d - y: %d'):format(count, node:getX(), node:getY()))
+    end
+  end
 end
 
 function Entity:resetOriginalPosition()
@@ -217,6 +250,20 @@ function Entity:circleCollides(target)
 end
 
 function Entity:update(dt)
+  self.pathRefreshTimer = self.pathRefreshTimer + dt
+  if self.pathRefreshTimer >= self.pathRefreshThreshold then
+    if self.enemy then
+      self:updatePath()
+    end
+    self.pathRefreshTimer = 0
+  end
+  if not self.pathFindingInitialized then
+    self:initPathFinding()
+  end
+
+  self.nearestTileRow = math.floor((self.y + 8) / TILE_SIZE + 1)
+  self.nearestTileColumn = math.floor((self.x + 8) / TILE_SIZE + 1)
+
   if gPlayer.aquisCasting then
     self.aquisCollides = self:circleCollides(gPlayer.aquisProjectile)
   end
@@ -528,6 +575,11 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
   end
 
   self.stateMachine:render()
+
+  --NEAREST TILE RENDER
+  love.graphics.rectangle('fill', self.nearestTileColumn * TILE_SIZE - TILE_SIZE, self.nearestTileRow * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
+  love.graphics.print('row: ' .. tostring(self.nearestTileRow), self.x, self.y)
+  love.graphics.print('col: ' .. tostring(self.nearestTileColumn), self.x, self.y + 5)
 
   --ENTITY SELECTOR
   if self.entitySelector then

@@ -201,7 +201,6 @@ require 'src/states/game/RefineryState'
 require 'src/states/game/Tome1SuccessState'
 require 'src/states/game/SaveSelectState'
 
-
 pixelFont = love.graphics.newFont('fonts/Pixel.ttf', 8)
 pixelFont2 = love.graphics.newFont('fonts/712_serif.ttf', 16)
 hugePixelFont = love.graphics.newFont('fonts/712_serif.ttf', 128)
