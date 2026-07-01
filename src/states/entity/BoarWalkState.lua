@@ -48,48 +48,69 @@ function BoarWalkState:update(dt)
 end
 
 function BoarWalkState:processAI(params, dt, player)
-  local tashio = player
-  local velocity = .5
-  if self.entity.corrupted then
-    --TRACK PLAYERS X POSITION
-    if self.entity.aiPath == 1 then
-      if self.entity.x > tashio.x + 2 then
-        self.entity.direction = 'left'
-      elseif self.entity.x + 2 < tashio.x then
-        self.entity.direction = 'right'
-      elseif self.entity.y > tashio.y then
-        self.entity.direction = 'up'
-      elseif self.entity.y < tashio.y then
-        self.entity.direction = 'down'
-      end
+  local destinationNode = self.entity.pathNodes[self.entity.destinationNodeIndex]
+  if destinationNode == nil then return end
 
-    --TRACK PLAYERS Y POSITION
-    elseif self.entity.aiPath == 2 then
-      if self.entity.y > tashio.y + 2 then
-        self.entity.direction = 'up'
-      elseif self.entity.y + 2 < tashio.y then
-        self.entity.direction = 'down'
-      elseif self.entity.x > tashio.x then
-        self.entity.direction = 'left'
-      elseif self.entity.x < tashio.x then
-        self.entity.direction = 'right'
-      end
-    end
+  if self.entity.nearestTileColumn > destinationNode:getX() then
+    self.entity.direction = 'left'
+  elseif self.entity.nearestTileColumn < destinationNode:getX() then
+    self.entity.direction = 'right'
   end
 
-  if self.entity.x > tashio.x - 2 and self.entity.x + self.entity.width < tashio.x + tashio.width + 2 then
-    self.entity.axisAligned = true
-  elseif self.entity.y > tashio.y - 2 and self.entity.y + self.entity.height < tashio.y + tashio.height + 2 then
-    self.entity.axisAligned = true
-  else
-    self.entity.axisAligned = false
+  if self.entity.nearestTileRow > destinationNode:getY() then
+    self.entity.direction = 'up'
+  elseif self.entity.nearestTileRow < destinationNode:getY() then
+    self.entity.direction = 'down'
   end
 
-  if self.entity.axisAligned then
-    self.entity.walkSpeed = 50
-  else
-    self.entity.walkSpeed = self.entity.originalWalkSpeed
+  if self.entity.nearestTileColumn == destinationNode:getX() and self.entity.nearestTileRow == destinationNode:getY() then
+    self.entity.destinationNodeIndex = self.entity.destinationNodeIndex + 1
   end
+
+
+
+  -- local tashio = player
+  -- local velocity = .5
+  -- if self.entity.corrupted then
+  --   --TRACK PLAYERS X POSITION
+  --   if self.entity.aiPath == 1 then
+  --     if self.entity.x > tashio.x + 2 then
+  --       self.entity.direction = 'left'
+  --     elseif self.entity.x + 2 < tashio.x then
+  --       self.entity.direction = 'right'
+  --     elseif self.entity.y > tashio.y then
+  --       self.entity.direction = 'up'
+  --     elseif self.entity.y < tashio.y then
+  --       self.entity.direction = 'down'
+  --     end
+  --
+  --   --TRACK PLAYERS Y POSITION
+  --   elseif self.entity.aiPath == 2 then
+  --     if self.entity.y > tashio.y + 2 then
+  --       self.entity.direction = 'up'
+  --     elseif self.entity.y + 2 < tashio.y then
+  --       self.entity.direction = 'down'
+  --     elseif self.entity.x > tashio.x then
+  --       self.entity.direction = 'left'
+  --     elseif self.entity.x < tashio.x then
+  --       self.entity.direction = 'right'
+  --     end
+  --   end
+  -- end
+
+  -- if self.entity.x > tashio.x - 2 and self.entity.x + self.entity.width < tashio.x + tashio.width + 2 then
+  --   self.entity.axisAligned = true
+  -- elseif self.entity.y > tashio.y - 2 and self.entity.y + self.entity.height < tashio.y + tashio.height + 2 then
+  --   self.entity.axisAligned = true
+  -- else
+  --   self.entity.axisAligned = false
+  -- end
+  --
+  -- if self.entity.axisAligned then
+  --   self.entity.walkSpeed = 50
+  -- else
+  --   self.entity.walkSpeed = self.entity.originalWalkSpeed
+  -- end
 end
 
 function BoarWalkState:render()
