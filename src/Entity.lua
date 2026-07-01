@@ -84,6 +84,8 @@ function Entity:init(def)
   self.pathFindingInitialized = false
   self.pathRefreshTimer = 0
   self.pathRefreshThreshold = .5
+  self.pathNodes = {}
+  self.destinationNodeIndex = 2
 end
 
 function Entity:initPathFinding()
@@ -101,14 +103,20 @@ function Entity:initPathFinding()
 end
 
 function Entity:updatePath()
+  self.destinationNodeIndex = 2
   local startx, starty = math.min(10, self.nearestTileColumn), math.min(8, self.nearestTileRow)
   local endx, endy = math.min(10, gPlayer.nearestTileColumn), math.min(8, gPlayer.nearestTileRow)
 
   local path = self.myFinder:getPath(startx, starty, endx, endy)
   if path then
     print(('Path found! Length: %.2f'):format(path:getLength()))
+    self.pathNodes = {}
     for node, count in path:nodes() do
-      print(('Step: %d - x: %d - y: %d'):format(count, node:getX(), node:getY()))
+      --print(('Step: %d - x: %d - y: %d'):format(count, node:getX(), node:getY()))
+      table.insert(self.pathNodes, node)
+      --print((node:getX(), node:getY()))
+      -- print('X: ' .. tostring(self.pathNodes[1]:getX()))
+      -- print('Y: ' .. tostring(self.pathNodes[1]:getY()))
     end
   end
 end
@@ -578,8 +586,9 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
 
   --NEAREST TILE RENDER
   love.graphics.rectangle('fill', self.nearestTileColumn * TILE_SIZE - TILE_SIZE, self.nearestTileRow * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
-  love.graphics.print('row: ' .. tostring(self.nearestTileRow), self.x, self.y)
-  love.graphics.print('col: ' .. tostring(self.nearestTileColumn), self.x, self.y + 5)
+  --love.graphics.setColor(BLACK)
+  -- love.graphics.print('row: ' .. tostring(self.nearestTileRow), self.x, self.y)
+  -- love.graphics.print('col: ' .. tostring(self.nearestTileColumn), self.x, self.y + 5)
 
   --ENTITY SELECTOR
   if self.entitySelector then
