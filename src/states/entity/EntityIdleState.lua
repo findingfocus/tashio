@@ -10,6 +10,7 @@ function EntityIdleState:init(entity)
     self.entity.animations = self.entity:createAnimations(ENTITY_DEFS['geckoC'].animations)
   end
   self.alpha = 255
+  self.entity:changeAnimation('idle-' .. tostring(self.entity.direction))
 end
 
 function EntityIdleState:processAI(params, dt, player)

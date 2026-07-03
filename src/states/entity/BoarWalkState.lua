@@ -15,6 +15,8 @@ function BoarWalkState:init(entity, scene)
   self.collided = false
   self.stateName = 'walk'
   self.alpha = 255
+  self.entity:updatePath()
+  self.entity:calculateDirection()
 end
 
 function BoarWalkState:update(dt)
@@ -37,6 +39,7 @@ function BoarWalkState:update(dt)
       self.entity:changeAnimation('walk-right')
     end
   end
+
   --TRIGGER OFFSCREEN
   if self.entity.x + self.entity.width < -TILE_SIZE or self.entity.x > VIRTUAL_WIDTH + TILE_SIZE or self.entity.y + self.entity.height < -TILE_SIZE then
     --ADD IN BOTTOM RULE AS WELL
@@ -51,23 +54,47 @@ function BoarWalkState:processAI(params, dt, player)
   local destinationNode = self.entity.pathNodes[self.entity.destinationNodeIndex]
   if destinationNode == nil then return end
 
-  if self.entity.nearestTileColumn > destinationNode:getX() then
-    self.entity.direction = 'left'
-  elseif self.entity.nearestTileColumn < destinationNode:getX() then
-    self.entity.direction = 'right'
+  local destinationNodeX = destinationNode:getX() * TILE_SIZE - TILE_SIZE
+  local destinationNodeY = destinationNode:getY() * TILE_SIZE - TILE_SIZE
+ 
+  if self.entity.direction == 'up' then
+    if self.entity.y <= destinationNodeY then
+      self.entity.x, self.entity.y = destinationNodeX, destinationNodeY
+      self.entity:updatePath()
+      self.entity:calculateDirection()
+    end
+  elseif self.entity.direction == 'down' then
+    if self.entity.y >= destinationNodeY then
+      self.entity.x, self.entity.y = destinationNodeX, destinationNodeY
+      self.entity:updatePath()
+      self.entity:calculateDirection()
+    end
+  elseif self.entity.direction == 'left' then
+    if self.entity.x <= destinationNodeX then
+      self.entity.x, self.entity.y = destinationNodeX, destinationNodeY
+      self.entity:updatePath()
+      self.entity:calculateDirection()
+    end
+  elseif self.entity.direction == 'right' then
+    if self.entity.x >= destinationNodeX then
+      self.entity.x, self.entity.y = destinationNodeX, destinationNodeY
+      self.entity:updatePath()
+      self.entity:calculateDirection()
+    end
   end
 
-  if self.entity.nearestTileRow > destinationNode:getY() then
-    self.entity.direction = 'up'
-  elseif self.entity.nearestTileRow < destinationNode:getY() then
-    self.entity.direction = 'down'
-  end
-
-  if self.entity.nearestTileColumn == destinationNode:getX() and self.entity.nearestTileRow == destinationNode:getY() then
-    self.entity.destinationNodeIndex = self.entity.destinationNodeIndex + 1
-  end
-
-
+  -- if destinationNodeX == self.entity.nearestTileColumn + 1 then
+  --   self.entity.direction = 'right'
+  -- end
+  -- if destinationNode:getX() == self.entity.nearestTileColumn - 1 then
+  --   self.entity.direction = 'left'
+  -- end
+  -- if destinationNode:getY() == self.entity.nearestTileRow - 1 then
+  --   self.entity.direction = 'up'
+  -- end
+  -- if destinationNode:getY() == self.entity.nearestTileRow + 1 then
+  --   self.entity.direction = 'down'
+  -- end
 
   -- local tashio = player
   -- local velocity = .5
@@ -117,4 +144,5 @@ function BoarWalkState:render()
   local anim = self.entity.currentAnimation
   love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
   self.entity.x, self.entity.y)
+  love.graphics.print(tostring(self.entity.destinationNodeIndex), self.entity.x, self.entity.y)
 end
