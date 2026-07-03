@@ -189,6 +189,7 @@ function Scene:finishShifting()
   --TODO CHECK CURRENT MAP ROW AND COL UPON WARP ZONE
   for i = 1, #MAP[self.currentMap.row][self.currentMap.column].entities do
     MAP[self.currentMap.row][self.currentMap.column].entities[i]:resetOriginalPosition()
+    MAP[self.currentMap.row][self.currentMap.column].entities[i]:changeState('entity-idle')
   end
   --RESET PUSHABLES
   for k, v in pairs(MAP[self.currentMap.row][self.currentMap.column].collidableMapObjects) do

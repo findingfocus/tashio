@@ -102,7 +102,26 @@ function Entity:initPathFinding()
   self.myFinder:setMode('ORTHOGONAL')
 end
 
+function Entity:calculateDirection()
+  local destinationNode = self.pathNodes[self.destinationNodeIndex]
+  if destinationNode == nil then return end
+
+  if destinationNode:getX() == self.nearestTileColumn + 1 then
+    self.direction = 'right'
+  end
+  if destinationNode:getX() == self.nearestTileColumn - 1 then
+    self.direction = 'left'
+  end
+  if destinationNode:getY() == self.nearestTileRow - 1 then
+    self.direction = 'up'
+  end
+  if destinationNode:getY() == self.nearestTileRow + 1 then
+    self.direction = 'down'
+  end
+end
+
 function Entity:updatePath()
+  self.pathNodes = {}
   self.destinationNodeIndex = 2
   local startx, starty = math.min(10, self.nearestTileColumn), math.min(8, self.nearestTileRow)
   local endx, endy = math.min(10, gPlayer.nearestTileColumn), math.min(8, gPlayer.nearestTileRow)
@@ -110,7 +129,6 @@ function Entity:updatePath()
   local path = self.myFinder:getPath(startx, starty, endx, endy)
   if path then
     print(('Path found! Length: %.2f'):format(path:getLength()))
-    self.pathNodes = {}
     for node, count in path:nodes() do
       --print(('Step: %d - x: %d - y: %d'):format(count, node:getX(), node:getY()))
       table.insert(self.pathNodes, node)
@@ -153,6 +171,9 @@ function Entity:resetOriginalPosition()
     self:changeAnimation('idle-right')
     self.animations = self:createAnimations(ENTITY_DEFS['geckoC'].animations)
     self.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
+  end
+  if self.type == 'boar' then
+    self.direction = self.originalDirection
   end
   self.type = self.originalType
   self.offscreen = false
@@ -261,7 +282,7 @@ function Entity:update(dt)
   self.pathRefreshTimer = self.pathRefreshTimer + dt
   if self.pathRefreshTimer >= self.pathRefreshThreshold then
     if self.enemy then
-      self:updatePath()
+      --self:updatePath()
     end
     self.pathRefreshTimer = 0
   end
@@ -585,7 +606,9 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
   self.stateMachine:render()
 
   --NEAREST TILE RENDER
+  love.graphics.setColor(1,1,1, 100/255)
   love.graphics.rectangle('fill', self.nearestTileColumn * TILE_SIZE - TILE_SIZE, self.nearestTileRow * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
+  love.graphics.setColor(WHITE)
   --love.graphics.setColor(BLACK)
   -- love.graphics.print('row: ' .. tostring(self.nearestTileRow), self.x, self.y)
   -- love.graphics.print('col: ' .. tostring(self.nearestTileColumn), self.x, self.y + 5)
