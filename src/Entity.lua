@@ -82,8 +82,6 @@ function Entity:init(def)
   self.nearestTileRow = 0
   self.nearestTileColumn = 0
   self.pathFindingInitialized = false
-  self.pathRefreshTimer = 0
-  self.pathRefreshThreshold = .5
   self.pathNodes = {}
   self.destinationNodeIndex = 2
 end
@@ -279,13 +277,6 @@ function Entity:circleCollides(target)
 end
 
 function Entity:update(dt)
-  self.pathRefreshTimer = self.pathRefreshTimer + dt
-  if self.pathRefreshTimer >= self.pathRefreshThreshold then
-    if self.enemy then
-      --self:updatePath()
-    end
-    self.pathRefreshTimer = 0
-  end
   if not self.pathFindingInitialized then
     self:initPathFinding()
   end
@@ -606,9 +597,9 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
   self.stateMachine:render()
 
   --NEAREST TILE RENDER
-  love.graphics.setColor(1,1,1, 100/255)
-  love.graphics.rectangle('fill', self.nearestTileColumn * TILE_SIZE - TILE_SIZE, self.nearestTileRow * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
-  love.graphics.setColor(WHITE)
+   love.graphics.setColor(1,1,1, 100/255)
+   love.graphics.rectangle('fill', self.nearestTileColumn * TILE_SIZE - TILE_SIZE, self.nearestTileRow * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
+  -- love.graphics.setColor(WHITE)
   --love.graphics.setColor(BLACK)
   -- love.graphics.print('row: ' .. tostring(self.nearestTileRow), self.x, self.y)
   -- love.graphics.print('col: ' .. tostring(self.nearestTileColumn), self.x, self.y + 5)
@@ -643,4 +634,16 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
   --     love.graphics.setColor(0,0,1,1)
   --   end
   -- end
+  if #self.pathNodes > 0 then
+    local steps = #self.pathNodes
+    local alphaSteps = (255 - 120) / steps
+    local currentAlpha = 120
+
+    love.graphics.setLineWidth(2)
+    for node, nodes in ipairs(self.pathNodes) do
+      love.graphics.setColor(1, 0, 0, currentAlpha / 255)
+      love.graphics.rectangle('line', nodes:getX() * TILE_SIZE - TILE_SIZE, nodes:getY() * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
+      currentAlpha = currentAlpha + alphaSteps
+    end
+  end
 end

@@ -891,7 +891,7 @@ function PlayState:render()
     --]]
     --
     --DEBUG RENDER
-    love.graphics.print(Inspect(sceneView.currentMap.jumperMap), 0, 0)
+    --love.graphics.print(Inspect(sceneView.currentMap.jumperMap), 0, 0)
 
     for k, v in pairs(MAP[2][11].dialogueBox) do
       --v:render()
