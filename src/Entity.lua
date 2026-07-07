@@ -6,6 +6,7 @@ local FLASH_DURATION = 0.4
 local DAMAGE = 1
 
 function Entity:init(def)
+  self.updatePathCount = 0
   self.x = def.x
   self.y = def.y
   self.dx = 0
@@ -84,15 +85,28 @@ function Entity:init(def)
   self.pathFindingInitialized = false
   self.pathNodes = {}
   self.destinationNodeIndex = 2
+  self.jumperMap = {}
 end
 
 function Entity:initPathFinding()
+  local tileIndex = 1
+  for i = 1, 8 do
+    self.jumperMap[i] = {}
+    for j = 1, 10 do
+      if MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableTileIds[tileIndex] == 0 then
+        table.insert(self.jumperMap[i], 0)
+      elseif MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableTileIds[tileIndex] == 180 then
+        table.insert(self.jumperMap[i], 1)
+      end
+      tileIndex = tileIndex + 1
+    end
+  end
   local walkable = 0
 
   local Grid = require('lib/jumper.grid')
   local Pathfinder = require('lib/jumper.pathfinder')
  
-  local grid = Grid(sceneView.currentMap.jumperMap)
+  local grid = Grid(self.jumperMap)
 
   self.myFinder = Pathfinder(grid, 'ASTAR', walkable)
 
@@ -119,6 +133,32 @@ function Entity:calculateDirection()
 end
 
 function Entity:updatePath()
+  self.updatePathCount = self.updatePathCount + 1
+
+  self.jumperMap = {}
+
+  local tileIndex = 1
+  for i = 1, 8 do
+    self.jumperMap[i] = {}
+    for j = 1, 10 do
+      if MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableTileIds[tileIndex] == 0 then
+        table.insert(self.jumperMap[i], 0)
+      elseif MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableTileIds[tileIndex] == 180 then
+        table.insert(self.jumperMap[i], 1)
+      end
+      tileIndex = tileIndex + 1
+    end
+  end
+
+  for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
+    if v.enemy then
+      print('Entity: ' .. tostring(v.type))
+      print(tostring(#MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities))
+      print('updatePathCount' .. tostring(self.updatePathCount))
+    end
+  end
+
+
   self.pathNodes = {}
   self.destinationNodeIndex = 2
   local startx, starty = math.min(10, self.nearestTileColumn), math.min(8, self.nearestTileRow)
