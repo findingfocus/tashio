@@ -81,21 +81,6 @@ function Map:init(row, column, spellcastEntities)
     end
   end
 
-  self.jumperMap = {}
-
-  local tileIndex = 1
-  for i = 1, 8 do
-    self.jumperMap[i] = {}
-    for j = 1, 10 do
-      if MAP[row][column].collidableTileIds[tileIndex] == 0 then
-        table.insert(self.jumperMap[i], 0)
-      elseif MAP[row][column].collidableTileIds[tileIndex] == 180 then
-        table.insert(self.jumperMap[i], 1)
-      end
-      tileIndex = tileIndex + 1
-    end
-  end
-
   --COLLIDABLE MAP OBJECTS COLLISION
   self.collidableMapObjects = {}
   self.collidableWallObjects = {}
