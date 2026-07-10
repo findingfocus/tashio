@@ -1024,20 +1024,20 @@ table.insert(MAP[7][3].entities, Entity {
   enemy = true,
 })
 
-table.insert(MAP[7][3].entities, Entity {
-  animations = ENTITY_DEFS['boar'].animations,
-  x = TILE_SIZE * 3,
-  y = TILE_SIZE * 5,
-  width = TILE_SIZE,
-  height = TILE_SIZE,
-  health = 1,
-  direction = 'down',
-  type = 'boar',
-  walkSpeed = 20,
-  aiPath = math.random(1, 2),
-  corrupted = true,
-  enemy = true,
-})
+-- table.insert(MAP[7][3].entities, Entity {
+--   animations = ENTITY_DEFS['boar'].animations,
+--   x = TILE_SIZE * 3,
+--   y = TILE_SIZE * 5,
+--   width = TILE_SIZE,
+--   height = TILE_SIZE,
+--   health = 1,
+--   direction = 'down',
+--   type = 'boar',
+--   walkSpeed = 20,
+--   aiPath = math.random(1, 2),
+--   corrupted = true,
+--   enemy = true,
+-- })
 
 local entityCount = #MAP[7][3].entities
 for i = 1, entityCount do
