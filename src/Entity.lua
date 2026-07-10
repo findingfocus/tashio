@@ -521,8 +521,14 @@ function Entity:update(dt)
   self.x = self.x + self.dx * dt
   self.y = self.y + self.dy * dt
 
-  if self.dx == 0 and self.dy == 0 then
-    self.hit = false
+  if self.hit then
+    if self.dx == 0 and self.dy == 0 then
+      self.hit = false
+      self:updatePath()
+      self:calculateDirection()
+      print('UPDATED PATH! WE SLOWED TO A STOP')
+      --CALCULATE PIXEL OFFSET OF GRID ALIGNMENT
+    end
   end
 
   self.dialogueBox.x = self.x
