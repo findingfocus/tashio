@@ -20,7 +20,7 @@ function BoarWalkState:init(entity, scene)
 end
 
 function BoarWalkState:update(dt)
-  if self.entity.type == 'boar' then
+  if self.entity.type == 'boar' and not self.entity.offAxis then
     if self.entity.direction == 'down' then
       self.entity.y = self.entity.y + self.entity.walkSpeed * dt
       --self.entity.dx = 0
@@ -51,38 +51,67 @@ function BoarWalkState:update(dt)
 end
 
 function BoarWalkState:processAI(params, dt, player)
-  local destinationNode = self.entity.pathNodes[self.entity.destinationNodeIndex]
-  if destinationNode == nil then return end
+  if not self.entity.offAxis then
+    local destinationNode = self.entity.pathNodes[self.entity.destinationNodeIndex]
+    if destinationNode == nil then return end
 
-  local destinationNodeX = destinationNode:getX() * TILE_SIZE - TILE_SIZE
-  local destinationNodeY = destinationNode:getY() * TILE_SIZE - TILE_SIZE
- 
-  if self.entity.direction == 'up' then
-    if self.entity.y <= destinationNodeY then
-      self.entity.x, self.entity.y = destinationNodeX, destinationNodeY
-      self.entity:updatePath()
-      self.entity:calculateDirection()
+    local destinationNodeX = destinationNode:getX() * TILE_SIZE - TILE_SIZE
+    local destinationNodeY = destinationNode:getY() * TILE_SIZE - TILE_SIZE
+
+    if self.entity.direction == 'up' then
+      if self.entity.y <= destinationNodeY then
+        self.entity.x, self.entity.y = destinationNodeX, destinationNodeY
+        self.entity.nearestTileRow = math.floor((self.entity.y + 8) / TILE_SIZE + 1)
+        self.entity.nearestTileColumn = math.floor((self.entity.x + 8) / TILE_SIZE + 1)
+        self.entity:updatePath()
+        self.entity:calculateDirection()
+      end
+    elseif self.entity.direction == 'down' then
+      if self.entity.y >= destinationNodeY then
+        self.entity.x, self.entity.y = destinationNodeX, destinationNodeY
+        self.entity.nearestTileRow = math.floor((self.entity.y + 8) / TILE_SIZE + 1)
+        self.entity.nearestTileColumn = math.floor((self.entity.x + 8) / TILE_SIZE + 1)
+        self.entity:updatePath()
+        self.entity:calculateDirection()
+      end
+    elseif self.entity.direction == 'left' then
+      if self.entity.x <= destinationNodeX then
+        self.entity.x, self.entity.y = destinationNodeX, destinationNodeY
+        self.entity.nearestTileRow = math.floor((self.entity.y + 8) / TILE_SIZE + 1)
+        self.entity.nearestTileColumn = math.floor((self.entity.x + 8) / TILE_SIZE + 1)
+        self.entity:updatePath()
+        self.entity:calculateDirection()
+      end
+    elseif self.entity.direction == 'right' then
+      if self.entity.x >= destinationNodeX then
+        self.entity.x, self.entity.y = destinationNodeX, destinationNodeY
+        self.entity.nearestTileRow = math.floor((self.entity.y + 8) / TILE_SIZE + 1)
+        self.entity.nearestTileColumn = math.floor((self.entity.x + 8) / TILE_SIZE + 1)
+        self.entity:updatePath()
+        self.entity:calculateDirection()
+      end
     end
-  elseif self.entity.direction == 'down' then
-    if self.entity.y >= destinationNodeY then
-      self.entity.x, self.entity.y = destinationNodeX, destinationNodeY
-      self.entity:updatePath()
-      self.entity:calculateDirection()
-    end
-  elseif self.entity.direction == 'left' then
-    if self.entity.x <= destinationNodeX then
-      self.entity.x, self.entity.y = destinationNodeX, destinationNodeY
-      self.entity:updatePath()
-      self.entity:calculateDirection()
-    end
-  elseif self.entity.direction == 'right' then
-    if self.entity.x >= destinationNodeX then
-      self.entity.x, self.entity.y = destinationNodeX, destinationNodeY
-      self.entity:updatePath()
-      self.entity:calculateDirection()
+  else --IF OFFAXIS
+    --self.entity.walkSpeed = 0
+    local node1X = self.entity.pathNodes[1]:getX() * TILE_SIZE - TILE_SIZE
+    local node1Y = self.entity.pathNodes[1]:getY() * TILE_SIZE - TILE_SIZE
+
+    local xDifference = node1X - self.entity.x
+    local yDifference = node1Y - self.entity.y
+
+    local distance = math.sqrt(xDifference * xDifference + yDifference * yDifference)
+    local step = self.entity.originalWalkSpeed * dt
+
+    if distance > step then
+      self.entity.x = self.entity.x + (xDifference / distance) * step
+      self.entity.y = self.entity.y + (yDifference / distance) * step
+    else
+      self.entity.x = node1X
+      self.entity.y = node1Y
+      self.entity.offAxis = false
+      self.entity.walkSpeed = self.entity.originalWalkSpeed
     end
   end
-
   -- if destinationNodeX == self.entity.nearestTileColumn + 1 then
   --   self.entity.direction = 'right'
   -- end

@@ -24,6 +24,7 @@ function Entity:init(def)
   self.flapTimer = 0
   self.flapThreshold = 0.5
   self.flapActive = false
+  self.offAxis = false
   --self:changeAnimation('idle-down')
   self.spawnRow = def.spawnRow or nil
   self.spawnColumn = def.spawnColumn or nil
@@ -120,14 +121,11 @@ function Entity:calculateDirection()
 
   if destinationNode:getX() == self.nearestTileColumn + 1 then
     self.direction = 'right'
-  end
-  if destinationNode:getX() == self.nearestTileColumn - 1 then
+  elseif destinationNode:getX() == self.nearestTileColumn - 1 then
     self.direction = 'left'
-  end
-  if destinationNode:getY() == self.nearestTileRow - 1 then
+  elseif destinationNode:getY() == self.nearestTileRow - 1 then
     self.direction = 'up'
-  end
-  if destinationNode:getY() == self.nearestTileRow + 1 then
+  elseif destinationNode:getY() == self.nearestTileRow + 1 then
     self.direction = 'down'
   end
 end
@@ -321,9 +319,6 @@ function Entity:update(dt)
     self:initPathFinding()
   end
 
-  self.nearestTileRow = math.floor((self.y + 8) / TILE_SIZE + 1)
-  self.nearestTileColumn = math.floor((self.x + 8) / TILE_SIZE + 1)
-
   if gPlayer.aquisCasting then
     self.aquisCollides = self:circleCollides(gPlayer.aquisProjectile)
   end
@@ -419,6 +414,9 @@ function Entity:update(dt)
     end
   end
 
+  self.nearestTileRow = math.floor((self.y + 8) / TILE_SIZE + 1)
+  self.nearestTileColumn = math.floor((self.x + 8) / TILE_SIZE + 1)
+
   self.stateMachine:update(dt)
 
   if self.currentAnimation then
@@ -469,6 +467,8 @@ function Entity:update(dt)
           self.dy = -SPELL_KNOCKBACK
         end
         self.hit = true
+        --FIXED TELEPORTING FIX TELEPORTING
+        self.offAxis = true
       end
     end
     --SPELLCAST TO BAT COLLISION
@@ -521,9 +521,13 @@ function Entity:update(dt)
   self.x = self.x + self.dx * dt
   self.y = self.y + self.dy * dt
 
+  --KNOCKBACK FINISHES
   if self.hit then
     if self.dx == 0 and self.dy == 0 then
+      self.offAxis = true
       self.hit = false
+      self.nearestTileRow = math.floor((self.y + 8) / TILE_SIZE + 1)
+      self.nearestTileColumn = math.floor((self.x + 8) / TILE_SIZE + 1)
       self:updatePath()
       self:calculateDirection()
       print('UPDATED PATH! WE SLOWED TO A STOP')
@@ -692,4 +696,6 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
       currentAlpha = currentAlpha + alphaSteps
     end
   end
+  love.graphics.print('offAxis: ' .. tostring(self.offAxis), self.x, self.y)
+  --love.graphics.print('hit: ' .. tostring(self.hit), self.x, self.y)
 end
