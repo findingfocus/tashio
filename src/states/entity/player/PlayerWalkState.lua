@@ -157,26 +157,6 @@ function PlayerWalkState:update(dt)
     end
 
   end
-  --PLAYER TO MAP OBJECT COLLISION DETECTION
-  ---[[
-  for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
-    local object = v
-
-    if v.active then
-      if self.player:leftCollidesMapObject(object) then
-        self.player.x = object.x + object.width - AABB_SIDE_COLLISION_BUFFER
-      end
-      if self.player:rightCollidesMapObject(object) then
-        self.player.x = object.x - self.player.width + AABB_SIDE_COLLISION_BUFFER
-      end
-      if self.player:topCollidesMapObject(object) then
-        self.player.y = object.y + object.height - AABB_TOP_COLLISION_BUFFER
-      end
-      if self.player:bottomCollidesMapObject(object) then
-        self.player.y = object.y - self.player.height
-      end
-    end
-  end
   --]]
   if self.player.currentAnimation == self.player.animations['push-right'] or
     self.player.currentAnimation == self.player.animations['push-left'] or
