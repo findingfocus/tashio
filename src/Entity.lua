@@ -565,6 +565,28 @@ function Entity:update(dt)
   end
 
 
+  --ENTITY TO MAP OBJECT COLLISION DETECTION
+  ---[[
+  for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+    local object = v
+
+    if v.active then
+      if self:leftCollidesMapObject(object) then
+        self.x = object.x + object.width - AABB_SIDE_COLLISION_BUFFER
+      end
+      if self:rightCollidesMapObject(object) then
+        self.x = object.x - self.width + AABB_SIDE_COLLISION_BUFFER
+      end
+      if self:topCollidesMapObject(object) then
+        self.y = object.y + object.height - AABB_TOP_COLLISION_BUFFER
+      end
+      if self:bottomCollidesMapObject(object) then
+        self.y = object.y - self.height
+      end
+    end
+  end
+
+
   --[[
   -EDGE_BUFFER
   --LEFT BOUNDARY
@@ -647,8 +669,8 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
   self.stateMachine:render()
 
   --NEAREST TILE RENDER
-   love.graphics.setColor(1,1,1, 100/255)
-   love.graphics.rectangle('fill', self.nearestTileColumn * TILE_SIZE - TILE_SIZE, self.nearestTileRow * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
+   -- love.graphics.setColor(1,1,1, 100/255)
+   -- love.graphics.rectangle('fill', self.nearestTileColumn * TILE_SIZE - TILE_SIZE, self.nearestTileRow * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
   -- love.graphics.setColor(WHITE)
   --love.graphics.setColor(BLACK)
   -- love.graphics.print('row: ' .. tostring(self.nearestTileRow), self.x, self.y)
@@ -696,6 +718,6 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
       currentAlpha = currentAlpha + alphaSteps
     end
   end
-  love.graphics.print('offAxis: ' .. tostring(self.offAxis), self.x, self.y)
+  --love.graphics.print('offAxis: ' .. tostring(self.offAxis), self.x, self.y)
   --love.graphics.print('hit: ' .. tostring(self.hit), self.x, self.y)
 end
