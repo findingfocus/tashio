@@ -170,9 +170,9 @@ function Pushable:collides(x, y, target)
   return false
 end
 
-function Pushable:collidesGrid(x, y, gridRow, gridColumn)
-  local gridY = gridRow * TILE_SIZE - TILE_SIZE
-  local gridX = gridColumn * TILE_SIZE - TILE_SIZE
+function Pushable:collidesEnemy(x, y, enemyRow, enemyColumn)
+  local gridY = (enemyRow * TILE_SIZE) - TILE_SIZE
+  local gridX = (enemyColumn * TILE_SIZE) - TILE_SIZE
 
   if x < gridX + TILE_SIZE and x + TILE_SIZE > gridX then
     if y < gridY + TILE_SIZE and y + TILE_SIZE > gridY then
@@ -211,10 +211,10 @@ function Pushable:legalPush(row, col)
 
   --ENEMY ENTITY PUSH CHECK
   for k, entity in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
-    if entity.type == 'enemy' then
+    if entity.enemy then
       local pushableX = (col * TILE_SIZE) - TILE_SIZE
       local pushableY = (row * TILE_SIZE) - TILE_SIZE
-      if self:collidesGrid(pushableX, pushableY, entity.nearestTileRow, entity.nearestTileColumn) then
+      if self:collidesEnemy(pushableX, pushableY, entity.nearestTileRow, entity.nearestTileColumn) then
         return false
       end
     end
