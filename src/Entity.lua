@@ -102,6 +102,15 @@ function Entity:initPathFinding()
       tileIndex = tileIndex + 1
     end
   end
+
+  for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+    if v.classType == 'pushable' then
+       local tileX = v.tileX
+       local tileY = v.tileY
+       self.jumperMap[tileY][tileX] = 1
+    end
+  end
+
   local walkable = 0
 
   local Grid = require('lib/jumper.grid')
@@ -317,6 +326,7 @@ end
 function Entity:update(dt)
   if not self.pathFindingInitialized then
     self:initPathFinding()
+    self.pathFindingInitialized = true
   end
 
   if gPlayer.aquisCasting then

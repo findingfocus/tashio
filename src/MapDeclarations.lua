@@ -1014,20 +1014,20 @@ end
 -- })
 
 --BOAR
- table.insert(MAP[7][3].entities, Entity {
-   animations = ENTITY_DEFS['boar'].animations,
-   x = TILE_SIZE * 5,
-   y = TILE_SIZE * 4,
-   width = TILE_SIZE,
-   height = TILE_SIZE,
-   health = 1,
-   direction = 'left',
-   type = 'boar',
-   walkSpeed = 14,
-   aiPath = math.random(1, 2),
-   corrupted = true,
-   enemy = true,
- })
+ -- table.insert(MAP[7][3].entities, Entity {
+ --   animations = ENTITY_DEFS['boar'].animations,
+ --   x = TILE_SIZE * 5,
+ --   y = TILE_SIZE * 4,
+ --   width = TILE_SIZE,
+ --   height = TILE_SIZE,
+ --   health = 1,
+ --   direction = 'left',
+ --   type = 'boar',
+ --   walkSpeed = 14,
+ --   aiPath = math.random(1, 2),
+ --   corrupted = true,
+ --   enemy = true,
+ -- })
 
 -- table.insert(MAP[7][3].entities, Entity {
 --   animations = ENTITY_DEFS['boar'].animations,

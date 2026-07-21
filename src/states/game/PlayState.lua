@@ -156,6 +156,25 @@ function PlayState:init()
 end
 
 function PlayState:update(dt)
+  ----JUMPER MAP DEBUG
+  if love.keyboard.wasPressed('e') then
+    gPlayer:initPathFinding()
+    local tileView = {}
+    for i = 1, 8 do
+      tileView[i] = {}
+      for j = 1, 10 do
+        table.insert(tileView[i], gPlayer.jumperMap[i][j])
+      end
+    end
+
+    for i = 1, 8 do
+      print(Inspect(tileView[i]))
+      for j = 1, 10 do
+      end
+      print('\n')
+    end
+  end
+
   gameX, gameY = push:toGame(love.mouse.getPosition())
   if dialogueBoxJustClosed then
     if self.activeDialogueID == nil then
@@ -892,11 +911,10 @@ function PlayState:render()
     --
     --DEBUG RENDER
     --love.graphics.print(Inspect(sceneView.currentMap.jumperMap), 0, 0)
-
-    for k, v in pairs(MAP[2][11].dialogueBox) do
-      --v:render()
-    end
-
+    
+  for k, v in pairs(MAP[2][11].dialogueBox) do
+    --v:render()
+  end
 
     --[[
     love.graphics.print('#: ' .. tostring(#sceneView.particleSystem), 0, 10)
