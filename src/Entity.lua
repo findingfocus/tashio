@@ -157,11 +157,12 @@ function Entity:updatePath()
     end
   end
 
+  --DEBUG BOAR
   for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
     if v.enemy then
-      print('Entity: ' .. tostring(v.type))
-      print(tostring(#MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities))
-      print('updatePathCount' .. tostring(self.updatePathCount))
+      --print('Entity: ' .. tostring(v.type))
+      --print(tostring(#MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities))
+      --print('updatePathCount' .. tostring(self.updatePathCount))
     end
   end
 
@@ -171,9 +172,10 @@ function Entity:updatePath()
   local startx, starty = math.min(10, self.nearestTileColumn), math.min(8, self.nearestTileRow)
   local endx, endy = math.min(10, gPlayer.nearestTileColumn), math.min(8, gPlayer.nearestTileRow)
 
+  --PATH DEBUG
   local path = self.myFinder:getPath(startx, starty, endx, endy)
   if path then
-    print(('Path found! Length: %.2f'):format(path:getLength()))
+    --print(('Path found! Length: %.2f'):format(path:getLength()))
     for node, count in path:nodes() do
       --print(('Step: %d - x: %d - y: %d'):format(count, node:getX(), node:getY()))
       table.insert(self.pathNodes, node)

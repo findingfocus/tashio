@@ -168,11 +168,13 @@ function PlayState:update(dt)
     end
 
     for i = 1, 8 do
-      print(Inspect(tileView[i]))
-      for j = 1, 10 do
-      end
+      print(Inspect(gPlayer.jumperMap[i]))
       print('\n')
     end
+    print('\n')
+    print('\n')
+    print('\n')
+    print('\n')
   end
 
   gameX, gameY = push:toGame(love.mouse.getPosition())
