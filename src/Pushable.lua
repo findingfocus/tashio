@@ -91,7 +91,15 @@ function Pushable:pushUp()
   self:playSound(self.type)
   for k, v in pairs(OUTPUT_LIST) do
     if v == 'up' then
+      self.tileY = self.tileY - 1
       self.pushUpInitiated = true
+      for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
+        --OFFAXIS MAKES MOONWALK UPON PUSH
+        v.offAxis = true
+        v:initPathFinding()
+        v:updatePath()
+        v:calculateDirection()
+      end
     end
   end
   for k, v in pairs(TOUCH_OUTPUT_LIST) do
@@ -105,7 +113,14 @@ function Pushable:pushDown()
   self:playSound(self.type)
   for k, v in pairs(OUTPUT_LIST) do
     if v == 'down' then
+      self.tileY = self.tileY + 1
       self.pushDownInitiated = true
+      for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
+        v.offAxis = true
+        v:initPathFinding()
+        v:updatePath()
+        v:calculateDirection()
+      end
     end
   end
   for k, v in pairs(TOUCH_OUTPUT_LIST) do
@@ -119,7 +134,14 @@ function Pushable:pushLeft()
   self:playSound(self.type)
   for k, v in pairs(OUTPUT_LIST) do
     if v == 'left' then
+      self.tileX = self.tileX - 1
       self.pushLeftInitiated = true
+      for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
+        v.offAxis = true
+        v:initPathFinding()
+        v:updatePath()
+        v:calculateDirection()
+      end
     end
   end
   for k, v in pairs(TOUCH_OUTPUT_LIST) do
@@ -133,7 +155,14 @@ function Pushable:pushRight()
   self:playSound(self.type)
   for k, v in pairs(OUTPUT_LIST) do
     if v == 'right' then
+      self.tileX = self.tileX + 1
       self.pushRightInitiated = true
+      for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
+        v.offAxis = true
+        v:initPathFinding()
+        v:updatePath()
+        v:calculateDirection()
+      end
     end
   end
   for k, v in pairs(TOUCH_OUTPUT_LIST) do
@@ -245,7 +274,7 @@ function Pushable:update(dt)
   --]]
 
   if self.pushUpInitiated then
-    local tileAbove = (self.tileY * TILE_SIZE) - TILE_SIZE * 2
+    local tileAbove = ((self.tileY + 1) * TILE_SIZE) - TILE_SIZE * 2
     local tile = sceneView.currentMap.aboveGroundTiles[self.legalPushCheckRow][self.legalPushCheckColumn].id
     if self.y > tileAbove then
       self.y = self.y - PUSH_SPEED * dt
@@ -257,12 +286,11 @@ function Pushable:update(dt)
       end
       self.y = tileAbove
       self.pushUpInitiated = false
-      self.tileY = self.tileY - 1
     end
   end
 
   if self.pushDownInitiated then
-    local tileBelow = self.tileY * TILE_SIZE
+    local tileBelow = (self.tileY - 1) * TILE_SIZE
     local tile = sceneView.currentMap.aboveGroundTiles[self.legalPushCheckRow][self.legalPushCheckColumn].id
     if self.y < tileBelow then
       self.y = self.y + PUSH_SPEED * dt
@@ -274,12 +302,11 @@ function Pushable:update(dt)
       end
       self.y = tileBelow
       self.pushDownInitiated = false
-      self.tileY = self.tileY + 1
     end
   end
 
   if self.pushLeftInitiated then
-    local tileLeft = (self.tileX * TILE_SIZE) - TILE_SIZE * 2
+    local tileLeft = ((self.tileX + 1) * TILE_SIZE) - TILE_SIZE * 2
     local tile = sceneView.currentMap.aboveGroundTiles[self.legalPushCheckRow][self.legalPushCheckColumn].id
     if self.x > tileLeft then
       self.x = self.x - PUSH_SPEED * dt
@@ -291,12 +318,11 @@ function Pushable:update(dt)
       end
       self.x = tileLeft
       self.pushLeftInitiated = false
-      self.tileX = self.tileX - 1
     end
   end
 
   if self.pushRightInitiated then
-    local tileRight = self.tileX * TILE_SIZE
+    local tileRight = (self.tileX - 1) * TILE_SIZE
     local tile = sceneView.currentMap.aboveGroundTiles[self.legalPushCheckRow][self.legalPushCheckColumn].id
     if self.x < tileRight then
       self.x = self.x + PUSH_SPEED * dt
@@ -308,7 +334,6 @@ function Pushable:update(dt)
       end
       self.x = tileRight
       self.pushRightInitiated = false
-      self.tileX = self.tileX + 1
     end
   end
 
@@ -348,4 +373,6 @@ function Pushable:render(adjacentOffsetX, adjacentOffsetY)
   if self.identifier ~= nil then
     --love.graphics.print(self.identifier, self.x, self.y + 16)
   end
+  love.graphics.print('row: ' .. tostring(self.tileY), self.x, self.y)
+  love.graphics.print('col: ' .. tostring(self.tileX), self.x, self.y + 5)
 end
