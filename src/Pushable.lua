@@ -94,7 +94,6 @@ function Pushable:pushUp()
       self.tileY = self.tileY - 1
       self.pushUpInitiated = true
       for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
-        --OFFAXIS MAKES MOONWALK UPON PUSH
         v.offAxis = true
         v:initPathFinding()
         v:updatePath()

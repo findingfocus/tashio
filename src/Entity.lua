@@ -140,8 +140,6 @@ function Entity:calculateDirection()
 end
 
 function Entity:updatePath()
-  self.updatePathCount = self.updatePathCount + 1
-
   self.jumperMap = {}
 
   local tileIndex = 1
@@ -157,6 +155,14 @@ function Entity:updatePath()
     end
   end
 
+  for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+    if v.classType == 'pushable' then
+       local tileX = v.tileX
+       local tileY = v.tileY
+       self.jumperMap[tileY][tileX] = 1
+    end
+  end
+
   --DEBUG BOAR
   for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
     if v.enemy then
@@ -168,7 +174,7 @@ function Entity:updatePath()
 
 
   self.pathNodes = {}
-  self.destinationNodeIndex = 2
+  --self.destinationNodeIndex = 1
   local startx, starty = math.min(10, self.nearestTileColumn), math.min(8, self.nearestTileRow)
   local endx, endy = math.min(10, gPlayer.nearestTileColumn), math.min(8, gPlayer.nearestTileRow)
 
@@ -581,7 +587,10 @@ function Entity:update(dt)
   ---[[
   for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
     local object = v
-
+    --ENTITY TO COLLIABLE MAP OBJECT -TO PUSHABLE
+    if self.type == 'spellcast' then
+      break
+    end
     if v.active then
       if self:leftCollidesMapObject(object) then
         self.x = object.x + object.width - AABB_SIDE_COLLISION_BUFFER
@@ -681,8 +690,10 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
   self.stateMachine:render()
 
   --NEAREST TILE RENDER
-   -- love.graphics.setColor(1,1,1, 100/255)
-   -- love.graphics.rectangle('fill', self.nearestTileColumn * TILE_SIZE - TILE_SIZE, self.nearestTileRow * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
+  if self.type ~= 'spellcast' then
+   love.graphics.setColor(1,1,1, 100/255)
+   love.graphics.rectangle('fill', self.nearestTileColumn * TILE_SIZE - TILE_SIZE, self.nearestTileRow * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
+  end
   -- love.graphics.setColor(WHITE)
   --love.graphics.setColor(BLACK)
   -- love.graphics.print('row: ' .. tostring(self.nearestTileRow), self.x, self.y)
@@ -731,5 +742,5 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
     end
   end
   --love.graphics.print('offAxis: ' .. tostring(self.offAxis), self.x, self.y)
-  --love.graphics.print('hit: ' .. tostring(self.hit), self.x, self.y)
+  --love.graphics.print('enemy: ' .. tostring(self.enemy), self.x, self.y)
 end

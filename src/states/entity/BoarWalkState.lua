@@ -22,19 +22,19 @@ end
 function BoarWalkState:update(dt)
   if self.entity.type == 'boar' and not self.entity.offAxis then
     if self.entity.direction == 'down' then
-      self.entity.y = self.entity.y + self.entity.walkSpeed * dt
+      --self.entity.y = self.entity.y + self.entity.walkSpeed * dt
       --self.entity.dx = 0
       self.entity:changeAnimation('walk-down')
     elseif self.entity.direction == 'up' then
-      self.entity.y = self.entity.y - self.entity.walkSpeed * dt
+      --self.entity.y = self.entity.y - self.entity.walkSpeed * dt
       --self.entity.dx = 0
       self.entity:changeAnimation('walk-up')
     elseif self.entity.direction == 'left' then
-      self.entity.x = self.entity.x - self.entity.walkSpeed * dt
+      --self.entity.x = self.entity.x - self.entity.walkSpeed * dt
       --self.entity.dy = 0
       self.entity:changeAnimation('walk-left')
     elseif self.entity.direction == 'right' then
-      self.entity.x = self.entity.x + self.entity.walkSpeed * dt
+      --self.entity.x = self.entity.x + self.entity.walkSpeed * dt
       --self.entity.dy = 0
       self.entity:changeAnimation('walk-right')
     end
@@ -51,126 +51,36 @@ function BoarWalkState:update(dt)
 end
 
 function BoarWalkState:processAI(params, dt, player)
-  if not self.entity.offAxis then
-    local destinationNode = self.entity.pathNodes[self.entity.destinationNodeIndex]
-    if destinationNode == nil then return end
+  local destinationNode = self.entity.pathNodes[self.entity.destinationNodeIndex]
+  if destinationNode == nil then return end
 
-    local destinationNodeX = destinationNode:getX() * TILE_SIZE - TILE_SIZE
-    local destinationNodeY = destinationNode:getY() * TILE_SIZE - TILE_SIZE
+  local destinationNodeX = destinationNode:getX() * TILE_SIZE - TILE_SIZE
+  local destinationNodeY = destinationNode:getY() * TILE_SIZE - TILE_SIZE
 
-    if self.entity.direction == 'up' then
-      if self.entity.y <= destinationNodeY then
-        self.entity.x, self.entity.y = destinationNodeX, destinationNodeY
-        self.entity.nearestTileRow = math.floor((self.entity.y + 8) / TILE_SIZE + 1)
-        self.entity.nearestTileColumn = math.floor((self.entity.x + 8) / TILE_SIZE + 1)
-        self.entity:updatePath()
-        self.entity:calculateDirection()
-      end
-    elseif self.entity.direction == 'down' then
-      if self.entity.y >= destinationNodeY then
-        self.entity.x, self.entity.y = destinationNodeX, destinationNodeY
-        self.entity.nearestTileRow = math.floor((self.entity.y + 8) / TILE_SIZE + 1)
-        self.entity.nearestTileColumn = math.floor((self.entity.x + 8) / TILE_SIZE + 1)
-        self.entity:updatePath()
-        self.entity:calculateDirection()
-      end
-    elseif self.entity.direction == 'left' then
-      if self.entity.x <= destinationNodeX then
-        self.entity.x, self.entity.y = destinationNodeX, destinationNodeY
-        self.entity.nearestTileRow = math.floor((self.entity.y + 8) / TILE_SIZE + 1)
-        self.entity.nearestTileColumn = math.floor((self.entity.x + 8) / TILE_SIZE + 1)
-        self.entity:updatePath()
-        self.entity:calculateDirection()
-      end
-    elseif self.entity.direction == 'right' then
-      if self.entity.x >= destinationNodeX then
-        self.entity.x, self.entity.y = destinationNodeX, destinationNodeY
-        self.entity.nearestTileRow = math.floor((self.entity.y + 8) / TILE_SIZE + 1)
-        self.entity.nearestTileColumn = math.floor((self.entity.x + 8) / TILE_SIZE + 1)
-        self.entity:updatePath()
-        self.entity:calculateDirection()
-      end
-    end
-  else --IF OFFAXIS
-    --self.entity.walkSpeed = 0
-    local node1X = self.entity.pathNodes[1]:getX() * TILE_SIZE - TILE_SIZE
-    local node1Y = self.entity.pathNodes[1]:getY() * TILE_SIZE - TILE_SIZE
+  local node1X = self.entity.pathNodes[self.entity.destinationNodeIndex]:getX() * TILE_SIZE - TILE_SIZE
+  local node1Y = self.entity.pathNodes[self.entity.destinationNodeIndex]:getY() * TILE_SIZE - TILE_SIZE
 
-    local xDifference = node1X - self.entity.x
-    local yDifference = node1Y - self.entity.y
+  local xDifference = node1X - self.entity.x
+  local yDifference = node1Y - self.entity.y
 
-    local distance = math.sqrt(xDifference * xDifference + yDifference * yDifference)
-    local step = self.entity.originalWalkSpeed * dt
+  local distance = math.sqrt(xDifference * xDifference + yDifference * yDifference)
+  local step = self.entity.originalWalkSpeed * dt
 
-    if distance > step then
-      self.entity.x = self.entity.x + (xDifference / distance) * step
-      self.entity.y = self.entity.y + (yDifference / distance) * step
-    else
-      self.entity.x = node1X
-      self.entity.y = node1Y
-      self.entity.offAxis = false
-      self.entity.walkSpeed = self.entity.originalWalkSpeed
-    end
+  if distance > step then
+    self.entity.x = self.entity.x + (xDifference / distance) * step
+    self.entity.y = self.entity.y + (yDifference / distance) * step
+  else
+    self.entity.x = node1X
+    self.entity.y = node1Y
+    self.entity.offAxis = false
+    self.entity.walkSpeed = self.entity.originalWalkSpeed
+    self.entity:updatePath()
   end
-  -- if destinationNodeX == self.entity.nearestTileColumn + 1 then
-  --   self.entity.direction = 'right'
-  -- end
-  -- if destinationNode:getX() == self.entity.nearestTileColumn - 1 then
-  --   self.entity.direction = 'left'
-  -- end
-  -- if destinationNode:getY() == self.entity.nearestTileRow - 1 then
-  --   self.entity.direction = 'up'
-  -- end
-  -- if destinationNode:getY() == self.entity.nearestTileRow + 1 then
-  --   self.entity.direction = 'down'
-  -- end
-
-  -- local tashio = player
-  -- local velocity = .5
-  -- if self.entity.corrupted then
-  --   --TRACK PLAYERS X POSITION
-  --   if self.entity.aiPath == 1 then
-  --     if self.entity.x > tashio.x + 2 then
-  --       self.entity.direction = 'left'
-  --     elseif self.entity.x + 2 < tashio.x then
-  --       self.entity.direction = 'right'
-  --     elseif self.entity.y > tashio.y then
-  --       self.entity.direction = 'up'
-  --     elseif self.entity.y < tashio.y then
-  --       self.entity.direction = 'down'
-  --     end
-  --
-  --   --TRACK PLAYERS Y POSITION
-  --   elseif self.entity.aiPath == 2 then
-  --     if self.entity.y > tashio.y + 2 then
-  --       self.entity.direction = 'up'
-  --     elseif self.entity.y + 2 < tashio.y then
-  --       self.entity.direction = 'down'
-  --     elseif self.entity.x > tashio.x then
-  --       self.entity.direction = 'left'
-  --     elseif self.entity.x < tashio.x then
-  --       self.entity.direction = 'right'
-  --     end
-  --   end
-  -- end
-
-  -- if self.entity.x > tashio.x - 2 and self.entity.x + self.entity.width < tashio.x + tashio.width + 2 then
-  --   self.entity.axisAligned = true
-  -- elseif self.entity.y > tashio.y - 2 and self.entity.y + self.entity.height < tashio.y + tashio.height + 2 then
-  --   self.entity.axisAligned = true
-  -- else
-  --   self.entity.axisAligned = false
-  -- end
-  --
-  -- if self.entity.axisAligned then
-  --   self.entity.walkSpeed = 50
-  -- else
-  --   self.entity.walkSpeed = self.entity.originalWalkSpeed
-  -- end
 end
 
 function BoarWalkState:render()
   local anim = self.entity.currentAnimation
   love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
   self.entity.x, self.entity.y)
+  love.graphics.print('nodeIndex: ' .. tostring(self.entity.destinationNodeIndex), self.x, self.y)
 end
