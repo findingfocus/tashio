@@ -40,6 +40,7 @@ function Scene:init(player, mapRow, mapColumn)
   self.activeDialogueID = nil
   self.tutorialText = false
   self.tutorialTextAlpha = 0
+  --SPELLCAST ENTITY
   for i = 1, 3 do
     table.insert(self.spellcastEntities, Entity {
       animations = ENTITY_DEFS['spellcast'].animations,
