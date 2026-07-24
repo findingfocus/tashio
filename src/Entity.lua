@@ -736,9 +736,11 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
 
     love.graphics.setLineWidth(2)
     for node, nodes in ipairs(self.pathNodes) do
-      love.graphics.setColor(1, 0, 0, currentAlpha / 255)
-      love.graphics.rectangle('line', nodes:getX() * TILE_SIZE - TILE_SIZE, nodes:getY() * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
-      currentAlpha = currentAlpha + alphaSteps
+      if self.enemy then
+        love.graphics.setColor(1, 0, 0, currentAlpha / 255)
+        love.graphics.rectangle('line', nodes:getX() * TILE_SIZE - TILE_SIZE, nodes:getY() * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
+        currentAlpha = currentAlpha + alphaSteps
+      end
     end
   end
   --love.graphics.print('offAxis: ' .. tostring(self.offAxis), self.x, self.y)

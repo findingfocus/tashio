@@ -13,6 +13,9 @@ __Multiplatform build system
 
 TODO
 __Add Elder Gecko NPC for item harvesting proficency
+__Boar gets stuck (traversing to node 2) if boar path has 1 node meaning same tile as tashio
+__Fire spellcast active during death, and visible during continue game
+__Boar walking over pits currently
 
 NEXT EPISODE
 __Add Collidable Layer to tiled
