@@ -20,26 +20,6 @@ function BoarWalkState:init(entity, scene)
 end
 
 function BoarWalkState:update(dt)
-  if self.entity.type == 'boar' and not self.entity.offAxis then
-    if self.entity.direction == 'down' then
-      --self.entity.y = self.entity.y + self.entity.walkSpeed * dt
-      --self.entity.dx = 0
-      self.entity:changeAnimation('walk-down')
-    elseif self.entity.direction == 'up' then
-      --self.entity.y = self.entity.y - self.entity.walkSpeed * dt
-      --self.entity.dx = 0
-      self.entity:changeAnimation('walk-up')
-    elseif self.entity.direction == 'left' then
-      --self.entity.x = self.entity.x - self.entity.walkSpeed * dt
-      --self.entity.dy = 0
-      self.entity:changeAnimation('walk-left')
-    elseif self.entity.direction == 'right' then
-      --self.entity.x = self.entity.x + self.entity.walkSpeed * dt
-      --self.entity.dy = 0
-      self.entity:changeAnimation('walk-right')
-    end
-  end
-
   --TRIGGER OFFSCREEN
   if self.entity.x + self.entity.width < -TILE_SIZE or self.entity.x > VIRTUAL_WIDTH + TILE_SIZE or self.entity.y + self.entity.height < -TILE_SIZE then
     --ADD IN BOTTOM RULE AS WELL
@@ -62,6 +42,28 @@ function BoarWalkState:processAI(params, dt, player)
 
   local xDifference = node1X - self.entity.x
   local yDifference = node1Y - self.entity.y
+
+  local axisPriority = ''
+
+  if math.abs(xDifference) > math.abs(yDifference) then
+    axisPriority = 'horizontal'
+  else
+    axisPriority = 'vertical'
+  end
+
+  if axisPriority == 'horizontal' then
+    if xDifference >= 0 then
+      self.entity:changeAnimation('walk-right')
+    else
+      self.entity:changeAnimation('walk-left')
+    end
+  elseif axisPriority == 'vertical' then
+    if yDifference <= 0 then
+      self.entity:changeAnimation('walk-up')
+    else
+      self.entity:changeAnimation('walk-down')
+    end
+  end
 
   local distance = math.sqrt(xDifference * xDifference + yDifference * yDifference)
   local step = self.entity.originalWalkSpeed * dt
