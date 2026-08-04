@@ -25,6 +25,7 @@ function Entity:init(def)
   self.flapThreshold = 0.5
   self.flapActive = false
   self.offAxis = false
+  self.path1Long = false
   --self:changeAnimation('idle-down')
   self.spawnRow = def.spawnRow or nil
   self.spawnColumn = def.spawnColumn or nil
@@ -337,6 +338,27 @@ function Entity:update(dt)
     self.pathFindingInitialized = true
   end
 
+  local startx, starty = math.min(10, self.nearestTileColumn), math.min(8, self.nearestTileRow)
+  local endx, endy = math.min(10, gPlayer.nearestTileColumn), math.min(8, gPlayer.nearestTileRow)
+
+  if self.enemy then
+    if self.path1Long then
+      if startx == endx and starty == endy then
+        --print('HELLO BRIGHTSIDE')
+      else
+        self.path1Long = false
+        self:updatePath()
+        print('UPDATED PATH! PATH NO LONGER 1 LONG')
+      end
+    end
+  end
+
+  if startx == endx and starty == endy then
+    self.path1Long = true
+  else
+    self.path1Long = false
+  end
+
   if gPlayer.aquisCasting then
     self.aquisCollides = self:circleCollides(gPlayer.aquisProjectile)
   end
@@ -546,9 +568,11 @@ function Entity:update(dt)
       self.hit = false
       self.nearestTileRow = math.floor((self.y + 8) / TILE_SIZE + 1)
       self.nearestTileColumn = math.floor((self.x + 8) / TILE_SIZE + 1)
-      self:updatePath()
-      self:calculateDirection()
-      print('UPDATED PATH! WE SLOWED TO A STOP')
+      if self.enemy then
+        self:updatePath()
+        self:calculateDirection()
+        print('UPDATED PATH! WE SLOWED TO A STOP')
+      end
       --CALCULATE PIXEL OFFSET OF GRID ALIGNMENT
     end
   end
@@ -744,5 +768,4 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
     end
   end
   --love.graphics.print('offAxis: ' .. tostring(self.offAxis), self.x, self.y)
-  --love.graphics.print('enemy: ' .. tostring(self.enemy), self.x, self.y)
 end
