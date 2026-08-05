@@ -529,6 +529,11 @@ function Map:update(dt)
         --REMOVE CRATE
         if v.currentAnimation.timesPlayed == 1 then
           v.active = false
+          for k, v in pairs(MAP[self.row][self.column].entities) do
+            if v.enemy and v.type ~= 'bat' then
+              v:initPathFinding()
+            end
+          end
           --table.remove(MAP[self.row][self.column].collidableMapObjects, k)
         end
       end
