@@ -105,7 +105,7 @@ function Entity:initPathFinding()
   end
 
   for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
-    if v.classType == 'pushable' then
+    if v.classType == 'pushable' and v.active then
        local tileX = v.tileX
        local tileY = v.tileY
        self.jumperMap[tileY][tileX] = 1
@@ -208,6 +208,7 @@ function Entity:resetOriginalPosition()
   self.splashTimer = 0
   self.colorOption = 'corrupted'
   self.splashed = false
+  self.pathFindingInitialized = false
 
   self.aquisCollides = false
   if self.type == 'bat' then
