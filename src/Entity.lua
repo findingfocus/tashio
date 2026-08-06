@@ -112,6 +112,10 @@ function Entity:initPathFinding()
     end
   end
 
+  for k, pit in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].pits) do
+    self.jumperMap[pit.tileY][pit.tileX] = 1
+  end
+
   local walkable = 0
 
   local Grid = require('lib/jumper.grid')
@@ -209,6 +213,7 @@ function Entity:resetOriginalPosition()
   self.colorOption = 'corrupted'
   self.splashed = false
   self.pathFindingInitialized = false
+  self.pathNodes = {}
 
   self.aquisCollides = false
   if self.type == 'bat' then
@@ -632,6 +637,23 @@ function Entity:update(dt)
     end
   end
 
+  --ENTITY TO PIT COLLISION
+  if self.enemy then
+    for k, pit in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].pits) do
+      if self:leftCollidesMapObject(pit) then
+        self.x = pit.x + pit.width - AABB_SIDE_COLLISION_BUFFER
+      end
+      if self:rightCollidesMapObject(pit) then
+        self.x = pit.x - self.width + AABB_SIDE_COLLISION_BUFFER
+      end
+      if self:topCollidesMapObject(pit) then
+        self.y = pit.y + pit.height - AABB_TOP_COLLISION_BUFFER
+      end
+      if self:bottomCollidesMapObject(pit) then
+        self.y = pit.y - self.height
+      end
+    end
+  end
 
   --[[
   -EDGE_BUFFER
