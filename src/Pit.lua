@@ -3,6 +3,8 @@ Pit = Class{}
 function Pit:init(sceneRow, sceneCol)
   self.x = sceneCol * 16 - 16
   self.y = sceneRow * 16 - 16
+  self.tileX = sceneCol
+  self.tileY = sceneRow
   self.width = TILE_SIZE
   self.height = TILE_SIZE
 end

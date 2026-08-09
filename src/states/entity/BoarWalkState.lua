@@ -32,6 +32,7 @@ end
 
 function BoarWalkState:processAI(params, dt, player)
   local destinationNode = self.entity.pathNodes[self.entity.destinationNodeIndex]
+
   if destinationNode == nil then return end
 
   local destinationNodeX = destinationNode:getX() * TILE_SIZE - TILE_SIZE

@@ -9,6 +9,10 @@ function Entity:init(def)
   self.updatePathCount = 0
   self.x = def.x
   self.y = def.y
+  if def.x and def.y then
+    self.startingTileX = math.floor((def.x + 8) / TILE_SIZE + 1)
+    self.startingTileY = math.floor((def.y + 8) / TILE_SIZE + 1)
+  end
   self.dx = 0
   self.dy = 0
   self.dialogueBox = {}
@@ -26,6 +30,7 @@ function Entity:init(def)
   self.flapActive = false
   self.offAxis = false
   self.path1Long = false
+  self.pathInvalid = false
   --self:changeAnimation('idle-down')
   self.spawnRow = def.spawnRow or nil
   self.spawnColumn = def.spawnColumn or nil
@@ -84,6 +89,8 @@ function Entity:init(def)
 
   self.nearestTileRow = 0
   self.nearestTileColumn = 0
+  self.nearestLegalTileRow = 0
+  self.nearestLegalTileColumn = 0
   self.pathFindingInitialized = false
   self.pathNodes = {}
   self.destinationNodeIndex = 2
@@ -144,6 +151,50 @@ function Entity:calculateDirection()
   end
 end
 
+function Entity:goHome()
+  self.jumperMap = {}
+
+  local tileIndex = 1
+  for i = 1, 8 do
+    self.jumperMap[i] = {}
+    for j = 1, 10 do
+      if MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableTileIds[tileIndex] == 0 then
+        table.insert(self.jumperMap[i], 0)
+      elseif MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableTileIds[tileIndex] == 180 then
+        table.insert(self.jumperMap[i], 1)
+      end
+      tileIndex = tileIndex + 1
+    end
+  end
+
+  for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+    if v.classType == 'pushable' then
+       local tileX = v.tileX
+       local tileY = v.tileY
+       self.jumperMap[tileY][tileX] = 1
+    end
+  end
+
+  self.pathNodes = {}
+  --self.destinationNodeIndex = 2
+
+  local startx, starty = math.min(10, self.nearestTileColumn), math.min(8, self.nearestTileRow)
+  local endx, endy = math.min(10, self.startingTileX), math.min(8, self.startingTileY)
+
+  --PATH DEBUG
+  local path = self.myFinder:getPath(startx, starty, endx, endy)
+  if path then
+    --print(('Path found! Length: %.2f'):format(path:getLength()))
+    for node, count in path:nodes() do
+      --print(('Step: %d - x: %d - y: %d'):format(count, node:getX(), node:getY()))
+      table.insert(self.pathNodes, node)
+      --print((node:getX(), node:getY()))
+      -- print('X: ' .. tostring(self.pathNodes[1]:getX()))
+      -- print('Y: ' .. tostring(self.pathNodes[1]:getY()))
+    end
+  end
+end
+
 function Entity:updatePath()
   self.jumperMap = {}
 
@@ -180,12 +231,16 @@ function Entity:updatePath()
 
   self.pathNodes = {}
   --self.destinationNodeIndex = 1
+
   local startx, starty = math.min(10, self.nearestTileColumn), math.min(8, self.nearestTileRow)
+  --local endx, endy = math.min(10, gPlayer.nearestLegalTileColumn), math.min(8, gPlayer.nearestLegalTileRow)
   local endx, endy = math.min(10, gPlayer.nearestTileColumn), math.min(8, gPlayer.nearestTileRow)
+
 
   --PATH DEBUG
   local path = self.myFinder:getPath(startx, starty, endx, endy)
   if path then
+    self.pathInvalid = false
     --print(('Path found! Length: %.2f'):format(path:getLength()))
     for node, count in path:nodes() do
       --print(('Step: %d - x: %d - y: %d'):format(count, node:getX(), node:getY()))
@@ -194,6 +249,8 @@ function Entity:updatePath()
       -- print('X: ' .. tostring(self.pathNodes[1]:getX()))
       -- print('Y: ' .. tostring(self.pathNodes[1]:getY()))
     end
+  else
+    self.pathInvalid = true
   end
 end
 
@@ -344,26 +401,32 @@ function Entity:update(dt)
     self.pathFindingInitialized = true
   end
 
-  local startx, starty = math.min(10, self.nearestTileColumn), math.min(8, self.nearestTileRow)
-  local endx, endy = math.min(10, gPlayer.nearestTileColumn), math.min(8, gPlayer.nearestTileRow)
+  -- local startx, starty = math.min(10, self.nearestTileColumn), math.min(8, self.nearestTileRow)
+  -- local endx, endy = math.min(10, gPlayer.nearestTileColumn), math.min(8, gPlayer.nearestTileRow)
 
-  if self.enemy then
-    if self.path1Long then
-      if startx == endx and starty == endy then
-        --print('HELLO BRIGHTSIDE')
-      else
-        self.path1Long = false
-        self:updatePath()
-        print('UPDATED PATH! PATH NO LONGER 1 LONG')
-      end
-    end
+  -- if self.enemy then
+  --   if self.path1Long then
+  --     if startx == endx and starty == endy then
+  --       --print('HELLO BRIGHTSIDE')
+  --     else
+  --       self.path1Long = false
+  --       self:updatePath()
+  --       print('UPDATED PATH! PATH NO LONGER 1 LONG')
+  --     end
+  --   end
+  -- end
+
+  --TODO
+  if self.pathInvalid then
+    print('HELLO BRIGHTSIDE INVALID PATH')
   end
 
-  if startx == endx and starty == endy then
-    self.path1Long = true
-  else
-    self.path1Long = false
-  end
+  --REMOVE ONCE PATH 1 LONG FIX
+  -- if startx == endx and starty == endy then
+  --   self.path1Long = true
+  -- else
+  --   self.path1Long = false
+  -- end
 
   if gPlayer.aquisCasting then
     self.aquisCollides = self:circleCollides(gPlayer.aquisProjectile)
@@ -462,6 +525,57 @@ function Entity:update(dt)
 
   self.nearestTileRow = math.floor((self.y + 8) / TILE_SIZE + 1)
   self.nearestTileColumn = math.floor((self.x + 8) / TILE_SIZE + 1)
+
+  --TODO FIX THE NEAREST LEGAL TILES
+
+  --UPDATE NEAREST TILE ROW COL
+  if self.enemy then
+    self.nearestTileRow = math.floor((self.y + 8) / TILE_SIZE + 1)
+    self.nearestTileColumn = math.floor((self.x + 8) / TILE_SIZE + 1)
+  elseif self.type == 'player' then
+    if (#MAP[sceneView.currentMap.row][sceneView.currentMap.column].pits == 0) then
+      self.nearestLegalTileRow = self.nearestTileRow
+      self.nearestLegalTileColumn = self.nearestLegalTileColumn
+    end
+
+    local pitIndex = nil
+    local sidePit = nil
+    local sidePitCollision = nil
+
+    for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].pits) do
+      if v.tileX == gPlayer.nearestTileColumn and v.tileY == gPlayer.nearestTileRow then
+        if gPlayer.y > v.y + 3 then
+          if self.type == 'player' then
+            print('BENEATH PIT')
+            pitIndex = k
+            break
+          end
+        else
+          sidePitCollision = true
+          sidePit = k
+        end
+      end
+    end
+
+    for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].pits) do
+      if v.tileX == gPlayer.nearestTileColumn and v.tileY == gPlayer.nearestTileRow then
+        sidePit = k
+        break
+      end
+    end
+
+    --DEFAULT LEGAL TILE FROM NEAREST TILE
+    self.nearestLegalTileRow = self.nearestTileRow
+    self.nearestLegalTileColumn = self.nearestTileColumn
+
+    if sidePit ~= nil and sidePitCollision then
+      self.nearestLegalTileColumn = self.nearestTileColumn + 1
+    end
+
+    if pitIndex ~= nil then
+      self.nearestLegalTileRow = self.nearestTileRow + 1
+    end
+  end
 
   self.stateMachine:update(dt)
 
@@ -738,8 +852,12 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
 
   --NEAREST TILE RENDER
   if self.type ~= 'spellcast' then
-   love.graphics.setColor(1,1,1, 100/255)
-   love.graphics.rectangle('fill', self.nearestTileColumn * TILE_SIZE - TILE_SIZE, self.nearestTileRow * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
+    if self.type == 'player' then
+      love.graphics.setColor(0,0,1, 100/255)
+      love.graphics.rectangle('fill', self.nearestLegalTileColumn * TILE_SIZE - TILE_SIZE, self.nearestLegalTileRow * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
+      love.graphics.setColor(1,1,1, 100/255)
+      love.graphics.rectangle('fill', self.nearestTileColumn * TILE_SIZE - TILE_SIZE, self.nearestTileRow * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
+    end
   end
   -- love.graphics.setColor(WHITE)
   --love.graphics.setColor(BLACK)
@@ -790,5 +908,5 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
       end
     end
   end
-  --love.graphics.print('offAxis: ' .. tostring(self.offAxis), self.x, self.y)
+  love.graphics.print('path1Long: ' .. tostring(self.path1Long), self.x, self.y)
 end
