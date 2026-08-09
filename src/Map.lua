@@ -324,6 +324,11 @@ function Map:update(dt)
     --CHASM FALL
     if sceneView.player.chasmFallTimer >= CHASM_FALL_ANIM_TIMER then
       sceneView.player:changeAnimation('falling')
+      for k, v in pairs(MAP[self.row][self.column].entities) do
+        if v.enemy then
+          v:goHome()
+        end
+      end
       if not sceneView.player.falling then
         if not sfx['tashio-falling']:isPlaying() then
           sfx['tashio-falling']:play()
