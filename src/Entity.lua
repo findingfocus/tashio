@@ -538,29 +538,26 @@ function Entity:update(dt)
       self.nearestLegalTileColumn = self.nearestLegalTileColumn
     end
 
-    local pitIndex = nil
-    local sidePit = nil
-    local sidePitCollision = nil
+    local topPitCollision = nil
+    local leftPitCollision = nil
 
     for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].pits) do
       if v.tileX == gPlayer.nearestTileColumn and v.tileY == gPlayer.nearestTileRow then
-        if gPlayer.y > v.y + 3 then
-          if self.type == 'player' then
-            print('BENEATH PIT')
-            pitIndex = k
-            break
+        if not gPlayer.falling then
+          if gPlayer.y > v.y + 3 then
+            if self.type == 'player' then
+              print('PIT ABOVE US')
+              topPitCollision = true
+            end
+          elseif v.y > gPlayer.y + 3 then
+            print('PIT BELOW US')
+          elseif gPlayer.x > v.x then
+            print('PIT ON LEFT')
+            leftPitCollision = true
+          elseif gPlayer.x + gPlayer.width < v.x + 4 then
+            print('PIT ON RIGHT')
           end
-        else
-          sidePitCollision = true
-          sidePit = k
         end
-      end
-    end
-
-    for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].pits) do
-      if v.tileX == gPlayer.nearestTileColumn and v.tileY == gPlayer.nearestTileRow then
-        sidePit = k
-        break
       end
     end
 
@@ -568,11 +565,11 @@ function Entity:update(dt)
     self.nearestLegalTileRow = self.nearestTileRow
     self.nearestLegalTileColumn = self.nearestTileColumn
 
-    if sidePit ~= nil and sidePitCollision then
+    if leftPitCollision then
       self.nearestLegalTileColumn = self.nearestTileColumn + 1
     end
 
-    if pitIndex ~= nil then
+    if topPitCollision then
       self.nearestLegalTileRow = self.nearestTileRow + 1
     end
   end
@@ -908,5 +905,9 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
       end
     end
   end
-  love.graphics.print('path1Long: ' .. tostring(self.path1Long), self.x, self.y)
+  love.graphics.setColor(WHITE)
+  if self.type == 'player' then
+    love.graphics.print('chasmFalling: ' .. tostring(self.chasmFalling), self.x, self.y)
+    love.graphics.print('Falling: ' .. tostring(self.falling), self.x, self.y + 5)
+  end
 end
