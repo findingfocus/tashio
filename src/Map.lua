@@ -186,143 +186,16 @@ function Map:update(dt)
         end
       end
     end
-    --PLAYER TO CHASM COLLISION
-    if not gPlayer.chasmFalling then
-      for k, v in pairs(MAP[self.row][self.column].chasms) do
-        if sceneView.player:chasmTopLeftCollide(v) then
-          if sceneView.player:chasmTopRightCollide(v) then
-            sceneView.player.chasmCollided = v
-            sceneView.player.UpFall = true
-            break
-          elseif sceneView.player:chasmBottomLeftCollide(v) then
-            sceneView.player.chasmCollided = v
-            sceneView.player.LeftFall = true
-            break
-          end
-          sceneView.player.chasmCollided = v
-          sceneView.player.UpLeftFall = true
-          break
-        end
 
-        if sceneView.player:chasmTopRightCollide(v) then
-          if sceneView.player:chasmBottomRightCollide(v) then
-            sceneView.player.chasmCollided = v
-            sceneView.player.RightFall = true
-            break
-          end
-          sceneView.player.chasmCollided = v
-          sceneView.player.UpRightFall = true
-          break
-        end
-
-        if sceneView.player:chasmBottomRightCollide(v) then
-          if sceneView.player:chasmBottomLeftCollide(v) then
-            sceneView.player.chasmCollided = v
-            sceneView.player.DownFall = true
-            break
-          end
-          sceneView.player.chasmCollided = v
-          sceneView.player.DownRightFall = true
-          break
-        end
-
-        if sceneView.player:chasmBottomLeftCollide(v) then
-          sceneView.player.chasmCollided = v
-          sceneView.player.DownLeftFall = true
-          break
-        end
-      end
-
-      for k, v in pairs(MAP[self.row][self.column].pits) do
-        if sceneView.player:pitTopLeftCollide(v) then
-          if sceneView.player:pitTopRightCollide(v) then
-            sceneView.player.chasmCollided = v
-            sceneView.player.UpFall = true
-            break
-          elseif sceneView.player:pitBottomLeftCollide(v) then
-            sceneView.player.chasmCollided = v
-            sceneView.player.LeftFall = true
-            break
-          end
-          sceneView.player.chasmCollided = v
-          sceneView.player.UpLeftFall = true
-          break
-        end
-
-        if sceneView.player:pitTopRightCollide(v) then
-          if sceneView.player:pitBottomRightCollide(v) then
-            sceneView.player.chasmCollided = v
-            sceneView.player.RightFall = true
-            break
-          end
-          sceneView.player.chasmCollided = v
-          sceneView.player.UpRightFall = true
-          break
-        end
-
-        if sceneView.player:pitBottomRightCollide(v) then
-          if sceneView.player:pitBottomLeftCollide(v) then
-            sceneView.player.chasmCollided = v
-            sceneView.player.DownFall = true
-            break
-          end
-          sceneView.player.chasmCollided = v
-          sceneView.player.DownRightFall = true
-          break
-        end
-
-        if sceneView.player:pitBottomLeftCollide(v) then
-          sceneView.player.chasmCollided = v
-          sceneView.player.DownLeftFall = true
-          break
-        end
-      end
-    end
-
-    if sceneView.player.DownFall then
-      sceneView.player.chasmFallTimer = sceneView.player.chasmFallTimer + dt
-      Timer.tween(CHASM_FALL_TWEEN, {
-        [sceneView.player] = {x = sceneView.player.chasmCollided.x, y = sceneView.player.chasmCollided.y},
-      })
-    elseif sceneView.player.DownLeftFall then
-      sceneView.player.chasmFallTimer = sceneView.player.chasmFallTimer + dt
-      Timer.tween(CHASM_FALL_TWEEN, {
-        [sceneView.player] = {x = sceneView.player.chasmCollided.x, y = sceneView.player.chasmCollided.y},
-      })
-    elseif sceneView.player.LeftFall then
-      sceneView.player.chasmFallTimer = sceneView.player.chasmFallTimer + dt
-      Timer.tween(CHASM_FALL_TWEEN, {
-        [sceneView.player] = {x = sceneView.player.chasmCollided.x, y = sceneView.player.chasmCollided.y},
-      })
-    elseif sceneView.player.UpLeftFall then
-      sceneView.player.chasmFallTimer = sceneView.player.chasmFallTimer + dt
-      Timer.tween(CHASM_FALL_TWEEN, {
-        [sceneView.player] = {x = sceneView.player.chasmCollided.x, y = sceneView.player.chasmCollided.y},
-      })
-    elseif sceneView.player.UpFall then
-      sceneView.player.chasmFallTimer = sceneView.player.chasmFallTimer + dt
-      Timer.tween(CHASM_FALL_TWEEN, {
-        [sceneView.player] = {x = sceneView.player.chasmCollided.x, y = sceneView.player.chasmCollided.y},
-      })
-    elseif sceneView.player.UpRightFall then
-      sceneView.player.chasmFallTimer = sceneView.player.chasmFallTimer + dt
-      Timer.tween(CHASM_FALL_TWEEN, {
-        [sceneView.player] = {x = sceneView.player.chasmCollided.x, y = sceneView.player.chasmCollided.y},
-      })
-    elseif sceneView.player.RightFall then
-      sceneView.player.chasmFallTimer = sceneView.player.chasmFallTimer + dt
-      Timer.tween(CHASM_FALL_TWEEN, {
-        [sceneView.player] = {x = sceneView.player.chasmCollided.x, y = sceneView.player.chasmCollided.y},
-      })
-    elseif sceneView.player.DownRightFall then
-      sceneView.player.chasmFallTimer = sceneView.player.chasmFallTimer + dt
+    if sceneView.player.pitFalling then
+      sceneView.player.pitFallTimer = sceneView.player.pitFallTimer + dt
       Timer.tween(CHASM_FALL_TWEEN, {
         [sceneView.player] = {x = sceneView.player.chasmCollided.x, y = sceneView.player.chasmCollided.y},
       })
     end
 
-    --CHASM FALL
-    if sceneView.player.chasmFallTimer >= CHASM_FALL_ANIM_TIMER then
+    --PIT FALL
+    if sceneView.player.pitFallTimer >= CHASM_FALL_ANIM_TIMER then
       sceneView.player:changeAnimation('falling')
       for k, v in pairs(MAP[self.row][self.column].entities) do
         if v.enemy then
@@ -336,7 +209,26 @@ function Map:update(dt)
       end
       sceneView.player.falling = true
       sceneView.player.chasmFalling = false
+      sceneView.player.pitFalling = false
+      sceneView.player.chasmCollided = {}
     end
+
+    ----CHASM FALL
+    --if sceneView.player.chasmFallTimer >= CHASM_FALL_ANIM_TIMER then
+    --  sceneView.player:changeAnimation('falling')
+    --  for k, v in pairs(MAP[self.row][self.column].entities) do
+    --    if v.enemy then
+    --      v:goHome()
+    --    end
+    --  end
+    --  if not sceneView.player.falling then
+    --    if not sfx['tashio-falling']:isPlaying() then
+    --      sfx['tashio-falling']:play()
+    --    end
+    --  end
+    --  sceneView.player.falling = true
+    --  sceneView.player.chasmFalling = false
+    --end
 
     --]]
     --COIN COLLISION
@@ -391,11 +283,11 @@ function Map:update(dt)
 
 
   --FALLING TRIGGER
-  if sceneView.player.fallTimer > FALL_TIMER_THRESHOLD then
-    sceneView.player.fallTimer = 0
-    sceneView.player:changeAnimation('falling')
-    sceneView.player.falling = true
-  end
+  -- if sceneView.player.fallTimer > FALL_TIMER_THRESHOLD then
+  --   sceneView.player.fallTimer = 0
+  --   sceneView.player:changeAnimation('falling')
+  --   sceneView.player.falling = true
+  -- end
 
   --GRAVEYARD TRIGGER
   if sceneView.player.falling then
@@ -405,10 +297,13 @@ function Map:update(dt)
     if sceneView.player.animations['falling'].timesPlayed >= 1 then
       Timer.clear()
       sceneView.player.chasmFallTimer = 0
+      sceneView.player.pitFallTimer = 0
       sceneView.player:resetFallingDirection()
       sceneView.player.falling = false
       sceneView.player.chasmDeath = true
       sceneView.player.chasmFalling = false
+      sceneView.player.pitFalling = false
+      sceneView.player.chasmCollided = {}
       sceneView.player.tweenAllowed = false
       sceneView.player.animations['falling'].currentFrame = 1
       sounds['hurt']:play()
@@ -645,6 +540,8 @@ function Map:render()
 
   sceneView.player:renderAquis()
   --MAP DEBUG
+    love.graphics.print('pitFalling: ' .. tostring(gPlayer.pitFalling), 0, 10)
+    love.graphics.print('pitFallTimer: ' .. tostring(gPlayer.pitFallTimer), 0, 20)
   --[[
   love.graphics.print('player.falling: ' .. tostring(gPlayer.falling), 0, 0)
   love.graphics.print('player.fallTimer: ' .. tostring(gPlayer.fallTimer), 0, 20)

@@ -34,6 +34,8 @@ function Player:init(def)
   self.falling = false
   self.tome1Success = false
   self.fallTimer = 0
+  self.pitFalling = false
+  self.pitFallTimer = 0
   self.graveyard = false
   self.tweenAllowed = true
   self.healthPotionUnlocked = false
@@ -102,6 +104,7 @@ function Player:init(def)
   self.blueTunicUnlocked = false
   self.elementEquipped = ''
   self.tunicEquipped = ''
+  self.footCollider = Collider(self.x, self.y + self.height, 10, 3)
   CHASM_TL_COLLIDE_X = self.x + 6
   CHASM_TL_COLLIDE_Y = self.y + 10
   CHASM_TL_COLLIDE_WIDTH = 2
@@ -277,7 +280,9 @@ function Player:update(dt)
   self.prevX = self.x
   self.prevY = self.y
 
-  if not self.graveyard and not self.falling and not self.chasmFalling then
+  --CHECKPOINT POSITIONS
+  --IS CHASM COLLIDED HERE NEEDED?
+  if not self.graveyard and not self.falling and not self.chasmFalling and not self.pitFalling and #self.chasmCollided == 0 then
     self.checkPointTick = self.checkPointTick + dt
     if self.checkPointTick > 1 then
       self.checkPointPositions.x = self.x
@@ -486,6 +491,7 @@ function Player:update(dt)
       self.unFocus = 0
       self.focusIndicatorX = math.max(self.focusIndicatorX - FOCUS_DRAIN * dt, 0)
     end
+    gPlayer.footCollider:update(dt)
   end
 
   if gPlayer.dead then
@@ -570,6 +576,16 @@ end
 function Player:render()
   if not self.graveyard then
     Entity.render(self)
+    
+    love.graphics.setColor(1,0,0,120/255)
+    for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].pits) do
+      if self.footCollider:collides(v, 'pit') then
+    love.graphics.setColor(0,1,0,120/255)
+        break
+      end
+    end
+    self.footCollider:render()
+
     if self.y <= self.aquisProjectile.nearestTileRow + self.aquisProjectile.yOffset then
       sceneView.player:renderAquis()
     end

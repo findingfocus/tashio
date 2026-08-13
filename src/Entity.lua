@@ -233,8 +233,8 @@ function Entity:updatePath()
   --self.destinationNodeIndex = 1
 
   local startx, starty = math.min(10, self.nearestTileColumn), math.min(8, self.nearestTileRow)
-  --local endx, endy = math.min(10, gPlayer.nearestLegalTileColumn), math.min(8, gPlayer.nearestLegalTileRow)
-  local endx, endy = math.min(10, gPlayer.nearestTileColumn), math.min(8, gPlayer.nearestTileRow)
+  local endx, endy = math.min(10, gPlayer.nearestLegalTileColumn), math.min(8, gPlayer.nearestLegalTileRow)
+  --local endx, endy = math.min(10, gPlayer.nearestTileColumn), math.min(8, gPlayer.nearestTileRow)
 
 
   --PATH DEBUG
@@ -539,39 +539,52 @@ function Entity:update(dt)
     end
 
     local topPitCollision = nil
-    local leftPitCollision = nil
+    local rightPitCollision = nil
+    local bottomPitCollision = nil
 
-    for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].pits) do
-      if v.tileX == gPlayer.nearestTileColumn and v.tileY == gPlayer.nearestTileRow then
-        if not gPlayer.falling then
-          if gPlayer.y > v.y + 3 then
-            if self.type == 'player' then
-              print('PIT ABOVE US')
-              topPitCollision = true
+    if not gPlayer.falling then
+      for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].pits) do
+        if gPlayer.footCollider:collides(v, 'pit') then
+          sceneView.player.chasmCollided = v
+          sceneView.player.pitFalling = true
+        end
+        if v.tileX == gPlayer.nearestTileColumn and v.tileY == gPlayer.nearestTileRow then
+          if not gPlayer.falling and not gPlayer.pitFalling then
+            if gPlayer.footCollider.y > v.y + (TILE_SIZE / 2) then
+              if self.type == 'player' then
+                print('PIT ABOVE US')
+                topPitCollision = true
+              end
+            elseif gPlayer.footCollider.y < v.y + (TILE_SIZE / 2) then
+              print('PIT BELOW US')
+              bottomPitCollision = true
+            elseif gPlayer.footCollider.x + gPlayer.footCollider.width < v.x + (TILE_SIZE / 2) then
+              if self.type == 'player' then
+                print('PIT TO THE RIGHT')
+                rightPitCollision = true
+              end
             end
-          elseif v.y > gPlayer.y + 3 then
-            print('PIT BELOW US')
-          elseif gPlayer.x > v.x then
-            print('PIT ON LEFT')
-            leftPitCollision = true
-          elseif gPlayer.x + gPlayer.width < v.x + 4 then
-            print('PIT ON RIGHT')
           end
         end
       end
     end
 
     --DEFAULT LEGAL TILE FROM NEAREST TILE
-    self.nearestLegalTileRow = self.nearestTileRow
-    self.nearestLegalTileColumn = self.nearestTileColumn
+    if not gPlayer.pitFalling and not gPlayer.falling then
+      self.nearestLegalTileRow = self.nearestTileRow
+      self.nearestLegalTileColumn = self.nearestTileColumn
 
-    if leftPitCollision then
-      self.nearestLegalTileColumn = self.nearestTileColumn + 1
+      if topPitCollision then
+        self.nearestLegalTileRow = self.nearestTileRow + 1
+      end
+      if rightPitCollision then
+        self.nearestLegalTileColumn = self.nearestTileColumn - 1
+      end
+      if bottomPitCollision then
+        self.nearestLegalTileRow = self.nearestTileRow - 1
+      end
     end
 
-    if topPitCollision then
-      self.nearestLegalTileRow = self.nearestTileRow + 1
-    end
   end
 
   self.stateMachine:update(dt)
@@ -747,34 +760,6 @@ function Entity:update(dt)
       end
     end
   end
-
-  --ENTITY TO PIT COLLISION
-  if self.enemy then
-    for k, pit in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].pits) do
-      if self:leftCollidesMapObject(pit) then
-        self.x = pit.x + pit.width - AABB_SIDE_COLLISION_BUFFER
-      end
-      if self:rightCollidesMapObject(pit) then
-        self.x = pit.x - self.width + AABB_SIDE_COLLISION_BUFFER
-      end
-      if self:topCollidesMapObject(pit) then
-        self.y = pit.y + pit.height - AABB_TOP_COLLISION_BUFFER
-      end
-      if self:bottomCollidesMapObject(pit) then
-        self.y = pit.y - self.height
-      end
-    end
-  end
-
-  --[[
-  -EDGE_BUFFER
-  --LEFT BOUNDARY
-  -EDGE_BUFFER
-  --RIGHT BOUNDARY
-  VIRTUAL_WIDTH + EDGE_BUFFER_PLAYER
-  --BOTTOM BOUNDARY
-  SCREEN_HEIGHT_LIMIT + BOTTOM_BUFFER
-  --]]
 end
 
 function Entity:processAI(params, dt, player)
@@ -851,9 +836,11 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
   if self.type ~= 'spellcast' then
     if self.type == 'player' then
       love.graphics.setColor(0,0,1, 100/255)
+      --NEAREST LEGAL TILE RENDER
       love.graphics.rectangle('fill', self.nearestLegalTileColumn * TILE_SIZE - TILE_SIZE, self.nearestLegalTileRow * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
-      love.graphics.setColor(1,1,1, 100/255)
-      love.graphics.rectangle('fill', self.nearestTileColumn * TILE_SIZE - TILE_SIZE, self.nearestTileRow * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
+      love.graphics.setColor(1,1,1, 250/255)
+      --NEAREST TILE RENDER
+      --love.graphics.rectangle('fill', self.nearestTileColumn * TILE_SIZE - TILE_SIZE, self.nearestTileRow * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
     end
   end
   -- love.graphics.setColor(WHITE)
@@ -905,9 +892,11 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
       end
     end
   end
+
+  --DEBUG
   love.graphics.setColor(WHITE)
   if self.type == 'player' then
-    love.graphics.print('chasmFalling: ' .. tostring(self.chasmFalling), self.x, self.y)
-    love.graphics.print('Falling: ' .. tostring(self.falling), self.x, self.y + 5)
+    -- love.graphics.print('chasmFalling: ' .. tostring(self.chasmFalling), self.x, self.y)
+    -- love.graphics.print('Falling: ' .. tostring(self.falling), self.x, self.y + 5)
   end
 end

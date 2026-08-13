@@ -129,6 +129,7 @@ optionsButtonPressed = love.graphics.newImage('graphics/optionsButtonPressed.png
 treasureChestClosed = love.graphics.newImage('graphics/chest-closed.png')
 treasureChestOpen = love.graphics.newImage('graphics/chest-open.png')
 
+require 'src/Collider'
 require 'src/Coin'
 require 'src/WarpZone'
 require 'src/InputHandling'
