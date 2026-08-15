@@ -491,6 +491,13 @@ function Player:update(dt)
       self.unFocus = 0
       self.focusIndicatorX = math.max(self.focusIndicatorX - FOCUS_DRAIN * dt, 0)
     end
+
+    if gPlayer.falling or gPlayer.damageFlash then
+      gPlayer.footCollider.active = false
+    else
+      gPlayer.footCollider.active = true
+    end
+
     gPlayer.footCollider:update(dt)
   end
 

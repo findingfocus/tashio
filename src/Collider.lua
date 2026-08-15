@@ -6,6 +6,7 @@ function Collider:init(x, y, width, height)
   self.width = width
   self.height = height
   self.xOffset = (TILE_SIZE - self.width) / 2
+  self.active = true
 end
 
 function Collider:collides(object, option)
@@ -18,10 +19,14 @@ function Collider:collides(object, option)
     return false
   end
   if option == 'pit' then
-    local inset = 3
+    local inset = 2
     if self.x < object.x + object.width - inset and self.x + self.width > object.x + inset then
       if self.y < object.y + object.height - inset and self.y + self.height > object.y + inset then
-        return true
+        if self.active then
+          return true
+        else
+          return false
+        end
       end
     end
     return false
