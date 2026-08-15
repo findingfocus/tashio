@@ -31,6 +31,7 @@ function Entity:init(def)
   self.offAxis = false
   self.path1Long = false
   self.pathInvalid = false
+  self.goingHome = false
   --self:changeAnimation('idle-down')
   self.spawnRow = def.spawnRow or nil
   self.spawnColumn = def.spawnColumn or nil
@@ -152,6 +153,7 @@ function Entity:calculateDirection()
 end
 
 function Entity:goHome()
+  self.goingHome = true
   self.jumperMap = {}
 
   local tileIndex = 1
@@ -177,10 +179,24 @@ function Entity:goHome()
 
   self.pathNodes = {}
   --self.destinationNodeIndex = 2
+  local startx, starty, endx, endy
 
-  local startx, starty = math.min(10, self.nearestTileColumn), math.min(8, self.nearestTileRow)
-  local endx, endy = math.min(10, self.startingTileX), math.min(8, self.startingTileY)
-
+  if self.nearestTileColumn == self.startingTileX and self.nearestTileRow == self.startingTileY then
+    if self.direction == 'up' then
+    startx, starty = self.startingTileX, self.startingTileY + 1
+    elseif self.direction == 'down' then
+      startx, starty = self.startingTileX, self.startingTileY - 1
+    elseif self.direction == 'left' then
+      startx, starty = self.startingTileX + 1, self.startingTileY
+    elseif self.direction == 'right' then
+      startx, starty = self.startingTileX - 1, self.startingTileY
+    end
+    endx, endy = self.startingTileX, self.startingTileY
+  else
+    self.destinationNodeIndex = 2
+    startx, starty = math.min(10, self.nearestTileColumn), math.min(8, self.nearestTileRow)
+    endx, endy = math.min(10, self.startingTileX), math.min(8, self.startingTileY)
+  end
   --PATH DEBUG
   local path = self.myFinder:getPath(startx, starty, endx, endy)
   if path then
@@ -230,7 +246,8 @@ function Entity:updatePath()
 
 
   self.pathNodes = {}
-  --self.destinationNodeIndex = 1
+  self.destinationNodeIndex = 2
+  self.goingHome = false
 
   local startx, starty = math.min(10, self.nearestTileColumn), math.min(8, self.nearestTileRow)
   local endx, endy = math.min(10, gPlayer.nearestLegalTileColumn), math.min(8, gPlayer.nearestLegalTileRow)
@@ -239,11 +256,12 @@ function Entity:updatePath()
 
   --PATH DEBUG
   local path = self.myFinder:getPath(startx, starty, endx, endy)
+
   if path then
     self.pathInvalid = false
     --print(('Path found! Length: %.2f'):format(path:getLength()))
     for node, count in path:nodes() do
-      --print(('Step: %d - x: %d - y: %d'):format(count, node:getX(), node:getY()))
+      print(('Step: %d - x: %d - y: %d'):format(count, node:getX(), node:getY()))
       table.insert(self.pathNodes, node)
       --print((node:getX(), node:getY()))
       -- print('X: ' .. tostring(self.pathNodes[1]:getX()))
@@ -898,5 +916,10 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
   if self.type == 'player' then
     -- love.graphics.print('chasmFalling: ' .. tostring(self.chasmFalling), self.x, self.y)
     -- love.graphics.print('Falling: ' .. tostring(self.falling), self.x, self.y + 5)
+    --love.graphics.print('damageFlash: ' .. tostring(gPlayer.damageFlash), 0, 0)
+  end
+  if self.enemy then
+    love.graphics.print('nodeIndex: ' .. tostring(self.destinationNodeIndex), self.x, self.y + 5)
+    love.graphics.print('goingHome: ' .. tostring(self.goingHome), self.x, self.y + 10)
   end
 end

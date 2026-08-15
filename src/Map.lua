@@ -542,6 +542,7 @@ function Map:render()
   --MAP DEBUG
     love.graphics.print('pitFalling: ' .. tostring(gPlayer.pitFalling), 0, 10)
     love.graphics.print('pitFallTimer: ' .. tostring(gPlayer.pitFallTimer), 0, 20)
+    love.graphics.print('damageFlash: ' .. tostring(gPlayer.damageFlash), 0, 0)
   --[[
   love.graphics.print('player.falling: ' .. tostring(gPlayer.falling), 0, 0)
   love.graphics.print('player.fallTimer: ' .. tostring(gPlayer.fallTimer), 0, 20)
