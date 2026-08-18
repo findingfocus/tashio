@@ -38,17 +38,20 @@ function BoarWalkState:processAI(params, dt, player)
 
   local destinationNodeX = destinationNode:getX() * TILE_SIZE - TILE_SIZE
   local destinationNodeY = destinationNode:getY() * TILE_SIZE - TILE_SIZE
+ 
+  local node1X = self.entity.pathNodes[self.entity.destinationNodeIndex]:getX() * TILE_SIZE - TILE_SIZE
+  local node1Y = self.entity.pathNodes[self.entity.destinationNodeIndex]:getY() * TILE_SIZE - TILE_SIZE
 
-  local node1X
-  local node1Y
-
-  if self.entity.destinationNodeIndex == 1 and self.entity.goingHome then
-     node1X = self.entity.startingTileX * TILE_SIZE - TILE_SIZE
-     node1Y = self.entity.startingTileY * TILE_SIZE - TILE_SIZE
-  else
-     node1X = self.entity.pathNodes[self.entity.destinationNodeIndex]:getX() * TILE_SIZE - TILE_SIZE
-     node1Y = self.entity.pathNodes[self.entity.destinationNodeIndex]:getY() * TILE_SIZE - TILE_SIZE
-  end
+  -- local node1X
+  -- local node1Y
+  --
+  -- if self.entity.destinationNodeIndex == 1 and self.entity.goingHome then
+  --    node1X = self.entity.startingTileX * TILE_SIZE - TILE_SIZE
+  --    node1Y = self.entity.startingTileY * TILE_SIZE - TILE_SIZE
+  -- else
+  --    node1X = self.entity.pathNodes[self.entity.destinationNodeIndex]:getX() * TILE_SIZE - TILE_SIZE
+  --    node1Y = self.entity.pathNodes[self.entity.destinationNodeIndex]:getY() * TILE_SIZE - TILE_SIZE
+  -- end
 
   local xDifference = node1X - self.entity.x
   local yDifference = node1Y - self.entity.y

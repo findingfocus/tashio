@@ -153,61 +153,49 @@ function Entity:calculateDirection()
 end
 
 function Entity:goHome()
-  self.goingHome = true
-  self.jumperMap = {}
+  if not self.goingHome then
+    self.jumperMap = {}
 
-  local tileIndex = 1
-  for i = 1, 8 do
-    self.jumperMap[i] = {}
-    for j = 1, 10 do
-      if MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableTileIds[tileIndex] == 0 then
-        table.insert(self.jumperMap[i], 0)
-      elseif MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableTileIds[tileIndex] == 180 then
-        table.insert(self.jumperMap[i], 1)
+    local tileIndex = 1
+    for i = 1, 8 do
+      self.jumperMap[i] = {}
+      for j = 1, 10 do
+        if MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableTileIds[tileIndex] == 0 then
+          table.insert(self.jumperMap[i], 0)
+        elseif MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableTileIds[tileIndex] == 180 then
+          table.insert(self.jumperMap[i], 1)
+        end
+        tileIndex = tileIndex + 1
       end
-      tileIndex = tileIndex + 1
     end
-  end
 
-  for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
-    if v.classType == 'pushable' then
-       local tileX = v.tileX
-       local tileY = v.tileY
-       self.jumperMap[tileY][tileX] = 1
+    for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
+      if v.classType == 'pushable' then
+        local tileX = v.tileX
+        local tileY = v.tileY
+        self.jumperMap[tileY][tileX] = 1
+      end
     end
-  end
 
-  self.pathNodes = {}
-  --self.destinationNodeIndex = 2
-  local startx, starty, endx, endy
+    self.pathNodes = {}
+    --self.destinationNodeIndex = 2
+    --local startx, starty, endx, endy
+    local startx, starty = math.min(10, self.nearestTileColumn), math.min(8, self.nearestTileRow)
+    local endx, endy = math.min(10, self.startingTileX), math.min(8, self.startingTileY)
 
-  if self.nearestTileColumn == self.startingTileX and self.nearestTileRow == self.startingTileY then
-    if self.direction == 'up' then
-    startx, starty = self.startingTileX, self.startingTileY + 1
-    elseif self.direction == 'down' then
-      startx, starty = self.startingTileX, self.startingTileY - 1
-    elseif self.direction == 'left' then
-      startx, starty = self.startingTileX + 1, self.startingTileY
-    elseif self.direction == 'right' then
-      startx, starty = self.startingTileX - 1, self.startingTileY
+    --PATH DEBUG
+    local path = self.myFinder:getPath(startx, starty, endx, endy)
+    if path then
+      --print(('Path found! Length: %.2f'):format(path:getLength()))
+      for node, count in path:nodes() do
+        --print(('Step: %d - x: %d - y: %d'):format(count, node:getX(), node:getY()))
+        table.insert(self.pathNodes, node)
+        --print((node:getX(), node:getY()))
+        -- print('X: ' .. tostring(self.pathNodes[1]:getX()))
+        -- print('Y: ' .. tostring(self.pathNodes[1]:getY()))
+      end
     end
-    endx, endy = self.startingTileX, self.startingTileY
-  else
-    self.destinationNodeIndex = 2
-    startx, starty = math.min(10, self.nearestTileColumn), math.min(8, self.nearestTileRow)
-    endx, endy = math.min(10, self.startingTileX), math.min(8, self.startingTileY)
-  end
-  --PATH DEBUG
-  local path = self.myFinder:getPath(startx, starty, endx, endy)
-  if path then
-    --print(('Path found! Length: %.2f'):format(path:getLength()))
-    for node, count in path:nodes() do
-      --print(('Step: %d - x: %d - y: %d'):format(count, node:getX(), node:getY()))
-      table.insert(self.pathNodes, node)
-      --print((node:getX(), node:getY()))
-      -- print('X: ' .. tostring(self.pathNodes[1]:getX()))
-      -- print('Y: ' .. tostring(self.pathNodes[1]:getY()))
-    end
+    self.goingHome = true
   end
 end
 
@@ -249,10 +237,14 @@ function Entity:updatePath()
   self.destinationNodeIndex = 2
   self.goingHome = false
 
+
   local startx, starty = math.min(10, self.nearestTileColumn), math.min(8, self.nearestTileRow)
   local endx, endy = math.min(10, gPlayer.nearestLegalTileColumn), math.min(8, gPlayer.nearestLegalTileRow)
   --local endx, endy = math.min(10, gPlayer.nearestTileColumn), math.min(8, gPlayer.nearestTileRow)
 
+  if gPlayer.pitFalling then
+    endx, endy = self.startingTileX, self.startingTileY
+  end
 
   --PATH DEBUG
   local path = self.myFinder:getPath(startx, starty, endx, endy)
@@ -434,7 +426,6 @@ function Entity:update(dt)
   --   end
   -- end
 
-  --TODO
   if self.pathInvalid then
     print('HELLO BRIGHTSIDE INVALID PATH')
   end
@@ -588,7 +579,7 @@ function Entity:update(dt)
     end
 
     --DEFAULT LEGAL TILE FROM NEAREST TILE
-    if not gPlayer.pitFalling and not gPlayer.falling then
+    if not gPlayer.pitFalling and not gPlayer.falling and not gPlayer.graveyard then
       self.nearestLegalTileRow = self.nearestTileRow
       self.nearestLegalTileColumn = self.nearestTileColumn
 
