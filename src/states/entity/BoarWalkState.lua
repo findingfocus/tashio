@@ -28,6 +28,9 @@ function BoarWalkState:update(dt)
   if self.entity.y > SCREEN_HEIGHT_LIMIT then
     self.entity.offscreen = true
   end
+  if self.entity.nearestTileColumn == self.entity.startingTileX and self.entity.nearestTileRow == self.entity.startingTileY then
+    self.entity:updatePath()
+  end
 end
 
 function BoarWalkState:processAI(params, dt, player)

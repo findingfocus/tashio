@@ -30,7 +30,8 @@ function Entity:init(def)
   self.flapActive = false
   self.offAxis = false
   self.path1Long = false
-  self.pathInvalid = false
+  self.validPath = true
+  self.validPathRetryTimer = 0
   self.goingHome = false
   --self:changeAnimation('idle-down')
   self.spawnRow = def.spawnRow or nil
@@ -217,9 +218,9 @@ function Entity:updatePath()
 
   for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects) do
     if v.classType == 'pushable' then
-       local tileX = v.tileX
-       local tileY = v.tileY
-       self.jumperMap[tileY][tileX] = 1
+      local tileX = v.tileX
+      local tileY = v.tileY
+      self.jumperMap[tileY][tileX] = 1
     end
   end
 
@@ -250,7 +251,7 @@ function Entity:updatePath()
   local path = self.myFinder:getPath(startx, starty, endx, endy)
 
   if path then
-    self.pathInvalid = false
+    self.validPath = true
     --print(('Path found! Length: %.2f'):format(path:getLength()))
     for node, count in path:nodes() do
       print(('Step: %d - x: %d - y: %d'):format(count, node:getX(), node:getY()))
@@ -260,7 +261,7 @@ function Entity:updatePath()
       -- print('Y: ' .. tostring(self.pathNodes[1]:getY()))
     end
   else
-    self.pathInvalid = true
+    self.validPath = false
   end
 end
 
@@ -411,6 +412,14 @@ function Entity:update(dt)
     self.pathFindingInitialized = true
   end
 
+  if not self.validPath then
+    self.validPathRetryTimer = self.validPathRetryTimer + dt
+    if self.validPathRetryTimer > 1 then
+      self:updatePath()
+      self.validPathRetryTimer = 0
+    end
+  end
+
   -- local startx, starty = math.min(10, self.nearestTileColumn), math.min(8, self.nearestTileRow)
   -- local endx, endy = math.min(10, gPlayer.nearestTileColumn), math.min(8, gPlayer.nearestTileRow)
 
@@ -426,7 +435,7 @@ function Entity:update(dt)
   --   end
   -- end
 
-  if self.pathInvalid then
+  if not self.validPath then
     print('HELLO BRIGHTSIDE INVALID PATH')
   end
 
