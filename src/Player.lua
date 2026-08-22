@@ -23,6 +23,8 @@ function Player:init(def)
   self.aquisCastLanded = false
   self.aquisCastLandedTimer = 0
   self.aquisCastingTimer = 0
+  self.lastNearestLegalTileRow = 1
+  self.lastNearestLegalTileColumn =  1
   --self.health = 1
   self.heartTimer = heartSpeed
   self.decrement = true
@@ -578,6 +580,24 @@ function Player:update(dt)
     self.x = math.max(-8, self.x)
   end
   self.aquisProjectile:update(dt)
+
+  --LAST NEAREST TILE
+  if self.lastNearestLegalTileRow ~= self.nearestLegalTileRow then
+    for index, entity in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
+      if entity.enemy then
+        entity:updatePath()
+      end
+    end
+    self.lastNearestLegalTileRow = self.nearestLegalTileRow
+  end
+  if self.lastNearestLegalTileColumn ~= self.nearestLegalTileColumn then
+    for index, entity in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
+      if entity.enemy then
+        entity:updatePath()
+      end
+    end
+    self.lastNearestLegalTileColumn = self.nearestLegalTileColumn
+  end
 end
 
 function Player:render()

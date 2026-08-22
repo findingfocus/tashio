@@ -28,9 +28,6 @@ function BoarWalkState:update(dt)
   if self.entity.y > SCREEN_HEIGHT_LIMIT then
     self.entity.offscreen = true
   end
-  if self.entity.nearestTileColumn == self.entity.startingTileX and self.entity.nearestTileRow == self.entity.startingTileY then
-    self.entity:updatePath()
-  end
 end
 
 function BoarWalkState:processAI(params, dt, player)
@@ -88,17 +85,16 @@ function BoarWalkState:processAI(params, dt, player)
     self.entity.x = self.entity.x + (xDifference / distance) * step
     self.entity.y = self.entity.y + (yDifference / distance) * step
   else
-    self.entity.x = node1X
-    self.entity.y = node1Y
-    self.entity.offAxis = false
-    self.entity.walkSpeed = self.entity.originalWalkSpeed
-    self.entity:updatePath()
+    if not gPlayer.damageFlash and not gPlayer.falling and not gPlayer.pitFalling and not gPlayer.graveyard then
+      self.entity.walkSpeed = self.entity.originalWalkSpeed
+      self.entity.destinationNodeIndex =  self.entity.destinationNodeIndex + 1
+    end
   end
+
 end
 
 function BoarWalkState:render()
   local anim = self.entity.currentAnimation
   love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
   self.entity.x, self.entity.y)
-  love.graphics.print('nodeIndex: ' .. tostring(self.entity.destinationNodeIndex), self.x, self.y)
 end

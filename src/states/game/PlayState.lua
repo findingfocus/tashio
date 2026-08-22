@@ -312,6 +312,7 @@ function PlayState:update(dt)
         sceneView.player.hit = false
         sceneView.player.dy = 0
         sceneView.player.dx = 0
+        --WHY TRUE TODO?
         sceneView.player.damageFlash = true
         local coins = gPlayer.coinCount
         local rubies = gPlayer.rubyCount
