@@ -132,7 +132,7 @@ function Entity:initPathFinding()
  
   local grid = Grid(self.jumperMap)
 
-  self.myFinder = Pathfinder(grid, 'ASTAR', walkable)
+  self.myFinder = Pathfinder(grid, 'DIJKSTRA', walkable)
 
   self.myFinder:setHeuristic('MANHATTAN')
   self.myFinder:setMode('ORTHOGONAL')
