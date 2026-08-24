@@ -295,11 +295,7 @@ function SaveData:loadPlayerData()
   gPlayer.hit = false
   gPlayer.flashing = false
 
-  for k, v in pairs(load) do
-    if k == 'currentMap' then
-      sceneView.currentMap = Map(sceneView.currentMap.row, sceneView.currentMap.column, 1)
-    end
-  end
+  sceneView.currentMap = Map(sceneView.mapRow, sceneView.mapColumn, gPlayer.spellcastCount)
 
   local animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
   gStateMachine.current.animatables = animatables
