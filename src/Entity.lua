@@ -20,6 +20,10 @@ function Entity:init(def)
   self.enemy = def.enemy or false
   self.width = def.width
   self.height = def.height
+  self.pathColor = def.pathColor or {1, 0, 0, 120/255}
+  if self.pathColor == 'blue' then
+    self.pathColor = {0, 0, 1, 120/255}
+  end
   self.darkBat = false or def.darkBat
   self.direction = def.direction or 'down'
   self.animations = self:createAnimations(def.animations)
@@ -778,6 +782,23 @@ function Entity:update(dt)
       end
     end
   end
+  --ENTITY TO PIT COLLISION
+  if self.enemy then
+    for k, pit in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].pits) do
+      if self:leftCollidesMapObject(pit) then
+        self.x = pit.x + pit.width - AABB_SIDE_COLLISION_BUFFER
+      end
+      if self:rightCollidesMapObject(pit) then
+        self.x = pit.x - self.width + AABB_SIDE_COLLISION_BUFFER
+      end
+      if self:topCollidesMapObject(pit) then
+        self.y = pit.y + pit.height - AABB_TOP_COLLISION_BUFFER
+      end
+      if self:bottomCollidesMapObject(pit) then
+        self.y = pit.y - self.height
+      end
+    end
+  end
 end
 
 function Entity:processAI(params, dt, player)
@@ -855,8 +876,8 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
     if self.type == 'player' then
       love.graphics.setColor(0,0,1, 100/255)
       --NEAREST LEGAL TILE RENDER
-      love.graphics.rectangle('fill', self.nearestLegalTileColumn * TILE_SIZE - TILE_SIZE, self.nearestLegalTileRow * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
-      love.graphics.setColor(1,1,1, 250/255)
+      -- love.graphics.rectangle('fill', self.nearestLegalTileColumn * TILE_SIZE - TILE_SIZE, self.nearestLegalTileRow * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
+      -- love.graphics.setColor(1,1,1, 250/255)
       --NEAREST TILE RENDER
       --love.graphics.rectangle('fill', self.nearestTileColumn * TILE_SIZE - TILE_SIZE, self.nearestTileRow * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
     end
@@ -896,6 +917,8 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
   --     love.graphics.setColor(0,0,1,1)
   --   end
   -- end
+
+  --PATH NODE RENDER
   if #self.pathNodes > 0 then
     local steps = #self.pathNodes
     local alphaSteps = (255 - 120) / steps
@@ -904,7 +927,8 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
     love.graphics.setLineWidth(2)
     for node, nodes in ipairs(self.pathNodes) do
       if self.enemy then
-        love.graphics.setColor(1, 0, 0, currentAlpha / 255)
+        -- love.graphics.setColor(1, 0, 0, currentAlpha / 255)
+        love.graphics.setColor(self.pathColor)
         love.graphics.rectangle('line', nodes:getX() * TILE_SIZE - TILE_SIZE, nodes:getY() * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
         currentAlpha = currentAlpha + alphaSteps
       end
@@ -918,8 +942,9 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
     -- love.graphics.print('Falling: ' .. tostring(self.falling), self.x, self.y + 5)
     --love.graphics.print('damageFlash: ' .. tostring(gPlayer.damageFlash), 0, 0)
   end
-  if self.enemy then
-    love.graphics.print('nodeIndex: ' .. tostring(self.destinationNodeIndex), self.x, self.y + 5)
-    love.graphics.print('goingHome: ' .. tostring(self.goingHome), self.x, self.y + 10)
-  end
+  --ENEMY DEBUG
+  -- if self.enemy then
+  --   love.graphics.print('nodeIndex: ' .. tostring(self.destinationNodeIndex), self.x, self.y + 5)
+  --   love.graphics.print('goingHome: ' .. tostring(self.goingHome), self.x, self.y + 10)
+  -- end
 end

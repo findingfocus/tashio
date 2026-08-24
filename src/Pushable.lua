@@ -372,6 +372,6 @@ function Pushable:render(adjacentOffsetX, adjacentOffsetY)
   if self.identifier ~= nil then
     --love.graphics.print(self.identifier, self.x, self.y + 16)
   end
-  love.graphics.print('row: ' .. tostring(self.tileY), self.x, self.y)
-  love.graphics.print('col: ' .. tostring(self.tileX), self.x, self.y + 5)
+  -- love.graphics.print('row: ' .. tostring(self.tileY), self.x, self.y)
+  -- love.graphics.print('col: ' .. tostring(self.tileX), self.x, self.y + 5)
 end
