@@ -460,10 +460,12 @@ function PlayState:update(dt)
     self.activeDialogueID = sceneView.activeDialogueID
   end
 
-  --TODO DOES THIS WORK OUTSIDE OF CONDITIONAL
-  if gStateMachine.current.stateName == 'PlayState' then
-    --self.animatables:update(dt)
+  --ANIMATABLES
+  if self.animatables.mapRow ~= sceneView.currentMap.row
+      or self.animatables.mapColumn ~= sceneView.currentMap.column then
+    self.animatables = InsertAnimation(sceneView.currentMap.row, sceneView.currentMap.column)
   end
+
   self.animatables:update(dt)
 
   --UPDATE DIALOGUE BOXES
@@ -1041,4 +1043,3 @@ function displayFPS()
   love.graphics.setColor(WHITE)
   love.graphics.print('FPS:' .. tostring(love.timer.getFPS()), SCREEN_WIDTH_LIMIT - 52, VIRTUAL_HEIGHT - 12)
 end
-
