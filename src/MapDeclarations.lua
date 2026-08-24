@@ -1016,17 +1016,33 @@ end
 --BOAR
  table.insert(MAP[7][3].entities, Entity {
    animations = ENTITY_DEFS['boar'].animations,
-   x = TILE_SIZE * 5,
-   y = TILE_SIZE * 4,
+   x = TILE_SIZE * 1,
+   y = TILE_SIZE * 2,
    width = TILE_SIZE,
    height = TILE_SIZE,
    health = 1,
    direction = 'left',
    type = 'boar',
-   walkSpeed = 14,
+   walkSpeed = 16,
    aiPath = math.random(1, 2),
    corrupted = true,
    enemy = true,
+ })
+
+ table.insert(MAP[7][3].entities, Entity {
+   animations = ENTITY_DEFS['boar'].animations,
+   x = TILE_SIZE * 8,
+   y = TILE_SIZE * 2,
+   width = TILE_SIZE,
+   height = TILE_SIZE,
+   health = 1,
+   direction = 'left',
+   type = 'boar',
+   walkSpeed = 11,
+   aiPath = math.random(1, 2),
+   corrupted = true,
+   enemy = true,
+   pathColor = 'blue'
  })
 
 -- table.insert(MAP[7][3].entities, Entity {

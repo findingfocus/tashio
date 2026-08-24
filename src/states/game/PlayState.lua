@@ -976,11 +976,12 @@ function PlayState:render()
       end
     end
 
+  --GRAVEYARD DEBUG
     love.graphics.setColor(WHITE)
-    love.graphics.print('graveyard: ' .. tostring(gPlayer.graveyard), 0, 50)
+    --love.graphics.print('graveyard: ' .. tostring(gPlayer.graveyard), 0, 50)
       love.graphics.setColor(0,0,1, 100/255)
       --NEAREST LEGAL TILE RENDER
-      love.graphics.rectangle('fill', gPlayer.nearestLegalTileColumn * TILE_SIZE - TILE_SIZE, gPlayer.nearestLegalTileRow * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
+      --love.graphics.rectangle('fill', gPlayer.nearestLegalTileColumn * TILE_SIZE - TILE_SIZE, gPlayer.nearestLegalTileRow * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
       love.graphics.setColor(WHITE)
 
       --table.insert(MAP[7][5].collidableMapObjects, Pushable(2,5, 'boulder', nil, 'keyItem1'))
