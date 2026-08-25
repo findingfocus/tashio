@@ -463,7 +463,7 @@ function Entity:update(dt)
   end
 
 
-  local knockbackSpeed = SPELL_KNOCKBACK / 4
+  local knockbackSpeed = SPELL_KNOCKBACK / 2
   --AQUIS TO PLAYER COLLISION
   if self.aquisCollides and self.type ~= 'player' then
     self.hit = true
@@ -480,6 +480,7 @@ function Entity:update(dt)
     self.aquisCollides = false
     self.damageFlash = true
     self.splashTimer = 0
+    self.colorOption = 'blue'
     --ADD SPLASH SOUND
   end
 
@@ -491,11 +492,13 @@ function Entity:update(dt)
     self.psystem:setParticleLifetime(1, 4)
     self.psystem:setColors(GECKO_CORRUPTED_PARTICLE)
     self.walkSpeed = self.originalWalkSpeed
+    self.colorOption = 'corrupted'
   end
 
+  --SPLASHED WALK SPEED
   if self.splashed then
     self.splashTimer = self.splashTimer + dt
-    self.walkSpeed = 5
+    self.walkSpeed = 3
   end
   local flashSpeed = .2
 
@@ -704,7 +707,7 @@ function Entity:update(dt)
     if self.dy < 0 then
       self.dy = math.min(0, self.dy + SLOW_TO_STOP * dt)
     end
-    end
+  end
   --]]
 
   --self.x = self.x + self.dx * dt
@@ -831,6 +834,14 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
     end
   end
 
+  if self.type == 'boar' then
+    if self.colorOption == 'blue' then
+      local color = SPLASHED_BOAR_COLOR
+      table.insert(color, 4, self.stateMachine.current.alpha/255)
+      love.graphics.setColor(color)
+    end
+  end
+
   if self.type == 'gecko' then
     --CORRUPT
     if self.colorOption == 'corrupted' then
@@ -858,13 +869,13 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
 
     if self.damageFlash then
       if self.flashing then
-      local color = DAMAGED_GECKO_COLOR
-      table.insert(color, 4, self.stateMachine.current.alpha/255)
-      love.graphics.setColor(color)
+        local color = DAMAGED_GECKO_COLOR
+        table.insert(color, 4, self.stateMachine.current.alpha/255)
+        love.graphics.setColor(color)
       else
-      local color = SPLASHED_GECKO_COLOR
-      table.insert(color, 4, self.stateMachine.current.alpha/255)
-      love.graphics.setColor(color)
+        local color = SPLASHED_GECKO_COLOR
+        table.insert(color, 4, self.stateMachine.current.alpha/255)
+        love.graphics.setColor(color)
       end
     end
   end
@@ -943,8 +954,8 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
     --love.graphics.print('damageFlash: ' .. tostring(gPlayer.damageFlash), 0, 0)
   end
   --ENEMY DEBUG
-  -- if self.enemy then
-  --   love.graphics.print('nodeIndex: ' .. tostring(self.destinationNodeIndex), self.x, self.y + 5)
-  --   love.graphics.print('goingHome: ' .. tostring(self.goingHome), self.x, self.y + 10)
-  -- end
+  if self.enemy then
+    love.graphics.print('walkSpeed: ' .. tostring(self.walkSpeed), self.x, self.y + 5)
+    --love.graphics.print('goingHome: ' .. tostring(self.goingHome), self.x, self.y + 10)
+  end
 end
