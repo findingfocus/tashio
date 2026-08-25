@@ -78,7 +78,8 @@ function BoarWalkState:processAI(params, dt, player)
     end
   end
 
-  local distance = math.sqrt(xDifference * xDifference + yDifference * yDifference)
+  --16 makes 20 walkSpeed fastish, and 3 walkspeed slow
+  local distance = math.sqrt((xDifference * xDifference + yDifference * yDifference) / ((self.entity.walkSpeed / 16)))
   local step = self.entity.originalWalkSpeed * dt
 
   if distance > step then
