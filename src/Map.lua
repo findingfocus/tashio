@@ -311,11 +311,7 @@ function Map:update(dt)
       sceneView.player.animations['falling'].timesPlayed = 0
       sceneView.player.fallTimer = -2
       sceneView.player.graveyard = true
-
-      sceneView.player.deadTimer = 0
-      sceneView.player.dead = false
       sceneView.player.damageFlash = false
-      --sceneView.player.graveyard = false
       sceneView.player.dx = 0
       sceneView.player.dy = 0
       sceneView.player.hit = false
@@ -341,7 +337,7 @@ function Map:update(dt)
     sceneView.player.x = SCREEN_WIDTH_LIMIT + TILE_SIZE * 6
     sceneView.player.y = TILE_SIZE * -4
     graveyardTimer = graveyardTimer + dt
-    if graveyardTimer > .5 then
+    if graveyardTimer > PLAYER_RESPAWN_TIME then
       sceneView.player.graveyard = false
       sceneView.player.x = sceneView.player.checkPointPositions.x
       sceneView.player.y = sceneView.player.checkPointPositions.y

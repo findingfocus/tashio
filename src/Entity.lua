@@ -463,7 +463,7 @@ function Entity:update(dt)
   end
 
 
-  local knockbackSpeed = SPELL_KNOCKBACK / 2
+  local knockbackSpeed = SPELL_KNOCKBACK / 3
   --AQUIS TO PLAYER COLLISION
   if self.aquisCollides and self.type ~= 'player' then
     self.hit = true
