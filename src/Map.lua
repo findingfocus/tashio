@@ -341,6 +341,12 @@ function Map:update(dt)
       sceneView.player.graveyard = false
       sceneView.player.x = sceneView.player.checkPointPositions.x
       sceneView.player.y = sceneView.player.checkPointPositions.y
+      --BOAR REPATH
+      for index, entity in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
+        if entity.type == 'boar' then
+          entity:updatePath()
+        end
+      end
       sceneView.player.damageFlash = true
       sceneView.player.tweenAllowed = true
       sceneView.player.chasmDeath = false
