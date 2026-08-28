@@ -21,6 +21,9 @@ __Boar name Chara
 NEXT EPISODE
 __Add Collidable Layer to tiled
 
+POLISH
+__Add Boar Idle behavior once goHome to starting location
+
 RESEARCH
 __Potential mechanic to lessen enemy spawn
 __From Shaky love.system.setClipboardText( text )
