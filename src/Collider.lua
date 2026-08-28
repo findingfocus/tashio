@@ -19,7 +19,7 @@ function Collider:collides(object, option)
     return false
   end
   if option == 'pit' then
-    local inset = 2
+    local inset = 1
     if self.x < object.x + object.width - inset and self.x + self.width > object.x + inset then
       if self.y < object.y + object.height - inset and self.y + self.height > object.y + inset then
         if self.active then
