@@ -297,6 +297,12 @@ function Player:update(dt)
   if self.health <= 0 and not self.dead then
     self.dead = true
     self:changeState('player-death')
+
+    for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
+      if v.type == 'boar' then
+        v:goHome()
+      end
+    end
     sfx['game-over1']:play()
     --[[
     if self.chasmDeath then
@@ -585,7 +591,9 @@ function Player:update(dt)
   if self.lastNearestLegalTileRow ~= self.nearestLegalTileRow then
     for index, entity in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
       if entity.enemy then
-        entity:updatePath()
+        if not gPlayer.dead then
+          entity:updatePath()
+        end
       end
     end
     self.lastNearestLegalTileRow = self.nearestLegalTileRow
@@ -593,7 +601,9 @@ function Player:update(dt)
   if self.lastNearestLegalTileColumn ~= self.nearestLegalTileColumn then
     for index, entity in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
       if entity.enemy then
-        entity:updatePath()
+        if not gPlayer.dead then
+          entity:updatePath()
+        end
       end
     end
     self.lastNearestLegalTileColumn = self.nearestLegalTileColumn
