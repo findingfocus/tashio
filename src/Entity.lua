@@ -37,6 +37,7 @@ function Entity:init(def)
   self.validPath = true
   self.validPathRetryTimer = 0
   self.goingHome = false
+  self.pathEnabled = def.pathEnabled or false
   --self:changeAnimation('idle-down')
   self.spawnRow = def.spawnRow or nil
   self.spawnColumn = def.spawnColumn or nil
@@ -416,7 +417,7 @@ function Entity:update(dt)
     self.pathFindingInitialized = true
   end
 
-  if not self.validPath then
+  if not self.validPath and self.pathEnabled then
     self.validPathRetryTimer = self.validPathRetryTimer + dt
     if self.validPathRetryTimer > 1 then
       self:updatePath()
@@ -723,7 +724,7 @@ function Entity:update(dt)
       self.hit = false
       self.nearestTileRow = math.floor((self.y + 8) / TILE_SIZE + 1)
       self.nearestTileColumn = math.floor((self.x + 8) / TILE_SIZE + 1)
-      if self.enemy then
+      if self.enemy and self.pathEnabled then
         self:updatePath()
         self:calculateDirection()
         print('UPDATED PATH! WE SLOWED TO A STOP')
@@ -770,7 +771,7 @@ function Entity:update(dt)
     if self.type == 'spellcast' then
       break
     end
-    if v.active then
+    if v.active and self.pathEnabled then
       if self:leftCollidesMapObject(object) then
         self.x = object.x + object.width - AABB_SIDE_COLLISION_BUFFER
       end
@@ -788,17 +789,19 @@ function Entity:update(dt)
   --ENTITY TO PIT COLLISION
   if self.enemy then
     for k, pit in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].pits) do
-      if self:leftCollidesMapObject(pit) then
-        self.x = pit.x + pit.width - AABB_SIDE_COLLISION_BUFFER
-      end
-      if self:rightCollidesMapObject(pit) then
-        self.x = pit.x - self.width + AABB_SIDE_COLLISION_BUFFER
-      end
-      if self:topCollidesMapObject(pit) then
-        self.y = pit.y + pit.height - AABB_TOP_COLLISION_BUFFER
-      end
-      if self:bottomCollidesMapObject(pit) then
-        self.y = pit.y - self.height
+      if self.pathEnabled then
+        if self:leftCollidesMapObject(pit) then
+          self.x = pit.x + pit.width - AABB_SIDE_COLLISION_BUFFER
+        end
+        if self:rightCollidesMapObject(pit) then
+          self.x = pit.x - self.width + AABB_SIDE_COLLISION_BUFFER
+        end
+        if self:topCollidesMapObject(pit) then
+          self.y = pit.y + pit.height - AABB_TOP_COLLISION_BUFFER
+        end
+        if self:bottomCollidesMapObject(pit) then
+          self.y = pit.y - self.height
+        end
       end
     end
   end

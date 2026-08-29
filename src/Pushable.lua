@@ -94,10 +94,12 @@ function Pushable:pushUp()
       self.tileY = self.tileY - 1
       self.pushUpInitiated = true
       for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
-        v.offAxis = true
-        v:initPathFinding()
-        v:updatePath()
-        v:calculateDirection()
+        if v.pathEnabled then
+          v.offAxis = true
+          v:initPathFinding()
+          v:updatePath()
+          v:calculateDirection()
+        end
       end
     end
   end
@@ -115,10 +117,12 @@ function Pushable:pushDown()
       self.tileY = self.tileY + 1
       self.pushDownInitiated = true
       for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
-        v.offAxis = true
-        v:initPathFinding()
-        v:updatePath()
-        v:calculateDirection()
+        if v.pathEnabled then
+          v.offAxis = true
+          v:initPathFinding()
+          v:updatePath()
+          v:calculateDirection()
+        end
       end
     end
   end
@@ -136,10 +140,12 @@ function Pushable:pushLeft()
       self.tileX = self.tileX - 1
       self.pushLeftInitiated = true
       for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
-        v.offAxis = true
-        v:initPathFinding()
-        v:updatePath()
-        v:calculateDirection()
+        if v.pathEnabled then
+          v.offAxis = true
+          v:initPathFinding()
+          v:updatePath()
+          v:calculateDirection()
+        end
       end
     end
   end
@@ -157,10 +163,12 @@ function Pushable:pushRight()
       self.tileX = self.tileX + 1
       self.pushRightInitiated = true
       for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
-        v.offAxis = true
-        v:initPathFinding()
-        v:updatePath()
-        v:calculateDirection()
+        if v.pathEnabled then
+          v.offAxis = true
+          v:initPathFinding()
+          v:updatePath()
+          v:calculateDirection()
+        end
       end
     end
   end

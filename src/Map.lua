@@ -198,7 +198,7 @@ function Map:update(dt)
     if sceneView.player.pitFallTimer >= CHASM_FALL_ANIM_TIMER then
       sceneView.player:changeAnimation('falling')
       for k, v in pairs(MAP[self.row][self.column].entities) do
-        if v.enemy then
+        if v.enemy and v.pathEnabled then
           v:goHome()
         end
       end
@@ -343,7 +343,7 @@ function Map:update(dt)
       sceneView.player.y = sceneView.player.checkPointPositions.y
       --BOAR REPATH
       for index, entity in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
-        if entity.type == 'boar' then
+        if entity.pathEnabled then
           entity:updatePath()
         end
       end
