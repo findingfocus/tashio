@@ -299,7 +299,7 @@ function Player:update(dt)
     self:changeState('player-death')
 
     for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
-      if v.type == 'boar' then
+      if v.pathEnabled then
         v:goHome()
       end
     end
@@ -590,7 +590,7 @@ function Player:update(dt)
   --LAST NEAREST TILE
   if self.lastNearestLegalTileRow ~= self.nearestLegalTileRow then
     for index, entity in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
-      if entity.enemy then
+      if entity.enemy and entity.pathEnabled then
         if not gPlayer.dead then
           entity:updatePath()
         end
@@ -601,7 +601,7 @@ function Player:update(dt)
   if self.lastNearestLegalTileColumn ~= self.nearestLegalTileColumn then
     for index, entity in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
       if entity.enemy then
-        if not gPlayer.dead then
+        if not gPlayer.dead and entity.pathEnabled then
           entity:updatePath()
         end
       end

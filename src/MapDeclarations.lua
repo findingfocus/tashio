@@ -1027,6 +1027,7 @@ end
    aiPath = math.random(1, 2),
    corrupted = true,
    enemy = true,
+   pathEnabled = true,
  })
 
  table.insert(MAP[7][3].entities, Entity {
@@ -1042,7 +1043,8 @@ end
    aiPath = math.random(1, 2),
    corrupted = true,
    enemy = true,
-   pathColor = 'blue'
+   pathColor = 'blue',
+   pathEnabled = true,
  })
 
 -- table.insert(MAP[7][3].entities, Entity {
