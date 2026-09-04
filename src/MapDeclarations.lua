@@ -1101,6 +1101,7 @@ table.insert(MAP[8][3].entities, Entity {
   aiPath = math.random(1, 2),
   corrupted = true,
   enemy = true,
+  pathEnabled = true,
 })
 
 table.insert(MAP[8][3].entities, Entity {
@@ -1116,6 +1117,7 @@ table.insert(MAP[8][3].entities, Entity {
   aiPath = math.random(1, 2),
   corrupted = true,
   enemy = true,
+  pathEnabled = true,
 })
 
 table.insert(MAP[8][3].entities, Entity {
@@ -1131,6 +1133,7 @@ table.insert(MAP[8][3].entities, Entity {
   aiPath = math.random(1, 2),
   corrupted = true,
   enemy = true,
+  pathEnabled = true,
 })
 
 local entityCount = #MAP[8][3].entities

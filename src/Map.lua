@@ -541,6 +541,8 @@ function Map:render()
   love.graphics.setColor(WHITE)
 
   sceneView.player:renderAquis()
+  --print('BAT STATE' .. tostring(MAP[4][11].entities[1].stateMachine.current.stateName))
+
   --MAP DEBUG
     -- love.graphics.print('pitFalling: ' .. tostring(gPlayer.pitFalling), 0, 10)
     -- love.graphics.print('pitFallTimer: ' .. tostring(gPlayer.pitFallTimer), 0, 20)

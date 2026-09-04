@@ -37,38 +37,6 @@ function GeckoWalkState:update(dt)
 
   self.collided = false
 
-  ---[[
-  if self.entity.type == 'gecko' or self.entity.type == 'boar' then
-    if self.entity.direction == 'down' then
-      self.entity.y = self.entity.y + self.entity.walkSpeed * dt
-      --self.entity.dx = 0
-      self.entity:changeAnimation('walk-down')
-    elseif self.entity.direction == 'up' then
-      self.entity.y = self.entity.y - self.entity.walkSpeed * dt
-      --self.entity.dx = 0
-      self.entity:changeAnimation('walk-up')
-    elseif self.entity.direction == 'left' then
-      self.entity.x = self.entity.x - self.entity.walkSpeed * dt
-      --self.entity.dy = 0
-      self.entity:changeAnimation('walk-left')
-    elseif self.entity.direction == 'right' then
-      self.entity.x = self.entity.x + self.entity.walkSpeed * dt
-      --self.entity.dy = 0
-      self.entity:changeAnimation('walk-right')
-    end
-  end
-  --]]
-
-  --self.entity.x = self.entity.x + self.entity.dx * dt
-  --self.entity.y = self.entity.y + self.entity.dy * dt
-
-  --[[
-  if self.entity.type == 'batC' then
-    self.entity.dx = -self.entity.walkSpeed
-    self.entity:changeAnimation('fly')
-  end
-  --]]
-
   --TRIGGER OFFSCREEN
   if self.entity.x + self.entity.width < -TILE_SIZE or self.entity.x > VIRTUAL_WIDTH + TILE_SIZE or self.entity.y + self.entity.height < -TILE_SIZE then
     --ADD IN BOTTOM RULE AS WELL
@@ -80,33 +48,66 @@ function GeckoWalkState:update(dt)
 end
 
 function GeckoWalkState:processAI(params, dt, player)
-  local tashio = player
-  local velocity = .5
-  if self.entity.corrupted then
-    --TRACK PLAYERS X POSITION
-    if self.entity.aiPath == 1 then
-      if self.entity.x > tashio.x + 2 then
-        self.entity.direction = 'left'
-      elseif self.entity.x + 2 < tashio.x then
-        self.entity.direction = 'right'
-      elseif self.entity.y > tashio.y then
-        self.entity.direction = 'up'
-      elseif self.entity.y < tashio.y then
-        self.entity.direction = 'down'
-      end
-      --TRACK PLAYERS Y POSITION
-    elseif self.entity.aiPath == 2 then
-      if self.entity.y > tashio.y + 2 then
-        self.entity.direction = 'up'
-      elseif self.entity.y + 2 < tashio.y then
-        self.entity.direction = 'down'
-      elseif self.entity.x > tashio.x then
-        self.entity.direction = 'left'
-      elseif self.entity.x < tashio.x then
-        self.entity.direction = 'right'
-      end
+  --START HERE, ENSURE WHEN DESTINATION NODE INDEX 1  WE CAN STILL TRACK DESTINATION NODE AS STARTING LOCATION
+  local destinationNode = self.entity.pathNodes[self.entity.destinationNodeIndex]
+
+  if destinationNode == nil then return end
+
+  local destinationNodeX = destinationNode:getX() * TILE_SIZE - TILE_SIZE
+  local destinationNodeY = destinationNode:getY() * TILE_SIZE - TILE_SIZE
+ 
+  local node1X = self.entity.pathNodes[self.entity.destinationNodeIndex]:getX() * TILE_SIZE - TILE_SIZE
+  local node1Y = self.entity.pathNodes[self.entity.destinationNodeIndex]:getY() * TILE_SIZE - TILE_SIZE
+
+  -- local node1X
+  -- local node1Y
+  --
+  -- if self.entity.destinationNodeIndex == 1 and self.entity.goingHome then
+  --    node1X = self.entity.startingTileX * TILE_SIZE - TILE_SIZE
+  --    node1Y = self.entity.startingTileY * TILE_SIZE - TILE_SIZE
+  -- else
+  --    node1X = self.entity.pathNodes[self.entity.destinationNodeIndex]:getX() * TILE_SIZE - TILE_SIZE
+  --    node1Y = self.entity.pathNodes[self.entity.destinationNodeIndex]:getY() * TILE_SIZE - TILE_SIZE
+  -- end
+
+  local xDifference = node1X - self.entity.x
+  local yDifference = node1Y - self.entity.y
+
+  local axisPriority = ''
+
+  if math.abs(xDifference) > math.abs(yDifference) then
+    axisPriority = 'horizontal'
+  else
+    axisPriority = 'vertical'
+  end
+
+  if axisPriority == 'horizontal' then
+    if xDifference >= 0 then
+      self.entity:changeAnimation('walk-right')
+    else
+      self.entity:changeAnimation('walk-left')
+    end
+  elseif axisPriority == 'vertical' then
+    if yDifference <= 0 then
+      self.entity:changeAnimation('walk-up')
+    else
+      self.entity:changeAnimation('walk-down')
     end
   end
+
+  --16 makes 20 walkSpeed fastish, and 3 walkspeed slow
+  local distance = math.sqrt((xDifference * xDifference + yDifference * yDifference) / ((self.entity.walkSpeed / 16)))
+  local step = self.entity.originalWalkSpeed * dt
+
+  if distance > step then
+    self.entity.x = self.entity.x + (xDifference / distance) * step
+    self.entity.y = self.entity.y + (yDifference / distance) * step
+  else
+    --INCREMENT DESTINATION NODE INDEX
+    self.entity.destinationNodeIndex =  self.entity.destinationNodeIndex + 1
+  end
+
+
 end
 
 function GeckoWalkState:render()
