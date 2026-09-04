@@ -188,9 +188,13 @@ function Scene:finishShifting()
     self.currentMap.psystems[i]:release()
   end
   --TODO CHECK CURRENT MAP ROW AND COL UPON WARP ZONE
-  for i = 1, #MAP[self.currentMap.row][self.currentMap.column].entities do
-    MAP[self.currentMap.row][self.currentMap.column].entities[i]:resetOriginalPosition()
-    MAP[self.currentMap.row][self.currentMap.column].entities[i]:changeState('entity-idle')
+  for k, v in pairs(MAP[self.currentMap.row][self.currentMap.column].entities) do
+    if v.type ~= 'bat' then
+      v:changeState('entity-idle')
+    else
+      v:changeState('bat-spawn')
+    end
+    v:resetOriginalPosition()
   end
   --RESET PUSHABLES
   for k, v in pairs(MAP[self.currentMap.row][self.currentMap.column].collidableMapObjects) do
