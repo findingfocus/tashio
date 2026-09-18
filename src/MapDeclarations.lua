@@ -280,7 +280,8 @@ for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEI
   end
 
   --PITS
-  if (aboveGroundTiledMap[tileId] == 15 or aboveGroundTiledMap[tileId] == 16) then
+  --TODO CHASM FALLS, FOR NOW, TREAT CHASMS AS PITS
+  if (aboveGroundTiledMap[tileId] >= 15 and aboveGroundTiledMap[tileId] <= 31) then
     table.insert(MAP[mapRow][mapCol].pits, Chasm(sceneRow, sceneCol))
   end
 
