@@ -126,12 +126,23 @@ function Player:init(def)
   CHASM_BR_COLLIDE_Y = self.y + self.height - 2
   CHASM_BR_COLLIDE_WIDTH = 2
   CHASM_BR_COLLIDE_HEIGHT = 2
+  self.luteResonateX = nil
+  self.luteResonateY = nil
+  self.luteResonateRadius = nil
+  self.luteResonateActive = false
 end
 
 function Player:saveDataTable()
   local saveData = {}
   saveData['health'] = self.health
   return saveData
+end
+
+function Player:luteResonate()
+  self.luteResonateX = self.x + TILE_SIZE / 2
+  self.luteResonateY = self.y + TILE_SIZE / 2
+  self.luteResonateRadius = 0
+  self.luteResonateActive = true
 end
 
 function updateHearts(player)
@@ -279,6 +290,12 @@ function Player:resetFallingDirection()
 end
 
 function Player:update(dt)
+  if self.luteResonateActive then
+    self.luteResonateRadius = self.luteResonateRadius + 1
+    self.luteResonateX = gPlayer.x + TILE_SIZE / 2
+    self.luteResonateY = gPlayer.y + TILE_SIZE / 2
+  end
+
   self.prevX = self.x
   self.prevY = self.y
 
@@ -621,10 +638,16 @@ function Player:render()
         break
       end
     end
-    self.footCollider:render()
+    --FOOT COLLIDER RENDER
+    --self.footCollider:render()
 
     if self.y <= self.aquisProjectile.nearestTileRow + self.aquisProjectile.yOffset then
       sceneView.player:renderAquis()
+    end
+
+    if self.luteResonateActive then
+      love.graphics.setColor(255/255, 206/255, 82/255, 255/255)
+      love.graphics.circle('line', self.luteResonateX, self.luteResonateY, self.luteResonateRadius)
     end
     --RED BOX
     --DIALOGUE BOX DETECTION

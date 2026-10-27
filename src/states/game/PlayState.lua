@@ -326,6 +326,20 @@ function PlayState:update(dt)
   --TRIGGER LUTE STATE
   if INPUT:pressed('actionB') and gItemInventory.itemSlot[1] ~= nil and not gPlayer.warping then
     if gItemInventory.itemSlot[1].type == 'lute' then
+      if not sceneView.dialogueBoxActive then
+        if not gPlayer.dead and not gPlayer.falling then
+          sounds['1-G2']:stop()
+          sounds['1-G2']:play()
+          gPlayer:luteResonate()
+        end
+      end
+    end
+  end
+
+  --TODO LUTE TAB AVAILABLE ONLY ON CERTAIN MAPS
+  --[[
+  if INPUT:pressed('actionB') and gItemInventory.itemSlot[1] ~= nil and not gPlayer.warping then
+    if gItemInventory.itemSlot[1].type == 'lute' then
       if not luteState then
         if not sceneView.dialogueBoxActive then
           if not gPlayer.dead and not gPlayer.falling then
@@ -347,6 +361,7 @@ function PlayState:update(dt)
       sfx['use-potion']:play()
     end
   end
+  --]]
 
   --EXIT LUTE STATE
   if luteState then
