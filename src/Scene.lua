@@ -243,6 +243,11 @@ function Scene:update(dt)
   self.currentMap:update(dt)
   if not self.shifting then
     self.player:update(dt)
+  else
+    --RESONANCE TRACKS PLAYER WHILE IN SCENE SHIFT
+    if self.player.luteResonanceActive then
+      self.player:updateLuteResonance()
+    end
   end
 
   if not self.shifting then
@@ -731,6 +736,8 @@ function Scene:render()
   end
   love.graphics.pop()
 
+  -- LUTE RESONANCE RENDER
+  self.player:renderLuteResonance()
 
   --WEATHER PARTICLE SYSTEM
   --self.snowSystem:render()

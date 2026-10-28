@@ -330,7 +330,7 @@ function PlayState:update(dt)
         if not gPlayer.dead and not gPlayer.falling then
           sounds['1-G2']:stop()
           sounds['1-G2']:play()
-          gPlayer:luteResonate()
+          gPlayer:luteResonance()
         end
       end
     end
