@@ -330,7 +330,8 @@ function PlayState:update(dt)
         if not gPlayer.dead and not gPlayer.falling then
           sounds['1-G2']:stop()
           sounds['1-G2']:play()
-          gPlayer:luteResonance()
+          --INSERT LUTE RESONANCE OBJECT
+          table.insert(gPlayer.rings, Resonance())
         end
       end
     end
@@ -1052,6 +1053,7 @@ function PlayState:render()
   -- love.graphics.print(tostring(MAP[7][3].entities[1].colorOption), 0, 10)
   -- love.graphics.print(tostring(MAP[7][3].entities[1].stateMachine.current.alpha), 0, 20)
   -- love.graphics.print(tostring(MAP[7][3].entities[1].walkSpeed), 0, 30)
+  -- love.graphics.print(Inspect(gPlayer.rings), 0, 0)
 end
 
 function displayFPS()
