@@ -153,6 +153,16 @@ function PlayState:init()
     gStateMachine.current.animatables = animatables
     --]]
   end
+
+  self.luteStrumActive = false
+  self.luteStrumTimer = 0
+  self.luteStrumTable = {}
+  self.luteStrumOption = {}
+  self.luteStrumOption[1] = {sounds['1-G2'], sounds['4-C3'], sounds['7-F3'], sounds['10-Bb3']}
+  self.luteStrumOption[2] = {sounds['2-A2'], sounds['5-D3'], sounds['8-G3'], sounds['11-C4']}
+  self.luteStrumOption[3] = {sounds['3-Bb2'], sounds['6-E3'], sounds['9-A3'], sounds['12-D4']}
+  self.noteIndex = 1
+  self.noteSpeed = 0.08
 end
 
 function PlayState:update(dt)
@@ -323,13 +333,17 @@ function PlayState:update(dt)
     end
   end
 
-  --TRIGGER LUTE STATE
+  --TRIGGER LUTE RESONANCE
   if INPUT:pressed('actionB') and gItemInventory.itemSlot[1] ~= nil and not gPlayer.warping then
     if gItemInventory.itemSlot[1].type == 'lute' then
       if not sceneView.dialogueBoxActive then
         if not gPlayer.dead and not gPlayer.falling then
-          sounds['1-G2']:stop()
-          sounds['1-G2']:play()
+          --LUTE STRUM
+          local choice = love.math.random(1,3)
+          self.luteStrumTable = self.luteStrumOption[choice]
+          self.luteStrumTable[1]:play()
+          self.noteIndex = 2
+          self.luteStrumActive = true
           --INSERT LUTE RESONANCE OBJECT
           table.insert(gPlayer.rings, Resonance())
         end
@@ -337,6 +351,25 @@ function PlayState:update(dt)
     end
   end
 
+  if self.luteStrumActive then
+    self.luteStrumTimer = self.luteStrumTimer + dt
+
+    if self.luteStrumTimer > self.noteSpeed then
+      self.luteStrumTable[self.noteIndex]:play()
+      self.noteIndex = self.noteIndex + 1
+      self.luteStrumTimer = 0
+    end
+
+    if self.noteIndex > 4 then
+      self.luteStrumActive = false
+      self.luteStrumTimer = 0
+      self.noteIndex = 1
+      self.luteStrumTable = {}
+    end
+  end
+
+
+  --TRIGGER LUTE STATE
   --TODO LUTE TAB AVAILABLE ONLY ON CERTAIN MAPS
   --[[
   if INPUT:pressed('actionB') and gItemInventory.itemSlot[1] ~= nil and not gPlayer.warping then
