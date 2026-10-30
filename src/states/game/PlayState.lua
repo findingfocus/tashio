@@ -163,6 +163,7 @@ function PlayState:init()
   self.luteStrumOption[3] = {sounds['3-Bb2'], sounds['6-E3'], sounds['9-A3'], sounds['12-D4']}
   self.noteIndex = 1
   self.noteSpeed = 0.08
+  self.timeSinceLastStrum = 0
 end
 
 function PlayState:update(dt)
@@ -333,19 +334,24 @@ function PlayState:update(dt)
     end
   end
 
+  self.timeSinceLastStrum = self.timeSinceLastStrum + dt
+
   --TRIGGER LUTE RESONANCE
   if INPUT:pressed('actionB') and gItemInventory.itemSlot[1] ~= nil and not gPlayer.warping then
     if gItemInventory.itemSlot[1].type == 'lute' then
       if not sceneView.dialogueBoxActive then
         if not gPlayer.dead and not gPlayer.falling then
-          --LUTE STRUM
-          local choice = love.math.random(1,3)
-          self.luteStrumTable = self.luteStrumOption[choice]
-          self.luteStrumTable[1]:play()
-          self.noteIndex = 2
-          self.luteStrumActive = true
-          --INSERT LUTE RESONANCE OBJECT
-          table.insert(gPlayer.rings, Resonance())
+          if self.timeSinceLastStrum > 1 then
+            --LUTE STRUM
+            local choice = love.math.random(1,3)
+            self.luteStrumTable = self.luteStrumOption[choice]
+            self.luteStrumTable[1]:play()
+            self.noteIndex = 2
+            self.luteStrumActive = true
+            --INSERT LUTE RESONANCE OBJECT
+            table.insert(gPlayer.rings, Resonance())
+            self.timeSinceLastStrum = 0
+          end
         end
       end
     end
