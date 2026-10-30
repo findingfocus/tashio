@@ -163,7 +163,7 @@ function PlayState:init()
   self.luteStrumOption[3] = {sounds['3-Bb2'], sounds['6-E3'], sounds['9-A3'], sounds['12-D4']}
   self.noteIndex = 1
   self.noteSpeed = 0.08
-  self.timeSinceLastStrum = 0
+  self.timeSinceLastStrum = 1
 end
 
 function PlayState:update(dt)

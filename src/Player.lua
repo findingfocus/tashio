@@ -283,9 +283,12 @@ function Player:update(dt)
   --UPDATE RESONANCE RINGS
   for k, v in pairs(self.rings) do
     v:update(dt)
-    --HOW TO REMOVE TRANSPARANT RINGS?
-    if v.luteResonanceAlpha == 0 then
+  end
 
+  --REMOVE RINGS
+  for i = #self.rings, 1, -1 do
+    if self.rings[i].luteResonanceAlpha == 0 then
+      table.remove(self.rings, i)
     end
   end
 
