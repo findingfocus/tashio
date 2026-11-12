@@ -1031,22 +1031,22 @@ end
    pathEnabled = true,
  })
 
- table.insert(MAP[7][3].entities, Entity {
-   animations = ENTITY_DEFS['boar'].animations,
-   x = TILE_SIZE * 8,
-   y = TILE_SIZE * 2,
-   width = TILE_SIZE,
-   height = TILE_SIZE,
-   health = 1,
-   direction = 'left',
-   type = 'boar',
-   walkSpeed = 12,
-   aiPath = math.random(1, 2),
-   corrupted = true,
-   enemy = true,
-   pathColor = 'blue',
-   pathEnabled = true,
- })
+ -- table.insert(MAP[7][3].entities, Entity {
+ --   animations = ENTITY_DEFS['boar'].animations,
+ --   x = TILE_SIZE * 8,
+ --   y = TILE_SIZE * 2,
+ --   width = TILE_SIZE,
+ --   height = TILE_SIZE,
+ --   health = 1,
+ --   direction = 'left',
+ --   type = 'boar',
+ --   walkSpeed = 12,
+ --   aiPath = math.random(1, 2),
+ --   corrupted = true,
+ --   enemy = true,
+ --   pathColor = 'blue',
+ --   pathEnabled = true,
+ -- })
 
 -- table.insert(MAP[7][3].entities, Entity {
 --   animations = ENTITY_DEFS['boar'].animations,

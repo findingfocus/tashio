@@ -53,7 +53,6 @@ function Entity:init(def)
   self.damageFlash = false
   self.damageFlashDuration = FLASH_DURATION
   self.damageFlashTimer = FLASH_FREQUENCY
-  self.distanceToPlayer = 25
   self.displacementMagnitude = def.displacementMagnitude
   self.spawnTimer = def.spawnTimer or 0
   self.pursueTimer = 0
@@ -67,7 +66,6 @@ function Entity:init(def)
   --self.walkSpeed = math.random
   self.offscreen = false
   self.psystem = love.graphics.newParticleSystem(particle, 400)
-
 
   self.offsetX = def.offsetX or 0
   self.offsetY = def.offsetY or 0
@@ -102,6 +100,7 @@ function Entity:init(def)
   self.pathNodes = {}
   self.destinationNodeIndex = 2
   self.jumperMap = {}
+  self.distanceToPlayer = nil
 end
 
 function Entity:initPathFinding()
@@ -424,6 +423,16 @@ function Entity:update(dt)
       self.validPathRetryTimer = 0
     end
   end
+
+  --DISTANCE TO PLAYER
+  local aLength, bLength, cLength, aSquared, bSquared, cSquared = 0, 0, 0, 0, 0, 0
+  aLength = math.abs((gPlayer.x + 8) - (self.x + 8))
+  bLength = math.abs((gPlayer.y + 8) - (self.y + 8))
+  aSquared = aLength * aLength
+  bSquared = bLength * bLength
+  cSquared = aSquared + bSquared
+  cLength = math.sqrt(cSquared)
+  self.distanceToPlayer = cLength
 
   -- local startx, starty = math.min(10, self.nearestTileColumn), math.min(8, self.nearestTileRow)
   -- local endx, endy = math.min(10, gPlayer.nearestTileColumn), math.min(8, gPlayer.nearestTileRow)
@@ -877,6 +886,9 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
   end
 
   self.stateMachine:render()
+
+  --DISTANCE TO PLAYER
+  love.graphics.print(tostring(self.distanceToPlayer), self.x, self.y)
 
   --NEAREST TILE RENDER
   if self.type ~= 'spellcast' then
