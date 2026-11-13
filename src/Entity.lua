@@ -101,6 +101,7 @@ function Entity:init(def)
   self.destinationNodeIndex = 2
   self.jumperMap = {}
   self.distanceToPlayer = nil
+  self.resonanceRings = {}
 end
 
 function Entity:initPathFinding()
@@ -469,6 +470,18 @@ function Entity:update(dt)
       self.entitySelector = true
     else
       self.entitySelector = false
+    end
+  end
+
+  --ENTITY RINGS UPDATE
+  for k, v in pairs(self.resonanceRings) do
+    v:update(dt)
+  end
+
+  --REMOVE RINGS
+  for i = #self.resonanceRings, 1, -1 do
+    if self.resonanceRings[i].luteResonanceAlpha == 0 then
+      table.remove(self.resonanceRings, i)
     end
   end
 
@@ -888,7 +901,7 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
   self.stateMachine:render()
 
   --DISTANCE TO PLAYER
-  love.graphics.print(tostring(self.distanceToPlayer), self.x, self.y)
+  --love.graphics.print(tostring(self.distanceToPlayer), self.x, self.y)
 
   --NEAREST TILE RENDER
   if self.type ~= 'spellcast' then
@@ -938,20 +951,27 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
   -- end
 
   --PATH NODE RENDER
-  if #self.pathNodes > 0 then
-    local steps = #self.pathNodes
-    local alphaSteps = (255 - 120) / steps
-    local currentAlpha = 120
+  --
+  -- if #self.pathNodes > 0 then
+  --   local steps = #self.pathNodes
+  --   local alphaSteps = (255 - 120) / steps
+  --   local currentAlpha = 120
+  --
+  --   love.graphics.setLineWidth(2)
+  --   for node, nodes in ipairs(self.pathNodes) do
+  --     if self.enemy then
+  --       -- love.graphics.setColor(1, 0, 0, currentAlpha / 255)
+  --       love.graphics.setColor(self.pathColor)
+  --       love.graphics.rectangle('line', nodes:getX() * TILE_SIZE - TILE_SIZE, nodes:getY() * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
+  --       currentAlpha = currentAlpha + alphaSteps
+  --     end
+  --   end
+  -- end
 
-    love.graphics.setLineWidth(2)
-    for node, nodes in ipairs(self.pathNodes) do
-      if self.enemy then
-        -- love.graphics.setColor(1, 0, 0, currentAlpha / 255)
-        love.graphics.setColor(self.pathColor)
-        love.graphics.rectangle('line', nodes:getX() * TILE_SIZE - TILE_SIZE, nodes:getY() * TILE_SIZE - TILE_SIZE, TILE_SIZE, TILE_SIZE)
-        currentAlpha = currentAlpha + alphaSteps
-      end
-    end
+
+  -- ENTITY RING RESONANCE RENDER
+  for k, v in pairs(self.resonanceRings) do
+    v:render()
   end
 
   --DEBUG

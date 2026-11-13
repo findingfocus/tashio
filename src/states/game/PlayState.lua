@@ -349,7 +349,7 @@ function PlayState:update(dt)
             self.noteIndex = 2
             self.luteStrumActive = true
             --INSERT LUTE RESONANCE OBJECT
-            table.insert(gPlayer.rings, Resonance())
+            table.insert(gPlayer.rings, Resonance('player'))
             self.timeSinceLastStrum = 0
           end
         end

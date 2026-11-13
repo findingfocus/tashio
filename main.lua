@@ -3,7 +3,7 @@ require 'src/dependencies'
 function love.load()
   love.window.setTitle('Tashio Tempo')
 
-  love.mouse.setVisible(false)
+  love.mouse.setVisible(true)
 
   math.randomseed(os.time())
   
