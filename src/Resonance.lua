@@ -15,7 +15,7 @@ function Resonance:init(entityType, entity, state)
   self.luteResonanceMaxRadius = 60
   self.luteResonanceActive = true
   self.luteResonanceAlpha = 255
-  self.collided = false
+  self.collided = {}
 end
 
 function Resonance:update(dt)
@@ -28,12 +28,10 @@ function Resonance:update(dt)
       for k, entity in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].entities) do
         if entity.distanceToPlayer < self.luteResonanceRadius then
           --EMIT RINGS TEST
-          if not self.collided then
+          if not self.collided[entity] then
             table.insert(entity.resonanceRings, Resonance('enemy', entity, 'corrupt'))
+            self.collided[entity] = true
           end
-          self.collided = true
-        else
-          self.collided = false
         end
       end
     else
@@ -49,7 +47,7 @@ function Resonance:update(dt)
 
   if self.luteResonanceAlpha <= 0 then
     self.luteResonanceActive = false
-    self.collided = false
+    self.collided = {}
   end
 end
 
