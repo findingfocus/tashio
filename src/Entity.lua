@@ -102,6 +102,7 @@ function Entity:init(def)
   self.jumperMap = {}
   self.distanceToPlayer = nil
   self.resonanceRings = {}
+  self.resonanceState = def.resonanceState
 end
 
 function Entity:initPathFinding()

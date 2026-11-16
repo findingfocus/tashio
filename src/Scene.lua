@@ -40,6 +40,21 @@ function Scene:init(player, mapRow, mapColumn)
   self.activeDialogueID = nil
   self.tutorialText = false
   self.tutorialTextAlpha = 0
+
+  self.resonanceRings = {}
+
+  local resonanceColor = 'corrupt'
+  table.insert(self.resonanceRings, Resonance('enemy', nil, resonanceColor))
+  self.resonanceRings[1].entityX = 10
+  self.resonanceRings[1].entityY = 10
+
+  self.pingbackStack = {
+    ['top'] = {'hello salto'},
+    ['right'] = {'hello salto'},
+    ['bottom'] = {'hello salto'},
+    ['left'] = {'hello salto'},
+  }
+
   --SPELLCAST ENTITY
   for i = 1, 3 do
     table.insert(self.spellcastEntities, Entity {
@@ -231,6 +246,29 @@ function Scene:finishShifting()
 end
 
 function Scene:update(dt)
+  --RESONANCE RING SPAWN TEST PLS REMOVE
+
+  if love.keyboard.wasPressed('l') then
+    self.resonanceRings = {}
+
+    local resonanceColor = 'corrupt'
+    table.insert(self.resonanceRings, Resonance('enemy', nil, resonanceColor))
+    self.resonanceRings[1].entityX = -20
+    self.resonanceRings[1].entityY = 50
+  end
+
+  --SCENE RESONANCE RINGS UPDATE
+  for k, v in pairs(self.resonanceRings) do
+    v:update(dt)
+  end
+
+  --REMOVE RINGS
+  for i = #self.resonanceRings, 1, -1 do
+    if self.resonanceRings[i].luteResonanceAlpha == 0 then
+      table.remove(self.resonanceRings, i)
+    end
+  end
+
   self.demoFinished = false
   x, y = love.mouse.getPosition()
   --self.snowSystem:update(dt)
@@ -710,7 +748,6 @@ function Scene:render()
     end
   end
 
-
   love.graphics.setColor(WHITE)
   --RENDER TOP LEVEL TILES
   for y = 1, MAP_HEIGHT do
@@ -725,6 +762,12 @@ function Scene:render()
       end
     end
   end
+
+  --SCENE RESONANCE RINGS RENDER
+  for k, v in pairs(self.resonanceRings) do
+    v:render(dt)
+  end
+
 
   --ENTITY RENDERS
   --TURNED THIS OFF FOR AQUIS ORDER
@@ -777,6 +820,8 @@ function Scene:render()
   --if
   --MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[self.activeDialogueID]:render(dt)
   love.graphics.setColor(WHITE)
+  --DEBUG PINGBACK
+  love.graphics.print(self.pingbackStack['top'], 0, 0)
   --love.graphics.print(Inspect(sceneView.currentMap.collidableWallObjects[1]), 0, 0)
 
   --TRANSITION START
@@ -787,5 +832,6 @@ function Scene:render()
   --TRANSITION BLACK FADE
   love.graphics.setColor(0/255, 0/255, 0/255, transitionFadeAlpha/255)
   love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
+
 
 end

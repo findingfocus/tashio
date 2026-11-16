@@ -3,13 +3,20 @@ Resonance = Class{}
 function Resonance:init(entityType, entity, state)
   self.entityType = entityType or nil
   self.entity = entity or nil
+  if self.entity then
+    self.entityX = self.entity.x
+    self.entityY = self.entity.y
+  else
+    self.entityX = 0
+    self.entityY = 0
+  end
   self.state = state or nil
   if self.entityType == 'player' then
     self.luteResonanceX = gPlayer.x + TILE_SIZE / 2
     self.luteResonanceY = gPlayer.y + TILE_SIZE / 2
   else
-    self.luteResonanceX = self.entity.x + TILE_SIZE / 2
-    self.luteResonanceY = self.entity.y + TILE_SIZE / 2
+    self.luteResonanceX = self.entityX + TILE_SIZE / 2
+    self.luteResonanceY = self.entityY + TILE_SIZE / 2
   end
   self.luteResonanceRadius = 0
   self.luteResonanceMaxRadius = 60
@@ -29,14 +36,14 @@ function Resonance:update(dt)
         if entity.distanceToPlayer < self.luteResonanceRadius then
           --EMIT RINGS TEST
           if not self.collided[entity] then
-            table.insert(entity.resonanceRings, Resonance('enemy', entity, 'corrupt'))
+            table.insert(entity.resonanceRings, Resonance('enemy', entity, entity.resonanceState))
             self.collided[entity] = true
           end
         end
       end
     else
-      self.luteResonanceX = self.entity.x + TILE_SIZE / 2
-      self.luteResonanceY = self.entity.y + TILE_SIZE / 2
+      self.luteResonanceX = self.entityX + TILE_SIZE / 2
+      self.luteResonanceY = self.entityY + TILE_SIZE / 2
     end
 
 
