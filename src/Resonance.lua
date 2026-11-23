@@ -1,6 +1,6 @@
 Resonance = Class{}
 
-function Resonance:init(entityType, entity, state)
+function Resonance:init(entityType, entity, state, x, y)
   self.entityType = entityType or nil
   self.entity = entity or nil
   if self.entity then
@@ -10,6 +10,13 @@ function Resonance:init(entityType, entity, state)
     self.entityX = 0
     self.entityY = 0
   end
+  if x then
+    self.entityX = x
+  end
+  if y then
+    self.entityY = y
+  end
+
   self.state = state or nil
   if self.entityType == 'player' then
     self.luteResonanceX = gPlayer.x + TILE_SIZE / 2
@@ -20,13 +27,23 @@ function Resonance:init(entityType, entity, state)
   end
   self.luteResonanceRadius = 0
   self.luteResonanceMaxRadius = 60
-  self.luteResonanceActive = true
+  self.ringActive = true
   self.luteResonanceAlpha = 255
   self.collided = {}
+  self.leftCollisionTriggered = false
+end
+
+function Resonance:reset()
+  self.luteResonanceRadius = 0
+  self.luteResonanceMaxRadius = 60
+  self.ringActive = true
+  self.luteResonanceAlpha = 255
+  self.collided = {}
+  self.leftCollisionTriggered = false
 end
 
 function Resonance:update(dt)
-  if self.luteResonanceActive then
+  if self.ringActive then
     self.luteResonanceRadius = self.luteResonanceRadius + LUTE_RESONANCE_SPEED
 
     if self.entityType == 'player' then
@@ -53,14 +70,14 @@ function Resonance:update(dt)
   end
 
   if self.luteResonanceAlpha <= 0 then
-    self.luteResonanceActive = false
+    self.ringActive = false
     self.collided = {}
   end
 end
 
 function Resonance:render()
   love.graphics.setLineWidth(1)
-  if self.luteResonanceActive then
+  if self.ringActive then
     if self.entityType == 'player' then
       love.graphics.setColor(255/255, 206/255, 82/255, self.luteResonanceAlpha/255)
     end
@@ -76,4 +93,5 @@ function Resonance:render()
     --   love.graphics.circle('fill', self.luteResonanceX, self.luteResonanceY, self.luteResonanceRadius)
     -- end
   end
+  --love.graphics.print('entityX: ' .. tostring(self.entityX), 0, 20)
 end

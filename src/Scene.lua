@@ -44,16 +44,19 @@ function Scene:init(player, mapRow, mapColumn)
   self.resonanceRings = {}
 
   local resonanceColor = 'corrupt'
-  table.insert(self.resonanceRings, Resonance('enemy', nil, resonanceColor))
-  self.resonanceRings[1].entityX = 10
-  self.resonanceRings[1].entityY = 10
+  --table.insert(self.resonanceRings, Resonance('enemy', nil, resonanceColor))
+  -- self.resonanceRings[1].entityX = 10
+  -- self.resonanceRings[1].entityY = 10
 
   self.pingbackStack = {
-    ['top'] = {'hello salto'},
+    ['top'] = {Resonance('enemy', nil, 'corrupt', -0, 15)},
+    --table.insert(self.resonanceRings, Resonance('enemy', nil, resonanceColor, 12,0))
     ['right'] = {'hello salto'},
     ['bottom'] = {'hello salto'},
-    ['left'] = {'hello salto'},
+    ['left'] = {Resonance('enemy', nil, resonanceColor, -20, 50)},
   }
+
+  self.timeSinceLastPingBack = 0
 
   --SPELLCAST ENTITY
   for i = 1, 3 do
@@ -99,6 +102,8 @@ function Scene:init(player, mapRow, mapColumn)
       self:beginShifting(0, VIRTUAL_HEIGHT)
     end
   end)
+  self.pingbackDectected = false
+  self.leftCollisionTriggered = false
 end
 
 function Scene:beginShifting(shiftX, shiftY)
@@ -245,17 +250,27 @@ function Scene:finishShifting()
   gPlayer.aquisSuccessTimer = 0
 end
 
+function Scene:defineLeftPingBackStack()
+  --SEARCH LEFT ADJACENT SCENE FOR PING BACKS
+  --FINISH SHIFTING WILL PROBABLY HOLD PING BACK STACK DECLATIONS FOR ADJECENT SCENES
+  --TABLE.INSERT Resonance() into .pingbackStack[direction]
+end
+
 function Scene:update(dt)
   --RESONANCE RING SPAWN TEST PLS REMOVE
 
-  if love.keyboard.wasPressed('l') then
-    self.resonanceRings = {}
-
-    local resonanceColor = 'corrupt'
-    table.insert(self.resonanceRings, Resonance('enemy', nil, resonanceColor))
-    self.resonanceRings[1].entityX = -20
-    self.resonanceRings[1].entityY = 50
-  end
+  -- if love.keyboard.wasPressed('l') then
+  --
+  --   -- sceneView.pingbackStack =
+  --   -- ['top'] = {Resonance('enemy', nil, 'corrupt', -0, 15)},
+  --
+  --   self.resonanceRings = {}
+  --
+  --   local resonanceColor = 'corrupt'
+  --   table.insert(self.resonanceRings, Resonance('enemy', nil, resonanceColor, 12,0))
+  --   self.resonanceRings[1].entityX = -20
+  --   self.resonanceRings[1].entityY = 50
+  -- end
 
   --SCENE RESONANCE RINGS UPDATE
   for k, v in pairs(self.resonanceRings) do
@@ -287,6 +302,24 @@ function Scene:update(dt)
       v:update(dt)
     end
   end
+  --RESONANCE PINGBACK COLLISION
+  if #self.player.rings ~= 0 then
+    self.pingbackDectected = true
+    --LEFT COLLISION
+    local ring = self.player.rings[1]
+    if ring.luteResonanceX - ring.luteResonanceRadius < 0 then
+      if not ring.leftCollisionTriggered then
+        for k, v in pairs(self.pingbackStack['left']) do
+          table.insert(self.resonanceRings, v)
+          v:reset()
+          ring.leftCollisionTriggered = true
+        end
+      end
+    end
+  else
+    self.pingbackDectected = false
+  end
+
 
   if not self.shifting then
     TIME = TIME + dt
@@ -768,7 +801,6 @@ function Scene:render()
     v:render(dt)
   end
 
-
   --ENTITY RENDERS
   --TURNED THIS OFF FOR AQUIS ORDER
   for k, entity in pairs(MAP[self.currentMap.row][self.currentMap.column].entities) do
@@ -821,7 +853,7 @@ function Scene:render()
   --MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[self.activeDialogueID]:render(dt)
   love.graphics.setColor(WHITE)
   --DEBUG PINGBACK
-  love.graphics.print(self.pingbackStack['top'], 0, 0)
+  --love.graphics.print(self.pingbackStack['top'], 0, 0)
   --love.graphics.print(Inspect(sceneView.currentMap.collidableWallObjects[1]), 0, 0)
 
   --TRANSITION START
@@ -833,5 +865,9 @@ function Scene:render()
   love.graphics.setColor(0/255, 0/255, 0/255, transitionFadeAlpha/255)
   love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
 
-
+  -- love.graphics.print(tostring(self.pingbackDectected), 0, 0)
+   love.graphics.setColor(WHITE)
+  love.graphics.print('rRings#: ' .. tostring(#self.resonanceRings), 0, 10)
+  love.graphics.print('pRings#: ' .. tostring(#gPlayer.rings), 0, 20)
+  --love.graphics.pring('self.resonanceRings[1].ringActive = true
 end
