@@ -13,6 +13,7 @@ local leftFadeTransitionX = -VIRTUAL_WIDTH / 2
 local rightFadeTransitionX = VIRTUAL_WIDTH
 local startingSceneTransitionFinished = false
 local transitionFadeAlpha = 0
+local leftPingbackHandle = nil
 
 function Scene:init(player, mapRow, mapColumn)
   self.player = player
@@ -53,8 +54,13 @@ function Scene:init(player, mapRow, mapColumn)
     --table.insert(self.resonanceRings, Resonance('enemy', nil, resonanceColor, 12,0))
     ['right'] = {'hello salto'},
     ['bottom'] = {'hello salto'},
-    ['left'] = {Resonance('enemy', nil, resonanceColor, -20, 50)},
+    ['left'] = {Resonance('enemy', nil, resonanceColor, -20, 50), Resonance('enemy', nil, resonanceColor, -20, 10), Resonance('enemy', nil, resonanceColor, -20, 80)},
   }
+
+  self.leftPingbackIndex = 0
+  self.leftPingbackTimer = 0
+  self.leftPingbackTimerThreshold = 0.5
+  self.leftPingbackActive = false
 
   self.timeSinceLastPingBack = 0
 
@@ -102,8 +108,47 @@ function Scene:init(player, mapRow, mapColumn)
       self:beginShifting(0, VIRTUAL_HEIGHT)
     end
   end)
-  self.pingbackDectected = false
+
   self.leftCollisionTriggered = false
+
+  --LEFT PINGBACKS
+  if leftPingbackHandle ~= nil then
+    leftPingbackHandle:remove()
+    leftPingbackHandle = nil
+  end
+  leftPingbackHandle = Event.on('triggerLeftPingBacks', function()
+    if self.leftPingbackActive then
+      return
+    end
+    self.leftPingbackActive = true
+    self.leftPingbackIndex = #self.pingbackStack['left']
+    self.leftPingbackTimer = 0
+    --FIRST PINGBACK RIGHT NOW
+    local leftPingback = self.pingbackStack['left'][self.leftPingbackIndex]
+    if leftPingback ~= nil then
+      table.insert(self.resonanceRings, Resonance('enemy', nil, leftPingback.state, leftPingback.entityX, leftPingback.entityY))
+    end
+    self.leftPingbackIndex = self.leftPingbackIndex - 1
+    if self.leftPingbackIndex <= 0 then
+      self.leftPingbackActive = false
+      return
+    end
+    Timer.every(self.leftPingbackTimerThreshold, function()
+      if self.leftPingbackIndex <= 0 then
+        self.leftPingbackActive = false
+        return false
+      end
+      local leftPingback = self.pingbackStack['left'][self.leftPingbackIndex]
+      if leftPingback ~= nil then
+        table.insert(self.resonanceRings, Resonance('enemy', nil, leftPingback.state, leftPingback.entityX, leftPingback.entityY))
+      end
+      self.leftPingbackIndex = self.leftPingbackIndex - 1
+      if self.leftPingbackIndex <= 0 then
+        self.leftPingbackActive = false
+        return false
+      end
+    end)
+  end)
 end
 
 function Scene:beginShifting(shiftX, shiftY)
@@ -304,20 +349,14 @@ function Scene:update(dt)
   end
   --RESONANCE PINGBACK COLLISION
   if #self.player.rings ~= 0 then
-    self.pingbackDectected = true
     --LEFT COLLISION
     local ring = self.player.rings[1]
     if ring.luteResonanceX - ring.luteResonanceRadius < 0 then
       if not ring.leftCollisionTriggered then
-        for k, v in pairs(self.pingbackStack['left']) do
-          table.insert(self.resonanceRings, v)
-          v:reset()
-          ring.leftCollisionTriggered = true
-        end
+        ring.leftCollisionTriggered = true
+        Event.dispatch('triggerLeftPingBacks')
       end
     end
-  else
-    self.pingbackDectected = false
   end
 
 
@@ -865,9 +904,9 @@ function Scene:render()
   love.graphics.setColor(0/255, 0/255, 0/255, transitionFadeAlpha/255)
   love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
 
-  -- love.graphics.print(tostring(self.pingbackDectected), 0, 0)
    love.graphics.setColor(WHITE)
   love.graphics.print('rRings#: ' .. tostring(#self.resonanceRings), 0, 10)
   love.graphics.print('pRings#: ' .. tostring(#gPlayer.rings), 0, 20)
+  love.graphics.print('dispatchCount' .. tostring(self.dispatchCount), 0, 25)
   --love.graphics.pring('self.resonanceRings[1].ringActive = true
 end
