@@ -414,7 +414,7 @@ function Map:update(dt)
       v:update(dt)
     end
 
-    if v.type == 'crate' then
+    if v.type == 'crate' and not v.falling and not v.fallen and v.active then
       if successfulCast then
         for i = 1, sceneView.spellcastEntityCount do
           if v:spellCollides(sceneView.spellcastEntities[i]) then

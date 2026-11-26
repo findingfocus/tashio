@@ -70,7 +70,7 @@ function PlayerIdleState:render()
   end
 
   --ELEMENT IN HAND IDLE
-  if self.player.elementEquipped ~= '' and not gPlayer.showOff then
+  if self.player.elementEquipped ~= '' and not gPlayer.showOff and not gPlayer.pushing then
       love.graphics.setColor(gKeyItemInventory.elementColor)
       love.graphics.draw(gTextures['character-element'], gFrames[anim.texture][anim:getCurrentFrame()], math.floor(self.player.x), math.floor(self.player.y))
   end
