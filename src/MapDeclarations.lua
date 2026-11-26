@@ -67,100 +67,67 @@ for i = 1, OVERWORLD_MAP_HEIGHT do
   end
 end
 
+--OST
+local function setTrack(mapRow, mapColumn, track)
+  MAP[mapRow][mapColumn].ost = track
+end
+local function addMusicArea(startRow, endRow, startColumn, endColumn, track)
+  for row = startRow, endRow do
+    for column = startColumn, endColumn do
+      setTrack(row, column, track)
+    end
+  end
+end
 --DUNGEON SHORTCUT TO ICE MOUNTAIN
-MAP[1][13].ost = 'dungeonTrack'
-MAP[2][13].ost = 'dungeonTrack'
-
+addMusicArea(1, 2, 13, 13, 'dungeonTrack')
 --GREEN TUNIC DUNGEON
-MAP[4][11].ost = 'dungeonTrack'
-MAP[3][11].ost = 'dungeonTrack'
-MAP[3][12].ost = 'dungeonTrack'
-MAP[4][12].ost = 'dungeonTrack'
-MAP[3][13].ost = 'dungeonTrack'
-MAP[4][13].ost = 'dungeonTrack'
-
+addMusicArea(3, 4, 11, 13, 'dungeonTrack')
 --DARK TEMPLE
-MAP[1][12].ost = 'dungeonTrack'
-
+setTrack(1, 12, 'dungeonTrack')
 --INN
-MAP[2][11].ost = 'magesCastleTrack'
-
+setTrack(2, 11, 'magesCastleTrack')
 --MART
-MAP[1][14].ost = 'magesCastleTrack'
-
+setTrack(1, 14, 'magesCastleTrack')
 --GYM
-MAP[1][15].ost = 'magesCastleTrack'
-
+setTrack(1, 15, 'magesCastleTrack')
 --FISHERMANS HUT
-MAP[1][16].ost = 'magesCastleTrack'
-
+setTrack(1, 16, 'magesCastleTrack')
 --REFINERY
-MAP[1][11].ost = 'magesCastleTrack'
-
-MAP[5][3].ost = 'darkForestTrack'
-MAP[5][4].ost = 'darkForestTrack'
-MAP[6][3].ost = 'darkForestTrack'
-MAP[6][4].ost = 'darkForestTrack'
-MAP[6][5].ost = 'darkForestTrack'
-MAP[5][5].ost = 'darkForestTrack'
-
-MAP[7][1].ost = 'villageTrack'
-MAP[8][1].ost = 'villageTrack'
-MAP[7][2].ost = 'villageTrack'
-MAP[6][1].ost = 'villageTrack'
-MAP[6][2].ost = 'villageTrack'
-MAP[5][1].ost = 'villageTrack'
-MAP[5][2].ost = 'villageTrack'
-MAP[4][2].ost = 'villageTrack'
-MAP[8][2].ost = 'villageTrack'
-MAP[9][2].ost = 'villageTrack'
-
+setTrack(1, 11, 'magesCastleTrack')
+--DARK FOREST
+addMusicArea(5, 6, 3, 5, 'darkForestTrack')
+--VILLAGE
+addMusicArea(5, 8, 1, 2, 'villageTrack')
+setTrack(4, 2, 'villageTrack')
+setTrack(9, 2, 'villageTrack')
 --MAGES CASTLE
-MAP[10][19].ost = 'magesCastleTrack'
-MAP[10][18].ost = 'magesCastleTrack'
-MAP[10][20].ost = 'magesCastleTrack'
+addMusicArea(10, 10, 18, 20, 'magesCastleTrack')
 
 --WEATHER
-table.insert(MAP[7][6].weather, 'LIGHT_SAND')
-table.insert(MAP[8][6].weather, 'LIGHT_SAND')
-table.insert(MAP[9][6].weather, 'LIGHT_SAND')
-table.insert(MAP[10][6].weather, 'LIGHT_SAND')
-
-table.insert(MAP[6][6].weather, 'LIGHT_SAND')
-table.insert(MAP[6][7].weather, 'LIGHT_SAND')
-table.insert(MAP[6][8].weather, 'LIGHT_SAND')
-table.insert(MAP[6][9].weather, 'LIGHT_SAND')
-table.insert(MAP[6][10].weather, 'LIGHT_SAND')
-
-table.insert(MAP[7][7].weather, 'HEAVY_SAND')
-table.insert(MAP[8][7].weather, 'HEAVY_SAND')
-table.insert(MAP[9][7].weather, 'HEAVY_SAND')
-table.insert(MAP[10][7].weather, 'HEAVY_SAND')
-
-table.insert(MAP[7][8].weather, 'HEAVY_SAND')
-table.insert(MAP[8][8].weather, 'HEAVY_SAND')
-table.insert(MAP[9][8].weather, 'HEAVY_SAND')
-table.insert(MAP[10][8].weather, 'HEAVY_SAND')
-
-table.insert(MAP[7][9].weather, 'HEAVY_SAND')
-table.insert(MAP[8][9].weather, 'HEAVY_SAND')
-table.insert(MAP[9][9].weather, 'HEAVY_SAND')
-table.insert(MAP[10][9].weather, 'HEAVY_SAND')
-
-table.insert(MAP[7][10].weather, 'HEAVY_SAND')
-table.insert(MAP[8][10].weather, 'HEAVY_SAND')
-table.insert(MAP[9][10].weather, 'HEAVY_SAND')
-table.insert(MAP[10][10].weather, 'HEAVY_SAND')
-
-
-table.insert(MAP[5][4].weather, 'LIGHT_RAIN')
-table.insert(MAP[6][4].weather, 'LIGHT_RAIN')
-table.insert(MAP[6][3].weather, 'LIGHT_RAIN')
-table.insert(MAP[5][3].weather, 'LIGHT_RAIN')
-table.insert(MAP[6][5].weather, 'LIGHT_RAIN')
-table.insert(MAP[5][5].weather, 'LIGHT_RAIN')
---
-table.insert(MAP[3][5].weather, 'BLIZZARD')
+local function addWeather(mapRow, mapColumn, weatherType)
+  table.insert(MAP[mapRow][mapColumn].weather, weatherType)
+end
+local function addWeatherArea(startRow, endRow, startColumn, endColumn, weatherType)
+  for row = startRow, endRow do
+    for column = startColumn, endColumn do
+      addWeather(row, column, weatherType)
+    end
+  end
+end
+--LIGHT_SAND
+addWeatherArea(7, 10, 6, 6, 'LIGHT_SAND')
+addWeatherArea(6, 6, 6, 10, 'LIGHT_SAND')
+--HEAVY_SAND
+addWeatherArea(7, 10, 7, 10, 'HEAVY_SAND')
+--LIGHT_RAIN
+addWeather(5, 4, 'LIGHT_RAIN')
+addWeather(6, 4, 'LIGHT_RAIN')
+addWeather(6, 3, 'LIGHT_RAIN')
+addWeather(5, 3, 'LIGHT_RAIN')
+addWeather(6, 5, 'LIGHT_RAIN')
+addWeather(5, 5, 'LIGHT_RAIN')
+--BLIZZARD
+addWeather(3, 5, 'BLIZZARD')
 
 --MAGE WALL BARRIERS
 --TOGGLE FOR DEPLOYMENT
