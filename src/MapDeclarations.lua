@@ -350,6 +350,71 @@ local function spawnBat(mapRow, mapColumn, opts)
   return entity
 end
 
+--GECKO HELPER
+local function initGecko(entity, idleAnimation)
+  entity.animations = entity:createAnimations(ENTITY_DEFS['geckoC'].animations)
+  entity:changeAnimation(idleAnimation or 'idle-down')
+  entity.stateMachine = StateMachine {
+    ['gecko-walk'] = function() return GeckoWalkState(entity) end,
+    ['entity-idle'] = function() return EntityIdleState(entity) end,
+    ['gecko-flee'] = function() return GeckoFleeState(entity) end,
+  }
+  entity:changeState('entity-idle')
+end
+local function spawnGecko(mapRow, mapColumn, opts)
+  local entity = Entity {
+    animations = ENTITY_DEFS['geckoC'].animations,
+    x = TILE_SIZE * opts.spawnXTile,
+    y = TILE_SIZE * opts.spawnYTile,
+    width = TILE_SIZE,
+    height = TILE_SIZE,
+    health = 1,
+    direction = opts.direction or 'left',
+    type = 'gecko',
+    walkSpeed = opts.walkSpeed,
+    aiPath = math.random(1, 2),
+    corrupted = true,
+    enemy = true,
+    pathEnabled = true,
+  }
+  table.insert(MAP[mapRow][mapColumn].entities, entity)
+  initGecko(entity, opts.idleAnimation)
+  return entity
+end
+
+--BOAR HELPER
+local function initBoar(entity)
+  entity.animations = entity:createAnimations(ENTITY_DEFS['boar'].animations)
+  entity:changeAnimation('idle-down')
+  entity.stateMachine = StateMachine {
+    ['boar-walk'] = function() return BoarWalkState(entity) end,
+    ['entity-idle'] = function() return EntityIdleState(entity) end,
+    ['boar-flee'] = function() return BoarFleeState(entity) end,
+  }
+  entity:changeState('entity-idle')
+end
+local function spawnBoar(mapRow, mapColumn, opts)
+  local entity = Entity {
+    animations = ENTITY_DEFS['boar'].animations,
+    x = TILE_SIZE * opts.spawnXTile,
+    y = TILE_SIZE * opts.spawnYTile,
+    width = TILE_SIZE,
+    height = TILE_SIZE,
+    health = 1,
+    direction = opts.direction or 'left',
+    type = 'boar',
+    walkSpeed = opts.walkSpeed or 14,
+    aiPath = math.random(1, 2),
+    resonanceState = 'corrupt',
+    corrupted = true,
+    enemy = true,
+    pathEnabled = true,
+  }
+  table.insert(MAP[mapRow][mapColumn].entities, entity)
+  initBoar(entity)
+  return entity
+end
+
 --BOTTOM LEFT ROOM
 ---[[
 table.insert(MAP[4][11].entities, Entity {
@@ -496,96 +561,12 @@ table.insert(MAP[1][12].entities, Entity {
 --]]
 --
 --GECKO FOREST BY RUINS
-table.insert(MAP[5][5].entities, Entity {
-  animations = ENTITY_DEFS['geckoC'].animations,
-  x = TILE_SIZE * 5,
-  y = TILE_SIZE * 3,
-  width = TILE_SIZE,
-  height = TILE_SIZE,
-  health = 1,
-  direction = 'left',
-  type = 'gecko',
-  walkSpeed = 40,
-  aiPath = math.random(1, 2),
-  corrupted = true,
-  enemy = true,
-  pathEnabled = true,
-})
-
-local entityCount = #MAP[5][5].entities
-for i = 1, entityCount do
-  if MAP[5][5].entities[i].corrupted and MAP[5][5].entities[i].type == 'gecko' then
-    MAP[5][5].entities[i].animations = MAP[5][5].entities[i]:createAnimations(ENTITY_DEFS['geckoC'].animations)
-    MAP[5][5].entities[i]:changeAnimation('idle-down')
-    MAP[5][5].entities[i].stateMachine = StateMachine {
-      ['gecko-walk'] = function() return GeckoWalkState(MAP[5][5].entities[i]) end,
-      ['entity-idle'] = function() return EntityIdleState(MAP[5][5].entities[i]) end,
-      ['gecko-flee'] = function() return GeckoFleeState(MAP[5][5].entities[i]) end,
-    }
-    MAP[5][5].entities[i]:changeState('entity-idle')
-  end
-end
+spawnGecko(5, 5, {spawnXTile = 5, spawnYTile = 3, direction = 'left', walkSpeed = 40})
 --GECKO FOREST BY REFINERY
-table.insert(MAP[5][3].entities, Entity {
-  animations = ENTITY_DEFS['geckoC'].animations,
-  x = TILE_SIZE * 6,
-  y = TILE_SIZE * 2,
-  width = TILE_SIZE,
-  height = TILE_SIZE,
-  health = 1,
-  direction = 'left',
-  type = 'gecko',
-  walkSpeed = 40,
-  aiPath = math.random(1, 2),
-  corrupted = true,
-  enemy = true,
-  pathEnabled = true,
-})
-
-local entityCount = #MAP[5][3].entities
-for i = 1, entityCount do
-  if MAP[5][3].entities[i].corrupted and MAP[5][3].entities[i].type == 'gecko' then
-    MAP[5][3].entities[i].animations = MAP[5][3].entities[i]:createAnimations(ENTITY_DEFS['geckoC'].animations)
-    MAP[5][3].entities[i]:changeAnimation('idle-down')
-    MAP[5][3].entities[i].stateMachine = StateMachine {
-      ['gecko-walk'] = function() return GeckoWalkState(MAP[5][3].entities[i]) end,
-      ['entity-idle'] = function() return EntityIdleState(MAP[5][3].entities[i]) end,
-      ['gecko-flee'] = function() return GeckoFleeState(MAP[5][3].entities[i]) end,
-    }
-    MAP[5][3].entities[i]:changeState('entity-idle')
-  end
-end
+spawnGecko(5, 3, {spawnXTile = 6, spawnYTile = 2, direction = 'left', walkSpeed = 40})
 
 --GECKO FOREST
-table.insert(MAP[6][3].entities, Entity {
-  animations = ENTITY_DEFS['geckoC'].animations,
-  x = TILE_SIZE * 3,
-  y = TILE_SIZE * 5,
-  width = TILE_SIZE,
-  height = TILE_SIZE,
-  health = 1,
-  direction = 'left',
-  type = 'gecko',
-  walkSpeed = 44,
-  aiPath = math.random(1, 2),
-  corrupted = true,
-  enemy = true,
-  pathEnabled = true,
-})
-
-local entityCount = #MAP[6][3].entities
-for i = 1, entityCount do
-  if MAP[6][3].entities[i].corrupted and MAP[6][3].entities[i].type == 'gecko' then
-    MAP[6][3].entities[i].animations = MAP[6][3].entities[i]:createAnimations(ENTITY_DEFS['geckoC'].animations)
-    MAP[6][3].entities[i]:changeAnimation('idle-down')
-    MAP[6][3].entities[i].stateMachine = StateMachine {
-      ['gecko-walk'] = function() return GeckoWalkState(MAP[6][3].entities[i]) end,
-      ['entity-idle'] = function() return EntityIdleState(MAP[6][3].entities[i]) end,
-      ['gecko-flee'] = function() return GeckoFleeState(MAP[6][3].entities[i]) end,
-    }
-    MAP[6][3].entities[i]:changeState('entity-idle')
-  end
-end
+spawnGecko(6, 3, {spawnXTile = 3, spawnYTile = 5, direction = 'left', walkSpeed = 44})
 
 --GECKO TOWN MIDWAY
 -- table.insert(MAP[7][3].entities, Entity {
@@ -604,22 +585,7 @@ end
 -- })
 
 --BOAR
- table.insert(MAP[7][3].entities, Entity {
-   animations = ENTITY_DEFS['boar'].animations,
-   x = TILE_SIZE * 1,
-   y = TILE_SIZE * 2,
-   width = TILE_SIZE,
-   height = TILE_SIZE,
-   health = 1,
-   direction = 'left',
-   type = 'boar',
-   walkSpeed = 14,
-   aiPath = math.random(1, 2),
-   resonanceState = 'corrupt',
-   corrupted = true,
-   enemy = true,
-   pathEnabled = true,
- })
+spawnBoar(7, 3, {spawnXTile = 1, spawnYTile = 2, direction = 'left', walkSpeed = 14})
 
  -- table.insert(MAP[7][3].entities, Entity {
  --   animations = ENTITY_DEFS['boar'].animations,
@@ -653,93 +619,10 @@ end
 --   enemy = true,
 -- })
 
-local entityCount = #MAP[7][3].entities
-for i = 1, entityCount do
-  if MAP[7][3].entities[i].corrupted and MAP[7][3].entities[i].type == 'gecko' then
-    MAP[7][3].entities[i].animations = MAP[7][3].entities[i]:createAnimations(ENTITY_DEFS['geckoC'].animations)
-    MAP[7][3].entities[i]:changeAnimation('idle-down')
-    MAP[7][3].entities[i].stateMachine = StateMachine {
-      ['gecko-walk'] = function() return GeckoWalkState(MAP[7][3].entities[i]) end,
-      ['entity-idle'] = function() return EntityIdleState(MAP[7][3].entities[i]) end,
-      ['gecko-flee'] = function() return GeckoFleeState(MAP[7][3].entities[i]) end,
-    }
-    MAP[7][3].entities[i]:changeState('entity-idle')
-  end
-  if MAP[7][3].entities[i].corrupted and MAP[7][3].entities[i].type == 'boar' then
-    MAP[7][3].entities[i].animations = MAP[7][3].entities[i]:createAnimations(ENTITY_DEFS['boar'].animations)
-    MAP[7][3].entities[i]:changeAnimation('idle-down')
-    MAP[7][3].entities[i].stateMachine = StateMachine {
-      ['boar-walk'] = function() return BoarWalkState(MAP[7][3].entities[i]) end,
-      ['entity-idle'] = function() return EntityIdleState(MAP[7][3].entities[i]) end,
-      ['boar-flee'] = function() return BoarFleeState(MAP[7][3].entities[i]) end,
-    }
-    MAP[7][3].entities[i]:changeState('entity-idle')
-  end
-end
-
-
 --GECKO ROAD
-table.insert(MAP[8][3].entities, Entity {
-  animations = ENTITY_DEFS['geckoC'].animations,
-  x = TILE_SIZE * 5,
-  y = TILE_SIZE * 5,
-  width = TILE_SIZE,
-  height = TILE_SIZE,
-  health = 1,
-  direction = 'up',
-  type = 'gecko',
-  walkSpeed = 9,
-  aiPath = math.random(1, 2),
-  corrupted = true,
-  enemy = true,
-  pathEnabled = true,
-})
-
-table.insert(MAP[8][3].entities, Entity {
-  animations = ENTITY_DEFS['geckoC'].animations,
-  x = TILE_SIZE * 2,
-  y = TILE_SIZE * 3,
-  width = TILE_SIZE,
-  height = TILE_SIZE,
-  health = 1,
-  direction = 'up',
-  type = 'gecko',
-  walkSpeed = 11,
-  aiPath = math.random(1, 2),
-  corrupted = true,
-  enemy = true,
-  pathEnabled = true,
-})
-
-table.insert(MAP[8][3].entities, Entity {
-  animations = ENTITY_DEFS['geckoC'].animations,
-  x = TILE_SIZE * 7,
-  y = TILE_SIZE * 4,
-  width = TILE_SIZE,
-  height = TILE_SIZE,
-  health = 1,
-  direction = 'left',
-  type = 'gecko',
-  walkSpeed = 9,
-  aiPath = math.random(1, 2),
-  corrupted = true,
-  enemy = true,
-  pathEnabled = true,
-})
-
-local entityCount = #MAP[8][3].entities
-for i = 1, entityCount do
-  if MAP[8][3].entities[i].corrupted and MAP[8][3].entities[i].type == 'gecko' then
-    MAP[8][3].entities[i].animations = MAP[8][3].entities[i]:createAnimations(ENTITY_DEFS['geckoC'].animations)
-    MAP[8][3].entities[i]:changeAnimation('idle-up')
-    MAP[8][3].entities[i].stateMachine = StateMachine {
-      ['gecko-walk'] = function() return GeckoWalkState(MAP[8][3].entities[i]) end,
-      ['entity-idle'] = function() return EntityIdleState(MAP[8][3].entities[i]) end,
-      ['gecko-flee'] = function() return GeckoFleeState(MAP[8][3].entities[i]) end,
-    }
-    MAP[8][3].entities[i]:changeState('entity-idle')
-  end
-end
+spawnGecko(8, 3, {spawnXTile = 5, spawnYTile = 5, direction = 'up', walkSpeed = 9, idleAnimation = 'idle-up'})
+spawnGecko(8, 3, {spawnXTile = 2, spawnYTile = 3, direction = 'up', walkSpeed = 11, idleAnimation = 'idle-up'})
+spawnGecko(8, 3, {spawnXTile = 7, spawnYTile = 4, direction = 'left', walkSpeed = 9, idleAnimation = 'idle-up'})
 
 
 
