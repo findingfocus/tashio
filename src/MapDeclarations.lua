@@ -373,6 +373,7 @@ local function spawnGecko(mapRow, mapColumn, opts)
     type = 'gecko',
     walkSpeed = opts.walkSpeed,
     aiPath = math.random(1, 2),
+    resonanceState = 'corrupt',
     corrupted = true,
     enemy = true,
     pathEnabled = true,
