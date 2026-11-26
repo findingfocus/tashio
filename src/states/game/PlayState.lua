@@ -321,11 +321,11 @@ function PlayState:update(dt)
   self.timeSinceLastStrum = self.timeSinceLastStrum + dt
 
   --TRIGGER LUTE RESONANCE
-  if INPUT:pressed('actionB') and gItemInventory.itemSlot[1] ~= nil and not gPlayer.warping then
+  if INPUT:pressed('actionB') and gItemInventory.itemSlot[1] ~= nil and not gPlayer.warping and not sceneView.shifting then
     if gItemInventory.itemSlot[1].type == 'lute' then
       if not sceneView.dialogueBoxActive then
         if not gPlayer.dead and not gPlayer.falling then
-          if self.timeSinceLastStrum > 1 then
+          if self.timeSinceLastStrum > 1 and (#gPlayer.rings == 0 or not gPlayer.rings[1].ringActive) then
             --LUTE STRUM
             local choice = love.math.random(1,3)
             self.luteStrumTable = self.luteStrumOption[choice]
@@ -424,7 +424,7 @@ function PlayState:update(dt)
     creditsY = creditsY - CREDITS_SPEED
   end
 
-  if luteState then
+  if luteState and not sceneView.shifting then
     Lute:update(dt)
   end
 

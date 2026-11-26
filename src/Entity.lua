@@ -466,7 +466,7 @@ function Entity:update(dt)
     self.aquisCollides = self:circleCollides(gPlayer.aquisProjectile)
   end
 
-  if love.mouse.isDown(1) then
+  if love.mouse.isDown(1) and gameX and gameY then
     if gameX > self.x and gameX < self.x + self.width and gameY > self.y and gameY < self.y + self.height then
       self.entitySelector = true
     else

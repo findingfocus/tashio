@@ -404,7 +404,7 @@ function Player:update(dt)
   end
 
   --SPELLCASTING
-  if not sceneView.shifting and not CREDITS_ROLLING then
+  if not sceneView.shifting and not CREDITS_ROLLING and not PAUSED and not dialogueBoxJustClosed and sceneView.activeDialogueID == nil then
     --FOCUS GAIN
     if (INPUT:down('action') and not luteState) then
       self.timeAtZeroFocus = 0

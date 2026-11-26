@@ -65,6 +65,7 @@ function love.load()
     ['pauseState'] = function() return PauseState() end,
     ['chasmFallingState'] = function() return FallingChasmState() end,
     ['openingCinematic'] = function() return OpeningCinematic() end,
+    ['cinematic'] = function() return CinematicState() end,
     ['refineryState'] = function() return RefineryState() end,
     ['mageIntroTopTrigger'] = function() return MageIntroTopTrigger() end,
     ['minimap'] = function() return Minimap() end,

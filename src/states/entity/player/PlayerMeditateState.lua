@@ -13,6 +13,15 @@ function PlayerMeditateState:update(dt)
     self.player.stateMachine:change('player-walk')
     self.player.meditate = false
   end
+  --LUTE WHILE MEDITATING - WAKE UP AND STAND WITH LUTE
+  if INPUT:pressed('actionB') and gItemInventory.itemSlot[1] ~= nil and gItemInventory.itemSlot[1].type == 'lute' then
+    if not gPlayer.warping and not gPlayer.dead and not gPlayer.falling then
+      self.player.stateMachine:change('player-idle')
+      self.player.meditate = false
+      self.player.direction = 'down'
+      self.player:changeAnimation('idle-down')
+    end
+  end
 end
 
 function PlayerMeditateState:render()

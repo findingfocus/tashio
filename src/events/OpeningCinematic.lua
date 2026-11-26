@@ -1,4 +1,4 @@
-OpeningCinematic = Class{__includes = BaseState}
+OpeningCinematic = Class{__includes = CinematicState}
 
 local mage = nil
 local castleMage = nil
@@ -45,7 +45,16 @@ function OpeningCinematic:init()
   self.mageWaitTimer = 0
   self.mageWalkTimer = 0
   self.psystem = love.graphics.newParticleSystem(particle, 400)
+  self.psystem:setParticleLifetime(1, 4)
+  self.psystem:setEmissionArea('borderellipse', 1, 1)
+  self.psystem:setEmissionRate(0)
+  self.psystem:setColors(200/255, 20/255, 220/255, 255/255, 130/255, 0/255, 200/255, 0/255)
+  self.psystem:setTangentialAcceleration(0, 8)
   self.psystem2 = love.graphics.newParticleSystem(particle, 100)
+  self.psystem2:setParticleLifetime(2, 3)
+  self.psystem2:setEmissionArea('borderrectangle', 5, 0)
+  self.psystem2:setEmissionRate(0)
+  self.psystem2:setColors(80/255, 40/255, 255/255, 255/255, 80/255, 180/255, 255/255, 0/255)
   self.zigzagFrequency = 3
   self.zigzagAmplitude = 0.15
   self.zigzagTime = 0
@@ -58,6 +67,111 @@ function OpeningCinematic:init()
   self.tutorialTextAlpha = 0
   self.dialogueID = 0
   self.activeDialogueID = 0
+
+  --CINEMATIC SCRIPT
+  self.script = {
+    --STEP 1 - MAGE WALKS RIGHT
+    {type='custom', onUpdate=function(dt)
+      mage.x = mage.x + mage.walkSpeed * dt
+      mage:changeAnimation('walk-right')
+      if mage.x > TILE_SIZE * 3 then
+        mage:changeAnimation('idle-right')
+        return true
+      end
+    end},
+    --STEP 2 - WAIT WITH PARTICLES
+    {type='custom', onUpdate=function(dt)
+      self.tashioWaitTimer = self.tashioWaitTimer + dt
+      if self.tashioWaitTimer > 0.5 then self.tashioStep1 = true end
+      self.psystem:moveTo(mage.x + 14, mage.y + 4)
+      self.psystem:setParticleLifetime(1, 4)
+      self.psystem:setEmissionArea('borderellipse', 1, 1)
+      self.psystem:setEmissionRate(40)
+      self.psystem:update(dt)
+      self.mageWaitTimer = self.mageWaitTimer + dt
+      gPlayer.y = math.max(TILE_SIZE * 3 - 8, gPlayer.y - dt * 2)
+      self.psystem2:moveTo(gPlayer.x + 8, gPlayer.y + gPlayer.height)
+      self.psystem2:setParticleLifetime(2, 3)
+      self.psystem2:setEmissionArea('borderrectangle', 5, 0)
+      self.psystem2:setLinearAcceleration(0, -5)
+      self.psystem2:setEmissionRate(20)
+      self.psystem2:setColors(80/255, 40/255, 255/255, 255/255, 80/255, 180/255, 255/255, 0/255)
+      self.psystem2:update(dt)
+      if self.mageWaitTimer > 4 then return true end
+    end},
+    --STEP 3 - BOTH WALK LEFT WITH FADE
+    {type='custom', onUpdate=function(dt)
+      self.zigzagTime = self.zigzagTime + self.zigzagFrequency * dt
+      self.offset = math.sin(self.zigzagTime) * self.zigzagAmplitude
+      gPlayer.x = gPlayer.x - mage.walkSpeed * dt
+      gPlayer.y = gPlayer.y + self.offset
+      mage.x = mage.x - mage.walkSpeed * dt
+      mage:changeAnimation('walk-left')
+      self.psystem:moveTo(mage.x + 14, mage.y + 4)
+      self.psystem:update(dt)
+      self.psystem2:moveTo(gPlayer.x + 8, gPlayer.y + gPlayer.height)
+      self.psystem2:update(dt)
+      if self.blackOpacity >= 255 then
+        gPlayer.x = TILE_SIZE * 1
+        gPlayer.y = TILE_SIZE * 2 - 6
+        gPlayer.direction = 'down'
+        sceneView.currentMap = Map(10, 18, gPlayer.spellcastCount)
+        sceneView.mapRow = 10
+        sceneView.mapColumn = 18
+        self.animatables = InsertAnimation(sceneView.currentMap.row, sceneView.currentMap.column)
+        gPlayer:changeState('player-cinematic')
+        gPlayer:changeAnimation('sleep-left')
+        gPlayer.direction = 'left'
+        self.fadeToBlack = false
+        self.fadeFromBlack = true
+        self.castleView = true
+        return true
+      end
+    end},
+    --STEP 4 - FADE FROM BLACK
+    {type='custom', onUpdate=function(dt)
+      if self.blackOpacity <= 0 then return true end
+    end},
+    --STEP 5 - TURN AND SLEEP
+    {type='custom', onUpdate=function(dt)
+      self.turnTimer = self.turnTimer + dt
+      if self.turnTimer > 1 then
+        if gPlayer.direction == 'left' then
+          self.turnCount = self.turnCount + 1
+          gPlayer.direction = 'right'
+          gPlayer:changeAnimation('sleep-right')
+        else
+          self.turnCount = self.turnCount + 1
+          gPlayer.direction = 'left'
+          gPlayer:changeAnimation('sleep-left')
+        end
+        self.turnTimer = 0
+      end
+      if self.turnCount >= 4 then
+        gPlayer:changeAnimation('sleep-down')
+        self.turnTimer = -5
+        self.sleepTimer = self.sleepTimer + dt
+        if self.sleepTimer > 0.8 then
+          gPlayer:changeAnimation('idle-down')
+          gPlayer.direction = 'down'
+          Event.dispatch('fadeInTutorialText', dt)
+          if self.tutorialTextAlpha == 255 then
+            gPlayer:changeState('player-idle')
+            return true
+          end
+        end
+      end
+    end},
+    --STEP 6 - WAIT FOR CAMERA AND GO TO MAGE INTRO
+    {type='custom', onUpdate=function(dt)
+      if sceneView.cameraX > VIRTUAL_WIDTH - 5 then
+        Event.dispatch('turnOffTutorialText', dt)
+        gStateMachine:change('mageIntroTopTrigger')
+        return true
+      end
+    end},
+  }
+  self.currentStep = 1
 end
 
 Event.on('turnOffTutorialText', function()
@@ -74,7 +188,7 @@ function OpeningCinematic:update(dt)
   if minimapCooldown > 0 then
     minimapCooldown = minimapCooldown - dt
   end
-  if self.step > 5 then
+  if self.currentStep > 5 then
     if INPUT:pressed('start') then
       if not PAUSED and not gPlayer.dead and not luteState then
         sfx['pause1']:play()
@@ -118,126 +232,32 @@ function OpeningCinematic:update(dt)
     love.graphics.print('Shift is B Button', 42, yStarting + yOffset * 2)
   end
 
-  if self.step == 1 then
-    mage.x = mage.x + mage.walkSpeed * dt
-    mage:changeAnimation('walk-right')
-    if mage.x > TILE_SIZE * 3 then
-      self.step = 2
-      mage:changeAnimation('idle-right')
-    end
-  elseif self.step == 2 then
-    self.tashioWaitTimer = self.tashioWaitTimer + dt
-    if self.tashioWaitTimer > 0.5 then
-      self.tashioStep1 = true
-    end
-    self.psystem:moveTo(mage.x + 14, mage.y + 4)
-    self.psystem:setParticleLifetime(1, 4)
-    self.psystem:setEmissionArea('borderellipse', 1, 1)
-    self.psystem:setEmissionRate(40)
-    self.psystem:setTangentialAcceleration(0, 8)
-    self.psystem:setColors(200/255, 20/255, 220/255, 255/255, 130/255, 0/255, 200/255, 0/255)
-    self.psystem:update(dt)
-    self.mageWaitTimer = self.mageWaitTimer + dt
-    if self.mageWaitTimer > 4 then
-      self.step = 3
-    end
-  elseif self.step == 3 then
-    self.zigzagTime = self.zigzagTime + self.zigzagFrequency * dt
-    self.offset = math.sin(self.zigzagTime) * self.zigzagAmplitude
-    --MAGE PARTICLES
-    self.psystem:moveTo(mage.x + 14, mage.y + 4)
-    self.psystem:update(dt)
-
-    --TASHIO PARTICLES
-    self.psystem2:moveTo(gPlayer.x + 8, gPlayer.y + gPlayer.height)
-    self.psystem2:setParticleLifetime(2, 3)
-    self.psystem2:setEmissionArea('borderrectangle', 5, 0)
-    self.psystem2:setLinearAcceleration(0, -5)
-    self.psystem2:setEmissionRate(20)
-    self.psystem2:setColors(80/255, 40/255, 255/255, 255/255, 80/255, 180/255, 255/255, 0/255)
-    self.psystem2:update(dt)
-    gPlayer.x = gPlayer.x - mage.walkSpeed * dt
-    gPlayer.y = gPlayer.y + self.offset
-    mage.x = mage.x - mage.walkSpeed * dt
-    mage:changeAnimation('walk-left')
-    if self.blackOpacity >= 255 then
-      gPlayer.x = TILE_SIZE * 1
-      gPlayer.y = TILE_SIZE * 2 - 6
-      --castleMage.x, castleMage.y = TILE_SIZE * 2, -TILE_SIZE
-      gPlayer.direction = 'down'
-      sceneView.currentMap = Map(10, 18, gPlayer.spellcastCount)
-      sceneView.mapRow = 10
-      sceneView.mapColumn = 18
-      self.animatables = InsertAnimation(sceneView.currentMap.row, sceneView.currentMap.column)
-      gPlayer:changeState('player-cinematic')
-      gPlayer:changeAnimation('sleep-left')
-      gPlayer.direction = 'left'
-      --gPlayer:changeAnimation('death')
-      --gPlayer.animations['death'].currentFrame = 9
-      self.fadeToBlack = false
-      self.fadeFromBlack = true
-      self.castleView = true
-      self.step = 4
-      sceneView.tutorialText = true
-      --self.castleStep1 = true
-    end
-  elseif self.step == 4 then
-    if self.blackOpacity <= 0 then
-        self.step = 5
-    end
-  elseif self.step == 5 then
-    self.turnTimer = self.turnTimer + dt
-    if self.turnTimer > 1 then
-      if gPlayer.direction == 'left' then
-        self.turnCount = self.turnCount + 1
-        gPlayer.direction = 'right'
-        gPlayer:changeAnimation('sleep-right')
-      else
-        self.turnCount = self.turnCount + 1
-        gPlayer.direction = 'left'
-        gPlayer:changeAnimation('sleep-left')
-      end
-    self.turnTimer = 0
-    end
-    if self.turnCount >= 4 then
-      gPlayer:changeAnimation('sleep-down')
-      self.turnTimer = -5
-      self.sleepTimer = self.sleepTimer + dt
-      if self.sleepTimer > .8 then
-        gPlayer:changeAnimation('idle-down')
-        gPlayer.direction = 'down'
-        --self.step = 6
-        Event.dispatch('fadeInTutorialText', dt)
-        --gStateMachine:change('playState')
-      if self.tutorialTextAlpha == 255 then
-        self.step = 7
-        gPlayer:changeState('player-idle')
-      end
+  --CINEMATIC SCRIPT HANDLING
+  if self.script and self.currentStep <= #self.script then
+    local step = self.script[self.currentStep]
+    if step and step.type == 'custom' and step.onUpdate then
+      if step.onUpdate(dt) then
+        self.currentStep = self.currentStep + 1
+        self.step = self.currentStep
+        if self.currentStep <= #self.script and self.script[self.currentStep].onEnter then
+          self.script[self.currentStep].onEnter()
+        end
       end
     end
- elseif self.step == 7 then
-    if sceneView.cameraX > VIRTUAL_WIDTH - 5 then
-      Event.dispatch('turnOffTutorialText', dt)
-      --MAP[10][19].collidableMapObjects = {}
-      gStateMachine:change('mageIntroTopTrigger')
+    if self.fadeToBlack then
+      self.blackOpacity = math.min(255, self.blackOpacity + 5)
+    elseif self.fadeFromBlack then
+      self.blackOpacity = math.max(0, self.blackOpacity - 5)
+      if self.blackOpacity <= 0 then
+        self.blackOpacity = 0
+        self.fadeFromBlack = false
+      end
+    end
+    if gPlayer.x < 0 and not self.castleView and not self.fadeToBlack then
+      self.fadeToBlack = true
     end
   end
-
-  if self.step == 2 then
-    gPlayer.y = math.max(TILE_SIZE * 3 - 8, gPlayer.y - dt * 2)
-    self.psystem2:moveTo(gPlayer.x + 8, gPlayer.y + gPlayer.height)
-    self.psystem2:setParticleLifetime(2, 3)
-    self.psystem2:setEmissionArea('borderrectangle', 5, 0)
-    self.psystem2:setLinearAcceleration(0, -5)
-    self.psystem2:setEmissionRate(20)
-    self.psystem2:setColors(80/255, 40/255, 255/255, 255/255, 80/255, 180/255, 255/255, 0/255)
-    self.psystem2:update(dt)
-  end
-
-  --FIRST FADE TO BLACK
-  if gPlayer.x < 0 and not self.castleView then
-    self.fadeToBlack = true
-  end
+  --EXTRA STEP 2 MOVEMENT AND FADE NOW HANDLED BY SCRIPT
 
   if INPUT:pressed('action') then
     --DIALOGUE DETECTION
@@ -340,9 +360,11 @@ function OpeningCinematic:render()
   local anim = gPlayer.currentAnimation
 
   if not self.castleView then
-    love.graphics.setColor(WHITE)
-    love.graphics.draw(self.psystem, 0, 0)
-    love.graphics.draw(self.psystem2, 0, 0)
+    if self.currentStep >= 2 then
+      love.graphics.setColor(WHITE)
+      love.graphics.draw(self.psystem, 0, 0)
+      love.graphics.draw(self.psystem2, 0, 0)
+    end
     self.lavaSystem:render()
   end
   --HUD RENDER
