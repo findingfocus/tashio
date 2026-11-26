@@ -9,6 +9,22 @@ function love.load()
   
   love.graphics.setFont(pixelFont)
 
+  --TASHIO INIT
+  gPlayer = Player {
+    animations = ENTITY_DEFS['player'].animations,
+    walkSpeed = ENTITY_DEFS['player'].walkSpeed,
+    x = TILE_SIZE * 2,
+    y = TILE_SIZE * 6,
+    width = TILE_SIZE,
+    height = TILE_SIZE,
+    type = 'player'
+  }
+  gPlayer.checkPointPositions.x = TILE_SIZE * 2
+  gPlayer.checkPointPositions.y = TILE_SIZE * 6
+  sceneView = Scene(gPlayer, 4, 2)
+  gPlayer.y = TILE_SIZE * 5
+  gPlayer.x = TILE_SIZE * 4
+
   keyboardInput = InputHandling()
   touchInput = TouchHandling()
 

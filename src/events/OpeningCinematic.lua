@@ -1,14 +1,15 @@
 OpeningCinematic = Class{__includes = BaseState}
 
-local mage = MAP[10][20].npc[1]
-local castleMage = MAP[10][19].npc[1]
+local mage = nil
+local castleMage = nil
 local minimapCooldown = MINIMAP_COOLDOWN
-
-gPlayer.x = TILE_SIZE * 8
-gPlayer.y = TILE_SIZE * 3
 
 function OpeningCinematic:init()
   self.stateName = 'openingCinematic'
+  mage = MAP[10][20].npc[1]
+  castleMage = MAP[10][19].npc[1]
+  gPlayer.x = TILE_SIZE * 8
+  gPlayer.y = TILE_SIZE * 3
   self.testX = 0
   self.originalPlayerX, self.originalPlayerY = gPlayer.x, gPlayer.y
   self.animatables = {}

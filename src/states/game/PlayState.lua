@@ -41,19 +41,8 @@ local startingSceneTransitionFinished = false
 local transitionFadeAlpha = 0
 
 --TASHIO INIT
-gPlayer = Player {
-  animations = ENTITY_DEFS['player'].animations,
-  walkSpeed = ENTITY_DEFS['player'].walkSpeed,
-  x = TILE_SIZE * 2,
-  y = TILE_SIZE * 6,
-  --y = 30,
-  width = TILE_SIZE,
-  height = TILE_SIZE,
-  type = 'player'
-}
-
-gPlayer.checkPointPositions.x = TILE_SIZE * 2
-gPlayer.checkPointPositions.y = TILE_SIZE * 6
+gPlayer = nil
+sceneView = nil
 ninetyDegrees = math.rad(90)
 oneEightyDegrees = math.rad(180)
 twoSeventyDegress = math.rad(270)
@@ -71,14 +60,6 @@ cameraX = 0
 --DARK FOREST
 --sceneView = Scene(gPlayer, 3, 5)
 --sceneView = Scene(gPlayer, 7, 4)
-
-sceneView = Scene(gPlayer, 4, 2)
---sceneView = Scene(gPlayer, 5, 1)
---sceneView = Scene(gPlayer, 5, 2)
---sceneView = Scene(gPlayer, 1, 13)
---sceneView = Scene(gPlayer, 9, 3)
---sceneView = Scene(gPlayer, 9, 2)
---sceneView = Scene(gPlayer, 4, 11)
 
 --GREEN TUNIC EQUIP
 --DEMO PLAYER EQUIPS
@@ -104,8 +85,6 @@ gKeyItemInventory.tome1Equipped = true
 gPlayer.y = TILE_SIZE * 3
 gPlayer.x = TILE_SIZE * 4
 --]]
-gPlayer.y = TILE_SIZE * 5
-gPlayer.x = TILE_SIZE * 4
 tilesheet = love.graphics.newImage('graphics/masterSheet.png')
 --textures = love.graphics.newImage('graphics/textures.png')
 quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
@@ -114,6 +93,9 @@ dialogueBoxJustClosedTimer = 1
 
 function PlayState:init()
   self.stateName = 'PlayState'
+  self.player = gPlayer
+  self.scene = sceneView
+
   self.snowSystem = SnowSystem()
   self.rainSystem = RainSystem()
 
@@ -147,6 +129,8 @@ function PlayState:init()
       Event.dispatch('cleanseDemoWater')
     end
     sceneView = Scene(gPlayer, sceneView.currentMap.row, sceneView.currentMap.column)
+    self.scene = sceneView
+    self.player = gPlayer
     --REINIT ANIMATABLES
     ---[[
     local animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
