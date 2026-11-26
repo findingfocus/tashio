@@ -159,11 +159,6 @@ function Scene:init(player, mapRow, mapColumn)
       return
     end
     self.leftPingbackTimerHandle = Timer.every(self.leftPingbackTimerThreshold, function()
-      if self.leftPingbackIndex <= 0 then
-        self.leftPingbackActive = false
-        self.leftPingbackTimerHandle = nil
-        return false
-      end
       local leftPingback = self.pingbackStack['left'][self.leftPingbackIndex]
       if leftPingback ~= nil then
         table.insert(self.resonanceRings, Resonance('enemy', nil, leftPingback.state, leftPingback.entityX, leftPingback.entityY))
@@ -202,11 +197,6 @@ function Scene:init(player, mapRow, mapColumn)
       return
     end
     self.rightPingbackTimerHandle = Timer.every(self.rightPingbackTimerThreshold, function()
-      if self.rightPingbackIndex <= 0 then
-        self.rightPingbackActive = false
-        self.rightPingbackTimerHandle = nil
-        return false
-      end
       local rightPingback = self.pingbackStack['right'][self.rightPingbackIndex]
       if rightPingback ~= nil then
         table.insert(self.resonanceRings, Resonance('enemy', nil, rightPingback.state, rightPingback.entityX, rightPingback.entityY))
@@ -245,11 +235,6 @@ function Scene:init(player, mapRow, mapColumn)
       return
     end
     self.topPingbackTimerHandle = Timer.every(self.topPingbackTimerThreshold, function()
-      if self.topPingbackIndex <= 0 then
-        self.topPingbackActive = false
-        self.topPingbackTimerHandle = nil
-        return false
-      end
       local topPingback = self.pingbackStack['top'][self.topPingbackIndex]
       if topPingback ~= nil then
         table.insert(self.resonanceRings, Resonance('enemy', nil, topPingback.state, topPingback.entityX, topPingback.entityY))
@@ -288,11 +273,6 @@ function Scene:init(player, mapRow, mapColumn)
       return
     end
     self.bottomPingbackTimerHandle = Timer.every(self.bottomPingbackTimerThreshold, function()
-      if self.bottomPingbackIndex <= 0 then
-        self.bottomPingbackActive = false
-        self.bottomPingbackTimerHandle = nil
-        return false
-      end
       local bottomPingback = self.pingbackStack['bottom'][self.bottomPingbackIndex]
       if bottomPingback ~= nil then
         table.insert(self.resonanceRings, Resonance('enemy', nil, bottomPingback.state, bottomPingback.entityX, bottomPingback.entityY))
