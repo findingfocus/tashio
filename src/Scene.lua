@@ -61,6 +61,7 @@ function Scene:init(player, mapRow, mapColumn)
   self.leftPingbackTimer = 0
   self.leftPingbackTimerThreshold = 0.5
   self.leftPingbackActive = false
+  self.leftPingbackTimerHandle = nil
 
   self.timeSinceLastPingBack = 0
 
@@ -110,6 +111,7 @@ function Scene:init(player, mapRow, mapColumn)
   end)
 
   self.leftCollisionTriggered = false
+  self.dispatchCount = 0
 
   --LEFT PINGBACKS
   if leftPingbackHandle ~= nil then
@@ -117,6 +119,7 @@ function Scene:init(player, mapRow, mapColumn)
     leftPingbackHandle = nil
   end
   leftPingbackHandle = Event.on('triggerLeftPingBacks', function()
+    self.dispatchCount = self.dispatchCount + 1
     if self.leftPingbackActive then
       return
     end
@@ -133,9 +136,10 @@ function Scene:init(player, mapRow, mapColumn)
       self.leftPingbackActive = false
       return
     end
-    Timer.every(self.leftPingbackTimerThreshold, function()
+    self.leftPingbackTimerHandle = Timer.every(self.leftPingbackTimerThreshold, function()
       if self.leftPingbackIndex <= 0 then
         self.leftPingbackActive = false
+        self.leftPingbackTimerHandle = nil
         return false
       end
       local leftPingback = self.pingbackStack['left'][self.leftPingbackIndex]
@@ -145,6 +149,7 @@ function Scene:init(player, mapRow, mapColumn)
       self.leftPingbackIndex = self.leftPingbackIndex - 1
       if self.leftPingbackIndex <= 0 then
         self.leftPingbackActive = false
+        self.leftPingbackTimerHandle = nil
         return false
       end
     end)
@@ -157,6 +162,21 @@ function Scene:beginShifting(shiftX, shiftY)
   self.shifting = true
   self.nextMap.adjacentOffsetY = shiftY
   self.nextMap.adjacentOffsetX = shiftX
+
+  --FADE OUT ALL RESONANCE RINGS ON SCENE TRANSITION
+  for k, v in pairs(self.resonanceRings) do
+    v:fade(0.15)
+  end
+  for k, v in pairs(self.player.rings) do
+    v:fade()
+  end
+  --STOP PINGBACKS DURING SCENE TRANSITION
+  if self.leftPingbackTimerHandle ~= nil then
+    self.leftPingbackTimerHandle:remove()
+    self.leftPingbackTimerHandle = nil
+  end
+  self.leftPingbackActive = false
+  self.leftPingbackIndex = 0
 
   if shiftX < 0 then --SHIFT LEFT
     --self.nextMap.adjacentOffsetX = self.nextMap.adjacentOffsetX + 16
@@ -324,7 +344,7 @@ function Scene:update(dt)
 
   --REMOVE RINGS
   for i = #self.resonanceRings, 1, -1 do
-    if self.resonanceRings[i].luteResonanceAlpha == 0 then
+    if self.resonanceRings[i].luteResonanceAlpha <= 0 then
       table.remove(self.resonanceRings, i)
     end
   end

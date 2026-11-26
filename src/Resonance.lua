@@ -31,6 +31,15 @@ function Resonance:init(entityType, entity, state, x, y)
   self.luteResonanceAlpha = 255
   self.collided = {}
   self.leftCollisionTriggered = false
+  self.fading = false
+  self.fadeSpeed = 392
+end
+
+function Resonance:fade(fadeTime)
+  self.fading = true
+  if fadeTime ~= nil then
+    self.fadeSpeed = 255 / fadeTime
+  end
 end
 
 function Resonance:reset()
@@ -40,9 +49,25 @@ function Resonance:reset()
   self.luteResonanceAlpha = 255
   self.collided = {}
   self.leftCollisionTriggered = false
+  self.fading = false
+  self.fadeSpeed = 392
 end
 
 function Resonance:update(dt)
+  if self.fading then
+    --FADE TO CLEAR ON SCENE TRANSITION
+    self.luteResonanceAlpha = self.luteResonanceAlpha - self.fadeSpeed * dt
+    if self.entityType == 'player' then
+      self.luteResonanceX = gPlayer.x + TILE_SIZE / 2
+      self.luteResonanceY = gPlayer.y + TILE_SIZE / 2
+    end
+    if self.luteResonanceAlpha <= 0 then
+      self.luteResonanceAlpha = 0
+      self.ringActive = false
+      self.collided = {}
+    end
+    return
+  end
   if self.ringActive then
     self.luteResonanceRadius = self.luteResonanceRadius + LUTE_RESONANCE_SPEED
 

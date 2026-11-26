@@ -287,7 +287,7 @@ function Player:update(dt)
 
   --REMOVE RINGS
   for i = #self.rings, 1, -1 do
-    if self.rings[i].luteResonanceAlpha == 0 then
+    if self.rings[i].luteResonanceAlpha <= 0 then
       table.remove(self.rings, i)
     end
   end
