@@ -26,7 +26,7 @@ function Resonance:init(entityType, entity, state, x, y)
     self.luteResonanceY = self.entityY + TILE_SIZE / 2
   end
   self.luteResonanceRadius = 0
-  self.luteResonanceMaxRadius = 50
+  self.luteResonanceMaxRadius = 45
   self.ringActive = true
   self.luteResonanceAlpha = 255
   self.collided = {}

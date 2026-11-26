@@ -52,8 +52,8 @@ function Scene:init(player, mapRow, mapColumn)
   self.pingbackStack = {
     ['top'] = {Resonance('enemy', nil, 'corrupt', 30, -20)},
     --table.insert(self.resonanceRings, Resonance('enemy', nil, resonanceColor, 12,0))
-    ['right'] = {Resonance('enemy', nil, 'corrupt', VIRTUAL_WIDTH + 20, 50), Resonance('enemy', nil, 'cleansed', VIRTUAL_WIDTH + 20, 85)},
-    ['bottom'] = {Resonance('enemy', nil, 'corrupt', 45, VIRTUAL_HEIGHT + 4), Resonance('enemy', nil, 'reintegrated', 70, VIRTUAL_HEIGHT + 4)},
+    ['right'] = {Resonance('enemy', nil, 'corrupt', VIRTUAL_WIDTH + 4, 50), Resonance('enemy', nil, 'cleansed', VIRTUAL_WIDTH + 4, 85)},
+    ['bottom'] = {Resonance('enemy', nil, 'corrupt', 45, SCREEN_HEIGHT_LIMIT + 4), Resonance('enemy', nil, 'reintegrated', 70, SCREEN_HEIGHT_LIMIT + 4)},
     -- ['left'] = {Resonance('enemy', nil, resonanceColor, -20, 50), Resonance('enemy', nil, resonanceColor, -20, 10), Resonance('enemy', nil, resonanceColor, -20, 80)},
     ['left'] = {Resonance('enemy', nil, resonanceColor, -20, 50), Resonance('enemy', nil, 'reintegrated', -20, 69)},
   }
