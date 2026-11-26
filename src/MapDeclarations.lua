@@ -159,7 +159,6 @@ table.insert(MAP[6][3].weather, 'LIGHT_RAIN')
 table.insert(MAP[5][3].weather, 'LIGHT_RAIN')
 table.insert(MAP[6][5].weather, 'LIGHT_RAIN')
 table.insert(MAP[5][5].weather, 'LIGHT_RAIN')
---table.insert(sceneView.particleSystem, sceneView.snowSystem)
 --
 table.insert(MAP[3][5].weather, 'BLIZZARD')
 
@@ -173,153 +172,54 @@ MAP[10][19].psystems[1]:activate()
 --]]
 --
 --MAP DOWNLOADER FROM TILED DATA DOWNLOADER
-local mapRow = 1
-local mapCol = 1
-local sceneRow = 1
-local sceneCol = 1
-local sceneRowsInserted = 0
-local globalRowsInserted = 0
-
-for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEIGHT do
-  if sceneCol > MAP_WIDTH then
-    sceneCol = 1
-    mapCol = mapCol + 1
-    sceneRowsInserted = sceneRowsInserted + 1
+local function mapDownloader(srcData, onTile)
+  local mapRow, mapCol, sceneRow, sceneCol = 1, 1, 1, 1
+  local sceneRowsInserted, globalRowsInserted = 0, 0
+  local total = MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEIGHT
+  for tileId = 1, total do
+    if sceneCol > MAP_WIDTH then
+      sceneCol = 1
+      mapCol = mapCol + 1
+      sceneRowsInserted = sceneRowsInserted + 1
+    end
+    if sceneRowsInserted == OVERWORLD_MAP_WIDTH then
+      mapCol = 1
+      globalRowsInserted = globalRowsInserted + 1
+      sceneRow = sceneRow + 1
+      sceneRowsInserted = 0
+    end
+    if globalRowsInserted == MAP_HEIGHT then
+      sceneRow = 1
+      mapRow = mapRow + 1
+      globalRowsInserted = 0
+    end
+    onTile(mapRow, mapCol, sceneRow, sceneCol, tileId, srcData[tileId])
+    sceneCol = sceneCol + 1
   end
-  if sceneRowsInserted == OVERWORLD_MAP_WIDTH then
-    mapCol = 1
-    globalRowsInserted = globalRowsInserted + 1
-    sceneRow = sceneRow + 1
-    sceneRowsInserted = 0
-  end
-  if globalRowsInserted == MAP_HEIGHT then --CYCLE TO NEXT MAP ROW
-    sceneRow = 1
-    mapRow = mapRow + 1
-    globalRowsInserted = 0
-  end
-
-  --tileId = 1
-  table.insert(MAP[mapRow][mapCol], tiledMap[tileId])
-
-  ---[[
-  --if tileId == WATER_ANIM_STARTER then
-  --test1 = 2
-  --table.insert(MAP[mapRow][mapCol].animatables, function() insertAnim(sceneRow, sceneCol, WATER.frame) end)
-  --end
-  --]]
-  sceneCol = sceneCol + 1
 end
 
---DATA DOWNLOADER
---TOP LEVEL TILE DOWNLOADER
-local mapRow = 1
-local mapCol = 1
-local sceneRow = 1
-local sceneCol = 1
-local sceneRowsInserted = 0
-local globalRowsInserted = 0
+mapDownloader(tiledMap, function(mapRow, mapCol, sceneRow, sceneColumn, tileId, tileValue)
+  table.insert(MAP[mapRow][mapCol], tileValue)
+end)
 
-for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEIGHT do
-  if sceneCol > MAP_WIDTH then
-    sceneCol = 1
-    mapCol = mapCol + 1
-    sceneRowsInserted = sceneRowsInserted + 1
-  end
-  if sceneRowsInserted == OVERWORLD_MAP_WIDTH then
-    mapCol = 1
-    globalRowsInserted = globalRowsInserted + 1
-    sceneRow = sceneRow + 1
-    sceneRowsInserted = 0
-  end
-  if globalRowsInserted == MAP_HEIGHT then --CYCLE TO NEXT MAP ROW
-    sceneRow = 1
-    mapRow = mapRow + 1
-    globalRowsInserted = 0
-  end
+mapDownloader(topLevelTiledMap, function(mapRow, mapCol, sceneRow, sceneColumn, tileId, tileValue)
+  table.insert(MAP[mapRow][mapCol].topLevelTileIds, tileValue)
+end)
 
-  --tileId = 1
-  table.insert(MAP[mapRow][mapCol].topLevelTileIds, topLevelTiledMap[tileId])
-  --[[
-  --if tileId == WATER_ANIM_STARTER then
-  --test1 = 2
-  --table.insert(MAP[mapRow][mapCol].animatables, function() insertAnim(sceneRow, sceneCol, WATER.frame) end)
-  --end
-  --]]
-  sceneCol = sceneCol + 1
-end
-
---MAP DOWNLOADER FROM TILED DATA DOWNLOADER
-local mapRow = 1
-local mapCol = 1
-local sceneRow = 1
-local sceneCol = 1
-local sceneRowsInserted = 0
-local globalRowsInserted = 0
-
-for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEIGHT do
-  if sceneCol > MAP_WIDTH then
-    sceneCol = 1
-    mapCol = mapCol + 1
-    sceneRowsInserted = sceneRowsInserted + 1
+mapDownloader(aboveGroundTiledMap, function(mapRow, mapCol, sceneRow, sceneColumn, tileId, tileValue)
+  if tileValue >= CHASM_DEF_BEGIN and tileValue <= CHASM_DEF_END then
+    table.insert(MAP[mapRow][mapCol].chasms, Chasm(sceneRow, sceneColumn))
   end
-  if sceneRowsInserted == OVERWORLD_MAP_WIDTH then
-    mapCol = 1
-    globalRowsInserted = globalRowsInserted + 1
-    sceneRow = sceneRow + 1
-    sceneRowsInserted = 0
-  end
-  if globalRowsInserted == MAP_HEIGHT then --CYCLE TO NEXT MAP ROW
-    sceneRow = 1
-    mapRow = mapRow + 1
-    globalRowsInserted = 0
-  end
-
-  --CHASMS
-  if (aboveGroundTiledMap[tileId] >= CHASM_DEF_BEGIN and aboveGroundTiledMap[tileId] <= CHASM_DEF_END) then
-    table.insert(MAP[mapRow][mapCol].chasms, Chasm(sceneRow, sceneCol))
-  end
-
-  --PITS
   --TODO CHASM FALLS, FOR NOW, TREAT CHASMS AS PITS
-  if (aboveGroundTiledMap[tileId] >= 15 and aboveGroundTiledMap[tileId] <= 31) then
-    table.insert(MAP[mapRow][mapCol].pits, Chasm(sceneRow, sceneCol))
+  if tileValue >= 15 and tileValue <= 31 then
+    table.insert(MAP[mapRow][mapCol].pits, Chasm(sceneRow, sceneColumn))
   end
+  table.insert(MAP[mapRow][mapCol].aboveGroundTileIds, tileValue)
+end)
 
-  table.insert(MAP[mapRow][mapCol].aboveGroundTileIds, aboveGroundTiledMap[tileId])
-
-  sceneCol = sceneCol + 1
-end
-
---DATA DOWNLOADER
---COLLIDABLE TILE DOWNLOADER
-local mapRow = 1
-local mapCol = 1
-local sceneRow = 1
-local sceneCol = 1
-local sceneRowsInserted = 0
-local globalRowsInserted = 0
-
-for tileId = 1, MAP_WIDTH * MAP_HEIGHT * OVERWORLD_MAP_WIDTH * OVERWORLD_MAP_HEIGHT do
-  if sceneCol > MAP_WIDTH then
-    sceneCol = 1
-    mapCol = mapCol + 1
-    sceneRowsInserted = sceneRowsInserted + 1
-  end
-  if sceneRowsInserted == OVERWORLD_MAP_WIDTH then
-    mapCol = 1
-    globalRowsInserted = globalRowsInserted + 1
-    sceneRow = sceneRow + 1
-    sceneRowsInserted = 0
-  end
-  if globalRowsInserted == MAP_HEIGHT then --CYCLE TO NEXT MAP ROW
-    sceneRow = 1
-    mapRow = mapRow + 1
-    globalRowsInserted = 0
-  end
-
-  table.insert(MAP[mapRow][mapCol].collidableTileIds, collidableTiledMap[tileId])
-  sceneCol = sceneCol + 1
-end
+mapDownloader(collidableTiledMap, function(mapRow, mapCol, sceneRow, sceneColumn, tileId, tileValue)
+  table.insert(MAP[mapRow][mapCol].collidableTileIds, tileValue)
+end)
 
 for i = 1, OVERWORLD_MAP_HEIGHT do
   for j = 1, OVERWORLD_MAP_WIDTH do
