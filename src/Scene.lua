@@ -50,11 +50,12 @@ function Scene:init(player, mapRow, mapColumn)
   -- self.resonanceRings[1].entityY = 10
 
   self.pingbackStack = {
-    ['top'] = {Resonance('enemy', nil, 'corrupt', -0, 15)},
+    ['top'] = {Resonance('enemy', nil, 'corrupt', 30, -20)},
     --table.insert(self.resonanceRings, Resonance('enemy', nil, resonanceColor, 12,0))
-    ['right'] = {'hello salto'},
-    ['bottom'] = {'hello salto'},
-    ['left'] = {Resonance('enemy', nil, resonanceColor, -20, 50), Resonance('enemy', nil, resonanceColor, -20, 10), Resonance('enemy', nil, resonanceColor, -20, 80)},
+    ['right'] = {Resonance('enemy', nil, 'corrupt', VIRTUAL_WIDTH + 20, 50), Resonance('enemy', nil, 'cleansed', VIRTUAL_WIDTH + 20, 85)},
+    ['bottom'] = {Resonance('enemy', nil, 'corrupt', 45, VIRTUAL_HEIGHT + 4), Resonance('enemy', nil, 'reintegrated', 70, VIRTUAL_HEIGHT + 4)},
+    -- ['left'] = {Resonance('enemy', nil, resonanceColor, -20, 50), Resonance('enemy', nil, resonanceColor, -20, 10), Resonance('enemy', nil, resonanceColor, -20, 80)},
+    ['left'] = {Resonance('enemy', nil, resonanceColor, -20, 50), Resonance('enemy', nil, 'reintegrated', -20, 69)},
   }
 
   self.leftPingbackIndex = 0
@@ -62,6 +63,24 @@ function Scene:init(player, mapRow, mapColumn)
   self.leftPingbackTimerThreshold = 0.5
   self.leftPingbackActive = false
   self.leftPingbackTimerHandle = nil
+
+  self.rightPingbackIndex = 0
+  self.rightPingbackTimer = 0
+  self.rightPingbackTimerThreshold = 0.5
+  self.rightPingbackActive = false
+  self.rightPingbackTimerHandle = nil
+
+  self.topPingbackIndex = 0
+  self.topPingbackTimer = 0
+  self.topPingbackTimerThreshold = 0.5
+  self.topPingbackActive = false
+  self.topPingbackTimerHandle = nil
+
+  self.bottomPingbackIndex = 0
+  self.bottomPingbackTimer = 0
+  self.bottomPingbackTimerThreshold = 0.5
+  self.bottomPingbackActive = false
+  self.bottomPingbackTimerHandle = nil
 
   self.timeSinceLastPingBack = 0
 
@@ -111,22 +130,25 @@ function Scene:init(player, mapRow, mapColumn)
   end)
 
   self.leftCollisionTriggered = false
-  self.dispatchCount = 0
+  self.rightCollisionTriggered = false
+  self.topCollisionTriggered = false
+  self.bottomCollisionTriggered = false
 
   --LEFT PINGBACKS
   if leftPingbackHandle ~= nil then
     leftPingbackHandle:remove()
     leftPingbackHandle = nil
   end
+
   leftPingbackHandle = Event.on('triggerLeftPingBacks', function()
-    self.dispatchCount = self.dispatchCount + 1
     if self.leftPingbackActive then
       return
     end
     self.leftPingbackActive = true
     self.leftPingbackIndex = #self.pingbackStack['left']
     self.leftPingbackTimer = 0
-    --FIRST PINGBACK RIGHT NOW
+
+    --TRIGGER FIRST PINGBACK UPON COLLISION
     local leftPingback = self.pingbackStack['left'][self.leftPingbackIndex]
     if leftPingback ~= nil then
       table.insert(self.resonanceRings, Resonance('enemy', nil, leftPingback.state, leftPingback.entityX, leftPingback.entityY))
@@ -150,6 +172,135 @@ function Scene:init(player, mapRow, mapColumn)
       if self.leftPingbackIndex <= 0 then
         self.leftPingbackActive = false
         self.leftPingbackTimerHandle = nil
+        return false
+      end
+    end)
+  end)
+
+  --RIGHT PINGBACKS
+  if rightPingbackHandle ~= nil then
+    rightPingbackHandle:remove()
+    rightPingbackHandle = nil
+  end
+
+  rightPingbackHandle = Event.on('triggerRightPingBacks', function()
+    if self.rightPingbackActive then
+      return
+    end
+    self.rightPingbackActive = true
+    self.rightPingbackIndex = #self.pingbackStack['right']
+    self.rightPingbackTimer = 0
+
+    --TRIGGER FIRST PINGBACK UPON COLLISION
+    local rightPingback = self.pingbackStack['right'][self.rightPingbackIndex]
+    if rightPingback ~= nil then
+      table.insert(self.resonanceRings, Resonance('enemy', nil, rightPingback.state, rightPingback.entityX, rightPingback.entityY))
+    end
+    self.rightPingbackIndex = self.rightPingbackIndex - 1
+    if self.rightPingbackIndex <= 0 then
+      self.rightPingbackActive = false
+      return
+    end
+    self.rightPingbackTimerHandle = Timer.every(self.rightPingbackTimerThreshold, function()
+      if self.rightPingbackIndex <= 0 then
+        self.rightPingbackActive = false
+        self.rightPingbackTimerHandle = nil
+        return false
+      end
+      local rightPingback = self.pingbackStack['right'][self.rightPingbackIndex]
+      if rightPingback ~= nil then
+        table.insert(self.resonanceRings, Resonance('enemy', nil, rightPingback.state, rightPingback.entityX, rightPingback.entityY))
+      end
+      self.rightPingbackIndex = self.rightPingbackIndex - 1
+      if self.rightPingbackIndex <= 0 then
+        self.rightPingbackActive = false
+        self.rightPingbackTimerHandle = nil
+        return false
+      end
+    end)
+  end)
+
+  --TOP PINGBACKS
+  if topPingbackHandle ~= nil then
+    topPingbackHandle:remove()
+    topPingbackHandle = nil
+  end
+
+  topPingbackHandle = Event.on('triggerTopPingBacks', function()
+    if self.topPingbackActive then
+      return
+    end
+    self.topPingbackActive = true
+    self.topPingbackIndex = #self.pingbackStack['top']
+    self.topPingbackTimer = 0
+
+    --TRIGGER FIRST PINGBACK UPON COLLISION
+    local topPingback = self.pingbackStack['top'][self.topPingbackIndex]
+    if topPingback ~= nil then
+      table.insert(self.resonanceRings, Resonance('enemy', nil, topPingback.state, topPingback.entityX, topPingback.entityY))
+    end
+    self.topPingbackIndex = self.topPingbackIndex - 1
+    if self.topPingbackIndex <= 0 then
+      self.topPingbackActive = false
+      return
+    end
+    self.topPingbackTimerHandle = Timer.every(self.topPingbackTimerThreshold, function()
+      if self.topPingbackIndex <= 0 then
+        self.topPingbackActive = false
+        self.topPingbackTimerHandle = nil
+        return false
+      end
+      local topPingback = self.pingbackStack['top'][self.topPingbackIndex]
+      if topPingback ~= nil then
+        table.insert(self.resonanceRings, Resonance('enemy', nil, topPingback.state, topPingback.entityX, topPingback.entityY))
+      end
+      self.topPingbackIndex = self.topPingbackIndex - 1
+      if self.topPingbackIndex <= 0 then
+        self.topPingbackActive = false
+        self.topPingbackTimerHandle = nil
+        return false
+      end
+    end)
+  end)
+
+  --BOTTOM PINGBACKS
+  if bottomPingbackHandle ~= nil then
+    bottomPingbackHandle:remove()
+    bottomPingbackHandle = nil
+  end
+
+  bottomPingbackHandle = Event.on('triggerBottomPingBacks', function()
+    if self.bottomPingbackActive then
+      return
+    end
+    self.bottomPingbackActive = true
+    self.bottomPingbackIndex = #self.pingbackStack['bottom']
+    self.bottomPingbackTimer = 0
+
+    --TRIGGER FIRST PINGBACK UPON COLLISION
+    local bottomPingback = self.pingbackStack['bottom'][self.bottomPingbackIndex]
+    if bottomPingback ~= nil then
+      table.insert(self.resonanceRings, Resonance('enemy', nil, bottomPingback.state, bottomPingback.entityX, bottomPingback.entityY))
+    end
+    self.bottomPingbackIndex = self.bottomPingbackIndex - 1
+    if self.bottomPingbackIndex <= 0 then
+      self.bottomPingbackActive = false
+      return
+    end
+    self.bottomPingbackTimerHandle = Timer.every(self.bottomPingbackTimerThreshold, function()
+      if self.bottomPingbackIndex <= 0 then
+        self.bottomPingbackActive = false
+        self.bottomPingbackTimerHandle = nil
+        return false
+      end
+      local bottomPingback = self.pingbackStack['bottom'][self.bottomPingbackIndex]
+      if bottomPingback ~= nil then
+        table.insert(self.resonanceRings, Resonance('enemy', nil, bottomPingback.state, bottomPingback.entityX, bottomPingback.entityY))
+      end
+      self.bottomPingbackIndex = self.bottomPingbackIndex - 1
+      if self.bottomPingbackIndex <= 0 then
+        self.bottomPingbackActive = false
+        self.bottomPingbackTimerHandle = nil
         return false
       end
     end)
@@ -369,12 +520,35 @@ function Scene:update(dt)
   end
   --RESONANCE PINGBACK COLLISION
   if #self.player.rings ~= 0 then
-    --LEFT COLLISION
+    --LEFT PINGBACK COLLISION
     local ring = self.player.rings[1]
     if ring.luteResonanceX - ring.luteResonanceRadius < 0 then
       if not ring.leftCollisionTriggered then
         ring.leftCollisionTriggered = true
         Event.dispatch('triggerLeftPingBacks')
+      end
+    end
+    --RIGHT PINGBACK COLLISION
+    if ring.luteResonanceX + ring.luteResonanceRadius > VIRTUAL_WIDTH then
+      if not ring.rightCollisionTriggered then
+        ring.rightCollisionTriggered = true
+        Event.dispatch('triggerRightPingBacks')
+      end
+    end
+
+    --TOP PINGBACK COLLISION
+    if ring.luteResonanceY - ring.luteResonanceRadius < 0 then
+      if not ring.topCollisionTriggered then
+        ring.topCollisionTriggered = true
+        Event.dispatch('triggerTopPingBacks')
+      end
+    end
+
+    --TOP PINGBACK COLLISION
+    if ring.luteResonanceY + ring.luteResonanceRadius > VIRTUAL_HEIGHT - 16 then
+      if not ring.bottomCollisionTriggered then
+        ring.bottomCollisionTriggered = true
+        Event.dispatch('triggerBottomPingBacks')
       end
     end
   end
@@ -927,6 +1101,5 @@ function Scene:render()
    love.graphics.setColor(WHITE)
   love.graphics.print('rRings#: ' .. tostring(#self.resonanceRings), 0, 10)
   love.graphics.print('pRings#: ' .. tostring(#gPlayer.rings), 0, 20)
-  love.graphics.print('dispatchCount' .. tostring(self.dispatchCount), 0, 25)
   --love.graphics.pring('self.resonanceRings[1].ringActive = true
 end

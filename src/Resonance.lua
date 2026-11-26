@@ -26,7 +26,7 @@ function Resonance:init(entityType, entity, state, x, y)
     self.luteResonanceY = self.entityY + TILE_SIZE / 2
   end
   self.luteResonanceRadius = 0
-  self.luteResonanceMaxRadius = 60
+  self.luteResonanceMaxRadius = 50
   self.ringActive = true
   self.luteResonanceAlpha = 255
   self.collided = {}
@@ -104,11 +104,17 @@ function Resonance:render()
   love.graphics.setLineWidth(1)
   if self.ringActive then
     if self.entityType == 'player' then
+      love.graphics.setColor(LUTE_RESONANCE_COLOR)
       love.graphics.setColor(255/255, 206/255, 82/255, self.luteResonanceAlpha/255)
     end
 
+    --RESONANCE RING STATE COLOR
     if self.state == 'corrupt' then
       love.graphics.setColor(195/255, 0/255, 255/255, self.luteResonanceAlpha/255)
+    elseif self.state == 'cleansed' then
+      love.graphics.setColor(0/255, 255/255, 0/255, self.luteResonanceAlpha/255)
+    elseif self.state == 'reintegrated' then
+      love.graphics.setColor(255/255, 206/255, 82/255, self.luteResonanceAlpha/255)
     end
     love.graphics.circle('line', self.luteResonanceX, self.luteResonanceY, self.luteResonanceRadius)
     love.graphics.setColor(WHITE)
