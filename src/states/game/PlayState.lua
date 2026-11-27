@@ -150,14 +150,27 @@ function PlayState:init()
   self.timeSinceLastStrum = 1
 end
 
-function PlayState:update(dt)
-  if love.keyboard.wasPressed('9') and not PAUSED and not sceneView.shifting and not gPlayer.warping then
-    sceneView.activeDialogueID = nil
-    PAUSED = false
-    gStateMachine:change('cinematicTemplate')
-    return
+--PLAYSTATE UPDATE HELPERS
+--DECOMPOSED SO EACH SYSTEM IS ISOLATED FOR 4X CONTENT
+
+function PlayState:updateTimers(dt)
+  gameX, gameY = push:toGame(love.mouse.getPosition())
+  if dialogueBoxJustClosed then
+    if self.activeDialogueID == nil then
+      dialogueBoxJustClosedTimer = dialogueBoxJustClosedTimer - dt
+    end
   end
-  ----JUMPER MAP DEBUG
+  if dialogueBoxJustClosedTimer <= 0 then
+    dialogueBoxJustClosedTimer = 1
+    dialogueBoxJustClosed = false
+  end
+  if minimapCooldown > 0 then
+    minimapCooldown = minimapCooldown - dt
+  end
+  self.timeSinceLastStrum = self.timeSinceLastStrum + dt
+end
+
+function PlayState:handleDebugInput()
   if love.keyboard.wasPressed('e') then
     gPlayer:initPathFinding()
     local tileView = {}
@@ -167,7 +180,6 @@ function PlayState:update(dt)
         table.insert(tileView[i], gPlayer.jumperMap[i][j])
       end
     end
-
     for i = 1, 8 do
       print(Inspect(gPlayer.jumperMap[i]))
       print('\n')
@@ -177,96 +189,18 @@ function PlayState:update(dt)
     print('\n')
     print('\n')
   end
+end
 
-  gameX, gameY = push:toGame(love.mouse.getPosition())
-  if dialogueBoxJustClosed then
-    if self.activeDialogueID == nil then
-      dialogueBoxJustClosedTimer = dialogueBoxJustClosedTimer - dt
-    end 
-  end
-  if dialogueBoxJustClosedTimer <= 0 then
-    dialogueBoxJustClosedTimer = 1
-    dialogueBoxJustClosed = false
-  end
-  if minimapCooldown > 0 then
-    minimapCooldown = minimapCooldown - dt
-  end
-  --[[
-  if love.keyboard.wasPressed('f') then
-    gPlayer.flammeUnlocked = true
-    gPlayer.elementEquipped = 'flamme'
-    gPlayer.greenTunicUnlocked = true
-    gPlayer.tunicEquipped = 'greenTunic'
-
-    table.insert(gItemInventory.grid[1][1], Item('lute'))
-    table.insert(gItemInventory.grid[1][2], Item('healthPotion', 10))
-    --CHEAT WARP
-   sceneView = Scene(gPlayer, 7, 5)
-
-    gPlayer.greenTunicUnlocked = true
-    gPlayer.tome1Unlocked = true
-    gKeyItemInventory.tomeEquipped = 'tome1'
-    gKeyItemInventory.tome1Equipped = true
-  end
-  --]]
-
-  --[[
-  if vibrancyGrow then
-    vibrancy = math.min(vibrancy + dt, 10)
-    if vibrancy == 10 then
-      vibrancyGrow = false
-    end
-  else
-    vibrancy = math.max(0, vibrancy - dt)
-    if vibrancy == 0 then
-      vibrancyGrow = true
-    end
- end
-  --]]
-  --[[
-  if love.keyboard.wasPressed('y') then
-    sceneView.activeDialogueID = nil
-    gStateMachine:change('openingCinematic')
-  end
-  if love.keyboard.wasPressed('t') then
-    sceneView.activeDialogueID = nil
-    MAP[10][19].collidableMapObjects = {}
-    gStateMachine:change('mageIntroTopTrigger')
-  end
-  --]]
-
-  -- TEST STATES
-  --[[
-  self.stateTimer = self.stateTimer + dt
-  if self.stateTimer >= 1 then
-    --gStateMachine:change('chasmFallingState')
-  end
-  --]]
-  --[[
-  if love.keyboard.wasPressed('g') then
-    if WINDOW_HEIGHT == 144 * SCALE_FACTOR * 2 then
-      SCALE_FACTOR = 4
-      WINDOW_HEIGHT = 144 * SCALE_FACTOR
-      WINDOW_WIDTH = 160 * SCALE_FACTOR
-      VIRTUAL_HEIGHT_GB = 144
-    else
-      SCALE_FACTOR = SCALE_FACTOR_RESET
-      WINDOW_HEIGHT = 144 * SCALE_FACTOR * 2
-      WINDOW_WIDTH = 160 * SCALE_FACTOR
-      VIRTUAL_HEIGHT_GB = 144 * 2
-    end
-
-    push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT_GB, WINDOW_WIDTH, WINDOW_HEIGHT)
-  end
-  --]]
-
+function PlayState:handlePauseInput()
   if INPUT:pressed('start') then
     if not PAUSED and not gPlayer.dead and not luteState then
       sfx['pause2']:play()
       gStateMachine:change('pauseState')
     end
   end
+end
 
+function PlayState:handleGameOverInput()
   --NON CHASM GAME OVER
   if INPUT:pressed('start') or INPUT:pressed('action') then
     if self.gameOver then
@@ -323,9 +257,9 @@ function PlayState:update(dt)
       end
     end
   end
+end
 
-  self.timeSinceLastStrum = self.timeSinceLastStrum + dt
-
+function PlayState:handleLuteResonance(dt)
   --TRIGGER LUTE RESONANCE
   if INPUT:pressed('actionB') and canStrumLute(self.timeSinceLastStrum) then
     --LUTE STRUM
@@ -338,16 +272,13 @@ function PlayState:update(dt)
     table.insert(gPlayer.rings, Resonance('player'))
     self.timeSinceLastStrum = 0
   end
-
   if self.luteStrumActive then
     self.luteStrumTimer = self.luteStrumTimer + dt
-
     if self.luteStrumTimer > self.noteSpeed then
       self.luteStrumTable[self.noteIndex]:play()
       self.noteIndex = self.noteIndex + 1
       self.luteStrumTimer = 0
     end
-
     if self.noteIndex > 4 then
       self.luteStrumActive = false
       self.luteStrumTimer = 0
@@ -355,36 +286,6 @@ function PlayState:update(dt)
       self.luteStrumTable = {}
     end
   end
-
-
-  --TRIGGER LUTE STATE
-  --TODO LUTE TAB AVAILABLE ONLY ON CERTAIN MAPS
-  --[[
-  if INPUT:pressed('actionB') and gItemInventory.itemSlot[1] ~= nil and not gPlayer.warping then
-    if gItemInventory.itemSlot[1].type == 'lute' then
-      if not luteState then
-        if not sceneView.dialogueBoxActive then
-          if not gPlayer.dead and not gPlayer.falling then
-            gPlayer.direction = 'down'
-            gPlayer:changeAnimation('idle-down')
-            luteState = true
-            stopOST()
-            Lute:reset()
-            bassNotes1:reset()
-          end
-        end
-      end
-    elseif gItemInventory.itemSlot[1].type == 'healthPotion' and gPlayer.health < 14 and gItemInventory.itemSlot[1].quantity > 0 and not dialogueBoxJustClosed then
-      --HEALTH POTION HEAL
-      love.graphics.setColor(WHITE)
-      love.graphics.print('POTION', 0,0)
-      gItemInventory.itemSlot[1].quantity = math.max(0, gItemInventory.itemSlot[1].quantity - 1)
-      gPlayer.health = 14
-      sfx['use-potion']:play()
-    end
-  end
-  --]]
-
   --EXIT LUTE STATE
   if luteState then
     if INPUT:pressed('select') then
@@ -392,48 +293,24 @@ function PlayState:update(dt)
       bassNotes1:reset()
     end
   end
-
-  --[[
-  if love.keyboard.wasPressed('e') then
-    gItemInventory.grid[1][1] = {}
-  end
-  --]]
-
   if INPUT:pressed('start') then
     if luteState then
       luteState = false
       SOUNDTRACK = MAP[sceneView.currentMap.row][sceneView.currentMap.column].ost
-    else
-      --toggleHelp = toggleHelp == false and true or false
     end
   end
-
-  ---[[
-  if love.keyboard.wasPressed('c') and not self.gameOver then
-    creditSequence = creditSequence == false and true or false
-  end
-  --]]
-
-  --self.rainSystem:update(dt)
-  --self.snowSystem:update(dt)
   if creditSequence then
     self.rainSystem:update(dt)
     self.snowSystem:update(dt)
     creditsY = creditsY - CREDITS_SPEED
   end
-
   if luteState and not sceneView.shifting then
     Lute:update(dt)
   end
+end
 
-  cameraX = cameraX + 1
-
-  --ADD TOUCH
-  --
-
-
+function PlayState:handleMinimapInput()
   --TODO MOVE FROM PLAYSTATE
-
   --TOGGLE MINIMAP
   if INPUT:pressed('select') and not luteState and not PAUSED and not self.gameOver and minimapCooldown < 0 then
     sfx['pause2']:play()
@@ -452,13 +329,11 @@ function PlayState:update(dt)
     gStateMachine.current.tashioX = gPlayer.x / 16
     gStateMachine.current.tashioY = gPlayer.y / 13
     minimapCooldown = MINIMAP_COOLDOWN
-    --MINIMAP_ROW = sceneView.currentMap.row
-    --MINIMAP_COLUMN = sceneView.currentMap.column
   end
+end
 
-
+function PlayState:handleDialogueInput()
   if INPUT:pressed('action') and not gPlayer.meditate then
-    --DIALOGUE DETECTION DIALOGUE COLLIDE
     for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do
       if gPlayer:dialogueCollides(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k]) and not MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[k].activated and minimapCooldown < 0 and not luteState then
           sfx['ui-scroll1']:play()
@@ -490,27 +365,25 @@ function PlayState:update(dt)
       end
       ::done::
     end
+end
 
+function PlayState:handleSceneUpdate(dt)
   if not PAUSED then
     sceneView:update(dt)
     --TODO CAN WE DIG DOWN INTO THE PLAY STATE AND PULL FIELDS
     self.activeDialogueID = sceneView.activeDialogueID
   end
-
   --ANIMATABLES
   if self.animatables.mapRow ~= sceneView.currentMap.row
       or self.animatables.mapColumn ~= sceneView.currentMap.column then
     self.animatables = InsertAnimation(sceneView.currentMap.row, sceneView.currentMap.column)
   end
-
   self.animatables:update(dt)
-
   --UPDATE DIALOGUE BOXES
   --DIALOGUE UPDATE
   if self.activeDialogueID ~= nil then
     MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[self.activeDialogueID]:update(dt)
   end
-
   --DIALOGUE BOX UPDATES FOR NPCS
   for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox) do
     if v.option == 'npc' then
@@ -518,46 +391,36 @@ function PlayState:update(dt)
       v.y = v.npc.y
     end
   end
-
   --DIALOGUE UPDATE
   if PAUSED then
-      --MAP[sceneView.currentMap.row][sceneView.currentMap.column].collidableMapObjects[self.dialogueID].dialogueBox[1]:update(dt)
     if MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[self.activeDialogueID] ~= nil then
-      --MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBox[self.activeDialogueID]:update(dt)
-      --[[
-    elseif MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided ~= nil then
-      MAP[sceneView.currentMap.row][sceneView.currentMap.column].dialogueBoxCollided[1]:update(dt)
-      --]]
     end
   end
-
-  rotate = rotate + .05
-
   --LOCK SCREEN POSITION
   --GAMEBOY TOGGLE
-  --love.window.setPosition(400, 40)
   --SCREEN LOCK POSITION
   --DEV POSITION
+  --ADD TOUCH
+  cameraX = cameraX + 1
   love.window.setPosition(400, 60)
-
-
-  --SAVING SAVE GAME
-  --[[
-  if love.keyboard.wasPressed('k') then
-    self.saveUtility:savePlayerData()
+  if sceneView.dialogueBoxActive then
+    sceneView.dialogueBoxActive = false
   end
-  --]]
+end
 
-  --LOADING LOAD GAME
-  --[[
-  if love.keyboard.wasPressed('l') then
-    --gPlayer.stateMachine:change('player-meditate')
-    --self.saveUtility:loadPlayerData()
-    --gPlayer.coinCount = 200
+function PlayState:handleMineralUpdate(dt)
+  --MINERAL UPDATE
+  for k, v in pairs(MAP[4][12].mineralDeposits) do
+    if v.harvestTime < MINERAL_HARVEST_RESET then
+      v:update(dt)
+    end
   end
-  --]]
-
-  --GAME OVER OPTION SELECTOR SOUND 
+  for k, v in pairs(MAP[2][13].mineralDeposits) do
+    if v.harvestTime < MINERAL_HARVEST_RESET then
+      v:update(dt)
+    end
+  end
+  --GAME OVER OPTION SELECTOR SOUND
   if self.gameOver then
     if INPUT:pressed('down') then
       if self.optionSelector ~= 2 then
@@ -571,20 +434,121 @@ function PlayState:update(dt)
       self.optionSelector = 1
     end
   end
+end
 
-  --MINERAL UPDATE
-  for k, v in pairs(MAP[4][12].mineralDeposits) do
-    if v.harvestTime < MINERAL_HARVEST_RESET then
-      v:update(dt)
+function PlayState:update(dt)
+  if love.keyboard.wasPressed('9') and not PAUSED and not sceneView.shifting and not gPlayer.warping then
+    sceneView.activeDialogueID = nil
+    PAUSED = false
+    gStateMachine:change('cinematicTemplate')
+    return
+  end
+  self:handleDebugInput()
+  self:updateTimers(dt)
+  --[[
+  if love.keyboard.wasPressed('f') then
+    gPlayer.flammeUnlocked = true
+    gPlayer.elementEquipped = 'flamme'
+    gPlayer.greenTunicUnlocked = true
+    gPlayer.tunicEquipped = 'greenTunic'
+    table.insert(gItemInventory.grid[1][1], Item('lute'))
+    table.insert(gItemInventory.grid[1][2], Item('healthPotion', 10))
+    sceneView = Scene(gPlayer, 7, 5)
+    gPlayer.greenTunicUnlocked = true
+    gPlayer.tome1Unlocked = true
+    gKeyItemInventory.tomeEquipped = 'tome1'
+    gKeyItemInventory.tome1Equipped = true
+  end
+  --]]
+  --[[
+  if vibrancyGrow then
+    vibrancy = math.min(vibrancy + dt, 10)
+    if vibrancy == 10 then
+      vibrancyGrow = false
+    end
+  else
+    vibrancy = math.max(0, vibrancy - dt)
+    if vibrancy == 0 then
+      vibrancyGrow = true
+    end
+ end
+  --]]
+  --[[
+  if love.keyboard.wasPressed('y') then
+    sceneView.activeDialogueID = nil
+    gStateMachine:change('openingCinematic')
+  end
+  if love.keyboard.wasPressed('t') then
+    sceneView.activeDialogueID = nil
+    MAP[10][19].collidableMapObjects = {}
+    gStateMachine:change('mageIntroTopTrigger')
+  end
+  --]]
+  --[[
+  self.stateTimer = self.stateTimer + dt
+  if self.stateTimer >= 1 then
+  end
+  --]]
+  --[[
+  if love.keyboard.wasPressed('g') then
+    if WINDOW_HEIGHT == 144 * SCALE_FACTOR * 2 then
+      SCALE_FACTOR = 4
+      WINDOW_HEIGHT = 144 * SCALE_FACTOR
+      WINDOW_WIDTH = 160 * SCALE_FACTOR
+      VIRTUAL_HEIGHT_GB = 144
+    else
+      SCALE_FACTOR = SCALE_FACTOR_RESET
+      WINDOW_HEIGHT = 144 * SCALE_FACTOR * 2
+      WINDOW_WIDTH = 160 * SCALE_FACTOR
+      VIRTUAL_HEIGHT_GB = 144 * 2
+    end
+    push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT_GB, WINDOW_WIDTH, WINDOW_HEIGHT)
+  end
+  --]]
+  self:handlePauseInput()
+  self:handleGameOverInput()
+  self:handleLuteResonance(dt)
+  --TRIGGER LUTE STATE
+  --TODO LUTE TAB AVAILABLE ONLY ON CERTAIN MAPS
+  --[[
+  if INPUT:pressed('actionB') and gItemInventory.itemSlot[1] ~= nil and not gPlayer.warping then
+    if gItemInventory.itemSlot[1].type == 'lute' then
+      if not luteState then
+        if not sceneView.dialogueBoxActive then
+          if not gPlayer.dead and not gPlayer.falling then
+            gPlayer.direction = 'down'
+            gPlayer:changeAnimation('idle-down')
+            luteState = true
+            stopOST()
+            Lute:reset()
+            bassNotes1:reset()
+          end
+        end
+      end
+    elseif gItemInventory.itemSlot[1].type == 'healthPotion' and gPlayer.health < 14 and gItemInventory.itemSlot[1].quantity > 0 and not dialogueBoxJustClosed then
+      love.graphics.setColor(WHITE)
+      love.graphics.print('POTION', 0,0)
+      gItemInventory.itemSlot[1].quantity = math.max(0, gItemInventory.itemSlot[1].quantity - 1)
+      gPlayer.health = 14
+      sfx['use-potion']:play()
     end
   end
-  for k, v in pairs(MAP[2][13].mineralDeposits) do
-    if v.harvestTime < MINERAL_HARVEST_RESET then
-      v:update(dt)
-    end
+  --]]
+  --[[
+  if love.keyboard.wasPressed('e') then
+    gItemInventory.grid[1][1] = {}
   end
-
-  --TOME 1 SUCCESS
+  --]]
+  --[[
+  if love.keyboard.wasPressed('c') and not self.gameOver then
+    creditSequence = creditSequence == false and true or false
+  end
+  --]]
+  self:handleMinimapInput()
+  self:handleDialogueInput()
+  self:handleSceneUpdate(dt)
+  self:handleMineralUpdate(dt)
+  rotate = rotate + .05
   --[[
   if love.keyboard.wasPressed('n') then
     gPlayer:changeState('player-cinematic')
@@ -592,11 +556,6 @@ function PlayState:update(dt)
     gStateMachine.current.animatables:update(dt)
   end
   --]]
-
-  if sceneView.dialogueBoxActive then
-    sceneView.dialogueBoxActive = false
-  end
-
 end
 
 function PlayState:render()
