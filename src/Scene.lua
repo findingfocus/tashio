@@ -18,6 +18,31 @@ local rightPingbackHandle = nil
 local topPingbackHandle = nil
 local bottomPingbackHandle = nil
 
+--INPUT GUARDS
+function isSceneBusy()
+  return sceneView.shifting or PAUSED or CREDITS_ROLLING or sceneView.activeDialogueID ~= nil or sceneView.dialogueBoxActive
+end
+
+function canPlayerAct()
+  return not isSceneBusy() and not gPlayer.dead and not gPlayer.falling and not gPlayer.warping
+end
+
+function canPlayerUseItem()
+  return canPlayerAct() and gItemInventory.itemSlot[1] ~= nil
+end
+
+function canStrumLute(timeSinceLastStrum)
+  if not canPlayerUseItem() then return false end
+  if gItemInventory.itemSlot[1].type ~= 'lute' then return false end
+  if timeSinceLastStrum ~= nil and timeSinceLastStrum <= 1 then return false end
+  if #gPlayer.rings ~= 0 and gPlayer.rings[1].ringActive then return false end
+  return true
+end
+
+function canCastElement()
+  return not isSceneBusy() and not dialogueBoxJustClosed and not luteState and gPlayer.elementEquipped ~= '' and not gPlayer.gameJustStarted and not gPlayer.dead
+end
+
 --PINGBACK HELPER
 local function registerPingback(self, eventName, stackKey, activeKey, indexKey, timerKey, timerHandleKey, thresholdKey, currentHandle)
   if currentHandle ~= nil then

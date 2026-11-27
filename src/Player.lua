@@ -404,9 +404,9 @@ function Player:update(dt)
   end
 
   --SPELLCASTING
-  if not sceneView.shifting and not CREDITS_ROLLING and not PAUSED and not dialogueBoxJustClosed and sceneView.activeDialogueID == nil then
+  if canCastElement() then
     --FOCUS GAIN
-    if (INPUT:down('action') and not luteState) then
+    if (INPUT:down('action')) then
       self.timeAtZeroFocus = 0
       if gPlayer.elementEquipped == 'flamme' and not gPlayer.gameJustStarted and not gPlayer.dead then
         --VIBRANCY DRAIN

@@ -417,43 +417,7 @@ local function spawnBoar(mapRow, mapColumn, opts)
 end
 
 --BOTTOM LEFT ROOM
----[[
-table.insert(MAP[4][11].entities, Entity {
-  animations = ENTITY_DEFS['bat'].animations,
-  spawnColumn = 8,
-  spawnRow = 8,
-  width = 24,
-  height = 10,
-  health = 1,
-  spawning = true,
-  spawnTimer = 3,
-  type = 'bat',
-  corrupted = true,
-  enemy = true,
-  zigzagTime = 0,
-  walkSpeed = math.random(8, 14),
-  zigzagFrequency = math.random(1, 5),
-  zigzagAmplitude = math.random(1, 5) / 10,
-})
-
-
-local entityCount = 1
-for i = 1, entityCount do
-  MAP[4][11].entities[i].animations = MAP[4][11].entities[i]:createAnimations(ENTITY_DEFS['bat'].animations)
-  MAP[4][11].entities[i]:changeAnimation('pursue')
-  MAP[4][11].entities[i].stateMachine = StateMachine {
-    ['bat-spawn'] = function() return BatSpawnState(MAP[4][11].entities[i], MAP[4][11].entities[i].spawnRow, MAP[4][11].entities[i].spawnColumn) end,
-    ['bat-walk'] = function() return BatWalkState(MAP[4][11].entities[i]) end,
-    ['bat-attack'] = function() return BatAttackState(MAP[4][11].entities[i]) end,
-    ['bat-flee'] = function() return BatFleeState(MAP[4][11].entities[i]) end,
-    ['entity-idle'] = function() return EntityIdleState(MAP[4][11].entities[i]) end,
-  }
-  --.entities[i].originalState = 'bat-spawn'
-  MAP[4][11].entities[i]:changeState('bat-spawn')
-
-  MAP[4][11].entities[i].hit = false
-end
---]]
+spawnBat(4, 11, {spawnColumn = 8, spawnRow = 8, spawnTimer = 3})
 
 
 --TOP LEFT ROOM
@@ -464,7 +428,7 @@ spawnBat(3, 11, {spawnColumn = 3, spawnRow = 1, spawnTimer = 0.25, attackSpeed =
 
 
 --TOP MIDDLE ROOM
----[[
+--[[
 table.insert(MAP[3][12].entities, Entity {
   animations = ENTITY_DEFS['bat'].animations,
   spawnColumn = 5,
@@ -488,7 +452,7 @@ spawnBat(3, 12, {spawnColumn = 10, spawnRow = 3, spawnTimer = 1, pursueTrigger =
 
 
 --TOP RIGHT ROOM
----[[
+--[[
 table.insert(MAP[3][13].entities, Entity {
   animations = ENTITY_DEFS['bat'].animations,
   spawnColumn = 3,
@@ -766,58 +730,8 @@ spawnBat(1, 12, {spawnColumn = 1, spawnRow = 5, spawnTimer = 3})
 spawnBat(1, 12, {spawnColumn = 4, spawnRow = 1, spawnTimer = 3})
 spawnBat(1, 12, {spawnColumn = 7, spawnRow = 8, spawnTimer = 3})
 
----[[
-table.insert(MAP[2][13].entities, Entity {
-  animations = ENTITY_DEFS['bat'].animations,
-  spawnColumn = 6,
-  spawnRow = 1,
-  width = 24,
-  height = 10,
-  health = 1,
-  spawning = true,
-  spawnTimer = 2.5,
-  type = 'bat',
-  corrupted = true,
-  enemy = true,
-  zigzagTime = 0,
-  walkSpeed = math.random(8, 14),
-  zigzagFrequency = math.random(1, 5),
-  zigzagAmplitude = math.random(1, 5) / 10,
-})
-
-table.insert(MAP[2][13].entities, Entity {
-  animations = ENTITY_DEFS['bat'].animations,
-  spawnColumn = 6,
-  spawnRow = 8,
-  width = 24,
-  height = 10,
-  health = 1,
-  spawning = true,
-  spawnTimer = 3,
-  type = 'bat',
-  corrupted = true,
-  enemy = true,
-  zigzagTime = 0,
-  walkSpeed = math.random(8, 14),
-  zigzagFrequency = math.random(1, 5),
-  zigzagAmplitude = math.random(1, 5) / 10,
-})
-
-for k, v in pairs(MAP[2][13].entities) do
-  MAP[2][13].entities[k].animations = MAP[2][13].entities[k]:createAnimations(ENTITY_DEFS['bat'].animations)
-  MAP[2][13].entities[k]:changeAnimation('pursue')
-  MAP[2][13].entities[k].stateMachine = StateMachine {
-    ['bat-spawn'] = function() return BatSpawnState(MAP[2][13].entities[k], MAP[2][13].entities[k].spawnRow, MAP[2][13].entities[k].spawnColumn) end,
-    ['bat-walk'] = function() return BatWalkState(MAP[2][13].entities[k]) end,
-    ['bat-attack'] = function() return BatAttackState(MAP[2][13].entities[k]) end,
-    ['bat-flee'] = function() return BatFleeState(MAP[2][13].entities[k]) end,
-    ['entity-idle'] = function() return EntityIdleState(MAP[2][13].entities[k]) end,
-  }
-  MAP[2][13].entities[k]:changeState('bat-spawn')
-
-  MAP[2][13].entities[k].hit = false
-end
---]]
+spawnBat(2, 13, {spawnColumn = 6, spawnRow = 1, spawnTimer = 2.5})
+spawnBat(2, 13, {spawnColumn = 6, spawnRow = 8, spawnTimer = 3})
 
 --MAGE'S CASTLE
 insertWarpZone(9, 2, 10, 19, 5, 2, 5, 8)

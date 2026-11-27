@@ -16,9 +16,11 @@ function MageIntroTopTrigger:init()
   self.option = nil
   self.saveDataUtility = SaveData()
   gKeyItemInventory.elementColor = TRANSPARENT
+  self.timeSinceLastStrum = 999
 end
 
 function MageIntroTopTrigger:update(dt)
+  self.timeSinceLastStrum = self.timeSinceLastStrum + dt
   if not PAUSED then
     sceneView:update(dt)
   end
@@ -31,22 +33,19 @@ function MageIntroTopTrigger:update(dt)
   end
 
   --TRIGGER RESONANCE - DEFAULT FOR MAGE CASTLE
-  if INPUT:pressed('actionB') and gItemInventory.itemSlot[1] ~= nil and not gPlayer.warping and not sceneView.shifting then
-    if gItemInventory.itemSlot[1].type == 'lute' then
-      if not sceneView.dialogueBoxActive and not gPlayer.dead and not gPlayer.falling then
-        if self.step == 0 and (#gPlayer.rings == 0 or not gPlayer.rings[1].ringActive) then
-          --RESONANCE RING
-          table.insert(gPlayer.rings, Resonance('player'))
-          --LUTE STRUM SOUND
-          local choice = love.math.random(1, 3)
-          local strumTable = {
-            {sounds['1-G2'], sounds['4-C3'], sounds['7-F3'], sounds['10-Bb3']},
-            {sounds['2-A2'], sounds['5-D3'], sounds['8-G3'], sounds['11-C4']},
-            {sounds['3-Bb2'], sounds['6-E3'], sounds['9-A3'], sounds['12-D4']}
-          }
-          strumTable[choice][1]:play()
-        end
-      end
+  if INPUT:pressed('actionB') and canStrumLute(self.timeSinceLastStrum) then
+    if self.step == 0 then
+      --RESONANCE RING
+      table.insert(gPlayer.rings, Resonance('player'))
+      self.timeSinceLastStrum = 0
+      --LUTE STRUM SOUND
+      local choice = love.math.random(1, 3)
+      local strumTable = {
+        {sounds['1-G2'], sounds['4-C3'], sounds['7-F3'], sounds['10-Bb3']},
+        {sounds['2-A2'], sounds['5-D3'], sounds['8-G3'], sounds['11-C4']},
+        {sounds['3-Bb2'], sounds['6-E3'], sounds['9-A3'], sounds['12-D4']}
+      }
+      strumTable[choice][1]:play()
     end
   end
 
