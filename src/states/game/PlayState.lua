@@ -151,6 +151,12 @@ function PlayState:init()
 end
 
 function PlayState:update(dt)
+  if love.keyboard.wasPressed('9') and not PAUSED and not sceneView.shifting and not gPlayer.warping then
+    sceneView.activeDialogueID = nil
+    PAUSED = false
+    gStateMachine:change('cinematicTemplate')
+    return
+  end
   ----JUMPER MAP DEBUG
   if love.keyboard.wasPressed('e') then
     gPlayer:initPathFinding()
