@@ -36,7 +36,7 @@ function MageIntroTopTrigger:update(dt)
   if INPUT:pressed('actionB') and canStrumLute(self.timeSinceLastStrum) then
     if self.step == 0 then
       --RESONANCE RING
-      table.insert(gPlayer.rings, Resonance('player'))
+      table.insert(gPlayer.rings, Resonance('player', nil, 'reintegrated'))
       self.timeSinceLastStrum = 0
       --LUTE STRUM SOUND
       local choice = love.math.random(1, 3)

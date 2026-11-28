@@ -66,6 +66,7 @@ function Entity:init(def)
   --self.walkSpeed = math.random
   self.offscreen = false
   self.psystem = love.graphics.newParticleSystem(particle, 400)
+  self.status = 'corrupt'
 
   self.offsetX = def.offsetX or 0
   self.offsetY = def.offsetY or 0
@@ -238,7 +239,6 @@ function Entity:updatePath()
       --print('updatePathCount' .. tostring(self.updatePathCount))
     end
   end
-
 
   self.pathNodes = {}
   self.destinationNodeIndex = 2

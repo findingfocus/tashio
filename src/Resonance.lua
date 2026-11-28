@@ -1,6 +1,6 @@
 Resonance = Class{}
 
-function Resonance:init(entityType, entity, state, x, y)
+function Resonance:init(entityType, entity, status, x, y)
   self.entityType = entityType or nil
   self.entity = entity or nil
   if self.entity then
@@ -17,7 +17,9 @@ function Resonance:init(entityType, entity, state, x, y)
     self.entityY = y
   end
 
-  self.state = state or nil
+  --TODO ADD STATE FIELD TO ALL ENTITIES, MAYBE CALL IT STATUS
+  self.status = status or 'corrupt'
+
   if self.entityType == 'player' then
     self.luteResonanceX = gPlayer.x + TILE_SIZE / 2
     self.luteResonanceY = gPlayer.y + TILE_SIZE / 2
@@ -57,9 +59,9 @@ function Resonance:update(dt)
   if self.fading then
     --FADE TO CLEAR ON SCENE TRANSITION
     self.luteResonanceAlpha = self.luteResonanceAlpha - self.fadeSpeed * dt
-    if self.entityType == 'player' then
-      self.luteResonanceX = gPlayer.x + TILE_SIZE / 2
+    if self.entitytype == 'player' then
       self.luteResonanceY = gPlayer.y + TILE_SIZE / 2
+      self.luteResonanceX = gPlayer.x + TILE_SIZE / 2
     end
     if self.luteResonanceAlpha <= 0 then
       self.luteResonanceAlpha = 0
@@ -84,6 +86,9 @@ function Resonance:update(dt)
         end
       end
     else
+      --TODO UPDATE RESONANCE RING POSITION FOR ENTITY
+      -- self.entityX = self.entity.x
+      -- self.entityY = self.entity.y
       self.luteResonanceX = self.entityX + TILE_SIZE / 2
       self.luteResonanceY = self.entityY + TILE_SIZE / 2
     end
@@ -109,14 +114,16 @@ function Resonance:render()
     end
 
     --RESONANCE RING STATE COLOR
-    if self.state == 'corrupt' then
+    if self.status == 'corrupt' then
       love.graphics.setColor(195/255, 0/255, 255/255, self.luteResonanceAlpha/255)
-    elseif self.state == 'cleansed' then
+    elseif self.status == 'cleansed' then
       love.graphics.setColor(0/255, 255/255, 0/255, self.luteResonanceAlpha/255)
-    elseif self.state == 'reintegrated' then
+    elseif self.status == 'reintegrated' then
       love.graphics.setColor(255/255, 206/255, 82/255, self.luteResonanceAlpha/255)
     end
     love.graphics.circle('line', self.luteResonanceX, self.luteResonanceY, self.luteResonanceRadius)
+    love.graphics.setColor(RED)
+    love.graphics.circle('line', self.luteResonanceX, self.luteResonanceY, 2)
     love.graphics.setColor(WHITE)
 
     -- if self.collided then

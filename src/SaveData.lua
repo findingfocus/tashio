@@ -300,4 +300,5 @@ function SaveData:loadPlayerData()
   local animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
   gStateMachine.current.animatables = animatables
   sceneView:reinitWeather()
+  sceneView:generatePingBackStack()
 end

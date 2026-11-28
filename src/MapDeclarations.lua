@@ -338,6 +338,7 @@ local function spawnBat(mapRow, mapColumn, opts)
     attackSpeed = opts.attackSpeed or BAT_ATTACK_SPEED,
     pursueTrigger = opts.pursueTrigger,
     type = 'bat',
+    status = 'corrupt',
     corrupted = true,
     enemy = true,
     zigzagTime = 0,
@@ -551,6 +552,13 @@ spawnGecko(6, 3, {spawnXTile = 3, spawnYTile = 5, direction = 'left', walkSpeed 
 
 --BOAR
 spawnBoar(7, 3, {spawnXTile = 1, spawnYTile = 2, direction = 'left', walkSpeed = 14})
+spawnBoar(7, 3, {spawnXTile = 3, spawnYTile = 4, direction = 'left', walkSpeed = 14})
+spawnBoar(7, 5, {spawnXTile = 4, spawnYTile = 3, direction = 'left', walkSpeed = 14})
+spawnBoar(7, 5, {spawnXTile = 6, spawnYTile = 5, direction = 'left', walkSpeed = 14})
+
+
+spawnBoar(6, 4, {spawnXTile = 6, spawnYTile = 1, direction = 'left', walkSpeed = 14})
+spawnBoar(8, 4, {spawnXTile = 2, spawnYTile = 3, direction = 'left', walkSpeed = 14})
 
  -- table.insert(MAP[7][3].entities, Entity {
  --   animations = ENTITY_DEFS['boar'].animations,

@@ -269,7 +269,7 @@ function PlayState:handleLuteResonance(dt)
     self.noteIndex = 2
     self.luteStrumActive = true
     --INSERT LUTE RESONANCE OBJECT
-    table.insert(gPlayer.rings, Resonance('player'))
+    table.insert(gPlayer.rings, Resonance('player', nil, 'reintegrated'))
     self.timeSinceLastStrum = 0
   end
   if self.luteStrumActive then
@@ -310,7 +310,6 @@ function PlayState:handleLuteResonance(dt)
 end
 
 function PlayState:handleMinimapInput()
-  --TODO MOVE FROM PLAYSTATE
   --TOGGLE MINIMAP
   if INPUT:pressed('select') and not luteState and not PAUSED and not self.gameOver and minimapCooldown < 0 then
     sfx['pause2']:play()

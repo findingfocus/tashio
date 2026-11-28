@@ -57,7 +57,7 @@ local function registerPingback(self, eventName, stackKey, activeKey, indexKey, 
     self[timerKey] = 0
     local pingback = self.pingbackStack[stackKey][self[indexKey]]
     if pingback ~= nil then
-      table.insert(self.resonanceRings, Resonance('enemy', nil, pingback.state, pingback.entityX, pingback.entityY))
+      table.insert(self.resonanceRings, Resonance('enemy', nil, pingback.status, pingback.entityX, pingback.entityY))
     end
     self[indexKey] = self[indexKey] - 1
     if self[indexKey] <= 0 then
@@ -67,7 +67,7 @@ local function registerPingback(self, eventName, stackKey, activeKey, indexKey, 
     self[timerHandleKey] = Timer.every(self[thresholdKey], function()
       local nextPingback = self.pingbackStack[stackKey][self[indexKey]]
       if nextPingback ~= nil then
-        table.insert(self.resonanceRings, Resonance('enemy', nil, nextPingback.state, nextPingback.entityX, nextPingback.entityY))
+        table.insert(self.resonanceRings, Resonance('enemy', nil, nextPingback.status, nextPingback.entityX, nextPingback.entityY))
       end
       self[indexKey] = self[indexKey] - 1
       if self[indexKey] <= 0 then
@@ -114,12 +114,16 @@ function Scene:init(player, mapRow, mapColumn)
   -- self.resonanceRings[1].entityY = 10
 
   self.pingbackStack = {
-    ['top'] = {Resonance('enemy', nil, 'corrupt', 30, -20)},
-    --table.insert(self.resonanceRings, Resonance('enemy', nil, resonanceColor, 12,0))
-    ['right'] = {Resonance('enemy', nil, 'corrupt', VIRTUAL_WIDTH + 4, 50), Resonance('enemy', nil, 'cleansed', VIRTUAL_WIDTH + 4, 85)},
-    ['bottom'] = {Resonance('enemy', nil, 'corrupt', 45, SCREEN_HEIGHT_LIMIT + 4), Resonance('enemy', nil, 'reintegrated', 70, SCREEN_HEIGHT_LIMIT + 4)},
-    -- ['left'] = {Resonance('enemy', nil, resonanceColor, -20, 50), Resonance('enemy', nil, resonanceColor, -20, 10), Resonance('enemy', nil, resonanceColor, -20, 80)},
-    ['left'] = {Resonance('enemy', nil, resonanceColor, -20, 50), Resonance('enemy', nil, 'reintegrated', -20, 69)},
+    -- ['top'] = {Resonance('enemy', nil, 'corrupt', 30, -20)},
+    ----table.insert(self.resonanceRings, Resonance('enemy', nil, resonanceColor, 12,0))
+    --['right'] = {Resonance('enemy', nil, 'corrupt', VIRTUAL_WIDTH + 4, 50), Resonance('enemy', nil, 'cleansed', VIRTUAL_WIDTH + 4, 85)},
+    --['bottom'] = {Resonance('enemy', nil, 'corrupt', 45, SCREEN_HEIGHT_LIMIT + 4), Resonance('enemy', nil, 'reintegrated', 70, SCREEN_HEIGHT_LIMIT + 4)},
+    ---- ['left'] = {Resonance('enemy', nil, resonanceColor, -20, 50), Resonance('enemy', nil, resonanceColor, -20, 10), Resonance('enemy', nil, resonanceColor, -20, 80)},
+    --['left'] = {Resonance('enemy', nil, resonanceColor, -20, 50), Resonance('enemy', nil, 'reintegrated', -20, 69)},
+    ['top'] = {},
+    ['right'] = {},
+    ['bottom'] = {},
+    ['left'] = {},
   }
 
   self.leftPingbackIndex = 0
@@ -306,6 +310,64 @@ function Scene:reinitWeather()
   end
 end
 
+function Scene:generatePingBackStack()
+  --LEFT PINGBACKS
+  self.pingbackStack['left'] = {}
+  local colCheck = sceneView.currentMap.column - 1
+  local xPositionLock = -20
+
+  for k, v in pairs(MAP[sceneView.currentMap.row][colCheck].entities) do
+    if v.enemy then
+      if v.status == 'corrupt' then
+        local resonanceColor = 'corrupt'
+        self.pingbackStack['left'][#self.pingbackStack['left'] + 1] = Resonance('enemy', nil, resonanceColor, xPositionLock, v.y)
+      end
+    end
+  end
+
+  --RIGHT PINGBACKS
+  self.pingbackStack['right'] = {}
+  local colCheck = sceneView.currentMap.column + 1
+  local xPositionLock = VIRTUAL_WIDTH + 4
+
+  for k, v in pairs(MAP[sceneView.currentMap.row][colCheck].entities) do
+    if v.enemy then
+      if v.status == 'corrupt' then
+        local resonanceColor = 'corrupt'
+        self.pingbackStack['right'][#self.pingbackStack['right'] + 1] = Resonance('enemy', nil, resonanceColor, xPositionLock, v.y)
+      end
+    end
+  end
+
+  --TOP PINGBACKS
+  self.pingbackStack['top'] = {}
+  local rowCheck = sceneView.currentMap.row - 1
+  local yPositionLock = -20
+
+  for k, v in pairs(MAP[rowCheck][sceneView.currentMap.column].entities) do
+    if v.enemy then
+      if v.status == 'corrupt' then
+        local resonanceColor = 'corrupt'
+        self.pingbackStack['top'][#self.pingbackStack['top'] + 1] = Resonance('enemy', nil, resonanceColor, v.x, yPositionLock)
+      end
+    end
+  end
+
+  --BOTTOM PINGBACKS
+  self.pingbackStack['bottom'] = {}
+  local rowCheck = sceneView.currentMap.row + 1
+  local yPositionLock = SCREEN_HEIGHT_LIMIT + 4
+
+  for k, v in pairs(MAP[rowCheck][sceneView.currentMap.column].entities) do
+    if v.enemy then
+      if v.status == 'corrupt' then
+        local resonanceColor = 'corrupt'
+        self.pingbackStack['bottom'][#self.pingbackStack['bottom'] + 1] = Resonance('enemy', nil, resonanceColor, v.x, yPositionLock)
+      end
+    end
+  end
+end
+
 function Scene:finishShifting()
   --WEATHER
   --[[
@@ -365,6 +427,7 @@ function Scene:finishShifting()
   gPlayer.aquisCastingTimer = 0
   gPlayer.aquisCastLandedTimer = 0
   gPlayer.aquisSuccessTimer = 0
+  self:generatePingBackStack()
 end
 
 function Scene:defineLeftPingBackStack()
@@ -387,6 +450,10 @@ function Scene:update(dt)
   --   table.insert(self.resonanceRings, Resonance('enemy', nil, resonanceColor, 12,0))
   --   self.resonanceRings[1].entityX = -20
   --   self.resonanceRings[1].entityY = 50
+  -- end
+
+  -- if love.keyboard.wasPressed('l') then
+  --   self:generatePingBackStack()
   -- end
 
   --SCENE RESONANCE RINGS UPDATE
@@ -783,6 +850,7 @@ function Scene:update(dt)
           --WARP ZONE PLAYER PLACEMENT
           gPlayer.x = v.playerX
           gPlayer.y = v.playerY
+          sceneView:generatePingBackStack()
         end
       end
       triggerFinishingSceneTransition = true
@@ -1000,7 +1068,8 @@ function Scene:render()
   love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
 
    love.graphics.setColor(WHITE)
-  love.graphics.print('rRings#: ' .. tostring(#self.resonanceRings), 0, 10)
-  love.graphics.print('pRings#: ' .. tostring(#gPlayer.rings), 0, 20)
+  -- love.graphics.print('rRings#: ' .. tostring(#self.resonanceRings), 0, 10)
+  -- love.graphics.print('pRings#: ' .. tostring(#gPlayer.rings), 0, 20)
   --love.graphics.pring('self.resonanceRings[1].ringActive = true
+  --love.graphics.print('bottomStack: ' .. tostring(Inspect(self.pingbackStack['bottom'])), 0, 10)
 end
