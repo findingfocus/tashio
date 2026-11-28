@@ -150,6 +150,7 @@ require 'src/Pushable'
 require 'src/AquisProjectile'
 require 'src/Spitball'
 require 'src/SaveData'
+require 'src/CheatConsole'
 
 require 'src/states/BaseState'
 require 'src/StateMachine'

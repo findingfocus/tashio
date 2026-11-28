@@ -52,6 +52,10 @@ function Spitball:update(dt)
   })
   self.lifespan = self.lifespan - dt
   if self.lifespan < 0 and not sceneView.player.dead then
+    if sceneView.player.godMode then
+      self.remove = true
+      return
+    end
     sounds['hurt']:play()
     sceneView.player.damageFlash = true
     sceneView.player.hit = true

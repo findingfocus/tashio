@@ -27,6 +27,7 @@ function love.load()
 
   keyboardInput = InputHandling()
   touchInput = TouchHandling()
+  cheatConsole = CheatConsole()
 
   io.stdout:setvbuf ('no')
 
@@ -102,6 +103,10 @@ function love.keyreleased(key)
 end
 
 function love.keypressed(key)
+  if cheatConsole and cheatConsole:keypressed(key) then
+    return
+  end
+
   love.keyboard.keysPressed[key] = true
 
   if key == 'escape' then
@@ -150,6 +155,11 @@ function love.update(dt)
     end
   end
   --]]
+
+  if cheatConsole and cheatConsole.open then
+    cheatConsole:update(dt)
+    return
+  end
 
   local speedSteps = love.keyboard.isDown('k') and 4 or 1
 
@@ -261,6 +271,9 @@ function love.draw()
   for _, button in ipairs(buttons) do
     button:render()
     --button.pressed = INPUT:down(button.direction)
+  end
+  if cheatConsole then
+    cheatConsole:render()
   end
   --love.graphics.print(tostring(gStateMachine.current.stateName), 0, 0)
 
