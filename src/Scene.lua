@@ -903,17 +903,14 @@ function Scene:update(dt)
   end
 
   --MINERAL RESET
-  if not (self.currentMap.row == 4 and self.currentMap.column == 12) then
-    for k, v in pairs(MAP[4][12].mineralDeposits) do
-      if v.harvestTime > MINERAL_HARVEST_RESET then
-        v:resetMineral()
-      end
-    end
-  end
-  if not (self.currentMap.row == 2 and self.currentMap.column == 13) then
-    for k, v in pairs(MAP[2][13].mineralDeposits) do
-      if v.harvestTime > MINERAL_HARVEST_RESET then
-        v:resetMineral()
+  for row = 1, OVERWORLD_MAP_HEIGHT do
+    for col = 1, OVERWORLD_MAP_WIDTH do
+      if not (self.currentMap.row == row and self.currentMap.column == col) then
+        for k, v in pairs(MAP[row][col].mineralDeposits) do
+          if v.harvestTime > MINERAL_HARVEST_RESET then
+            v:resetMineral()
+          end
+        end
       end
     end
   end

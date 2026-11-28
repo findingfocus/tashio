@@ -409,14 +409,13 @@ end
 
 function PlayState:handleMineralUpdate(dt)
   --MINERAL UPDATE
-  for k, v in pairs(MAP[4][12].mineralDeposits) do
-    if v.harvestTime < MINERAL_HARVEST_RESET then
-      v:update(dt)
-    end
-  end
-  for k, v in pairs(MAP[2][13].mineralDeposits) do
-    if v.harvestTime < MINERAL_HARVEST_RESET then
-      v:update(dt)
+  for row = 1, OVERWORLD_MAP_HEIGHT do
+    for col = 1, OVERWORLD_MAP_WIDTH do
+      for k, v in pairs(MAP[row][col].mineralDeposits) do
+        if v.harvestTime < MINERAL_HARVEST_RESET then
+          v:update(dt)
+        end
+      end
     end
   end
   --GAME OVER OPTION SELECTOR SOUND
