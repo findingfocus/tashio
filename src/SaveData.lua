@@ -143,6 +143,9 @@ function SaveData:loadPlayerData()
     end
     if k == 'playerCoordinates' then
       gPlayer.x, gPlayer.y = v[1], v[2]
+      gPlayer.checkPointPositions.x = v[1]
+      gPlayer.checkPointPositions.y = v[2]
+      gPlayer.checkPointTick = 0
     end
     if k == 'playerDirection' then
       gPlayer.direction = v
