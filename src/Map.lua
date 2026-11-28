@@ -126,7 +126,7 @@ function Map:update(dt)
     end
 
     --PLAYER TO ENTITY COLLISION
-    if not sceneView.player.dead and not sceneView.player.godMode then
+    if not sceneView.player.dead and not sceneView.player.invincible and not sceneView.player.visionQuest then
       for i = 1, #MAP[self.row][self.column].entities do
         local entity = MAP[self.row][self.column].entities[i]
         if MAP[self.row][self.column].entities[i].corrupted then

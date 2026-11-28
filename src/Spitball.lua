@@ -52,7 +52,7 @@ function Spitball:update(dt)
   })
   self.lifespan = self.lifespan - dt
   if self.lifespan < 0 and not sceneView.player.dead then
-    if sceneView.player.godMode then
+    if sceneView.player.invincible or sceneView.player.visionQuest then
       self.remove = true
       return
     end

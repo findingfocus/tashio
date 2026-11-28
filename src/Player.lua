@@ -17,7 +17,8 @@ function Player:init(def)
   self.timeSinceLastRest = 0
   self.invulnerableTime = 0
   self.invulnerable = true
-  self.godMode = false
+  self.invincible = false
+  self.visionQuest = false
   self.aquisSuccessTimer = 0
   self.aquisCasting = false
   self.aquisProjectile = AquisProjectile()
@@ -518,7 +519,7 @@ function Player:update(dt)
     end
   end
 
-  if gPlayer.falling or gPlayer.damageFlash or gPlayer.godMode then
+  if gPlayer.falling or gPlayer.damageFlash or gPlayer.invincible or gPlayer.visionQuest then
     gPlayer.footCollider.active = false
   else
     gPlayer.footCollider.active = true

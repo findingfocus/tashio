@@ -83,7 +83,7 @@ function PlayerWalkState:update(dt)
   end
 
   --PLAYER TO PUSHABLES COLLISION
-  if not sceneView.shifting then
+  if not sceneView.shifting and not gPlayer.visionQuest then
     local collideCount = 0
     for k, v in pairs(MAP[sceneView.mapRow][sceneView.mapColumn].collidableMapObjects) do
       --INITIALIZE COLLIDABLE CLASS TYPES

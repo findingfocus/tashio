@@ -545,8 +545,9 @@ function Scene:update(dt)
   if not self.shifting then
     TIME = TIME + dt
 
-    local newX = self.player.x
-    local newY = self.player.y
+    if not self.player.visionQuest then
+      local newX = self.player.x
+      local newY = self.player.y
 
     local velX = newX - self.player.prevX
     local velY = newY - self.player.prevY
@@ -663,12 +664,13 @@ function Scene:update(dt)
       end
     end
 
-    for i = 1, stepsY do
-      self.player.y = self.player.y + stepVelY
-      local _, verticalCollision = checkCollisions()
-      if verticalCollision then
-        stepVelY = 0
-        break
+      for i = 1, stepsY do
+        self.player.y = self.player.y + stepVelY
+        local _, verticalCollision = checkCollisions()
+        if verticalCollision then
+          stepVelY = 0
+          break
+        end
       end
     end
 
@@ -677,18 +679,20 @@ function Scene:update(dt)
   end
 
   --PLAYER TO MINERAL COLLISION
-  for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].mineralDeposits) do
-    if not v.mined then
-      local object = v
-      if self.player:leftCollidesMapObject(object) then
-        self.player.x = object.x + object.width - AABB_SIDE_COLLISION_BUFFER
-      elseif self.player:rightCollidesMapObject(object) then
-        self.player.x = object.x - self.player.width + AABB_SIDE_COLLISION_BUFFER
-      end
-      if self.player:topCollidesMapObject(object) then
-        self.player.y = object.y + object.height - AABB_TOP_COLLISION_BUFFER
-      elseif self.player:bottomCollidesMapObject(object) then
-        self.player.y = object.y - self.player.height
+  if not self.player.visionQuest then
+    for k, v in pairs(MAP[sceneView.currentMap.row][sceneView.currentMap.column].mineralDeposits) do
+      if not v.mined then
+        local object = v
+        if self.player:leftCollidesMapObject(object) then
+          self.player.x = object.x + object.width - AABB_SIDE_COLLISION_BUFFER
+        elseif self.player:rightCollidesMapObject(object) then
+          self.player.x = object.x - self.player.width + AABB_SIDE_COLLISION_BUFFER
+        end
+        if self.player:topCollidesMapObject(object) then
+          self.player.y = object.y + object.height - AABB_TOP_COLLISION_BUFFER
+        elseif self.player:bottomCollidesMapObject(object) then
+          self.player.y = object.y - self.player.height
+        end
       end
     end
   end
@@ -702,16 +706,18 @@ function Scene:update(dt)
   end
 
   --PLAYER TO WALL OBJECT COLLISION DETECTION
-  for i = 1, #self.currentMap.collidableWallObjects do
-    local wall = self.currentMap.collidableWallObjects[i]
-    if self.player:topCollidesWallObject(self.currentMap.collidableWallObjects[i]) then
-      self.player.y = wall.y + wall.height - 1
-    elseif self.player:leftCollidesWallObject(self.currentMap.collidableWallObjects[i]) then
-      self.player.x = wall.x + wall.width - AABB_SIDE_COLLISION_BUFFER
-    elseif self.player:rightCollidesWallObject(self.currentMap.collidableWallObjects[i]) then
-      self.player.x = wall.x - self.player.width + AABB_SIDE_COLLISION_BUFFER
-    elseif self.player:bottomCollidesMapObject(self.currentMap.collidableWallObjects[i]) then
-      self.player.y = wall.y - self.player.height
+  if not self.player.visionQuest then
+    for i = 1, #self.currentMap.collidableWallObjects do
+      local wall = self.currentMap.collidableWallObjects[i]
+      if self.player:topCollidesWallObject(self.currentMap.collidableWallObjects[i]) then
+        self.player.y = wall.y + wall.height - 1
+      elseif self.player:leftCollidesWallObject(self.currentMap.collidableWallObjects[i]) then
+        self.player.x = wall.x + wall.width - AABB_SIDE_COLLISION_BUFFER
+      elseif self.player:rightCollidesWallObject(self.currentMap.collidableWallObjects[i]) then
+        self.player.x = wall.x - self.player.width + AABB_SIDE_COLLISION_BUFFER
+      elseif self.player:bottomCollidesMapObject(self.currentMap.collidableWallObjects[i]) then
+        self.player.y = wall.y - self.player.height
+      end
     end
   end
 
@@ -773,7 +779,7 @@ function Scene:update(dt)
 
   ---[[
   --NPC COLLISION
-  if not self.shifting then
+  if not self.shifting and not self.player.visionQuest then
     for i = 1, #MAP[self.mapRow][self.mapColumn].npc do
       local npc = MAP[self.mapRow][self.mapColumn].npc[i]
       if self.player:leftCollidesMapObject(MAP[self.mapRow][self.mapColumn].npc[i]) then

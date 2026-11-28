@@ -24,14 +24,26 @@ function CheatConsole:init()
       end
     },
     {
-      label = 'GOD MODE',
+      label = 'INVINCIBLE',
       getState = function()
-        return gPlayer and gPlayer.godMode
+        return gPlayer and gPlayer.invincible
       end,
       action = function()
         if gPlayer then
-          gPlayer.godMode = not gPlayer.godMode
-          return gPlayer.godMode and 'NO DMG / NO FALL' or 'GOD MODE OFF'
+          gPlayer.invincible = not gPlayer.invincible
+          return gPlayer.invincible and 'NO DMG / NO FALL' or 'INVINCIBLE OFF'
+        end
+      end
+    },
+    {
+      label = 'VISIONQUEST',
+      getState = function()
+        return gPlayer and gPlayer.visionQuest
+      end,
+      action = function()
+        if gPlayer then
+          gPlayer.visionQuest = not gPlayer.visionQuest
+          return gPlayer.visionQuest and 'PHASE + INVINCIBLE' or 'VISIONQUEST OFF'
         end
       end
     },
@@ -217,7 +229,7 @@ function CheatConsole:render()
     return
   end
 
-  local x, y, w, h = 10, 10, 140, 124
+  local x, y, w, h = 10, 6, 140, 132
 
   love.graphics.setColor(0, 0, 0, 210 / 255)
   love.graphics.rectangle('fill', x, y, w, h)
@@ -228,7 +240,7 @@ function CheatConsole:render()
   love.graphics.print('tashio.dev' .. cursor, x + 4, y + 4)
 
   for i, opt in ipairs(self.options) do
-    local rowY = y + 18 + (i - 1) * 11
+    local rowY = y + 16 + (i - 1) * 11
     local prefix = (i == self.selected) and '> ' or '  '
     local suffix = ''
     if opt.getState then
