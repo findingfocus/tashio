@@ -17,6 +17,10 @@ local leftPingbackHandle = nil
 local rightPingbackHandle = nil
 local topPingbackHandle = nil
 local bottomPingbackHandle = nil
+local leftTransitionHandle = nil
+local rightTransitionHandle = nil
+local upTransitionHandle = nil
+local downTransitionHandle = nil
 
 --INPUT GUARDS
 function isSceneBusy()
@@ -168,29 +172,34 @@ function Scene:init(player, mapRow, mapColumn)
     self.spellcastEntities[i]:changeState('flame-idle')
   end
 
-  Event.on('left-transition', function()
-    if self.currentMap.column ~= 1 and self.currentMap.column ~= 11 and not gPlayer.warping then
+  if leftTransitionHandle ~= nil then leftTransitionHandle:remove() end
+  if rightTransitionHandle ~= nil then rightTransitionHandle:remove() end
+  if upTransitionHandle ~= nil then upTransitionHandle:remove() end
+  if downTransitionHandle ~= nil then downTransitionHandle:remove() end
+
+  leftTransitionHandle = Event.on('left-transition', function()
+    if not self.shifting and self.currentMap.column ~= 1 and self.currentMap.column ~= 11 and not gPlayer.warping then
       self.nextMap = Map(self.currentMap.row, self.currentMap.column - 1, self.player.spellcastCount)
       self.mapColumn = self.mapColumn - 1
       self:beginShifting(-VIRTUAL_WIDTH, 0)
     end
   end)
-  Event.on('right-transition', function()
-    if self.currentMap.column ~= OVERWORLD_MAP_WIDTH / 2 and self.currentMap.column ~= OVERWORLD_MAP_WIDTH and not gPlayer.warping then
+  rightTransitionHandle = Event.on('right-transition', function()
+    if not self.shifting and self.currentMap.column ~= OVERWORLD_MAP_WIDTH / 2 and self.currentMap.column ~= OVERWORLD_MAP_WIDTH and not gPlayer.warping then
       self.nextMap = Map(self.currentMap.row, self.currentMap.column + 1, self.player.spellcastCount)
       self.mapColumn = self.mapColumn + 1
       self:beginShifting(VIRTUAL_WIDTH, 0)
     end
   end)
-  Event.on('up-transition', function()
-    if self.currentMap.row ~= 1 and not gPlayer.warping then
+  upTransitionHandle = Event.on('up-transition', function()
+    if not self.shifting and self.currentMap.row ~= 1 and not gPlayer.warping then
       self.nextMap = Map(self.currentMap.row - 1, self.currentMap.column, self.player.spellcastCount)
       self.mapRow = self.mapRow - 1
       self:beginShifting(0, -VIRTUAL_HEIGHT)
     end
   end)
-  Event.on('down-transition', function()
-    if self.currentMap.row ~= OVERWORLD_MAP_HEIGHT and not gPlayer.warping then
+  downTransitionHandle = Event.on('down-transition', function()
+    if not self.shifting and self.currentMap.row ~= OVERWORLD_MAP_HEIGHT and not gPlayer.warping then
       self.nextMap = Map(self.currentMap.row + 1, self.currentMap.column, self.player.spellcastCount)
       self.mapRow = self.mapRow + 1
       self:beginShifting(0, VIRTUAL_HEIGHT)

@@ -368,6 +368,9 @@ function Player:update(dt)
           Event.dispatch('down-transition')
         end
       end
+      if sceneView.shifting then
+        break
+      end
     end
   end
 
