@@ -320,58 +320,69 @@ function Scene:reinitWeather()
 end
 
 function Scene:generatePingBackStack()
+  local row = sceneView.currentMap.row
+  local col = sceneView.currentMap.column
+
   --LEFT PINGBACKS
   self.pingbackStack['left'] = {}
-  local colCheck = sceneView.currentMap.column - 1
+  local colCheck = col - 1
   local xPositionLock = -20
 
-  for k, v in pairs(MAP[sceneView.currentMap.row][colCheck].entities) do
-    if v.enemy then
-      if v.status == 'corrupt' then
-        local resonanceColor = 'corrupt'
-        self.pingbackStack['left'][#self.pingbackStack['left'] + 1] = Resonance('enemy', nil, resonanceColor, xPositionLock, v.y)
+  if MAP[row] and MAP[row][colCheck] then
+    for k, v in pairs(MAP[row][colCheck].entities) do
+      if v.enemy then
+        if v.status == 'corrupt' then
+          local resonanceColor = 'corrupt'
+          self.pingbackStack['left'][#self.pingbackStack['left'] + 1] = Resonance('enemy', nil, resonanceColor, xPositionLock, v.y)
+        end
       end
     end
   end
 
   --RIGHT PINGBACKS
   self.pingbackStack['right'] = {}
-  local colCheck = sceneView.currentMap.column + 1
-  local xPositionLock = VIRTUAL_WIDTH + 4
+  colCheck = col + 1
+  xPositionLock = VIRTUAL_WIDTH + 4
 
-  for k, v in pairs(MAP[sceneView.currentMap.row][colCheck].entities) do
-    if v.enemy then
-      if v.status == 'corrupt' then
-        local resonanceColor = 'corrupt'
-        self.pingbackStack['right'][#self.pingbackStack['right'] + 1] = Resonance('enemy', nil, resonanceColor, xPositionLock, v.y)
+  if MAP[row] and MAP[row][colCheck] then
+    for k, v in pairs(MAP[row][colCheck].entities) do
+      if v.enemy then
+        if v.status == 'corrupt' then
+          local resonanceColor = 'corrupt'
+          self.pingbackStack['right'][#self.pingbackStack['right'] + 1] = Resonance('enemy', nil, resonanceColor, xPositionLock, v.y)
+        end
       end
     end
   end
 
   --TOP PINGBACKS
   self.pingbackStack['top'] = {}
-  local rowCheck = sceneView.currentMap.row - 1
+  local rowCheck = row - 1
   local yPositionLock = -20
 
-  for k, v in pairs(MAP[rowCheck][sceneView.currentMap.column].entities) do
-    if v.enemy then
-      if v.status == 'corrupt' then
-        local resonanceColor = 'corrupt'
-        self.pingbackStack['top'][#self.pingbackStack['top'] + 1] = Resonance('enemy', nil, resonanceColor, v.x, yPositionLock)
+  if MAP[rowCheck] and MAP[rowCheck][col] then
+    for k, v in pairs(MAP[rowCheck][col].entities) do
+      if v.enemy then
+        if v.status == 'corrupt' then
+          local resonanceColor = 'corrupt'
+          self.pingbackStack['top'][#self.pingbackStack['top'] + 1] = Resonance('enemy', nil, resonanceColor, v.x, yPositionLock)
+        end
       end
     end
   end
 
   --BOTTOM PINGBACKS
   self.pingbackStack['bottom'] = {}
-  local rowCheck = sceneView.currentMap.row + 1
-  local yPositionLock = SCREEN_HEIGHT_LIMIT + 4
+  rowCheck = row + 1
+  yPositionLock = SCREEN_HEIGHT_LIMIT + 4
 
-  for k, v in pairs(MAP[rowCheck][sceneView.currentMap.column].entities) do
-    if v.enemy then
-      if v.status == 'corrupt' then
-        local resonanceColor = 'corrupt'
-        self.pingbackStack['bottom'][#self.pingbackStack['bottom'] + 1] = Resonance('enemy', nil, resonanceColor, v.x, yPositionLock)
+  if MAP[rowCheck] and MAP[rowCheck][col] then
+    for k, v in pairs(MAP[rowCheck][col].entities) do
+      if v.enemy then
+        if v.status == 'corrupt' then
+          local resonanceColor = 'corrupt'
+          self.pingbackStack['bottom'][#self.pingbackStack['bottom'] + 1] = Resonance('enemy', nil, resonanceColor, v.x, yPositionLock)
+        end
       end
     end
   end
@@ -1050,6 +1061,26 @@ function Scene:render()
     MAP[self.mapRow][self.mapColumn].dialogueBoxCollided[k]:render()
   end
   --]]
+  --GREEN TUNIC SHOWOFF OVERLAY
+  if gPlayer.showOff then
+    for k, v in pairs(MAP[self.currentMap.row][self.currentMap.column].collidableMapObjects) do
+      if v.classType == 'treasureChest' and v.showOffItem and v.contents == 'greenTunic' then
+        love.graphics.setColor(COOKIE_VIGNETTE_COLOR)
+        love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, SCREEN_HEIGHT_LIMIT - 40)
+        love.graphics.setColor(1, 1, 1, 120/255)
+        love.graphics.draw(
+          brightside,
+          math.floor(v.treasureX + v.treasureImage:getWidth() / 2 - brightside:getWidth() / 2),
+          math.floor(v.treasureY + v.treasureImage:getHeight() / 2 - brightside:getHeight() / 2)
+        )
+        gPlayer:render()
+        love.graphics.setColor(WHITE)
+        love.graphics.draw(v.treasureImage, math.floor(v.treasureX), math.floor(v.treasureY))
+        break
+      end
+    end
+  end
+
   --DIALOGUE RENDER
   if self.activeDialogueID ~= nil then
     --DIALOGUE JUST CLOSED
