@@ -59,9 +59,14 @@ function Resonance:update(dt)
   if self.fading then
     --FADE TO CLEAR ON SCENE TRANSITION
     self.luteResonanceAlpha = self.luteResonanceAlpha - self.fadeSpeed * dt
-    if self.entitytype == 'player' then
-      self.luteResonanceY = gPlayer.y + TILE_SIZE / 2
+    if self.entityType == 'player' then
       self.luteResonanceX = gPlayer.x + TILE_SIZE / 2
+      self.luteResonanceY = gPlayer.y + TILE_SIZE / 2
+    elseif self.entity then
+      self.entityX = self.entity.x
+      self.entityY = self.entity.y
+      self.luteResonanceX = self.entityX + TILE_SIZE / 2
+      self.luteResonanceY = self.entityY + TILE_SIZE / 2
     end
     if self.luteResonanceAlpha <= 0 then
       self.luteResonanceAlpha = 0
@@ -86,9 +91,10 @@ function Resonance:update(dt)
         end
       end
     else
-      --TODO UPDATE RESONANCE RING POSITION FOR ENTITY
-      -- self.entityX = self.entity.x
-      -- self.entityY = self.entity.y
+      if self.entity then
+        self.entityX = self.entity.x
+        self.entityY = self.entity.y
+      end
       self.luteResonanceX = self.entityX + TILE_SIZE / 2
       self.luteResonanceY = self.entityY + TILE_SIZE / 2
     end
@@ -122,8 +128,8 @@ function Resonance:render()
       love.graphics.setColor(255/255, 206/255, 82/255, self.luteResonanceAlpha/255)
     end
     love.graphics.circle('line', self.luteResonanceX, self.luteResonanceY, self.luteResonanceRadius)
-    love.graphics.setColor(RED)
-    love.graphics.circle('line', self.luteResonanceX, self.luteResonanceY, 2)
+    -- love.graphics.setColor(RED)
+    -- love.graphics.circle('line', self.luteResonanceX, self.luteResonanceY, 2)
     love.graphics.setColor(WHITE)
 
     -- if self.collided then

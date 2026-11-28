@@ -188,8 +188,10 @@ function Entity:goHome()
     self.pathNodes = {}
     --self.destinationNodeIndex = 2
     --local startx, starty, endx, endy
-    local startx, starty = math.min(10, self.nearestTileColumn), math.min(8, self.nearestTileRow)
-    local endx, endy = math.min(10, self.startingTileX), math.min(8, self.startingTileY)
+    local startx = math.max(1, math.min(10, self.nearestTileColumn))
+    local starty = math.max(1, math.min(8, self.nearestTileRow))
+    local endx = math.max(1, math.min(10, self.startingTileX))
+    local endy = math.max(1, math.min(8, self.startingTileY))
 
     --PATH DEBUG
     local path = self.myFinder:getPath(startx, starty, endx, endy)
@@ -245,12 +247,15 @@ function Entity:updatePath()
   self.goingHome = false
 
 
-  local startx, starty = math.min(10, self.nearestTileColumn), math.min(8, self.nearestTileRow)
-  local endx, endy = math.min(10, gPlayer.nearestLegalTileColumn), math.min(8, gPlayer.nearestLegalTileRow)
+  local startx = math.max(1, math.min(10, self.nearestTileColumn))
+  local starty = math.max(1, math.min(8, self.nearestTileRow))
+  local endx = math.max(1, math.min(10, gPlayer.nearestLegalTileColumn))
+  local endy = math.max(1, math.min(8, gPlayer.nearestLegalTileRow))
   --local endx, endy = math.min(10, gPlayer.nearestTileColumn), math.min(8, gPlayer.nearestTileRow)
 
   if gPlayer.pitFalling then
-    endx, endy = self.startingTileX, self.startingTileY
+    endx = math.max(1, math.min(10, self.startingTileX))
+    endy = math.max(1, math.min(8, self.startingTileY))
   end
 
   --PATH DEBUG
