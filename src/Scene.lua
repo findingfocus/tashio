@@ -1061,10 +1061,10 @@ function Scene:render()
     MAP[self.mapRow][self.mapColumn].dialogueBoxCollided[k]:render()
   end
   --]]
-  --GREEN TUNIC SHOWOFF OVERLAY
+  --TREASURE CHEST SHOWOFF OVERLAY
   if gPlayer.showOff then
     for k, v in pairs(MAP[self.currentMap.row][self.currentMap.column].collidableMapObjects) do
-      if v.classType == 'treasureChest' and v.showOffItem and v.contents == 'greenTunic' then
+      if v.classType == 'treasureChest' and v.showOffItem then
         love.graphics.setColor(COOKIE_VIGNETTE_COLOR)
         love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, SCREEN_HEIGHT_LIMIT - 40)
         love.graphics.setColor(1, 1, 1, 120/255)

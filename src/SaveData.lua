@@ -300,6 +300,21 @@ function SaveData:loadPlayerData()
 
   sceneView.currentMap = Map(sceneView.mapRow, sceneView.mapColumn, gPlayer.spellcastCount)
 
+  for row = 1, OVERWORLD_MAP_HEIGHT do
+    for col = 1, OVERWORLD_MAP_WIDTH do
+      if MAP[row] and MAP[row][col] then
+        for k, v in pairs(MAP[row][col].collidableMapObjects) do
+          if v.classType == 'pushable' then
+            v:resetOriginalPosition()
+          end
+        end
+        for k, v in pairs(MAP[row][col].entities) do
+          v:resetOriginalPosition()
+        end
+      end
+    end
+  end
+
   local animatables = InsertAnimation(sceneView.mapRow, sceneView.mapColumn)
   gStateMachine.current.animatables = animatables
   sceneView:reinitWeather()

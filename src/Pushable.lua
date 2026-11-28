@@ -71,6 +71,10 @@ function Pushable:resetOriginalPosition()
     self.active = true
     self.brokenCrate = false
     self.health = self.originalHealth
+    self.pushUpInitiated = false
+    self.pushDownInitiated = false
+    self.pushLeftInitiated = false
+    self.pushRightInitiated = false
   end
   if self.type == 'crate' then
     self.image = crate

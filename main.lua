@@ -151,38 +151,42 @@ function love.update(dt)
   end
   --]]
 
-  keyboardInput:update(dt)
-  touchInput:update(dt)
-  ---[[
-  function love.touchpressed(id, x, y, dx, dy, pressure)
-    local gameX, gameY = push:toGame(x, y)
-    INPUT:touchpressed(id, gameX, gameY, dx, dy, pressure)
-  end
+  local speedSteps = love.keyboard.isDown('k') and 4 or 1
 
-  function love.touchmoved(id, x, y, dx, dy, pressure)
-    local gameX, gameY = push:toGame(x, y)
-    INPUT:touchmoved(id, gameX, gameY, dx, dy, pressure)
-  end
+  for _ = 1, speedSteps do
+    keyboardInput:update(dt)
+    touchInput:update(dt)
+    ---[[
+    function love.touchpressed(id, x, y, dx, dy, pressure)
+      local gameX, gameY = push:toGame(x, y)
+      INPUT:touchpressed(id, gameX, gameY, dx, dy, pressure)
+    end
 
-  function love.touchreleased(id, x, y, dx, dy, pressure)
-    INPUT:touchreleased(id, x, y, dx, dy, pressure)
-  end
-  --]]
+    function love.touchmoved(id, x, y, dx, dy, pressure)
+      local gameX, gameY = push:toGame(x, y)
+      INPUT:touchmoved(id, gameX, gameY, dx, dy, pressure)
+    end
 
-  Timer.update(dt)
-  ---[[
-  if love.keyboard.wasPressed('0') then
-    mouseState = not love.mouse.isVisible()
-    love.mouse.setVisible(mouseState)
-  end
-  --]]
+    function love.touchreleased(id, x, y, dx, dy, pressure)
+      INPUT:touchreleased(id, x, y, dx, dy, pressure)
+    end
+    --]]
 
-  gStateMachine:update(dt)
+    Timer.update(dt)
+    ---[[
+    if love.keyboard.wasPressed('0') then
+      mouseState = not love.mouse.isVisible()
+      love.mouse.setVisible(mouseState)
+    end
+    --]]
 
-  love.keyboard.keysPressed = {}
-  love.keyboard.keysReleased = {}
-  for k, v in pairs(touches) do
-    touches[k].wasTouched = false
+    gStateMachine:update(dt)
+
+    love.keyboard.keysPressed = {}
+    love.keyboard.keysReleased = {}
+    for k, v in pairs(touches) do
+      touches[k].wasTouched = false
+    end
   end
 
   --[[
